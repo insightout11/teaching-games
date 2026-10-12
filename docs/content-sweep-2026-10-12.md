@@ -134,3 +134,90 @@ set -a && . /path/to/.env.local && set +a && CONTENT_SWEEP=1 pnpm vitest run src
 ```
 It is skipped in the normal test run. `SWEEP_ONLY=cargo-hold,imposter` limits it to some activities, and
 `SWEEP_OUT=file.json` chooses where the full output goes. It makes real AI calls, so it costs a little each run.
+
+---
+
+# Part 2: lessons built from a video or text, and the self-generating games
+
+Run later the same day, after the fixes from Part 1.
+
+## What was run
+- **Material lessons.** 26 activities for three materials: the kids' video "Fabulous Food Chains" (Easy), the BBC
+  video "What Is the Future of Work?" (Intermediate), and a pasted text, "A Fair First Job" (Easy). 76 runs. Both
+  videos had their stored transcript, so the AI worked from the real words. The checker also measured how much of
+  each activity's vocabulary appears in the material.
+- **Games.** Ten games that generate inside themselves, on the three topics from Part 1. 30 runs.
+
+**Result:** 55 of 76 material runs and 27 of 30 game runs were clean. After reading the flagged output: four real
+problems, all smaller than Part 1's. No stand-in content was served anywhere, and nothing was off the lesson
+entirely.
+
+## Real problems
+
+### 1. VocabSprint ignores the topic, or misreads it
+- "Rainbows and Unicorns": sentences about the weather at the park, a big tree, a chef's main course.
+- "Food chains": sentences about supermarkets and stock ("Our local supermarket is very busy during the weekend
+  rush"). It read "food chains" as chains of food shops.
+- The Trunyan topic was on topic.
+
+Two of three wrong. The game is asked to write sentences containing a weak word to upgrade, and the topic is
+treated as a loose suggestion. **Fix:** every sentence must be about the topic, and the topic's meaning should be
+pinned down for it (a one-line gloss), which would also stop the supermarket reading.
+
+### 2. Imposter picks incidental words from a video
+For "What Is the Future of Work?" the three secret words were "robot", "pool" and "television". The last two are
+things mentioned in passing in the programme. A class that watched it would not think of them as words from the
+lesson. From the text it chose "bicycle", "coffee", "money": better, because a short text has fewer stray words.
+**Fix:** tell it to choose words central to what the material is about, not any noun that appears in it.
+
+### 3. Quick-fire and Say It Again drift to small details
+- Food chains video: "What is your favourite food to eat for dinner?", "Do you prefer eating pizza, tacos, or
+  mangoes?" The pizza, tacos and mangoes come from the presenter's opening joke.
+- First-job text: "What is your favourite drink from a café?"
+
+These are warm-up questions, so personal is fine, but they latch onto the first concrete nouns instead of the
+lesson's subject. Same pattern as Say It Again in Part 1. **Fix:** ask for personal questions about the lesson's
+main idea (jobs and fairness; what eats what), and say that passing details are not the topic.
+
+### 4. Sector Strike can write a question with more than one right answer
+Advanced, Trunyan: "Which verb typically collocates with the unique funeral rites…?" with "perform ceremonies",
+"conduct rituals", "execute traditions", "exercise customs". It marks "conduct rituals" correct, but "perform
+ceremonies" is just as good English. The Easy and Intermediate questions were fine. One case out of three, at the
+hardest level. **Fix:** require that the three wrong options are clearly wrong, and avoid "which collocates" style
+questions where several answers are natural.
+
+## What looked good
+- **From material:** Video Player's comprehension questions, Radio Check (timed to real lines from the transcript),
+  Fact Detective, Language Toolkit (quoting the sentence each word came from), Read Aloud, Pass the Line,
+  Conversation Rounds, Decision Council, Compare It, Fix the Captain, Hot Take Arena, and the Situation Check, which
+  was a real conversation all three times ("Which is better, a café job or a delivery job?").
+- **Games:** Flash Quiz, Grid Rush, Connections, Synonym Showdown, Sentence Scramble, Error Hunter, Dialogue
+  Detective and Grammar Boss were on topic and at level for all three topics.
+- **Speed:** every game answered in under 3.5 seconds; the slowest activity was Cargo Hold at 7 to 9 seconds.
+
+## False alarms in this part
+- **"Weakly tied to the material"** on Compare It, Fix the Captain, the Situation Check and Scene Igniter for the
+  short text: the measure counts shared words, and a 150-word text shares few. Read and fine.
+- **"Same text repeated"** on Motion Pulse: the material's title is listed as the source of each piece of evidence,
+  which is intended. On Cargo Hold: several cards share one word's meaning, also intended.
+- **Grid Rush and Connections "off-topic"** for Food chains: the words were predator, prey, herbivore, algae, wolf.
+
+## Not covered still
+Junior mode, lessons from a course (which carry the previous lesson's context), Reading and Listening flights'
+own stages, the landing activities, and how anything looks or plays.
+
+## Suggested order for Part 2
+1. VocabSprint (wrong two times in three, and it is in several lesson plans' end-game pool).
+2. Quick-fire and Say It Again together (same cause).
+3. Imposter word choice.
+4. Sector Strike's ambiguous questions.
+
+## Running these
+```bash
+SWEEP_MODE=source CONTENT_SWEEP=1 pnpm vitest run src/__tests__/sweep
+```
+```bash
+SWEEP_MODE=games CONTENT_SWEEP=1 pnpm vitest run src/__tests__/sweep
+```
+Load the environment file first, as in Part 1. The material sweep reads stored transcripts, so it needs the
+database settings as well as the AI key.

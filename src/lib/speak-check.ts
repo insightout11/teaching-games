@@ -1,3 +1,4 @@
+import { coversTopic, matchWords, topicWords } from '@/lib/topic-match';
 import situationsBank from '@/data/speak-situations.json';
 /**
  * Speak v2: the situation check, Speak's before → after. At takeoff each phone picks the reply
@@ -94,7 +95,7 @@ export const CONFIDENCE_LABELS = ['Not yet', 'A bit', 'Confident'];
 
 interface BankSituation extends SpeakSituation { id: string; topics: string[]; topicIds?: string[]; ageBand: 'kids' | 'teens' | 'junior'; cefr: string }
 
-const words = (s: string) => (s.toLowerCase().match(/[a-zé]{3,}/g) ?? []).map((w) => (w.length > 4 && w.endsWith('s') ? w.slice(0, -1) : w));
+const words = matchWords;
 const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A1'], Easy: ['A1', 'A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2'] };
 
 function hash(s: string): number {
@@ -122,7 +123,7 @@ export function shuffleReplySet(set: SpeakReplySet, seed: number): SpeakReplySet
  */
 /** `topicId`: the banked topic's id (server-side lookup, keeps the topic bank off the client). */
 export function bankSituationFor(topic: string, difficulty?: string, junior = false, topicId?: string | null): SpeakSituation | null {
-  const q = words(topic);
+  const q = topicWords(topic);
   const pool = (situationsBank as BankSituation[]).filter((s) => (junior ? s.ageBand === 'junior' : s.ageBand !== 'junior'));
   // Junior classes always get a Junior situation (short replies, pictures): the best topic match, else one by topic seed.
   if (junior && pool.length && !q.length) return fromBank(pool[hash(topic.toLowerCase()) % pool.length], topic);
@@ -138,8 +139,10 @@ export function bankSituationFor(topic: string, difficulty?: string, junior = fa
     const tags = s.topics.flatMap(words);
     const text = words(`${s.situation} ${s.canDo}`);
     let score = 0;
-    q.forEach((w) => { if (tags.indexOf(w) >= 0) score += 3; else if (text.indexOf(w) >= 0) score += 1; });
-    if (score < 3) continue;
+    let shared = 0;
+    q.forEach((w) => { if (tags.indexOf(w) >= 0) { score += 3; shared += 1; } else if (text.indexOf(w) >= 0) { score += 1; shared += 1; } });
+    // Must be about this topic: most of its meaningful words, and at least one of them in the item's own tags.
+    if (score < 3 || !coversTopic(shared, q)) continue;
     if (levels.indexOf(s.cefr) >= 0) score += 2;
     if (!best || score > best.score) best = { s, score };
   }

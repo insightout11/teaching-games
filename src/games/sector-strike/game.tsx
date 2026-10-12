@@ -620,26 +620,17 @@ export function SectorStrikeGame({
     } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') return;
       if (livePhase() !== 'loading') return;
-      const fallback = cell.qType === 'speaking'
-        ? `What do you know about ${displayTopic}? Share at least two ideas.`
-        : `Which of the following is true about ${displayTopic}?`;
-      const fallbackOptions = [
-        'It is commonly studied and discussed',
-        'It has no real-world applications',
-        'It was invented last year',
-        'It only exists in one country',
-      ];
+      // The question could not be made. Never invent a multiple choice (the old stand-in showed four made-up
+      // "facts" and marked one correct): the square becomes a speaking question the team answers out loud.
       const filledCell: Cell = {
         ...cell,
+        qType: 'speaking',
         bonusRevealed: true,
-        question: fallback,
-        options: cell.qType === 'written' ? fallbackOptions : null,
-        correctIndex: cell.qType === 'written' ? 0 : null,
+        question: `Tell the class two things you know about ${displayTopic}.`,
+        options: null,
+        correctIndex: null,
       };
       setCells((prev) => prev.map((c) => (c.index === cellIdx ? filledCell : c)));
-      if (cell.qType === 'written') {
-        onSetInputSpec?.(buildQuestionSpec(filledCell));
-      }
       setPhase('answering');
     }
   }, [topic, displayTopic, difficulty, sourceMaterial, applyAutoBonus, onSetInputSpec, buildQuestionSpec]);

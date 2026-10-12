@@ -1,5 +1,6 @@
 import type { SourceMaterial } from '@/types/source-material';
 import type {
+  DestinationEvidence,
   DestinationFocus,
   DestinationImage,
   DestinationPack,
@@ -20,6 +21,7 @@ import { buildDestinationReadingPack } from './reading-packs';
 import { VANCOUVER_READINGS } from './reading-content';
 import { MILESTONE_50_READINGS } from './milestone-50-reading-content';
 import { LOCAL_PHRASES_BY_DESTINATION } from './local-phrases';
+import focusEvidence from './focus-evidence.json';
 
 function unsplashPhoto(photoId: string, city: string, caption: string): DestinationImage {
   return {
@@ -4218,7 +4220,26 @@ function destinationHotels(destination: DestinationPack, profile: DestinationPri
   }));
 }
 
-function withTravelAnchors(destinations: DestinationPack[]): DestinationPack[] {
+/**
+ * What each city lesson teaches a designer (key idea, trade-off, design use, mission tags), written from the lesson's
+ * own material in Codex round 33 and kept in focus-evidence.json, keyed "<city id>/<lesson id>". Design missions show
+ * these as "what the class found" and count the tags toward each mission's requirements.
+ */
+const FOCUS_EVIDENCE = focusEvidence as Record<string, DestinationEvidence>;
+function withFocusEvidence(destination: DestinationPack): DestinationPack {
+  return {
+    ...destination,
+    focusOptions: destination.focusOptions.map((focus) => {
+      const evidence = focus.evidence ?? FOCUS_EVIDENCE[`${destination.id}/${focus.id}`];
+      return evidence
+        ? { ...focus, evidence: { keyIdea: evidence.keyIdea, tradeoff: evidence.tradeoff, designUse: evidence.designUse, investigationTags: evidence.investigationTags ?? [] } }
+        : focus;
+    }),
+  };
+}
+
+function withTravelAnchors(input: DestinationPack[]): DestinationPack[] {
+  const destinations = input.map(withFocusEvidence);
   return destinations.map((destination) => {
     const travelAnchors = TRAVEL_ANCHORS_BY_DESTINATION[destination.id];
     const transport = TRAVEL_TRANSPORT_BY_DESTINATION[destination.id];

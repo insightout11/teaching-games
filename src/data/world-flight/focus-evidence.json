@@ -1,0 +1,3091 @@
+{
+  "bangkok/creative-renaissance-video": {
+    "keyIdea": "Bangkok creatives restore older buildings and mix traditional culture with new art rather than replacing everything.",
+    "tradeoff": "Making art welcoming takes work beyond simply saving an old building.",
+    "designUse": "Turn restored buildings into welcoming places for local creative work.",
+    "investigationTags": [
+      "heritage",
+      "art",
+      "urban culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "bangkok/food-identity-video": {
+    "keyIdea": "Bangkok's independent food shops help give the city a character that chain restaurants cannot easily replace.",
+    "tradeoff": "Independent shops are disappearing, putting their distinctive food and local character at risk.",
+    "designUse": "Reserve affordable space for independent cooks alongside larger food businesses.",
+    "investigationTags": [
+      "food culture",
+      "economics"
+    ],
+    "thin": true
+  },
+  "bangkok/river-boats-video": {
+    "keyIdea": "At Sathorn Pier, Bangkok's boats connect river trips with trains, nearby hotels, and places to visit.",
+    "tradeoff": "Different counters, flags, and waiting areas can make choosing the right boat confusing.",
+    "designUse": "Match signs at shared stops to each service and waiting area.",
+    "investigationTags": [
+      "transport",
+      "travel english"
+    ]
+  },
+  "bangkok/songkran-city-ritual": {
+    "keyIdea": "Bangkok's Songkran brings family and temple customs into streets shared by local people and visitors.",
+    "tradeoff": "A water-party image can hide the festival's family ties and deeper meanings.",
+    "designUse": "Explain a celebration's meaning alongside rules for sharing crowded streets.",
+    "investigationTags": [
+      "culture",
+      "community"
+    ]
+  },
+  "bangkok/green-escape": {
+    "keyIdea": "Bangkok's Benjakitti Park turns former industrial land into green public space with water, walking routes, and shade.",
+    "tradeoff": "Parks need valuable land and upkeep, reducing space available for short-term profit.",
+    "designUse": "Keep useful land for free green spaces that manage heat and water.",
+    "investigationTags": [
+      "urban design",
+      "public space",
+      "water"
+    ]
+  },
+  "bangkok/city-of-design": {
+    "keyIdea": "Bangkok treats design as a way to improve everyday streets, shops, and public spaces, not just luxury products.",
+    "tradeoff": "Beautiful or efficient designs may still create difficulties for other users.",
+    "designUse": "Ask ordinary users how redesigned spaces could make daily tasks easier.",
+    "investigationTags": [
+      "design",
+      "daily life",
+      "urban planning"
+    ]
+  },
+  "tokyo/metro-economics-video": {
+    "keyIdea": "Tokyo connects commuter trains directly with subway tracks, reducing transfers, while shared payment cards simplify journeys.",
+    "tradeoff": "Distance-based fares mean people making longer journeys must pay more.",
+    "designUse": "Join rail routes and payment systems so passengers change less often.",
+    "investigationTags": [
+      "transport",
+      "systems thinking",
+      "economics"
+    ]
+  },
+  "tokyo/vending-machines-video": {
+    "keyIdea": "Tokyo's vending machines provide goods around the clock, and some reuse cooling heat to warm drinks.",
+    "tradeoff": "Operators still refill machines, while convenience stores compete for customers and locations.",
+    "designUse": "Reuse waste heat inside equipment that offers services throughout the day.",
+    "investigationTags": [
+      "daily life",
+      "engineering",
+      "economics"
+    ]
+  },
+  "tokyo/urban-history-video": {
+    "keyIdea": "Tokyo's rebuilding after fires and earthquakes changed street layouts and expanded railways into new residential areas.",
+    "tradeoff": "The changes followed disasters that destroyed homes and large parts of the city.",
+    "designUse": "Use rebuilding plans to connect new homes with safe transport routes.",
+    "investigationTags": [
+      "urban history",
+      "cause and effect",
+      "transport"
+    ]
+  },
+  "tokyo/earthquake-readiness": {
+    "keyIdea": "Tokyo protects emergency roads by strengthening nearby buildings, linking city rescue plans with everyday household preparation.",
+    "tradeoff": "Dense housing, damaged services, and stranded commuters can still make disaster response difficult.",
+    "designUse": "Protect rescue routes while helping households plan supplies and communication.",
+    "investigationTags": [
+      "engineering",
+      "problem solving",
+      "community"
+    ]
+  },
+  "tokyo/harajuku-fashion": {
+    "keyIdea": "In Harajuku, young people mix different clothes and styles to show who they are in public.",
+    "tradeoff": "Tourism and big brands can turn many personal styles into one simple image.",
+    "designUse": "Leave public space for young people to display their own styles.",
+    "investigationTags": [
+      "identity",
+      "culture",
+      "public space"
+    ]
+  },
+  "tokyo/sento-neighborhoods": {
+    "keyIdea": "Tokyo's public bathhouses now offer shared local spaces, as more people have bathrooms in their own homes.",
+    "tradeoff": "Bathhouses cannot depend only on washing services when people can wash at home.",
+    "designUse": "Give older shared facilities new uses while keeping familiar local routines.",
+    "investigationTags": [
+      "daily life",
+      "community",
+      "heritage"
+    ]
+  },
+  "seoul/subway-system-video": {
+    "keyIdea": "Seoul's subway uses platform doors and camera inspections to improve safety, while stations also host shops and performances.",
+    "tradeoff": "Safety equipment alone cannot replace ongoing cleaning, inspection, and customer service.",
+    "designUse": "Combine transport safety features with regular checks and welcoming station spaces.",
+    "investigationTags": [
+      "transport",
+      "engineering",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "seoul/gyeongbokgung-video": {
+    "keyIdea": "Seoul's Gyeongbokgung combines palace buildings, a guard ceremony, and museum displays to share parts of Korean history.",
+    "tradeoff": "A short ceremony can show only one part of the palace's past.",
+    "designUse": "Pair live demonstrations with displays that explain the history behind them.",
+    "investigationTags": [
+      "heritage",
+      "history",
+      "culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "seoul/korea-history-video": {
+    "keyIdea": "Moving the royal capital to Seoul made the city part of a wider change in Korea's government.",
+    "tradeoff": "A change of capital shifts political activity away from the previous center.",
+    "designUse": "Show how changes in government move important places within a region.",
+    "investigationTags": [
+      "history",
+      "government",
+      "cause and effect"
+    ],
+    "tradeoffInferred": true
+  },
+  "seoul/hallyu-wave": {
+    "keyIdea": "Seoul's entertainment businesses spread Korean culture through training, online sharing, translation, and fans who introduce it to others.",
+    "tradeoff": "Workers can become vulnerable when demand or technology changes quickly.",
+    "designUse": "Help audiences discover local culture through translations and active fan communities.",
+    "investigationTags": [
+      "culture",
+      "language",
+      "economics"
+    ]
+  },
+  "seoul/cheonggyecheon-restoration": {
+    "keyIdea": "Seoul removed road infrastructure to uncover Cheonggyecheon, bringing water and pedestrian space back into the city center.",
+    "tradeoff": "Removing roads can affect drivers, nearby shops, and the public budget.",
+    "designUse": "Replace selected traffic spaces with water routes where people can walk and rest.",
+    "investigationTags": [
+      "urban design",
+      "water",
+      "urban change"
+    ]
+  },
+  "seoul/bukchon-hanok": {
+    "keyIdea": "In Bukchon, visiting hours and clear signs help tourists share old streets with people who live there.",
+    "tradeoff": "The same narrow streets that attract visitors also bring noise and privacy problems.",
+    "designUse": "Guide visitors through heritage areas without disrupting residents' homes and routines.",
+    "investigationTags": [
+      "heritage",
+      "ethics",
+      "community"
+    ]
+  },
+  "singapore/urban-design-video": {
+    "keyIdea": "Singapore's public housing puts schools, shops, parks, and transport near homes, making many daily needs easier to reach.",
+    "tradeoff": "Residents receive long leases, but the state still owns the apartments.",
+    "designUse": "Place everyday services near homes and connect them to public transport.",
+    "investigationTags": [
+      "housing",
+      "urban planning",
+      "transport"
+    ]
+  },
+  "singapore/hawker-culture-video": {
+    "keyIdea": "Singapore's hawker centers bring different food traditions together, with regular customers returning for particular cooks and dishes.",
+    "tradeoff": "Hard work and competition can discourage younger people from taking over stalls.",
+    "designUse": "Support new cooks in learning dishes from experienced local stallholders.",
+    "investigationTags": [
+      "food culture",
+      "community",
+      "economics"
+    ]
+  },
+  "singapore/changi-jewel-video": {
+    "keyIdea": "Singapore's Jewel airport complex opens indoor gardens to residents as well as travelers, without requiring a flight ticket.",
+    "tradeoff": "Crowds can make even short walks through the gardens take longer.",
+    "designUse": "Open attractive transport spaces to nearby residents as well as passengers.",
+    "investigationTags": [
+      "public space",
+      "design",
+      "travel english"
+    ]
+  },
+  "singapore/water-security": {
+    "keyIdea": "Singapore uses several water sources, including cleaned used water, to reduce dependence on any single supply.",
+    "tradeoff": "Desalination needs energy and infrastructure, while local water collection requires protected land.",
+    "designUse": "Combine different water supplies and protect the places that collect rain.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "geography"
+    ]
+  },
+  "singapore/language-policy": {
+    "keyIdea": "Singapore uses English across communities while teaching home languages to keep cultural identity and family connections.",
+    "tradeoff": "A common working language can weaken home languages and the memories they carry.",
+    "designUse": "Use a shared service language while keeping room for home languages.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "community"
+    ]
+  },
+  "singapore/gardens-by-the-bay": {
+    "keyIdea": "Singapore's Gardens by the Bay brings plants, buildings, and paths together to help visitors notice nature.",
+    "tradeoff": "Lights, tourist photos, and paid areas can make the garden feel artificial.",
+    "designUse": "Build green visitor spaces that show different plants and explain their needs.",
+    "investigationTags": [
+      "nature",
+      "design"
+    ]
+  },
+  "paris/city-history-video": {
+    "keyIdea": "Paris replaced many medieval streets with wide boulevards, changing how the city looked as it grew.",
+    "tradeoff": "New roads removed parts of the older street pattern and buildings.",
+    "designUse": "Explain which older features a street rebuilding project would replace.",
+    "investigationTags": [
+      "history",
+      "urban change",
+      "architecture"
+    ],
+    "tradeoffInferred": true
+  },
+  "paris/cafe-culture-video": {
+    "keyIdea": "Paris cafes give regular customers a place to meet and watch street life beyond their small homes.",
+    "tradeoff": "Visitors expecting quick service may find the relaxed pace frustrating.",
+    "designUse": "Make places to sit socially without rushing people through their visit.",
+    "investigationTags": [
+      "daily life",
+      "community"
+    ]
+  },
+  "paris/louvre-history-video": {
+    "keyIdea": "The Louvre changed from a fortress into a royal home and then a museum, reflecting changing public roles.",
+    "tradeoff": "Reusing the building involved repeated extensions and construction across many generations.",
+    "designUse": "Adapt important buildings for new public roles while showing earlier uses.",
+    "investigationTags": [
+      "history",
+      "architecture",
+      "museums"
+    ],
+    "tradeoffInferred": true
+  },
+  "paris/seine-world-heritage": {
+    "keyIdea": "The Seine's banks link bridges, old buildings, and walking routes, showing how Paris grew beside the river.",
+    "tradeoff": "Choosing which places to preserve can leave some groups' stories less visible.",
+    "designUse": "Connect riverside paths with signs explaining different layers of local history.",
+    "investigationTags": [
+      "water",
+      "heritage",
+      "architecture"
+    ]
+  },
+  "paris/cycling-city": {
+    "keyIdea": "Paris adds bike lanes, slower streets, and pedestrian areas to make short journeys easier without a car.",
+    "tradeoff": "Quieter streets can help residents but inconvenience drivers and delivery workers.",
+    "designUse": "Balance safer short journeys with practical access for deliveries and businesses.",
+    "investigationTags": [
+      "transport",
+      "urban design",
+      "debate"
+    ]
+  },
+  "paris/tourism-pressure": {
+    "keyIdea": "Paris tourism supports jobs and cultural places, but crowds and visitor expectations also disrupt ordinary city life.",
+    "tradeoff": "Crowds and short-term rentals can make neighborhoods harder for residents to live in.",
+    "designUse": "Plan visitor routes around the everyday needs of people living nearby.",
+    "investigationTags": [
+      "economics",
+      "daily life",
+      "community"
+    ]
+  },
+  "london/sightseeing-english-video": {
+    "keyIdea": "London's Tower Bridge opens for large boats, sharing a river crossing between road traffic and water traffic.",
+    "tradeoff": "Cars must stop while the bridge opens to let a large boat pass.",
+    "designUse": "Schedule crossing changes so boat access and road delays are clear.",
+    "investigationTags": [
+      "transport",
+      "water"
+    ]
+  },
+  "london/tube-engineering-video": {
+    "keyIdea": "London's Underground trains use stopping marks and door controls, and drivers practice accurate stops in a simulator.",
+    "tradeoff": "A train that misses its stopping position cannot simply reverse and open its doors.",
+    "designUse": "Train operators with simulations before they manage precise stops in service.",
+    "investigationTags": [
+      "transport",
+      "engineering"
+    ]
+  },
+  "london/chinatown-restaurant-video": {
+    "keyIdea": "A Chinatown restaurant's closing shows how losing a lease can break lasting ties between workers and regular customers.",
+    "tradeoff": "Popular community businesses can still lose their premises when a lease ends.",
+    "designUse": "Give established food businesses a stable way to keep their premises.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "community"
+    ],
+    "thin": true
+  },
+  "london/thames-barrier": {
+    "keyIdea": "London's Thames Barrier closes to help keep storm tides from pushing floodwater into the city.",
+    "tradeoff": "Rising seas and extreme weather can change earlier assumptions about protection.",
+    "designUse": "Plan flood defenses that can adapt when tides and weather change.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "climate"
+    ]
+  },
+  "london/west-end-theatre": {
+    "keyIdea": "London's West End performances depend on surrounding restaurants, transport, and workers who support audiences before and after shows.",
+    "tradeoff": "Live performance can be expensive, limiting who can afford a theatre visit.",
+    "designUse": "Coordinate evening performances with nearby food services and journeys home.",
+    "investigationTags": [
+      "culture",
+      "transport",
+      "economics"
+    ]
+  },
+  "london/borough-market": {
+    "keyIdea": "London's Borough Market lets buyers meet sellers and learn about food while shopping in a shared space.",
+    "tradeoff": "A public market can be noisier, more crowded, and more expensive than a supermarket.",
+    "designUse": "Make food buying social while leaving room for practical everyday shopping.",
+    "investigationTags": [
+      "food culture",
+      "urban culture",
+      "economics"
+    ]
+  },
+  "new-york/ellis-island-video": {
+    "keyIdea": "At New York's Ellis Island, interpreters helped migrants answer questions, while health and legal checks decided entry.",
+    "tradeoff": "Wealthier passengers avoided the island, while others faced waiting and possible detention.",
+    "designUse": "Provide language help wherever important checks decide people's access.",
+    "investigationTags": [
+      "migration",
+      "history",
+      "ethics"
+    ]
+  },
+  "new-york/subway-building-video": {
+    "keyIdea": "New York's electric subway linked central areas with outer boroughs, encouraging construction and making travel part of everyday life.",
+    "tradeoff": "Early passengers complained that trains were crowded and did not reach far enough.",
+    "designUse": "Extend busy rail networks toward neighborhoods that still lack useful connections.",
+    "investigationTags": [
+      "transport",
+      "urban history",
+      "cause and effect"
+    ]
+  },
+  "new-york/street-vendors-video": {
+    "keyIdea": "New York vendors organized to challenge fines and win translation help in hearings about their tickets.",
+    "tradeoff": "Large fines for minor breaches can threaten a vendor's ability to stay in business.",
+    "designUse": "Make enforcement understandable and give small sellers a way to challenge penalties.",
+    "investigationTags": [
+      "economics",
+      "government",
+      "community"
+    ]
+  },
+  "new-york/high-line-park": {
+    "keyIdea": "New York turned an old railway for goods into the High Line, adding a green public path above the streets.",
+    "tradeoff": "A popular new park can raise nearby costs for long-time residents and small businesses.",
+    "designUse": "Reuse old transport structures while checking effects on nearby rents.",
+    "investigationTags": [
+      "urban design",
+      "public space",
+      "housing"
+    ]
+  },
+  "new-york/skyscraper-zoning": {
+    "keyIdea": "New York's zoning rules control building height and land use because private towers also affect shared streets.",
+    "tradeoff": "Tall buildings add useful space but can block light and crowd sidewalks.",
+    "designUse": "Set building limits around sunlight, street space, and nearby people's needs.",
+    "investigationTags": [
+      "architecture",
+      "urban planning",
+      "government"
+    ]
+  },
+  "new-york/public-library": {
+    "keyIdea": "New York's public library offers books, learning help, and quiet space without asking people to buy anything.",
+    "tradeoff": "Shared spaces still need clear rules so different people can use them comfortably.",
+    "designUse": "Keep learning places free and offer guidance as well as information.",
+    "investigationTags": [
+      "community",
+      "public space",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "cairo/ancient-egypt-video": {
+    "keyIdea": "Ancient Egyptians used land measurement around the Nile to build canals and irrigation systems that supported farming.",
+    "tradeoff": "This farming system depended on access to land and water near the Nile.",
+    "designUse": "Measure local land and water before planning routes that supply crops.",
+    "investigationTags": [
+      "history",
+      "engineering",
+      "water"
+    ],
+    "tradeoffInferred": true
+  },
+  "cairo/nile-explainer-video": {
+    "keyIdea": "The Nile carried fertile soil to Egyptian fields, but the Aswan High Dam blocks much of that sediment.",
+    "tradeoff": "Blocking sediment disrupts the flood and harvest pattern that farming had relied on.",
+    "designUse": "Check what useful materials a new river barrier would stop downstream.",
+    "investigationTags": [
+      "water",
+      "geography",
+      "cause and effect"
+    ]
+  },
+  "cairo/food-tour-video": {
+    "keyIdea": "Cairo entrepreneurs use food tours to bring attention to local dishes and family-run places usually overshadowed by monuments.",
+    "tradeoff": "Tourists often come for history, leaving local cooking with less recognition.",
+    "designUse": "Create food routes that introduce visitors to local cooks and everyday dishes.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "identity"
+    ]
+  },
+  "cairo/historic-cairo": {
+    "keyIdea": "Historic Cairo survives through both old buildings and living practices, including workshops, markets, and residents' daily routines.",
+    "tradeoff": "Restoration can change rents and businesses while residents still need better services.",
+    "designUse": "Protect crafts and affordable working spaces as well as historic building fronts.",
+    "investigationTags": [
+      "heritage",
+      "urban planning",
+      "community"
+    ]
+  },
+  "cairo/grand-egyptian-museum": {
+    "keyIdea": "Near Giza, the Grand Egyptian Museum uses light, labels, and visitor routes to help people understand old objects.",
+    "tradeoff": "Museum stories also involve disagreements about ownership and who gets to explain the past.",
+    "designUse": "Arrange objects with clear labels while showing who helps interpret their history.",
+    "investigationTags": [
+      "museums",
+      "identity",
+      "heritage"
+    ]
+  },
+  "cairo/khan-el-khalili": {
+    "keyIdea": "At Cairo's Khan el-Khalili, talking about prices makes buying goods a personal conversation between sellers and visitors.",
+    "tradeoff": "Negotiation takes more time than fixed prices and can feel pressuring.",
+    "designUse": "Teach respectful ways to ask prices, make offers, and end a purchase.",
+    "investigationTags": [
+      "functional english",
+      "culture",
+      "economics"
+    ]
+  },
+  "dubai/airport-history-video": {
+    "keyIdea": "Dubai expanded its airport alongside airlines, linking the city's growth with trade, tourism, and international business.",
+    "tradeoff": "Serving more passengers requires further airport infrastructure and continued expansion.",
+    "designUse": "Connect airport capacity plans with the businesses and services they support.",
+    "investigationTags": [
+      "transport",
+      "economics",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "dubai/metro-route-2020-video": {
+    "keyIdea": "Dubai's Route 2020 extends the metro into new areas and designs stations for transfers to other transport.",
+    "tradeoff": "Reaching new areas required a large project with both elevated and underground sections.",
+    "designUse": "Place transfer points where a rail extension meets other public services.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "engineering"
+    ],
+    "tradeoffInferred": true
+  },
+  "dubai/dubai-history-video": {
+    "keyIdea": "Dubai invested oil income in ports, an airport, and public services to build businesses beyond oil.",
+    "tradeoff": "Oil wealth is limited, so the city cannot rely on it forever.",
+    "designUse": "Use income from one strong industry to develop other useful services.",
+    "investigationTags": [
+      "economics",
+      "urban history",
+      "cause and effect"
+    ]
+  },
+  "dubai/clean-energy": {
+    "keyIdea": "Dubai's clean-energy plans face strong demand from cooling buildings, making water, and moving people around the city.",
+    "tradeoff": "Solar power also needs storage, grids, investment, and changes in behavior.",
+    "designUse": "Match clean-power plans with the energy needs of cooling and water systems.",
+    "investigationTags": [
+      "sustainability",
+      "engineering",
+      "environment"
+    ]
+  },
+  "dubai/museum-of-future": {
+    "keyIdea": "Dubai's Museum of the Future uses stories and displays to help people imagine future tools and problems.",
+    "tradeoff": "Exciting displays may inspire visitors without giving them a clear plan.",
+    "designUse": "Turn future scenarios into questions about actions visitors could take.",
+    "investigationTags": [
+      "museums",
+      "design",
+      "critical thinking"
+    ]
+  },
+  "dubai/desert-heat-design": {
+    "keyIdea": "Dubai needs shade, covered paths, and good transport links to make outdoor journeys easier in hot weather.",
+    "tradeoff": "Wide roads and cooling needs can make walking difficult despite impressive buildings.",
+    "designUse": "Shade walking and waiting places before adding attractive outdoor features.",
+    "investigationTags": [
+      "climate",
+      "urban design",
+      "problem solving"
+    ]
+  },
+  "sydney/harbour-ecology-video": {
+    "keyIdea": "Sydney Harbour's changing water and varied habitats support many species, including ones scientists have not yet recorded.",
+    "tradeoff": "Population growth increases the responsibility to protect habitats still not fully understood.",
+    "designUse": "Study different waterside habitats before deciding how to develop their edges.",
+    "investigationTags": [
+      "nature",
+      "water",
+      "science"
+    ],
+    "tradeoffInferred": true
+  },
+  "sydney/opera-house-history-video": {
+    "keyIdea": "Sydney's Opera House roof design changed when builders found problems with the site, materials, sound, and climate.",
+    "tradeoff": "Repeated redesigns increased costs and delayed opening the building to the public.",
+    "designUse": "Test a landmark's structure, sound, and weather response before construction.",
+    "investigationTags": [
+      "architecture",
+      "engineering",
+      "problem solving"
+    ]
+  },
+  "sydney/city-growth-video": {
+    "keyIdea": "Sydney's protected harbour supported trade and migration, while railways and a bridge connected its growing city and suburbs.",
+    "tradeoff": "The growing city faces high housing costs, traffic, and environmental pressures.",
+    "designUse": "Link a working port with routes that serve growing residential areas.",
+    "investigationTags": [
+      "geography",
+      "transport",
+      "migration"
+    ]
+  },
+  "sydney/gadigal-eora": {
+    "keyIdea": "Sydney's places carry Gadigal and Eora histories that began long before the modern city and its street map.",
+    "tradeoff": "A brief acknowledgment can become empty without including local knowledge in public learning.",
+    "designUse": "Include older place names and local knowledge in signs and lessons.",
+    "investigationTags": [
+      "identity",
+      "heritage",
+      "community"
+    ]
+  },
+  "sydney/beach-safety": {
+    "keyIdea": "Sydney's beach flags and lifesavers help people choose safer swimming areas and understand changing sea conditions.",
+    "tradeoff": "Water can be stronger than it looks, even where the beach seems inviting.",
+    "designUse": "Mark safer swimming areas and make expert advice easy to find.",
+    "investigationTags": [
+      "nature",
+      "functional english",
+      "problem solving"
+    ]
+  },
+  "sydney/ferry-commute": {
+    "keyIdea": "Sydney ferries take people to work and carry visitors along the same harbour routes, combining useful travel with city views.",
+    "tradeoff": "Weather, wharf access, capacity, and connections limit how useful a ferry journey is.",
+    "designUse": "Design water services for regular journeys as well as sightseeing passengers.",
+    "investigationTags": [
+      "transport",
+      "water",
+      "daily life"
+    ]
+  },
+  "beijing/city-history-video": {
+    "keyIdea": "Beijing's different rulers left major buildings that still connect the modern capital with earlier centers of political power.",
+    "tradeoff": "Keeping old sites means deciding how they fit within a changing modern city.",
+    "designUse": "Show successive periods of government through surviving buildings and nearby public explanations.",
+    "investigationTags": [
+      "history",
+      "heritage",
+      "government"
+    ],
+    "tradeoffInferred": true
+  },
+  "beijing/hutong-culture-video": {
+    "keyIdea": "Beijing's hutong lanes lead between courtyard homes, keeping older neighborhood life visible beside the modern city.",
+    "tradeoff": "Population growth puts pressure on old neighborhoods and their shared spaces.",
+    "designUse": "Keep courtyard routes usable for residents as well as interested visitors.",
+    "investigationTags": [
+      "heritage",
+      "neighborhoods",
+      "urban change"
+    ],
+    "thin": true
+  },
+  "beijing/subway-system-video": {
+    "keyIdea": "Beijing's subway uses English signs and announcements to help foreign passengers find routes, tickets, and connections.",
+    "tradeoff": "The system can still feel difficult to use during crowded rush hours.",
+    "designUse": "Repeat clear language support from station entrances through platforms and trains.",
+    "investigationTags": [
+      "transport",
+      "functional english",
+      "daily life"
+    ]
+  },
+  "beijing/temple-of-heaven-symbols": {
+    "keyIdea": "Beijing's Temple of Heaven uses shapes, colors, and spaces to show ideas about heaven, harvests, and the ruler's power.",
+    "tradeoff": "These building symbols need explanation if visitors do not know their meanings.",
+    "designUse": "Explain how a place's shapes and colors communicate shared beliefs.",
+    "investigationTags": [
+      "architecture",
+      "religion",
+      "design"
+    ],
+    "tradeoffInferred": true
+  },
+  "beijing/forbidden-city-scale": {
+    "keyIdea": "Beijing's Forbidden City uses gates, walls, and long paths to guide people and separate them by how important they were.",
+    "tradeoff": "Distance and barriers made important rooms harder to reach for some people.",
+    "designUse": "Check whether gates and paths welcome users or separate them by status.",
+    "investigationTags": [
+      "architecture",
+      "history",
+      "ethics"
+    ]
+  },
+  "beijing/olympic-legacy": {
+    "keyIdea": "Beijing's Olympic preparations linked stadiums, ceremonies, and transport upgrades to shape the city's image for a global audience.",
+    "tradeoff": "Venues still need upkeep and useful roles after visiting crowds leave.",
+    "designUse": "Plan permanent uses for event buildings before designing the opening celebration.",
+    "investigationTags": [
+      "urban planning",
+      "public space",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "shanghai/towers-temples-food-video": {
+    "keyIdea": "A Shanghai visitor combines food, temple visits, and photos of tall buildings, showing different places within one city trip.",
+    "tradeoff": "A short sightseeing visit reveals little about residents' daily routines.",
+    "designUse": "Pair landmark visits with time to hear about everyday local life.",
+    "investigationTags": [
+      "culture",
+      "place"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "shanghai/food-culture-shock-video": {
+    "keyIdea": "Shanghai's restaurant lesson shows how lively meals can express enjoyment, while private rooms offer space for quieter diners.",
+    "tradeoff": "People have different noise limits, so shared enjoyment can still disturb others.",
+    "designUse": "Offer quieter dining areas without treating lively conversation as automatically rude.",
+    "investigationTags": [
+      "food culture",
+      "culture",
+      "ethics"
+    ]
+  },
+  "shanghai/journey-to-the-west-video": {
+    "keyIdea": "Journey to the West combines different religious traditions and follows powerful characters learning through mistakes and shared challenges.",
+    "tradeoff": "The Monkey King's abilities do not protect him from punishment for harmful behavior.",
+    "designUse": "Tell shared stories through characters who change after mistakes and setbacks.",
+    "investigationTags": [
+      "literature",
+      "religion",
+      "culture"
+    ],
+    "thin": true
+  },
+  "shanghai/bund-and-pudong": {
+    "keyIdea": "Shanghai's two riverbanks show different periods of power, with the Bund's trading buildings facing Pudong's newer financial towers.",
+    "tradeoff": "The famous view can hide unequal trade histories and the systems needed by modern towers.",
+    "designUse": "Explain the decisions and resources behind contrasting buildings, beyond their appearance.",
+    "investigationTags": [
+      "history",
+      "architecture",
+      "economics"
+    ]
+  },
+  "shanghai/lilong-shikumen": {
+    "keyIdea": "Shanghai's lane neighborhoods combine private homes with shared outdoor routes used by neighbors, shops, children, and deliveries.",
+    "tradeoff": "Redevelopment can remove homes and daily relationships even when some buildings are preserved.",
+    "designUse": "Retain shared neighborhood routes when updating homes and local services.",
+    "investigationTags": [
+      "neighborhoods",
+      "heritage",
+      "housing"
+    ]
+  },
+  "shanghai/xiaolongbao-food-culture": {
+    "keyIdea": "Shanghai's soup dumplings depend on careful making and service, while diners use a slow routine to eat them.",
+    "tradeoff": "Weak wrappers leak, while thicker wrappers change the texture people expect.",
+    "designUse": "Design food service around skilled preparation and a safe way to eat.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "identity"
+    ]
+  },
+  "berlin/berlin-wall-video": {
+    "keyIdea": "Berlin's border opened when an announcement spread quickly and crowds pressed officials to let people cross.",
+    "tradeoff": "The wall had separated people and prevented many from leaving the eastern city.",
+    "designUse": "Make public travel announcements clear before staff must act on them.",
+    "investigationTags": [
+      "history",
+      "government",
+      "movement"
+    ]
+  },
+  "berlin/public-transport-video": {
+    "keyIdea": "Berlin's night buses replace some weekday subway services, keeping journeys possible when trains stop running.",
+    "tradeoff": "Night journeys may take longer because replacement buses run less often.",
+    "designUse": "Provide a visible backup service when main transport stops for the night.",
+    "investigationTags": [
+      "transport",
+      "functional english"
+    ]
+  },
+  "berlin/berlin-blockade-video": {
+    "keyIdea": "Blocking land and water access to western Berlin forced the city to rely on supplies brought by air.",
+    "tradeoff": "A city loses normal supply routes when another authority can close its access.",
+    "designUse": "Plan alternative supply routes if roads or waterways become unavailable.",
+    "investigationTags": [
+      "history",
+      "transport",
+      "cause and effect"
+    ],
+    "tradeoffInferred": true
+  },
+  "berlin/museum-island": {
+    "keyIdea": "Berlin's Museum Island groups collections in nearby buildings, making one small area a shared place for understanding the past.",
+    "tradeoff": "Museum choices give some histories and explanations more attention than others.",
+    "designUse": "Link nearby collections while making their different histories and ownership visible.",
+    "investigationTags": [
+      "museums",
+      "heritage",
+      "archaeology"
+    ]
+  },
+  "berlin/tempelhofer-feld": {
+    "keyIdea": "Berlin's old airport now gives people a large field for cycling, gardening, games, and meeting friends.",
+    "tradeoff": "Keeping the field open leaves less land available for housing.",
+    "designUse": "Compare shared open-space needs with housing needs before reusing large sites.",
+    "investigationTags": [
+      "public space",
+      "urban planning",
+      "housing"
+    ]
+  },
+  "berlin/memory-language": {
+    "keyIdea": "Berlin's memorials use different forms to make people pause and think about loss, responsibility, and public memory.",
+    "tradeoff": "Choosing which stories receive protection can leave others with less public attention.",
+    "designUse": "Create places for reflection that acknowledge more than one experience of history.",
+    "investigationTags": [
+      "history",
+      "ethics",
+      "heritage"
+    ]
+  },
+  "moscow/city-history-video": {
+    "keyIdea": "Some Moscow City tower plans changed or remained unbuilt when practical features proved difficult to deliver.",
+    "tradeoff": "Striking shapes can require equipment or upkeep that designers have not solved.",
+    "designUse": "Check equipment and winter upkeep before committing to unusual building shapes.",
+    "investigationTags": [
+      "architecture",
+      "engineering",
+      "design"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "moscow/metro-video": {
+    "keyIdea": "Moscow's decorated metro stations use architecture to communicate state power during an ordinary daily journey.",
+    "tradeoff": "The grand scale can make a passenger feel small beneath the state.",
+    "designUse": "Consider what station decoration tells passengers about who the space serves.",
+    "investigationTags": [
+      "transport",
+      "architecture",
+      "identity"
+    ]
+  },
+  "moscow/kremlin-red-square-video": {
+    "keyIdea": "Moscow's Kremlin churches show how religious places can become closely connected with government and national public life.",
+    "tradeoff": "Changes in government can lead to religious suppression and the destruction of sacred places.",
+    "designUse": "Protect sacred places while explaining changing relations between religion and government.",
+    "investigationTags": [
+      "religion",
+      "history",
+      "government"
+    ]
+  },
+  "moscow/river-capital": {
+    "keyIdea": "The Moscow River shaped the city's location and still guides bridges, parks, and routes through the modern capital.",
+    "tradeoff": "Modern transport does not remove the need to plan around the river.",
+    "designUse": "Use a river's course to connect bridges, green edges, and city routes.",
+    "investigationTags": [
+      "water",
+      "geography",
+      "transport"
+    ],
+    "tradeoffInferred": true
+  },
+  "moscow/winter-public-life": {
+    "keyIdea": "Moscow's public places need different lights, ground surfaces, shelter, and activities when winter brings cold, ice, and darkness.",
+    "tradeoff": "Snow and ice can limit movement even when outdoor spaces work well in summer.",
+    "designUse": "Test public spaces for safe movement in both warm and cold seasons.",
+    "investigationTags": [
+      "climate",
+      "urban design",
+      "daily life"
+    ]
+  },
+  "moscow/literary-city": {
+    "keyIdea": "Moscow's libraries, theatres, bookshops, and street names can make learning about writers part of life beyond a classroom.",
+    "tradeoff": "Public choices about writers and books can make some histories less visible.",
+    "designUse": "Place opportunities to read and learn about writers along everyday routes.",
+    "investigationTags": [
+      "literature",
+      "heritage",
+      "public space"
+    ]
+  },
+  "istanbul/constantinople-istanbul-video": {
+    "keyIdea": "Istanbul's popular name gained official use through rules that encouraged other countries to adopt it.",
+    "tradeoff": "Other countries kept using the older name, slowing acceptance of the change.",
+    "designUse": "Use official names consistently on maps, notices, and public services.",
+    "investigationTags": [
+      "history",
+      "identity",
+      "government"
+    ]
+  },
+  "istanbul/mosques-architecture-video": {
+    "keyIdea": "Istanbul's Suleymaniye Mosque uses a wide shared interior and many windows to express religious unity through space and light.",
+    "tradeoff": "Its apparently light interior depends on very large structural supports.",
+    "designUse": "Make structural support serve an interior's shared purpose and atmosphere.",
+    "investigationTags": [
+      "architecture",
+      "religion",
+      "engineering"
+    ],
+    "tradeoffInferred": true
+  },
+  "istanbul/two-continents-video": {
+    "keyIdea": "Istanbul has European and Asian neighborhoods beside the same waterway, bringing different histories together within one city.",
+    "tradeoff": "Living across water means movement must bridge the city's divided geography.",
+    "designUse": "Plan crossings that treat both sides of a waterway as one city.",
+    "investigationTags": [
+      "geography",
+      "place",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "istanbul/grand-bazaar-language": {
+    "keyIdea": "Istanbul's Grand Bazaar uses conversation about goods, stories, and prices to build relationships before a sale is agreed.",
+    "tradeoff": "Competition and changing demand can shift risk onto workers and small sellers.",
+    "designUse": "Allow time for product stories and friendly questions before negotiating a price.",
+    "investigationTags": [
+      "functional english",
+      "economics",
+      "culture"
+    ]
+  },
+  "istanbul/ferry-city": {
+    "keyIdea": "Istanbul's ferries take people across the Bosphorus for work and offer views of the city's water, hills, and neighborhoods.",
+    "tradeoff": "A fast ferry is less useful if connections or final access are poor.",
+    "designUse": "Link ferry stops with clear onward routes to people's actual destinations.",
+    "investigationTags": [
+      "transport",
+      "water",
+      "daily life"
+    ]
+  },
+  "istanbul/earthquake-readiness": {
+    "keyIdea": "Istanbul's earthquake planning must connect strong buildings, emergency routes, family plans, and services in a dense historic city.",
+    "tradeoff": "Older buildings and dense streets make preparation more difficult across different neighborhoods.",
+    "designUse": "Prepare historic districts through building checks, local instructions, and usable rescue routes.",
+    "investigationTags": [
+      "problem solving",
+      "engineering",
+      "heritage"
+    ]
+  },
+  "vancouver/underground-streams-video": {
+    "keyIdea": "Vancouver buried streams to make building space, but pipes and shared sewers now struggle with heavy rain.",
+    "tradeoff": "Restoring streams can mean removing roads or buildings already above them.",
+    "designUse": "Let rain soak into living stream corridors instead of overloaded shared pipes.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "engineering"
+    ]
+  },
+  "vancouver/skytrain-video": {
+    "keyIdea": "Vancouver's SkyTrain connects homes, colleges, and the airport, while a travel card can be used again through station gates.",
+    "tradeoff": "The trains do not run all night, so late travelers need another way home.",
+    "designUse": "Show last departures and backup journeys alongside normal rail directions.",
+    "investigationTags": [
+      "transport",
+      "functional english"
+    ]
+  },
+  "vancouver/city-in-nature-video": {
+    "keyIdea": "Vancouver's nearby beaches, forests, and mountains let visitors move between city activities and nature in a short trip.",
+    "tradeoff": "Wildlife appears on its own schedule, not when a visitor expects it.",
+    "designUse": "Keep urban outings linked to nearby natural places without promising wildlife sightings.",
+    "investigationTags": [
+      "nature",
+      "place"
+    ],
+    "thin": true
+  },
+  "vancouver/host-nations": {
+    "keyIdea": "Vancouver's Indigenous place names can make older knowledge and continuing relationships visible again on signs and maps.",
+    "tradeoff": "Acknowledgment alone does not address unequal power or teach present-day priorities.",
+    "designUse": "Restore local names with explanations shaped by the Nations connected to them.",
+    "investigationTags": [
+      "identity",
+      "heritage",
+      "ethics"
+    ]
+  },
+  "vancouver/seawall-routine": {
+    "keyIdea": "Vancouver's seawall protects the water's edge and gives everyone a route, with separate paths for walking and faster movement.",
+    "tradeoff": "Storms, erosion, and heavy use create continuing repair needs along the waterfront.",
+    "designUse": "Separate walking and cycling flows along a publicly accessible protective shoreline.",
+    "investigationTags": [
+      "water",
+      "public space",
+      "transport"
+    ]
+  },
+  "vancouver/housing-pressure": {
+    "keyIdea": "Vancouver's limited land and strong housing demand raise prices, pushing some residents farther from work and community.",
+    "tradeoff": "More construction costs time and money and may still produce unaffordable homes.",
+    "designUse": "Add homes near services while protecting existing renters from displacement.",
+    "investigationTags": [
+      "housing",
+      "geography",
+      "urban planning"
+    ]
+  },
+  "toronto/growth-video": {
+    "keyIdea": "Toronto's Union Station brought several railway companies together, linking city travel with a nearby hotel built for passengers.",
+    "tradeoff": "Disagreements between railway partners and material shortages delayed the new station.",
+    "designUse": "Agree shared decisions between transport partners before building a joint terminal.",
+    "investigationTags": [
+      "transport",
+      "urban history",
+      "economics"
+    ]
+  },
+  "toronto/public-transit-video": {
+    "keyIdea": "A Toronto visitor uses subway trains and streetcars together, but an unclear route makes a simple journey take longer.",
+    "tradeoff": "Without maps or instructions, unfamiliar passengers can get lost between transfers.",
+    "designUse": "Put useful street maps and transfer instructions where passengers leave stations.",
+    "investigationTags": [
+      "transport",
+      "functional english"
+    ]
+  },
+  "toronto/multicultural-video": {
+    "keyIdea": "Toronto's football gatherings let people share city life while keeping ties to more than one national background.",
+    "tradeoff": "A single national team does not capture every fan's inherited connection.",
+    "designUse": "Create shared sports gatherings where people can support different teams together.",
+    "investigationTags": [
+      "identity",
+      "migration",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "toronto/ravine-city": {
+    "keyIdea": "Toronto's ravines bring green routes through the city, carrying rainwater and giving people access to plants and animals.",
+    "tradeoff": "Erosion, invasive species, trash, and development can damage these shared natural corridors.",
+    "designUse": "Protect green drainage routes from building pressure and damaging everyday use.",
+    "investigationTags": [
+      "nature",
+      "water",
+      "urban planning"
+    ]
+  },
+  "toronto/neighborhood-arrival": {
+    "keyIdea": "Toronto's shops, languages, schools, and festivals show how newcomers adapt inherited culture while building neighborhood life.",
+    "tradeoff": "Public attention can reduce complex arrival experiences to a marketable cultural image.",
+    "designUse": "Let newcomers explain their experiences through neighborhood events and everyday services.",
+    "investigationTags": [
+      "migration",
+      "culture",
+      "neighborhoods"
+    ]
+  },
+  "toronto/waterfront-rebuild": {
+    "keyIdea": "Toronto's waterfront redevelopment can combine new housing, parks, transit, and flood protection on former industrial land.",
+    "tradeoff": "New neighborhoods can become too expensive or leave people with weak public access.",
+    "designUse": "Combine flood protection and new homes with affordable, open shoreline access.",
+    "investigationTags": [
+      "urban planning",
+      "housing",
+      "water"
+    ]
+  },
+  "mumbai/city-history-video": {
+    "keyIdea": "Mumbai grew as artisans and merchants moved to its port, strengthening trade and links with the mainland.",
+    "tradeoff": "Conflict helped drive people toward the island rather than letting everyone choose freely.",
+    "designUse": "Plan port growth around incoming workers and the connections they need.",
+    "investigationTags": [
+      "history",
+      "migration",
+      "economics"
+    ],
+    "tradeoffInferred": true
+  },
+  "mumbai/dabbawalas-video": {
+    "keyIdea": "Mumbai's lunch deliverers use simple codes and coordinated bicycle and train stages to move meals and return empty boxes.",
+    "tradeoff": "Each stage depends on workers cooperating within a tight daily timetable.",
+    "designUse": "Code reusable containers clearly and coordinate handovers across several delivery stages.",
+    "investigationTags": [
+      "systems thinking",
+      "transport",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "mumbai/street-food-video": {
+    "keyIdea": "Mumbai's food stalls offer versions of familiar dishes across different neighborhoods, turning everyday snacks into local visitor experiences.",
+    "tradeoff": "The short tour says little about the workers behind the dishes.",
+    "designUse": "Introduce familiar foods through neighborhood stalls and the people who make them.",
+    "investigationTags": [
+      "food culture",
+      "daily life"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "mumbai/monsoon-city": {
+    "keyIdea": "Mumbai's rainy season changes train travel, school days, repairs, and routines, making weather part of everyday planning.",
+    "tradeoff": "Rain disrupts journeys and affects drainage, housing, waste, and public health.",
+    "designUse": "Prepare travel advice and maintenance work around predictable seasonal rain.",
+    "investigationTags": [
+      "climate",
+      "daily life",
+      "problem solving"
+    ]
+  },
+  "mumbai/dharavi-enterprise": {
+    "keyIdea": "Mumbai's Dharavi combines small industries, recycling, food production, and family life, which a poverty-only image hides.",
+    "tradeoff": "Outside attention can simplify residents' work and reduce their control over its story.",
+    "designUse": "Ask residents about local skills and needs before presenting a neighborhood.",
+    "investigationTags": [
+      "economics",
+      "community",
+      "identity"
+    ]
+  },
+  "mumbai/art-deco-gothic": {
+    "keyIdea": "Mumbai's neighboring Gothic and Art Deco buildings make changing ideas about style and city building visible in one area.",
+    "tradeoff": "Building style alone does not explain all the choices or costs behind it.",
+    "designUse": "Use contrasting building styles to discuss the needs each period prioritized.",
+    "investigationTags": [
+      "architecture",
+      "history",
+      "heritage"
+    ],
+    "tradeoffInferred": true
+  },
+  "cape-town/founded-video": {
+    "keyIdea": "Cape Town's segregation laws controlled where people could live, work, and learn, shaping inequality across the city.",
+    "tradeoff": "Changing laws does not quickly undo generations of forced separation and lost opportunity.",
+    "designUse": "Check that housing and service rules do not exclude groups of residents.",
+    "investigationTags": [
+      "history",
+      "government",
+      "ethics"
+    ]
+  },
+  "cape-town/table-mountain-video": {
+    "keyIdea": "Cape Town's mountain cable car gives visitors access to high views, with website updates helping them plan around conditions.",
+    "tradeoff": "High winds can close the service, and uneven paths need careful footwear.",
+    "designUse": "Publish live access conditions before visitors set out for exposed natural places.",
+    "investigationTags": [
+      "nature",
+      "functional english",
+      "transport"
+    ]
+  },
+  "cape-town/water-crisis-video": {
+    "keyIdea": "Cape Town's water crisis pushed residents to reduce use and reuse shower water, alongside discussion of new supply systems.",
+    "tradeoff": "Households have different needs, and some had poor water access before the crisis.",
+    "designUse": "Set saving rules that consider care needs and existing gaps in access.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "ethics"
+    ]
+  },
+  "cape-town/district-six-memory": {
+    "keyIdea": "Cape Town's District Six shows how forced removal broke a mixed neighborhood's connections between homes, shops, schools, and memories.",
+    "tradeoff": "Clearing an area destroys relationships as well as the buildings people occupy.",
+    "designUse": "Record residents' connected lives before judging a neighborhood only by its buildings.",
+    "investigationTags": [
+      "history",
+      "neighborhoods",
+      "ethics"
+    ]
+  },
+  "cape-town/robben-island": {
+    "keyIdea": "Robben Island near Cape Town links a place of imprisonment with continuing questions about resistance, memory, and democracy.",
+    "tradeoff": "Focusing on one famous prisoner can hide other people's experiences there.",
+    "designUse": "Tell shared places of memory through several people's experiences of resistance.",
+    "investigationTags": [
+      "history",
+      "ethics",
+      "heritage"
+    ],
+    "thin": true
+  },
+  "cape-town/fynbos-biodiversity": {
+    "keyIdea": "Cape Town's nearby fynbos plants connect city choices about homes, water, and outdoor activities with protecting different kinds of nature.",
+    "tradeoff": "Fire, invasive plants, and development create competing demands on the same natural setting.",
+    "designUse": "Include native plant habitats when deciding where housing and recreation should go.",
+    "investigationTags": [
+      "nature",
+      "environment",
+      "housing"
+    ],
+    "thin": true
+  },
+  "rome/ancient-rome-video": {
+    "keyIdea": "Ancient Rome's roads, first built for military movement, also carried people and ideas across the expanding empire.",
+    "tradeoff": "The network's growth was tied to conquest and domination of other peoples.",
+    "designUse": "Make transport links useful for everyday exchange as well as their original purpose.",
+    "investigationTags": [
+      "history",
+      "transport",
+      "cause and effect"
+    ]
+  },
+  "rome/colosseum-video": {
+    "keyIdea": "Rome's Colosseum used numbered entrances and seating levels to direct crowds while separating spectators by social status.",
+    "tradeoff": "The best seats were reserved for elites, leaving lower-status people farther away.",
+    "designUse": "Number entrances clearly without assigning access according to social status.",
+    "investigationTags": [
+      "architecture",
+      "ethics",
+      "design"
+    ]
+  },
+  "rome/food-market-video": {
+    "keyIdea": "Rome's covered market brings food sellers together, letting local buyers learn about fresh products directly from people who know them.",
+    "tradeoff": "Some fresh foods need careful storage and quick eating to retain their quality.",
+    "designUse": "Give specialist sellers space to explain freshness and preparation to buyers.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "economics"
+    ]
+  },
+  "rome/aqueduct-thinking": {
+    "keyIdea": "Rome's aqueducts brought water into a dense city, supporting baths, fountains, homes, and shared public life.",
+    "tradeoff": "Useful water infrastructure still depends on maintenance and decisions about access.",
+    "designUse": "Plan water supply around several shared uses rather than one destination.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "history"
+    ],
+    "tradeoffInferred": true
+  },
+  "rome/piazza-life": {
+    "keyIdea": "Rome's piazzas use surrounding buildings, shade, steps, and seats to make outdoor spaces where people can stay together.",
+    "tradeoff": "An attractive square is less useful without shade or reasons to remain.",
+    "designUse": "Shape squares with comfortable edges, sitting places, and activities that invite staying.",
+    "investigationTags": [
+      "public space",
+      "urban design",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "rome/layers-underfoot": {
+    "keyIdea": "Rome's ancient remains appear beneath modern streets and building sites, placing history inside decisions about new infrastructure.",
+    "tradeoff": "Building homes and utilities can conflict with protecting the ancient layers below.",
+    "designUse": "Check underground heritage before choosing routes for new utilities and transport.",
+    "investigationTags": [
+      "archaeology",
+      "urban change",
+      "urban planning"
+    ]
+  },
+  "rio-de-janeiro/city-history-video": {
+    "keyIdea": "Rio's protected bay supported port trade, while nearby mineral discoveries helped the city grow into a center of government.",
+    "tradeoff": "The benefits of city growth sit beside large differences in wealth.",
+    "designUse": "Link port investment with opportunities for neighborhoods across different income levels.",
+    "investigationTags": [
+      "geography",
+      "economics",
+      "history"
+    ]
+  },
+  "rio-de-janeiro/favela-history-video": {
+    "keyIdea": "Rio's housing clearances pushed poorer residents towards hillside settlements when replacement homes were not provided.",
+    "tradeoff": "Removing old housing can displace people if no alternative homes are ready.",
+    "designUse": "Provide replacement homes before removing housing that people already rely on.",
+    "investigationTags": [
+      "housing",
+      "urban planning",
+      "cause and effect"
+    ]
+  },
+  "rio-de-janeiro/carnival-video": {
+    "keyIdea": "Rio's Carnival brings African-influenced music, costumes, and dance into a shared celebration prepared by community samba groups.",
+    "tradeoff": "Large parades require months of preparation before the public celebration.",
+    "designUse": "Give community festivals time to develop themes, costumes, and performances together.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "rio-de-janeiro/tijuca-forest": {
+    "keyIdea": "Replanting damaged parts of Rio's Tijuca Forest shows how restoration can support water, shade, wildlife, and city identity.",
+    "tradeoff": "A restored forest still needs care alongside pressure from city use.",
+    "designUse": "Restore damaged green areas for water, shade, and wildlife as well as views.",
+    "investigationTags": [
+      "nature",
+      "water",
+      "climate"
+    ],
+    "tradeoffInferred": true
+  },
+  "rio-de-janeiro/beach-public-life": {
+    "keyIdea": "Rio's beaches combine swimming, work, exercise, music, and meeting friends in a shared natural public space.",
+    "tradeoff": "Differences in money, safety, and status can affect who enjoys that space.",
+    "designUse": "Leave beach space for several everyday activities with fair access and safety.",
+    "investigationTags": [
+      "public space",
+      "culture",
+      "daily life"
+    ]
+  },
+  "rio-de-janeiro/samba-schools": {
+    "keyIdea": "Rio's samba parades depend on designers, welders, musicians, families, and organizers working together long before the performance.",
+    "tradeoff": "The visible parade can hide the many workers and resources behind it.",
+    "designUse": "Divide festival work across creative and practical teams, recognizing each contribution.",
+    "investigationTags": [
+      "community",
+      "culture",
+      "economics"
+    ],
+    "tradeoffInferred": true
+  },
+  "mexico-city/complex-history-video": {
+    "keyIdea": "Mexico City's Spanish buildings stand above earlier Aztec places, letting guides show different histories within the same streets.",
+    "tradeoff": "Only a small part of the older city has been uncovered.",
+    "designUse": "Use guides and visible remains to explain what lies below modern streets.",
+    "investigationTags": [
+      "history",
+      "archaeology",
+      "heritage"
+    ]
+  },
+  "mexico-city/metro-tips-video": {
+    "keyIdea": "Mexico City's metro connects major arrival points, but passengers need to watch station names and prepare quickly to leave.",
+    "tradeoff": "Crowded carriages and brief stops make travel with large bags difficult.",
+    "designUse": "Place stop information where standing passengers can see it before exits open.",
+    "investigationTags": [
+      "transport",
+      "functional english"
+    ]
+  },
+  "mexico-city/street-food-video": {
+    "keyIdea": "Mexico City's street food brings ingredients and snacks from different traditions into small stands across its neighborhoods.",
+    "tradeoff": "Reaching scattered stalls means spending time traveling across a large city.",
+    "designUse": "Group neighborhood food routes by short walks rather than scattered highlights.",
+    "investigationTags": [
+      "food culture",
+      "place"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "mexico-city/xochimilco-chinampas": {
+    "keyIdea": "Mexico City's chinampas combine raised fields and canals, keeping an older food-growing system active within the city.",
+    "tradeoff": "Fields and canals need ongoing water care, not just attention from visitors.",
+    "designUse": "Keep heritage farming systems working through protected fields and maintained water routes.",
+    "investigationTags": [
+      "water",
+      "heritage",
+      "environment"
+    ],
+    "tradeoffInferred": true
+  },
+  "mexico-city/sinking-city": {
+    "keyIdea": "Removing groundwater beneath Mexico City compacts soft soils, causing sinking that affects streets, buildings, and water pipes.",
+    "tradeoff": "Getting water from below can damage the ground supporting essential city systems.",
+    "designUse": "Check how water extraction changes ground stability before planning new infrastructure.",
+    "investigationTags": [
+      "science",
+      "water",
+      "urban planning"
+    ]
+  },
+  "mexico-city/markets-and-memory": {
+    "keyIdea": "Mexico City's markets build repeated relationships, as sellers recognize families and connect regional ingredients with everyday routines.",
+    "tradeoff": "Protecting one version of market memory can leave other community stories less visible.",
+    "designUse": "Keep familiar sellers involved when documenting how families use a market.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "community"
+    ]
+  },
+  "buenos-aires/city-history-video": {
+    "keyIdea": "Buenos Aires' surrounding grasslands supported cattle and leather trade, helping commerce grow as the city became a capital.",
+    "tradeoff": "Trade restrictions also encouraged smuggling rather than bringing all business under official rules.",
+    "designUse": "Set trade rules that account for existing goods and local livelihoods.",
+    "investigationTags": [
+      "history",
+      "economics",
+      "government"
+    ]
+  },
+  "buenos-aires/tango-video": {
+    "keyIdea": "Tango's shared dance floor works through small steps, one direction, and enough space between people moving together.",
+    "tradeoff": "Large backward steps risk hitting someone dancing close behind you.",
+    "designUse": "Keep shared movement spaces predictable through direction, spacing, and small steps.",
+    "investigationTags": [
+      "culture",
+      "movement",
+      "daily life"
+    ]
+  },
+  "buenos-aires/landmarks-video": {
+    "keyIdea": "Buenos Aires uses the plaza around its Obelisk for cultural events, public messages, and shared football celebrations.",
+    "tradeoff": "Landmarks spread across the city can be difficult to fit into one visit.",
+    "designUse": "Let a landmark's surrounding space serve community events as well as viewing.",
+    "investigationTags": [
+      "public space",
+      "culture",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "buenos-aires/notable-bars": {
+    "keyIdea": "Buenos Aires' cafes and notable bars turn repeated conversation, reading, and meeting into part of the city's cultural life.",
+    "tradeoff": "A famous image can simplify the ordinary routines that give a place meaning.",
+    "designUse": "Protect time and space for ordinary conversation in valued social venues.",
+    "investigationTags": [
+      "culture",
+      "daily life",
+      "heritage"
+    ]
+  },
+  "buenos-aires/book-city": {
+    "keyIdea": "Buenos Aires' bookshops can serve as meeting places and quiet interiors, bringing reading into everyday city life.",
+    "tradeoff": "Choices about cultural visibility can leave some writers and histories less represented.",
+    "designUse": "Combine book selling with places to meet, browse, and read quietly.",
+    "investigationTags": [
+      "literature",
+      "public space",
+      "culture"
+    ]
+  },
+  "buenos-aires/la-boca-color": {
+    "keyIdea": "Buenos Aires' La Boca carries port and migration histories beyond the colorful tourist image of tango and football.",
+    "tradeoff": "Visitor attention can turn residents' complex lives into a simple performance.",
+    "designUse": "Present a colorful district through resident stories, work, and migration history.",
+    "investigationTags": [
+      "migration",
+      "identity",
+      "neighborhoods"
+    ]
+  },
+  "los-angeles/hollywood-history-video": {
+    "keyIdea": "Los Angeles attracted film production through suitable weather, varied nearby settings, and land that studios could afford.",
+    "tradeoff": "A concentrated studio industry can control production, distribution, and where films are shown.",
+    "designUse": "Locate creative workplaces near useful settings while checking who controls distribution.",
+    "investigationTags": [
+      "economics",
+      "geography",
+      "history"
+    ],
+    "tradeoffInferred": true
+  },
+  "los-angeles/metro-rail-video": {
+    "keyIdea": "Los Angeles' Metro explains paying, changing trains, and safe travel, with staff available to help people along their journey.",
+    "tradeoff": "Passengers unfamiliar with gates or validators must learn the payment steps before boarding.",
+    "designUse": "Explain payment and safety steps at the places where passengers perform them.",
+    "investigationTags": [
+      "transport",
+      "functional english",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "los-angeles/smog-history-video": {
+    "keyIdea": "Sunlight reacts with fuel-related chemicals in Los Angeles' air, producing smog that damages plants and helps explain pollution.",
+    "tradeoff": "The harmful pollution is formed through interactions, not simply emitted as one substance.",
+    "designUse": "Study local air reactions before choosing which pollution sources to control.",
+    "investigationTags": [
+      "environment",
+      "science",
+      "cause and effect"
+    ]
+  },
+  "los-angeles/water-imports": {
+    "keyIdea": "Los Angeles' dry setting makes imported water, groundwater, saving, and recycling part of decisions about growth and daily habits.",
+    "tradeoff": "Drought limits supply while different users carry different water costs and risks.",
+    "designUse": "Connect growth plans with realistic water sources and responsible household use.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "systems"
+    ],
+    "tradeoffInferred": true
+  },
+  "los-angeles/freeway-language": {
+    "keyIdea": "Los Angeles' freeways connect jobs and neighborhoods but also shape a city where car ownership can feel necessary.",
+    "tradeoff": "Roads can divide communities and increase pollution while shortening some journeys.",
+    "designUse": "Compare faster driving routes with their effects on nearby community connections.",
+    "investigationTags": [
+      "transport",
+      "environment",
+      "ethics"
+    ]
+  },
+  "los-angeles/murals-and-neighborhoods": {
+    "keyIdea": "Los Angeles' murals put memory, protest, and local pride on walls that people pass in daily life.",
+    "tradeoff": "Public artwork can be contested because people interpret neighborhood identity differently.",
+    "designUse": "Invite neighborhood voices to shape art on walls used in everyday routes.",
+    "investigationTags": [
+      "art",
+      "identity",
+      "daily life"
+    ]
+  },
+  "jakarta/historical-places-video": {
+    "keyIdea": "Jakarta's old town reuses colonial buildings as museums, cafes, and galleries, making earlier city layers visible through new uses.",
+    "tradeoff": "Visitor uses may show only part of the area's wider history.",
+    "designUse": "Keep reused historic buildings connected to explanations of their earlier roles.",
+    "investigationTags": [
+      "heritage",
+      "museums",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "jakarta/flood-control-video": {
+    "keyIdea": "Jakarta uses pumps and canals to manage floodwater, but concrete surfaces and blocked river connections limit their effect.",
+    "tradeoff": "Widening rivers or linking canals can require relocation that residents dispute.",
+    "designUse": "Combine flood equipment with absorbent ground and fair agreements on needed land.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "urban planning"
+    ]
+  },
+  "jakarta/transport-video": {
+    "keyIdea": "Jakarta's rail expansion offers commuters a way around road congestion and aims to reach more of the wider urban region.",
+    "tradeoff": "New mass transport is costly, and many journeys still depend on roads.",
+    "designUse": "Expand rail toward commuters outside the center while planning its funding.",
+    "investigationTags": [
+      "transport",
+      "environment",
+      "economics"
+    ]
+  },
+  "jakarta/old-batavia": {
+    "keyIdea": "Jakarta's older port buildings and street names carry traces of trade and power through the fast-changing city.",
+    "tradeoff": "Choosing which traces to keep gives some histories more visibility than others.",
+    "designUse": "Explain older trade routes through warehouse sites, street names, and local accounts.",
+    "investigationTags": [
+      "history",
+      "heritage",
+      "urban change"
+    ],
+    "thin": true
+  },
+  "jakarta/new-capital-question": {
+    "keyIdea": "Indonesia's proposed new capital responds to pressures on Jakarta by moving some government functions away from the city.",
+    "tradeoff": "Relocation costs money and raises new environmental questions elsewhere.",
+    "designUse": "Compare relocating public offices with improving services in the existing capital.",
+    "investigationTags": [
+      "government",
+      "environment",
+      "urban planning"
+    ]
+  },
+  "jakarta/warung-life": {
+    "keyIdea": "Jakarta's small warung stalls offer food, quick services, and familiar conversation near people's homes or workplaces.",
+    "tradeoff": "Their usefulness depends on keeping daily services close to the people needing them.",
+    "designUse": "Keep small everyday service stalls within reach of homes and workplaces.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "lagos/local-city-video": {
+    "keyIdea": "Lagos' Lekki Conservation Center offers canopy walks and wildlife within the busy city, giving people a nearby natural escape.",
+    "tradeoff": "Traffic can make reaching places for leisure stressful even within the city.",
+    "designUse": "Connect crowded urban areas with accessible places for nature and quiet.",
+    "investigationTags": [
+      "nature",
+      "public space",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "lagos/mass-transit-video": {
+    "keyIdea": "Lagos commuters use boats to avoid slow roads, while transport plans aim to connect water, road, and rail services.",
+    "tradeoff": "Funding and implementation problems can prevent a transport plan from working.",
+    "designUse": "Combine faster water journeys with road and rail connections in one plan.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "water"
+    ]
+  },
+  "lagos/market-video": {
+    "keyIdea": "Lagos' Lekki Market gives makers places to sell goods, while local people and visitors meet art and traditions.",
+    "tradeoff": "Sellers need suitable materials and paying customers to keep their work going.",
+    "designUse": "Link craft selling with chances for customers to understand materials and makers.",
+    "investigationTags": [
+      "art",
+      "economics",
+      "culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "lagos/lagoon-transport": {
+    "keyIdea": "Lagos' lagoon geography makes useful movement depend on links between islands, mainland roads, bridges, and water routes.",
+    "tradeoff": "Slow or costly connections can keep residents away from work and education.",
+    "designUse": "Map complete journeys across water and land rather than separate vehicle routes.",
+    "investigationTags": [
+      "transport",
+      "geography",
+      "systems thinking"
+    ]
+  },
+  "lagos/nollywood-city": {
+    "keyIdea": "Lagos' film production depends on writers, editors, drivers, and other workers as well as the stars audiences recognize.",
+    "tradeoff": "Workers face risks when audience demand, costs, or technology change quickly.",
+    "designUse": "Include support workers and distribution needs when planning a local creative industry.",
+    "investigationTags": [
+      "culture",
+      "economics",
+      "daily life"
+    ]
+  },
+  "lagos/market-enterprise": {
+    "keyIdea": "Lagos' market sellers use knowledge of goods and customers to organize busy trading spaces and build livelihoods.",
+    "tradeoff": "Crowding and noise can make it harder for unfamiliar buyers to communicate.",
+    "designUse": "Make price and quality discussions understandable even in crowded trading areas.",
+    "investigationTags": [
+      "functional english",
+      "economics",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "hong-kong/animated-history-video": {
+    "keyIdea": "Hong Kong shifted towards manufacturing and financial services when restrictions reduced its older trade links with mainland China.",
+    "tradeoff": "Growth also brought inequality and very crowded living conditions for poorer residents.",
+    "designUse": "Develop alternative industries while checking whether incoming workers can find decent homes.",
+    "investigationTags": [
+      "history",
+      "economics",
+      "housing"
+    ]
+  },
+  "hong-kong/transport-system-video": {
+    "keyIdea": "Hong Kong's MTR earns from buildings and shops around stations, using that income to maintain and expand railways.",
+    "tradeoff": "The model relies on suitable property around stations and businesses attracting customers.",
+    "designUse": "Fund rail improvements through the value created around well-connected stations.",
+    "investigationTags": [
+      "transport",
+      "economics",
+      "urban planning"
+    ],
+    "tradeoffInferred": true
+  },
+  "hong-kong/housing-video": {
+    "keyIdea": "Hong Kong's proposed minimum housing standards aim to improve tiny rooms, but tenants worry about losing affordable places.",
+    "tradeoff": "Upgrades can increase rents or displace residents without protection and replacement housing.",
+    "designUse": "Pair minimum housing standards with tenant protection and affordable alternatives.",
+    "investigationTags": [
+      "housing",
+      "ethics",
+      "government"
+    ]
+  },
+  "hong-kong/country-parks": {
+    "keyIdea": "Hong Kong's protected country parks keep hills, beaches, and trails close to people living in dense neighborhoods.",
+    "tradeoff": "Protecting natural areas requires continuing care alongside pressure from city use.",
+    "designUse": "Keep protected trails and green areas connected to dense residential districts.",
+    "investigationTags": [
+      "nature",
+      "geography",
+      "public space"
+    ],
+    "tradeoffInferred": true
+  },
+  "hong-kong/harbour-reclamation": {
+    "keyIdea": "Hong Kong adds land around its harbour to make space for roads, homes, offices, and public places.",
+    "tradeoff": "More land reduces water area and can change views people value.",
+    "designUse": "Compare new land uses with the water space and views they replace.",
+    "investigationTags": [
+      "urban planning",
+      "water",
+      "housing"
+    ]
+  },
+  "hong-kong/cha-chaan-teng": {
+    "keyIdea": "Hong Kong's cha chaan teng cafes mix food from different places with quick service that fits busy daily life.",
+    "tradeoff": "A marketable food image can simplify the history behind an ordinary meal.",
+    "designUse": "Offer quick everyday meals that keep mixed local food traditions visible.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "identity"
+    ]
+  },
+  "amsterdam/city-history-video": {
+    "keyIdea": "Amsterdam's early settlers used dikes and a river dam to make a flood-prone place suitable for a growing settlement.",
+    "tradeoff": "Building in a wet setting creates an ongoing need to manage water.",
+    "designUse": "Make water control part of a settlement's first layout, not a later addition.",
+    "investigationTags": [
+      "history",
+      "water",
+      "engineering"
+    ],
+    "tradeoffInferred": true
+  },
+  "amsterdam/cycling-video": {
+    "keyIdea": "Amsterdam reduced parking and closed some streets to cars, giving walking and cycling priority after pressure over road deaths.",
+    "tradeoff": "Better conditions for bikes deliberately make some journeys less convenient for drivers.",
+    "designUse": "Use slower shared streets and car limits to make cycling practical.",
+    "investigationTags": [
+      "transport",
+      "urban design",
+      "public space"
+    ]
+  },
+  "amsterdam/canals-video": {
+    "keyIdea": "Amsterdam uses boats with special cranes to clear canal rubbish, keeping waterways useful for boats and floating homes.",
+    "tradeoff": "Objects dropped into canals create repeated cleaning work for the city.",
+    "designUse": "Include access for cleaning equipment when designing active urban waterways.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "daily life"
+    ]
+  },
+  "amsterdam/canal-ring-planning": {
+    "keyIdea": "Amsterdam's canal ring joined trade, water control, homes, and travel in one plan that still shapes city life.",
+    "tradeoff": "Old layouts must keep serving new users while important historic features remain.",
+    "designUse": "Combine several city functions when planning a durable water-based street layout.",
+    "investigationTags": [
+      "urban planning",
+      "history",
+      "water"
+    ],
+    "tradeoffInferred": true
+  },
+  "amsterdam/water-management": {
+    "keyIdea": "Amsterdam combines canals, pumps, dikes, and local water management to keep places safe for living, travel, and building.",
+    "tradeoff": "Structures need upkeep and public cooperation, even when their work is hard to notice.",
+    "designUse": "Keep water-control equipment supported by maintenance routines and local knowledge.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "climate"
+    ]
+  },
+  "amsterdam/museum-choices": {
+    "keyIdea": "Amsterdam's museum displays shape which histories people see, including the trade and money that made art possible.",
+    "tradeoff": "Focusing only on beauty can hide where objects came from and who paid.",
+    "designUse": "Show objects' origins and funding alongside their appearance and artistic qualities.",
+    "investigationTags": [
+      "museums",
+      "history",
+      "economics"
+    ]
+  },
+  "honolulu/hula-story-video": {
+    "keyIdea": "Hawaiian hula keeps stories alive through dancers who learn to move together and share responsibility for the tradition.",
+    "tradeoff": "Treating the dance only as a hobby can hide its cultural responsibility.",
+    "designUse": "Teach shared performance as a responsibility to stories, not only entertainment.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "heritage"
+    ],
+    "tradeoffInferred": true
+  },
+  "honolulu/spam-musubi-video": {
+    "keyIdea": "Hawaiian musubi makers mix Japanese rice snacks with local fillings, creating food that people can easily carry and eat.",
+    "tradeoff": "Customers from different backgrounds may expect different fillings and portion sizes.",
+    "designUse": "Adapt a portable food format while explaining different local versions.",
+    "investigationTags": [
+      "food culture",
+      "identity",
+      "daily life"
+    ]
+  },
+  "honolulu/city-history-video": {
+    "keyIdea": "Honolulu's sheltered harbour brought ships, goods, and ideas, helping the city grow as an important Pacific stopping place.",
+    "tradeoff": "Trade and plantation wealth also came with exploitation and pressure on local people.",
+    "designUse": "Assess port growth through workers' lives and local relationships as well as trade.",
+    "investigationTags": [
+      "geography",
+      "history",
+      "economics"
+    ]
+  },
+  "honolulu/ahupuaa-land-and-water": {
+    "keyIdea": "Honolulu's older ahupuaa framework links upland forests, streams, farms, and coastal waters through the movement of water downhill.",
+    "tradeoff": "Treating each property separately can miss effects reaching streams and reefs below.",
+    "designUse": "Plan from ridge to reef so upstream choices protect downstream places.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "geography"
+    ],
+    "tradeoffInferred": true
+  },
+  "honolulu/waikiki-changing-coast": {
+    "keyIdea": "Honolulu's Waikiki beach has changed streams, nearby buildings, and added sand, making its coast partly natural and partly maintained.",
+    "tradeoff": "Protecting buildings can restrict sand movement, while replacing sand requires repeated spending.",
+    "designUse": "Leave room for coastal movement when balancing beach use and nearby buildings.",
+    "investigationTags": [
+      "environment",
+      "water",
+      "urban planning"
+    ]
+  },
+  "honolulu/pearl-harbor-memory": {
+    "keyIdea": "Honolulu's Pearl Harbor uses preserved ships, names, and quiet spaces to connect a working harbour with memory of war.",
+    "tradeoff": "The arrangement of memorials shapes which experiences of the conflict receive most attention.",
+    "designUse": "Arrange working historic sites with quiet places and varied personal accounts.",
+    "investigationTags": [
+      "history",
+      "heritage",
+      "museums"
+    ]
+  },
+  "miami/little-havana-video": {
+    "keyIdea": "Miami's Little Havana coffee windows give different generations places to exchange news, debate politics, and maintain Cuban community ties.",
+    "tradeoff": "Strong community symbols may not capture every generation's different experience.",
+    "designUse": "Create small meeting points where familiar food supports everyday community conversation.",
+    "investigationTags": [
+      "migration",
+      "community",
+      "food culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "miami/everglades-video": {
+    "keyIdea": "South Florida's Everglades carry rainwater, support wildlife, and refill underground drinking-water supplies used by communities around Miami.",
+    "tradeoff": "Development and changed water flows can dry wetlands and threaten both wildlife and water supply.",
+    "designUse": "Restore wetland water flows as part of drinking-water and flood planning.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "science"
+    ]
+  },
+  "miami/rapid-transit-video": {
+    "keyIdea": "Miami's express-bus plan combines dedicated lanes and sheltered, cooled stops to make journeys easier in heavy traffic and heat.",
+    "tradeoff": "Rail was considered too costly for existing passenger demand in the corridor.",
+    "designUse": "Choose expandable transit stops that address heat while serving current passenger demand.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "climate"
+    ]
+  },
+  "miami/art-deco-preservation": {
+    "keyIdea": "Miami Beach protected a group of old Art Deco hotels, making their shared look part of the neighborhood's identity.",
+    "tradeoff": "Restoration attracts new uses and audiences, so preservation still changes the area.",
+    "designUse": "Retain characteristic building features while updating systems for practical modern uses.",
+    "investigationTags": [
+      "architecture",
+      "heritage",
+      "urban change"
+    ]
+  },
+  "miami/rising-water": {
+    "keyIdea": "Miami's porous ground lets floodwater move beneath barriers, so protection must combine drainage, raised roads, and other measures.",
+    "tradeoff": "Raised streets can redirect water, while pumps require power and upkeep.",
+    "designUse": "Match flood defenses to ground conditions and check where displaced water goes.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "engineering"
+    ]
+  },
+  "miami/languages-of-arrival": {
+    "keyIdea": "Miami's speakers choose languages for family, work, and public life, connecting neighborhoods with several places and cultures.",
+    "tradeoff": "Language ability can still limit access to jobs and public services.",
+    "designUse": "Provide language choices that reflect real users of local offices and businesses.",
+    "investigationTags": [
+      "language",
+      "migration",
+      "identity"
+    ]
+  },
+  "bogota/my-city-video": {
+    "keyIdea": "Bogota's recyclers collect usable waste early in the day, turning discarded materials into income for their families.",
+    "tradeoff": "They compete with other collectors and face pressure from authorities to disappear.",
+    "designUse": "Recognize informal recycling work when setting collection times and city waste rules.",
+    "investigationTags": [
+      "environment",
+      "economics",
+      "daily life"
+    ]
+  },
+  "bogota/gold-museum-video": {
+    "keyIdea": "Bogota's Gold Museum uses old objects to explain different Indigenous rituals and traditions, making collections part of public learning.",
+    "tradeoff": "Famous pieces can receive more attention than the wider diversity of past communities.",
+    "designUse": "Explain what objects meant to their communities, beyond their material value.",
+    "investigationTags": [
+      "museums",
+      "history",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "bogota/graffiti-projects-video": {
+    "keyIdea": "Bogota offers public mural spaces and support for artists, changing how unused walls and graffiti are understood.",
+    "tradeoff": "Painting outside approved spaces can still lead to detention or cleanup costs.",
+    "designUse": "Provide clear legal art spaces and explain where painting remains restricted.",
+    "investigationTags": [
+      "art",
+      "government",
+      "public space"
+    ]
+  },
+  "bogota/ciclovia-open-streets": {
+    "keyIdea": "Bogota regularly opens streets for walking, cycling, and exercise, showing that road space can serve different uses at different times.",
+    "tradeoff": "Closing roads needs signs, staff, medical support, and alternative routes for vehicles.",
+    "designUse": "Schedule recurring street uses with support services and routes around closures.",
+    "investigationTags": [
+      "public space",
+      "transport",
+      "community"
+    ]
+  },
+  "bogota/transmilenio-network": {
+    "keyIdea": "Bogota's TransMilenio uses dedicated bus lanes and payment before boarding to avoid delays and load passengers more quickly.",
+    "tradeoff": "Crowding and difficult station connections can weaken the whole journey.",
+    "designUse": "Pair dedicated bus corridors with easy station access and manageable passenger flows.",
+    "investigationTags": [
+      "transport",
+      "systems thinking",
+      "urban planning"
+    ]
+  },
+  "bogota/paramo-water": {
+    "keyIdea": "Bogota's mountain paramos capture, store, and slowly release water, linking the city's taps with distant plants and soils.",
+    "tradeoff": "Conservation rules can affect rural people whose work depends on those landscapes.",
+    "designUse": "Protect water-storing ecosystems while discussing land-use limits with nearby communities.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "geography"
+    ]
+  },
+  "reykjavik/city-landmarks-video": {
+    "keyIdea": "Reykjavik's Elm fashion workshop uses its nearby shop to test local customers' responses before selling its designs abroad.",
+    "tradeoff": "A small local test market cannot represent every customer's tastes abroad.",
+    "designUse": "Test designs with local users while checking needs in other intended markets.",
+    "investigationTags": [
+      "design",
+      "economics",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "reykjavik/iceland-history-video": {
+    "keyIdea": "Iceland's shared assembly made laws through councils, creating a public institution that continued as the country changed governments.",
+    "tradeoff": "Conflict between local leaders later contributed to the loss of independence.",
+    "designUse": "Keep shared decision-making bodies able to resolve disagreements without prolonged conflict.",
+    "investigationTags": [
+      "history",
+      "government",
+      "community"
+    ],
+    "thin": true
+  },
+  "reykjavik/culture-night-video": {
+    "keyIdea": "Reykjavik's Culture Night depends on small events across the city, with residents and places contributing beyond the official program.",
+    "tradeoff": "Events outside the official program are harder to coordinate as one schedule.",
+    "designUse": "Support small local events within a shared citywide celebration framework.",
+    "investigationTags": [
+      "culture",
+      "community",
+      "public space"
+    ],
+    "tradeoffInferred": true
+  },
+  "reykjavik/geothermal-city": {
+    "keyIdea": "Reykjavik sends naturally heated underground water through a shared system, warming many buildings without separate heating in each one.",
+    "tradeoff": "Drilling, gases, land use, and extraction rates still require careful management.",
+    "designUse": "Manage shared heat supplies around local geology and long-term reservoir care.",
+    "investigationTags": [
+      "engineering",
+      "environment",
+      "science"
+    ]
+  },
+  "reykjavik/ocean-and-fishing": {
+    "keyIdea": "Reykjavik's fishing economy connects scientific stock estimates with rules on catches, linking natural limits to jobs and trade.",
+    "tradeoff": "Fishing limits protect stocks but change work for communities depending on the sea.",
+    "designUse": "Adjust catch rules using evidence about fish stocks and affected livelihoods.",
+    "investigationTags": [
+      "nature",
+      "science",
+      "economics"
+    ]
+  },
+  "reykjavik/language-and-names": {
+    "keyIdea": "Reykjavik's public institutions keep Icelandic useful by teaching it and creating words for new ideas and technologies.",
+    "tradeoff": "Global media and other languages bring opportunities while pressuring a small speech community.",
+    "designUse": "Develop local-language terms and services for new tools and everyday work.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "community"
+    ]
+  },
+  "nairobi/capital-history-video": {
+    "keyIdea": "Nairobi stayed at its railway camp site because existing tracks and warehouses made moving the settlement too expensive.",
+    "tradeoff": "The chosen site had poor drainage and health risks despite earlier investment.",
+    "designUse": "Check site safety before heavy investment makes relocation difficult.",
+    "investigationTags": [
+      "history",
+      "transport",
+      "cause and effect"
+    ]
+  },
+  "nairobi/railway-city-video": {
+    "keyIdea": "Nairobi's Railway City plan links rail, buses, walking routes, housing, and business spaces around a rebuilt central station.",
+    "tradeoff": "The planned connections depend on major resources and cooperation between investment partners.",
+    "designUse": "Integrate station rebuilding with nearby homes, walkways, and different transport services.",
+    "investigationTags": [
+      "transport",
+      "urban planning",
+      "housing"
+    ],
+    "tradeoffInferred": true
+  },
+  "nairobi/un-hub-video": {
+    "keyIdea": "Nairobi's planned UN expansion links more offices and conference space with jobs for contractors, hotels, and other local services.",
+    "tradeoff": "New buildings and larger meetings need substantial funding and room to operate.",
+    "designUse": "Connect institutional expansion with local service jobs and practical conference access.",
+    "investigationTags": [
+      "economics",
+      "government",
+      "urban planning"
+    ],
+    "tradeoffInferred": true
+  },
+  "nairobi/national-park-edge": {
+    "keyIdea": "Nairobi's wildlife park needs connected land outside its edge because animals move through the wider area, not only the park.",
+    "tradeoff": "Roads, fences, and urban growth can cut routes wildlife needs.",
+    "designUse": "Protect wildlife connections across park edges when planning surrounding roads and homes.",
+    "investigationTags": [
+      "nature",
+      "geography",
+      "urban planning"
+    ]
+  },
+  "nairobi/matatu-visual-language": {
+    "keyIdea": "Nairobi's matatus use names, pictures, music, and inside decoration to stand out while taking passengers between neighborhoods.",
+    "tradeoff": "Competition can encourage creativity while raising concerns about safety, fares, and predictable service.",
+    "designUse": "Keep transport identity creative while making fares and safety expectations clear.",
+    "investigationTags": [
+      "transport",
+      "culture",
+      "daily life"
+    ]
+  },
+  "nairobi/silicon-savannah": {
+    "keyIdea": "Nairobi's mobile services solve local payment and information problems, linking technology businesses with needs older systems do not meet.",
+    "tradeoff": "Device costs, connectivity, skills, and privacy can create new gaps in access.",
+    "designUse": "Design digital services around local needs and users' actual resources.",
+    "investigationTags": [
+      "economics",
+      "problem solving",
+      "ethics"
+    ]
+  },
+  "lima/city-history-video": {
+    "keyIdea": "Lima's architecture and street culture combine Indigenous, colonial, and later influences, keeping different periods visible in the growing city.",
+    "tradeoff": "Growth and earthquakes place pressure on the same city fabric.",
+    "designUse": "Recognize several cultural layers when planning how a growing district should change.",
+    "investigationTags": [
+      "history",
+      "identity",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "lima/ancient-ruins-video": {
+    "keyIdea": "Near Lima, women living around ancient sites help protect them through projects that also support local income.",
+    "tradeoff": "Residents may see a site as taking space unless it adds value to their lives.",
+    "designUse": "Link heritage protection with work and benefits for neighboring residents.",
+    "investigationTags": [
+      "archaeology",
+      "community",
+      "economics"
+    ]
+  },
+  "lima/transport-strike-video": {
+    "keyIdea": "Lima's bus drivers strike over threats from organized crime, showing how worker safety affects school, business, and daily travel.",
+    "tradeoff": "When buses stop, commuters lose journeys and schools and shops can close.",
+    "designUse": "Treat transport-worker safety as part of keeping essential city journeys available.",
+    "investigationTags": [
+      "transport",
+      "government",
+      "daily life"
+    ]
+  },
+  "lima/desert-water-and-fog": {
+    "keyIdea": "Lima's desert water supply relies on mountain rivers and city systems, while coastal fog supports smaller local uses.",
+    "tradeoff": "Fog collectors cannot replace the large water network needed by millions of people.",
+    "designUse": "Use small moisture-capture projects alongside, rather than instead of, reliable water networks.",
+    "investigationTags": [
+      "water",
+      "geography",
+      "environment"
+    ]
+  },
+  "lima/historic-center-earthquakes": {
+    "keyIdea": "Lima's old center needs structural care as well as preserved appearances so historic buildings remain safe and useful.",
+    "tradeoff": "Limited restoration resources force choices about which vulnerable places receive attention first.",
+    "designUse": "Prioritize earthquake repairs by safety, cultural value, and continuing community use.",
+    "investigationTags": [
+      "heritage",
+      "engineering",
+      "urban planning"
+    ]
+  },
+  "lima/food-and-migration": {
+    "keyIdea": "Lima's cooks combine ingredients and methods from different communities, changing dishes to fit local markets and family needs.",
+    "tradeoff": "Famous restaurants can draw attention away from growers, fishers, and lower-paid workers.",
+    "designUse": "Show the whole food network when celebrating dishes shaped by migration.",
+    "investigationTags": [
+      "food culture",
+      "migration",
+      "identity"
+    ]
+  },
+  "perth/quokkas-video": {
+    "keyIdea": "Quokkas near Perth live in a safer island home, while public attention shows dangers facing animals on the mainland.",
+    "tradeoff": "Urban expansion, fires, and invasive species reduce habitat, and direct wildlife interaction is discouraged.",
+    "designUse": "Turn wildlife attention into habitat protection without encouraging close physical contact.",
+    "investigationTags": [
+      "nature",
+      "environment"
+    ]
+  },
+  "perth/transperth-video": {
+    "keyIdea": "Perth's transport system links buses, trains, and ferries through shared services and payment, connecting spread-out homes with work and education.",
+    "tradeoff": "A growing, widely spread population increases demand on the transport network.",
+    "designUse": "Integrate fares and route connections before expanding separate transport services.",
+    "investigationTags": [
+      "transport",
+      "systems thinking",
+      "urban planning"
+    ]
+  },
+  "perth/fremantle-video": {
+    "keyIdea": "Fremantle's working brewery combines production with visitor space, letting staff explain what they make while supporting local hospitality work.",
+    "tradeoff": "The experience depends on teams managing both daily service and the working site.",
+    "designUse": "Combine production and visitor spaces so workers can explain what they make.",
+    "investigationTags": [
+      "economics",
+      "community",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "perth/boorloo-and-derbarl-yerrigan": {
+    "keyIdea": "Perth's Noongar names connect the modern city and river with older living knowledge, cultural responsibility, and relationships.",
+    "tradeoff": "Using names alone does not include Traditional Custodians' authority in decisions.",
+    "designUse": "Include Traditional Custodians in decisions about named places and river care.",
+    "investigationTags": [
+      "identity",
+      "heritage",
+      "water"
+    ]
+  },
+  "perth/climate-resilient-water": {
+    "keyIdea": "Perth added different water sources as rainfall into dams fell, spreading the risk of relying on one supply.",
+    "tradeoff": "Desalination needs energy and careful handling of the salty water it leaves.",
+    "designUse": "Compare backup water sources through energy costs and waste-management needs.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "engineering"
+    ]
+  },
+  "perth/kings-park-biodiversity": {
+    "keyIdea": "Perth's Kings Park combines public paths with work to save seeds and study plants, helping protect nature beyond the park.",
+    "tradeoff": "Visitor use, fire, invasive species, and climate change can damage the living landscape.",
+    "designUse": "Link public gardens with plant research, conservation, and careful visitor routes.",
+    "investigationTags": [
+      "nature",
+      "science",
+      "public space"
+    ]
+  },
+  "auckland/volcanic-field-video": {
+    "keyIdea": "Auckland's buried ash helps scientists learn when volcanoes erupted, linking old rock layers with lakes and hills seen today.",
+    "tradeoff": "Hidden ash layers need drilling and laboratory study rather than observation alone.",
+    "designUse": "Use ground records alongside visible landmarks when studying a city's natural risks.",
+    "investigationTags": [
+      "geography",
+      "science",
+      "nature"
+    ],
+    "tradeoffInferred": true
+  },
+  "auckland/electric-bus-video": {
+    "keyIdea": "Auckland's fully electric bus depot combines new vehicles with smart charging and partners who designed the supporting site.",
+    "tradeoff": "Replacing diesel buses also needs charging equipment and cooperation beyond the vehicles.",
+    "designUse": "Prepare depot power and charging partnerships before replacing a whole vehicle fleet.",
+    "investigationTags": [
+      "transport",
+      "engineering",
+      "environment"
+    ],
+    "tradeoffInferred": true
+  },
+  "auckland/new-zealand-history-video": {
+    "keyIdea": "New Zealand moved its capital from Auckland to Wellington to keep national government connected with both main islands.",
+    "tradeoff": "An important center's location may leave another region feeling too distant.",
+    "designUse": "Locate shared government services with connections to all regions they serve.",
+    "investigationTags": [
+      "history",
+      "government",
+      "geography"
+    ],
+    "tradeoffInferred": true
+  },
+  "auckland/tupuna-maunga": {
+    "keyIdea": "Auckland's ancestral mountains combine geological features with living Maori histories, and their management includes mana whenua and the council.",
+    "tradeoff": "Treating them only as city parks can hide cultural meaning and earlier damage.",
+    "designUse": "Share landscape decisions with ancestral communities as well as technical experts.",
+    "investigationTags": [
+      "identity",
+      "heritage",
+      "government"
+    ]
+  },
+  "auckland/pacific-city": {
+    "keyIdea": "Auckland's Pacific communities link neighborhoods and islands through families, money, language, food, and responsibilities moving in both directions.",
+    "tradeoff": "A simple city image can hide the different experiences of Pacific communities.",
+    "designUse": "Support two-way cultural and family connections rather than treating migration as one-way arrival.",
+    "investigationTags": [
+      "migration",
+      "community",
+      "identity"
+    ]
+  },
+  "auckland/working-waterfront": {
+    "keyIdea": "Auckland's central port needs secure handling space and freight links, while the same waterfront attracts public and residential uses.",
+    "tradeoff": "Port fences and industrial areas can block people's access to the water.",
+    "designUse": "Separate secure freight operations from routes that keep the waterfront publicly reachable.",
+    "investigationTags": [
+      "transport",
+      "economics",
+      "public space"
+    ]
+  },
+  "suva/city-geography-video": {
+    "keyIdea": "Suva's central area brings markets, shops, and government offices together, showing trade and administration close within one busy city.",
+    "tradeoff": "Limited routes in and out of the center contribute to traffic problems.",
+    "designUse": "Provide practical arrival routes for a center combining trade and public offices.",
+    "investigationTags": [
+      "economics",
+      "government",
+      "transport"
+    ]
+  },
+  "suva/city-history-video": {
+    "keyIdea": "Fiji's sugar farms brought workers from India, creating new communities that became part of the country's changing identity.",
+    "tradeoff": "Unequal treatment and low wages deepened tension rather than giving workers fair participation.",
+    "designUse": "Protect workers' rights when recruiting people from outside a local community.",
+    "investigationTags": [
+      "history",
+      "migration",
+      "ethics"
+    ],
+    "thin": true
+  },
+  "suva/rugby-climate-video": {
+    "keyIdea": "Fijian coastal villages face rising water that threatens homes and the beaches where shared rugby traditions developed.",
+    "tradeoff": "Relocation can protect lives but separate people from valued land and routines.",
+    "designUse": "Let threatened communities weigh safety against the cultural costs of relocation.",
+    "investigationTags": [
+      "climate",
+      "culture",
+      "ethics"
+    ],
+    "thin": true
+  },
+  "suva/regional-capital": {
+    "keyIdea": "Suva's regional university and organizations bring people from distant Pacific countries together to study and negotiate shared problems.",
+    "tradeoff": "Great distances and different national experiences make shared access and agreement difficult.",
+    "designUse": "Use shared institutions to bring several island perspectives into regional decisions.",
+    "investigationTags": [
+      "community",
+      "government",
+      "geography"
+    ],
+    "tradeoffInferred": true
+  },
+  "suva/municipal-market": {
+    "keyIdea": "Suva's market links farms and fishing areas with city meals, using vendors' knowledge and safe shared facilities.",
+    "tradeoff": "Storms and transport problems interrupt supply and put vendors' earnings at risk.",
+    "designUse": "Equip market workplaces with storage, sanitation, and support during supply disruptions.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "transport"
+    ]
+  },
+  "suva/museum-and-memory": {
+    "keyIdea": "Suva's Fiji Museum protects objects from different communities, using them to explain settlement, movement, skills, and daily life.",
+    "tradeoff": "Removing objects from their settings can separate them from people and practices that give meaning.",
+    "designUse": "Keep community explanations connected to objects moved into museum collections.",
+    "investigationTags": [
+      "museums",
+      "history",
+      "identity"
+    ]
+  },
+  "ulaanbaatar/changing-capital-video": {
+    "keyIdea": "Ulaanbaatar's factories and buildings attracted workers to a city of tents, changing how people lived and showed its history.",
+    "tradeoff": "Pressure on herders' ways of life made moving into the city disruptive.",
+    "designUse": "Explain industrial growth through the experiences of people changing their livelihoods.",
+    "investigationTags": [
+      "urban change",
+      "history",
+      "migration"
+    ]
+  },
+  "ulaanbaatar/ger-area-transport-video": {
+    "keyIdea": "Ulaanbaatar used passengers' stories to choose ramps, accessible buses, shelters, and information in transport improvements for ger areas.",
+    "tradeoff": "Structures alone would miss unsafe driving and the need to report problems.",
+    "designUse": "Let different passengers' accounts guide both physical access and service training.",
+    "investigationTags": [
+      "transport",
+      "community",
+      "problem solving"
+    ]
+  },
+  "ulaanbaatar/sustainable-gers-video": {
+    "keyIdea": "Better insulation and added service spaces could let Ulaanbaatar's existing ger homes use less heating fuel.",
+    "tradeoff": "Residents cannot simply stop using coal when they need to keep their homes warm.",
+    "designUse": "Improve existing homes' warmth before asking residents to reduce essential fuel use.",
+    "investigationTags": [
+      "housing",
+      "environment",
+      "design"
+    ]
+  },
+  "ulaanbaatar/winter-city-systems": {
+    "keyIdea": "Ulaanbaatar's central heating network uses shared plants and pipes, while many outer ger households still rely on separate stoves.",
+    "tradeoff": "Aging equipment or failure in extreme cold can quickly become an emergency.",
+    "designUse": "Maintain shared heat networks while planning reliable support for unconnected homes.",
+    "investigationTags": [
+      "climate",
+      "engineering",
+      "housing"
+    ]
+  },
+  "ulaanbaatar/naadam-capital": {
+    "keyIdea": "Ulaanbaatar's Naadam uses city venues for wrestling and archery, while longer horse races need open land outside dense streets.",
+    "tradeoff": "Crowds and separated venues create transport, safety, and animal-welfare needs.",
+    "designUse": "Place festival activities according to space needs and plan connections between them.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "transport"
+    ]
+  },
+  "ulaanbaatar/vertical-script": {
+    "keyIdea": "Ulaanbaatar's traditional vertical writing needs skilled teachers and meaningful use alongside the Cyrillic alphabet common in modern life.",
+    "tradeoff": "Keeping old writing visible is not enough without practice and opportunities to use it.",
+    "designUse": "Give traditional writing regular uses alongside mentoring and long-term practice.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "heritage"
+    ]
+  },
+  "almaty/garden-city-video": {
+    "keyIdea": "Almaty's mountain camps use a climber's example and device-free trips to build children's confidence through outdoor challenges.",
+    "tradeoff": "Children may want easier routes while the camp emphasizes difficult challenges.",
+    "designUse": "Use experienced local guides to build confidence through supported outdoor challenges.",
+    "investigationTags": [
+      "nature",
+      "community",
+      "place"
+    ]
+  },
+  "almaty/apple-origin-video": {
+    "keyIdea": "Wild apples from Almaty's foothills traveled with Silk Road merchants, connecting local trees with food traditions far away.",
+    "tradeoff": "Orchard clearances and doubts about commercial value threaten valued local apple varieties.",
+    "designUse": "Protect local food varieties while exploring their wider trade history.",
+    "investigationTags": [
+      "food culture",
+      "nature",
+      "history"
+    ]
+  },
+  "almaty/metro-video": {
+    "keyIdea": "Almaty's metro stations combine distinct cultural themes with route displays, making everyday travel a place to encounter local stories.",
+    "tradeoff": "Building the system took years of delays before funding allowed work to continue.",
+    "designUse": "Add local stories to stations without losing clear information about the journey.",
+    "investigationTags": [
+      "transport",
+      "architecture",
+      "culture"
+    ]
+  },
+  "almaty/earthquake-ready-city": {
+    "keyIdea": "Almaty's earthquake safety depends on building information, enforced standards, and prepared people before shaking starts in the city.",
+    "tradeoff": "Rules only protect people when owners and builders follow them and repairs are funded.",
+    "designUse": "Check older structures and enforce building standards alongside household preparation.",
+    "investigationTags": [
+      "engineering",
+      "government",
+      "problem solving"
+    ]
+  },
+  "almaty/mountain-water": {
+    "keyIdea": "Almaty's mountain snow and glaciers store water, but shrinking ice changes future supplies and can create flood hazards.",
+    "tradeoff": "Extra meltwater now can hide a smaller reserve for future years.",
+    "designUse": "Track stored mountain water as well as today's river flow.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "science"
+    ]
+  },
+  "almaty/former-capital-culture": {
+    "keyIdea": "Almaty's universities and cultural places kept attracting people after national government moved to another city, supported by lasting local relationships.",
+    "tradeoff": "Moving official functions changes activity even when established local institutions remain strong.",
+    "designUse": "Support lasting cultural and learning networks when administrative roles change.",
+    "investigationTags": [
+      "history",
+      "culture",
+      "community"
+    ],
+    "tradeoffInferred": true
+  },
+  "madrid/city-exploration-video": {
+    "keyIdea": "Madrid's Crystal Palace changed from a greenhouse into a place for art, giving an old park building another use.",
+    "tradeoff": "Art displays change how visitors experience a building originally designed for plants.",
+    "designUse": "Adapt an older park building for art while explaining its first purpose.",
+    "investigationTags": [
+      "architecture",
+      "art",
+      "urban change"
+    ],
+    "tradeoffInferred": true
+  },
+  "madrid/flamenco-video": {
+    "keyIdea": "Flamenco dancers use their bodies as instruments, connecting movement with singing, music, and stories first shared within communities.",
+    "tradeoff": "Performers need musical understanding as well as movement skills to express the songs.",
+    "designUse": "Teach performance through its music and community stories as well as steps.",
+    "investigationTags": [
+      "culture",
+      "art",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "madrid/prado-collections-video": {
+    "keyIdea": "Madrid's Prado collection reflects royal tastes and later additions, rather than a complete planned account of all art history.",
+    "tradeoff": "Some periods and traditions are missing because collectors preferred other works.",
+    "designUse": "Explain collection gaps through past choices, tastes, and opportunities to acquire works.",
+    "investigationTags": [
+      "museums",
+      "art",
+      "history"
+    ]
+  },
+  "madrid/plaza-mayor-public-life": {
+    "keyIdea": "Madrid's Plaza Mayor kept a recognizable enclosed shape while its uses changed from royal displays to everyday meetings and tourism.",
+    "tradeoff": "The current square reflects repair and redesign, not one untouched historical moment.",
+    "designUse": "Keep useful public layouts adaptable as the activities around them change.",
+    "investigationTags": [
+      "public space",
+      "history",
+      "urban change"
+    ]
+  },
+  "madrid/retiro-public-park": {
+    "keyIdea": "Madrid's Retiro combines shade, wildlife, cultural buildings, and recreation in a planted landscape kept useful by continuous work.",
+    "tradeoff": "Trees, paths, water, and large events need care and competing uses must be balanced.",
+    "designUse": "Budget for gardeners and repairs alongside recreation and cultural park activities.",
+    "investigationTags": [
+      "nature",
+      "public space",
+      "urban planning"
+    ]
+  },
+  "madrid/tapas-social-life": {
+    "keyIdea": "Madrid's tapas turn small shared dishes into conversations, with bars serving as meeting places for neighbors and visitors.",
+    "tradeoff": "Tourism can support bars while increasing rents and pressure on neighborhood routines.",
+    "designUse": "Keep shared food venues usable for neighbors as well as visitors.",
+    "investigationTags": [
+      "food culture",
+      "daily life",
+      "economics"
+    ]
+  },
+  "lisbon/city-guide-video": {
+    "keyIdea": "Lisbon's decorated stone pavements put skilled art into ordinary walking routes, while squares offer places to watch shared city life.",
+    "tradeoff": "Covering a city's many places on foot still takes time and effort.",
+    "designUse": "Bring durable local artwork into ordinary walking routes and meeting spaces.",
+    "investigationTags": [
+      "art",
+      "public space",
+      "daily life"
+    ],
+    "tradeoffInferred": true
+  },
+  "lisbon/azulejos-video": {
+    "keyIdea": "Portuguese painted tiles decorate whole building fronts and tell stories through pictures, linking skilled craft with shared visible architecture.",
+    "tradeoff": "Detailed tile pictures can take many hours or even weeks to make.",
+    "designUse": "Allow time for skilled tile work when adding stories to building surfaces.",
+    "investigationTags": [
+      "art",
+      "architecture",
+      "heritage"
+    ],
+    "thin": true
+  },
+  "lisbon/fado-video": {
+    "keyIdea": "Portuguese fado grew around waterfront alleys and taverns, using song to express longing, struggle, love, and everyday feelings.",
+    "tradeoff": "Listeners who do not know Portuguese may feel emotion without understanding every word.",
+    "designUse": "Give music audiences ways to understand the lives and feelings behind songs.",
+    "investigationTags": [
+      "culture",
+      "art",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "lisbon/earthquake-rebuilding": {
+    "keyIdea": "Lisbon's earthquake recovery introduced broad streets, a regular grid, and building methods intended to resist future shaking.",
+    "tradeoff": "Rebuilding changed the city's earlier form and did not remove earthquake risk.",
+    "designUse": "Use disaster recovery to improve street organization and safer building methods.",
+    "investigationTags": [
+      "history",
+      "engineering",
+      "urban planning"
+    ]
+  },
+  "lisbon/tagus-and-empire": {
+    "keyIdea": "Lisbon's Tagus waterfront linked inland routes with ocean trade, bringing exchange and wealth through an unequal imperial system.",
+    "tradeoff": "Maritime wealth was also built through conquest, slavery, and forced labor.",
+    "designUse": "Explain port achievements alongside the people and places harmed by their growth.",
+    "investigationTags": [
+      "water",
+      "history",
+      "ethics"
+    ]
+  },
+  "lisbon/hills-and-neighborhoods": {
+    "keyIdea": "Lisbon's hills give neighborhoods distinct shapes, while stairs, lifts, and transport respond to the effort of moving between levels.",
+    "tradeoff": "Steep routes can exclude people with limited mobility or heavy goods.",
+    "designUse": "Connect hillside neighborhoods with accessible alternatives to steep stairs and streets.",
+    "investigationTags": [
+      "geography",
+      "transport",
+      "housing"
+    ]
+  },
+  "dublin/irish-dance-video": {
+    "keyIdea": "A beginner Irish dance activity uses repeated steps and welcomes mistakes, helping children join a cultural celebration through movement.",
+    "tradeoff": "Following the activity needs an open space where children can move safely.",
+    "designUse": "Make beginner cultural activities welcoming and provide clear space for movement.",
+    "investigationTags": [
+      "culture",
+      "movement"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dublin/book-of-kells-video": {
+    "keyIdea": "Dublin's Book of Kells display and online scans offer different ways to view detailed pages of a protected old book.",
+    "tradeoff": "A physical display shows only a small part of the book at once.",
+    "designUse": "Complement protected book displays with detailed digital views of more pages.",
+    "investigationTags": [
+      "literature",
+      "art",
+      "heritage"
+    ],
+    "tradeoffInferred": true
+  },
+  "dublin/oscar-wilde-video": {
+    "keyIdea": "Dublin's Oscar Wilde archive uses letters, photographs, and personal objects to show both public fame and private experience.",
+    "tradeoff": "A single celebrity image can hide family life, suffering, and exile.",
+    "designUse": "Use personal records to show lives beyond a famous public image.",
+    "investigationTags": [
+      "literature",
+      "museums",
+      "history"
+    ],
+    "tradeoffInferred": true
+  },
+  "dublin/river-liffey": {
+    "keyIdea": "Dublin's port activity moved east, allowing former industrial riverfront land to become homes, offices, cultural places, and public routes.",
+    "tradeoff": "Riverfront redevelopment can raise land values and change nearby communities.",
+    "designUse": "Keep changing industrial riverfronts useful to existing communities as well as new businesses.",
+    "investigationTags": [
+      "water",
+      "urban change",
+      "urban planning"
+    ]
+  },
+  "dublin/irish-language-city": {
+    "keyIdea": "Dublin keeps Irish visible through schools, signs, and services, while everyday use needs welcoming opportunities for people to speak.",
+    "tradeoff": "Signs and formal rules alone cannot make a language natural in daily conversation.",
+    "designUse": "Create welcoming conversation settings alongside official language signs and education.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "community"
+    ]
+  },
+  "dublin/georgian-city": {
+    "keyIdea": "Dublin's Georgian houses keep recognizable street patterns while serving new uses that must meet modern building needs.",
+    "tradeoff": "Heritage protection can conflict with energy efficiency, access, safety, and maintenance costs.",
+    "designUse": "Update historic interiors for useful access and safety while retaining valued street features.",
+    "investigationTags": [
+      "architecture",
+      "heritage",
+      "urban change"
+    ]
+  },
+  "dakar/ladoum-sheep-video": {
+    "keyIdea": "Senegalese Ladoum sheep breeders compare size, shape, and other features in contests that help show the animals' high value.",
+    "tradeoff": "Valuable breeding animals need investment and secure places to keep them.",
+    "designUse": "Keep breeding criteria clear and invest in safe animal facilities.",
+    "investigationTags": [
+      "nature",
+      "economics"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dakar/biennale-video": {
+    "keyIdea": "Dakar's biennale brings artists together across galleries, studios, private spaces, and streets, widening where contemporary art can be encountered.",
+    "tradeoff": "A shared festival still depends on choices about which artists receive support.",
+    "designUse": "Spread art events across public and private spaces with clear artist support.",
+    "investigationTags": [
+      "art",
+      "culture",
+      "public space"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dakar/goree-electricity-video": {
+    "keyIdea": "An underwater cable connects Goree to Dakar's main electricity grid, replacing reliance on dirty and noisy diesel generators.",
+    "tradeoff": "A cable connection still depends on the mainland electricity supply it reaches.",
+    "designUse": "Compare an island grid link with local generation and maintenance needs.",
+    "investigationTags": [
+      "engineering",
+      "environment"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "dakar/fishing-city": {
+    "keyIdea": "Dakar's fishing links boats, processing, markets, and meals, so changes in catches affect work and food across the city.",
+    "tradeoff": "Industrial fleets, costs, and environmental change put small-scale fishers' livelihoods under pressure.",
+    "designUse": "Combine catch protection with the practical knowledge and needs of small fishers.",
+    "investigationTags": [
+      "nature",
+      "economics",
+      "food culture"
+    ]
+  },
+  "dakar/wolof-language": {
+    "keyIdea": "Dakar's speakers move between Wolof, French, and other languages, adapting communication to people, institutions, and everyday purposes.",
+    "tradeoff": "An institution's language can make participation harder for people more comfortable in another.",
+    "designUse": "Offer public communication in languages people actually use beyond formal institutions.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "migration"
+    ]
+  },
+  "dakar/teranga-hospitality": {
+    "keyIdea": "Dakar's teranga makes welcome a shared responsibility, using greetings, food, and care, with guests also expected to show respect.",
+    "tradeoff": "Hospitality requires resources and effort, and tourism branding can simplify its meaning.",
+    "designUse": "Build guest experiences around reciprocal respect and realistic community resources.",
+    "investigationTags": [
+      "culture",
+      "daily life",
+      "community"
+    ]
+  },
+  "recife/brazil-for-kids-video": {
+    "keyIdea": "Brazil's landscapes and traditions vary across wetlands, forests, coastal cities, and historic neighborhoods, rather than forming one uniform visitor experience.",
+    "tradeoff": "A brief national tour cannot explain Recife's own daily life or city systems.",
+    "designUse": "Introduce regional differences before choosing which local experiences to explore.",
+    "investigationTags": [
+      "geography",
+      "culture"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "recife/frevo-video": {
+    "keyIdea": "Recife's port migrants mixed African-influenced rhythms with local musicians, helping create frevo traditions still carried through community Carnival groups.",
+    "tradeoff": "Keeping the tradition active depends on younger people joining its practices.",
+    "designUse": "Bring generations together to practice local rhythms and develop new street performances.",
+    "investigationTags": [
+      "migration",
+      "culture",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "recife/silent-drums-video": {
+    "keyIdea": "Olinda's maracatu procession preserves Afro-Brazilian religious traditions that survived through cultural forms when those religions were outlawed.",
+    "tradeoff": "Treating it only as a Catholic celebration hides its African origins and resistance.",
+    "designUse": "Explain living celebrations through the communities and beliefs that sustained them.",
+    "investigationTags": [
+      "religion",
+      "culture",
+      "history"
+    ],
+    "thin": true
+  },
+  "recife/water-city": {
+    "keyIdea": "Recife's rivers shape districts joined by bridges, while mangroves give wildlife homes and help hold soil in place.",
+    "tradeoff": "Development and polluted runoff damage mangroves and increase pressure on vulnerable waterfronts.",
+    "designUse": "Protect mangrove edges while connecting riverside districts with clean, accessible routes.",
+    "investigationTags": [
+      "water",
+      "nature",
+      "environment"
+    ]
+  },
+  "recife/sugar-and-slavery": {
+    "keyIdea": "Recife's sugar port generated wealth through enslaved labor, while African knowledge and resistance shaped lasting regional culture.",
+    "tradeoff": "Historic buildings can hide the workers and violence behind their visible wealth.",
+    "designUse": "Pair historic trade buildings with evidence of labor, resistance, and unequal power.",
+    "investigationTags": [
+      "history",
+      "ethics",
+      "identity"
+    ]
+  },
+  "recife/creative-city": {
+    "keyIdea": "Recife's creative scene mixes regional rhythms and histories with new media, relying on affordable venues, studios, and shared working spaces.",
+    "tradeoff": "Recognition can increase costs and push artists from the places they helped make attractive.",
+    "designUse": "Keep creative production spaces affordable as a cultural district gains attention.",
+    "investigationTags": [
+      "culture",
+      "economics",
+      "community"
+    ]
+  },
+  "panama-city/mola-art-video": {
+    "keyIdea": "Panamanian molas use layers of cloth and careful cutting to turn animal shapes and patterns into detailed cultural art.",
+    "tradeoff": "A paper version cannot show all the stitching skills involved in cloth pieces.",
+    "designUse": "Explain the craft behind a simple art activity rather than only copying shapes.",
+    "investigationTags": [
+      "art",
+      "culture"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "panama-city/canal-for-kids-video": {
+    "keyIdea": "The Panama Canal uses locks to raise and lower ships, giving trade a shorter route between two oceans.",
+    "tradeoff": "Construction involved disease, technical problems, heavy spending, and many lost lives.",
+    "designUse": "Count worker safety and construction difficulties when comparing major route shortcuts.",
+    "investigationTags": [
+      "engineering",
+      "transport",
+      "economics"
+    ]
+  },
+  "panama-city/amphibian-conservation-video": {
+    "keyIdea": "Panama's amphibian conservation center protects threatened frogs when a skin fungus makes survival in the wild difficult.",
+    "tradeoff": "Some species survive only in protected collections rather than their original habitats.",
+    "designUse": "Support threatened species while explaining why protected collections cannot replace healthy habitats.",
+    "investigationTags": [
+      "science",
+      "environment",
+      "nature"
+    ],
+    "thin": true
+  },
+  "panama-city/casco-viejo": {
+    "keyIdea": "Panama City's restored Casco Viejo attracts visitors and investment, but its heritage also depends on people continuing to live there.",
+    "tradeoff": "Rising property values can remove local residents and the relationships that keep a district alive.",
+    "designUse": "Measure heritage success through continued community life as well as restored buildings.",
+    "investigationTags": [
+      "heritage",
+      "housing",
+      "community"
+    ]
+  },
+  "panama-city/afro-panamanian-culture": {
+    "keyIdea": "Panama City's Afro-Panamanian communities built support networks and institutions while contributing labor and culture to a global trading center.",
+    "tradeoff": "Canal workers faced unequal pay, housing, rights, and treatment across racial and national groups.",
+    "designUse": "Recognize workers' institutions and rights within stories of major engineering projects.",
+    "investigationTags": [
+      "migration",
+      "history",
+      "ethics"
+    ]
+  },
+  "panama-city/canal-and-water": {
+    "keyIdea": "Panama's canal locks depend on watershed fresh water that is also needed by communities, ecosystems, and businesses.",
+    "tradeoff": "Drought can force limits on ship depth or daily traffic to protect supply.",
+    "designUse": "Balance shipping capacity with watershed health and local drinking-water needs.",
+    "investigationTags": [
+      "water",
+      "environment",
+      "economics"
+    ]
+  },
+  "santiago/chile-for-kids-video": {
+    "keyIdea": "Santiago sits in a mountain valley within a country stretching from desert landscapes to southern glaciers.",
+    "tradeoff": "A country overview says little about how this valley city manages daily needs.",
+    "designUse": "Use a city's surrounding landscape to frame more detailed local questions.",
+    "investigationTags": [
+      "geography",
+      "place"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "santiago/marraqueta-video": {
+    "keyIdea": "Chile's marraqueta rolls use joined dough pieces and a crisp crust, creating bread that pulls apart easily for sharing.",
+    "tradeoff": "The shape and crust need several resting stages and careful baking preparation.",
+    "designUse": "Shape shared foods around serving routines while planning the preparation time.",
+    "investigationTags": [
+      "food culture",
+      "daily life"
+    ],
+    "thin": true
+  },
+  "santiago/moai-video": {
+    "keyIdea": "Rapa Nui's restored stone moai preserve evidence of a distinct island culture and the major work of creating monuments.",
+    "tradeoff": "The island remains difficult to reach, even with modern flight connections.",
+    "designUse": "Balance access to remote heritage with explanations of its local cultural setting.",
+    "investigationTags": [
+      "archaeology",
+      "heritage",
+      "place"
+    ],
+    "thin": true
+  },
+  "santiago/mountain-water": {
+    "keyIdea": "Santiago's mountain snow and ice store water, connecting high-altitude conditions with supply and demand in the growing capital.",
+    "tradeoff": "Drought and changing snow patterns affect both water amounts and when supplies arrive.",
+    "designUse": "Plan water priorities for dry years and changes in seasonal supply.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "government"
+    ]
+  },
+  "santiago/markets-and-produce": {
+    "keyIdea": "Santiago's markets combine regional food networks with new residents' dishes, making migration visible in ingredients and everyday trade.",
+    "tradeoff": "Prices, changing demand, and supply interruptions can put workers' livelihoods under pressure.",
+    "designUse": "Include new food traditions while strengthening the workers who supply local markets.",
+    "investigationTags": [
+      "food culture",
+      "migration",
+      "economics"
+    ]
+  },
+  "santiago/memory-and-democracy": {
+    "keyIdea": "Santiago's memory institutions preserve testimony and records of state violence, supporting public debate about rights and responsibility today.",
+    "tradeoff": "Different experiences can create disagreement about how suffering should be represented.",
+    "designUse": "Support public debate with reliable records and voices previously kept silent.",
+    "investigationTags": [
+      "history",
+      "ethics",
+      "museums"
+    ]
+  },
+  "addis-ababa/ethiopia-culture-video": {
+    "keyIdea": "Ethiopian shared meals use one plate and gestures of feeding others to express closeness, respect, and family relationships.",
+    "tradeoff": "A broad cultural introduction cannot show the different practices of every Ethiopian community.",
+    "designUse": "Explain shared meal customs while leaving room for different family practices.",
+    "investigationTags": [
+      "food culture",
+      "culture",
+      "community"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "addis-ababa/coffee-traditions-video": {
+    "keyIdea": "An Ethiopian cafe in New York uses coffee ceremony and photographs to connect migrants with memories and shared cultural space.",
+    "tradeoff": "Nostalgia can connect people without recreating all the experiences of home.",
+    "designUse": "Pair familiar gathering rituals with images that connect past and present lives.",
+    "investigationTags": [
+      "migration",
+      "culture",
+      "daily life"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "addis-ababa/lucy-fossil-video": {
+    "keyIdea": "Lucy's leg bones from Ethiopia show features of upright walking, letting researchers study movement in very early human ancestors.",
+    "tradeoff": "Bones reveal walking features but cannot recover every detail of a living animal.",
+    "designUse": "Explain scientific conclusions through visible evidence while identifying what remains uncertain.",
+    "investigationTags": [
+      "science",
+      "history"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "addis-ababa/african-union": {
+    "keyIdea": "Addis Ababa's African Union headquarters creates repeated contact between countries, making cooperation depend on institutions and continuing relationships.",
+    "tradeoff": "Meetings alone cannot solve problems across countries with different priorities.",
+    "designUse": "Keep diplomatic meetings connected to ongoing work and people beyond official rooms.",
+    "investigationTags": [
+      "government",
+      "community",
+      "economics"
+    ]
+  },
+  "addis-ababa/highland-city": {
+    "keyIdea": "Addis Ababa's highland growth needs roads and services that fit surrounding hills, heavy seasonal rain, and green areas.",
+    "tradeoff": "Building at the urban edge can damage forests, waterways, and existing communities.",
+    "designUse": "Plan hillside growth with drainage, green areas, and services for nearby residents.",
+    "investigationTags": [
+      "geography",
+      "urban planning",
+      "environment"
+    ]
+  },
+  "addis-ababa/scripts-and-languages": {
+    "keyIdea": "Addis Ababa's languages and Ge'ez writing link current services with different communities, older texts, and cultural knowledge.",
+    "tradeoff": "An official language can offer opportunity while home languages struggle for continued use.",
+    "designUse": "Support home languages through publishing, teaching, and tools used in modern communication.",
+    "investigationTags": [
+      "language",
+      "identity",
+      "migration"
+    ]
+  },
+  "delhi/indian-food-video": {
+    "keyIdea": "Delhi's butter chicken combines leftover chicken with a tomato-and-butter sauce, showing how small kitchen changes can create familiar dishes.",
+    "tradeoff": "One local dish cannot represent all the different food traditions across India.",
+    "designUse": "Record useful kitchen adaptations alongside the different regional traditions they join.",
+    "investigationTags": [
+      "food culture",
+      "identity"
+    ],
+    "tradeoffInferred": true
+  },
+  "delhi/red-fort-video": {
+    "keyIdea": "Delhi's Red Fort used different audience halls for ordinary people's complaints and royal guests, organizing political access through building space.",
+    "tradeoff": "Separate halls gave groups different kinds of access to the ruler.",
+    "designUse": "Make places for public concerns clear within important civic buildings.",
+    "investigationTags": [
+      "architecture",
+      "history",
+      "government"
+    ],
+    "tradeoffInferred": true
+  },
+  "delhi/qutub-minar-video": {
+    "keyIdea": "Delhi's Qutub Minar contains inscriptions and designs that suggest several historical influences rather than one simple origin story.",
+    "tradeoff": "Lost records and changing accounts make a complete, certain explanation difficult.",
+    "designUse": "Show competing historical explanations with their clues and remaining uncertainties.",
+    "investigationTags": [
+      "heritage",
+      "history",
+      "architecture"
+    ]
+  },
+  "delhi/many-capitals": {
+    "keyIdea": "Delhi's successive rulers built new centers of power, leaving layers of walls, routes, and buildings later communities reused.",
+    "tradeoff": "Inherited spaces may still carry unequal access and meanings from earlier political systems.",
+    "designUse": "Interpret reused political spaces through both earlier power and current community uses.",
+    "investigationTags": [
+      "history",
+      "urban change",
+      "architecture"
+    ],
+    "tradeoffInferred": true
+  },
+  "delhi/stepwells-and-water": {
+    "keyIdea": "Delhi's stepwells let people descend farther as water levels fell, making seasonal supply visible through stairs and shared spaces.",
+    "tradeoff": "Restoring a stepwell does not automatically solve wider problems of water security.",
+    "designUse": "Make changing water availability visible while planning a dependable wider supply.",
+    "investigationTags": [
+      "water",
+      "engineering",
+      "heritage"
+    ]
+  },
+  "delhi/market-languages": {
+    "keyIdea": "Delhi's market sellers combine languages, gestures, and negotiation to build trust and keep trade moving among different customers.",
+    "tradeoff": "Deliveries, street access, power, and waste services still determine whether businesses can operate.",
+    "designUse": "Support informal market communication with reliable services for everyday trading.",
+    "investigationTags": [
+      "language",
+      "functional english",
+      "economics"
+    ]
+  },
+  "manila/philippines-for-kids-video": {
+    "keyIdea": "Philippine community festivals bring music, dancing, and shared gatherings into public celebrations that carry different traditions.",
+    "tradeoff": "A national introduction cannot explain the particular routines and systems of Manila.",
+    "designUse": "Choose a local celebration to explore beyond a broad national introduction.",
+    "investigationTags": [
+      "culture",
+      "community"
+    ],
+    "tradeoffInferred": true,
+    "thin": true
+  },
+  "manila/filipino-identity-video": {
+    "keyIdea": "Bayanihan connects Filipino community identity with mutual help, using a shared boat journey as an image of cooperation.",
+    "tradeoff": "A shared ideal does not erase differences in language, background, or experience.",
+    "designUse": "Encourage mutual help without assuming every community member has the same background.",
+    "investigationTags": [
+      "community",
+      "identity",
+      "migration"
+    ],
+    "tradeoffInferred": true
+  },
+  "manila/philippines-history-video": {
+    "keyIdea": "Manila's public independence ceremony marked a new state, but earlier struggles show that changing rulers did not always bring freedom.",
+    "tradeoff": "Independence hopes were interrupted when control passed between foreign powers.",
+    "designUse": "Judge political change through people's rights as well as ceremonies and titles.",
+    "investigationTags": [
+      "history",
+      "government",
+      "ethics"
+    ]
+  },
+  "manila/intramuros": {
+    "keyIdea": "Manila's Intramuros combines surviving walls with selected rebuilding, making its heritage an interpretation rather than a complete copy of the past.",
+    "tradeoff": "Colonial walls divided access, while later destruction left only parts available to reconstruct.",
+    "designUse": "Distinguish surviving evidence from reconstructed features when explaining a historic district.",
+    "investigationTags": [
+      "heritage",
+      "history",
+      "ethics"
+    ]
+  },
+  "manila/bay-and-flooding": {
+    "keyIdea": "Manila's flood risk comes from coastal weather and choices about drainage, wetlands, waste, housing, and building patterns.",
+    "tradeoff": "Protecting valuable land can shift flooding or disruption toward less-resourced communities.",
+    "designUse": "Check who receives flood protection and where risks move after construction.",
+    "investigationTags": [
+      "water",
+      "climate",
+      "urban planning"
+    ]
+  },
+  "manila/jeepney-culture": {
+    "keyIdea": "Manila's jeepneys turn adapted vehicles into affordable transport and cultural expression, supporting drivers, mechanics, painters, and local businesses.",
+    "tradeoff": "Cleaner replacement vehicles can be too expensive for small operators to afford.",
+    "designUse": "Improve vehicle safety and emissions without losing affordable rides or operators' livelihoods.",
+    "investigationTags": [
+      "transport",
+      "culture",
+      "economics"
+    ]
+  },
+  "ho-chi-minh-city/tet-for-kids-video": {
+    "keyIdea": "Vietnamese Tet gives different days to family, friends, and teachers, connecting New Year celebrations with relationships and remembering ancestors.",
+    "tradeoff": "Preparing homes, shrines, and food takes time before the celebration begins.",
+    "designUse": "Set aside different celebration moments for family, friendships, and learning relationships.",
+    "investigationTags": [
+      "culture",
+      "identity",
+      "daily life"
+    ]
+  },
+  "ho-chi-minh-city/vietnam-culture-video": {
+    "keyIdea": "Ho Chi Minh City's nightlife becomes livelier when cooler evening conditions make being outdoors more pleasant than during the day.",
+    "tradeoff": "Comfortable evenings do not remove the heat of daytime trips.",
+    "designUse": "Time outdoor gatherings for cooler hours while considering daytime comfort too.",
+    "investigationTags": [
+      "climate",
+      "daily life",
+      "urban culture"
+    ],
+    "tradeoffInferred": true
+  },
+  "ho-chi-minh-city/vietnam-history-video": {
+    "keyIdea": "Vietnam's economic reforms changed how businesses operated and helped trade grow after periods of war and central control.",
+    "tradeoff": "Economic growth alone does not settle continuing concerns about people's rights.",
+    "designUse": "Evaluate economic reforms through both livelihoods and people's basic rights.",
+    "investigationTags": [
+      "history",
+      "economics",
+      "government"
+    ],
+    "thin": true
+  },
+  "ho-chi-minh-city/river-city": {
+    "keyIdea": "Ho Chi Minh City's rivers and canals support movement and trade, while their condition also shapes drainage and flood safety.",
+    "tradeoff": "Waterfront redevelopment can displace established communities or reduce their access.",
+    "designUse": "Coordinate waterway repair with development plans and existing waterfront communities.",
+    "investigationTags": [
+      "water",
+      "transport",
+      "urban planning"
+    ]
+  },
+  "ho-chi-minh-city/coffee-culture": {
+    "keyIdea": "Ho Chi Minh City's coffee stalls and cafes link farm workers with places where people meet, work, and rest.",
+    "tradeoff": "Price and quality choices affect workers throughout the long supply chain.",
+    "designUse": "Track coffee's supply workers when planning attractive places to drink and gather.",
+    "investigationTags": [
+      "food culture",
+      "economics",
+      "daily life"
+    ]
+  },
+  "ho-chi-minh-city/changing-architecture": {
+    "keyIdea": "Ho Chi Minh City's older buildings use shade, airflow, and courtyards to respond to heat and rain in everyday life.",
+    "tradeoff": "Demolition can remove affordable homes and useful climate knowledge alongside old buildings.",
+    "designUse": "Keep useful shade and airflow features when replacing older city buildings.",
+    "investigationTags": [
+      "architecture",
+      "climate",
+      "housing"
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 import decks from '@/data/topic-game-decks.json';
-import type { TabooRound } from '@/activities/types';
+import type { ImposterRound, TabooRound } from '@/activities/types';
 import { findTopicBriefing } from '@/lib/topic-briefings';
 
 /**
@@ -14,6 +14,7 @@ interface Deck {
   taboo: Array<{ word: string; forbidden: string[]; level: string; description?: string }>;
   hotSeat: Array<{ word: string; level: string; description?: string }>;
   twentyQuestions: Array<{ secret: string; kind: string; level: string }>;
+  imposter?: Array<{ word: string; level: string; description?: string; hint?: string; crewQuestion?: string; imposterQuestion?: string }>;
 }
 
 const DECKS = new Map((decks as unknown as Deck[]).map((deck) => [deck.topicId, deck]));
@@ -45,6 +46,28 @@ export function deckHotSeatCards(topic: string, difficulty?: string, count = 8):
   const deck = deckFor(topic);
   if (!deck?.hotSeat.length) return null;
   return pick(deck.hotSeat, difficulty, count).map((card) => ({ word: card.word, description: card.description ?? '', forbiddenWords: [] }));
+}
+
+/** Imposter rounds for a banked topic. Used as the stand-in when the AI cannot write them (never classroom filler). */
+export function deckImposterRounds(topic: string, difficulty?: string, count = 3): ImposterRound[] | null {
+  const deck = deckFor(topic);
+  const usable = (deck?.imposter ?? []).filter((card) => card.description && card.hint && card.crewQuestion && card.imposterQuestion);
+  if (!usable.length) return null;
+  return pick(usable, difficulty, count).map((card) => ({ word: card.word, description: card.description!, hint: card.hint!, crewQuestion: card.crewQuestion!, imposterQuestion: card.imposterQuestion! }));
+}
+
+/** A word-and-meaning quiz for a banked topic ("Which word means…?"), built from its Taboo and Hot Seat cards. */
+export function deckMeaningQuiz(topic: string, difficulty?: string, count = 5): Array<{ question: string; options: string[]; correctIndex: number; explanation: string }> | null {
+  const deck = deckFor(topic);
+  const cards = [...(deck?.taboo ?? []), ...(deck?.hotSeat ?? [])].filter((card) => card.description);
+  if (cards.length < 4) return null;
+  return pick(cards, difficulty, count).map((card) => {
+    const others = cards.filter((other) => other.word !== card.word).map((other) => ({ other, key: Math.random() })).sort((a, b) => a.key - b.key).slice(0, 3).map((entry) => entry.other.word);
+    const correctIndex = Math.floor(Math.random() * 4);
+    const options = [...others];
+    options.splice(correctIndex, 0, card.word);
+    return { question: `Which word means: ${card.description}?`, options, correctIndex, explanation: `"${card.word}" means ${card.description}.` };
+  });
 }
 
 const KIND_CATEGORY: Record<string, 'person' | 'place' | 'thing' | 'concept'> = { job: 'person', place: 'place', activity: 'concept' };

@@ -18,3 +18,15 @@ describe('practice design mission', () => {
     expect(buildPracticeDesignMission('nope')).toBeNull();
   });
 });
+
+describe('city lesson notes', () => {
+  it('give every practice mission real findings from its three cities', () => {
+    for (const investigation of WORLD_FLIGHT_INVESTIGATIONS) {
+      const mission = buildPracticeDesignMission(investigation.id)!;
+      mission.evidence.forEach((e) => {
+        expect(e.keyIdea, `${investigation.id} ${e.city}`).toBeTruthy();
+        expect(e.designUse, `${investigation.id} ${e.city}`).toBeTruthy();
+      });
+    }
+  });
+});
