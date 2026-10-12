@@ -47,6 +47,49 @@ export interface DistantCity { id: string; ahead: number; lateral: number; size:
 /** World units per kilometre for cities: 150 km ahead sits at the far edge of the view, and the cruise height is about 8 km. */
 const CITY_UNITS_PER_KM = 400;
 
+/** Sun (or moon) glitter on the sea: where the light is on the screen (0 to 1 across), how strong, and its colour. */
+export interface SeaGlint { x: number; strength: number; color: RGB }
+
+// A fixed scatter for the glitter: each spark has a place across the path, a depth, a size and its own flicker.
+const SPARKS = (() => {
+  let r = 20260412;
+  const rnd = () => { r = (Math.imul(r, 1664525) + 1013904223) >>> 0; return r / 4294967296; };
+  return Array.from({ length: 240 }, () => ({ u: Math.pow(rnd(), 1.5), dx: rnd() * 2 - 1, sz: 0.6 + rnd() * 0.9, ph: rnd() * 6.28, sp: 1.5 + rnd() * 3.5 }));
+})();
+
+function drawSeaGlint(ctx: CanvasRenderingContext2D, gl: SeaGlint, k: number, seconds: number, w: number, h: number, horizonY: number) {
+  const depth = h - horizonY;
+  const half0 = w * 0.012, half1 = w * 0.17;
+  const [r, g, b] = gl.color;
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  // The soft sheen along the path, narrow at the horizon and spreading toward the viewer. Built from a few nested layers
+  // so its edges fade out instead of ending in a hard line.
+  const sheen = ctx.createLinearGradient(0, horizonY, 0, h);
+  sheen.addColorStop(0, `rgba(${r},${g},${b},${gl.strength * k})`);
+  sheen.addColorStop(1, `rgba(${r},${g},${b},${0.2 * gl.strength * k})`);
+  ctx.fillStyle = sheen;
+  for (let i = 0; i < 6; i++) {
+    const f = 1 - i * 0.16;
+    ctx.globalAlpha = 0.07;
+    ctx.beginPath();
+    ctx.moveTo(gl.x * w - half0 * f, horizonY); ctx.lineTo(gl.x * w + half0 * f, horizonY);
+    ctx.lineTo(gl.x * w + half1 * f, h); ctx.lineTo(gl.x * w - half1 * f, h);
+    ctx.closePath(); ctx.fill();
+  }
+  // The sparkle of light on the wave faces.
+  for (const s of SPARKS) {
+    const d = Math.pow(s.u, 1.7);
+    const half = half0 + (half1 - half0) * d;
+    const twinkle = Math.pow(0.5 + 0.5 * Math.sin(seconds * s.sp + s.ph), 3);
+    const size = 1 + d * 3.2 * s.sz;
+    ctx.globalAlpha = Math.min(1, twinkle * gl.strength * k * (0.55 + 0.45 * (1 - d * 0.4)));
+    ctx.fillStyle = `rgb(${Math.round((255 + r) / 2)},${Math.round((250 + g) / 2)},${Math.round((240 + b) / 2)})`;
+    ctx.fillRect(gl.x * w + s.dx * half, horizonY + d * depth, size * 1.7, size * 0.7);
+  }
+  ctx.restore();
+}
+
 const CAM_HEIGHT = 3200;     // cruise: well above the highest peaks, looking down on them
 const HORIZON = 0.58;        // horizon line, fraction of the canvas height
 const Z_FAR = 60000;
@@ -117,11 +160,11 @@ function cityDots(id: string) {
   });
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[] }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, glint }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, paused });
-  live.current = { speed, paused };
+  const live = useRef({ speed, paused, glint });
+  live.current = { speed, paused, glint };
   const cam = useRef(0);
   // Cities seen in the distance, fixed on the ground once they come into range, so they scroll with it.
   const cityWorld = useRef(new Map<string, { z: number; x: number; r: number; dots: ReturnType<typeof cityDots> }>());
@@ -162,7 +205,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       terrain,
       region: reg,
       rip: null,
-      macroAlpha: terrain === 'ocean' ? 0.22 : terrain === 'ice' ? 0.18 : 0.4,
+      macroAlpha: terrain === 'ocean' ? 0.1 : terrain === 'ice' ? 0.18 : 0.4,
       startZ: newest ? cam.current + Z_FAR : -Infinity,
       peaks: [],
       ...style,
@@ -254,6 +297,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     let raf = 0;
     let last = performance.now();
     let drawnSpeed = live.current.speed;
+    // How much haze lies over the ground and how much sea glitter shows: both ease as the plane crosses a coast.
+    let hazeScale = 1;
+    let glintK = 0;
 
     const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number, withMacro = true) => {
       const rip = layer.rip;
@@ -331,7 +377,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           }
         }
         // Aerial perspective, in one pass. At night the air is dark: lights shine through further.
-        const key = `${haze.join(',')}|${dark}|${h}|${w}`;
+        let under = L.length - 1;
+        while (under > 0 && L[under].startZ > camZ) under--;
+        const overSea = L[under].terrain === 'ocean';
+        hazeScale += ((overSea ? 0.5 : 1) - hazeScale) * Math.min(1, dt * 0.9);
+        glintK += ((overSea ? 1 : 0) - glintK) * Math.min(1, dt * 0.9);
+        const key = `${haze.join(',')}|${dark}|${h}|${w}|${hazeScale.toFixed(2)}`;
         if (key !== hazeKey || !hazeFill) {
           hazeKey = key;
           hazeFill = ctx.createLinearGradient(0, horizonY, 0, h);
@@ -341,11 +392,13 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             const t = Math.pow(k / STOPS, 2.2);
             const zAt = (CAM_HEIGHT * F) / Math.max(0.5, t * (h - horizonY));
             const fog = Math.min(1, zAt / Z_FAR);
-            hazeFill.addColorStop(t, `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 1.1 : 0.55) * (dark ? 0.5 : 0.92)})`);
+            hazeFill.addColorStop(t, `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 1.1 : 0.55) * (dark ? 0.5 : 0.92) * hazeScale})`);
           }
         }
         ctx.fillStyle = hazeFill;
         ctx.fillRect(0, y0, w, h - y0);
+        const gl = live.current.glint;
+        if (gl && glintK > 0.02) drawSeaGlint(ctx, gl, glintK, now / 1000, w, h, horizonY);
       }
 
       // ── Cities in the distance: lights by night, a smudge of haze by day. Seen through the air, so they fade with

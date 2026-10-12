@@ -12,10 +12,10 @@ import type { MoonPosition, SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
-import { CockpitSky, cockpitCloudTint, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitSky, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { CockpitWorld, type DistantCity } from '@/components/live-room/flight/cockpit-world';
+import { CockpitWorld, type DistantCity, type SeaGlint } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
 
 /**
@@ -157,6 +157,17 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const deck = deckRgb.map((c) => Math.round(c)).join(',');
   const cloudsTint = deckStrength > 0.01 ? mixRgb(cloudTint, deckRgb as [number, number, number], Math.min(1, deckStrength)) : cloudTint;
   const spot = sun ? lightSpot(sun, sun.heading, palette.light === 'moon', moon) : undefined;
+  // The sun's (or the moon's) glitter path on the sea, under the light where it is in the window. Strongest with the
+  // sun low; a pale path from a bright moon.
+  const seaGlint = useMemo<SeaGlint | undefined>(() => {
+    if (!sun || !spot || !spot.visible) return undefined;
+    const isMoon = palette.light === 'moon';
+    const el = isMoon ? moon?.elevation ?? 0 : sun.elevation;
+    if (el < 0.5) return undefined;
+    const lightRgb = hexToRgb(palette.lightColor.startsWith('#') ? palette.lightColor : '#fff2c8');
+    return { x: parseFloat(spot.x) / 100, strength: isMoon ? 0.4 * (moon?.illumination ?? 0.5) : Math.max(0.4, Math.min(1, 1.1 - el / 60)), color: lightRgb };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spot?.x, spot?.visible, sun?.elevation, moon?.elevation, moon?.illumination, palette.light, palette.lightColor]);
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
   const whiteout = phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
@@ -184,7 +195,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
         ) : (
           <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
             <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
-            <CockpitWorld terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} />
+            <CockpitWorld terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} glint={seaGlint} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}

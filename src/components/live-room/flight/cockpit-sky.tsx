@@ -49,7 +49,7 @@ export function cockpitCloudTint(palette: ScenePalette, timeOfDay: TimeOfDay): R
   return mixRgb([255, 244, 236], glow, 0.35);
 }
 
-const LIGHT_POS: Record<TimeOfDay, { x: string; y: string; size: number }> = {
+export const LIGHT_POS: Record<TimeOfDay, { x: string; y: string; size: number }> = {
   dawn: { x: '22%', y: '62%', size: 90 },
   day: { x: '30%', y: '18%', size: 70 },
   dusk: { x: '76%', y: '60%', size: 110 },

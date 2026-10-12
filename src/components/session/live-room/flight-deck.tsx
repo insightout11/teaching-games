@@ -26,7 +26,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
-import { bearingDeg, moonPosition, offsetClock, solarClock, sunPosition } from '@/lib/live-room/sun';
+import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
@@ -536,6 +536,11 @@ export function FlightDeck({
   }, [origin, destination, routeT, below.point]);
   // Big cities within 150 km, nearest first: the line of text names the nearest, and the windscreen draws their lights.
   const around = useMemo(() => citiesAround(below.point, heading, 150), [below.point, heading]);
+  // Flying west about as fast as the sun appears to move: the sun hangs still while the ground passes into evening.
+  const chasing = useMemo(
+    () => flightStage === 'flying' && !holding && sunChase(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 120_000 / flightMs)), new Date(now), 120_000),
+    [flightStage, holding, below.point, origin, destination, routeT, flightMs, now],
+  );
   const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
   const place = useMemo(() => {
     const nearest = around[0];
@@ -547,10 +552,10 @@ export function FlightDeck({
         : `${nearest.name}, ${nearest.km} km ${sideOf(nearest) === 'ahead' ? 'ahead' : `on your ${sideOf(nearest)}`}`
       : null;
     // Parts of "Below us: …", most specific first; the country is added after them (or replaced by a border crossing).
-    const parts = [named ? featureText(named) : region, cityText].filter((p): p is string => !!p);
+    const parts = [chasing ? 'chasing the sun' : null, named ? featureText(named) : region, cityText].filter((p): p is string => !!p);
     const overCity = nearest && nearest.km < 30 ? nearest.name : null;
     return { parts, country: countryNow, fallback: below.name, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
-  }, [around, countryNow, below]);
+  }, [around, countryNow, below, chasing]);
   // Crossing a border shows in the same line for a little while: no pop-up, no interruption.
   const lastCountry = useRef<string | null>(null);
   const [crossing, setCrossing] = useState<{ name: string; until: number } | null>(null);
