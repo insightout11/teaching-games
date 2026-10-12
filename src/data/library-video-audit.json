@@ -1705,43 +1705,43 @@
   },
   "listening-library.json/listening-r7-english-file-introductions": {
     "status": "ok",
-    "note": "Birthplace, family, work and pets match basic introductions."
+    "note": "Round 36 metadata corrected from cached English evidence. Birthplace, family, work and pets match basic introductions. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-english-file-likes-dislikes-1": {
     "status": "ok",
-    "note": "Barcelona, cooking and repeated film viewing match likes."
+    "note": "Round 36 metadata corrected from cached English evidence. Barcelona, cooking and repeated film viewing match likes. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-english-file-likes-dislikes-2": {
     "status": "ok",
-    "note": "May, music and fantasy reading match preferences."
+    "note": "Round 36 metadata corrected from cached English evidence. May, music and fantasy reading match preferences. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-english-file-names": {
     "status": "ok",
-    "note": "Irish heritage and naming after Edward match name origins; spellings are auto-caption variants."
+    "note": "Round 36 metadata corrected from cached English evidence. Irish heritage and naming after Edward match name origins; spellings are auto-caption variants. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-english-file-how-often": {
     "status": "ok",
-    "note": "Haircuts, eating out, phone replacement and recurring dreams match how-often questions."
+    "note": "Round 36 metadata corrected from cached English evidence. Haircuts, eating out, phone replacement and recurring dreams match how-often questions. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-english-file-tv-movies": {
     "status": "ok",
-    "note": "TV time, Dirty Dancing and film endings match viewing preferences."
+    "note": "Round 36 metadata corrected from cached English evidence. TV time, Dirty Dancing and film endings match viewing preferences. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-american-english-file-esl-at-a-caf": {
     "status": "ok",
-    "note": "Rob and Jenny meet and order espresso/latte at a London café as claimed."
+    "note": "Round 36 metadata corrected from cached English evidence. Rob and Jenny meet and order espresso/latte at a London café as claimed. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-american-english-file-esl-spilled-coffee": {
     "status": "ok",
-    "note": "Jenny apologises and suggests buying Rob a replacement shirt, matching the spill incident."
+    "note": "Round 36 metadata corrected from cached English evidence. Jenny apologises and suggests buying Rob a replacement shirt, matching the spill incident. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-american-english-file-esl-a-new-shirt": {
     "status": "ok",
-    "note": "Size, price, changing rooms and Jenny’s criticism match choosing a new shirt."
+    "note": "Round 36 metadata corrected from cached English evidence. Size, price, changing rooms and Jenny’s criticism match choosing a new shirt. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-american-english-file-esl-at-the-airport": {
     "status": "ok",
-    "note": "Taxi/train transactions and Rob accepting New York work match the airport good news."
+    "note": "Round 36 metadata corrected from cached English evidence. Taxi/train transactions and Rob accepting New York work match the airport good news. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r7-english-file-school": {
     "status": "ok",
@@ -1881,67 +1881,67 @@
   },
   "listening-library.json/listening-r8-school-registration": {
     "status": "ok",
-    "note": "Registrar requests, scholarships and a college-program information session match a school announcement; the named institution cannot be independently identified from this cache."
+    "note": "Round 36 metadata corrected from cached English evidence. Registrar requests, scholarships and a college-program information session match a school announcement; the named institution cannot be independently identified from this cache. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-equipment": {
-    "status": "partial",
-    "note": "Evidence: The full cache announces a book fair/raffle and science-day reporting, not an equipment announcement. Suggested action: Retitle to School book fair and science-day announcement; verify the institution attribution."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The full cache announces a book fair/raffle and science-day reporting, not an equipment announcement. Changed fields: title, summary, description, difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-library": {
     "status": "ok",
-    "note": "Book borrowing and library-officer meeting instructions match school library announcements. The cache mentions grades 7/8, so the claimed elementary-school attribution needs source verification; a wrong institution is not proved."
+    "note": "Round 36 metadata corrected from cached English evidence. Book borrowing and library-officer meeting instructions match school library announcements. The cache mentions grades 7/8, so the claimed elementary-school attribution needs source verification; a wrong institution is not proved. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-it": {
     "status": "ok",
-    "note": "Computer-room meetings and HDMI/projector instructions match school IT. Grade 7–9 wording makes the elementary-school attribution uncertain."
+    "note": "Round 36 metadata corrected from cached English evidence. Computer-room meetings and HDMI/projector instructions match school IT. Grade 7–9 wording makes the elementary-school attribution uncertain. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-sports": {
     "status": "ok",
-    "note": "Stretches, exercise and sports-team meetings match PE announcements. Grade 7–9 wording makes the elementary-school attribution uncertain."
+    "note": "Round 36 metadata corrected from cached English evidence. Stretches, exercise and sports-team meetings match PE announcements. Grade 7–9 wording makes the elementary-school attribution uncertain. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-health": {
     "status": "ok",
-    "note": "Cleaning supplies, disinfecting and masks match health/hygiene announcements."
+    "note": "Round 36 metadata corrected from cached English evidence. Cleaning supplies, disinfecting and masks match health/hygiene announcements. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-general-affairs": {
     "status": "ok",
-    "note": "Furniture, energy, earthquakes and visitor registration match general affairs."
+    "note": "Round 36 metadata corrected from cached English evidence. Furniture, energy, earthquakes and visitor registration match general affairs. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-counselling": {
     "status": "ok",
-    "note": "The brief guidance-officer reporting directions are coherent and complete enough for a short listening activity, despite only 38 words."
+    "note": "Round 36 metadata corrected from cached English evidence. The brief guidance-officer reporting directions are coherent and complete enough for a short listening activity, despite only 38 words. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-records": {
     "status": "ok",
-    "note": "Guidance-officer meetings, notice sheets and student-information requests match school records."
+    "note": "Round 36 metadata corrected from cached English evidence. Guidance-officer meetings, notice sheets and student-information requests match school records. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-counselling-records": {
-    "status": "partial",
-    "note": "Evidence: The complete cache announces a special-education committee meeting at 12:10 on the third floor; it does not concern counselling records. Suggested action: Retitle to Special-education committee meeting announcement."
+    "status": "ok",
+    "note": "Round 36 metadata corrected from cached English evidence. The complete cache announces a special-education committee meeting at 12:10 on the third floor; it does not concern counselling records. Changed fields: title, summary, description, difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-weather-report": {
     "status": "ok",
-    "note": "Maria reports Chicago temperatures and a five-day forecast as claimed."
+    "note": "Round 36 metadata corrected from cached English evidence. Maria reports Chicago temperatures and a five-day forecast as claimed. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-listening-announcement": {
     "status": "ok",
-    "note": "Freya and Steve discuss competition dates, registration and eligibility as claimed."
+    "note": "Round 36 metadata corrected from cached English evidence. Freya and Steve discuss competition dates, registration and eligibility as claimed. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-announcement": {
     "status": "ok",
-    "note": "Purple skirts/blazers and sock/pullover colours match a school-uniform announcement. Policy endorsement is outside this audit."
+    "note": "Round 36 metadata corrected from cached English evidence. Purple skirts/blazers and sock/pullover colours match a school-uniform announcement. Policy endorsement is outside this audit. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-school-radio-announcement": {
     "status": "ok",
-    "note": "A repeated room/time invitation to organise a glee club matches school radio."
+    "note": "Round 36 metadata corrected from cached English evidence. A repeated room/time invitation to organise a glee club matches school radio. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-weather-intermediate": {
     "status": "ok",
-    "note": "Temperatures, winds, clear skies and rain chances match the forecast."
+    "note": "Round 36 metadata corrected from cached English evidence. Temperatures, winds, clear skies and rain chances match the forecast. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "listening-library.json/listening-r8-one-minute-weather-forecast": {
     "status": "ok",
-    "note": "Flood warnings, thunderstorms, fog and a football-day forecast match weather; occasional name/kickoff errors do not obscure the report."
+    "note": "Round 36 metadata corrected from cached English evidence. Flood warnings, thunderstorms, fog and a football-day forecast match weather; occasional name/kickoff errors do not obscure the report. Changed fields: difficultyLevel. Video identity and duration preserved."
   },
   "minecraft-library.json/minecraft-survival": {
     "status": "ok",
