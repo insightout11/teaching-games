@@ -17,3 +17,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - teens-future-jobs: 3 texts; course checker passes.
 - teens-sport: 3 texts; course checker passes.
 - teens-music: 2 texts; course checker passes.
+- teens-film: 2 texts; course checker passes.

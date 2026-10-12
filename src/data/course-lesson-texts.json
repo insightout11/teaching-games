@@ -1408,5 +1408,99 @@
     "courseId": "teens-music",
     "title": "My Music Introduction",
     "level": "B1"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Milo has watched a short comedy called “One Bike, Two Plans.” It follows two friends who want to organize a neighborhood ride but have different ideas about the route. One loves careful maps; the other wants to make decisions as they go. Their disagreements create small surprises rather than cruel jokes. Milo wants to recommend the film without giving away its ending. His partner asks him for three things: the kind of story, its starting situation and one reason to watch. Milo explains that it is a comedy about friendship and planning. He likes how the camera shows both friends' reactions before either speaks. His partner usually chooses mysteries, so Milo mentions the question that keeps him watching: will they find a plan they can both accept? He stops before answering it. For his course task, he writes this first recommendation. Later, he will try to replace general praise with clearer details from the film.",
+    "words": [
+      {
+        "word": "route",
+        "meaning": "the path taken to reach a place"
+      },
+      {
+        "word": "reactions",
+        "meaning": "responses to something that happens"
+      },
+      {
+        "word": "recommend",
+        "meaning": "suggest something someone may enjoy"
+      },
+      {
+        "word": "ending",
+        "meaning": "the final part of a story"
+      },
+      {
+        "word": "praise",
+        "meaning": "words showing approval"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What kind of film did Milo watch?",
+        "a": "a short comedy"
+      },
+      {
+        "q": "What do the friends want to organize?",
+        "a": "a neighborhood ride"
+      },
+      {
+        "q": "What does Milo avoid giving away?",
+        "a": "its ending"
+      }
+    ],
+    "talk": [
+      "What detail would make you curious without spoiling a story?",
+      "How would you describe a screen story to someone with different tastes?"
+    ],
+    "courseId": "teens-film",
+    "title": "What I Watch",
+    "level": "B1"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Milo rewrites his recommendation for “One Bike, Two Plans.” His first version explained the starting problem but called the acting simply “good.” Now he chooses a moment that supports his opinion. At a crossroads, one friend unfolds a large map while the other studies the clouds. The scene lets their different planning styles appear through actions, not a long explanation. Milo describes the camera staying on both faces when they disagree. It makes the silence part of the joke. He still leaves the final route secret. His review also includes a fair limit: viewers who want fast action may find the slower conversations less exciting. His partner says that detail helps her decide whether to watch. Milo's final reason is specific. The film shows friends listening without becoming identical, and its gentle humor comes from ordinary choices. He can now give a clear, spoiler-free recommendation rather than promising that every viewer will enjoy the same things.",
+    "words": [
+      {
+        "word": "crossroads",
+        "meaning": "a place where roads meet"
+      },
+      {
+        "word": "unfolds",
+        "meaning": "opens something that was folded"
+      },
+      {
+        "word": "silence",
+        "meaning": "a time with no sound"
+      },
+      {
+        "word": "viewers",
+        "meaning": "people watching a film or programme"
+      },
+      {
+        "word": "specific",
+        "meaning": "clear and about one particular thing"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where does one friend unfold a map?",
+        "a": "At a crossroads"
+      },
+      {
+        "q": "What does the other friend study?",
+        "a": "the clouds"
+      },
+      {
+        "q": "What does Milo keep secret?",
+        "a": "the final route"
+      }
+    ],
+    "talk": [
+      "What example would support your review without revealing the ending?",
+      "How could a fair limitation make a recommendation more helpful?"
+    ],
+    "courseId": "teens-film",
+    "title": "My Short Review",
+    "level": "B1"
   }
 ]
