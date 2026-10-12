@@ -30446,19 +30446,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Preparation works better when it reveals gaps early."
+        "target": "present perfect",
+        "why": "Describe preparation already completed before an exam.",
+        "example": "I have practiced the questions that I found hardest."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Should students see the mark scheme before an exam?"
+        "target": "conditional",
+        "why": "Explain a plan for handling limited exam time.",
+        "example": "If a question takes too long, I will return to it later."
       },
       {
-        "target": "future (will)",
-        "why": "Predict how exam work will be judged.",
-        "example": "A rubric describes how work will be judged."
+        "target": "passive voice",
+        "why": "Explain how an exam answer is assessed.",
+        "example": "Each answer is marked using the same set of criteria."
       }
     ],
     "levels": {
@@ -30660,19 +30660,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "A task is harder when instructions are unclear."
+        "target": "present perfect continuous",
+        "why": "Describe sustained effort on an unfinished assignment.",
+        "example": "I have been working on this essay since dinner."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What makes an assignment worth doing at home?"
+        "target": "reported speech",
+        "why": "Report a teacher's explanation of an assignment.",
+        "example": "Our teacher said the homework would prepare us for the discussion."
       },
       {
-        "target": "future (will)",
-        "why": "Explain when completed work will be discussed.",
-        "example": "A deadline helps coordinate when work will be discussed."
+        "target": "conditional",
+        "why": "Explain how unclear instructions would affect homework.",
+        "example": "If the task had an example, I would understand it better."
       }
     ],
     "levels": {
@@ -30874,19 +30874,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "A club gives students a place to try an interest."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which new club would you start at school?"
-      },
-      {
         "target": "future (going to)",
-        "why": "Announce a plan for a new club.",
-        "example": "We are going to start a photography club next term."
+        "why": "Describe concrete plans for a new school club.",
+        "example": "We are going to start a film club next term."
+      },
+      {
+        "target": "relative clause",
+        "why": "Specify a club by what its members do.",
+        "example": "I want a club where beginners can try making films."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review what club members have achieved together.",
+        "example": "Our club has organized two exhibitions this term."
       }
     ],
     "levels": {
@@ -31088,19 +31088,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Pay is only one part of deciding whether a job fits."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would you ask before accepting a first job?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe work experience up to now.",
-        "example": "I have worked at the cafe for two months."
+        "why": "Describe experience gained in a first job.",
+        "example": "I have worked in the cafe for three months."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay a manager's instructions about a shift.",
+        "example": "My manager told me to arrive before the shop opened."
+      },
+      {
+        "target": "past continuous",
+        "why": "Describe an interruption during a work shift.",
+        "example": "I was serving a customer when the card machine stopped."
       }
     ],
     "levels": {
@@ -31302,19 +31302,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Some work needs care and judgment more than speed."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which job would you shadow for a day?"
-      },
-      {
         "target": "future continuous",
-        "why": "Imagine work in a future workplace.",
-        "example": "Robots will be helping nurses with routine tasks next year."
+        "why": "Imagine tasks people will be doing in a future workplace.",
+        "example": "In ten years, nurses will be using different tools at work."
+      },
+      {
+        "target": "conditional",
+        "why": "Discuss how automation might change a career choice.",
+        "example": "If machines handled routine tasks, I would focus on helping people."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe a future job through the skills it requires.",
+        "example": "A job that needs human judgment may change without disappearing."
       }
     ],
     "levels": {
@@ -31516,19 +31516,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "A small business begins by finding a problem people have."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What everyday problem could a small business solve?"
-      },
-      {
         "target": "conditional",
-        "why": "Connect a useful idea to customers.",
-        "example": "If we solve a real problem, customers will return."
+        "why": "Connect a business idea with a possible customer response.",
+        "example": "If our service saved time, more people would try it."
+      },
+      {
+        "target": "present perfect",
+        "why": "Explain what you have learned from testing a business idea.",
+        "example": "We have asked ten customers what they need."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how a small business handles orders.",
+        "example": "Each order is checked before it is sent to the customer."
       }
     ],
     "levels": {
@@ -31730,19 +31730,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Saving means keeping some money for a later need or goal."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would make saving easier for a student?"
-      },
-      {
         "target": "present perfect",
-        "why": "Describe progress toward a savings goal.",
-        "example": "I have saved enough for a new bicycle."
+        "why": "Describe progress toward a purchase you are saving for.",
+        "example": "I have saved half the money for my bicycle."
+      },
+      {
+        "target": "future (going to)",
+        "why": "Explain a concrete plan for using an allowance.",
+        "example": "I am going to save five pounds from each allowance."
+      },
+      {
+        "target": "conditional",
+        "why": "Explain how a spending choice affects a savings goal.",
+        "example": "If I buy fewer snacks, I will reach my goal sooner."
       }
     ],
     "levels": {
@@ -31944,19 +31944,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Some costs are fixed while others vary."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which expense would you list first in a budget?"
+        "target": "conditional",
+        "why": "Explain what you would change when a budget exceeds income.",
+        "example": "If transport cost more, I would spend less on entertainment."
       },
       {
         "target": "comparatives & superlatives",
-        "why": "Compare fixed and variable costs.",
-        "example": "A fixed cost usually changes less often than a variable one."
+        "why": "Compare predicted and actual spending in a budget.",
+        "example": "Our travel costs were higher than we expected."
+      },
+      {
+        "target": "present perfect",
+        "why": "Review expenses already recorded for a project.",
+        "example": "We have included the materials but forgotten the delivery cost."
       }
     ],
     "levels": {
@@ -32158,19 +32158,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Volunteers offer time to help with a community task."
+        "target": "present perfect continuous",
+        "why": "Describe an ongoing commitment to a local project.",
+        "example": "I have been helping at the community garden every Saturday."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which local task would you volunteer for?"
+        "target": "relative clause",
+        "why": "Identify a volunteer role by its practical responsibilities.",
+        "example": "The volunteer who checks the tools helps keep everyone safe."
       },
       {
-        "target": "comparatives & superlatives",
-        "why": "Compare steady and one-off help.",
-        "example": "A steady commitment can be more useful than one busy afternoon."
+        "target": "past simple",
+        "why": "Retell the useful work completed during a volunteer session.",
+        "example": "We cleared the path and planted three trees."
       }
     ],
     "levels": {
@@ -32372,19 +32372,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Pauses give people time to understand."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would you do if you lost your place?"
-      },
-      {
         "target": "past continuous",
-        "why": "Describe an interruption during a speech.",
-        "example": "I was speaking when I lost my place."
+        "why": "Explain what was happening when a speech went wrong.",
+        "example": "I was explaining my main point when I forgot the next sentence."
+      },
+      {
+        "target": "present perfect",
+        "why": "Describe improvements made through speech rehearsal.",
+        "example": "I have shortened the introduction and added a clearer example."
+      },
+      {
+        "target": "reported speech",
+        "why": "Relay feedback received after giving a talk.",
+        "example": "My partner said the pauses helped her follow my ideas."
       }
     ],
     "levels": {
@@ -32586,19 +32586,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "My study session is short."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which study habit would you test for one week?"
+        "target": "present perfect continuous",
+        "why": "Describe a study routine maintained over several weeks.",
+        "example": "I have been reviewing ten words each evening for a month."
       },
       {
         "target": "present perfect",
-        "why": "Reflect on a strategy already tried.",
-        "example": "I have tested flashcards, and they helped me remember."
+        "why": "Compare study strategies you have already tried.",
+        "example": "I have tried rereading, but practice questions helped me more."
+      },
+      {
+        "target": "conditional",
+        "why": "Predict the effect of changing one study habit.",
+        "example": "If I test myself tomorrow, I will notice what I forgot."
       }
     ],
     "levels": {
@@ -32800,19 +32800,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Sleep gives the brain time to process a busy day."
+        "target": "past perfect",
+        "why": "Sequence poor sleep before a difficult morning lesson.",
+        "example": "I had slept badly before I tried to learn the new words."
       },
       {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which evening habit would you change before an exam?"
+        "target": "past continuous",
+        "why": "Describe an evening distraction that delayed sleep.",
+        "example": "I was scrolling through messages when I should have been sleeping."
       },
       {
-        "target": "conditional",
-        "why": "Predict the benefit of enough sleep.",
-        "example": "If I sleep enough, I will remember more of my lessons."
+        "target": "comparatives & superlatives",
+        "why": "Compare learning after different amounts of sleep.",
+        "example": "The lesson felt easier after a longer night's sleep."
       }
     ],
     "levels": {
@@ -33014,19 +33014,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Advice from others helps when it leaves room for the student's interests."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which subject would you choose just from curiosity?"
+        "target": "conditional",
+        "why": "Explore a subject choice without committing to it.",
+        "example": "If I chose biology, I would learn more about living things."
       },
       {
         "target": "reported speech",
-        "why": "Relay advice about a subject choice.",
-        "example": "My teacher said biology would help me understand living things."
+        "why": "Report advice about a subject and its demands.",
+        "example": "My teacher said chemistry involved practical work as well as calculations."
+      },
+      {
+        "target": "relative clause",
+        "why": "Describe the kind of subject you want to study.",
+        "example": "I want a subject that lets me investigate real problems."
       }
     ],
     "levels": {
@@ -33228,19 +33228,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Some students take time between school and further study."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "What would you hope to learn from time away?"
-      },
-      {
         "target": "past perfect",
-        "why": "Sequence saving and a gap year.",
-        "example": "She had saved money before her gap year began."
+        "why": "Explain preparations completed before a gap year started.",
+        "example": "She had saved enough money before her gap year began."
+      },
+      {
+        "target": "future (going to)",
+        "why": "Describe a planned activity during time away from study.",
+        "example": "I am going to volunteer abroad before I start college."
+      },
+      {
+        "target": "present perfect",
+        "why": "Reflect on skills gained during a gap year.",
+        "example": "I have learned to plan journeys and manage my own money."
       }
     ],
     "levels": {
@@ -33442,19 +33442,19 @@
     "category": "school and work",
     "grammarFits": [
       {
-        "target": "present simple",
-        "why": "Explain a study or work pattern.",
-        "example": "Many jobs need clear communication and dependable habits."
-      },
-      {
-        "target": "question forms",
-        "why": "Ask students to consider a practical choice.",
-        "example": "Which project best shows a skill you have developed?"
+        "target": "present perfect",
+        "why": "Describe practical skills gained through projects or work.",
+        "example": "I have learned to explain a problem clearly to customers."
       },
       {
         "target": "relative clause",
-        "why": "Describe the portfolio employers can inspect.",
-        "example": "A portfolio that shows real projects can help employers."
+        "why": "Identify work that demonstrates a particular career skill.",
+        "example": "The project that I led shows how I organize a team."
+      },
+      {
+        "target": "passive voice",
+        "why": "Explain how an employer checks evidence of a skill.",
+        "example": "Applicants are asked to give examples of solving problems."
       }
     ],
     "levels": {

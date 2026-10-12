@@ -19,3 +19,5 @@ Each fit is authored for its topic. The examples are new classroom utterances, r
 - Rewrote **digital life**: 15 topics, 45 individually authored fits. Existing library checks passed before the category commit.
 
 - Rewrote **culture and relationships**: 15 topics, 45 individually authored fits. Existing library checks passed before the category commit.
+
+- Rewrote **school and work**: 15 topics, 45 individually authored fits. Existing library checks passed before the category commit.
