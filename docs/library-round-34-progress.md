@@ -13,3 +13,9 @@ The new validator uses word-level edit distance (insertions, deletions, substitu
 - Preserved every previous checker rule. Added word-level edit distance (minimum 3), the single-word minimum, and secret separation. `--round34-count=15` checks these new rules on the authored prefix while retaining all older checks across all 150 decks. Final validation uses no prefix flag.
 - `npx tsx scripts/validate-topic-game-decks.ts --round34-count=15`: all 19 error counts **0**. Global target cap and deck overlap pass.
 - Editorial overlap examples: pet-tray cleaning / sandy-doorway cleaning (brush, bag, bucket); pony-ride clothing / chilly cycling clothing (boots, gloves, helmet); winter shelter / cold-night tent (blanket, bedding, heater). These are examples of possible spoken answers, not fixed answer keys.
+
+## Batch 2: sharks through earthquakes
+
+- Rewrote 90 more crew/imposter pairs and hints; replaced phrase-heavy Hot Seat lists and separated all 120 secrets from their decks' targets.
+- Overlap examples: telescope viewing / outdoor photography (clear sky, steady hands, light); fossil tools / shell collecting (brush, bag, magnifying glass); earthquake falling objects / bumped-table objects (cup, books, lamp).
+- `npx tsx scripts/validate-topic-game-decks.ts --round34-count=30`: all 19 error counts **0**, including the four-topic cap across the full bank.
