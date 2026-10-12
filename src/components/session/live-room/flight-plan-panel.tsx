@@ -1,5 +1,6 @@
 'use client';
 
+import { cefrLabel } from '@/lib/difficulty';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen, FileText, Headphones, Layers, MapPin, Plane, X } from 'lucide-react';
@@ -137,7 +138,7 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
                 <button key={`${c.sourceType}-${c.id}`} type="button" onClick={() => setClipId(c.id)} className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm ${c.id === clipId ? 'border-amber-300 bg-amber-300/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
                   <Headphones className="h-4 w-4 shrink-0 text-cyan-300" />
                   <span className="min-w-0 flex-1 truncate text-white">{c.title}</span>
-                  <span className="shrink-0 text-xs text-white/50">{c.cefr} · {c.minutes} min</span>
+                  <span className="shrink-0 text-xs text-white/50">{cefrLabel(c.cefr)} · {c.minutes} min</span>
                 </button>
               ))}
             </div>
