@@ -29,7 +29,7 @@ function submission(overrides: Partial<CargoSubmission> = {}): CargoSubmission {
   };
 }
 
-describe('cargo hold â€” reader assignment', () => {
+describe('cargo hold — reader assignment', () => {
   const submissions = ['c1', 'c2', 'c3', 'c4'].map((clientId, i) =>
     submission({ submissionId: `s${i + 1}`, clientId }));
   const readers = ['c1', 'c2', 'c3', 'c4'];
@@ -42,7 +42,7 @@ describe('cargo hold â€” reader assignment', () => {
     });
   });
 
-  it('is deterministic across repeated calls â€” a refresh cannot reshuffle it', () => {
+  it('is deterministic across repeated calls — a refresh cannot reshuffle it', () => {
     const a = assignReaders({ submissions, readerClientIds: readers, roundId: 'r1' });
     const b = assignReaders({ submissions, readerClientIds: readers, roundId: 'r1' });
     expect(a).toEqual(b);
@@ -61,7 +61,7 @@ describe('cargo hold â€” reader assignment', () => {
   it('varies the pairing between rounds when the roster leaves room to rotate', () => {
     // With one reader per author the derangement collapses to a single shift for any
     // offset, which is correct. The rotation shows up as soon as there are spare
-    // readers â€” the ordinary case where not everyone submitted.
+    // readers — the ordinary case where not everyone submitted.
     const partial = ['c1', 'c2', 'c3'].map((clientId, i) =>
       submission({ submissionId: `s${i + 1}`, clientId }));
     const wide = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
@@ -86,7 +86,7 @@ describe('cargo hold â€” reader assignment', () => {
   });
 });
 
-describe('cargo hold â€” favourites and scoring', () => {
+describe('cargo hold — favourites and scoring', () => {
   it('awards one grammar point for a valid card and none for an invalid one', () => {
     const scores = scoreRound([
       submission({ submissionId: 's1', clientId: 'c1', teacherValidity: true }),
@@ -139,7 +139,7 @@ describe('cargo hold â€” favourites and scoring', () => {
   });
 });
 
-describe('cargo hold â€” vote acceptance', () => {
+describe('cargo hold — vote acceptance', () => {
   const submissions = [
     submission({ submissionId: 's1', clientId: 'c1' }),
     submission({ submissionId: 's2', clientId: 'c2' }),
@@ -182,7 +182,7 @@ describe('cargo hold â€” vote acceptance', () => {
   });
 });
 
-describe('cargo hold â€” action parsing', () => {
+describe('cargo hold — action parsing', () => {
   it('parses each action shape', () => {
     const play = parseStudentAction(JSON.stringify({
       type: 'play', actionId: 'a1', activityInstanceId: 'i1', roundId: 'r1', cardId: 'c1' }));
@@ -201,7 +201,7 @@ describe('cargo hold â€” action parsing', () => {
   });
 });
 
-describe('cargo hold â€” deck contract', () => {
+describe('cargo hold — deck contract', () => {
   it('accepts the reviewed fallback deck', () => {
     const { cards, prompts } = buildFallbackDeck('travel');
     const result = validateDeck(cards, prompts);

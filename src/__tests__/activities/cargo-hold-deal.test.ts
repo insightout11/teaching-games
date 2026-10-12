@@ -40,7 +40,7 @@ function player(overrides: Partial<CargoPlayerState> = {}): CargoPlayerState {
   };
 }
 
-describe('cargo hold â€” compatibility', () => {
+describe('cargo hold — compatibility', () => {
   it('uses declared family metadata only', () => {
     const thing = deck.find((c) => c.family === 'thing')!;
     const action = deck.find((c) => c.family === 'action')!;
@@ -64,7 +64,7 @@ describe('cargo hold â€” compatibility', () => {
   });
 });
 
-describe('cargo hold â€” composition', () => {
+describe('cargo hold — composition', () => {
   it('normalizes whitespace and punctuation', () => {
     const prompt: CargoPrompt = {
       id: 'p', textBefore: 'I packed  ', textAfter: ' .', acceptedFamilies: ['thing'],
@@ -78,7 +78,7 @@ describe('cargo hold â€” composition', () => {
   });
 });
 
-describe('cargo hold â€” initial deal', () => {
+describe('cargo hold — initial deal', () => {
   it('deals six unique cards with at least three families', () => {
     const hand = dealHand(deck, thingPrompt, [], seeded());
     expect(hand).toHaveLength(HAND_SIZE);
@@ -105,7 +105,7 @@ describe('cargo hold â€” initial deal', () => {
   });
 });
 
-describe('cargo hold â€” customs repair', () => {
+describe('cargo hold — customs repair', () => {
   it('repairs a dead hand until two cards fit', () => {
     const dead = deck.filter((c) => c.family === 'action').slice(0, HAND_SIZE);
     const { hand, refreshed } = repairHandForPrompt(dead, deck, thingPrompt, seeded());
@@ -129,7 +129,7 @@ describe('cargo hold â€” customs repair', () => {
   });
 });
 
-describe('cargo hold â€” draw', () => {
+describe('cargo hold — draw', () => {
   it('removes the played card and draws exactly one replacement', () => {
     const hand = dealHand(deck, thingPrompt, [], seeded());
     const played = hand[0];
@@ -140,7 +140,7 @@ describe('cargo hold â€” draw', () => {
   });
 });
 
-describe('cargo hold â€” repack', () => {
+describe('cargo hold — repack', () => {
   it('replaces one or two cards and reports applied', () => {
     const hand = dealHand(deck, thingPrompt, [], seeded());
     const result = applyRepack(player(), hand, [hand[0].id, hand[1].id], deck, thingPrompt, seeded());
@@ -152,9 +152,8 @@ describe('cargo hold â€” repack', () => {
 
   it('caps discards at two', () => {
     const hand = dealHand(deck, thingPrompt, [], seeded());
-    // Discard only cards that do not fit the prompt, so the post-repack customs
-    // repair stays inert and the cap is the only thing under test.
-    const spare = hand.filter((c) => !isCardCompatible(c, thingPrompt)).slice(0, 3);
+    // Ask to send back three cards: only the first two go.
+    const spare = hand.slice(-3);
     expect(spare.length).toBe(3);
 
     const result = applyRepack(player(), hand, spare.map((c) => c.id), deck, thingPrompt, seeded());
@@ -162,7 +161,7 @@ describe('cargo hold â€” repack', () => {
     expect(survivors).toHaveLength(1);
   });
 
-  it('is a no-op once used â€” replaying the action cannot repack twice', () => {
+  it('is a no-op once used — replaying the action cannot repack twice', () => {
     const hand = dealHand(deck, thingPrompt, [], seeded());
     const used = player({ repackUsed: true });
     const result = applyRepack(used, hand, [hand[0].id], deck, thingPrompt, seeded());
@@ -178,7 +177,7 @@ describe('cargo hold â€” repack', () => {
   });
 });
 
-describe('cargo hold â€” fallback deck shape', () => {
+describe('cargo hold — fallback deck shape', () => {
   it('carries topic-aware cards rather than unrelated filler', () => {
     const { cards } = buildFallbackDeck('air pollution');
     expect(cards.some((c) => c.text.includes('air pollution'))).toBe(true);

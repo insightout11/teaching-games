@@ -1,5 +1,5 @@
 /**
- * Cargo Hold â€” the authoritative round state and the reducer that advances it.
+ * Cargo Hold — the authoritative round state and the reducer that advances it.
  *
  * Why a reducer rather than React state in the handler: reconnect replays every stored
  * action for the activity synchronously, so several plays or votes arrive before React

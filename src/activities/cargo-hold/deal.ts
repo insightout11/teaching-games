@@ -1,5 +1,5 @@
 /**
- * Cargo Hold â€” dealing, compatibility, hand repair, Repack, and draw.
+ * Cargo Hold — dealing, compatibility, hand repair, Repack, and draw.
  *
  * Pure functions only. Every entry point takes an explicit `random` so tests are
  * deterministic and the classroom behaviour stays reproducible.
@@ -8,7 +8,9 @@
 import type { CargoCard, CargoPrompt, CargoPlayerState } from './types';
 
 export const HAND_SIZE = 6;
-export const MIN_VALID_IN_HAND = 2;
+// Four of the six cards fit the prompt: enough real choice for a funny pick, with two that don't fit (Oct 2026: with
+// only two fitting cards most of a class played a card that didn't fit, and there was almost nothing to vote on).
+export const MIN_VALID_IN_HAND = 4;
 export const MIN_FAMILIES_IN_HAND = 3;
 export const MAX_REPACK_DISCARDS = 2;
 
@@ -24,7 +26,7 @@ export function shuffle<T>(items: T[], random: Random = Math.random): T[] {
 }
 
 /**
- * Compatibility is declared metadata only â€” never inferred from the card text and
+ * Compatibility is declared metadata only — never inferred from the card text and
  * never judged by AI. A wildcard must name the prompt tags it genuinely fits.
  */
 export function isCardCompatible(card: CargoCard, prompt: CargoPrompt): boolean {
@@ -59,7 +61,7 @@ function countFamilies(cards: CargoCard[]): number {
 
 /**
  * Build one opening hand: unique cards, at least three families, and at least two
- * cards that fit round 1 â€” one safe choice and one with comic potential where the
+ * cards that fit round 1 — one safe choice and one with comic potential where the
  * deck allows it.
  */
 export function dealHand(
@@ -132,7 +134,7 @@ export interface CustomsRepairResult {
  * hand is inspected at the start of each round: if fewer than two cards fit the new
  * prompt, swap the least useful cards out until two do.
  *
- * This is free â€” it never consumes the student's Repack and never moves points.
+ * This is free — it never consumes the student's Repack and never moves points.
  */
 export function repairHandForPrompt(
   hand: CargoCard[],
@@ -183,7 +185,7 @@ export function drawReplacement(
   if (pool.length === 0) return remaining;
 
   // Lean toward the previewed next family, but never so hard that the next choice
-  // becomes deterministic â€” the student should still have a real decision.
+  // becomes deterministic — the student should still have a real decision.
   const preferred = nextPrompt
     ? pool.filter((card) => isCardCompatible(card, nextPrompt))
     : [];
@@ -202,7 +204,7 @@ export interface RepackResult {
 
 /**
  * One Repack per student per game: discard up to two cards and draw replacements.
- * Idempotent â€” a repeated action for a player who has already repacked is a no-op,
+ * Idempotent — a repeated action for a player who has already repacked is a no-op,
  * which is what makes it safe to replay after a refresh.
  */
 export function applyRepack(
@@ -234,7 +236,8 @@ export function applyRepack(
     if (drawn) next.push(drawn);
   }
 
-  // A Repack must never strand the student â€” repair applies afterwards too.
-  const repaired = repairHandForPrompt(next, deck, prompt, random);
+  // A Repack must never strand the student — repair applies afterwards too.
+  // The repair draws from the rest of the deck, never from the cards the student just sent back.
+  const repaired = repairHandForPrompt(next, deck.filter((card) => !discards.includes(card.id)), prompt, random);
   return { hand: repaired.hand, applied: true };
 }

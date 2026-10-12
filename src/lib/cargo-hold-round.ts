@@ -1,12 +1,12 @@
 /**
- * Cargo Hold â€” resolving the durable round ID a student action must be written under.
+ * Cargo Hold — resolving the durable round ID a student action must be written under.
  *
  * Durable responses are unique per (session, client, gameKey, roundId). Cargo sends
  * several distinct actions inside one round, so each needs its own suffixed round ID
  * or the second action is silently deduplicated against the first.
  *
  * The suffix is decided here, from the parsed action, rather than being trusted from
- * the payload â€” a device must not be able to claim an arbitrary round ID and so write
+ * the payload — a device must not be able to claim an arbitrary round ID and so write
  * unlimited rows or land in another round's key space.
  */
 

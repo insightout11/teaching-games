@@ -22,7 +22,7 @@ function actionId(prefix: string, spec: InputSpec, clientId: string, extra = '')
 
 /**
  * Durable responses are unique per (session, client, gameKey, roundId), so each
- * distinct action inside a round needs its own suffixed round ID â€” otherwise a
+ * distinct action inside a round needs its own suffixed round ID — otherwise a
  * Repack would consume the student's one accepted response and their Play would come
  * back as a silent duplicate. The prefix still identifies the live round.
  */
@@ -45,6 +45,8 @@ export function CargoHandInput({
   const [repackSelection, setRepackSelection] = useState<string[]>([]);
   const [repackOpen, setRepackOpen] = useState(false);
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  // A card that doesn't fit the sentence: say so at once and let the student pick again (nobody is left out of the vote).
+  const [misfitCardId, setMisfitCardId] = useState<string | null>(null);
 
   const hand = useMemo(() => payload?.hand ?? [], [payload]);
   const submittedCardId = payload?.submittedCardId ?? null;
@@ -59,6 +61,11 @@ export function CargoHandInput({
 
   const handlePlay = useCallback(async () => {
     if (!selectedCardId || !clientId) return;
+    if (payload?.fitsCardIds && !payload.fitsCardIds.includes(selectedCardId)) {
+      setMisfitCardId(selectedCardId);
+      setSelectedCardId(null);
+      return;
+    }
     await submit({
       type: 'play',
       actionId: actionId('play', spec, clientId),
@@ -66,7 +73,7 @@ export function CargoHandInput({
       roundId: actionRoundId(spec, 'play'),
       cardId: selectedCardId,
     });
-  }, [selectedCardId, clientId, spec, submit]);
+  }, [selectedCardId, clientId, spec, submit, payload]);
 
   const handleRepack = useCallback(async () => {
     if (repackSelection.length === 0 || !clientId) return;
@@ -106,7 +113,7 @@ export function CargoHandInput({
     [clientId, spec, submit],
   );
 
-  // â”€â”€ Boarding: the tap that tells the teacher screen this device is here â”€â”€â”€â”€â”€â”€
+  // ── Boarding: the tap that tells the teacher screen this device is here ──────
   if (spec.cargoStep === 'board') {
     const boarded = submitStatus === 'success' || Boolean(payload);
     return (
@@ -115,18 +122,18 @@ export function CargoHandInput({
         <p className="text-sm text-slate-300">{spec.prompt ?? 'Collect your hand to join the game.'}</p>
         {boarded ? (
           <p className="rounded-md border border-emerald-400/30 bg-emerald-400/10 px-3 py-2 text-sm font-semibold text-emerald-200">
-            You are on board â€” waiting for the first prompt.
+            You are on board — waiting for the first prompt.
           </p>
         ) : (
           <Button onClick={handleBoard} disabled={isSubmitting} className="w-full">
-            {isSubmitting ? 'Boardingâ€¦' : 'Collect my cards'}
+            {isSubmitting ? 'Boarding…' : 'Collect my cards'}
           </Button>
         )}
       </div>
     );
   }
 
-  // â”€â”€ Reading: only the sentences this student was assigned â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Reading: only the sentences this student was assigned ───────────────────
   if (spec.cargoStep === 'read') {
     const assignments = payload?.readingAssignments ?? [];
     if (assignments.length === 0) {
@@ -148,14 +155,14 @@ export function CargoHandInput({
           >
             <p className="text-base leading-relaxed text-slate-100">{assignment.sentence}</p>
             {assignment.done ? (
-              <p className="mt-2 text-xs font-semibold text-emerald-300">Read â€” thank you!</p>
+              <p className="mt-2 text-xs font-semibold text-emerald-300">Read — thank you!</p>
             ) : (
               <Button
                 onClick={() => handleReadDone(assignment.submissionId)}
                 disabled={isSubmitting}
                 className="mt-3 w-full"
               >
-                Read aloud â€” done
+                Read aloud — done
               </Button>
             )}
           </div>
@@ -164,14 +171,17 @@ export function CargoHandInput({
     );
   }
 
-  // â”€â”€ Choosing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Choosing ────────────────────────────────────────────────────────────────
   if (hand.length === 0) {
     return (
       <p className="rounded-md border border-slate-600/40 bg-slate-800/40 px-3 py-4 text-center text-sm text-slate-300">
-        Waiting for your cardsâ€¦
+        Waiting for your cards…
       </p>
     );
   }
+
+  const selectedCard = hand.find((card) => card.id === selectedCardId) ?? null;
+  const misfitCard = hand.find((card) => card.id === misfitCardId) ?? null;
 
   const toggleRepack = (cardId: string) => {
     setRepackSelection((prev) => {
@@ -193,7 +203,7 @@ export function CargoHandInput({
           onClick={() => {
             if (submitted) return;
             if (repackOpen) toggleRepack(card.id);
-            else setSelectedCardId(card.id === selectedCardId ? null : card.id);
+            else { setMisfitCardId(null); setSelectedCardId(card.id === selectedCardId ? null : card.id); }
           }}
           aria-pressed={isSelected}
           disabled={submitted && !isPlayed}
@@ -206,9 +216,6 @@ export function CargoHandInput({
           }`}
         >
           <span className="flex items-start gap-2">
-            {card.emoji ? (
-              <span aria-hidden className="text-lg leading-none">{card.emoji}</span>
-            ) : null}
             <span className="flex-1">
               <span className="block text-[15px] leading-snug text-slate-100">{card.text}</span>
               <span className="mt-1 block text-xs text-cyan-200/90">{card.targetForm}</span>
@@ -225,7 +232,7 @@ export function CargoHandInput({
         </button>
         {expanded ? (
           <p className="px-1 pb-1 text-[11px] leading-relaxed text-slate-300">
-            <span className="font-semibold text-slate-200">{card.targetTerm}</span> â€” {card.meaning}
+            <span className="font-semibold text-slate-200">{card.targetTerm}</span> — {card.meaning}
           </p>
         ) : null}
       </li>
@@ -241,10 +248,18 @@ export function CargoHandInput({
       ) : null}
 
       {spec.cargoPromptBefore ? (
-        <p className="rounded-md border border-slate-600/40 bg-slate-900/60 px-3 py-2 text-sm leading-relaxed text-slate-200">
+        <p className="rounded-md border border-slate-600/40 bg-slate-900/60 px-3 py-2 text-[15px] leading-relaxed text-slate-200">
           {spec.cargoPromptBefore}
-          <span className="mx-1 inline-block min-w-[42px] border-b-2 border-dashed border-cyan-300/70 align-middle" />
+          {/* The chosen card drops into the blank, so the student reads the whole sentence before loading it. */}
+          {selectedCard && !submitted
+            ? <span className="rounded bg-cyan-400/15 px-1 font-semibold text-cyan-100">{selectedCard.text}</span>
+            : <span className="mx-1 inline-block min-w-[42px] border-b-2 border-dashed border-cyan-300/70 align-middle" />}
           {spec.cargoPromptAfter}
+        </p>
+      ) : null}
+      {misfitCard && !submitted ? (
+        <p role="status" className="rounded-md border border-amber-300/40 bg-amber-300/10 px-3 py-2 text-sm leading-snug text-amber-100">
+          <span className="font-semibold">&ldquo;{misfitCard.text}&rdquo;</span> doesn&apos;t fit this sentence. Read it aloud with another card and try again.
         </p>
       ) : null}
       {spec.cargoAccepts ? (
@@ -284,7 +299,7 @@ export function CargoHandInput({
       ) : (
         <div className="space-y-2">
           <Button onClick={handlePlay} disabled={isSubmitting || !selectedCardId} className="w-full">
-            {isSubmitting ? 'Loadingâ€¦' : selectedCardId ? 'Load this card' : 'Pick a card'}
+            {isSubmitting ? 'Loading…' : selectedCardId ? 'Load this card' : 'Pick a card'}
           </Button>
           {!payload?.repackUsed ? (
             <Button

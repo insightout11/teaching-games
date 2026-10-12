@@ -1,12 +1,12 @@
 /**
- * Cargo Hold â€” reviewed safe deck.
+ * Cargo Hold — reviewed safe deck.
  *
  * Used when generation fails or the lesson carries too little vocabulary. Every line
  * here has been read for the humour rules in the spec: safe absurdity, travel and
  * classroom mishaps, no targets, nothing gross.
  *
  * The deck is deliberately set in the Lesson Captain world rather than being generic
- * filler â€” a degraded round still has to feel like this product, and a few topic cards
+ * filler — a degraded round still has to feel like this product, and a few topic cards
  * are woven in whenever a topic is known.
  */
 
@@ -90,48 +90,48 @@ const card = (
 
 export const CARGO_FALLBACK_CARDS: CargoCard[] = [
   // things
-  card('fb-suitcase-soup', 'thing', 'a suitcase full of warm soup', 'suitcase', 'suitcase', 'a bag for carrying clothes when you travel', 'ðŸ§³'),
-  card('fb-emotional-support-cactus', 'thing', 'an emotional support cactus', 'support', 'support', 'help or encouragement given to someone', 'ðŸŒµ'),
-  card('fb-boarding-pass', 'thing', 'a boarding pass written in crayon', 'boarding pass', 'boarding pass', 'the ticket that lets you get on a plane', 'ðŸŽ«'),
-  card('fb-souvenir-rock', 'thing', 'a souvenir rock the size of a fridge', 'souvenir', 'souvenir', 'an object you keep to remember a trip', 'ðŸª¨'),
-  card('fb-expired-map', 'thing', 'a map from forty years ago', 'map', 'map', 'a drawing that shows where places are', 'ðŸ—ºï¸'),
-  card('fb-tiny-piano', 'thing', 'a piano that is somehow tiny', 'piano', 'piano', 'a large musical instrument with black and white keys', 'ðŸŽ¹'),
-  card('fb-window-seat', 'thing', 'the last window seat on earth', 'window seat', 'window seat', 'a plane seat next to the window', 'ðŸªŸ'),
-  card('fb-luggage-tag', 'thing', 'a luggage tag with someone else name', 'luggage', 'luggage', 'the bags you take on a journey', 'ðŸ·ï¸'),
+  card('fb-suitcase-soup', 'thing', 'a suitcase full of warm soup', 'suitcase', 'suitcase', 'a bag for carrying clothes when you travel', '🧳'),
+  card('fb-emotional-support-cactus', 'thing', 'an emotional support cactus', 'support', 'support', 'help or encouragement given to someone', '🌵'),
+  card('fb-boarding-pass', 'thing', 'a boarding pass written in crayon', 'boarding pass', 'boarding pass', 'the ticket that lets you get on a plane', '🎫'),
+  card('fb-souvenir-rock', 'thing', 'a souvenir rock the size of a fridge', 'souvenir', 'souvenir', 'an object you keep to remember a trip', '🪨'),
+  card('fb-expired-map', 'thing', 'a map from forty years ago', 'map', 'map', 'a drawing that shows where places are', '🗺️'),
+  card('fb-tiny-piano', 'thing', 'a piano that is somehow tiny', 'piano', 'piano', 'a large musical instrument with black and white keys', '🎹'),
+  card('fb-window-seat', 'thing', 'the last window seat on earth', 'window seat', 'window seat', 'a plane seat next to the window', '🪟'),
+  card('fb-luggage-tag', 'thing', 'a luggage tag with the wrong name on it', 'luggage', 'luggage', 'the bags you take on a journey', '🏷️'),
 
   // actions
-  card('fb-negotiate-pigeon', 'action', 'negotiating with a pigeon at Gate 12', 'negotiate', 'negotiating', 'to discuss something in order to reach an agreement', 'ðŸ•Šï¸'),
-  card('fb-reorganize-clouds', 'action', 'reorganising the clouds by height', 'reorganise', 'reorganising', 'to arrange things in a different order', 'â˜ï¸'),
-  card('fb-apologise-luggage', 'action', 'apologising to the luggage', 'apologise', 'apologising', 'to say sorry for something', 'ðŸ™‡'),
-  card('fb-announce-snacks', 'action', 'announcing every snack individually', 'announce', 'announcing', 'to tell people about something publicly', 'ðŸ“£'),
-  card('fb-practise-landing', 'action', 'practising the landing in the car park', 'practise', 'practising', 'to do something repeatedly to get better', 'ðŸ›¬'),
-  card('fb-argue-seatbelt', 'action', 'arguing with the seatbelt sign', 'argue', 'arguing', 'to disagree with someone in words', 'ðŸ””'),
-  card('fb-translate-safety', 'action', 'translating the safety card into song', 'translate', 'translating', 'to change words into another language', 'ðŸŽµ'),
-  card('fb-queue-nothing', 'action', 'queueing for absolutely nothing', 'queue', 'queueing', 'to wait in a line', 'ðŸš¶'),
+  card('fb-negotiate-pigeon', 'action', 'negotiating with a pigeon at Gate 12', 'negotiate', 'negotiating', 'to discuss something in order to reach an agreement', '🕊️'),
+  card('fb-reorganize-clouds', 'action', 'reorganising the clouds by height', 'reorganise', 'reorganising', 'to arrange things in a different order', '☁️'),
+  card('fb-apologise-luggage', 'action', 'apologising to the luggage', 'apologise', 'apologising', 'to say sorry for something', '🙇'),
+  card('fb-announce-snacks', 'action', 'announcing every snack individually', 'announce', 'announcing', 'to tell people about something publicly', '📣'),
+  card('fb-practise-landing', 'action', 'practising the landing in the car park', 'practise', 'practising', 'to do something repeatedly to get better', '🛬'),
+  card('fb-argue-seatbelt', 'action', 'arguing with the seatbelt sign', 'argue', 'arguing', 'to disagree with someone in words', '🔔'),
+  card('fb-translate-safety', 'action', 'translating the safety card into song', 'translate', 'translating', 'to change words into another language', '🎵'),
+  card('fb-queue-nothing', 'action', 'queueing for absolutely nothing', 'queue', 'queueing', 'to wait in a line', '🚶'),
 
   // descriptions
-  card('fb-dramatically-calm', 'description', 'dramatically calm about everything', 'dramatic', 'dramatically', 'showing strong feeling in an obvious way', 'ðŸŽ­'),
-  card('fb-suspiciously-cheerful', 'description', 'suspiciously cheerful for 5am', 'suspicious', 'suspiciously', 'making you feel something is not right', 'ðŸ˜ƒ'),
-  card('fb-extremely-organised', 'description', 'extremely organised about snacks only', 'organised', 'organised', 'arranged in a careful, tidy way', 'ðŸ“‹'),
-  card('fb-mildly-confused', 'description', 'mildly confused by the concept of doors', 'confused', 'confused', 'not able to understand something clearly', 'ðŸšª'),
-  card('fb-relentlessly-polite', 'description', 'relentlessly polite to the wrong person', 'polite', 'polite', 'behaving in a respectful, well-mannered way', 'ðŸ™‚'),
-  card('fb-unusually-confident', 'description', 'unusually confident about geography', 'confident', 'confident', 'sure that you can do something well', 'ðŸŒ'),
+  card('fb-dramatically-calm', 'description', 'dramatically calm about everything', 'dramatic', 'dramatically', 'showing strong feeling in an obvious way', '🎭'),
+  card('fb-suspiciously-cheerful', 'description', 'suspiciously cheerful for 5am', 'suspicious', 'suspiciously', 'making you feel something is not right', '😃'),
+  card('fb-extremely-organised', 'description', 'extremely organised about snacks only', 'organised', 'organised', 'arranged in a careful, tidy way', '📋'),
+  card('fb-mildly-confused', 'description', 'mildly confused by the concept of doors', 'confused', 'confused', 'not able to understand something clearly', '🚪'),
+  card('fb-relentlessly-polite', 'description', 'relentlessly polite to the wrong person', 'polite', 'polite', 'behaving in a respectful, well-mannered way', '🙂'),
+  card('fb-unusually-confident', 'description', 'unusually confident about geography', 'confident', 'confident', 'sure that you can do something well', '🌍'),
 
   // reasons
-  card('fb-because-forgot-snacks', 'reason', 'the crew forgot the snack trolley', 'forget', 'forgot', 'to fail to remember something', 'ðŸª'),
-  card('fb-because-wrong-continent', 'reason', 'we appear to be over the wrong continent', 'appear', 'appear', 'to seem to be something', 'ðŸŒŽ'),
-  card('fb-because-captain-nap', 'reason', 'the captain scheduled a nap mid-flight', 'schedule', 'scheduled', 'to plan when something will happen', 'ðŸ˜´'),
-  card('fb-because-lost-headset', 'reason', 'nobody can locate the headset', 'locate', 'locate', 'to find where something is', 'ðŸŽ§'),
-  card('fb-because-debate', 'reason', 'row 9 started a debate about pineapple', 'debate', 'debate', 'a formal discussion of opposite opinions', 'ðŸ'),
-  card('fb-because-timezone', 'reason', 'we arrived before we departed', 'depart', 'departed', 'to leave a place, especially to start a journey', 'ðŸ•'),
+  card('fb-because-forgot-snacks', 'reason', 'the crew forgot the snack trolley', 'forget', 'forgot', 'to fail to remember something', '🍪'),
+  card('fb-because-wrong-continent', 'reason', 'we appear to be over the wrong continent', 'appear', 'appear', 'to seem to be something', '🌎'),
+  card('fb-because-captain-nap', 'reason', 'the captain scheduled a nap mid-flight', 'schedule', 'scheduled', 'to plan when something will happen', '😴'),
+  card('fb-because-lost-headset', 'reason', 'nobody can locate the headset', 'locate', 'locate', 'to find where something is', '🎧'),
+  card('fb-because-debate', 'reason', 'row 9 started a debate about pineapple', 'debate', 'debate', 'a formal discussion of opposite opinions', '🍍'),
+  card('fb-because-timezone', 'reason', 'we arrived before we departed', 'depart', 'departed', 'to leave a place, especially to start a journey', '🕐'),
 
-  // wildcards â€” declare the prompt tags they genuinely fit, never universal
+  // wildcards — declare the prompt tags they genuinely fit, never universal
   {
-    ...card('fb-wild-paperwork', 'wildcard', 'an unreasonable amount of paperwork', 'paperwork', 'paperwork', 'documents that must be completed', 'ðŸ“„'),
+    ...card('fb-wild-paperwork', 'wildcard', 'an unreasonable amount of paperwork', 'paperwork', 'paperwork', 'documents that must be completed', '📄'),
     compatiblePromptTags: ['carry-on', 'souvenir'],
   },
   {
-    ...card('fb-wild-explaining', 'wildcard', 'explaining the situation to a plant', 'explain', 'explaining', 'to make something clear by describing it', 'ðŸª´'),
+    ...card('fb-wild-explaining', 'wildcard', 'explaining the situation to a plant', 'explain', 'explaining', 'to make something clear by describing it', '🪴'),
     compatiblePromptTags: ['delay', 'review', 'souvenir'],
   },
 ];

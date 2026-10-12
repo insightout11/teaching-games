@@ -14,7 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import type { ActivityProps, CargoHoldContent } from '../types';
 import type { CargoCard, CargoPerStudentPayload, CargoPrompt } from './types';
-import { dealHand, drawReplacement, repairHandForPrompt } from './deal';
+import { dealHand, drawReplacement, repairHandForPrompt, isCardCompatible } from './deal';
 import { assignReaders, reassignReader } from './reader-assignment';
 import { favoriteSubmissionIds, parseStudentAction, scoreKey, scoreRound } from './scoring';
 import { buildFallbackDeck } from './fallback-deck';
@@ -80,9 +80,9 @@ export function CargoHoldActivity({
   const persistTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<CargoRuntimeState | null>(null);
 
-  // â”€â”€ Persistence â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Persistence ─────────────────────────────────────────────────────────────
 
-  /** Monotonic save counter â€” the server rejects an older sequence, so two saves
+  /** Monotonic save counter — the server rejects an older sequence, so two saves
    *  landing out of order cannot roll state backwards. */
   const saveSequenceRef = useRef(0);
 
@@ -139,14 +139,15 @@ export function CargoHoldActivity({
     [persist],
   );
 
-  // â”€â”€ Spec building â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Spec building ───────────────────────────────────────────────────────────
 
-  const buildChoosePayload = useCallback((state: CargoRuntimeState): Record<string, unknown> => {
+  const buildChoosePayload = useCallback((state: CargoRuntimeState, prompt?: CargoPrompt | null): Record<string, unknown> => {
     const data: Record<string, unknown> = {};
     Object.entries(state.hands).forEach(([clientId, hand]) => {
       const submitted = state.submissions.find((s) => s.clientId === clientId);
       const payload: CargoPerStudentPayload = {
         hand,
+        ...(prompt ? { fitsCardIds: hand.filter((card) => isCardCompatible(card, prompt)).map((card) => card.id) } : {}),
         repackUsed: state.players[clientId]?.repackUsed ?? false,
         ...(submitted ? { submittedCardId: submitted.cardId } : {}),
         ...(state.refreshed.includes(clientId) ? { customsRefreshed: true } : {}),
@@ -230,7 +231,7 @@ export function CargoHoldActivity({
                   cargoAccepts: acceptsLabel(prompt),
                 }
               : {}),
-            perStudentData: buildChoosePayload(state),
+            perStudentData: buildChoosePayload(state, prompt),
           },
           identity,
         );
@@ -261,7 +262,7 @@ export function CargoHoldActivity({
             ...common,
             type: 'cargo-vote',
             cargoStep: 'vote',
-            prompt: 'Vote for the funniest one â€” you cannot vote for your own.',
+            prompt: 'Vote for the funniest one — you cannot vote for your own.',
             roundId: roundIdFor(state.instanceId, 'vote', state.roundIndex),
             cargoVoteOptions: options,
             perStudentData: buildVotePayload(state),
@@ -290,7 +291,7 @@ export function CargoHoldActivity({
     [broadcastFor, commit, onPhaseChange, persistNow],
   );
 
-  // â”€â”€ Score writes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Score writes ────────────────────────────────────────────────────────────
 
   const [scoreSaveFailed, setScoreSaveFailed] = useState(false);
   const flushingRef = useRef(false);
@@ -328,7 +329,7 @@ export function CargoHoldActivity({
         } catch {
           // A transport failure must take the same visible, retryable path as an
           // HTTP/database rejection. Leaving the rejection uncaught strands the UI
-          // on "Saving scoresâ€¦" with no Retry button.
+          // on "Saving scores…" with no Retry button.
           stored = false;
         }
         if (!stored) { failed = true; break; }
@@ -344,7 +345,7 @@ export function CargoHoldActivity({
 
   flushScoresRef.current = flushScores;
 
-  // â”€â”€ Restore after a teacher refresh â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Restore after a teacher refresh ─────────────────────────────────────────
 
   useEffect(() => {
     let cancelled = false;
@@ -386,7 +387,7 @@ export function CargoHoldActivity({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
-  // â”€â”€ Student actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Student actions ─────────────────────────────────────────────────────────
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
@@ -420,7 +421,7 @@ export function CargoHoldActivity({
     return () => onRegisterRemoteVoteHandler?.(null);
   }, [onRegisterRemoteVoteHandler, broadcastFor, commit]);
 
-  // â”€â”€ Teacher transitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Teacher transitions ─────────────────────────────────────────────────────
 
   const startGame = useCallback(() => {
     const fresh: CargoRuntimeState = {
@@ -579,8 +580,8 @@ export function CargoHoldActivity({
       readDone: [],
       readingIndex: 0,
       roundIndex: upcomingIndex,
-      // Previous rounds' action IDs are dead weight â€” a replayed action from an earlier
-      // round is already rejected on round identity â€” and the persisted payload has to
+      // Previous rounds' action IDs are dead weight — a replayed action from an earlier
+      // round is already rejected on round identity — and the persisted payload has to
       // stay small enough for the keepalive flush on refresh (64KB budget).
       processedActionIds: [],
       phase: 'choosing',
@@ -601,7 +602,7 @@ export function CargoHoldActivity({
     [persistNow],
   );
 
-  // â”€â”€ Shared screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Shared screen ───────────────────────────────────────────────────────────
 
   const orderedSubmissions = useMemo(
     () => [...view.submissions].sort((a, b) => a.submissionId.localeCompare(b.submissionId)),
@@ -628,7 +629,7 @@ export function CargoHoldActivity({
   if (restoring) {
     return (
       <div className="mx-auto max-w-2xl p-10 text-center text-sm text-slate-400">
-        Checking the cargo manifestâ€¦
+        Checking the cargo manifest…
       </div>
     );
   }
@@ -642,10 +643,10 @@ export function CargoHoldActivity({
         <ol className="space-y-2 text-left text-sm text-slate-300">
           <li>1. Everyone keeps a private hand of cards across the whole game.</li>
           <li>2. Each round, play the card that fits the prompt grammatically.</li>
-          <li>3. Answers are read anonymously â€” the class votes for the funniest one.</li>
+          <li>3. Answers are read anonymously — the class votes for the funniest one.</li>
         </ol>
         <p className="text-xs uppercase tracking-wider text-slate-400">
-          {totalRounds} rounds Â· {deck.length} cards Â· needs {MIN_PLAYERS}â€“12 students
+          {totalRounds} rounds · {deck.length} cards · needs {MIN_PLAYERS}–12 students
         </p>
         {!enough ? (
           <p className="rounded-md border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-sm text-amber-200">
@@ -751,7 +752,7 @@ export function CargoHoldActivity({
                 >
                   {submission.teacherValidity
                     ? 'Cleared by customs'
-                    : 'Held at customs â€” the grammar does not fit this prompt'}
+                    : 'Held at customs — the grammar does not fit this prompt'}
                 </span>
               </span>
             </button>
@@ -783,8 +784,8 @@ export function CargoHoldActivity({
                 <p className="text-lg text-slate-100">{submission.composedSentence}</p>
                 <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
                   <span>
-                    {reader ? `Read by ${reader.displayName}` : 'No reader available â€” read it yourself'}
-                    {view.readDone.includes(submission.submissionId) ? ' Â· done' : ''}
+                    {reader ? `Read by ${reader.displayName}` : 'No reader available — read it yourself'}
+                    {view.readDone.includes(submission.submissionId) ? ' · done' : ''}
                   </span>
                   {isCurrent ? (
                     <button
@@ -850,7 +851,7 @@ export function CargoHoldActivity({
             ))}
           {favorites.size === 0 ? (
             <p className="text-center text-sm text-slate-400">
-              No votes this round â€” grammar points only.
+              No votes this round — grammar points only.
             </p>
           ) : null}
 
@@ -863,8 +864,8 @@ export function CargoHoldActivity({
                 <span className="text-slate-200">{submission.displayName}</span>
                 <span className="text-xs text-slate-400">
                   {submission.teacherValidity ? '+1 grammar' : 'no grammar point'}
-                  {favorites.has(submission.submissionId) ? ' Â· +2 favourite' : ''}
-                  {` Â· ${submission.voteCount} vote${submission.voteCount === 1 ? '' : 's'}`}
+                  {favorites.has(submission.submissionId) ? ' · +2 favourite' : ''}
+                  {` · ${submission.voteCount} vote${submission.voteCount === 1 ? '' : 's'}`}
                 </span>
               </li>
             ))}
@@ -877,7 +878,7 @@ export function CargoHoldActivity({
           ) : null}
 
           <div className="space-y-2 text-center">
-            {/* Advancing is blocked until every score is stored â€” the next round clears
+            {/* Advancing is blocked until every score is stored — the next round clears
                 the submissions these were computed from. */}
             {unsavedScores > 0 ? (
               scoreSaveFailed ? (
@@ -891,7 +892,7 @@ export function CargoHoldActivity({
                 </div>
               ) : (
                 <p className="text-sm text-slate-400" role="status">
-                  Saving scoresâ€¦
+                  Saving scores…
                 </p>
               )
             ) : null}
@@ -916,7 +917,7 @@ export function CargoHoldActivity({
                   {index + 1}. {player.displayName}
                 </span>
                 <span className="text-xs text-slate-400">
-                  {player.grammarPoints + player.favoritePoints} pts Â· {player.grammarPoints} grammar Â·{' '}
+                  {player.grammarPoints + player.favoritePoints} pts · {player.grammarPoints} grammar ·{' '}
                   {player.favoritePoints / 2} favourite{player.favoritePoints === 2 ? '' : 's'}
                 </span>
               </li>
