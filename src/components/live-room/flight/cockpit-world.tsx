@@ -41,6 +41,12 @@ interface Layer {
   night: boolean;
 }
 
+/** A big city within about 150 km of the plane, in kilometres: ahead of it, to its side (negative left, positive right), and its radius. */
+export interface DistantCity { id: string; ahead: number; lateral: number; size: number }
+
+/** World units per kilometre for cities: 150 km ahead sits at the far edge of the view, and the cruise height is about 8 km. */
+const CITY_UNITS_PER_KM = 400;
+
 const CAM_HEIGHT = 3200;     // cruise: well above the highest peaks, looking down on them
 const HORIZON = 0.58;        // horizon line, fraction of the canvas height
 const Z_FAR = 60000;
@@ -99,12 +105,35 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
 
 const css = (c: RGB) => `rgb(${c[0]},${c[1]},${c[2]})`;
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean }) {
+/** A city's lights, laid out once: a cluster thick in the middle and thinning to the edge, the same every time. */
+function cityDots(id: string) {
+  let seed = 2166136261;
+  for (let i = 0; i < id.length; i++) seed = Math.imul(seed ^ id.charCodeAt(i), 16777619);
+  let r = (seed >>> 0) || 1;
+  const rnd = () => { r = (Math.imul(r, 1664525) + 1013904223) >>> 0; return r / 4294967296; };
+  return Array.from({ length: 70 }, () => {
+    const a = rnd() * Math.PI * 2, d = Math.pow(rnd(), 1.3);
+    return { u: Math.cos(a) * d, v: Math.sin(a) * d, b: rnd(), warm: rnd() };
+  });
+}
+
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[] }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed, paused });
   live.current = { speed, paused };
   const cam = useRef(0);
+  // Cities seen in the distance, fixed on the ground once they come into range, so they scroll with it.
+  const cityWorld = useRef(new Map<string, { z: number; x: number; r: number; dots: ReturnType<typeof cityDots> }>());
+  useEffect(() => {
+    const map = cityWorld.current;
+    const keep = new Set<string>();
+    for (const c of cities ?? []) {
+      keep.add(c.id);
+      if (!map.has(c.id)) map.set(c.id, { z: cam.current + c.ahead * CITY_UNITS_PER_KM, x: c.lateral * CITY_UNITS_PER_KM * 0.7, r: c.size * CITY_UNITS_PER_KM, dots: cityDots(c.id) });
+    }
+    for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
+  }, [cities]);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
   const look = useRef<{ haze: RGB; night: boolean }>({ haze: [159, 184, 208], night });
@@ -318,6 +347,50 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         ctx.fillStyle = hazeFill;
         ctx.fillRect(0, y0, w, h - y0);
       }
+
+      // ── Cities in the distance: lights by night, a smudge of haze by day. Seen through the air, so they fade with
+      // distance, and the mountains drawn after them stand in front. ───────────────────────────────────────────────
+      cityWorld.current.forEach((c, id) => {
+        const rz = c.z - camZ;
+        if (rz < Z_NEAR * 6 || rz > Z_FAR) return;
+        const s = F / rz;
+        const cx = w / 2 + c.x * s, cy = horizonY + CAM_HEIGHT * s;
+        const rx = c.r * s, ry = Math.max(1.5, rx * (CAM_HEIGHT / rz) * 1.3);
+        if (cx + rx < 0 || cx - rx > w || cy - ry > h) return;
+        const fog = Math.min(1, rz / Z_FAR);
+        // Appear gently at the far edge, and melt away as the plane comes right up to it.
+        const fade = Math.min(1, (Z_FAR - rz) / 8000) * Math.min(1, (rz - Z_NEAR * 6) / 9000);
+        ctx.save();
+        ctx.globalAlpha = fade;
+        if (dark) {
+          const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+          glow.addColorStop(0, `rgba(255,190,112,${0.5 * (1 - fog * 0.45)})`);
+          glow.addColorStop(1, 'rgba(255,170,90,0)');
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.scale(rx * 1.35, ry * 1.35);
+          ctx.fillStyle = glow;
+          ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+          ctx.globalCompositeOperation = 'lighter';
+          const n = Math.min(c.dots.length, Math.max(12, Math.round(rx * 0.9)));
+          const size = Math.max(1, 1.7 * (1 - fog * 0.4));
+          for (let i = 0; i < n; i++) {
+            const d = c.dots[i];
+            ctx.fillStyle = `rgba(255,${200 + Math.round(d.warm * 40)},${120 + Math.round(d.warm * 70)},${(0.45 + d.b * 0.5) * (1 - fog * 0.4)})`;
+            ctx.fillRect(cx + d.u * rx, cy + d.v * ry, size, size * 0.8);
+          }
+        } else {
+          ctx.translate(cx, cy);
+          ctx.scale(rx, ry);
+          ctx.fillStyle = `rgba(148,136,124,${0.32 * (1 - fog * 0.6)})`;
+          ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = `rgba(176,166,152,${0.26 * (1 - fog * 0.6)})`;
+          ctx.beginPath(); ctx.arc(0, 0, 0.55, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.restore();
+        void id;
+      });
 
       // ── Mountains and hills standing on that ground ────────────────────
       const all: Array<{ p: Peak; layer: Layer }> = [];
