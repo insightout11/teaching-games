@@ -9,3 +9,4 @@ Texts are written individually for each lesson's topic and flight. Opening and c
 - kids-animals: 1 texts; course checker passes.
 - kids-food: 2 texts; course checker passes.
 - kids-weather: 2 texts; course checker passes.
+- kids-space: 2 A2 texts; course checker passes. The word counter ignores punctuation-only tokens in dialogue.

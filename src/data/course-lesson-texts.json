@@ -421,5 +421,99 @@
     "courseId": "kids-weather",
     "title": "Our Weather Report",
     "level": "A2"
+  },
+  {
+    "lessonIndex": 0,
+    "text": "Lila looks out of her window before bed. The Moon is above the roofs. Several stars shine nearby. “Can I make a space notebook?” she asks. Her brother brings paper. Lila writes three things she can say now. The Moon looks bright. Its shape seems to change across different nights. Stars look like tiny points from here. Her brother asks whether the Moon makes its own light. They find the answer in their space book. It reflects light from the Sun. Lila adds that fact beside her drawing. She leaves another page for a Moon journey she will imagine later.",
+    "words": [
+      {
+        "word": "roofs",
+        "meaning": "the tops of buildings"
+      },
+      {
+        "word": "shine",
+        "meaning": "give or show light"
+      },
+      {
+        "word": "shape",
+        "meaning": "the form of something"
+      },
+      {
+        "word": "reflects",
+        "meaning": "sends light back from a surface"
+      },
+      {
+        "word": "journey",
+        "meaning": "travel from one place to another"
+      }
+    ],
+    "questions": [
+      {
+        "q": "Where does Lila look from?",
+        "a": "her window"
+      },
+      {
+        "q": "What does Lila want to make?",
+        "a": "a space notebook"
+      },
+      {
+        "q": "Where does the Moon's light come from?",
+        "a": "the Sun"
+      }
+    ],
+    "talk": [
+      "What three things would you say about the night sky?",
+      "What would you like to find out about the Moon?"
+    ],
+    "courseId": "kids-space",
+    "title": "Look Up Tonight",
+    "level": "A2"
+  },
+  {
+    "lessonIndex": 4,
+    "text": "Lila turns to the empty page in her space notebook. She draws an imagined Moon journey. Her first note only described the Moon from Earth. Now her guide follows an astronaut onto its rocky surface. “This round hole is a crater,” she explains. “Our astronaut needs a spacesuit. There is no air to breathe here.” She draws Earth above the astronaut's head. Her brother asks what happens next. “The astronaut collects a small rock,” Lila says. “Then the rocket takes the astronaut home.” She checks three parts of her guide: the place, the equipment and the return. Her space words now tell a whole journey.",
+    "words": [
+      {
+        "word": "surface",
+        "meaning": "the outside or top of something"
+      },
+      {
+        "word": "crater",
+        "meaning": "a round hole in the ground"
+      },
+      {
+        "word": "spacesuit",
+        "meaning": "special clothing for a person in space"
+      },
+      {
+        "word": "equipment",
+        "meaning": "things needed for a job"
+      },
+      {
+        "word": "return",
+        "meaning": "going back to where you started"
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is the round hole called?",
+        "a": "a crater"
+      },
+      {
+        "q": "What does the astronaut need?",
+        "a": "a spacesuit"
+      },
+      {
+        "q": "What does the astronaut collect?",
+        "a": "a small rock"
+      }
+    ],
+    "talk": [
+      "How would you describe your imagined Moon journey?",
+      "Which piece of equipment would you explain to a visitor, and why?"
+    ],
+    "courseId": "kids-space",
+    "title": "Our Space Guide",
+    "level": "A2"
   }
 ]

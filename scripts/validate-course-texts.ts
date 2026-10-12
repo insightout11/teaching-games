@@ -16,7 +16,7 @@ const checks: Record<string, number> = { coverage: 0, invalidLesson: 0, sourcedL
 const errors: string[] = [];
 const fail = (check: string, where: string, message: string) => { checks[check] += 1; errors.push(`${where}: ${message}`); };
 const nonEmpty = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
-const words = (text: string) => text.trim().split(/\s+/).filter(Boolean);
+const words = (text: string) => text.trim().split(/\s+/).filter((token) => /[a-z0-9]/i.test(token));
 const normalized = (text: string) => text.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
 const contains = (text: string, phrase: string) => (` ${normalized(text)} `).includes(` ${normalized(phrase)} `);
 const courseById = new Map(courses.map((course) => [course.id, course]));
