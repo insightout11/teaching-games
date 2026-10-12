@@ -10,7 +10,6 @@ import { Modal } from '@/components/ui/modal';
 import { PaywallModal } from '@/components/ui/paywall-modal';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 import { useTeacherProfile } from '@/hooks/use-teacher-profile';
@@ -114,42 +113,34 @@ function ModuleCard({
   const extraCount = skills.length - visibleSkills.length;
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 transition-colors hover:border-cyan-300/30">
-      <button
-        onClick={onLaunch}
-        aria-label={`${name} – ${typeLabel}, ${estimatedMinutes} min`}
-        className="flex-1 flex gap-3 p-4 text-left w-full"
-      >
-        <div className={cn('w-11 h-11 rounded-xl flex items-center justify-center shrink-0', tintFor(color))} aria-hidden="true">
-          <Icon className={cn('w-5 h-5', color)} />
-        </div>
-        <div className="min-w-0 flex-1">
-          <span className="font-semibold text-sm text-lc-text block truncate">{name}</span>
-          <p className="text-xs text-lc-text3 mt-0.5">{typeLabel} · {estimatedMinutes} min</p>
-          <p className="text-xs text-lc-text2 opacity-80 mt-1.5 line-clamp-2">{description}</p>
-          {skills.length > 0 && (
-            <div className="flex flex-wrap items-center gap-1 mt-2">
-              {visibleSkills.map((skill) => (
-                <span key={skill} className="text-[10px] px-1.5 py-0.5 bg-lc-border text-lc-text2 rounded font-instrument tracking-wide uppercase">
-                  {skill}
-                </span>
-              ))}
-              {extraCount > 0 && (
-                <span className="text-[10px] text-lc-text3">+{extraCount}</span>
-              )}
-            </div>
-          )}
-          {presetFootnote && (
-            <p className="text-[10px] text-lc-text3 mt-1.5">In {presetFootnote}</p>
-          )}
-        </div>
-      </button>
-      <div className="px-4 pb-3 pt-1 border-t border-lc-border/40 flex items-center justify-end gap-2">
-        <Button onClick={onLaunch} size="sm" className="px-3 py-1.5 text-xs">
-          Launch
-        </Button>
-      </div>
-    </div>
+    <button
+      onClick={onLaunch}
+      aria-label={`${name} – ${typeLabel}, ${estimatedMinutes} min`}
+      className="group flex w-full flex-col gap-3 rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 p-4 text-left transition-colors hover:border-cyan-300/40"
+    >
+      <span className="flex items-start gap-3">
+        <span className={cn('flex h-11 w-11 shrink-0 items-center justify-center rounded-xl', tintFor(color))} aria-hidden="true">
+          <Icon className={cn('h-5 w-5', color)} />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-base font-semibold text-lc-text">{name}</span>
+          <span className="mt-0.5 block text-xs text-lc-text3">{typeLabel} · {estimatedMinutes} min</span>
+        </span>
+      </span>
+      <span className="line-clamp-2 text-[13px] leading-snug text-lc-text2">{description}</span>
+      <span className="mt-auto flex items-end justify-between gap-2">
+        <span className="flex min-w-0 flex-wrap items-center gap-1">
+          {visibleSkills.map((skill) => (
+            <span key={skill} className="rounded bg-white/[0.06] px-1.5 py-0.5 font-instrument text-[10px] uppercase tracking-wide text-lc-text2">
+              {skill}
+            </span>
+          ))}
+          {extraCount > 0 && <span className="text-[10px] text-lc-text3">+{extraCount}</span>}
+          {presetFootnote && <span className="ml-1 text-[10px] text-lc-text3">· in {presetFootnote}</span>}
+        </span>
+        <span className="shrink-0 rounded-lg bg-cyan-400/15 px-3 py-1.5 text-xs font-semibold text-cyan-200 transition-colors group-hover:bg-cyan-400 group-hover:text-[#03202a]">Launch</span>
+      </span>
+    </button>
   );
 }
 
@@ -475,15 +466,15 @@ export function ExploreClient() {
   });
 
   return (
-    <div className="-mx-6 -mt-6 lg:-mx-8 lg:-mt-8 px-6 pt-6 lg:px-8 lg:pt-8 pb-12 min-h-full">
-      <header className="mx-auto mb-5 max-w-6xl pt-2">
+    <div className="mx-auto max-w-6xl pb-12">
+      <header className="mb-5 pt-2">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-300/90" style={{ fontFamily: FLAP_FONT }}>Explore</p>
         <h1 className="mt-2 font-display text-4xl text-white sm:text-5xl">Every game and <em className="text-amber-300">activity</em></h1>
         <p className="mt-2 text-white/60">Launch any of them with a class, or open one to see how it works.</p>
       </header>
 
       {/* Toolbar: search + type segmented control + skill popover */}
-      <div className="sticky top-14 z-20 -mx-6 px-6 lg:-mx-8 lg:px-8 py-3 mb-6 bg-[#060b14]/90 backdrop-blur border-b border-white/[0.07]">
+      <div className="sticky top-14 z-20 -mx-2 mb-6 rounded-b-xl border-b border-white/[0.07] bg-[#060b14]/90 px-2 py-3 backdrop-blur">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[200px] max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-lc-text3" aria-hidden />

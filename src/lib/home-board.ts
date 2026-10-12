@@ -5,6 +5,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import topicBank from '@/data/topic-briefings.json';
 import type { PreparedLesson } from '@/lib/prepared-lesson';
+import type { DestinationScene } from '@/lib/world-flight/types';
 
 /**
  * Home as the departures board (docs/home-page-concept.md): one row per class with what happens next. Read with
@@ -49,7 +50,14 @@ export interface BoardSummary {
   /** Latest logbook lines across classes (class counts only). */
   log: Array<{ className: string; line: string; at: string }>;
   /** The most recently used class's World Flight position, if it has one. */
-  journey: { className: string; city: string; stamps: number } | null;
+  journey: { className: string; city: string; country: string; stamps: number; destinationId: string; scene: DestinationScene } | null;
+  /** A city to show on the World Flight card when no class has started a journey. */
+  showcase: { city: string; country: string; destinationId: string; scene: DestinationScene };
+}
+
+function showcaseCity(): BoardSummary['showcase'] {
+  const d = getDestinationById('tokyo')!;
+  return { city: d.city, country: d.country, destinationId: d.id, scene: d.scene };
 }
 
 /** Four topics from the ready bank for "something new", Junior-aware, changing daily, never the last topic. */
@@ -90,7 +98,7 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
     .eq('is_demo', false);
   const rows = ((classes ?? []) as Array<{ id: string; name: string; created_at: string; junior?: boolean; default_difficulty?: string | null; next_lesson?: PreparedLesson | null }>)
     .sort((a, b) => a.created_at.localeCompare(b.created_at));
-  if (!rows.length) return { rows: [], stats: { lessonsThisMonth: 0, students: 0, cities: 0 }, log: [], journey: null };
+  if (!rows.length) return { rows: [], stats: { lessonsThisMonth: 0, students: 0, cities: 0 }, log: [], journey: null, showcase: showcaseCity() };
   const ids = rows.map((c) => c.id);
 
   const [studentsRes, sessionsRes] = await Promise.all([
@@ -234,7 +242,7 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
     const dest = state?.current_destination_id ? getDestinationById(state.current_destination_id) : null;
     r.stamps = stampsByClass.get(r.classId) ?? 0;
     r.nextCity = dest?.city ?? null;
-    if (dest && !journey) journey = { className: r.name, city: dest.city, stamps: r.stamps };
+    if (dest && !journey) journey = { className: r.name, city: dest.city, country: dest.country, stamps: r.stamps, destinationId: dest.id, scene: dest.scene };
   }
 
   return {
@@ -246,5 +254,6 @@ export async function getDepartureBoard(teacherId: string): Promise<BoardSummary
     },
     log,
     journey,
+    showcase: showcaseCity(),
   };
 }

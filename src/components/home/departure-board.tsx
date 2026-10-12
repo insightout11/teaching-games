@@ -9,6 +9,7 @@ import { launchCourseLesson } from '@/lib/launch-course-lesson';
 import { startClassSession } from '@/lib/start-class';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { PrepareSheet } from '@/components/home/prepare-sheet';
+import { WorldFlightCard } from '@/components/home/world-flight-card';
 import { launchPreparedLesson } from '@/lib/prepared-lesson';
 import { useSearchParams } from 'next/navigation';
 import { flapFont, Flaps, FlapStyles } from '@/components/ui/split-flap';
@@ -260,51 +261,40 @@ export function DepartureBoard({ summary }: { summary: BoardSummary }) {
         )}
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-[1.2fr_1fr_1fr]">
-        <section className="flex min-w-0 flex-col gap-2 rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 p-5">
-          <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: flapFont.style.fontFamily }}>Captain&apos;s logbook</h2>
-          {log.length ? (
-            <ul className="divide-y divide-white/[0.06]">
-              {log.map((e, i) => (
-                <li key={i} className="flex justify-between gap-3 py-2 text-sm text-white/75">
-                  <span className="min-w-0 truncate"><span className="font-semibold text-white/90">{e.className}</span> · {e.line}</span>
-                  <span className="shrink-0 text-xs text-white/40" style={{ fontFamily: flapFont.style.fontFamily }}>{now ? shortDate(e.at) : ''}</span>
-                </li>
+      <div className="grid items-stretch gap-4 lg:grid-cols-[1.55fr_1fr]">
+        <WorldFlightCard journey={journey} showcase={summary.showcase} />
+        <div className="flex min-w-0 flex-col gap-4">
+          <section className="flex min-w-0 flex-col gap-2 rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 p-5">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: flapFont.style.fontFamily }}>Captain&apos;s logbook</h2>
+            {log.length ? (
+              <ul className="divide-y divide-white/[0.06]">
+                {log.map((e, i) => (
+                  <li key={i} className="flex justify-between gap-3 py-2 text-sm text-white/75">
+                    <span className="min-w-0 truncate"><span className="font-semibold text-white/90">{e.className}</span> · {e.line}</span>
+                    <span className="shrink-0 text-xs text-white/40" style={{ fontFamily: flapFont.style.fontFamily }}>{now ? shortDate(e.at) : ''}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-white/50">After your first lesson, what each class covered shows up here.</p>
+            )}
+          </section>
+          <section className="flex min-w-0 flex-col gap-2 rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 p-5">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: flapFont.style.fontFamily }}>Prepare ahead</h2>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { href: '/courses/new', label: 'Build a course', Icon: PenLine },
+                { href: '/courses/book', label: 'Upload a book', Icon: BookUp },
+                { href: '/explore', label: 'Explore flights', Icon: Compass },
+                { href: '/library', label: 'Library', Icon: Library },
+              ].map(({ href, label, Icon }) => (
+                <Link key={label} href={href} className="flex items-center gap-2 rounded-lg bg-white/[0.04] px-3 py-2.5 text-sm text-white/80 hover:bg-white/[0.08] hover:text-white">
+                  <Icon className="h-4 w-4 shrink-0 text-cyan-300" />{label}
+                </Link>
               ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-white/50">After your first lesson, what each class covered shows up here.</p>
-          )}
-        </section>
-
-        <Link href="/world-flight" className="group flex min-w-0 flex-col gap-2 rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 p-5 hover:border-cyan-300/30">
-          <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: flapFont.style.fontFamily }}>World Flight</h2>
-          <svg viewBox="0 0 300 80" className="h-20 w-full rounded-lg bg-[#0d1b2e]" aria-hidden>
-            <path d="M24 60 C 90 12, 170 14, 236 40" fill="none" stroke="#4fd1e8" strokeWidth="2" strokeDasharray="4 5" />
-            <circle cx="24" cy="60" r="4" fill="#fcd34d" />
-            <circle cx="236" cy="40" r="5" fill="#34d399" />
-            <text x="200" y="66" fill="#fff4dc" fontSize="11" fontFamily={flapFont.style.fontFamily}>{(journey?.city ?? 'Choose a city').toUpperCase().slice(0, 14)}</text>
-          </svg>
-          <p className="text-sm text-white/70">
-            {journey ? <>{journey.className} {journey.stamps ? `has ${journey.stamps} ${journey.stamps === 1 ? 'stamp' : 'stamps'} and ` : ''}is heading for {journey.city}.</> : 'Fly your class around the world, one city per lesson.'}
-          </p>
-        </Link>
-
-        <section className="flex min-w-0 flex-col gap-2 rounded-2xl border border-white/[0.07] bg-[#0a121e]/85 p-5">
-          <h2 className="text-[11px] font-bold uppercase tracking-[0.22em] text-amber-300" style={{ fontFamily: flapFont.style.fontFamily }}>Prepare ahead</h2>
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              { href: '/courses/new', label: 'Build a course', Icon: PenLine },
-              { href: '/courses/book', label: 'Upload a book', Icon: BookUp },
-              { href: '/explore', label: 'Explore flights', Icon: Compass },
-              { href: '/library', label: 'Library', Icon: Library },
-            ].map(({ href, label, Icon }) => (
-              <Link key={label} href={href} className="flex items-center gap-2 rounded-lg bg-white/[0.04] px-3 py-2.5 text-sm text-white/80 hover:bg-white/[0.08] hover:text-white">
-                <Icon className="h-4 w-4 shrink-0 text-cyan-300" />{label}
-              </Link>
-            ))}
-          </div>
-        </section>
+            </div>
+          </section>
+        </div>
       </div>
       {choosing && picked && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Choose a class">
