@@ -4,6 +4,7 @@ import { DEP_CITY_LEAD, DEP_ROLL, departureCameraPan } from '../cinematic-motion
 import { BLEED_X, CONTENT_W, LAYOUT, VIEWBOX, type SceneLayerProps } from '../types';
 import { LcYacht } from './lc-yacht';
 import { WeatherGround } from './weather-layer';
+import { GroundLighting } from './lighting-layer';
 
 // A close side-profile airport foreground: destination-specific surroundings
 // sit between the city and a deep runway surface that fills the lower frame.
@@ -361,6 +362,7 @@ export function RunwayLayer(props: SceneLayerProps) {
       </g>
 
       {/* Wet runway and puddles, or settled snow: behind the plane, in front of the runway paint */}
+      <GroundLighting {...props} />
       <WeatherGround {...props} />
     </g>
   );

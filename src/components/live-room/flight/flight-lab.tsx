@@ -8,6 +8,8 @@ import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arri
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
+import type { SkyLight } from '@/components/world-flight/arrival-scene/sky-light';
+import { moonPosition, sunPosition } from '@/lib/live-room/sun';
 import { CockpitSky, cockpitCloudTint, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { WindscreenWeather } from '@/components/session/cockpit-scene';
@@ -57,6 +59,15 @@ export function FlightLab() {
   const [scrub, setScrub] = useState<number | null>(null);
   const origin = cities.find((c) => c.id === originId) ?? cities[0];
   const dest = cities.find((c) => c.id === destId) ?? cities[1];
+  // The same real sun and moon the live room uses, for the destination on today's date, at a local solar hour that
+  // matches the chosen time of day. Heading 90 (east) is what the flight deck reports once the plane has landed.
+  const demoSky = useMemo<SkyLight>(() => {
+    const hour = tod === 'dawn' ? 6.2 : tod === 'dusk' ? 17.8 : tod === 'night' ? 22 : 13;
+    const at = new Date();
+    at.setUTCHours(0, 0, 0, 0);
+    at.setTime(at.getTime() + (hour - dest.lng / 15) * 3600_000);
+    return { sun: sunPosition(dest, at), moon: moonPosition(dest, at), heading: 90 };
+  }, [tod, dest]);
 
   // Drive the timed phases (side-camera cinematics and the climb).
   const raf = useRef(0);
@@ -132,6 +143,7 @@ export function FlightLab() {
                   progress={sideFrame.progress}
                   timeOfDay={tod}
                   weather={weather}
+                  skyLight={demoSky}
                   fit="slice"
                   className="absolute inset-0"
                 />

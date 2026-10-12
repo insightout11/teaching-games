@@ -26,7 +26,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
-import { bearingDeg, offsetClock, solarClock, sunPosition } from '@/lib/live-room/sun';
+import { bearingDeg, moonPosition, offsetClock, solarClock, sunPosition } from '@/lib/live-room/sun';
 import { cityNear, countryAt, loadCountries, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
@@ -568,7 +568,7 @@ export function FlightDeck({
     const s = sunPosition(at, new Date(now));
     const heading = bearingDeg(at, destination.lat === at.lat && destination.lng === at.lng ? { lat: at.lat, lng: at.lng + 1 } : destination);
     const timeOfDay: TimeOfDay = s.elevation < -6 ? 'night' : s.elevation < 8 ? (s.azimuth < 180 ? 'dawn' : 'dusk') : 'day';
-    return { sun: { ...s, heading }, timeOfDay, clock: solarClock(at.lng, new Date(now)) };
+    return { sun: { ...s, heading }, moon: moonPosition(at, new Date(now)), timeOfDay, clock: solarClock(at.lng, new Date(now)) };
   }, [below.point, destination, flightStage, now]);
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   const launchedAt = useRef<number>(0);
@@ -1446,6 +1446,7 @@ export function FlightDeck({
         destination={destination}
         timeOfDay={skyNow.timeOfDay}
         sun={skyNow.sun}
+        moon={skyNow.moon}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
         terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}

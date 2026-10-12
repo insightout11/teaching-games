@@ -18,6 +18,10 @@ import { PlaneLayer } from './layers/plane-layer';
 import { AmbientLayer } from './layers/ambient-layer';
 import { CinematicOverlay } from './layers/cinematic-overlay';
 import { WeatherLayer } from './layers/weather-layer';
+import { CityLighting } from './layers/lighting-layer';
+import { atmosphereLayout } from './layers/atmosphere-layer';
+import { primaryLight, skyDiscs } from './sky-light';
+import { WEATHER_PROFILE } from './weather';
 import { Windsock } from './layers/windsock';
 
 // Distant, low-contrast skyline painted into the side bleed margins so wide
@@ -118,6 +122,7 @@ export function DestinationArrivalScene({
   fit = 'slice',
   timeOfDay,
   weather = 'clear',
+  skyLight,
   className,
 }: DestinationArrivalSceneProps) {
   const reduced = useReducedMotion();
@@ -142,11 +147,16 @@ export function DestinationArrivalScene({
   const palette = timeOfDay ? composeTimedPalette(timeOfDay, scene) : getPalette(scene.palette);
   const landmark = resolveLandmark(scene.landmarkSilhouette);
 
-  const baseLayerProps = { scene, palette, idPrefix, phase, progress: p, ambient, mode, weather };
+  // With real sun and moon data the discs sit where the sky really has them; otherwise at a fixed spot per city.
+  const discs = skyLight ? skyDiscs(skyLight, (seededRand(`${destinationId}:view`)() - 0.5) * 60) : undefined;
+  const sky = atmosphereLayout(seededRand(`${destinationId}:atmosphere`), palette.light === 'moon', WEATHER_PROFILE[weather]);
+  const baseLayerProps = { scene, palette, idPrefix, phase, progress: p, ambient, mode, weather, // With a transparent sky (the lobby / flight overlay) the sun in view belongs to that other sky, so the scene has
+  // no sun of its own to light from.
+  sun: transparentSky ? undefined : discs ? primaryLight(discs) : { x: sky.lightX, y: sky.lightY }, discs, timeOfDay };
   // Never share a mutable RNG across sibling layers. React may evaluate siblings
   // in a different order during SSR and hydration; isolated seeds keep every
   // layer byte-identical regardless of scheduling.
-  const propsFor = (layer: string) => ({ ...baseLayerProps, rand: seededRand(`${destinationId}:${layer}`) });
+  const propsFor = (layer: string) => ({ ...baseLayerProps, rand: seededRand(`${destinationId}:${layer}`), seed: `${destinationId}:${layer}` });
 
   const landmarkAt = (depth: LandmarkDepth) =>
     landmark && landmark.depth === depth ? (
@@ -220,6 +230,8 @@ export function DestinationArrivalScene({
       {/* Focal ambient life (birds / light flickers / beacon) — renders only when
           ambient (animated + not reduced-motion); still frames show nothing. */}
       <g transform={focalAt(0.5)}><AmbientLayer {...propsFor('ambient')} /></g>
+      {/* The sun's light on the city (wash, rays, contact shadow) — shared by every scene */}
+      <CityLighting {...propsFor('lighting')} />
       {/* Full-canvas: airfield ground + runway (tier 2). Runway markings scroll
           internally on takeoff (departureCameraPan) — the strongest speed cue. */}
       <g transform={mode === 'arrival' ? canvasAt(1) : undefined}><RunwayLayer {...propsFor('runway')} /></g>
