@@ -140,9 +140,9 @@ export function bankSituationFor(topic: string, difficulty?: string, junior = fa
     const text = words(`${s.situation} ${s.canDo}`);
     let score = 0;
     let shared = 0;
-    q.forEach((w) => { if (tags.indexOf(w) >= 0) { score += 3; shared += 1; } else if (text.indexOf(w) >= 0) { score += 1; shared += 1; } });
-    // Must be about this topic: most of its meaningful words, and at least one of them in the item's own tags.
-    if (score < 3 || !coversTopic(shared, q)) continue;
+    q.forEach((w) => { if (tags.indexOf(w) >= 0) { score += 3; shared += 1; } else if (text.indexOf(w) >= 0) score += 1; });
+    // Made for this topic: every meaningful word of the topic is one of the item's own topic tags.
+    if (!coversTopic(shared, q)) continue;
     if (levels.indexOf(s.cefr) >= 0) score += 2;
     if (!best || score > best.score) best = { s, score };
   }

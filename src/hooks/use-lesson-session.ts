@@ -1,5 +1,6 @@
 'use client';
 
+import { reportContentIssues } from '@/lib/content-health-client';
 import { FLIGHT_BEFORE_KEY, saveSessionRecord } from '@/lib/flight-result';
 import { anonymiseThread, planKeyOf, restorableThread, threadHasContent } from '@/lib/thread-backup';
 import { filterTripSlots } from '@/lib/world-flight/trip-stops';
@@ -380,6 +381,7 @@ export function useLessonSession(
     })
       .then((res) => res.json())
       .then((data: LessonPlanGenerateResponse) => {
+        reportContentIssues(data.contentIssues, { topic: effectiveTopic, difficulty: settings.difficulty, hasMaterial: !!sourceMaterial, where: 'prepared ahead', activity: key });
         captureSourceVocab(data);
         if (data.success === false) return;
         if (isLanding && data.content) {
@@ -421,7 +423,10 @@ export function useLessonSession(
       }),
     })
       .then((r) => (r.ok ? r.json() : null))
-      .then((data: LessonPlanGenerateResponse | null) => (data && data.success !== false ? data.content?.[activity.key] ?? null : null))
+      .then((data: LessonPlanGenerateResponse | null) => {
+        reportContentIssues(data?.contentIssues, { topic: source.title, difficulty: settings.difficulty, hasMaterial: true, where: 'prepared for the room', activity: activity.key });
+        return data && data.success !== false ? data.content?.[activity.key] ?? null : null;
+      })
       .catch(() => null);
     roomPrefetchRef.current[activity.key] = { sourceKey, promise };
   }, [lessonPlanContent, settings.difficulty, settings.grammarTarget, studentCount, sessionId]);
@@ -523,6 +528,7 @@ export function useLessonSession(
       }
 
       const data: LessonPlanGenerateResponse = await response.json();
+      reportContentIssues(data.contentIssues, { topic: effectiveTopic, difficulty: settings.difficulty, hasMaterial: !!sourceMaterial, where: 'made on launch', activity: activity.key });
       captureSourceVocab(data);
       const resolvedContent = isLanding ? (data.content as unknown as ActivityGeneratedContent) : data.content?.[activity.key];
       if (data.success !== false && resolvedContent) {

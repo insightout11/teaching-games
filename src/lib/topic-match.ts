@@ -1,12 +1,12 @@
 /**
  * Matching a lesson topic against the hand-checked banks (speaking situations, debate motions).
  *
- * A bank item wins over the AI, so a wrong match puts the whole lesson on the wrong subject. Two rules keep that
- * from happening (Oct 2026: a lesson on burial practices in Bali got a situation about bus shelters, matched on the
- * word "the"):
- *  - filler words never count
- *  - the item must share MOST of the topic's meaningful words, not just one of them
- * When nothing in a bank passes, the caller lets the AI write it for the real topic.
+ * OWNER'S RULE (Oct 2026): lessons are live and on whatever the class is talking about, so the AI writes for the
+ * EXACT topic. A ready-made item that is merely close ("food waste" for "food chains") is worse than none: it puts
+ * the lesson on the wrong subject. A bank item is used only when it was made for this topic:
+ *  - filler words never count (a lesson on burial practices in Bali once got bus shelters, matched on "the")
+ *  - EVERY meaningful word of the topic must be covered by the item
+ * When nothing passes, the caller lets the AI write it for the real topic.
  */
 const FILLER = new Set([
   'the', 'and', 'for', 'are', 'was', 'were', 'with', 'from', 'about', 'into', 'over', 'your', 'our', 'their', 'his', 'her',
@@ -28,8 +28,7 @@ export function topicWords(topic: string): string[] {
   return Array.from(new Set((topic.toLowerCase().match(/[a-zé]{3,}/g) ?? []).filter((w) => !FILLER.has(w)).map(stem)));
 }
 
-/** True when a bank item that shares `matched` of the topic's meaningful words is really about that topic. */
+/** True when a bank item covers all `topic` words (`matched` of them): it was made for this topic, not a near one. */
 export function coversTopic(matched: number, topic: string[]): boolean {
-  if (!topic.length) return false;
-  return matched >= Math.max(1, Math.ceil(topic.length * 0.6));
+  return topic.length > 0 && matched >= topic.length;
 }

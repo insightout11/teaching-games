@@ -23,7 +23,7 @@ describe('speak check', () => {
   });
 
   it('finds a checked situation for a matching topic, valid and level-aware', () => {
-    const s = bankSituationFor('Ordering food at a café', 'Easy');
+    const s = bankSituationFor('food', 'Easy');
     expect(s).not.toBeNull();
     expect(validSpeakSituation(s)).not.toBeNull();
     expect(bankSituationFor('quantum chromodynamics')).toBeNull();

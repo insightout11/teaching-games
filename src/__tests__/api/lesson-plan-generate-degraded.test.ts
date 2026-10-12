@@ -149,3 +149,34 @@ describe('POST /api/lesson-plan/generate — scene scripts', () => {
     expect(texts.join(' ')).not.toContain('Something about');
   });
 });
+
+describe('POST /api/lesson-plan/generate — content health', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('reports the AI failure and the stand-in it led to, with the content', async () => {
+    mockGenerateJSON.mockRejectedValue(new Error('AI provider down'));
+    const res = await POST(makeRequest({ customTopic: 'quarterly tax accounting for dentists', difficulty: 'Easy', activities: ['imposter'], studentCount: 4 }) as never);
+    const data = await res.json();
+    expect(data.content.imposter.rounds.length).toBeGreaterThan(0);
+    const kinds = data.contentIssues.map((i: { kind: string }) => i.kind);
+    expect(kinds).toContain('ai_error');
+    expect(data.contentIssues.find((i: { kind: string; activity?: string }) => i.kind === 'stand_in')?.activity).toBe('imposter');
+  });
+
+  it('reports an AI answer that failed our checks', async () => {
+    mockGenerateJSON.mockResolvedValue({ title: 'x', context: 'x', genre: 'comedy', cast: [], improvPrompt: 'x', improvScript: [], lines: [] });
+    const res = await POST(makeRequest({ customTopic: 'Rainbows', difficulty: 'Easy', activities: ['scene-igniter'], studentCount: 2 }) as never);
+    const data = await res.json();
+    expect(data.contentIssues.some((i: { kind: string; activity?: string }) => i.kind === 'rejected' && i.activity === 'scene-igniter')).toBe(true);
+  });
+
+  it('adds nothing when the content was made cleanly', async () => {
+    mockGenerateJSON.mockResolvedValue({ questions: ['What is your favourite colour?', 'Which animal do you like?', 'Why do you like it?'] });
+    const res = await POST(makeRequest({ customTopic: 'Rainbows', difficulty: 'Easy', activities: ['quick-fire'], studentCount: 2 }) as never);
+    const data = await res.json();
+    expect(data.contentIssues).toBeUndefined();
+    expect(data.content['quick-fire'].questions).toHaveLength(3);
+  });
+});

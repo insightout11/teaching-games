@@ -11,13 +11,21 @@ import { bankSituationFor, fallbackSpeakSituation, speakSituationIsTalk, validSp
 import { buildAnnouncementFor, genericAnnouncement } from '@/activities/trip-announcement/content';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON as _generateJSON } from '@/lib/ai';
+import { collectContentIssues, noteContentIssue } from '@/lib/content-health';
 import type { AISchema } from '@/lib/ai';
 import { bulkSemaphore } from '@/lib/ai/concurrency';
 import { requireAuthForGeneration } from '@/lib/auth-credits';
 import { isValidStandardTopicId, getStandardTopicLabel } from '@/lib/standard-topics';
 
-const generateJSON: typeof _generateJSON = (prompt, schema, options) =>
-  bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
+const generateJSON: typeof _generateJSON = async (prompt, schema, options) => {
+  try {
+    return await bulkSemaphore.run(() => _generateJSON(prompt, schema, { ...options, taskClass: 'bulk-generation' }));
+  } catch (error) {
+    // Recorded for the lesson's content-health report, then handled by the generator as before.
+    noteContentIssue({ kind: 'ai_error', reason: error instanceof Error ? error.message : String(error) });
+    throw error;
+  }
+};
 import type { Difficulty } from '@/lib/difficulty';
 import { difficultyDescriptions, languageRule } from '@/lib/difficulty';
 import {
@@ -1371,7 +1379,9 @@ Return:
     const valid = validMotion(parsed);
     if (valid) return valid;
   } catch { /* fall back below */ }
-  return bankMotionFor(topic, difficulty, topicId) ?? fallbackMotion(topic);
+  const exact = bankMotionFor(topic, difficulty, topicId);
+  if (!exact) noteContentIssue({ kind: 'stand_in', activity: 'debate-motion', reason: 'no usable motion from the AI: the topic itself was used as the motion' });
+  return exact ?? fallbackMotion(topic);
 }
 
 /** Reading flight: the book lesson (library book course) at the class level, with its reading pack. */
@@ -2075,6 +2085,7 @@ Stay on what the lesson is ABOUT. Each question connects the student's own life 
     const qs = (parsed.questions ?? []).map((q) => q.trim()).filter((q) => q.length > 3 && q.split(/\s+/).length <= 16);
     if (qs.length >= 2) return { activityKey: 'quick-fire', topicContext: topic, questions: qs.slice(0, 3) };
   } catch { /* fall back below */ }
+  noteContentIssue({ kind: 'stand_in', activity: 'quick-fire', reason: 'AI questions missing or unusable: generic questions about the topic' });
   return { activityKey: 'quick-fire', topicContext: topic, questions: fallbackQuickFire(topic) };
 }
 
@@ -2121,6 +2132,7 @@ The question must be about the lesson's MAIN IDEA, so that the answer uses the l
     const q = parsed.question?.trim();
     if (q && q.length > 8 && q.split(/\s+/).length <= 24) return { activityKey: 'say-it-again', topicContext: topic, question: q };
   } catch { /* fall back below */ }
+  noteContentIssue({ kind: 'stand_in', activity: 'say-it-again', reason: 'AI question missing or unusable: generic question about the topic' });
   return { activityKey: 'say-it-again', topicContext: topic, question: fallbackSayItAgain(topic) };
 }
 
@@ -2149,6 +2161,7 @@ Return:
     const parsed = await generateJSON<Record<string, unknown>>(prompt, schema);
     const valid = validSpeakSituation(parsed);
     if (valid && speakSituationIsTalk(valid)) return { activityKey: 'speak-check', topicContext: topic, ...valid };
+    noteContentIssue({ kind: 'rejected', activity: 'speak-check', reason: valid ? 'the situation asked for knowledge, not conversation' : 'the situation was malformed' });
   } catch { /* fall back below */ }
   return { activityKey: 'speak-check', topicContext: topic, ...(bankSituationFor(topic, difficulty, junior, findTopicBriefing(topic)?.id) ?? fallbackSpeakSituation(topic)) };
 }
@@ -2323,7 +2336,7 @@ Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: 
         text: l.text,
         ...(l.direction ? { direction: l.direction } : {}),
       }))
-    : fallbackLines;
+    : (noteContentIssue({ kind: 'rejected', activity: 'scene-igniter', reason: `script unusable (${valid.length} valid lines of ${raw.length}): stand-in conversation used` }), fallbackLines);
 
   const fallbackImprovScript = Array.from({ length: charCount * 2 }, (_, i) => ({
     character: expectedChars[i % charCount],
@@ -2852,6 +2865,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word", "descr
   } catch {
     // A banked topic has its own rounds: use them before any filler.
     const deckRounds = deckImposterRounds(topic, difficulty);
+    noteContentIssue({ kind: 'stand_in', activity: 'imposter', reason: deckRounds ? 'the topic deck was used' : 'generic classroom words were used' });
     if (deckRounds) return { activityKey: 'imposter', topicContext: topic, rounds: deckRounds, topic };
     const fallback: ImposterRound[] = [
       { word: 'classroom', description: 'A room in a school where students gather to learn.', hint: 'at school', crewQuestion: 'What do you like to do at the weekend?', imposterQuestion: 'What do you do after school?' },
@@ -3001,6 +3015,7 @@ Return JSON with "cards" and "prompts" arrays.`;
 
     // Partial success: keep whatever passed and top it up from the reviewed deck so the
     // lesson vocabulary still reaches the class instead of being thrown away.
+    noteContentIssue({ kind: 'rejected', activity: 'cargo-hold', reason: `deck failed checks (${checked.cards.length} cards, ${checked.prompts.length} prompts kept): topped up with the reviewed deck` });
     const fallback = buildFallbackDeck(topic);
     const cards = [...checked.cards, ...fallback.cards];
     const prompts = checked.prompts.length >= 5 ? checked.prompts : fallback.prompts;
@@ -3128,6 +3143,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "co
   } catch {
     // A banked topic: its own words and meanings, not three fixed linguistics terms.
     const deckWords = (deckTabooRounds(topic, difficulty, 3) ?? []).filter((round) => round.description);
+    noteContentIssue({ kind: 'stand_in', activity: 'bluff-definition', reason: deckWords.length === 3 ? 'the topic deck was used' : 'three fixed words were used' });
     if (deckWords.length === 3) return { activityKey: 'bluff-definition', topicContext: topic, rounds: deckWords.map((round) => ({ word: round.word, correctDefinition: round.description })), topic };
     const fallback: BluffDefinitionRound[] = [
       { word: 'lexicon', correctDefinition: 'The vocabulary of a person, language, or branch of knowledge.' },
@@ -3191,6 +3207,7 @@ Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWor
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds, topic };
   } catch {
     const deckRounds = deckTabooRounds(topic, difficulty);
+    noteContentIssue({ kind: 'stand_in', activity: 'taboo-sprint', reason: deckRounds ? 'the topic deck was used' : 'generic words were used' });
     if (deckRounds) return { activityKey: 'taboo-sprint', topicContext: topic, rounds: deckRounds, topic };
     const fallback: TabooRound[] = [
       { word: 'communicate', description: 'To share information or ideas with others.', forbiddenWords: ['talk', 'speak', 'tell', 'say'] },
@@ -3607,6 +3624,18 @@ Return JSON with "title" (short, engaging) and "text" (the full passage).`;
 }
 
 export async function POST(request: NextRequest) {
+  const { result, issues } = await collectContentIssues(() => generateLessonContent(request));
+  if (!issues.length) return result;
+  // Send the issues back with the content: the lesson screen reports them to analytics with the class's context.
+  try {
+    const data = await result.clone().json();
+    return NextResponse.json({ ...data, contentIssues: issues }, { status: result.status });
+  } catch {
+    return result;
+  }
+}
+
+async function generateLessonContent(request: NextRequest) {
   try {
     const body = (await request.json()) as LessonPlanGenerateRequest & {
       grammarTarget?: string;
@@ -4227,7 +4256,10 @@ export async function POST(request: NextRequest) {
     if (failedCount > 0) {
       console.warn(`Lesson plan: ${failedCount}/${results.length} generators failed`);
       for (const r of results) {
-        if (r.status === 'rejected') console.error('Generator failure:', r.reason);
+        if (r.status === 'rejected') {
+          console.error('Generator failure:', r.reason);
+          noteContentIssue({ kind: 'ai_error', reason: `an activity produced nothing: ${r.reason instanceof Error ? r.reason.message : String(r.reason)}` });
+        }
       }
     }
 

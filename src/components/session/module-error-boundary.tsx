@@ -1,5 +1,6 @@
 'use client';
 
+import { reportActivityFailure } from '@/lib/content-health-client';
 import { Component, type ReactNode } from 'react';
 
 interface Props {
@@ -30,6 +31,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
     console.error(`[ModuleErrorBoundary] ${this.props.moduleName} crashed:`, error, info.componentStack);
+    reportActivityFailure('activity_crashed', this.props.moduleName, { message: error.message });
   }
 
   // Reset when a different module is mounted

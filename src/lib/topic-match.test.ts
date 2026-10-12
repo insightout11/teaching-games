@@ -9,7 +9,7 @@ describe('matching a topic to the banks', () => {
     expect(topicWords('The best way to use your time')).toEqual([]);
   });
 
-  it('needs most of the topic, not one word in passing', () => {
+  it('needs the whole topic, not one word in passing', () => {
     expect(coversTopic(1, ['food', 'chain'])).toBe(false);
     expect(coversTopic(2, ['food', 'chain'])).toBe(true);
     expect(coversTopic(1, ['volcano'])).toBe(true);

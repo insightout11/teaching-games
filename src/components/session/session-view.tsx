@@ -50,6 +50,7 @@ import { LobbyAirfieldScene } from '@/components/ui/lobby-airfield-scene';
 import { startMusic, stopMusic } from '@/lib/audio/manager';
 import { LOBBY_BED } from '@/lib/audio/sounds';
 import { motion, AnimatePresence } from 'framer-motion';
+import { reportActivityFailure } from '@/lib/content-health-client';
 import { FlightTransitionOverlay } from '@/components/session/flight-transition-overlay';
 import { BrandMomentOverlay } from '@/components/ui/brand-moment';
 import { takeoffVariant } from '@/lib/brand-moments';
@@ -1461,6 +1462,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       const content = contentOverridesRef.current[activity.key] ?? resolved;
       if (content === null) {
         setActivityContentFailed(true);
+        reportActivityFailure('content_failed', activity.key, { topic: useSessionStore.getState().settings.customTopic });
       }
       setActivityContent(content);
     }

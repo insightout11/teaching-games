@@ -1239,6 +1239,8 @@ export interface LessonPlanGenerateResponse {
   failedCount?: number;
   /** Canonical source vocab — returned when generated for the first time in this lesson. */
   sourceVocab?: SourceVocabItem[];
+  /** What went wrong while making this content (AI failures, rejected answers, stand-ins): see lib/content-health. */
+  contentIssues?: Array<{ kind: string; activity?: string; reason: string }>;
 }
 
 // ============================================
