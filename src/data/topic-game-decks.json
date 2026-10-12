@@ -25918,5 +25918,1445 @@
         "level": "B2"
       }
     ]
+  },
+  {
+    "topicId": "topic-teens-virtual-reality",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "headset",
+        "forbidden": [
+          "eyes",
+          "wear",
+          "screen",
+          "virtual"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "controller",
+        "forbidden": [
+          "hand",
+          "buttons",
+          "hold",
+          "move"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "motion tracking",
+        "forbidden": [
+          "body",
+          "follow",
+          "sensor",
+          "move"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "virtual room",
+        "forbidden": [
+          "digital",
+          "space",
+          "walk",
+          "see"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "avatar",
+        "forbidden": [
+          "character",
+          "choose",
+          "person",
+          "screen"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "hand tracking",
+        "forbidden": [
+          "fingers",
+          "camera",
+          "control",
+          "move"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "haptic feedback",
+        "forbidden": [
+          "touch",
+          "vibration",
+          "feel",
+          "device"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "vr headset",
+        "forbidden": [
+          "eyes",
+          "wear",
+          "screen",
+          "immersive"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "field of view",
+        "forbidden": [
+          "vision",
+          "wide",
+          "see",
+          "angle"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "virtual tour",
+        "forbidden": [
+          "visit",
+          "place",
+          "look",
+          "online"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "simulator",
+        "forbidden": [
+          "practice",
+          "realistic",
+          "experience",
+          "train"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "motion sickness",
+        "forbidden": [
+          "dizzy",
+          "feel",
+          "move",
+          "stomach"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "tracking camera",
+        "forbidden": [
+          "follow",
+          "position",
+          "room",
+          "device"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "immersive world",
+        "forbidden": [
+          "enter",
+          "real",
+          "virtual",
+          "experience"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "head strap",
+        "level": "B1"
+      },
+      {
+        "word": "hand controller",
+        "level": "B1"
+      },
+      {
+        "word": "virtual museum",
+        "level": "B1"
+      },
+      {
+        "word": "digital classroom",
+        "level": "B1"
+      },
+      {
+        "word": "boundary grid",
+        "level": "B2"
+      },
+      {
+        "word": "tracking sensor",
+        "level": "B2"
+      },
+      {
+        "word": "guardian setting",
+        "level": "B2"
+      },
+      {
+        "word": "vr arcade",
+        "level": "B1"
+      },
+      {
+        "word": "haptic glove",
+        "level": "B2"
+      },
+      {
+        "word": "screen lens",
+        "level": "B1"
+      },
+      {
+        "word": "virtual keyboard",
+        "level": "B1"
+      },
+      {
+        "word": "motion platform",
+        "level": "B2"
+      },
+      {
+        "word": "vr demo",
+        "level": "B1"
+      },
+      {
+        "word": "charging dock",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "headset",
+        "decoy": "glasses",
+        "level": "B1"
+      },
+      {
+        "word": "controller",
+        "decoy": "remote",
+        "level": "B1"
+      },
+      {
+        "word": "avatar",
+        "decoy": "character",
+        "level": "B1"
+      },
+      {
+        "word": "virtual tour",
+        "decoy": "video tour",
+        "level": "B1"
+      },
+      {
+        "word": "simulator",
+        "decoy": "training game",
+        "level": "B2"
+      },
+      {
+        "word": "motion tracking",
+        "decoy": "hand tracking",
+        "level": "B2"
+      },
+      {
+        "word": "haptic feedback",
+        "decoy": "vibration",
+        "level": "B2"
+      },
+      {
+        "word": "virtual room",
+        "decoy": "digital classroom",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "hand controller",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "virtual museum",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "tracking sensor",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "vr arcade",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "haptic glove",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "virtual keyboard",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "motion platform",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "charging dock",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-coding",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "variable",
+        "forbidden": [
+          "value",
+          "store",
+          "name",
+          "change"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "function",
+        "forbidden": [
+          "code",
+          "task",
+          "call",
+          "return"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "loop",
+        "forbidden": [
+          "repeat",
+          "again",
+          "code",
+          "cycle"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "syntax",
+        "forbidden": [
+          "rules",
+          "write",
+          "language",
+          "correct"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "debug",
+        "forbidden": [
+          "error",
+          "find",
+          "fix",
+          "code"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "algorithm",
+        "forbidden": [
+          "steps",
+          "solve",
+          "order",
+          "instructions"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "compiler",
+        "forbidden": [
+          "translate",
+          "code",
+          "program",
+          "run"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "source code",
+        "forbidden": [
+          "text",
+          "write",
+          "program",
+          "computer"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "condition",
+        "forbidden": [
+          "if",
+          "choice",
+          "true",
+          "false"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "parameter",
+        "forbidden": [
+          "input",
+          "function",
+          "value",
+          "pass"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "output",
+        "forbidden": [
+          "result",
+          "show",
+          "screen",
+          "program"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "repository",
+        "forbidden": [
+          "files",
+          "code",
+          "version",
+          "store"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "branch",
+        "forbidden": [
+          "copy",
+          "version",
+          "work",
+          "git"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "API",
+        "forbidden": [
+          "service",
+          "request",
+          "software",
+          "connect"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "code editor",
+        "level": "B1"
+      },
+      {
+        "word": "terminal window",
+        "level": "B2"
+      },
+      {
+        "word": "syntax error",
+        "level": "B1"
+      },
+      {
+        "word": "line number",
+        "level": "B1"
+      },
+      {
+        "word": "keyboard shortcut",
+        "level": "B1"
+      },
+      {
+        "word": "code comment",
+        "level": "B1"
+      },
+      {
+        "word": "test case",
+        "level": "B2"
+      },
+      {
+        "word": "debugger",
+        "level": "B2"
+      },
+      {
+        "word": "pull request",
+        "level": "B2"
+      },
+      {
+        "word": "commit message",
+        "level": "B1"
+      },
+      {
+        "word": "function call",
+        "level": "B2"
+      },
+      {
+        "word": "code snippet",
+        "level": "B1"
+      },
+      {
+        "word": "program output",
+        "level": "B1"
+      },
+      {
+        "word": "coding challenge",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "variable",
+        "decoy": "constant",
+        "level": "B1"
+      },
+      {
+        "word": "function",
+        "decoy": "method",
+        "level": "B2"
+      },
+      {
+        "word": "loop",
+        "decoy": "iteration",
+        "level": "B2"
+      },
+      {
+        "word": "compiler",
+        "decoy": "interpreter",
+        "level": "B2"
+      },
+      {
+        "word": "source code",
+        "decoy": "machine code",
+        "level": "B2"
+      },
+      {
+        "word": "condition",
+        "decoy": "comparison",
+        "level": "B2"
+      },
+      {
+        "word": "repository",
+        "decoy": "project folder",
+        "level": "B1"
+      },
+      {
+        "word": "debugger",
+        "decoy": "test runner",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "code editor",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "terminal window",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "keyboard shortcut",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "debugger",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "pull request",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "commit message",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "coding challenge",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "test case",
+        "kind": "thing",
+        "level": "B2"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-cybersecurity",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "phishing",
+        "forbidden": [
+          "email",
+          "link",
+          "scam",
+          "click"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "firewall",
+        "forbidden": [
+          "network",
+          "block",
+          "traffic",
+          "protect"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "malware",
+        "forbidden": [
+          "harmful",
+          "software",
+          "computer",
+          "virus"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "encryption",
+        "forbidden": [
+          "secret",
+          "code",
+          "message",
+          "protect"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "security patch",
+        "forbidden": [
+          "update",
+          "fix",
+          "software",
+          "weakness"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "data breach",
+        "forbidden": [
+          "leak",
+          "private",
+          "information",
+          "company"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "backup",
+        "forbidden": [
+          "copy",
+          "files",
+          "restore",
+          "safe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "antivirus",
+        "forbidden": [
+          "scan",
+          "computer",
+          "malware",
+          "software"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "two-factor login",
+        "forbidden": [
+          "code",
+          "extra",
+          "account",
+          "verify"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "weak password",
+        "forbidden": [
+          "easy",
+          "guess",
+          "secret",
+          "login"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "secure network",
+        "forbidden": [
+          "wifi",
+          "protect",
+          "connect",
+          "safe"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "privacy breach",
+        "forbidden": [
+          "data",
+          "exposed",
+          "private",
+          "leak"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "phishing email",
+        "forbidden": [
+          "fake",
+          "message",
+          "account",
+          "steal"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "security alert",
+        "forbidden": [
+          "warning",
+          "device",
+          "account",
+          "notice"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "password vault",
+        "level": "B2"
+      },
+      {
+        "word": "recovery key",
+        "level": "B2"
+      },
+      {
+        "word": "browser warning",
+        "level": "B1"
+      },
+      {
+        "word": "security camera",
+        "level": "B1"
+      },
+      {
+        "word": "login screen",
+        "level": "B1"
+      },
+      {
+        "word": "router settings",
+        "level": "B2"
+      },
+      {
+        "word": "backup drive",
+        "level": "B1"
+      },
+      {
+        "word": "verification app",
+        "level": "B2"
+      },
+      {
+        "word": "spam folder",
+        "level": "B1"
+      },
+      {
+        "word": "software update",
+        "level": "B1"
+      },
+      {
+        "word": "network cable",
+        "level": "B1"
+      },
+      {
+        "word": "security badge",
+        "level": "B1"
+      },
+      {
+        "word": "access log",
+        "level": "B2"
+      },
+      {
+        "word": "malware scanner",
+        "level": "B2"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "phishing",
+        "decoy": "spoofing",
+        "level": "B2"
+      },
+      {
+        "word": "firewall",
+        "decoy": "antivirus",
+        "level": "B1"
+      },
+      {
+        "word": "malware",
+        "decoy": "ransomware",
+        "level": "B2"
+      },
+      {
+        "word": "encryption",
+        "decoy": "password protection",
+        "level": "B2"
+      },
+      {
+        "word": "security patch",
+        "decoy": "software update",
+        "level": "B1"
+      },
+      {
+        "word": "data breach",
+        "decoy": "data leak",
+        "level": "B1"
+      },
+      {
+        "word": "backup",
+        "decoy": "archive",
+        "level": "B2"
+      },
+      {
+        "word": "two-factor login",
+        "decoy": "security question",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "password vault",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "recovery key",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "browser warning",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "login screen",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "backup drive",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "verification app",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "spam folder",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "network cable",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-online-learning",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "learning platform",
+        "forbidden": [
+          "course",
+          "online",
+          "lessons",
+          "website"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "video lesson",
+        "forbidden": [
+          "watch",
+          "teacher",
+          "screen",
+          "class"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "discussion board",
+        "forbidden": [
+          "posts",
+          "reply",
+          "students",
+          "forum"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "virtual classroom",
+        "forbidden": [
+          "teacher",
+          "online",
+          "meet",
+          "lesson"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "assignment portal",
+        "forbidden": [
+          "submit",
+          "work",
+          "website",
+          "school"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "breakout room",
+        "forbidden": [
+          "small",
+          "group",
+          "video",
+          "meet"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "course module",
+        "forbidden": [
+          "unit",
+          "topic",
+          "lessons",
+          "online"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "progress bar",
+        "forbidden": [
+          "complete",
+          "show",
+          "course",
+          "percent"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "screen share",
+        "forbidden": [
+          "show",
+          "display",
+          "group",
+          "window"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "live chat",
+        "forbidden": [
+          "message",
+          "write",
+          "real time",
+          "class"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "recorded lecture",
+        "forbidden": [
+          "watch",
+          "teacher",
+          "video",
+          "lesson"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "online tutor",
+        "forbidden": [
+          "help",
+          "teacher",
+          "meet",
+          "remote"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "self-paced course",
+        "forbidden": [
+          "own",
+          "speed",
+          "study",
+          "choose"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "digital workbook",
+        "forbidden": [
+          "exercises",
+          "screen",
+          "write",
+          "lesson"
+        ],
+        "level": "B1"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "webinar link",
+        "level": "B1"
+      },
+      {
+        "word": "mute button",
+        "level": "B1"
+      },
+      {
+        "word": "virtual whiteboard",
+        "level": "B1"
+      },
+      {
+        "word": "course dashboard",
+        "level": "B2"
+      },
+      {
+        "word": "headphone mic",
+        "level": "B1"
+      },
+      {
+        "word": "lesson recording",
+        "level": "B1"
+      },
+      {
+        "word": "quiz window",
+        "level": "B1"
+      },
+      {
+        "word": "class chat",
+        "level": "B1"
+      },
+      {
+        "word": "study portal",
+        "level": "B1"
+      },
+      {
+        "word": "video call",
+        "level": "B1"
+      },
+      {
+        "word": "assignment upload",
+        "level": "B2"
+      },
+      {
+        "word": "digital notes",
+        "level": "B1"
+      },
+      {
+        "word": "attendance icon",
+        "level": "B1"
+      },
+      {
+        "word": "learning app",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "learning platform",
+        "decoy": "course website",
+        "level": "B1"
+      },
+      {
+        "word": "video lesson",
+        "decoy": "recorded lecture",
+        "level": "B1"
+      },
+      {
+        "word": "discussion board",
+        "decoy": "class chat",
+        "level": "B1"
+      },
+      {
+        "word": "virtual classroom",
+        "decoy": "video call",
+        "level": "B1"
+      },
+      {
+        "word": "assignment portal",
+        "decoy": "course dashboard",
+        "level": "B2"
+      },
+      {
+        "word": "breakout room",
+        "decoy": "study group",
+        "level": "B2"
+      },
+      {
+        "word": "self-paced course",
+        "decoy": "live course",
+        "level": "B2"
+      },
+      {
+        "word": "digital workbook",
+        "decoy": "online quiz",
+        "level": "B1"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "webinar link",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "virtual whiteboard",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "course dashboard",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "quiz window",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "study portal",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "video call",
+        "kind": "activity",
+        "level": "B1"
+      },
+      {
+        "secret": "assignment upload",
+        "kind": "activity",
+        "level": "B2"
+      },
+      {
+        "secret": "learning app",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
+  },
+  {
+    "topicId": "topic-teens-digital-art",
+    "ageBand": "teens",
+    "taboo": [
+      {
+        "word": "digital canvas",
+        "forbidden": [
+          "screen",
+          "draw",
+          "paint",
+          "app"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "layer",
+        "forbidden": [
+          "above",
+          "below",
+          "edit",
+          "level"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "pixel",
+        "forbidden": [
+          "tiny",
+          "colour",
+          "square",
+          "screen"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "brush tool",
+        "forbidden": [
+          "paint",
+          "mark",
+          "select",
+          "stroke"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "vector shape",
+        "forbidden": [
+          "smooth",
+          "line",
+          "scalable",
+          "graphic"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "colour palette",
+        "forbidden": [
+          "choose",
+          "hues",
+          "paint",
+          "screen"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "undo button",
+        "forbidden": [
+          "reverse",
+          "action",
+          "click",
+          "change"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "opacity",
+        "forbidden": [
+          "transparent",
+          "see through",
+          "layer",
+          "percent"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "tablet pen",
+        "forbidden": [
+          "stylus",
+          "draw",
+          "screen",
+          "hand"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "graphic tablet",
+        "forbidden": [
+          "device",
+          "draw",
+          "connect",
+          "computer"
+        ],
+        "level": "B1"
+      },
+      {
+        "word": "digital collage",
+        "forbidden": [
+          "images",
+          "cut",
+          "arrange",
+          "art"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "canvas size",
+        "forbidden": [
+          "width",
+          "height",
+          "picture",
+          "choose"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "selection tool",
+        "forbidden": [
+          "outline",
+          "choose",
+          "area",
+          "edit"
+        ],
+        "level": "B2"
+      },
+      {
+        "word": "export file",
+        "forbidden": [
+          "save",
+          "format",
+          "finish",
+          "share"
+        ],
+        "level": "B2"
+      }
+    ],
+    "hotSeat": [
+      {
+        "word": "stylus tip",
+        "level": "B1"
+      },
+      {
+        "word": "drawing tablet",
+        "level": "B1"
+      },
+      {
+        "word": "art software",
+        "level": "B2"
+      },
+      {
+        "word": "colour picker",
+        "level": "B1"
+      },
+      {
+        "word": "zoom tool",
+        "level": "B1"
+      },
+      {
+        "word": "layer panel",
+        "level": "B2"
+      },
+      {
+        "word": "pixel grid",
+        "level": "B1"
+      },
+      {
+        "word": "undo history",
+        "level": "B2"
+      },
+      {
+        "word": "file format",
+        "level": "B2"
+      },
+      {
+        "word": "brush library",
+        "level": "B2"
+      },
+      {
+        "word": "digital sketch",
+        "level": "B1"
+      },
+      {
+        "word": "screen tablet",
+        "level": "B1"
+      },
+      {
+        "word": "export menu",
+        "level": "B2"
+      },
+      {
+        "word": "reference image",
+        "level": "B1"
+      }
+    ],
+    "imposter": [
+      {
+        "word": "digital canvas",
+        "decoy": "artboard",
+        "level": "B2"
+      },
+      {
+        "word": "layer",
+        "decoy": "mask",
+        "level": "B2"
+      },
+      {
+        "word": "pixel",
+        "decoy": "voxel",
+        "level": "B2"
+      },
+      {
+        "word": "brush tool",
+        "decoy": "pencil tool",
+        "level": "B1"
+      },
+      {
+        "word": "vector shape",
+        "decoy": "raster image",
+        "level": "B2"
+      },
+      {
+        "word": "opacity",
+        "decoy": "transparency",
+        "level": "B2"
+      },
+      {
+        "word": "tablet pen",
+        "decoy": "stylus",
+        "level": "B1"
+      },
+      {
+        "word": "digital collage",
+        "decoy": "photo montage",
+        "level": "B2"
+      }
+    ],
+    "twentyQuestions": [
+      {
+        "secret": "drawing tablet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "colour picker",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "zoom tool",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "layer panel",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "pixel grid",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "file format",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "screen tablet",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "reference image",
+        "kind": "thing",
+        "level": "B1"
+      }
+    ]
   }
 ]
