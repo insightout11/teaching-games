@@ -6,7 +6,7 @@ import { FLAP_FONT } from '@/components/ui/split-flap';
 import { Card } from '@/components/ui/card';
 import { Select } from '@/components/ui/select';
 import { Baby, Settings2 } from 'lucide-react';
-import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
+import { DIFFICULTIES, LEVELS_EXPLAINED, levelLabel, type Difficulty } from '@/lib/difficulty';
 import { TONES, type Tone } from '@/stores/session-store';
 
 export function ClassDefaultsCard({
@@ -49,11 +49,11 @@ export function ClassDefaultsCard({
           }}
           inputSize="compact"
           className="w-full"
-          title="Default difficulty"
+          title={`The class level. The letters (A1 to C2) are the international CEFR scale.\n${LEVELS_EXPLAINED}`}
         >
           <option value="">Level: not set</option>
           {DIFFICULTIES.map((d: Difficulty) => (
-            <option key={d} value={d}>{d}</option>
+            <option key={d} value={d}>{levelLabel(d)}</option>
           ))}
         </Select>
         <Select

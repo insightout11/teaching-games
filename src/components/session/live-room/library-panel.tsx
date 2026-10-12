@@ -1,5 +1,6 @@
 'use client';
 
+import { cefrLabel } from '@/lib/difficulty';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { BookOpen, Clock, FileText, Film, MessagesSquare, Plus, Search, Sparkles, SpellCheck, Zap } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
@@ -132,7 +133,7 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
           <span className="min-w-0">
             <span className="line-clamp-2 block text-sm font-semibold text-white">{e.title}</span>
             <span className="flex items-center gap-1.5 truncate text-xs text-white/45">
-              {e.cefr && <span className="rounded border border-white/15 px-1 font-mono text-[10px] text-white/70">{e.cefr}</span>}
+              {e.cefr && <span title="Level (the letter is the international CEFR scale)" className="rounded border border-white/15 px-1 font-mono text-[10px] text-white/70">{cefrLabel(e.cefr)}</span>}
               {e.publisher}{e.byline ? ` · ${e.byline}` : ''}
             </span>
           </span>

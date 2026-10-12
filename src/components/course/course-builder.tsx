@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
-import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
+import { DIFFICULTIES, LEVEL_INFO, levelLabel, type Difficulty } from '@/lib/difficulty';
 import { buildCourseLessonPayload } from '@/lib/planner-utils';
 import {
   buildCourseModulesFromPreset,
@@ -268,7 +268,7 @@ export function CourseBuilder({ initialPresetId }: { initialPresetId?: string })
               <div className="space-y-2">
                 <span className={label} style={{ fontFamily: FLAP_FONT }}>Level</span>
                 <div className="flex flex-wrap gap-1.5">
-                  {DIFFICULTIES.map((d) => <button key={d} type="button" onClick={() => setLevel(d as Difficulty)} className={chip(level === d)}>{d}</button>)}
+                  {DIFFICULTIES.map((d) => <button key={d} type="button" onClick={() => setLevel(d as Difficulty)} title={LEVEL_INFO[d as Difficulty].means} className={chip(level === d)}>{levelLabel(d)}</button>)}
                 </div>
               </div>
               <div className="space-y-2">

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, BookOpen, Link2, Loader2, ScanText, Upload } from 'lucide-react';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
-import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
+import { DIFFICULTIES, levelLabel, type Difficulty } from '@/lib/difficulty';
 import { isPictureBook, picturePages, planLessons, planPictureLessons, toChapters, type BookChapter, type BookLesson, type PicturePage } from '@/lib/book-import';
 import { isScannedPdf, readBookFile, renderImageFile, renderPdfPages } from '@/lib/book-import/readers';
 import { dropRepeatedCaptions, needsReading, readBatches, readToBookPage, type PageRead } from '@/lib/book-import/scan';
@@ -313,7 +313,7 @@ export function BookUpload() {
             <label className="block text-sm">
               <span className="text-lc-text3">Class level (sets the lesson length)</span>
               <select value={level} onChange={(e) => { setLevel(e.target.value as Difficulty); setJoins([]); }} className="mt-1 w-full rounded-xl border border-lc-border bg-lc-surface px-3 py-2 text-lc-text">
-                {DIFFICULTIES.map((d) => <option key={d} value={d}>{d}</option>)}
+                {DIFFICULTIES.map((d) => <option key={d} value={d}>{levelLabel(d)}</option>)}
               </select>
             </label>
           </div>

@@ -31,7 +31,7 @@ import { useLiveRoomOptIn } from '@/components/session/live-room/live-room-opt-i
 // Live Room: on for everyone via NEXT_PUBLIC_LIVE_ROOM, or per browser with ?liveroom=on.
 const LIVE_ROOM_ENV = process.env.NEXT_PUBLIC_LIVE_ROOM === 'true';
 import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
-import { hiddenForJunior } from '@/lib/junior';
+import { hiddenForJunior, JUNIOR_HEADER } from '@/lib/junior';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
 import { createClient } from '@/lib/supabase/client';
@@ -806,6 +806,21 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [showRouteChoice, setShowRouteChoice] = useState(false);
   const [routeChoicePool, setRouteChoicePool] = useState<string[] | null>(null);
   const supabase = createClient();
+  // Junior class: every request this screen makes to the app's own API says so, and the AI layer then writes for
+  // young children (see JUNIOR_LANGUAGE_RULE). Done once here, at the door, so no game or activity can forget it.
+  useEffect(() => {
+    if (cls.junior !== true) return;
+    const original = window.fetch;
+    window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = typeof input === 'string' ? input : input instanceof URL ? input.pathname : input.url;
+      const own = url.startsWith('/api/') || url.startsWith(`${window.location.origin}/api/`);
+      if (!own) return original(input, init);
+      const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined));
+      headers.set(JUNIOR_HEADER, '1');
+      return original(input, { ...init, headers });
+    };
+    return () => { window.fetch = original; };
+  }, [cls.junior]);
   const games = getAllGames().filter((g) => !g.flightPlanOnly && !hiddenForJunior(g.key, cls.junior === true));
   const activities = getAllActivities().filter((a) => !a.flightPlanOnly && !hiddenForJunior(a.key, cls.junior === true));
 

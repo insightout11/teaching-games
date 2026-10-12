@@ -13,3 +13,24 @@ export const JUNIOR_HIDDEN_KEYS: ReadonlySet<string> = new Set([
 export function hiddenForJunior(key: string, junior: boolean): boolean {
   return junior && JUNIOR_HIDDEN_KEYS.has(key);
 }
+
+/**
+ * Junior classes also change WHAT the AI writes, not only how phones look. Every request the lesson screen makes
+ * for a Junior class carries this header, and the AI layer adds JUNIOR_LANGUAGE_RULE to whatever it is asked to
+ * write (see lib/ai). One place, so no activity can forget it.
+ */
+export const JUNIOR_HEADER = 'x-lc-junior';
+
+/**
+ * The class's level setting still decides how hard the English is (there are advanced Junior classes); this rule
+ * decides what the content is ABOUT and how it is put, so a strong class of seven-year-olds gets harder language
+ * about a child's world, not teenage or adult subject matter.
+ */
+export const JUNIOR_LANGUAGE_RULE = `
+
+JUNIOR CLASS (children of about 5 to 9). This rule comes on top of the language level above; it does not replace it.
+- Write about a child's world: home, family, school, friends, animals, food, toys, play, weather, things they can see, touch or do.
+- Concrete, not abstract. Ask what a child knows from their own life, never facts they would have to have studied ("Which food never spoils?" is wrong; "Which food is sweet?" is right).
+- No adult or teenage subject matter: money, jobs, politics, news, dating, death, crime, exams.
+- Short, clear sentences and common words for the level. Kind, playful, encouraging. Nothing scary or sad.
+- Anything read aloud must sound natural when spoken slowly to a small child.`;
