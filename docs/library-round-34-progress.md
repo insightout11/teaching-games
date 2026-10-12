@@ -46,3 +46,7 @@ Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets and separated 120 secr
 ## Batch 8: food culture through public speaking
 
 Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets and separated 120 secrets. Examples: customer / product-user feedback (price, quality, usability); fixed bills / planned household payments (rent, subscriptions, insurance); speech opening / club welcome (greeting, purpose, names). Corrected the existing broken encoding of sauté in the cooking Taboo list. Checker with --round34-count=120: all 19 error counts 0.
+
+## Batch 9: study habits through satellites
+
+Rewrote 90 pairs and hints, reviewed 210 Hot Seat targets, and separated 120 secrets. Examples: space station / submarine chores (clean, cook, check equipment); code-model / past-weather records (rainfall, temperature, dates); course catalogue / school prospectus (subjects, requirements, dates). Distinct familiar targets replace generic words that exceeded the global cap. Checker with --round34-count=135: all 19 error counts 0.

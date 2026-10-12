@@ -39040,74 +39040,74 @@
     ],
     "hotSeat": [
       {
-        "word": "flashcard box",
+        "word": "organizer",
         "level": "B1",
-        "description": "a container holding cards with questions and answers"
+        "description": "a container that keeps desk supplies tidy"
       },
       {
-        "word": "study calendar",
+        "word": "highlighter",
         "level": "B1",
-        "description": "a chart showing when someone will learn"
+        "description": "a bright pen marking important words"
       },
       {
-        "word": "desk organizer",
+        "word": "playlist",
         "level": "B1",
-        "description": "a holder keeping pens and papers in order"
+        "description": "a list of songs ready to play"
       },
       {
-        "word": "highlighter set",
+        "word": "quiz",
         "level": "B1",
-        "description": "bright pens used to mark important words"
+        "description": "a short set of questions testing knowledge"
       },
       {
-        "word": "quiet library",
+        "word": "buddy",
         "level": "B1",
-        "description": "a place with books where people work silently"
+        "description": "a friend who helps you study"
       },
       {
-        "word": "study playlist",
+        "word": "divider",
         "level": "B1",
-        "description": "a list of songs chosen for learning time"
+        "description": "a sheet separating sections of a notebook"
       },
       {
-        "word": "focus timer",
+        "word": "tabs",
         "level": "B1",
-        "description": "a clock counting down a work period"
+        "description": "small markers that help you find pages"
       },
       {
-        "word": "revision chart",
+        "word": "bookmark",
         "level": "B1",
-        "description": "a page showing which subjects to review"
+        "description": "a marker showing where you stopped reading"
       },
       {
-        "word": "sticky tabs",
+        "word": "textbook",
         "level": "B1",
-        "description": "small markers placed on useful pages"
+        "description": "a book used to teach a school subject"
       },
       {
-        "word": "practice quiz",
-        "level": "B1",
-        "description": "a short test used to check learning"
-      },
-      {
-        "word": "study buddy",
-        "level": "B1",
-        "description": "a person learning alongside someone else"
-      },
-      {
-        "word": "notebook divider",
+        "word": "concentration",
         "level": "B2",
-        "description": "a card separating sections in a book"
+        "description": "giving your full attention to one activity"
       },
       {
-        "word": "reading lamp",
+        "word": "habit",
         "level": "B1",
-        "description": "a small light used while reading"
+        "description": "something you do regularly without much thought"
       },
       {
-        "word": "weekly planner",
+        "word": "motivation",
         "level": "B1",
-        "description": "a page organising tasks for seven days"
+        "description": "the reason or energy that makes you keep trying"
+      },
+      {
+        "word": "break",
+        "level": "B1",
+        "description": "a short pause between periods of work"
+      },
+      {
+        "word": "review",
+        "level": "B1",
+        "description": "an opinion explaining the quality of a film"
       }
     ],
     "imposter": [
@@ -39115,89 +39115,89 @@
         "word": "study routine",
         "level": "B1",
         "description": "a regular way someone organises learning",
-        "hint": "study practice",
-        "crewQuestion": "What can help a student begin work at the same time each day?",
-        "imposterQuestion": "What can help a student finish work at the same time each day?"
+        "hint": "regular learning patterns",
+        "crewQuestion": "What makes a study routine easy to keep?",
+        "imposterQuestion": "Which habits help you practise music regularly?"
       },
       {
         "word": "flashcard",
         "level": "B1",
         "description": "a card showing a question and its answer",
-        "hint": "study tool",
-        "crewQuestion": "What can a learner turn over to check a new word?",
-        "imposterQuestion": "What can a learner turn over to check an old word?"
+        "hint": "small retrieval aids",
+        "crewQuestion": "What would you put on a revision flashcard?",
+        "imposterQuestion": "Which facts could fit on a quiz cue card?"
       },
       {
         "word": "focus block",
         "level": "B1",
         "description": "a planned period working without interruption",
-        "hint": "study practice",
-        "crewQuestion": "How long might someone work before taking a break?",
-        "imposterQuestion": "How long might someone rest before taking a break?"
+        "hint": "focused learning periods",
+        "crewQuestion": "What helps you concentrate during a study block?",
+        "imposterQuestion": "Which conditions make quiet reading easier?"
       },
       {
         "word": "study group",
         "level": "B1",
         "description": "several classmates learning together",
-        "hint": "study practice",
-        "crewQuestion": "Who can compare notes before an important test?",
-        "imposterQuestion": "Who can compare notes after an important test?"
+        "hint": "collaborative learning groups",
+        "crewQuestion": "Who would you invite into a study group?",
+        "imposterQuestion": "Which people might join a small book club?"
       },
       {
         "word": "practice test",
         "level": "B1",
         "description": "a sample exam used to prepare for the real one",
-        "hint": "study tool",
-        "crewQuestion": "What can someone complete before the test day?",
-        "imposterQuestion": "What can someone review after the test day?"
+        "hint": "trial learning checks",
+        "crewQuestion": "What would you check after a practice test?",
+        "imposterQuestion": "Which details matter when marking a sample quiz?"
       },
       {
         "word": "Pomodoro",
         "level": "B2",
         "description": "a method using timed work periods and short breaks",
-        "hint": "study method",
-        "crewQuestion": "What can help someone divide a long task into parts?",
-        "imposterQuestion": "What can help someone combine a long task into parts?"
+        "hint": "timed study methods",
+        "crewQuestion": "What could you do during a Pomodoro break?",
+        "imposterQuestion": "Which short activities suit resting between homework tasks?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "flashcard box",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "study calendar",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "desk organizer",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "quiet library",
+        "secret": "reading room",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "focus timer",
+        "secret": "armchair",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "practice quiz",
-        "kind": "activity",
-        "level": "B1"
-      },
-      {
-        "secret": "notebook divider",
+        "secret": "fountain pen",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
       },
       {
         "secret": "weekly planner",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "earplugs",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "earbuds",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "ring binder",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "egg timer",
         "kind": "thing",
         "level": "B1"
       }
@@ -39366,7 +39366,7 @@
       {
         "word": "alarm clock",
         "level": "B1",
-        "description": "a device making a sound at a chosen time"
+        "description": "a device that makes a sound at a chosen time"
       },
       {
         "word": "blackout curtain",
@@ -39384,19 +39384,19 @@
         "description": "a soft cover worn over the eyes"
       },
       {
-        "word": "noise app",
-        "level": "B2",
-        "description": "software playing steady sounds for rest"
-      },
-      {
-        "word": "bedtime book",
+        "word": "app",
         "level": "B1",
-        "description": "a story read before someone goes to sleep"
+        "description": "a program used for a particular task"
       },
       {
-        "word": "sleep diary",
-        "level": "B2",
-        "description": "a notebook recording when someone rests"
+        "word": "book",
+        "level": "B1",
+        "description": "pages joined together with writing to read"
+      },
+      {
+        "word": "diary",
+        "level": "B1",
+        "description": "a book where you record each day's events"
       },
       {
         "word": "mattress",
@@ -39404,9 +39404,9 @@
         "description": "a soft surface someone lies on in bed"
       },
       {
-        "word": "morning light",
+        "word": "light",
         "level": "B1",
-        "description": "brightness appearing at the start of a day"
+        "description": "brightness that helps eyes see the world"
       },
       {
         "word": "earplugs",
@@ -39419,19 +39419,19 @@
         "description": "a choice controlling when a device makes sound"
       },
       {
-        "word": "study notes",
+        "word": "notes",
         "level": "B1",
-        "description": "short written reminders for a lesson"
+        "description": "short written reminders of important information"
       },
       {
-        "word": "sleep tracker",
-        "level": "B2",
-        "description": "a device or app measuring rest"
+        "word": "tracker",
+        "level": "B1",
+        "description": "a tool that records spending over time"
       },
       {
-        "word": "quiet bedroom",
+        "word": "bedroom",
         "level": "B1",
-        "description": "a room with little sound for sleeping"
+        "description": "the room where someone usually sleeps"
       }
     ],
     "imposter": [
@@ -39439,91 +39439,91 @@
         "word": "sleep cycle",
         "level": "B1",
         "description": "a pattern the body follows between rest and waking",
-        "hint": "rest pattern",
-        "crewQuestion": "What can repeat several times during one night?",
-        "imposterQuestion": "What can repeat several times during one school day?"
+        "hint": "repeating sleep stages",
+        "crewQuestion": "What could disturb your sleep during the night?",
+        "imposterQuestion": "Which things might interrupt a quiet study session?"
       },
       {
         "word": "circadian rhythm",
         "level": "B2",
         "description": "the body’s roughly daily pattern of rest and activity",
-        "hint": "body pattern",
-        "crewQuestion": "What can make someone feel awake in the daytime?",
-        "imposterQuestion": "What can make someone feel sleepy in the daytime?"
+        "hint": "daily body rhythms",
+        "crewQuestion": "What helps you feel awake in the morning?",
+        "imposterQuestion": "Which habits make getting ready for school easier?"
       },
       {
         "word": "deep sleep",
         "level": "B1",
         "description": "the deepest stage of rest during a night",
-        "hint": "rest stage",
-        "crewQuestion": "What part of rest can be difficult to wake from?",
-        "imposterQuestion": "What part of rest can be easy to wake from?"
+        "hint": "restorative rest stages",
+        "crewQuestion": "What makes a bedroom good for deep sleep?",
+        "imposterQuestion": "Which features help a room feel calm for reading?"
       },
       {
         "word": "memory consolidation",
         "level": "B2",
         "description": "the process of keeping new information in memory",
-        "hint": "learning process",
-        "crewQuestion": "What can help new facts stay in someone’s mind?",
-        "imposterQuestion": "What can make new facts leave someone’s mind?"
+        "hint": "lasting memory processes",
+        "crewQuestion": "What might you remember after a good night's sleep?",
+        "imposterQuestion": "Which details could stay in your mind after practice?"
       },
       {
         "word": "alarm clock",
         "level": "B1",
         "description": "a device making a sound at a chosen time",
-        "hint": "bedroom item",
-        "crewQuestion": "What can wake someone before school begins?",
-        "imposterQuestion": "What can help someone fall asleep before school begins?"
+        "hint": "wake up timekeepers",
+        "crewQuestion": "When would you set an alarm for the morning?",
+        "imposterQuestion": "Which situations need a reminder before leaving home?"
       },
       {
         "word": "mattress",
         "level": "B1",
         "description": "a soft surface someone lies on in bed",
-        "hint": "bedroom item",
-        "crewQuestion": "What supports someone while they rest at night?",
-        "imposterQuestion": "What covers someone while they rest at night?"
+        "hint": "soft bed supports",
+        "crewQuestion": "What makes a mattress comfortable?",
+        "imposterQuestion": "Which qualities matter in a camping sleeping pad?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "alarm clock",
+        "secret": "pillow",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "blackout curtain",
+        "secret": "duvet",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "bedside lamp",
+        "secret": "bed",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "eye mask",
+        "secret": "quilt",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "sleep diary",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "mattress",
+        "secret": "nightlight",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "earplugs",
+        "secret": "bedside table",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "sleep tracker",
+        "secret": "fan",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
+      },
+      {
+        "secret": "slipper",
+        "kind": "thing",
+        "level": "B1"
       }
     ]
   },
@@ -39688,74 +39688,74 @@
     ],
     "hotSeat": [
       {
-        "word": "option form",
+        "word": "form",
         "level": "B1",
-        "description": "a page where someone marks their choices"
+        "description": "a page with spaces for requested information"
       },
       {
-        "word": "course handbook",
+        "word": "handbook",
         "level": "B1",
-        "description": "a book explaining available classes"
+        "description": "a small book explaining important workplace rules"
       },
       {
-        "word": "subject fair",
+        "word": "fair",
         "level": "B1",
-        "description": "an event where students learn about courses"
+        "description": "an event where different courses are presented"
       },
       {
-        "word": "adviser meeting",
+        "word": "adviser",
+        "level": "B1",
+        "description": "someone who helps people make informed choices"
+      },
+      {
+        "word": "session",
+        "level": "B1",
+        "description": "a scheduled period of learning a subject"
+      },
+      {
+        "word": "sheet",
+        "level": "B1",
+        "description": "a flat piece of paper for writing"
+      },
+      {
+        "word": "portal",
         "level": "B2",
-        "description": "a talk with someone helping plan studies"
+        "description": "a website giving access to related services"
       },
       {
-        "word": "class timetable",
+        "word": "brochure",
         "level": "B1",
-        "description": "a chart showing lesson times"
+        "description": "a booklet describing the courses a school offers"
       },
       {
-        "word": "grade sheet",
+        "word": "quiz",
         "level": "B1",
-        "description": "a page showing marks from schoolwork"
+        "description": "a short set of questions testing knowledge"
       },
       {
-        "word": "application portal",
-        "level": "B1",
-        "description": "a website where students submit their choices"
-      },
-      {
-        "word": "course brochure",
-        "level": "B1",
-        "description": "a leaflet describing classes and activities"
-      },
-      {
-        "word": "career quiz",
-        "level": "B1",
-        "description": "questions suggesting types of future work"
-      },
-      {
-        "word": "subject taster",
+        "word": "taster",
         "level": "B2",
-        "description": "a short sample lesson in a class"
+        "description": "a short trial showing what a subject involves"
       },
       {
-        "word": "planning worksheet",
+        "word": "worksheet",
         "level": "B1",
-        "description": "a page for organising possible choices"
+        "description": "a page containing tasks or spaces for calculations"
       },
       {
-        "word": "parent meeting",
+        "word": "parent",
         "level": "B1",
-        "description": "a talk between family and school staff"
+        "description": "a mother or father of a child"
       },
       {
-        "word": "school prospectus",
+        "word": "prospectus",
         "level": "B2",
-        "description": "a book describing a school and its courses"
+        "description": "a publication describing a school's courses and facilities"
       },
       {
-        "word": "elective list",
+        "word": "option",
         "level": "B1",
-        "description": "names of classes students may choose"
+        "description": "one choice among several possibilities"
       }
     ],
     "imposter": [
@@ -39763,90 +39763,90 @@
         "word": "elective",
         "level": "B1",
         "description": "a class someone may choose to study",
-        "hint": "school course",
-        "crewQuestion": "What can a student pick from several options?",
-        "imposterQuestion": "What can a student attend after picking one option?"
+        "hint": "optional school subjects",
+        "crewQuestion": "What elective might suit someone who likes drawing?",
+        "imposterQuestion": "Which subjects could appeal to a creative student?"
       },
       {
         "word": "prerequisite",
         "level": "B2",
         "description": "a class needed before studying another one",
-        "hint": "school course",
-        "crewQuestion": "What must someone complete before taking an advanced class?",
-        "imposterQuestion": "What must someone complete after taking an advanced class?"
+        "hint": "required earlier learning",
+        "crewQuestion": "What might you need before starting an advanced course?",
+        "imposterQuestion": "Which skills matter before joining a specialist club?"
       },
       {
         "word": "course catalogue",
         "level": "B1",
         "description": "a list of classes offered by a school",
-        "hint": "school resource",
-        "crewQuestion": "Where can students look before choosing their subjects?",
-        "imposterQuestion": "Where can students look after choosing their subjects?"
+        "hint": "listed study choices",
+        "crewQuestion": "What would you check in a course catalogue?",
+        "imposterQuestion": "Which details might appear in a school prospectus?"
       },
       {
         "word": "career goal",
         "level": "B1",
         "description": "a result someone hopes to reach through work",
-        "hint": "future plan",
-        "crewQuestion": "What might help a student choose a useful course?",
-        "imposterQuestion": "What might help a student choose a useful lunch?"
+        "hint": "long term work aims",
+        "crewQuestion": "What could guide your choice of future career?",
+        "imposterQuestion": "Which interests might shape a school project choice?"
       },
       {
         "word": "academic adviser",
         "level": "B2",
         "description": "a person helping students choose school courses",
-        "hint": "school role",
-        "crewQuestion": "Who can discuss which subjects fit a student’s plans?",
-        "imposterQuestion": "Who can discuss which books fit a student’s plans?"
+        "hint": "study guiding professionals",
+        "crewQuestion": "What would you ask an academic adviser?",
+        "imposterQuestion": "Which questions could help in a meeting with a teacher?"
       },
       {
         "word": "option form",
         "level": "B1",
         "description": "a page where someone marks their choices",
-        "hint": "school paper",
-        "crewQuestion": "What can a student return before course selection closes?",
-        "imposterQuestion": "What can a student receive before course selection closes?"
+        "hint": "subject selection sheets",
+        "crewQuestion": "What information belongs on a subject option form?",
+        "imposterQuestion": "Which details might a course application ask for?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "option form",
+        "secret": "school",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "atlas",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "course handbook",
+        "secret": "abacus",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "subject fair",
-        "kind": "activity",
-        "level": "B1"
-      },
-      {
-        "secret": "adviser meeting",
-        "kind": "activity",
-        "level": "B2"
-      },
-      {
-        "secret": "class timetable",
+        "secret": "microscope",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "career quiz",
-        "kind": "activity",
-        "level": "B1"
-      },
-      {
-        "secret": "planning worksheet",
+        "secret": "easel",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "elective list",
-        "kind": "thing",
+        "secret": "laboratory",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "lecturer",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "gym",
+        "kind": "place",
         "level": "B1"
       }
     ]
@@ -40012,44 +40012,44 @@
     ],
     "hotSeat": [
       {
-        "word": "passport wallet",
+        "word": "wallet",
         "level": "B1",
-        "description": "a small case holding travel documents"
+        "description": "a small case used to hold cash or cards"
       },
       {
-        "word": "volunteer badge",
+        "word": "lanyard",
         "level": "B1",
-        "description": "a sign showing someone is helping without pay"
+        "description": "a neck strap holding a volunteer's identification"
       },
       {
-        "word": "travel journal",
+        "word": "itinerary",
         "level": "B1",
-        "description": "a book recording places visited and experiences"
+        "description": "a plan showing the stages of a trip"
       },
       {
-        "word": "hostel bunk",
+        "word": "bunk",
         "level": "B1",
-        "description": "a bed in a shared travel room"
+        "description": "one bed in a pair stacked vertically"
       },
       {
-        "word": "placement form",
-        "level": "B2",
-        "description": "a page applying for a temporary work role"
+        "word": "form",
+        "level": "B1",
+        "description": "a page with spaces for requested information"
       },
       {
-        "word": "train pass",
+        "word": "railcard",
         "level": "B1",
-        "description": "a card allowing travel on several trains"
+        "description": "a card giving discounted railway travel"
       },
       {
-        "word": "travel adapter",
+        "word": "adapter",
         "level": "B1",
-        "description": "a plug tool used in another country"
+        "description": "a device allowing a plug to fit another socket"
       },
       {
-        "word": "packing list",
+        "word": "list",
         "level": "B1",
-        "description": "a note naming things to bring on a trip"
+        "description": "items written one after another"
       },
       {
         "word": "budget sheet",
@@ -40057,14 +40057,9 @@
         "description": "a page showing planned travel costs"
       },
       {
-        "word": "program calendar",
+        "word": "class",
         "level": "B1",
-        "description": "a chart showing dates for activities"
-      },
-      {
-        "word": "language class",
-        "level": "B1",
-        "description": "a lesson for learning how people speak"
+        "description": "a group of learners taught together"
       },
       {
         "word": "insurance card",
@@ -40072,14 +40067,19 @@
         "description": "a card with details about travel protection"
       },
       {
-        "word": "return ticket",
+        "word": "ticket",
         "level": "B1",
-        "description": "a pass for travelling back again"
+        "description": "a small paper or card allowing entry"
       },
       {
-        "word": "gap adviser",
-        "level": "B2",
-        "description": "a person helping plan time away from study"
+        "word": "adviser",
+        "level": "B1",
+        "description": "someone who helps people make informed choices"
+      },
+      {
+        "word": "duffel bag",
+        "level": "B1",
+        "description": "a soft travel container with handles and a zip"
       }
     ],
     "imposter": [
@@ -40087,74 +40087,74 @@
         "word": "gap year",
         "level": "B1",
         "description": "a year away from study between education stages",
-        "hint": "travel plan",
-        "crewQuestion": "When might someone travel before beginning university?",
-        "imposterQuestion": "When might someone travel after finishing university?"
+        "hint": "study break years",
+        "crewQuestion": "What could you learn during a gap year?",
+        "imposterQuestion": "Which skills might grow during a long summer break?"
       },
       {
         "word": "volunteer placement",
         "level": "B1",
         "description": "a temporary role helping an organisation or cause",
-        "hint": "travel work",
-        "crewQuestion": "What can someone do to support a community abroad?",
-        "imposterQuestion": "What can someone buy to support a community abroad?"
+        "hint": "unpaid helping placements",
+        "crewQuestion": "What might you pack for a volunteer placement?",
+        "imposterQuestion": "Which supplies could help on a community work trip?"
       },
       {
         "word": "work placement",
         "level": "B1",
         "description": "a temporary role learning or working at a company",
-        "hint": "travel work",
-        "crewQuestion": "What can someone arrange to gain experience in another country?",
-        "imposterQuestion": "What can someone arrange to gain a holiday in another country?"
+        "hint": "temporary learning jobs",
+        "crewQuestion": "What would you ask before a work placement?",
+        "imposterQuestion": "Which details matter before a summer job begins?"
       },
       {
         "word": "travel budget",
         "level": "B1",
         "description": "a plan for spending money while travelling",
-        "hint": "travel plan",
-        "crewQuestion": "What can help someone decide how much to spend abroad?",
-        "imposterQuestion": "What can help someone decide where to sleep abroad?"
+        "hint": "planned journey spending",
+        "crewQuestion": "What could make travel more expensive than planned?",
+        "imposterQuestion": "Which costs might increase during a school trip?"
       },
       {
         "word": "host family",
         "level": "B1",
         "description": "people providing a home during a stay abroad",
-        "hint": "travel home",
-        "crewQuestion": "Who might welcome a student into their house overseas?",
-        "imposterQuestion": "Who might guide a student through their town overseas?"
+        "hint": "visitor welcoming families",
+        "crewQuestion": "What would you ask a host family before arriving?",
+        "imposterQuestion": "Which details would you check before staying with a cousin?"
       },
       {
         "word": "passport wallet",
         "level": "B1",
         "description": "a small case holding travel documents",
-        "hint": "travel item",
-        "crewQuestion": "Where can someone keep important papers during a trip?",
-        "imposterQuestion": "Where can someone keep important clothes during a trip?"
+        "hint": "travel document holders",
+        "crewQuestion": "What might you keep beside a passport wallet?",
+        "imposterQuestion": "Which objects belong in a travel document folder?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "passport wallet",
+        "secret": "hostel",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "passport",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "volunteer badge",
+        "secret": "suitcase",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "travel journal",
+        "secret": "cruise ship",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "hostel bunk",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "travel pass",
+        "secret": "rucksack",
         "kind": "thing",
         "level": "B1"
       },
@@ -40164,14 +40164,14 @@
         "level": "B1"
       },
       {
-        "secret": "packing list",
-        "kind": "thing",
+        "secret": "campsite",
+        "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "visa form",
-        "kind": "thing",
-        "level": "B2"
+        "secret": "volunteer",
+        "kind": "job",
+        "level": "B1"
       }
     ]
   },
@@ -40336,39 +40336,39 @@
     ],
     "hotSeat": [
       {
-        "word": "meeting agenda",
-        "level": "B1",
-        "description": "a list of topics for people to discuss"
+        "word": "agenda",
+        "level": "B2",
+        "description": "a list of topics for a meeting"
       },
       {
-        "word": "project brief",
-        "level": "B1",
-        "description": "a page explaining what a team must do"
+        "word": "brief",
+        "level": "B2",
+        "description": "instructions explaining what a project should achieve"
       },
       {
-        "word": "feedback sheet",
+        "word": "handout",
         "level": "B1",
-        "description": "a page where someone writes comments"
+        "description": "a printed page given to people during a meeting"
       },
       {
-        "word": "work portfolio",
+        "word": "portfolio",
         "level": "B1",
-        "description": "a collection showing someone’s projects"
+        "description": "a collection showing examples of someone’s work"
       },
       {
-        "word": "team task",
+        "word": "task",
         "level": "B1",
-        "description": "a piece of work completed by a group"
+        "description": "a piece of work that needs doing"
       },
       {
-        "word": "calendar invite",
+        "word": "invitation",
         "level": "B1",
-        "description": "a message asking someone to attend a meeting"
+        "description": "a note asking someone to come to an event"
       },
       {
-        "word": "presentation slide",
+        "word": "slide",
         "level": "B1",
-        "description": "one page shown during a talk"
+        "description": "a smooth sloping surface children ride down"
       },
       {
         "word": "job interview",
@@ -40376,34 +40376,34 @@
         "description": "a meeting asking someone about work experience"
       },
       {
-        "word": "skills checklist",
+        "word": "checklist",
         "level": "B1",
-        "description": "a list used to review someone’s abilities"
+        "description": "items marked off as they are completed"
       },
       {
-        "word": "professional email",
+        "word": "email",
         "level": "B1",
-        "description": "a work message sent through the internet"
+        "description": "a message sent electronically to an address"
       },
       {
-        "word": "workplace scenario",
+        "word": "scenario",
         "level": "B2",
-        "description": "a short example of a situation at work"
+        "description": "an imagined situation used to practise a response"
       },
       {
-        "word": "decision chart",
+        "word": "evaluation",
         "level": "B2",
-        "description": "a table helping compare possible choices"
+        "description": "a judgment of how well someone performed"
       },
       {
-        "word": "contact list",
+        "word": "contact",
         "level": "B1",
-        "description": "names and details of people to reach"
+        "description": "a person you can reach for professional help"
       },
       {
-        "word": "reference call",
+        "word": "reference",
         "level": "B2",
-        "description": "a phone conversation about someone’s work"
+        "description": "a person who can speak about someone’s work"
       }
     ],
     "imposter": [
@@ -40411,90 +40411,90 @@
         "word": "communication",
         "level": "B1",
         "description": "sharing information clearly with another person",
-        "hint": "work skill",
-        "crewQuestion": "What can help a team understand an instruction?",
-        "imposterQuestion": "What can help a team forget an instruction?"
+        "hint": "clear information exchanges",
+        "crewQuestion": "What helps people communicate clearly at work?",
+        "imposterQuestion": "Which habits make group instructions easy to follow?"
       },
       {
         "word": "problem-solving",
         "level": "B1",
         "description": "finding a way through a difficult task",
-        "hint": "work skill",
-        "crewQuestion": "What can help someone fix an unexpected issue?",
-        "imposterQuestion": "What can help someone notice an unexpected issue?"
+        "hint": "practical solution skills",
+        "crewQuestion": "How could you tackle a difficult workplace problem?",
+        "imposterQuestion": "Which actions help solve a tricky school project?"
       },
       {
         "word": "adaptability",
         "level": "B2",
         "description": "changing actions when a situation changes",
-        "hint": "work skill",
-        "crewQuestion": "What helps someone adjust when a new task appears?",
-        "imposterQuestion": "What helps someone stay the same when a new task appears?"
+        "hint": "flexible response abilities",
+        "crewQuestion": "What could help you adjust to a new task?",
+        "imposterQuestion": "Which habits suit learning unfamiliar game rules?"
       },
       {
         "word": "initiative",
         "level": "B2",
         "description": "starting useful action without being asked",
-        "hint": "work skill",
-        "crewQuestion": "What might someone show before a manager gives directions?",
-        "imposterQuestion": "What might someone wait for before a manager gives directions?"
+        "hint": "self starting actions",
+        "crewQuestion": "When could you show initiative in a group?",
+        "imposterQuestion": "Which situations might make you offer help first?"
       },
       {
         "word": "critical thinking",
         "level": "B2",
         "description": "examining ideas carefully before deciding",
-        "hint": "work skill",
-        "crewQuestion": "What helps someone check if a claim is supported?",
-        "imposterQuestion": "What helps someone check if a claim is popular?"
+        "hint": "careful reasoning skills",
+        "crewQuestion": "What would you check before trusting a work claim?",
+        "imposterQuestion": "Which details matter when reading surprising online news?"
       },
       {
         "word": "meeting agenda",
         "level": "B1",
         "description": "a list of topics for people to discuss",
-        "hint": "work item",
-        "crewQuestion": "What can a team review before a meeting begins?",
-        "imposterQuestion": "What can a team write after a meeting ends?"
+        "hint": "discussion planning lists",
+        "crewQuestion": "What would you include in a meeting agenda?",
+        "imposterQuestion": "Which items belong in a group planning checklist?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "meeting agenda",
+        "secret": "clipboard",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "project brief",
+        "secret": "business card",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "feedback sheet",
+        "secret": "desktop computer",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "work portfolio",
+        "secret": "flip chart",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "calendar invite",
+        "secret": "workshop",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "office",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "laser pointer",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "job interview",
-        "kind": "activity",
-        "level": "B1"
-      },
-      {
-        "secret": "decision matrix",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "contact list",
-        "kind": "thing",
+        "secret": "manager",
+        "kind": "job",
         "level": "B1"
       }
     ]
@@ -40660,74 +40660,74 @@
     ],
     "hotSeat": [
       {
-        "word": "thermometer record",
+        "word": "record",
         "level": "B1",
-        "description": "a written list of measured temperatures"
+        "description": "information kept to show what happened over time"
       },
       {
         "word": "weather station",
         "level": "B1",
-        "description": "a place collecting information about wind and rain"
+        "description": "a place with instruments recording local atmospheric conditions"
       },
       {
-        "word": "climate graph",
+        "word": "graph",
         "level": "B1",
-        "description": "a chart showing weather changes over time"
+        "description": "a drawing showing how measurements change"
       },
       {
-        "word": "coastal town",
+        "word": "town",
         "level": "B1",
-        "description": "a group of homes and shops beside the sea"
+        "description": "a place with streets shops and many homes"
       },
       {
-        "word": "flood barrier",
+        "word": "barrier",
+        "level": "B1",
+        "description": "a fence that keeps people away from something"
+      },
+      {
+        "word": "projection",
         "level": "B2",
-        "description": "a wall built to keep rising water back"
+        "description": "an estimate of future conditions using present information"
       },
       {
-        "word": "drought map",
-        "level": "B1",
-        "description": "a drawing showing places with little rain"
-      },
-      {
-        "word": "electric meter",
-        "level": "B1",
-        "description": "a device recording power used in a building"
-      },
-      {
-        "word": "carbon calculator",
+        "word": "meter",
         "level": "B2",
-        "description": "a tool estimating gases linked to activities"
+        "description": "the pattern of beats in a line of words"
       },
       {
-        "word": "heat alert",
+        "word": "estimate",
         "level": "B1",
-        "description": "a warning about very hot weather"
+        "description": "a roughly calculated amount based on available information"
       },
       {
-        "word": "tide marker",
+        "word": "alert",
         "level": "B1",
-        "description": "a sign showing how high the sea reached"
+        "description": "a warning about a possible danger"
       },
       {
-        "word": "climate report",
+        "word": "measurement",
+        "level": "B1",
+        "description": "a recorded number showing size or amount"
+      },
+      {
+        "word": "report",
+        "level": "B1",
+        "description": "a written account of what you found"
+      },
+      {
+        "word": "vegetation",
         "level": "B2",
-        "description": "a document describing weather patterns and risks"
+        "description": "plants growing across an area of land"
       },
       {
-        "word": "tree canopy",
+        "word": "cooling",
         "level": "B1",
-        "description": "the leafy roof formed by tree branches"
+        "description": "making something less hot during warm weather"
       },
       {
-        "word": "solar shade",
-        "level": "B1",
-        "description": "a cover using sunlight to make electricity"
-      },
-      {
-        "word": "emergency plan",
-        "level": "B1",
-        "description": "steps prepared for a dangerous event"
+        "word": "preparedness",
+        "level": "B2",
+        "description": "being ready to deal with a future emergency"
       }
     ],
     "imposter": [
@@ -40735,90 +40735,90 @@
         "word": "greenhouse gas",
         "level": "B1",
         "description": "a gas that traps warmth in the atmosphere",
-        "hint": "climate science",
-        "crewQuestion": "What can build up when people burn coal and oil?",
-        "imposterQuestion": "What can build up when people plant trees and flowers?"
+        "hint": "heat trapping gases",
+        "crewQuestion": "What activities could release greenhouse gases?",
+        "imposterQuestion": "Which energy uses might increase a town's emissions?"
       },
       {
         "word": "global warming",
         "level": "B1",
         "description": "a long-term rise in the planet’s average temperature",
-        "hint": "climate science",
-        "crewQuestion": "What can make glaciers melt over many years?",
-        "imposterQuestion": "What can make glaciers grow over many years?"
+        "hint": "rising global temperatures",
+        "crewQuestion": "What signs might show a place is getting warmer?",
+        "imposterQuestion": "Which changes could a long-term weather record reveal?"
       },
       {
         "word": "drought",
         "level": "B1",
         "description": "a long time with very little rain",
-        "hint": "weather event",
-        "crewQuestion": "What may leave farms with dry soil and low crops?",
-        "imposterQuestion": "What may leave farms with wet soil and high crops?"
+        "hint": "extended dry periods",
+        "crewQuestion": "What problems could a drought cause for a village?",
+        "imposterQuestion": "Which difficulties might follow a long dry summer?"
       },
       {
         "word": "heatwave",
         "level": "B1",
         "description": "a period of unusually hot weather",
-        "hint": "weather event",
-        "crewQuestion": "What can make people seek shade for several days?",
-        "imposterQuestion": "What can make people seek warmth for several days?"
+        "hint": "extreme heat events",
+        "crewQuestion": "How could you keep cool during a heatwave?",
+        "imposterQuestion": "Which steps help on a very hot sports day?"
       },
       {
         "word": "climate model",
         "level": "B2",
         "description": "a computer tool exploring possible future weather",
-        "hint": "climate science",
-        "crewQuestion": "What can help researchers compare possible future conditions?",
-        "imposterQuestion": "What can help researchers compare possible past conditions?"
+        "hint": "climate prediction systems",
+        "crewQuestion": "What information could improve a climate model?",
+        "imposterQuestion": "Which records help someone compare past weather patterns?"
       },
       {
         "word": "flood barrier",
         "level": "B2",
         "description": "a wall built to keep rising water back",
-        "hint": "safety structure",
-        "crewQuestion": "What can protect a town beside a rising river?",
-        "imposterQuestion": "What can protect a town beside a falling river?"
+        "hint": "rising water defenses",
+        "crewQuestion": "What might you protect with a flood barrier?",
+        "imposterQuestion": "Which places could need sandbags during heavy rain?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "thermometer record",
+        "secret": "barometer",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "weather station",
+        "secret": "dam",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "mangrove",
+        "kind": "thing",
+        "level": "B2"
+      },
+      {
+        "secret": "glacier",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "climate graph",
+        "secret": "electric car",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "flood barrier",
+        "secret": "insulation",
         "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "drought map",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "carbon calculator",
-        "kind": "thing",
+        "secret": "wetland",
+        "kind": "place",
         "level": "B2"
       },
       {
-        "secret": "heat alert",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "emergency plan",
-        "kind": "thing",
+        "secret": "meteorologist",
+        "kind": "job",
         "level": "B1"
       }
     ]
@@ -40984,9 +40984,9 @@
     ],
     "hotSeat": [
       {
-        "word": "roof panel",
+        "word": "panel",
         "level": "B1",
-        "description": "a flat device collecting light above a home"
+        "description": "a flat surface holding a machine's controls"
       },
       {
         "word": "wind farm",
@@ -40994,9 +40994,9 @@
         "description": "a large area with machines using moving air"
       },
       {
-        "word": "dam wall",
+        "word": "dam",
         "level": "B1",
-        "description": "a barrier holding back flowing water"
+        "description": "a barrier holding back water in a river"
       },
       {
         "word": "battery bank",
@@ -41004,34 +41004,29 @@
         "description": "several power stores connected together"
       },
       {
-        "word": "solar calculator",
-        "level": "B1",
-        "description": "a number tool powered by light"
-      },
-      {
         "word": "power line",
         "level": "B1",
         "description": "a cable carrying electricity between places"
       },
       {
-        "word": "electric meter",
-        "level": "B1",
-        "description": "a device recording power used in a building"
+        "word": "meter",
+        "level": "B2",
+        "description": "the pattern of beats in a line of words"
       },
       {
         "word": "charging station",
         "level": "B1",
-        "description": "a place where a battery can refill with electricity"
+        "description": "a place where several devices can get power"
       },
       {
-        "word": "energy monitor",
+        "word": "wattmeter",
         "level": "B2",
-        "description": "a display showing how much power is being used"
+        "description": "a device measuring how much electrical power is used"
       },
       {
-        "word": "hydro turbine",
-        "level": "B2",
-        "description": "a machine turned by flowing water"
+        "word": "turbine",
+        "level": "B1",
+        "description": "a machine that turns to make electricity"
       },
       {
         "word": "geothermal plant",
@@ -41039,19 +41034,24 @@
         "description": "a facility using heat from beneath the ground"
       },
       {
-        "word": "inverter box",
+        "word": "transformer",
         "level": "B2",
-        "description": "a device changing electricity into a usable form"
+        "description": "equipment that changes the voltage of electricity"
       },
       {
-        "word": "power station",
+        "word": "generator",
         "level": "B1",
-        "description": "a place where electricity is produced"
+        "description": "a machine that produces electricity"
       },
       {
-        "word": "sun tracker",
-        "level": "B2",
-        "description": "a tool turning a panel toward bright light"
+        "word": "tracker",
+        "level": "B1",
+        "description": "a tool that records spending over time"
+      },
+      {
+        "word": "wire",
+        "level": "B1",
+        "description": "a thin metal strand carrying electric current"
       }
     ],
     "imposter": [
@@ -41059,91 +41059,91 @@
         "word": "solar panel",
         "level": "B1",
         "description": "a device changing sunlight into electricity",
-        "hint": "clean power",
-        "crewQuestion": "What can collect light on a house roof?",
-        "imposterQuestion": "What can block light on a house roof?"
+        "hint": "sunlight powered equipment",
+        "crewQuestion": "Where could a solar panel power useful equipment?",
+        "imposterQuestion": "Which places might benefit from a small wind generator?"
       },
       {
         "word": "wind turbine",
         "level": "B1",
         "description": "a machine using moving air to generate power",
-        "hint": "clean power",
-        "crewQuestion": "What can turn when a strong breeze blows?",
-        "imposterQuestion": "What can stay still when a strong breeze blows?"
+        "hint": "air powered generators",
+        "crewQuestion": "What would you check before building a wind turbine?",
+        "imposterQuestion": "Which details matter when choosing a tall mast's site?"
       },
       {
         "word": "hydropower",
         "level": "B2",
         "description": "electricity made by moving water",
-        "hint": "clean power",
-        "crewQuestion": "What can a dam produce as water passes through?",
-        "imposterQuestion": "What can a dam store as water passes through?"
+        "hint": "water power methods",
+        "crewQuestion": "Where could flowing water provide electricity?",
+        "imposterQuestion": "Which places might suit building a small waterwheel?"
       },
       {
         "word": "geothermal energy",
         "level": "B2",
         "description": "power drawn from heat beneath the ground",
-        "hint": "clean power",
-        "crewQuestion": "What can use warmth from deep below our feet?",
-        "imposterQuestion": "What can use cool air from high above our heads?"
+        "hint": "earth heat energy",
+        "crewQuestion": "What might make underground heat useful to a town?",
+        "imposterQuestion": "Which needs could warm spring water help meet?"
       },
       {
         "word": "battery bank",
         "level": "B2",
         "description": "several power stores connected together",
-        "hint": "energy storage",
-        "crewQuestion": "Where might extra electricity wait until evening?",
-        "imposterQuestion": "Where might extra electricity be used during daytime?"
+        "hint": "stored energy collections",
+        "crewQuestion": "What equipment could use stored battery power?",
+        "imposterQuestion": "Which devices might run during a short power cut?"
       },
       {
         "word": "power grid",
         "level": "B2",
         "description": "a network carrying electricity between places",
-        "hint": "energy system",
-        "crewQuestion": "What connects homes with distant power stations?",
-        "imposterQuestion": "What connects farms with distant roads?"
+        "hint": "connected electricity networks",
+        "crewQuestion": "What could cause problems for a power grid?",
+        "imposterQuestion": "Which events might interrupt a town's electricity supply?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "roof panel",
+        "secret": "battery",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "dam wall",
+        "secret": "sun",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "battery bank",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "solar calculator",
+        "secret": "watermill",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "power line",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "charging station",
+        "secret": "reservoir",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "geothermal plant",
-        "kind": "place",
+        "secret": "electrician",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "multimeter",
+        "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "sun tracker",
+        "secret": "roof",
         "kind": "thing",
-        "level": "B2"
+        "level": "B1"
+      },
+      {
+        "secret": "kite",
+        "kind": "thing",
+        "level": "B1"
       }
     ]
   },
@@ -41308,14 +41308,14 @@
     ],
     "hotSeat": [
       {
-        "word": "recycling symbol",
+        "word": "symbol",
         "level": "B1",
-        "description": "a set of arrows printed on reusable material"
+        "description": "a simple sign representing a meaning"
       },
       {
-        "word": "collection bin",
+        "word": "bin",
         "level": "B1",
-        "description": "a container where people place used items"
+        "description": "a container for waste or recyclable material"
       },
       {
         "word": "compost bag",
@@ -41333,14 +41333,14 @@
         "description": "a narrow reusable tube for drinking"
       },
       {
-        "word": "shopping tote",
+        "word": "tote",
         "level": "B1",
-        "description": "a strong bag carried to a store"
+        "description": "a reusable bag with handles for shopping"
       },
       {
-        "word": "sorting belt",
-        "level": "B2",
-        "description": "a moving strip where workers separate rubbish"
+        "word": "belt",
+        "level": "B1",
+        "description": "a band worn around your waist"
       },
       {
         "word": "waste truck",
@@ -41348,14 +41348,14 @@
         "description": "a vehicle carrying rubbish away"
       },
       {
-        "word": "refill tap",
+        "word": "tap",
         "level": "B1",
-        "description": "a water source used to fill a bottle again"
+        "description": "a handle that lets water flow from a pipe"
       },
       {
-        "word": "plastic wrapper",
+        "word": "wrapper",
         "level": "B1",
-        "description": "a thin cover around food or goods"
+        "description": "the covering around a product or snack"
       },
       {
         "word": "recycling centre",
@@ -41363,19 +41363,19 @@
         "description": "a place where used materials are processed"
       },
       {
-        "word": "river litter",
+        "word": "litter",
         "level": "B1",
-        "description": "rubbish floating or resting beside fresh water"
+        "description": "dead leaves and small twigs covering woodland ground"
       },
       {
-        "word": "return kiosk",
-        "level": "B2",
-        "description": "a machine accepting empty containers"
+        "word": "kiosk",
+        "level": "B1",
+        "description": "a small stand where things are sold or returned"
       },
       {
-        "word": "waste audit",
+        "word": "audit",
         "level": "B2",
-        "description": "a review of what materials are thrown away"
+        "description": "a detailed check of how waste is handled"
       }
     ],
     "imposter": [
@@ -41383,91 +41383,91 @@
         "word": "recycling",
         "level": "B1",
         "description": "turning used materials into new products",
-        "hint": "waste reduction",
-        "crewQuestion": "What can happen to a glass jar after use?",
-        "imposterQuestion": "What can happen to a glass jar before use?"
+        "hint": "used material recovery",
+        "crewQuestion": "What objects could you put in recycling?",
+        "imposterQuestion": "Which materials might a school collection accept?"
       },
       {
         "word": "plastic bag",
         "level": "B1",
         "description": "a light container made from flexible material",
-        "hint": "waste item",
-        "crewQuestion": "What might someone reuse to carry shopping home?",
-        "imposterQuestion": "What might someone fill to carry shopping home?"
+        "hint": "thin shopping containers",
+        "crewQuestion": "What could you carry in a plastic bag?",
+        "imposterQuestion": "Which items might fit inside a reusable tote?"
       },
       {
         "word": "landfill",
         "level": "B1",
         "description": "a place where rubbish is buried in the ground",
-        "hint": "waste place",
-        "crewQuestion": "Where may rubbish go when it cannot be reused?",
-        "imposterQuestion": "Where may rubbish go when it can be reused?"
+        "hint": "buried rubbish places",
+        "crewQuestion": "What might you see near a landfill?",
+        "imposterQuestion": "Which sights could surround a waste sorting centre?"
       },
       {
         "word": "reusable bottle",
         "level": "B1",
         "description": "a container made to be used many times",
-        "hint": "waste reduction",
-        "crewQuestion": "What can someone refill each day instead of throwing away?",
-        "imposterQuestion": "What can someone empty each day instead of throwing away?"
+        "hint": "refillable drink containers",
+        "crewQuestion": "When would you bring a reusable bottle?",
+        "imposterQuestion": "Which trips might make you pack a flask?"
       },
       {
         "word": "microplastic",
         "level": "B2",
         "description": "a tiny piece of plastic in nature",
-        "hint": "waste problem",
-        "crewQuestion": "What small pollution might appear in a river sample?",
-        "imposterQuestion": "What small pollution might disappear from a river sample?"
+        "hint": "tiny artificial fragments",
+        "crewQuestion": "Where might tiny plastic pieces be found?",
+        "imposterQuestion": "Which places could contain fragments of broken packaging?"
       },
       {
         "word": "collection bin",
         "level": "B1",
         "description": "a container where people place used materials",
-        "hint": "waste item",
-        "crewQuestion": "Where can someone drop an empty can at school?",
-        "imposterQuestion": "Where can someone pick up an empty can at school?"
+        "hint": "rubbish gathering containers",
+        "crewQuestion": "What could you put in a collection bin?",
+        "imposterQuestion": "Which objects might a local recycling box hold?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "recycling symbol",
+        "secret": "toothbrush",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "collection bin",
+        "secret": "carrier bag",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "glass bottle",
+        "secret": "lunchbox",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "shopping tote",
+        "secret": "turtle",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "supermarket",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "recycling truck",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "sorting belt",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "waste truck",
+        "secret": "cup",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "refill tap",
+        "secret": "comb",
         "kind": "thing",
         "level": "B1"
-      },
-      {
-        "secret": "return kiosk",
-        "kind": "thing",
-        "level": "B2"
       }
     ]
   },
@@ -41632,14 +41632,14 @@
     ],
     "hotSeat": [
       {
-        "word": "field notebook",
+        "word": "logbook",
         "level": "B1",
-        "description": "a small book for recording outdoor observations"
+        "description": "a book recording observations during regular field visits"
       },
       {
-        "word": "wildlife camera",
+        "word": "camcorder",
         "level": "B1",
-        "description": "a device taking pictures of animals outside"
+        "description": "a handheld device used to record moving pictures"
       },
       {
         "word": "bird hide",
@@ -41647,14 +41647,14 @@
         "description": "a shelter where watchers can observe birds quietly"
       },
       {
-        "word": "tracking collar",
-        "level": "B2",
-        "description": "a band showing where an animal travels"
+        "word": "collar",
+        "level": "B1",
+        "description": "a band that fits around an animal's neck"
       },
       {
-        "word": "park ranger",
+        "word": "ranger",
         "level": "B1",
-        "description": "a person caring for a natural area"
+        "description": "a person who looks after a forest"
       },
       {
         "word": "nest box",
@@ -41667,39 +41667,39 @@
         "description": "a place treating animals that need help"
       },
       {
-        "word": "habitat map",
+        "word": "habitat",
         "level": "B1",
-        "description": "a drawing showing where animals can live"
+        "description": "the natural place where an animal lives"
       },
       {
-        "word": "animal footprint",
+        "word": "trail",
         "level": "B1",
-        "description": "a mark left by a wild creature’s foot"
+        "description": "marks showing the path an animal has taken"
       },
       {
-        "word": "wildlife crossing",
+        "word": "crossing",
+        "level": "B1",
+        "description": "a marked place where animals pass safely"
+      },
+      {
+        "word": "nursery",
+        "level": "B1",
+        "description": "a place where young living things are raised"
+      },
+      {
+        "word": "patrol",
         "level": "B2",
-        "description": "a safe path animals can use across a road"
+        "description": "a journey made to check an area is safe"
       },
       {
-        "word": "tree nursery",
-        "level": "B1",
-        "description": "a place where young trees are grown"
-      },
-      {
-        "word": "patrol route",
+        "word": "species",
         "level": "B2",
-        "description": "a path followed while checking an area"
+        "description": "a group of animals with shared biological features"
       },
       {
-        "word": "species list",
+        "word": "crate",
         "level": "B1",
-        "description": "a record naming plants or animals found"
-      },
-      {
-        "word": "release crate",
-        "level": "B2",
-        "description": "a box carrying an animal to a safe place"
+        "description": "a strong box used to transport an animal"
       }
     ],
     "imposter": [
@@ -41707,91 +41707,91 @@
         "word": "habitat loss",
         "level": "B1",
         "description": "the loss of places where wild things live",
-        "hint": "nature problem",
-        "crewQuestion": "What can happen when trees are cut down for roads?",
-        "imposterQuestion": "What can happen when trees are planted beside roads?"
+        "hint": "lost living spaces",
+        "crewQuestion": "What changes could remove an animal's habitat?",
+        "imposterQuestion": "Which actions might damage a bird's nesting area?"
       },
       {
         "word": "endangered species",
         "level": "B1",
         "description": "an animal or plant at risk of disappearing",
-        "hint": "nature protection",
-        "crewQuestion": "Which kind of animal may need special protection?",
-        "imposterQuestion": "Which kind of animal may need no protection?"
+        "hint": "at risk animals",
+        "crewQuestion": "What could help protect a threatened animal?",
+        "imposterQuestion": "Which steps might keep a rare plant safe?"
       },
       {
         "word": "poaching",
         "level": "B2",
         "description": "illegal hunting or catching of wild animals",
-        "hint": "nature problem",
-        "crewQuestion": "What crime can a patrol try to prevent?",
-        "imposterQuestion": "What job can a patrol try to encourage?"
+        "hint": "illegal wildlife hunting",
+        "crewQuestion": "What signs might suggest illegal hunting nearby?",
+        "imposterQuestion": "Which clues could show someone has trapped animals?"
       },
       {
         "word": "population survey",
         "level": "B2",
         "description": "counting animals to learn how many exist",
-        "hint": "nature research",
-        "crewQuestion": "What can help a team estimate how many birds remain?",
-        "imposterQuestion": "What can help a team estimate how many birds arrived?"
+        "hint": "animal number records",
+        "crewQuestion": "What would you record in a wildlife survey?",
+        "imposterQuestion": "Which details matter when counting birds in a garden?"
       },
       {
         "word": "camera trap",
         "level": "B2",
         "description": "a hidden camera taking pictures of passing animals",
-        "hint": "field equipment",
-        "crewQuestion": "What can record a fox passing at night?",
-        "imposterQuestion": "What can record a fox passing in daylight?"
+        "hint": "automatic wildlife cameras",
+        "crewQuestion": "Where could you place a camera trap?",
+        "imposterQuestion": "Which spots might let you film visiting garden animals?"
       },
       {
         "word": "park ranger",
         "level": "B1",
         "description": "a person caring for a natural area",
-        "hint": "nature job",
-        "crewQuestion": "Who might check a trail and help visitors?",
-        "imposterQuestion": "Who might cross a trail and greet visitors?"
+        "hint": "wild place guardians",
+        "crewQuestion": "What might a park ranger carry?",
+        "imposterQuestion": "Which tools could help a forest guide on a walk?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "field notebook",
-        "kind": "thing",
+        "secret": "rhino",
+        "kind": "animal",
         "level": "B1"
       },
       {
-        "secret": "wildlife camera",
-        "kind": "thing",
+        "secret": "orangutan",
+        "kind": "animal",
         "level": "B1"
       },
       {
-        "secret": "bird hide",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "park ranger",
-        "kind": "job",
-        "level": "B1"
-      },
-      {
-        "secret": "rescue centre",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "habitat map",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "tree nursery",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "release crate",
-        "kind": "thing",
+        "secret": "pangolin",
+        "kind": "animal",
         "level": "B2"
+      },
+      {
+        "secret": "tiger",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "elephant",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "walkie-talkie",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "drone",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "tortoise",
+        "kind": "animal",
+        "level": "B1"
       }
     ]
   },
@@ -41956,9 +41956,9 @@
     ],
     "hotSeat": [
       {
-        "word": "balcony planter",
+        "word": "planter",
         "level": "B1",
-        "description": "a container on a raised ledge for flowers"
+        "description": "a container used for growing flowers outside"
       },
       {
         "word": "nesting box",
@@ -41966,24 +41966,14 @@
         "description": "a wooden shelter where small birds can raise young"
       },
       {
-        "word": "street planter",
+        "word": "plot",
         "level": "B1",
-        "description": "a large container of plants beside a road"
+        "description": "the events making up a story"
       },
       {
-        "word": "park map",
+        "word": "wildflower",
         "level": "B1",
-        "description": "a drawing showing paths and places in a green space"
-      },
-      {
-        "word": "allotment plot",
-        "level": "B2",
-        "description": "a small piece of land used to grow food"
-      },
-      {
-        "word": "wildflower strip",
-        "level": "B2",
-        "description": "a narrow area filled with local flowers"
+        "description": "a flowering plant growing without being planted"
       },
       {
         "word": "urban fox",
@@ -42001,9 +41991,9 @@
         "description": "a building side covered in living plants"
       },
       {
-        "word": "tree pit",
-        "level": "B2",
-        "description": "an opening in pavement where a tree grows"
+        "word": "pit",
+        "level": "B1",
+        "description": "a hollow dug to hold a tree's roots"
       },
       {
         "word": "compost bin",
@@ -42011,19 +42001,29 @@
         "description": "a container where leaves and food scraps break down"
       },
       {
-        "word": "roof garden",
+        "word": "rooftop",
         "level": "B1",
-        "description": "a planted outdoor space above a building"
+        "description": "the upper outside surface of a building"
       },
       {
-        "word": "bird count",
+        "word": "count",
         "level": "B1",
-        "description": "the number of birds seen in an area"
+        "description": "the total number found during an animal survey"
       },
       {
-        "word": "park volunteer",
+        "word": "volunteer",
         "level": "B1",
-        "description": "a person who helps care for a green space"
+        "description": "offering time to help without pay"
+      },
+      {
+        "word": "bush",
+        "level": "B1",
+        "description": "a low woody plant with several stems"
+      },
+      {
+        "word": "blossom",
+        "level": "B1",
+        "description": "a flower growing on a fruit tree"
       }
     ],
     "imposter": [
@@ -42031,90 +42031,90 @@
         "word": "green roof",
         "level": "B1",
         "description": "a roof covered with plants above a building",
-        "hint": "city nature",
-        "crewQuestion": "What can cool a city building in hot weather?",
-        "imposterQuestion": "What can warm a city building in cold weather?"
+        "hint": "planted building tops",
+        "crewQuestion": "What could you plant on a green roof?",
+        "imposterQuestion": "Which plants might suit a balcony garden?"
       },
       {
         "word": "street tree",
         "level": "B1",
         "description": "a tall plant growing beside a road",
-        "hint": "city nature",
-        "crewQuestion": "What can give shade to people walking on a pavement?",
-        "imposterQuestion": "What can give light to people walking on a pavement?"
+        "hint": "roadside woody plants",
+        "crewQuestion": "What would help a street tree grow well?",
+        "imposterQuestion": "Which things might a garden sapling need?"
       },
       {
         "word": "community garden",
         "level": "B1",
         "description": "a shared place where neighbours grow food",
-        "hint": "city nature",
-        "crewQuestion": "Where can people grow vegetables together near home?",
-        "imposterQuestion": "Where can people buy vegetables together near home?"
+        "hint": "collective growing places",
+        "crewQuestion": "What could people share in a community garden?",
+        "imposterQuestion": "Which tools might neighbors lend for a planting day?"
       },
       {
         "word": "pollinator garden",
         "level": "B1",
         "description": "a flower area helping insects find food",
-        "hint": "city nature",
-        "crewQuestion": "What can help bees find blossoms in a town?",
-        "imposterQuestion": "What can help fish find streams in a town?"
+        "hint": "insect friendly habitats",
+        "crewQuestion": "What might attract pollinators to a garden?",
+        "imposterQuestion": "Which features could bring butterflies to a balcony?"
       },
       {
         "word": "urban fox",
         "level": "B1",
         "description": "a wild animal living among city buildings",
-        "hint": "city wildlife",
-        "crewQuestion": "Which animal may search for food near houses at night?",
-        "imposterQuestion": "Which animal may search for food near houses at noon?"
+        "hint": "city living hunters",
+        "crewQuestion": "Where might an urban fox look for food?",
+        "imposterQuestion": "Which places could a stray cat search at night?"
       },
       {
         "word": "bird bath",
         "level": "B1",
         "description": "a shallow dish where birds can drink or wash",
-        "hint": "garden item",
-        "crewQuestion": "What can help birds clean their feathers in a yard?",
-        "imposterQuestion": "What can help birds warm their feathers in a yard?"
+        "hint": "avian water dishes",
+        "crewQuestion": "What could you find near a bird bath?",
+        "imposterQuestion": "Which objects might stand beside a garden pond?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "balcony planter",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "nesting box",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "park map",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "allotment plot",
-        "kind": "place",
-        "level": "B2"
-      },
-      {
-        "secret": "urban fox",
+        "secret": "hedgehog",
         "kind": "animal",
         "level": "B1"
       },
       {
-        "secret": "bird bath",
+        "secret": "bee",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "bat",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "swallow",
+        "kind": "animal",
+        "level": "B1"
+      },
+      {
+        "secret": "pond",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "oak",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "tree pit",
+        "secret": "allotment",
         "kind": "place",
-        "level": "B2"
+        "level": "B1"
       },
       {
-        "secret": "roof garden",
-        "kind": "place",
+        "secret": "rake",
+        "kind": "thing",
         "level": "B1"
       }
     ]
@@ -42285,14 +42285,14 @@
         "description": "a marked place where passengers wait for buses"
       },
       {
-        "word": "train platform",
+        "word": "platform",
         "level": "B1",
-        "description": "a raised area beside a train track"
+        "description": "a raised place where travellers wait for a train"
       },
       {
-        "word": "tram bell",
+        "word": "chime",
         "level": "B1",
-        "description": "a ringing sound warning people near a streetcar"
+        "description": "a clear ringing sound announcing something"
       },
       {
         "word": "ticket machine",
@@ -42300,9 +42300,9 @@
         "description": "a device that sells travel passes"
       },
       {
-        "word": "station gate",
-        "level": "B1",
-        "description": "an entrance checked before boarding"
+        "word": "turnstile",
+        "level": "B2",
+        "description": "a rotating barrier letting one passenger through at a time"
       },
       {
         "word": "arrival board",
@@ -42310,9 +42310,9 @@
         "description": "a display showing when vehicles are due"
       },
       {
-        "word": "transit app",
+        "word": "app",
         "level": "B1",
-        "description": "software showing routes and travel times"
+        "description": "a program used for a particular task"
       },
       {
         "word": "ferry terminal",
@@ -42325,29 +42325,29 @@
         "description": "a card used to pay for public journeys"
       },
       {
-        "word": "bike rack",
+        "word": "rack",
         "level": "B1",
-        "description": "a frame where bicycles can be locked"
+        "description": "a frame where bicycles can be parked"
       },
       {
-        "word": "route timetable",
+        "word": "timetable",
         "level": "B1",
-        "description": "a chart showing when vehicles should arrive"
+        "description": "a chart showing lesson times for the day"
       },
       {
-        "word": "accessible lift",
+        "word": "lift",
         "level": "B1",
-        "description": "a moving platform helping people change floors"
+        "description": "a machine carrying people between floors"
       },
       {
-        "word": "platform edge",
+        "word": "edge",
         "level": "B1",
-        "description": "the outer line beside the track"
+        "description": "the place where a surface ends"
       },
       {
-        "word": "service map",
+        "word": "network",
         "level": "B1",
-        "description": "a drawing showing the available travel network"
+        "description": "connected routes passengers can use across a city"
       }
     ],
     "imposter": [
@@ -42355,89 +42355,89 @@
         "word": "transit pass",
         "level": "B1",
         "description": "a card or pass used to pay for public travel",
-        "hint": "travel item",
-        "crewQuestion": "What might someone show before boarding a city bus?",
-        "imposterQuestion": "What might someone show before boarding a city train?"
+        "hint": "public travel permissions",
+        "crewQuestion": "What could you keep beside a transit pass?",
+        "imposterQuestion": "Which items might fit in a travel wallet?"
       },
       {
         "word": "bus lane",
         "level": "B1",
         "description": "a road section reserved for buses",
-        "hint": "road feature",
-        "crewQuestion": "Which part of a street helps buses avoid other traffic?",
-        "imposterQuestion": "Which part of a street helps bikes avoid other traffic?"
+        "hint": "reserved vehicle routes",
+        "crewQuestion": "What might you see beside a bus lane?",
+        "imposterQuestion": "Which things could stand along a cycle route?"
       },
       {
         "word": "commuter train",
         "level": "B1",
         "description": "a train carrying people to and from work",
-        "hint": "rail transport",
-        "crewQuestion": "What can carry workers into a city each morning?",
-        "imposterQuestion": "What can carry students into a city each morning?"
+        "hint": "regular passenger services",
+        "crewQuestion": "What would you do on a commuter train?",
+        "imposterQuestion": "Which activities pass time on a morning bus?"
       },
       {
         "word": "route map",
         "level": "B1",
         "description": "a drawing showing paths for buses or trains",
-        "hint": "travel tool",
-        "crewQuestion": "What can help a visitor choose which line to take?",
-        "imposterQuestion": "What can help a visitor choose which meal to take?"
+        "hint": "drawn travel routes",
+        "crewQuestion": "What would you check on a route map?",
+        "imposterQuestion": "Which details help you use a visitor's transport guide?"
       },
       {
         "word": "ferry terminal",
         "level": "B1",
         "description": "a building where boats collect passengers",
-        "hint": "travel place",
-        "crewQuestion": "Where can people wait before crossing water by boat?",
-        "imposterQuestion": "Where can people wait before crossing water by bridge?"
+        "hint": "water travel terminals",
+        "crewQuestion": "What could you buy near a ferry terminal?",
+        "imposterQuestion": "Which supplies might be sold in a station shop?"
       },
       {
         "word": "bike share",
         "level": "B1",
         "description": "bicycles people can borrow for short trips",
-        "hint": "travel service",
-        "crewQuestion": "What can a visitor use to travel across town outdoors?",
-        "imposterQuestion": "What can a visitor use to travel across town underground?"
+        "hint": "shared cycle services",
+        "crewQuestion": "What would you check before hiring a shared bike?",
+        "imposterQuestion": "Which checks matter when borrowing a scooter?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "bus stop",
+        "secret": "bus",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "tram",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "train",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "riverboat",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "taxi",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "conductor",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "bus station",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "train platform",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "ticket machine",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "station gate",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "arrival board",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "transit app",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "ferry terminal",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "accessible lift",
+        "secret": "scooter",
         "kind": "thing",
         "level": "B1"
       }
@@ -42609,19 +42609,19 @@
         "description": "an outdoor place with plants above a building"
       },
       {
-        "word": "solar canopy",
-        "level": "B2",
-        "description": "a cover collecting sunlight over a path or car park"
+        "word": "awning",
+        "level": "B1",
+        "description": "a cover stretched over a window or entrance"
       },
       {
-        "word": "shared courtyard",
+        "word": "courtyard",
         "level": "B1",
-        "description": "an open space used by nearby homes"
+        "description": "an open space surrounded by buildings"
       },
       {
-        "word": "bike garage",
+        "word": "garage",
         "level": "B1",
-        "description": "a locked building where bicycles can be kept"
+        "description": "a place where a car can be kept"
       },
       {
         "word": "rainwater tank",
@@ -42634,9 +42634,9 @@
         "description": "a building side covered in living plants"
       },
       {
-        "word": "bus plaza",
+        "word": "plaza",
         "level": "B1",
-        "description": "an open area where several buses stop"
+        "description": "an open public area in a town"
       },
       {
         "word": "pedestrian bridge",
@@ -42649,29 +42649,29 @@
         "description": "a device measuring power or water use"
       },
       {
-        "word": "community hub",
-        "level": "B1",
-        "description": "a shared place for services and activities"
-      },
-      {
-        "word": "public bench",
-        "level": "B1",
-        "description": "a long seat outside for anyone to use"
-      },
-      {
-        "word": "cooling centre",
+        "word": "hub",
         "level": "B2",
-        "description": "a public room offering shelter in hot weather"
+        "description": "a central place connecting activities or transport routes"
       },
       {
-        "word": "housing tower",
-        "level": "B1",
-        "description": "a tall building with many homes"
-      },
-      {
-        "word": "urban greenhouse",
+        "word": "bollard",
         "level": "B2",
-        "description": "a glass building growing plants in a city"
+        "description": "a short post that keeps vehicles off walkways"
+      },
+      {
+        "word": "centre",
+        "level": "B1",
+        "description": "a building where people gather for a service"
+      },
+      {
+        "word": "apartment",
+        "level": "B1",
+        "description": "one home inside a larger shared building"
+      },
+      {
+        "word": "atrium",
+        "level": "B2",
+        "description": "a central open space beneath a building's glass roof"
       }
     ],
     "imposter": [
@@ -42679,91 +42679,91 @@
         "word": "smart city",
         "level": "B1",
         "description": "a city using technology to manage its services",
-        "hint": "city planning",
-        "crewQuestion": "What can help a town manage traffic and energy?",
-        "imposterQuestion": "What can help a town manage parks and gardens?"
+        "hint": "connected urban systems",
+        "crewQuestion": "What could make city technology useful for residents?",
+        "imposterQuestion": "Which features might improve a school's automatic systems?"
       },
       {
         "word": "green building",
         "level": "B1",
         "description": "a structure designed to use less energy",
-        "hint": "city planning",
-        "crewQuestion": "What can reduce power use in an office?",
-        "imposterQuestion": "What can increase power use in an office?"
+        "hint": "resource saving buildings",
+        "crewQuestion": "What would you include in an environmentally friendly building?",
+        "imposterQuestion": "Which features could make a house use less energy?"
       },
       {
         "word": "walkability",
         "level": "B2",
         "description": "how easy it is to walk around an area",
-        "hint": "city planning",
-        "crewQuestion": "What can make a neighbourhood comfortable to explore on foot?",
-        "imposterQuestion": "What can make a neighbourhood difficult to explore on foot?"
+        "hint": "pedestrian friendly qualities",
+        "crewQuestion": "What makes a street easy to walk along?",
+        "imposterQuestion": "Which conditions help you cross a neighborhood on foot?"
       },
       {
         "word": "public square",
         "level": "B1",
         "description": "an open area where people can gather",
-        "hint": "city place",
-        "crewQuestion": "Where can neighbours meet in the centre of town?",
-        "imposterQuestion": "Where can neighbours meet at the edge of town?"
+        "hint": "open civic places",
+        "crewQuestion": "What could people do in a public square?",
+        "imposterQuestion": "Which activities might suit a neighborhood plaza?"
       },
       {
         "word": "cool roof",
         "level": "B1",
         "description": "a roof designed to stay cooler in hot weather",
-        "hint": "building design",
-        "crewQuestion": "What can help keep an apartment comfortable on a sunny day?",
-        "imposterQuestion": "What can help make an apartment warmer on a sunny day?"
+        "hint": "heat reducing roofs",
+        "crewQuestion": "What would you grow on a roof to keep it cool?",
+        "imposterQuestion": "Which plants might provide shade on a balcony?"
       },
       {
         "word": "bike garage",
         "level": "B1",
         "description": "a locked building where bicycles can be kept",
-        "hint": "city feature",
-        "crewQuestion": "Where can residents leave a bicycle safely?",
-        "imposterQuestion": "Where can residents leave a car safely?"
+        "hint": "cycle storage places",
+        "crewQuestion": "What would you put inside a bike garage?",
+        "imposterQuestion": "Which tools belong near a cycle repair stand?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "rooftop garden",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "bike garage",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "rainwater tank",
+        "secret": "tram",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "bus plaza",
-        "kind": "place",
-        "level": "B1"
-      },
-      {
-        "secret": "pedestrian bridge",
+        "secret": "electric bus",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "smart meter",
+        "secret": "solar panel",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "cooling centre",
+        "secret": "bookshop",
         "kind": "place",
-        "level": "B2"
+        "level": "B1"
       },
       {
-        "secret": "urban greenhouse",
+        "secret": "hospital",
         "kind": "place",
-        "level": "B2"
+        "level": "B1"
+      },
+      {
+        "secret": "architect",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "skyscraper",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "playground",
+        "kind": "place",
+        "level": "B1"
       }
     ]
   },
@@ -42928,24 +42928,24 @@
     ],
     "hotSeat": [
       {
-        "word": "crew emblem",
-        "level": "B1",
-        "description": "a small symbol used by a space team"
+        "word": "emblem",
+        "level": "B2",
+        "description": "a symbol representing a mission or organization"
       },
       {
         "word": "launch tower",
         "level": "B1",
-        "description": "a tall structure holding a rocket before takeoff"
+        "description": "a tall structure supporting a spacecraft before departure"
       },
       {
-        "word": "space helmet",
+        "word": "visor",
         "level": "B1",
-        "description": "a protective cover worn on an astronaut’s head"
+        "description": "the clear face covering at the front of headgear"
       },
       {
-        "word": "control console",
+        "word": "console",
         "level": "B1",
-        "description": "a desk of screens and buttons for operators"
+        "description": "a machine designed for playing video games"
       },
       {
         "word": "radio dish",
@@ -42953,44 +42953,44 @@
         "description": "a curved tool sending or receiving signals"
       },
       {
-        "word": "crew cabin",
+        "word": "cabin",
         "level": "B1",
-        "description": "a room where travellers sit inside a spacecraft"
+        "description": "a small room inside a vehicle"
       },
       {
-        "word": "sample container",
+        "word": "container",
         "level": "B1",
-        "description": "a box holding material collected for study"
+        "description": "something that holds food or other things"
       },
       {
-        "word": "planet model",
-        "level": "B1",
-        "description": "a small round copy of a world"
-      },
-      {
-        "word": "mission timeline",
+        "word": "mockup",
         "level": "B2",
-        "description": "a chart showing the order of planned events"
+        "description": "a full size representation used to test a design"
       },
       {
-        "word": "landing camera",
+        "word": "timeline",
         "level": "B1",
-        "description": "a device taking pictures as a craft reaches ground"
+        "description": "the order of events over time"
       },
       {
-        "word": "space agency",
+        "word": "photography",
         "level": "B1",
-        "description": "an organisation planning space missions"
+        "description": "making pictures using light and a camera"
       },
       {
-        "word": "flight director",
+        "word": "agency",
         "level": "B2",
-        "description": "a person guiding a spacecraft mission from Earth"
+        "description": "an organization responsible for a particular public task"
       },
       {
-        "word": "orbital map",
-        "level": "B2",
-        "description": "a drawing showing a path around a world"
+        "word": "director",
+        "level": "B1",
+        "description": "the person guiding how a movie is made"
+      },
+      {
+        "word": "navigation",
+        "level": "B1",
+        "description": "finding a route and keeping to the right direction"
       },
       {
         "word": "space telescope",
@@ -43003,90 +43003,90 @@
         "word": "space probe",
         "level": "B1",
         "description": "a machine sent away from Earth to study space",
-        "hint": "space equipment",
-        "crewQuestion": "What can scientists send to collect information far away?",
-        "imposterQuestion": "What can scientists send to collect information nearby?"
+        "hint": "uncrewed space explorers",
+        "crewQuestion": "What could a space probe measure?",
+        "imposterQuestion": "Which details might a remote research robot record?"
       },
       {
         "word": "space station",
         "level": "B1",
         "description": "a home and workplace travelling above Earth",
-        "hint": "space place",
-        "crewQuestion": "Where can astronauts live while circling our planet?",
-        "imposterQuestion": "Where can sailors live while crossing our planet?"
+        "hint": "orbital living places",
+        "crewQuestion": "What jobs might people share on a space station?",
+        "imposterQuestion": "Which chores could a crew divide on a submarine?"
       },
       {
         "word": "spacewalk",
         "level": "B1",
         "description": "work done outside a spacecraft in a special suit",
-        "hint": "space activity",
-        "crewQuestion": "What may an astronaut do beyond the wall of a ship?",
-        "imposterQuestion": "What may an astronaut do within the wall of a ship?"
+        "hint": "outside spacecraft journeys",
+        "crewQuestion": "What would you check before a spacewalk?",
+        "imposterQuestion": "Which safety checks matter before a diving trip?"
       },
       {
         "word": "payload",
         "level": "B2",
         "description": "equipment or supplies carried on a spacecraft",
-        "hint": "space equipment",
-        "crewQuestion": "What does a rocket carry besides its fuel?",
-        "imposterQuestion": "What does a rocket use besides its cargo?"
+        "hint": "carried mission cargo",
+        "crewQuestion": "What could travel as a rocket's payload?",
+        "imposterQuestion": "Which equipment might a research airplane carry?"
       },
       {
         "word": "ground station",
         "level": "B2",
         "description": "a place on Earth receiving space messages",
-        "hint": "space place",
-        "crewQuestion": "Where can engineers listen for signals from orbit?",
-        "imposterQuestion": "Where can engineers send signals from orbit?"
+        "hint": "earth based receivers",
+        "crewQuestion": "What might you find at a ground station?",
+        "imposterQuestion": "Which equipment could be near a satellite control centre?"
       },
       {
         "word": "space telescope",
         "level": "B1",
         "description": "a device in orbit that observes far objects",
-        "hint": "space equipment",
-        "crewQuestion": "What can help scientists see distant stars more clearly?",
-        "imposterQuestion": "What can help scientists hear distant stars more clearly?"
+        "hint": "orbital observing equipment",
+        "crewQuestion": "What objects could a space telescope observe?",
+        "imposterQuestion": "Which things might an astronomer study from a hilltop?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "launch tower",
+        "secret": "astronaut",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "capsule",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "radio dish",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "crew cabin",
+        "secret": "Mars",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "sample container",
+        "secret": "Venus",
+        "kind": "place",
+        "level": "B1"
+      },
+      {
+        "secret": "asteroid",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "planet model",
+        "secret": "meteorite",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "landing camera",
+        "secret": "comet",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "flight director",
-        "kind": "job",
-        "level": "B2"
-      },
-      {
-        "secret": "space telescope",
-        "kind": "thing",
+        "secret": "observatory",
+        "kind": "place",
         "level": "B1"
       }
     ]
@@ -43252,49 +43252,49 @@
     ],
     "hotSeat": [
       {
-        "word": "rover wheel",
+        "word": "wheel",
         "level": "B1",
-        "description": "a round part helping a machine cross rough ground"
+        "description": "a round part that turns on a vehicle"
       },
       {
-        "word": "landing parachute",
+        "word": "parachute",
         "level": "B1",
-        "description": "a wide fabric cover slowing a vehicle’s fall"
+        "description": "a fabric device that slows a falling object"
       },
       {
-        "word": "sample canister",
+        "word": "canister",
         "level": "B2",
-        "description": "a hard container holding collected soil or rock"
+        "description": "a small sealed container for collected material"
       },
       {
-        "word": "Mars map",
-        "level": "B1",
-        "description": "a drawing showing places on the red planet"
-      },
-      {
-        "word": "dust filter",
+        "word": "terrain",
         "level": "B2",
-        "description": "a screen trapping fine dirt from the air"
+        "description": "the shape and nature of a planet's ground"
       },
       {
-        "word": "habitat door",
+        "word": "filter",
         "level": "B1",
-        "description": "an entrance to a shelter on a planet"
+        "description": "something placed over a screen to change its light"
       },
       {
-        "word": "solar panel",
+        "word": "door",
         "level": "B1",
-        "description": "a flat device changing sunlight into power"
+        "description": "a movable barrier at a room's entrance"
       },
       {
-        "word": "mission badge",
-        "level": "B1",
-        "description": "a small symbol worn by a space team"
+        "word": "array",
+        "level": "B2",
+        "description": "several solar cells joined to collect energy"
       },
       {
-        "word": "soil drill",
+        "word": "patch",
         "level": "B1",
-        "description": "a tool making a hole in the ground"
+        "description": "a small piece of fabric showing a mission symbol"
+      },
+      {
+        "word": "drill",
+        "level": "B1",
+        "description": "a practice of actions used in an emergency"
       },
       {
         "word": "robot arm",
@@ -43307,19 +43307,19 @@
         "description": "a container holding air for breathing"
       },
       {
-        "word": "entry capsule",
+        "word": "capsule",
+        "level": "B1",
+        "description": "a small cabin where travellers sit safely"
+      },
+      {
+        "word": "panorama",
         "level": "B2",
-        "description": "a small vehicle carrying people through an atmosphere"
+        "description": "a wide image showing a surrounding landscape"
       },
       {
-        "word": "surface camera",
-        "level": "B1",
-        "description": "a device taking pictures from the ground"
-      },
-      {
-        "word": "planet model",
-        "level": "B1",
-        "description": "a small round copy of a world"
+        "word": "replica",
+        "level": "B2",
+        "description": "a copy made to look like the original"
       }
     ],
     "imposter": [
@@ -43327,90 +43327,90 @@
         "word": "Mars rover",
         "level": "B1",
         "description": "a robotic vehicle exploring the surface of Mars",
-        "hint": "space equipment",
-        "crewQuestion": "What can move across the red planet without a driver?",
-        "imposterQuestion": "What can move across the red planet with a driver?"
+        "hint": "red planet explorers",
+        "crewQuestion": "What might a Mars rover photograph?",
+        "imposterQuestion": "Which features could a robot record in a rocky desert?"
       },
       {
         "word": "regolith",
         "level": "B2",
         "description": "loose material covering the surface of a planet",
-        "hint": "planet material",
-        "crewQuestion": "What covers much of the ground on Mars?",
-        "imposterQuestion": "What covers much of the ground under an ocean?"
+        "hint": "loose planetary soil",
+        "crewQuestion": "What might you notice in a soil sample?",
+        "imposterQuestion": "Which details could appear in a scoop of beach sand?"
       },
       {
         "word": "landing site",
         "level": "B1",
         "description": "a place chosen for a spacecraft to touch down",
-        "hint": "space place",
-        "crewQuestion": "Where might mission planners choose to set a vehicle down?",
-        "imposterQuestion": "Where might mission planners choose to send a vehicle away?"
+        "hint": "space arrival places",
+        "crewQuestion": "What makes a place suitable for landing?",
+        "imposterQuestion": "Which features matter when choosing a helicopter's stopping area?"
       },
       {
         "word": "sample tube",
         "level": "B1",
         "description": "a small container holding material collected for study",
-        "hint": "space equipment",
-        "crewQuestion": "What can protect a piece of soil brought from Mars?",
-        "imposterQuestion": "What can protect a piece of food brought from Mars?"
+        "hint": "small research containers",
+        "crewQuestion": "What could you place inside a sample tube?",
+        "imposterQuestion": "Which small things might fit in a research vial?"
       },
       {
         "word": "dust storm",
         "level": "B1",
         "description": "a moving cloud of fine dirt in dry weather",
-        "hint": "planet weather",
-        "crewQuestion": "What can cover a rover during rough weather on Mars?",
-        "imposterQuestion": "What can uncover a rover during calm weather on Mars?"
+        "hint": "wind carried dust",
+        "crewQuestion": "What would you protect from a dust storm?",
+        "imposterQuestion": "Which belongings might you cover during a sandy wind?"
       },
       {
         "word": "oxygen tank",
         "level": "B1",
         "description": "a container holding air for breathing",
-        "hint": "space equipment",
-        "crewQuestion": "What can help a crew breathe inside a shelter?",
-        "imposterQuestion": "What can help a crew sleep inside a shelter?"
+        "hint": "stored breathing supplies",
+        "crewQuestion": "When would you check an oxygen tank?",
+        "imposterQuestion": "Which situations require checking a diver's breathing supply?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "rover wheel",
+        "secret": "botanist",
+        "kind": "job",
+        "level": "B2"
+      },
+      {
+        "secret": "rover",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "sample canister",
+        "secret": "lander",
         "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "Mars map",
-        "kind": "thing",
+        "secret": "Mars",
+        "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "habitat door",
-        "kind": "thing",
+        "secret": "volcano",
+        "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "soil drill",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "oxygen tank",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "entry capsule",
+        "secret": "grow light",
         "kind": "thing",
         "level": "B2"
       },
       {
-        "secret": "surface camera",
+        "secret": "microscope",
         "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "geologist",
+        "kind": "job",
         "level": "B1"
       }
     ]
@@ -43576,9 +43576,9 @@
     ],
     "hotSeat": [
       {
-        "word": "dish antenna",
+        "word": "dish",
         "level": "B1",
-        "description": "a curved device sending and receiving signals"
+        "description": "a curved receiver that gathers radio signals"
       },
       {
         "word": "control room",
@@ -43586,39 +43586,39 @@
         "description": "a place where operators watch machines and displays"
       },
       {
-        "word": "solar wing",
+        "word": "wing",
         "level": "B1",
-        "description": "a flat panel collecting sunlight in space"
+        "description": "a flat part used by an insect to fly"
       },
       {
-        "word": "tracking station",
+        "word": "tracking",
         "level": "B1",
-        "description": "a place following the position of a spacecraft"
+        "description": "following an object's position as it moves"
       },
       {
-        "word": "weather image",
+        "word": "image",
         "level": "B1",
-        "description": "a picture showing clouds from above Earth"
+        "description": "a picture showing what a satellite observed"
       },
       {
-        "word": "navigation receiver",
+        "word": "receiver",
         "level": "B2",
-        "description": "a device that reads location signals"
+        "description": "a device that picks up an incoming signal"
       },
       {
-        "word": "orbit diagram",
+        "word": "diagram",
         "level": "B1",
-        "description": "a drawing showing a path around a planet"
+        "description": "a simplified drawing showing how something works"
       },
       {
-        "word": "launch vehicle",
+        "word": "vehicle",
         "level": "B1",
-        "description": "a rocket carrying equipment into space"
+        "description": "a machine used for traveling or carrying things"
       },
       {
-        "word": "signal booster",
+        "word": "booster",
         "level": "B1",
-        "description": "a device strengthening a radio message"
+        "description": "a smaller engine that adds extra power"
       },
       {
         "word": "space telescope",
@@ -43626,24 +43626,24 @@
         "description": "a device in orbit that observes far objects"
       },
       {
-        "word": "ground antenna",
+        "word": "frequency",
+        "level": "B2",
+        "description": "the rate at which a signal wave repeats"
+      },
+      {
+        "word": "link",
         "level": "B1",
-        "description": "a device on Earth connecting with spacecraft"
+        "description": "a clickable connection to another online page"
       },
       {
-        "word": "data link",
-        "level": "B2",
-        "description": "a connection sending information to or from space"
+        "word": "forecast",
+        "level": "B1",
+        "description": "a prediction of future weather or conditions"
       },
       {
-        "word": "tracking dish",
+        "word": "debris",
         "level": "B2",
-        "description": "a curved tool pointing toward an object overhead"
-      },
-      {
-        "word": "debris chart",
-        "level": "B2",
-        "description": "a drawing showing pieces of material in orbit"
+        "description": "broken pieces left after damage or destruction"
       }
     ],
     "imposter": [
@@ -43651,91 +43651,91 @@
         "word": "satellite",
         "level": "B1",
         "description": "an object travelling around a planet",
-        "hint": "space object",
-        "crewQuestion": "What can circle Earth and send information to people?",
-        "imposterQuestion": "What can circle Earth and receive information from people?"
+        "hint": "orbiting artificial objects",
+        "crewQuestion": "What could a satellite send back to Earth?",
+        "imposterQuestion": "Which information might a weather balloon record?"
       },
       {
         "word": "orbit",
         "level": "B1",
         "description": "the curved path one object follows around another",
-        "hint": "space path",
-        "crewQuestion": "What route does a moon follow around a planet?",
-        "imposterQuestion": "What route does a plane follow over a city?"
+        "hint": "curved space paths",
+        "crewQuestion": "What might travel around a planet?",
+        "imposterQuestion": "Which objects could move on a looping space path?"
       },
       {
         "word": "antenna",
         "level": "B1",
         "description": "a device sending or receiving radio waves",
-        "hint": "space equipment",
-        "crewQuestion": "What can send a signal to a distant spacecraft?",
-        "imposterQuestion": "What can receive a signal from a distant spacecraft?"
+        "hint": "signal receiving equipment",
+        "crewQuestion": "What could receive a radio signal?",
+        "imposterQuestion": "Which equipment might help hear a distant broadcast?"
       },
       {
         "word": "payload",
         "level": "B2",
         "description": "equipment or supplies carried by a spacecraft",
-        "hint": "space equipment",
-        "crewQuestion": "What might a rocket deliver into space?",
-        "imposterQuestion": "What might a rocket bring back from space?"
+        "hint": "carried technical cargo",
+        "crewQuestion": "What equipment could form a mission's payload?",
+        "imposterQuestion": "Which items might a research drone carry?"
       },
       {
         "word": "weather satellite",
         "level": "B1",
         "description": "a spacecraft studying clouds and storms",
-        "hint": "space object",
-        "crewQuestion": "What can send pictures of clouds above Earth?",
-        "imposterQuestion": "What can send pictures of buildings below Earth?"
+        "hint": "climate observing orbiters",
+        "crewQuestion": "What might a weather satellite photograph?",
+        "imposterQuestion": "Which features could appear on an aerial storm map?"
       },
       {
         "word": "dish antenna",
         "level": "B1",
         "description": "a curved device sending and receiving signals",
-        "hint": "space equipment",
-        "crewQuestion": "What can point toward a satellite above a house?",
-        "imposterQuestion": "What can point toward a satellite below a house?"
+        "hint": "curved signal receivers",
+        "crewQuestion": "Where might you see a dish antenna?",
+        "imposterQuestion": "Which places could have equipment for satellite television?"
       }
     ],
     "twentyQuestions": [
       {
-        "secret": "dish antenna",
+        "secret": "GPS",
         "kind": "thing",
         "level": "B1"
       },
       {
-        "secret": "control room",
+        "secret": "television",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "radio",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "GPS receiver",
+        "kind": "thing",
+        "level": "B1"
+      },
+      {
+        "secret": "Saturn",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "tracking station",
+        "secret": "astronomer",
+        "kind": "job",
+        "level": "B1"
+      },
+      {
+        "secret": "launch pad",
         "kind": "place",
         "level": "B1"
       },
       {
-        "secret": "navigation receiver",
-        "kind": "thing",
-        "level": "B2"
-      },
-      {
-        "secret": "orbit diagram",
+        "secret": "weather balloon",
         "kind": "thing",
         "level": "B1"
-      },
-      {
-        "secret": "signal booster",
-        "kind": "thing",
-        "level": "B1"
-      },
-      {
-        "secret": "data downlink",
-        "kind": "activity",
-        "level": "B2"
-      },
-      {
-        "secret": "tracking dish",
-        "kind": "thing",
-        "level": "B2"
       }
     ]
   },
