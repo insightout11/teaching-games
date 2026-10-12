@@ -85,7 +85,7 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} onClick={(e) => e.stopPropagation()} className="w-full max-w-3xl space-y-5 rounded-3xl border border-white/10 bg-slate-950/95 p-6 text-white shadow-2xl">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} onClick={(e) => e.stopPropagation()} className="max-h-[calc(100dvh-2rem)] w-full max-w-3xl space-y-5 overflow-y-auto rounded-3xl border border-white/10 bg-slate-950 p-6 text-white shadow-2xl">
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-amber-300">Flight plan · to {destinationCity}</p>
@@ -170,7 +170,8 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
         </div>
         )}
 
-        <div className="flex items-center justify-between gap-3">
+        {/* Stays in view however long the lists above are. */}
+        <div className="sticky -bottom-6 -mx-6 !-mb-6 flex items-center justify-between gap-3 rounded-b-3xl border-t border-white/10 bg-slate-950 px-6 py-4">
           <p className="text-sm text-white/50">
             {preview ? `Fits the ${Math.round(minutesLeft ?? 0)} minutes left: ${preview.slots.length} stages (~${estimatePlanMinutes(preview.slots)} min). ` : ''}
             Level: {settings.difficulty}. Students stay on board.
