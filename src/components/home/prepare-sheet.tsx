@@ -31,6 +31,7 @@ const DESCRIPTIONS: Record<PreparedType, string> = {
   mix: 'games and talk',
   free: 'decide in the room',
   picture: 'story and picture quiz',
+  world: 'fly to a city on the map',
 };
 const ORDER: PreparedType[] = ['speak', 'reading', 'listening', 'mix', 'free', 'debate', 'grammar'];
 const JUNIOR_ORDER: PreparedType[] = ['picture', 'speak', 'reading', 'listening', 'mix', 'free'];
@@ -38,7 +39,7 @@ const JUNIOR_ORDER: PreparedType[] = ['picture', 'speak', 'reading', 'listening'
 export function PrepareSheet({ row, onClose, onSaved, initialSource }: { row: BoardRow; onClose: () => void; onSaved: (lesson: PreparedLesson | null) => void; /** From the Library: the picked item as this lesson's material. */ initialSource?: MaterialLesson['suggestedSource'] }) {
   const level: Difficulty = row.level && DIFFICULTIES.includes(row.level as Difficulty) ? (row.level as Difficulty) : 'Intermediate';
   const p = row.prepared;
-  const [type, setType] = useState<PreparedType>(initialSource?.listening ? 'listening' : initialSource?.kind === 'reading' ? 'reading' : p?.type ?? (row.junior ? 'picture' : 'speak'));
+  const [type, setType] = useState<PreparedType>(initialSource?.listening ? 'listening' : initialSource?.kind === 'reading' ? 'reading' : (p?.type === 'world' ? null : p?.type) ?? (row.junior ? 'picture' : 'speak'));
   const [topic, setTopic] = useState(initialSource?.title ?? p?.topic ?? '');
   const [focusText, setFocusText] = useState<string | undefined>(p?.focus?.text);
   const [grammar, setGrammar] = useState<GrammarTarget | ''>((p?.payload?.grammarTarget as GrammarTarget | undefined) ?? '');

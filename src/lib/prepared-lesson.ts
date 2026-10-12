@@ -9,6 +9,7 @@ import { lessonTypeById, type LessonTypeId } from '@/lib/course-lesson-types';
 import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 import { createClient } from '@/lib/supabase/client';
 import type { GrammarTarget } from '@/lib/grammar';
+import type { WorldFlightLaunchContext } from '@/lib/world-flight/journey';
 
 /**
  * Prepare the next lesson (Oct 2026, replaces the old planner): one prepared lesson per class (classes.next_lesson),
@@ -16,7 +17,7 @@ import type { GrammarTarget } from '@/lib/grammar';
  * - A typed lesson (Speak, Reading…) carries its lesson plan payload, built like a course lesson.
  * - Free talk carries only a topic: the room opens with it as the Focus.
  */
-export type PreparedType = LessonTypeId | 'free' | 'picture';
+export type PreparedType = LessonTypeId | 'free' | 'picture' | 'world';
 
 export interface PreparedLesson {
   type: PreparedType;
@@ -26,6 +27,8 @@ export interface PreparedLesson {
   materialTitle?: string;
   /** Typed lessons: the lesson plan the room flies. */
   payload?: CourseLessonPayload;
+  /** World Flight: the city and source this lesson flies to (the class moves there when the lesson is completed). */
+  worldFlightContext?: WorldFlightLaunchContext;
   /** Free talk: the room's Focus when it opens (title, optional text such as last lesson's words). */
   focus?: { title: string; text?: string };
   preparedAt: string;
@@ -34,7 +37,7 @@ export interface PreparedLesson {
 }
 
 export const PREPARED_TYPE_LABEL: Record<PreparedType, string> = {
-  speak: 'Speak', reading: 'Reading', listening: 'Listening', debate: 'Debate', grammar: 'Grammar', mix: 'Mix', free: 'Free talk', picture: 'Picture fun',
+  speak: 'Speak', reading: 'Reading', listening: 'Listening', debate: 'Debate', grammar: 'Grammar', mix: 'Mix', free: 'Free talk', picture: 'Picture fun', world: 'World Flight',
 };
 
 /** What students will do, in plain words, for the sheet's preview. */
@@ -46,6 +49,7 @@ export const PREPARED_TYPE_PREVIEW: Record<PreparedType, string[]> = {
   grammar: ['Meet one grammar point in examples', 'Spot the mistakes', 'Build sentences with it', 'Prove it in a final round'],
   mix: ['A warm-up question on every phone', 'Words for the topic', 'Two or three games and activities', 'A short landing to finish'],
   picture: ['A short picture story, read aloud page by page', 'Three picture questions about the story', 'A picture quiz on the topic: tap the right picture', 'Class counts only, no ranking'],
+  world: ['Fly to the city on the class map', 'A lesson built from that city’s video or reading', 'The class passport is stamped when you land'],
   free: ['The room opens on this topic', 'A short briefing, questions and words on the phones', 'You choose activities as you go'],
 };
 
@@ -63,6 +67,7 @@ export function buildPreparedLesson(input: {
 }): PreparedLesson {
   const topic = input.topic.trim();
   const now = new Date().toISOString();
+  if (input.type === 'world') throw new Error('World Flight lessons are prepared from the World Flight map.');
   if (input.type === 'free') {
     return { type: 'free', topic, title: `Free talk · ${topic}`, focus: { title: topic, ...(input.focusText ? { text: input.focusText } : {}) }, preparedAt: now };
   }
@@ -108,13 +113,14 @@ export async function launchPreparedLesson(classId: string, lesson: PreparedLess
   const res = await fetch('/api/session/create', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ classId, ...(lesson.payload ? { lessonPlanContent: lesson.payload } : {}) }),
+    body: JSON.stringify({ classId, ...(lesson.payload ? { lessonPlanContent: lesson.payload } : {}), ...(lesson.worldFlightContext ? { worldFlightContext: lesson.worldFlightContext } : {}) }),
   });
-  const data = (await res.json().catch(() => ({}))) as { sessionId?: string; error?: string };
+  const data = (await res.json().catch(() => ({}))) as { sessionId?: string; error?: string; worldFlightContext?: unknown };
   if (!res.ok || !data.sessionId) throw new Error(data.error ?? 'Could not start the class. Please try again.');
   try {
     if (lesson.payload) {
-      const serialized = JSON.stringify(lesson.payload);
+      // The server resolves the flight (origin, distance, whether the class moves): the room reads it from the plan.
+      const serialized = JSON.stringify(data.worldFlightContext ? { ...lesson.payload, worldFlightContext: data.worldFlightContext } : lesson.payload);
       sessionStorage.setItem(lessonPlanStorageKey(data.sessionId), serialized);
       sessionStorage.setItem('lessonPlanContent', serialized);
     } else {
