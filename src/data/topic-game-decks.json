@@ -14591,7 +14591,8 @@
           "make",
           "book"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a set of steps for making a meal"
       },
       {
         "word": "pan",
@@ -14601,7 +14602,8 @@
           "stove",
           "metal"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat metal dish used for heating food"
       },
       {
         "word": "spoon",
@@ -14611,7 +14613,8 @@
           "tool",
           "round"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool with a round end for eating or mixing"
       },
       {
         "word": "chop",
@@ -14621,7 +14624,8 @@
           "small",
           "food"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "cutting food into small pieces with a knife"
       },
       {
         "word": "stir",
@@ -14631,7 +14635,8 @@
           "round",
           "pot"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "moving food around inside a pot"
       },
       {
         "word": "boil",
@@ -14641,7 +14646,8 @@
           "bubbles",
           "fire"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "heating water until bubbles rise"
       },
       {
         "word": "fry",
@@ -14651,7 +14657,8 @@
           "heat",
           "cook"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "cooking food quickly in hot oil"
       },
       {
         "word": "grill",
@@ -14661,7 +14668,8 @@
           "meat",
           "hot"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "cooking food over direct heat"
       },
       {
         "word": "apron",
@@ -14671,7 +14679,8 @@
           "wear",
           "dirty"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn to keep clothes clean"
       },
       {
         "word": "oven",
@@ -14681,7 +14690,8 @@
           "kitchen",
           "food"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that cooks food with dry heat"
       },
       {
         "word": "kettle",
@@ -14691,7 +14701,8 @@
           "drink",
           "steam"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that heats water for a drink"
       },
       {
         "word": "colander",
@@ -14701,7 +14712,8 @@
           "holes",
           "bowl"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bowl with holes used to separate liquid"
       },
       {
         "word": "measuring cup",
@@ -14711,7 +14723,8 @@
           "liquid",
           "tool"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a container used to scoop a measured amount"
       },
       {
         "word": "mixing bowl",
@@ -14721,107 +14734,130 @@
           "large",
           "dish"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a deep dish used for stirring ingredients"
       }
     ],
     "hotSeat": [
       {
         "word": "spatula",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat tool for turning food in a pan"
       },
       {
         "word": "whisk",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool with loops for beating eggs or cream"
       },
       {
         "word": "ladle",
-        "level": "A2"
+        "level": "A2",
+        "description": "a deep spoon for serving soup"
       },
       {
         "word": "rolling pin",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth tool for flattening dough"
       },
       {
         "word": "cutting board",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat surface used when slicing food"
       },
       {
         "word": "pot holder",
-        "level": "A1"
+        "level": "A1",
+        "description": "a thick cloth for carrying hot dishes"
       },
       {
         "word": "timer",
-        "level": "A1"
+        "level": "A1",
+        "description": "a device that counts down cooking minutes"
       },
       {
         "word": "peeler",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small tool that removes fruit skin"
       },
       {
         "word": "garlic press",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hand tool that squeezes garlic into tiny pieces"
       },
       {
         "word": "strainer",
-        "level": "A2"
+        "level": "A2",
+        "description": "a bowl with holes for draining water"
       },
       {
         "word": "wooden spoon",
-        "level": "A1"
+        "level": "A1",
+        "description": "a stirring tool made from a tree material"
       },
       {
         "word": "food thermometer",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool that checks how warm food is"
       },
       {
         "word": "can opener",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool that removes a metal lid"
       },
       {
         "word": "recipe card",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small paper with meal instructions"
       }
     ],
     "imposter": [
       {
+        "word": "recipe",
+        "level": "A1",
+        "description": "a set of steps for making food",
+        "hint": "food instructions",
+        "crewQuestion": "What helps you know how much to add?",
+        "imposterQuestion": "What helps you know how long to cook?"
+      },
+      {
         "word": "pan",
-        "decoy": "pot",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat metal dish used to heat food",
+        "hint": "cooking equipment",
+        "crewQuestion": "What can you put on a stove to fry an egg?",
+        "imposterQuestion": "What can you put on a counter to cut an egg?"
       },
       {
-        "word": "stir",
-        "decoy": "whisk",
-        "level": "A1"
-      },
-      {
-        "word": "boil",
-        "decoy": "steam",
-        "level": "A1"
+        "word": "spoon",
+        "level": "A1",
+        "description": "a tool with a small round end for eating",
+        "hint": "cooking equipment",
+        "crewQuestion": "What can you use to taste a bowl of soup?",
+        "imposterQuestion": "What can you use to stir a bowl of soup?"
       },
       {
         "word": "oven",
-        "decoy": "microwave",
-        "level": "A1"
-      },
-      {
-        "word": "colander",
-        "decoy": "strainer",
-        "level": "A2"
+        "level": "A1",
+        "description": "a machine that cooks food with dry heat",
+        "hint": "cooking equipment",
+        "crewQuestion": "Where can a cake cook until it is ready?",
+        "imposterQuestion": "Where can a pot sit until it is ready?"
       },
       {
         "word": "apron",
-        "decoy": "oven mitt",
-        "level": "A1"
-      },
-      {
-        "word": "grill",
-        "decoy": "toaster",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn to keep clothes clean",
+        "hint": "cooking clothes",
+        "crewQuestion": "What can a cook tie on before mixing flour?",
+        "imposterQuestion": "What can a cook tie on before washing dishes?"
       },
       {
         "word": "kettle",
-        "decoy": "coffee pot",
-        "level": "A2"
+        "level": "A1",
+        "description": "a machine that heats water for a drink",
+        "hint": "kitchen equipment",
+        "crewQuestion": "What can boil water for tea?",
+        "imposterQuestion": "What can cool water for tea?"
       }
     ],
     "twentyQuestions": [
@@ -14879,7 +14915,8 @@
           "bread",
           "bag"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft powder made by grinding grain"
       },
       {
         "word": "dough",
@@ -14889,7 +14926,8 @@
           "soft",
           "bread"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft mixture used to make bread"
       },
       {
         "word": "yeast",
@@ -14899,7 +14937,8 @@
           "tiny",
           "live"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "tiny living grains that help bread rise"
       },
       {
         "word": "rolling pin",
@@ -14909,7 +14948,8 @@
           "wood",
           "tool"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth tool for flattening a soft mixture"
       },
       {
         "word": "cookie cutter",
@@ -14919,7 +14959,8 @@
           "dough",
           "star"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a shaped tool for cutting dough into figures"
       },
       {
         "word": "cupcake",
@@ -14929,7 +14970,8 @@
           "small",
           "icing"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small sweet cake baked in a paper cup"
       },
       {
         "word": "icing",
@@ -14939,7 +14981,8 @@
           "white",
           "top"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a sweet topping spread over a cake"
       },
       {
         "word": "mixing bowl",
@@ -14949,7 +14992,8 @@
           "round",
           "large"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a deep dish used to stir ingredients"
       },
       {
         "word": "oven",
@@ -14959,7 +15003,8 @@
           "bake",
           "door"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a machine that cooks food with dry heat"
       },
       {
         "word": "tray",
@@ -14969,7 +15014,8 @@
           "oven",
           "bake"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat metal dish used to hold food"
       },
       {
         "word": "measuring spoon",
@@ -14979,7 +15025,8 @@
           "amount",
           "tool"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small tool for measuring dry ingredients"
       },
       {
         "word": "pastry brush",
@@ -14989,7 +15036,8 @@
           "top",
           "baking"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small brush used to spread liquid on dough"
       },
       {
         "word": "doughnut",
@@ -14999,7 +15047,8 @@
           "hole",
           "fry"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a ring-shaped sweet bread with a hole"
       },
       {
         "word": "loaf tin",
@@ -15009,107 +15058,130 @@
           "bake",
           "shape"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a deep metal dish for baking bread"
       }
     ],
     "hotSeat": [
       {
         "word": "muffin",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small soft cake baked in a cup shape"
       },
       {
         "word": "bread roll",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small round piece of baked bread"
       },
       {
         "word": "gingerbread person",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sweet spiced biscuit shaped like someone"
       },
       {
         "word": "pie crust",
-        "level": "A2"
+        "level": "A2",
+        "description": "a baked outer layer around a sweet filling"
       },
       {
         "word": "cake stand",
-        "level": "A1"
+        "level": "A1",
+        "description": "a raised plate used to show a cake"
       },
       {
         "word": "baking paper",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sheet that keeps food from sticking"
       },
       {
         "word": "cooling rack",
-        "level": "A2"
+        "level": "A2",
+        "description": "a raised grid where hot baking can cool"
       },
       {
         "word": "oven mitt",
-        "level": "A1"
+        "level": "A1",
+        "description": "a thick hand cover for hot dishes"
       },
       {
         "word": "icing bag",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft cone used to decorate cakes"
       },
       {
         "word": "waffle iron",
-        "level": "A2"
+        "level": "A2",
+        "description": "a hot press that makes square marks in batter"
       },
       {
         "word": "bread maker",
-        "level": "A2"
+        "level": "A2",
+        "description": "a machine that mixes and bakes a loaf"
       },
       {
         "word": "pastry",
-        "level": "A2"
+        "level": "A2",
+        "description": "a light baked food made from flour and fat"
       },
       {
         "word": "shortbread",
-        "level": "A2"
+        "level": "A2",
+        "description": "a crumbly sweet biscuit made with butter"
       },
       {
-        "word": "banana bread",
-        "level": "A1"
+        "word": "banana loaf",
+        "level": "A1",
+        "description": "a soft baked bread made with ripe fruit"
       }
     ],
     "imposter": [
       {
         "word": "flour",
-        "decoy": "sugar",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft powder made from ground grain",
+        "hint": "baking food",
+        "crewQuestion": "What white ingredient helps make bread dough?",
+        "imposterQuestion": "What yellow ingredient helps make bread dough?"
       },
       {
         "word": "dough",
-        "decoy": "batter",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft mixture used to make bread or cakes",
+        "hint": "baking mixture",
+        "crewQuestion": "What can a baker shape before putting it in heat?",
+        "imposterQuestion": "What can a gardener shape before putting it in soil?"
       },
       {
-        "word": "muffin",
-        "decoy": "cupcake",
-        "level": "A1"
+        "word": "yeast",
+        "level": "A2",
+        "description": "tiny living grains that help bread become light",
+        "hint": "baking ingredient",
+        "crewQuestion": "What helps a loaf grow bigger before cooking?",
+        "imposterQuestion": "What helps a plant grow bigger before flowering?"
+      },
+      {
+        "word": "cupcake",
+        "level": "A1",
+        "description": "a small sweet cake baked in a paper cup",
+        "hint": "baked food",
+        "crewQuestion": "What treat might have icing on top?",
+        "imposterQuestion": "What treat might have cheese on top?"
       },
       {
         "word": "icing",
-        "decoy": "frosting",
-        "level": "A2"
+        "level": "A2",
+        "description": "a sweet soft topping spread over a cake",
+        "hint": "baking topping",
+        "crewQuestion": "What can decorate a cake with a smooth layer?",
+        "imposterQuestion": "What can decorate a pie with a smooth layer?"
       },
       {
-        "word": "loaf tin",
-        "decoy": "cake tin",
-        "level": "A2"
-      },
-      {
-        "word": "cooling rack",
-        "decoy": "cake stand",
-        "level": "A2"
-      },
-      {
-        "word": "cookie cutter",
-        "decoy": "knife",
-        "level": "A1"
-      },
-      {
-        "word": "bread roll",
-        "decoy": "bagel",
-        "level": "A2"
+        "word": "oven",
+        "level": "A1",
+        "description": "a machine that cooks food with dry heat",
+        "hint": "kitchen equipment",
+        "crewQuestion": "Where does a tray of cookies bake?",
+        "imposterQuestion": "Where does a tray of vegetables roast?"
       }
     ],
     "twentyQuestions": [
@@ -15167,7 +15239,8 @@
           "crunch",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round fruit that can be red or green"
       },
       {
         "word": "banana",
@@ -15177,7 +15250,8 @@
           "peel",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long curved fruit with yellow skin"
       },
       {
         "word": "orange",
@@ -15187,7 +15261,8 @@
           "peel",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round fruit with thick skin and juicy segments"
       },
       {
         "word": "grape",
@@ -15197,7 +15272,8 @@
           "bunch",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small round fruit that grows in bunches"
       },
       {
         "word": "pear",
@@ -15207,7 +15283,8 @@
           "tree",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a green fruit with a narrow end and soft inside"
       },
       {
         "word": "peach",
@@ -15217,7 +15294,8 @@
           "sweet",
           "fruit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft round fruit with fuzzy skin and a stone"
       },
       {
         "word": "watermelon",
@@ -15227,7 +15305,8 @@
           "pink",
           "seeds"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a very large fruit with a striped outer skin"
       },
       {
         "word": "pineapple",
@@ -15237,7 +15316,8 @@
           "tropical",
           "fruit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tropical fruit with rough spiky skin"
       },
       {
         "word": "strawberry",
@@ -15247,7 +15327,8 @@
           "small",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small red fruit with tiny seeds outside"
       },
       {
         "word": "blueberry",
@@ -15257,7 +15338,8 @@
           "round",
           "snack"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tiny dark blue fruit that grows on a bush"
       },
       {
         "word": "lemon",
@@ -15267,7 +15349,8 @@
           "juice",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a yellow sour fruit used in drinks"
       },
       {
         "word": "cherry",
@@ -15277,7 +15360,8 @@
           "small",
           "fruit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small red fruit with a hard stone inside"
       },
       {
         "word": "kiwi",
@@ -15287,7 +15371,8 @@
           "small",
           "fruit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small brown fruit with bright green flesh"
       },
       {
         "word": "mango",
@@ -15297,107 +15382,130 @@
           "tropical",
           "fruit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft tropical fruit with golden flesh"
       }
     ],
     "hotSeat": [
       {
         "word": "plum",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth purple or red fruit with one hard stone"
       },
       {
         "word": "apricot",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small soft orange fruit with one hard centre"
       },
       {
         "word": "raspberry",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft red fruit made from many tiny parts"
       },
       {
         "word": "blackberry",
-        "level": "A2"
+        "level": "A2",
+        "description": "a dark fruit that grows on a thorny bush"
       },
       {
         "word": "grapefruit",
-        "level": "A2"
+        "level": "A2",
+        "description": "a large round sour fruit with juicy sections"
       },
       {
         "word": "coconut",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large hard fruit with white inside"
       },
       {
         "word": "papaya",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft tropical fruit with black seeds inside"
       },
       {
         "word": "fig",
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft sweet fruit with many tiny seeds"
       },
       {
         "word": "pomegranate",
-        "level": "A2"
+        "level": "A2",
+        "description": "a round fruit full of red juicy seeds"
       },
       {
         "word": "lime",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small green sour fruit"
       },
       {
         "word": "melon",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large round fruit with soft watery flesh"
       },
       {
         "word": "nectarine",
-        "level": "A2"
+        "level": "A2",
+        "description": "a smooth-skinned fruit with a hard centre"
       },
       {
         "word": "fruit bowl",
-        "level": "A1"
+        "level": "A1",
+        "description": "a dish holding several kinds of fruit"
       },
       {
         "word": "peel",
-        "level": "A1"
+        "level": "A1",
+        "description": "the outside skin removed from a fruit"
       }
     ],
     "imposter": [
       {
-        "word": "peach",
-        "decoy": "nectarine",
-        "level": "A2"
+        "word": "apple",
+        "level": "A1",
+        "description": "a round fruit that can be red or green",
+        "hint": "a fruit",
+        "crewQuestion": "Which fruit can make a crisp sound when bitten?",
+        "imposterQuestion": "Which vegetable can make a crisp sound when bitten?"
       },
       {
-        "word": "lemon",
-        "decoy": "lime",
-        "level": "A1"
+        "word": "banana",
+        "level": "A1",
+        "description": "a long curved fruit with yellow skin",
+        "hint": "a fruit",
+        "crewQuestion": "Which fruit is easy to peel by hand?",
+        "imposterQuestion": "Which vegetable is easy to peel by hand?"
       },
       {
-        "word": "blackberry",
-        "decoy": "raspberry",
-        "level": "A2"
-      },
-      {
-        "word": "plum",
-        "decoy": "apricot",
-        "level": "A2"
+        "word": "orange",
+        "level": "A1",
+        "description": "a round fruit with juicy parts and thick skin",
+        "hint": "a fruit",
+        "crewQuestion": "Which fruit can give you a glass of juice?",
+        "imposterQuestion": "Which vegetable can give you a glass of juice?"
       },
       {
         "word": "grape",
-        "decoy": "cherry",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small round fruit growing together in bunches",
+        "hint": "a fruit",
+        "crewQuestion": "Which fruit can be green or purple and very small?",
+        "imposterQuestion": "Which vegetable can be green or purple and very small?"
       },
       {
-        "word": "mango",
-        "decoy": "papaya",
-        "level": "A2"
+        "word": "watermelon",
+        "level": "A1",
+        "description": "a very large fruit with a striped green outside",
+        "hint": "a fruit",
+        "crewQuestion": "Which fruit has a red middle and many black seeds?",
+        "imposterQuestion": "Which fruit has an orange middle and many black seeds?"
       },
       {
-        "word": "melon",
-        "decoy": "watermelon",
-        "level": "A1"
-      },
-      {
-        "word": "grapefruit",
-        "decoy": "orange",
-        "level": "A2"
+        "word": "lemon",
+        "level": "A1",
+        "description": "a yellow sour fruit often added to drinks",
+        "hint": "a fruit",
+        "crewQuestion": "Which fruit can make water taste sharp and fresh?",
+        "imposterQuestion": "Which fruit can make water taste sweet and fresh?"
       }
     ],
     "twentyQuestions": [
@@ -15455,7 +15563,8 @@
           "rabbit",
           "crunch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long orange root that grows underground"
       },
       {
         "word": "potato",
@@ -15465,7 +15574,8 @@
           "fries",
           "ground"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round brown or yellow root used in many meals"
       },
       {
         "word": "tomato",
@@ -15475,7 +15585,8 @@
           "round",
           "seed"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft red fruit often treated as a vegetable"
       },
       {
         "word": "onion",
@@ -15485,7 +15596,8 @@
           "strong",
           "smell"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a strong-smelling bulb with many layers"
       },
       {
         "word": "lettuce",
@@ -15495,7 +15607,8 @@
           "leaf",
           "crunch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a leafy green plant used in salads"
       },
       {
         "word": "peas",
@@ -15505,7 +15618,8 @@
           "pod",
           "round"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "small round green seeds inside a pod"
       },
       {
         "word": "corn",
@@ -15515,7 +15629,8 @@
           "kernels",
           "field"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "yellow kernels growing on a tall plant"
       },
       {
         "word": "cucumber",
@@ -15525,7 +15640,8 @@
           "salad",
           "cool"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a long green vegetable with wet crisp flesh"
       },
       {
         "word": "broccoli",
@@ -15535,7 +15651,8 @@
           "small",
           "florets"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a green plant with thick tree-like heads"
       },
       {
         "word": "pumpkin",
@@ -15545,7 +15662,8 @@
           "autumn",
           "seed"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a large orange fruit used in autumn meals"
       },
       {
         "word": "pepper",
@@ -15555,7 +15673,8 @@
           "spicy",
           "crunch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a spicy or sweet fruit with hollow inside"
       },
       {
         "word": "spinach",
@@ -15565,7 +15684,8 @@
           "salad",
           "iron"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a dark leafy plant rich in green colour"
       },
       {
         "word": "beetroot",
@@ -15575,7 +15695,8 @@
           "stain",
           "vegetable"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a dark red root with a sweet taste"
       },
       {
         "word": "cauliflower",
@@ -15585,107 +15706,130 @@
           "head",
           "roast"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a pale plant with a thick cluster of stems"
       }
     ],
     "hotSeat": [
       {
         "word": "cabbage",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round plant made of many tight green leaves"
       },
       {
         "word": "celery",
-        "level": "A1"
+        "level": "A1",
+        "description": "a crisp green stalk often eaten raw"
       },
       {
         "word": "radish",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small red root with a sharp taste"
       },
       {
         "word": "zucchini",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long green vegetable with a soft middle"
       },
       {
         "word": "eggplant",
-        "level": "A2"
+        "level": "A2",
+        "description": "a shiny purple vegetable with pale flesh"
       },
       {
         "word": "sweet potato",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft orange root with a sweet flavour"
       },
       {
         "word": "green bean",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long narrow pod with edible seeds"
       },
       {
         "word": "asparagus",
-        "level": "A2"
+        "level": "A2",
+        "description": "a green stalk with a pointed top"
       },
       {
         "word": "turnip",
-        "level": "A2"
+        "level": "A2",
+        "description": "a round pale root with a purple top"
       },
       {
         "word": "leek",
-        "level": "A2"
+        "level": "A2",
+        "description": "a long mild vegetable like a large onion"
       },
       {
         "word": "artichoke",
-        "level": "A2"
+        "level": "A2",
+        "description": "a round plant with layered edible leaves"
       },
       {
         "word": "okra",
-        "level": "A2"
+        "level": "A2",
+        "description": "a green pod that becomes soft when cooked"
       },
       {
         "word": "parsnip",
-        "level": "A2"
+        "level": "A2",
+        "description": "a pale sweet root shaped like a carrot"
       },
       {
         "word": "brussels sprout",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tiny round vegetable like a small cabbage"
       }
     ],
     "imposter": [
       {
         "word": "carrot",
-        "decoy": "parsnip",
-        "level": "A1"
-      },
-      {
-        "word": "broccoli",
-        "decoy": "cauliflower",
-        "level": "A1"
-      },
-      {
-        "word": "peas",
-        "decoy": "green beans",
-        "level": "A1"
-      },
-      {
-        "word": "lettuce",
-        "decoy": "cabbage",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long orange root that grows under the soil",
+        "hint": "a vegetable",
+        "crewQuestion": "Which crunchy food can a rabbit eat?",
+        "imposterQuestion": "Which crunchy food can a horse eat?"
       },
       {
         "word": "potato",
-        "decoy": "sweet potato",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round root used in many warm meals",
+        "hint": "a vegetable",
+        "crewQuestion": "Which food can become fries or mash?",
+        "imposterQuestion": "Which food can become juice or jam?"
       },
       {
-        "word": "cucumber",
-        "decoy": "zucchini",
-        "level": "A2"
+        "word": "tomato",
+        "level": "A1",
+        "description": "a soft red fruit used in savoury meals",
+        "hint": "a vegetable",
+        "crewQuestion": "Which red food can make a pasta sauce?",
+        "imposterQuestion": "Which red food can make a berry smoothie?"
       },
       {
-        "word": "beetroot",
-        "decoy": "radish",
-        "level": "A2"
+        "word": "lettuce",
+        "level": "A1",
+        "description": "a leafy green plant often used in salads",
+        "hint": "a vegetable",
+        "crewQuestion": "Which plant can make a fresh sandwich crisp?",
+        "imposterQuestion": "Which fruit can make a fresh sandwich sweet?"
       },
       {
-        "word": "onion",
-        "decoy": "leek",
-        "level": "A2"
+        "word": "corn",
+        "level": "A1",
+        "description": "yellow kernels growing together on a tall plant",
+        "hint": "a vegetable",
+        "crewQuestion": "Which food can be eaten from a cob?",
+        "imposterQuestion": "Which food can be eaten from a pod?"
+      },
+      {
+        "word": "pumpkin",
+        "level": "A2",
+        "description": "a large orange fruit used in autumn meals",
+        "hint": "a vegetable",
+        "crewQuestion": "Which food is often carved for a fall celebration?",
+        "imposterQuestion": "Which food is often baked for a winter celebration?"
       }
     ],
     "twentyQuestions": [
@@ -15743,7 +15887,8 @@
           "morning",
           "flakes"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "crisp grains often eaten with milk"
       },
       {
         "word": "toast",
@@ -15753,7 +15898,8 @@
           "butter",
           "crunch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "bread browned until its surface is crisp"
       },
       {
         "word": "pancake",
@@ -15763,7 +15909,8 @@
           "syrup",
           "flat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat round cake cooked in a pan"
       },
       {
         "word": "porridge",
@@ -15773,7 +15920,8 @@
           "bowl",
           "spoon"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm meal made by cooking grain in liquid"
       },
       {
         "word": "muesli",
@@ -15783,7 +15931,8 @@
           "milk",
           "flakes"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a mix of rolled grain, nuts and dried fruit"
       },
       {
         "word": "orange juice",
@@ -15793,7 +15942,8 @@
           "morning",
           "glass"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a drink squeezed from yellow-orange fruit"
       },
       {
         "word": "yogurt",
@@ -15803,7 +15953,8 @@
           "cup",
           "spoon"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft dairy food eaten with a spoon"
       },
       {
         "word": "jam",
@@ -15813,7 +15964,8 @@
           "spread",
           "toast"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sweet spread made from cooked fruit"
       },
       {
         "word": "waffle",
@@ -15823,7 +15975,8 @@
           "syrup",
           "hot"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a square cake cooked between patterned plates"
       },
       {
         "word": "breakfast table",
@@ -15833,7 +15986,8 @@
           "chair",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "the place where a family sits to eat early"
       },
       {
         "word": "honey",
@@ -15843,7 +15997,8 @@
           "jar",
           "toast"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a thick sweet food made by bees"
       },
       {
         "word": "granola",
@@ -15853,7 +16008,8 @@
           "bowl",
           "crunch"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a crunchy mix of grains and seeds"
       },
       {
         "word": "hash brown",
@@ -15863,7 +16019,8 @@
           "flat",
           "hot"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a crisp cake made from grated potato"
       },
       {
         "word": "fruit salad",
@@ -15873,107 +16030,130 @@
           "bowl",
           "colours"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a mix of cut fruit served in a bowl"
       }
     ],
     "hotSeat": [
       {
         "word": "saucer",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small flat plate placed below a cup"
       },
       {
         "word": "teaspoon",
-        "level": "A1"
+        "level": "A1",
+        "description": "a little spoon used to stir a drink"
       },
       {
         "word": "milk jug",
-        "level": "A1"
+        "level": "A1",
+        "description": "a handled container used for pouring milk"
       },
       {
         "word": "bread basket",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container holding slices or rolls"
       },
       {
         "word": "boiled egg",
-        "level": "A1"
+        "level": "A1",
+        "description": "an egg cooked in hot water"
       },
       {
         "word": "fried egg",
-        "level": "A1"
+        "level": "A1",
+        "description": "an egg cooked in a little hot oil"
       },
       {
         "word": "omelette",
-        "level": "A2"
+        "level": "A2",
+        "description": "a folded dish made from cooked beaten eggs"
       },
       {
         "word": "breakfast bar",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small sweet snack made from grains"
       },
       {
         "word": "thermos",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bottle that keeps a drink hot or cold"
       },
       {
         "word": "napkin",
-        "level": "A1"
+        "level": "A1",
+        "description": "a piece of cloth or paper for wiping hands"
       },
       {
         "word": "tablecloth",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large cover spread over an eating surface"
       },
       {
-        "word": "breakfast menu",
-        "level": "A1"
+        "word": "menu",
+        "level": "A1",
+        "description": "a list showing what food is available"
       },
       {
         "word": "coffee mug",
-        "level": "A1"
+        "level": "A1",
+        "description": "a large cup used for a hot drink"
       },
       {
         "word": "honeycomb",
-        "level": "A2"
+        "level": "A2",
+        "description": "a wax structure with many small food cells"
       }
     ],
     "imposter": [
       {
+        "word": "cereal",
+        "level": "A1",
+        "description": "crisp grains often eaten with milk in the morning",
+        "hint": "breakfast food",
+        "crewQuestion": "What can someone pour into a bowl before eating?",
+        "imposterQuestion": "What can someone pour into a cup before drinking?"
+      },
+      {
         "word": "toast",
-        "decoy": "waffle",
-        "level": "A1"
+        "level": "A1",
+        "description": "bread heated until its surface becomes crisp",
+        "hint": "breakfast food",
+        "crewQuestion": "What can be covered with butter after heating?",
+        "imposterQuestion": "What can be covered with cheese before heating?"
       },
       {
         "word": "pancake",
-        "decoy": "crepe",
-        "level": "A2"
+        "level": "A1",
+        "description": "a flat round cake cooked in a pan",
+        "hint": "breakfast food",
+        "crewQuestion": "What can be stacked and topped with syrup?",
+        "imposterQuestion": "What can be stacked and topped with jam?"
       },
       {
         "word": "porridge",
-        "decoy": "cereal",
-        "level": "A1"
+        "level": "A1",
+        "description": "a warm soft meal made from cooked grain",
+        "hint": "breakfast food",
+        "crewQuestion": "What can you eat with a spoon on a cold morning?",
+        "imposterQuestion": "What can you drink from a mug on a cold morning?"
       },
       {
-        "word": "jam",
-        "decoy": "honey",
-        "level": "A1"
+        "word": "waffle",
+        "level": "A1",
+        "description": "a crisp square cake with a patterned surface",
+        "hint": "breakfast food",
+        "crewQuestion": "What food has many little square dips?",
+        "imposterQuestion": "What food has many little round holes?"
       },
       {
-        "word": "orange juice",
-        "decoy": "apple juice",
-        "level": "A1"
-      },
-      {
-        "word": "boiled egg",
-        "decoy": "fried egg",
-        "level": "A1"
-      },
-      {
-        "word": "granola",
-        "decoy": "muesli",
-        "level": "A2"
-      },
-      {
-        "word": "hash brown",
-        "decoy": "potato cake",
-        "level": "A2"
+        "word": "omelette",
+        "level": "A2",
+        "description": "a folded meal made with cooked beaten eggs",
+        "hint": "breakfast food",
+        "crewQuestion": "What can a cook fill with cheese and vegetables?",
+        "imposterQuestion": "What can a cook fill with fruit and cream?"
       }
     ],
     "twentyQuestions": [
@@ -16031,7 +16211,8 @@
           "school",
           "bag"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small box used to carry food to class"
       },
       {
         "word": "sandwich",
@@ -16041,7 +16222,8 @@
           "cut",
           "eat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "two pieces of bread with food between them"
       },
       {
         "word": "thermos",
@@ -16051,7 +16233,8 @@
           "flask",
           "carry"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bottle that keeps a drink warm or cool"
       },
       {
         "word": "apple",
@@ -16061,7 +16244,8 @@
           "crunch",
           "tree"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a round fruit with red or green skin"
       },
       {
         "word": "carrot sticks",
@@ -16071,7 +16255,8 @@
           "vegetable",
           "snack"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "thin pieces of orange root eaten raw"
       },
       {
         "word": "napkin",
@@ -16081,7 +16266,8 @@
           "mouth",
           "table"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloth or paper used to wipe hands"
       },
       {
         "word": "water bottle",
@@ -16091,7 +16277,8 @@
           "cap",
           "refill"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a container for carrying a drink"
       },
       {
         "word": "cheese",
@@ -16101,7 +16288,8 @@
           "slice",
           "sandwich"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a food made from milk, often yellow"
       },
       {
         "word": "wrap",
@@ -16111,7 +16299,8 @@
           "fill",
           "roll"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a soft flat bread rolled around a filling"
       },
       {
         "word": "leftovers",
@@ -16121,7 +16310,8 @@
           "save",
           "fridge"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "food saved from an earlier meal"
       },
       {
         "word": "canteen",
@@ -16131,7 +16321,8 @@
           "room",
           "lunch"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place at school where meals are served"
       },
       {
         "word": "packed lunch",
@@ -16141,7 +16332,8 @@
           "food",
           "school"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a meal brought from home in a bag"
       },
       {
         "word": "snack",
@@ -16151,7 +16343,8 @@
           "between",
           "food"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small amount of food eaten between meals"
       },
       {
         "word": "fruit cup",
@@ -16161,107 +16354,130 @@
           "juice",
           "plastic"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small container holding pieces of fruit"
       }
     ],
     "hotSeat": [
       {
         "word": "lunch tray",
-        "level": "A1"
+        "level": "A1",
+        "description": "a flat dish used to carry a meal"
       },
       {
         "word": "spork",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool with both spoon and fork ends"
       },
       {
         "word": "bread roll",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small round piece of baked bread"
       },
       {
         "word": "grapes",
-        "level": "A1"
+        "level": "A1",
+        "description": "small round fruits that grow in a bunch"
       },
       {
         "word": "crisps",
-        "level": "A1"
+        "level": "A1",
+        "description": "thin salty slices cooked until crunchy"
       },
       {
         "word": "dipping sauce",
-        "level": "A2"
+        "level": "A2",
+        "description": "a liquid added by touching food into it"
       },
       {
         "word": "picnic blanket",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloth spread on grass for eating"
       },
       {
-        "word": "reusable container",
-        "level": "A2"
+        "word": "food container",
+        "level": "A2",
+        "description": "a box that can be used more than once"
       },
       {
         "word": "cheese stick",
-        "level": "A1"
+        "level": "A1",
+        "description": "a narrow piece of dairy food"
       },
       {
         "word": "juice carton",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small paper box holding fruit drink"
       },
       {
         "word": "lunch menu",
-        "level": "A1"
+        "level": "A1",
+        "description": "a list showing which meals are served"
       },
       {
         "word": "compost bin",
-        "level": "A2"
+        "level": "A2",
+        "description": "a container for food scraps and leaves"
       },
       {
         "word": "ice pack",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cold block used to keep food cool"
       },
       {
         "word": "pasta salad",
-        "level": "A2"
+        "level": "A2",
+        "description": "a cold meal made with pasta and vegetables"
       }
     ],
     "imposter": [
       {
+        "word": "lunchbox",
+        "level": "A1",
+        "description": "a small box used to carry food to school",
+        "hint": "a food container",
+        "crewQuestion": "What can a child open to eat a meal at school?",
+        "imposterQuestion": "What can a child open to eat a meal on a trip?"
+      },
+      {
         "word": "sandwich",
-        "decoy": "wrap",
-        "level": "A1"
+        "level": "A1",
+        "description": "food placed between two pieces of bread",
+        "hint": "a lunch food",
+        "crewQuestion": "What can you pack with cheese inside?",
+        "imposterQuestion": "What can you pack with fruit inside?"
       },
       {
         "word": "thermos",
-        "decoy": "water bottle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bottle that keeps a drink warm or cool",
+        "hint": "a lunch container",
+        "crewQuestion": "What can keep soup warm until lunchtime?",
+        "imposterQuestion": "What can keep fruit cool until lunchtime?"
       },
       {
-        "word": "napkin",
-        "decoy": "tissue",
-        "level": "A1"
+        "word": "cheese",
+        "level": "A1",
+        "description": "a food made from milk in many shapes",
+        "hint": "a lunch food",
+        "crewQuestion": "What can you put between slices of bread?",
+        "imposterQuestion": "What can you put between slices of cake?"
       },
       {
         "word": "carrot sticks",
-        "decoy": "celery sticks",
-        "level": "A2"
-      },
-      {
-        "word": "leftovers",
-        "decoy": "packed lunch",
-        "level": "A2"
-      },
-      {
-        "word": "canteen",
-        "decoy": "cafeteria",
-        "level": "A2"
+        "level": "A1",
+        "description": "thin pieces of orange root eaten raw",
+        "hint": "a lunch food",
+        "crewQuestion": "What crunchy orange snack can fit in a lunchbox?",
+        "imposterQuestion": "What crunchy yellow snack can fit in a lunchbox?"
       },
       {
         "word": "juice carton",
-        "decoy": "milk carton",
-        "level": "A1"
-      },
-      {
-        "word": "spork",
-        "decoy": "spoon",
-        "level": "A2"
+        "level": "A1",
+        "description": "a small paper box holding a sweet drink",
+        "hint": "a lunch container",
+        "crewQuestion": "What can you sip through a straw at lunch?",
+        "imposterQuestion": "What can you sip through a straw at breakfast?"
       }
     ],
     "twentyQuestions": [
@@ -16319,7 +16535,8 @@
           "care",
           "friend"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an animal that lives with a person at home"
       },
       {
         "word": "food bowl",
@@ -16329,7 +16546,8 @@
           "cat",
           "dish"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a dish holding food for an animal"
       },
       {
         "word": "lead",
@@ -16339,7 +16557,8 @@
           "string",
           "hold"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a line attached to a collar for walking"
       },
       {
         "word": "collar",
@@ -16349,7 +16568,8 @@
           "wear",
           "pet"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a band worn around an animal’s neck"
       },
       {
         "word": "brush",
@@ -16359,7 +16579,8 @@
           "clean",
           "coat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool used to smooth animal hair"
       },
       {
         "word": "water dish",
@@ -16369,7 +16590,8 @@
           "pet",
           "lick"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small dish holding drinking water"
       },
       {
         "word": "vet",
@@ -16379,7 +16601,8 @@
           "clinic",
           "care"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a doctor who treats animals"
       },
       {
         "word": "pet carrier",
@@ -16389,7 +16612,8 @@
           "cat",
           "carry"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a box used to carry a small animal"
       },
       {
         "word": "hamster wheel",
@@ -16399,7 +16623,8 @@
           "run",
           "cage"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a toy wheel used by a small pet"
       },
       {
         "word": "fish tank",
@@ -16409,7 +16634,8 @@
           "swim",
           "home"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a glass home holding fish underwater"
       },
       {
         "word": "poop scoop",
@@ -16419,7 +16645,8 @@
           "dog",
           "bag"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool for picking up animal mess"
       },
       {
         "word": "scratch post",
@@ -16429,7 +16656,8 @@
           "claw",
           "wood"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a rough board an animal can scratch"
       },
       {
         "word": "bed",
@@ -16439,7 +16667,8 @@
           "pet",
           "mat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft place where an animal sleeps"
       },
       {
         "word": "pet sitter",
@@ -16449,107 +16678,130 @@
           "away",
           "home"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who looks after pets for a short time"
       }
     ],
     "hotSeat": [
       {
         "word": "litter tray",
-        "level": "A2"
+        "level": "A2",
+        "description": "a shallow box where a cat can go"
       },
       {
         "word": "leash",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long strap used to guide a dog"
       },
       {
         "word": "kennel",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small outdoor home for a dog"
       },
       {
         "word": "cat flap",
-        "level": "A2"
+        "level": "A2",
+        "description": "a little door a pet can push through"
       },
       {
         "word": "hay",
-        "level": "A1"
+        "level": "A1",
+        "description": "dry grass eaten by farm animals"
       },
       {
         "word": "guinea pig",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small furry pet with short legs"
       },
       {
         "word": "parakeet",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small colourful bird often kept at home"
       },
       {
         "word": "dog toy",
-        "level": "A1"
+        "level": "A1",
+        "description": "an object a dog can chew or chase"
       },
       {
         "word": "flea comb",
-        "level": "A2"
+        "level": "A2",
+        "description": "a fine tool used to clean an animal’s fur"
       },
       {
         "word": "name tag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small label showing who an animal belongs to"
       },
       {
         "word": "pet passport",
-        "level": "A2"
+        "level": "A2",
+        "description": "a booklet used when an animal travels"
       },
       {
         "word": "bird cage",
-        "level": "A1"
+        "level": "A1",
+        "description": "a safe metal home for a pet bird"
       },
       {
         "word": "stable",
-        "level": "A1"
+        "level": "A1",
+        "description": "a building where a horse can rest"
       },
       {
         "word": "treat jar",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container holding small rewards for pets"
       }
     ],
     "imposter": [
       {
-        "word": "collar",
-        "decoy": "harness",
-        "level": "A1"
+        "word": "pet",
+        "level": "A1",
+        "description": "an animal cared for by people at home",
+        "hint": "an animal",
+        "crewQuestion": "Which animal might sleep in a family’s house?",
+        "imposterQuestion": "Which animal might sleep in a forest den?"
       },
       {
-        "word": "kennel",
-        "decoy": "cage",
-        "level": "A1"
+        "word": "collar",
+        "level": "A1",
+        "description": "a band worn around an animal’s neck",
+        "hint": "a pet item",
+        "crewQuestion": "What can hold a tag around a dog’s neck?",
+        "imposterQuestion": "What can hold a bell around a cat’s neck?"
       },
       {
         "word": "vet",
-        "decoy": "pet sitter",
-        "level": "A1"
+        "level": "A1",
+        "description": "a doctor who helps sick animals feel better",
+        "hint": "a job",
+        "crewQuestion": "Who checks a pet when it is not well?",
+        "imposterQuestion": "Who checks a child when it is not well?"
       },
       {
         "word": "fish tank",
-        "decoy": "aquarium",
-        "level": "A1"
+        "level": "A1",
+        "description": "a glass home filled with water for fish",
+        "hint": "a pet home",
+        "crewQuestion": "Where might a small fish swim safely at home?",
+        "imposterQuestion": "Where might a small bird sleep safely at home?"
       },
       {
-        "word": "hamster wheel",
-        "decoy": "exercise wheel",
-        "level": "A2"
+        "word": "guinea pig",
+        "level": "A1",
+        "description": "a small furry pet with short legs",
+        "hint": "a pet",
+        "crewQuestion": "Which animal can nibble hay inside a cage?",
+        "imposterQuestion": "Which animal can nibble leaves inside a cage?"
       },
       {
-        "word": "lead",
-        "decoy": "rope",
-        "level": "A1"
-      },
-      {
-        "word": "litter tray",
-        "decoy": "poop scoop",
-        "level": "A2"
-      },
-      {
-        "word": "hay",
-        "decoy": "straw",
-        "level": "A2"
+        "word": "kennel",
+        "level": "A1",
+        "description": "a sheltered home where a dog can rest",
+        "hint": "a pet home",
+        "crewQuestion": "Where might a dog sleep outside?",
+        "imposterQuestion": "Where might a horse sleep outside?"
       }
     ],
     "twentyQuestions": [
@@ -16607,7 +16859,8 @@
           "lessons",
           "times"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a chart showing lesson times for the day"
       },
       {
         "word": "bell",
@@ -16617,7 +16870,8 @@
           "school",
           "break"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sound telling students when class begins"
       },
       {
         "word": "backpack",
@@ -16627,7 +16881,8 @@
           "bag",
           "school"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a bag carried over both shoulders"
       },
       {
         "word": "desk",
@@ -16637,7 +16892,8 @@
           "class",
           "table"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a table where one student sits to work"
       },
       {
         "word": "recess",
@@ -16647,7 +16903,8 @@
           "outside",
           "school"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a short break for play between lessons"
       },
       {
         "word": "assembly",
@@ -16657,7 +16914,8 @@
           "meet",
           "speech"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a meeting where a whole school gathers"
       },
       {
         "word": "homework",
@@ -16667,7 +16925,8 @@
           "teacher",
           "assignment"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "work students finish after the school day"
       },
       {
         "word": "classroom",
@@ -16677,7 +16936,8 @@
           "teacher",
           "building"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a room where a class learns together"
       },
       {
         "word": "school bus",
@@ -16687,7 +16947,8 @@
           "stop",
           "children"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle that carries children to school"
       },
       {
         "word": "locker",
@@ -16697,7 +16958,8 @@
           "store",
           "school"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small cupboard used to store school things"
       },
       {
         "word": "corridor",
@@ -16707,7 +16969,8 @@
           "school",
           "long"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long passage connecting rooms in a building"
       },
       {
         "word": "attendance",
@@ -16717,7 +16980,8 @@
           "teacher",
           "count"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a record of who is present at school"
       },
       {
         "word": "school uniform",
@@ -16727,7 +16991,8 @@
           "clothes",
           "wear"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "matching clothes worn by students at school"
       },
       {
         "word": "school bell",
@@ -16737,107 +17002,130 @@
           "lesson",
           "break"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sound that marks a school lesson time"
       }
     ],
     "hotSeat": [
       {
         "word": "pencil case",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small bag holding pens and pencils"
       },
       {
         "word": "whiteboard",
-        "level": "A1"
+        "level": "A1",
+        "description": "a smooth board written on with special markers"
       },
       {
         "word": "library card",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small card used to borrow books"
       },
       {
         "word": "playground duty",
-        "level": "A2"
+        "level": "A2",
+        "description": "a job watching children during an outdoor break"
       },
       {
         "word": "school gate",
-        "level": "A1"
+        "level": "A1",
+        "description": "an entrance to the place where students learn"
       },
       {
         "word": "bus pass",
-        "level": "A1"
+        "level": "A1",
+        "description": "a card that lets someone ride a school bus"
       },
       {
         "word": "coat hook",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small curved peg for hanging a jacket"
       },
       {
         "word": "class register",
-        "level": "A2"
+        "level": "A2",
+        "description": "a list used to record who is in class"
       },
       {
         "word": "science lab",
-        "level": "A1"
+        "level": "A1",
+        "description": "a room for learning through experiments"
       },
       {
         "word": "art room",
-        "level": "A1"
+        "level": "A1",
+        "description": "a place for painting and making things"
       },
       {
         "word": "water fountain",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wall tool that sends up drinking water"
       },
       {
         "word": "school nurse",
-        "level": "A1"
+        "level": "A1",
+        "description": "a health worker who helps students"
       },
       {
         "word": "lost property",
-        "level": "A2"
+        "level": "A2",
+        "description": "a place holding things left behind"
       },
       {
         "word": "hall pass",
-        "level": "A2"
+        "level": "A2",
+        "description": "a card allowing a student to leave class"
       }
     ],
     "imposter": [
       {
         "word": "timetable",
-        "decoy": "calendar",
-        "level": "A1"
+        "level": "A1",
+        "description": "a chart showing lessons and their times",
+        "hint": "a school item",
+        "crewQuestion": "What tells students which class comes next?",
+        "imposterQuestion": "What tells students which bus comes next?"
       },
       {
-        "word": "recess",
-        "decoy": "lunch break",
-        "level": "A1"
+        "word": "bell",
+        "level": "A1",
+        "description": "a sound that signals a time to begin",
+        "hint": "a school sound",
+        "crewQuestion": "What rings when it is time to change lessons?",
+        "imposterQuestion": "What rings when it is time to start a race?"
       },
       {
-        "word": "locker",
-        "decoy": "cupboard",
-        "level": "A1"
+        "word": "backpack",
+        "level": "A1",
+        "description": "a bag carried over both shoulders",
+        "hint": "a school item",
+        "crewQuestion": "What can carry books from home to class?",
+        "imposterQuestion": "What can carry food from home to a picnic?"
+      },
+      {
+        "word": "desk",
+        "level": "A1",
+        "description": "a table where one student sits to work",
+        "hint": "classroom furniture",
+        "crewQuestion": "Where can a student write in a notebook?",
+        "imposterQuestion": "Where can a teacher write on a board?"
+      },
+      {
+        "word": "homework",
+        "level": "A1",
+        "description": "school work finished after the lesson ends",
+        "hint": "a school task",
+        "crewQuestion": "What may a student do at home after class?",
+        "imposterQuestion": "What may a student do at school before class?"
       },
       {
         "word": "school bus",
-        "decoy": "coach",
-        "level": "A1"
-      },
-      {
-        "word": "assembly",
-        "decoy": "class meeting",
-        "level": "A2"
-      },
-      {
-        "word": "school uniform",
-        "decoy": "sports kit",
-        "level": "A1"
-      },
-      {
-        "word": "class register",
-        "decoy": "attendance list",
-        "level": "A2"
-      },
-      {
-        "word": "corridor",
-        "decoy": "hallway",
-        "level": "A2"
+        "level": "A1",
+        "description": "a vehicle carrying children to their lessons",
+        "hint": "school transport",
+        "crewQuestion": "What can take students from home to class?",
+        "imposterQuestion": "What can take students from class to a museum?"
       }
     ],
     "twentyQuestions": [
@@ -16895,7 +17183,8 @@
           "teacher",
           "ears"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "paying attention to words someone says"
       },
       {
         "word": "raise your hand",
@@ -16905,7 +17194,8 @@
           "arm",
           "teacher"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "putting one arm up before speaking"
       },
       {
         "word": "share",
@@ -16915,7 +17205,8 @@
           "friend",
           "toy"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "letting another person use something too"
       },
       {
         "word": "take turns",
@@ -16925,7 +17216,8 @@
           "one",
           "time"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "each person acting after the person before"
       },
       {
         "word": "line up",
@@ -16935,7 +17227,8 @@
           "door",
           "walk"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "making a neat row before moving together"
       },
       {
         "word": "quiet voice",
@@ -16945,7 +17238,8 @@
           "talk",
           "noise"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "speaking softly so others can work"
       },
       {
         "word": "kind words",
@@ -16955,7 +17249,8 @@
           "speak",
           "friend"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "friendly things said to another person"
       },
       {
         "word": "classroom rule",
@@ -16965,7 +17260,8 @@
           "school",
           "teacher"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an agreed way for a class to behave"
       },
       {
         "word": "borrow",
@@ -16975,7 +17271,8 @@
           "return",
           "pen"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "using something and giving it back later"
       },
       {
         "word": "tidy up",
@@ -16985,7 +17282,8 @@
           "away",
           "room"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "putting things back where they belong"
       },
       {
         "word": "helpful",
@@ -16995,7 +17293,8 @@
           "good",
           "friend"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "ready to give someone useful support"
       },
       {
         "word": "respect",
@@ -17005,7 +17304,8 @@
           "people",
           "kind"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "treating people and things with care"
       },
       {
         "word": "inside voice",
@@ -17015,7 +17315,8 @@
           "talk",
           "school"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft way of speaking indoors"
       },
       {
         "word": "wait patiently",
@@ -17025,107 +17326,130 @@
           "calm",
           "line"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "staying calm while waiting for your turn"
       }
     ],
     "hotSeat": [
       {
         "word": "class helper",
-        "level": "A1"
+        "level": "A1",
+        "description": "a student chosen to help the group"
       },
       {
         "word": "hand signal",
-        "level": "A2"
+        "level": "A2",
+        "description": "a movement that shares a message quietly"
       },
       {
         "word": "talking stick",
-        "level": "A2"
+        "level": "A2",
+        "description": "an object passed to show whose turn it is"
       },
       {
         "word": "book corner",
-        "level": "A1"
+        "level": "A1",
+        "description": "a quiet place for looking at stories"
       },
       {
         "word": "quiet corner",
-        "level": "A1"
+        "level": "A1",
+        "description": "a calm space to sit and think"
       },
       {
-        "word": "clean-up song",
-        "level": "A1"
+        "word": "tidy song",
+        "level": "A1",
+        "description": "a short tune sung while putting things away"
       },
       {
         "word": "sharing box",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container with items everyone can use"
       },
       {
         "word": "doorway",
-        "level": "A1"
+        "level": "A1",
+        "description": "the opening where people enter a room"
       },
       {
         "word": "class promise",
-        "level": "A2"
+        "level": "A2",
+        "description": "an agreement about how a group will act"
       },
       {
         "word": "turn card",
-        "level": "A2"
+        "level": "A2",
+        "description": "a card showing who may speak next"
       },
       {
         "word": "group table",
-        "level": "A1"
+        "level": "A1",
+        "description": "a desk where several students work together"
       },
       {
         "word": "kindness chart",
-        "level": "A2"
+        "level": "A2",
+        "description": "a display recording helpful actions"
       },
       {
         "word": "class pet",
-        "level": "A1"
+        "level": "A1",
+        "description": "an animal looked after by students"
       },
       {
         "word": "floor marker",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small sign showing where to stand"
       }
     ],
     "imposter": [
       {
         "word": "listen",
-        "decoy": "look",
-        "level": "A1"
+        "level": "A1",
+        "description": "paying careful attention to sounds and words",
+        "hint": "a classroom action",
+        "crewQuestion": "What should students do while someone else is speaking?",
+        "imposterQuestion": "What should students do while someone else is writing?"
       },
       {
         "word": "share",
-        "decoy": "borrow",
-        "level": "A2"
+        "level": "A1",
+        "description": "letting another person use something as well",
+        "hint": "a classroom action",
+        "crewQuestion": "What can classmates do with crayons at one table?",
+        "imposterQuestion": "What can classmates do with chairs at one table?"
       },
       {
         "word": "line up",
-        "decoy": "take turns",
-        "level": "A1"
-      },
-      {
-        "word": "quiet voice",
-        "decoy": "inside voice",
-        "level": "A2"
-      },
-      {
-        "word": "tidy up",
-        "decoy": "put away",
-        "level": "A1"
-      },
-      {
-        "word": "class promise",
-        "decoy": "classroom rule",
-        "level": "A2"
-      },
-      {
-        "word": "hand signal",
-        "decoy": "turn card",
-        "level": "A2"
+        "level": "A1",
+        "description": "standing one behind another in a neat row",
+        "hint": "a classroom action",
+        "crewQuestion": "What can students do before walking to lunch?",
+        "imposterQuestion": "What can students do before sitting down for lunch?"
       },
       {
         "word": "class helper",
-        "decoy": "teacher aide",
-        "level": "A2"
+        "level": "A1",
+        "description": "a student chosen to help the group",
+        "hint": "a classroom role",
+        "crewQuestion": "Who might pass out books before a lesson?",
+        "imposterQuestion": "Who might pass out food before a lesson?"
+      },
+      {
+        "word": "talking stick",
+        "level": "A2",
+        "description": "an object passed to show whose turn it is",
+        "hint": "a classroom object",
+        "crewQuestion": "What can help a group take turns speaking?",
+        "imposterQuestion": "What can help a group take turns drawing?"
+      },
+      {
+        "word": "book corner",
+        "level": "A1",
+        "description": "a quiet place for looking at stories",
+        "hint": "a classroom place",
+        "crewQuestion": "Where can a student sit to read quietly?",
+        "imposterQuestion": "Where can a student stand to sing loudly?"
       }
     ],
     "twentyQuestions": [
@@ -17183,7 +17507,8 @@
           "talk",
           "school"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person you like spending time with"
       },
       {
         "word": "invite",
@@ -17193,7 +17518,8 @@
           "party",
           "join"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "asking someone to come to an event"
       },
       {
         "word": "share",
@@ -17203,7 +17529,8 @@
           "together",
           "turn"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "letting another person use something too"
       },
       {
         "word": "smile",
@@ -17213,7 +17540,8 @@
           "teeth",
           "look"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a happy look made with the mouth"
       },
       {
         "word": "greeting",
@@ -17223,7 +17551,8 @@
           "meet",
           "say"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "saying hello when meeting someone"
       },
       {
         "word": "team",
@@ -17233,7 +17562,8 @@
           "work",
           "people"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "people working or playing together"
       },
       {
         "word": "kindness",
@@ -17243,7 +17573,8 @@
           "care",
           "friend"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "being thoughtful and helpful to others"
       },
       {
         "word": "conversation",
@@ -17253,7 +17584,8 @@
           "listen",
           "chat"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "talking with another person about something"
       },
       {
         "word": "apologize",
@@ -17263,7 +17595,8 @@
           "say",
           "forgive"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "saying you are sorry for a mistake"
       },
       {
         "word": "welcome",
@@ -17273,7 +17606,8 @@
           "open",
           "invited"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "making someone feel at home in a group"
       },
       {
         "word": "trust",
@@ -17283,7 +17617,8 @@
           "secret",
           "friend"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "believing someone will be honest and kind"
       },
       {
         "word": "playdate",
@@ -17293,7 +17628,8 @@
           "home",
           "together"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a time for friends to play together"
       },
       {
         "word": "compliment",
@@ -17303,7 +17639,8 @@
           "say",
           "person"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "something nice said about another person"
       },
       {
         "word": "lonely",
@@ -17313,107 +17650,130 @@
           "friend",
           "sad"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "feeling sad because you are alone"
       }
     ],
     "hotSeat": [
       {
         "word": "wave",
-        "level": "A1"
+        "level": "A1",
+        "description": "a hand movement used to say hello"
       },
       {
         "word": "high five",
-        "level": "A1"
+        "level": "A1",
+        "description": "a greeting made by touching raised hands"
       },
       {
-        "word": "birthday invitation",
-        "level": "A1"
+        "word": "party card",
+        "level": "A1",
+        "description": "a note asking someone to come celebrate"
       },
       {
         "word": "team captain",
-        "level": "A1"
+        "level": "A1",
+        "description": "the person who leads a group of players"
       },
       {
         "word": "conversation starter",
-        "level": "A2"
+        "level": "A2",
+        "description": "a question or idea that begins a chat"
       },
       {
         "word": "shared game",
-        "level": "A1"
+        "level": "A1",
+        "description": "an activity played together with others"
       },
       {
-        "word": "thank-you note",
-        "level": "A1"
+        "word": "thanks card",
+        "level": "A1",
+        "description": "a short message showing you are grateful"
       },
       {
         "word": "club meeting",
-        "level": "A1"
+        "level": "A1",
+        "description": "a time when a group gets together"
       },
       {
         "word": "friendship bracelet",
-        "level": "A1"
+        "level": "A1",
+        "description": "a coloured band given to someone you care about"
       },
       {
         "word": "helping hand",
-        "level": "A1"
+        "level": "A1",
+        "description": "an offer to make a task easier"
       },
       {
         "word": "new student",
-        "level": "A1"
+        "level": "A1",
+        "description": "a child who has just joined a class"
       },
       {
         "word": "secret handshake",
-        "level": "A2"
+        "level": "A2",
+        "description": "a special set of hand movements between friends"
       },
       {
         "word": "partner",
-        "level": "A1"
+        "level": "A1",
+        "description": "one person paired with another for an activity"
       },
       {
         "word": "neighbour",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person living near your home"
       }
     ],
     "imposter": [
       {
-        "word": "invite",
-        "decoy": "welcome",
-        "level": "A1"
+        "word": "friend",
+        "level": "A1",
+        "description": "a person you enjoy talking or playing with",
+        "hint": "a relationship",
+        "crewQuestion": "Who might you invite to join your game?",
+        "imposterQuestion": "Who might you invite to join your meal?"
       },
       {
-        "word": "share",
-        "decoy": "take turns",
-        "level": "A1"
+        "word": "invite",
+        "level": "A1",
+        "description": "asking another person to join an event",
+        "hint": "a social action",
+        "crewQuestion": "What can you do before a birthday party?",
+        "imposterQuestion": "What can you do after a birthday party?"
       },
       {
         "word": "smile",
-        "decoy": "laugh",
-        "level": "A1"
+        "level": "A1",
+        "description": "a happy look made by moving your mouth",
+        "hint": "a friendly action",
+        "crewQuestion": "What can show someone that you are pleased to meet them?",
+        "imposterQuestion": "What can show someone that you are sorry to leave them?"
       },
       {
-        "word": "apologize",
-        "decoy": "forgive",
-        "level": "A2"
-      },
-      {
-        "word": "lonely",
-        "decoy": "shy",
-        "level": "A1"
+        "word": "team",
+        "level": "A1",
+        "description": "a group of people working or playing together",
+        "hint": "a group",
+        "crewQuestion": "What can classmates make for a game?",
+        "imposterQuestion": "What can classmates make for a meal?"
       },
       {
         "word": "compliment",
-        "decoy": "greeting",
-        "level": "A2"
-      },
-      {
-        "word": "trust",
-        "decoy": "promise",
-        "level": "A2"
+        "level": "A2",
+        "description": "something kind said about another person",
+        "hint": "kind words",
+        "crewQuestion": "What can you say about a friend’s helpful work?",
+        "imposterQuestion": "What can you say about a friend’s messy work?"
       },
       {
         "word": "playdate",
-        "decoy": "club meeting",
-        "level": "A2"
+        "level": "A2",
+        "description": "a planned time for children to play together",
+        "hint": "a social event",
+        "crewQuestion": "What can two friends arrange after school?",
+        "imposterQuestion": "What can two friends arrange before school?"
       }
     ],
     "twentyQuestions": [
@@ -17443,17 +17803,17 @@
         "level": "A1"
       },
       {
-        "secret": "partner",
+        "secret": "board game",
         "kind": "job",
         "level": "A1"
       },
       {
-        "secret": "team captain",
+        "secret": "team shirt",
         "kind": "job",
         "level": "A1"
       },
       {
-        "secret": "thank-you note",
+        "secret": "thanks card",
         "kind": "thing",
         "level": "A1"
       }
@@ -17471,7 +17831,8 @@
           "usual",
           "do"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "something a family does again over many years"
       },
       {
         "word": "recipe",
@@ -17481,7 +17842,8 @@
           "book",
           "cook"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "steps for preparing a meal or food"
       },
       {
         "word": "story",
@@ -17491,7 +17853,8 @@
           "words",
           "old"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "words about people or events told aloud"
       },
       {
         "word": "holiday meal",
@@ -17501,7 +17864,8 @@
           "family",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a meal eaten together on a special day"
       },
       {
         "word": "family photo",
@@ -17511,7 +17875,8 @@
           "smile",
           "frame"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a picture showing people in one family"
       },
       {
         "word": "heirloom",
@@ -17521,7 +17886,8 @@
           "object",
           "relative"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an object kept because it belonged to family before"
       },
       {
         "word": "celebration",
@@ -17531,7 +17897,8 @@
           "people",
           "mark"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a happy event shared with other people"
       },
       {
         "word": "custom",
@@ -17541,7 +17908,8 @@
           "group",
           "way"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a way of doing something in a group"
       },
       {
         "word": "grandparent",
@@ -17551,7 +17919,8 @@
           "family",
           "adult"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "the mother or father of your parent"
       },
       {
         "word": "reunion",
@@ -17561,7 +17930,8 @@
           "relatives",
           "together"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a time when relatives come together again"
       },
       {
         "word": "special dish",
@@ -17571,7 +17941,8 @@
           "occasion",
           "recipe"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a meal made for a special family day"
       },
       {
         "word": "memory",
@@ -17581,7 +17952,8 @@
           "think",
           "story"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "something you remember from the past"
       },
       {
         "word": "family tree",
@@ -17591,7 +17963,8 @@
           "branches",
           "draw"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing showing how relatives are connected"
       },
       {
         "word": "annual visit",
@@ -17601,107 +17974,130 @@
           "travel",
           "see"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a trip to see relatives once each year"
       }
     ],
     "hotSeat": [
       {
         "word": "recipe box",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small container holding cooking instructions"
       },
       {
         "word": "photo album",
-        "level": "A1"
+        "level": "A1",
+        "description": "a book with pictures from family life"
       },
       {
         "word": "picnic",
-        "level": "A1"
+        "level": "A1",
+        "description": "a meal eaten outside on a cloth"
       },
       {
         "word": "family game",
-        "level": "A1"
+        "level": "A1",
+        "description": "a fun activity played together at home"
       },
       {
         "word": "story circle",
-        "level": "A2"
+        "level": "A2",
+        "description": "a time when people take turns telling stories"
       },
       {
-        "word": "hand-me-down",
-        "level": "A2"
+        "word": "old clothes",
+        "level": "A2",
+        "description": "things worn by an older family member before"
       },
       {
         "word": "holiday card",
-        "level": "A1"
+        "level": "A1",
+        "description": "a note sent to people at a special time"
       },
       {
         "word": "old song",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tune people have known for many years"
       },
       {
         "word": "family name",
-        "level": "A1"
+        "level": "A1",
+        "description": "the shared name used by people who are related"
       },
       {
-        "word": "special greeting",
-        "level": "A2"
+        "word": "greeting",
+        "level": "A2",
+        "description": "words or actions used when meeting someone"
       },
       {
         "word": "table setting",
-        "level": "A1"
+        "level": "A1",
+        "description": "plates and tools placed ready for a meal"
       },
       {
         "word": "welcome speech",
-        "level": "A2"
+        "level": "A2",
+        "description": "words said to greet people at an event"
       },
       {
         "word": "family garden",
-        "level": "A1"
+        "level": "A1",
+        "description": "an outdoor place cared for by relatives"
       },
       {
         "word": "keepsake",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small object kept to remember something"
       }
     ],
     "imposter": [
       {
-        "word": "heirloom",
-        "decoy": "keepsake",
-        "level": "A2"
+        "word": "recipe",
+        "level": "A1",
+        "description": "steps for preparing a meal or food",
+        "hint": "family activity",
+        "crewQuestion": "What helps a family cook the same dish each year?",
+        "imposterQuestion": "What helps a family sing the same tune each year?"
+      },
+      {
+        "word": "story",
+        "level": "A1",
+        "description": "words about people or events told aloud",
+        "hint": "family activity",
+        "crewQuestion": "What might a grandparent tell around the table?",
+        "imposterQuestion": "What might a grandparent show around the table?"
+      },
+      {
+        "word": "photo album",
+        "level": "A1",
+        "description": "a book with pictures from family life",
+        "hint": "family object",
+        "crewQuestion": "Where might relatives look for old pictures?",
+        "imposterQuestion": "Where might relatives look for old recipes?"
+      },
+      {
+        "word": "keepsake",
+        "level": "A2",
+        "description": "a small object kept to remember something",
+        "hint": "family object",
+        "crewQuestion": "What may a child keep from a grandparent?",
+        "imposterQuestion": "What may a child borrow from a grandparent?"
+      },
+      {
+        "word": "picnic",
+        "level": "A1",
+        "description": "a meal shared outside on a cloth",
+        "hint": "family event",
+        "crewQuestion": "What might relatives enjoy together in a sunny park?",
+        "imposterQuestion": "What might relatives enjoy together in a sunny room?"
       },
       {
         "word": "reunion",
-        "decoy": "visit",
-        "level": "A1"
-      },
-      {
-        "word": "tradition",
-        "decoy": "custom",
-        "level": "A2"
-      },
-      {
-        "word": "family photo",
-        "decoy": "photo album",
-        "level": "A1"
-      },
-      {
-        "word": "special dish",
-        "decoy": "holiday meal",
-        "level": "A1"
-      },
-      {
-        "word": "grandparent",
-        "decoy": "relative",
-        "level": "A1"
-      },
-      {
-        "word": "family tree",
-        "decoy": "ancestry chart",
-        "level": "A2"
-      },
-      {
-        "word": "holiday card",
-        "decoy": "birthday card",
-        "level": "A1"
+        "level": "A2",
+        "description": "a time when relatives come together again",
+        "hint": "family event",
+        "crewQuestion": "When might cousins meet after a long time apart?",
+        "imposterQuestion": "When might cousins talk after a long time apart?"
       }
     ],
     "twentyQuestions": [
@@ -17759,7 +18155,8 @@
           "blow",
           "party"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a sweet baked food with a candle on top"
       },
       {
         "word": "balloon",
@@ -17769,7 +18166,8 @@
           "blow",
           "colour"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a light rubber shape filled with air"
       },
       {
         "word": "present",
@@ -17779,7 +18177,8 @@
           "open",
           "box"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "something given to someone as a gift"
       },
       {
         "word": "invitation",
@@ -17789,7 +18188,8 @@
           "party",
           "card"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a note asking someone to come to an event"
       },
       {
         "word": "party hat",
@@ -17799,7 +18199,8 @@
           "point",
           "colour"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a pointed paper hat worn at a party"
       },
       {
         "word": "streamers",
@@ -17809,7 +18210,8 @@
           "colour",
           "decor"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "long coloured strips hung as decoration"
       },
       {
         "word": "birthday song",
@@ -17819,7 +18221,8 @@
           "voice",
           "party"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a tune people sing to celebrate a birthday"
       },
       {
         "word": "party game",
@@ -17829,7 +18232,8 @@
           "children",
           "fun"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "an activity played for fun by a group"
       },
       {
         "word": "cupcake",
@@ -17839,7 +18243,8 @@
           "paper",
           "small"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small sweet cake baked in a paper cup"
       },
       {
         "word": "goodie bag",
@@ -17849,7 +18254,8 @@
           "party",
           "toys"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a small bag of treats for each guest"
       },
       {
         "word": "confetti",
@@ -17859,7 +18265,8 @@
           "throw",
           "colour"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "tiny bright pieces thrown during a party"
       },
       {
         "word": "birthday candle",
@@ -17869,7 +18276,8 @@
           "blow",
           "cake"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a small stick of wax lit on a cake"
       },
       {
         "word": "party table",
@@ -17879,7 +18287,8 @@
           "guests",
           "room"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a surface where party food is placed"
       },
       {
         "word": "thank-you card",
@@ -17889,107 +18298,130 @@
           "thanks",
           "mail"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a note sent after receiving a present"
       }
     ],
     "hotSeat": [
       {
         "word": "party blower",
-        "level": "A1"
+        "level": "A1",
+        "description": "a paper tube that makes a sound when blown"
       },
       {
         "word": "pinata",
-        "level": "A2"
+        "level": "A2",
+        "description": "a decorated hanging shape filled with sweets"
       },
       {
         "word": "paper crown",
-        "level": "A1"
+        "level": "A1",
+        "description": "a round paper hat worn on the head"
       },
       {
         "word": "gift bag",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small bag holding a present"
       },
       {
-        "word": "party invitation",
-        "level": "A1"
+        "word": "guest list",
+        "level": "A1",
+        "description": "a page naming people who will come to a party"
       },
       {
         "word": "ice cream",
-        "level": "A1"
+        "level": "A1",
+        "description": "a cold sweet food made from milk"
       },
       {
         "word": "party favour",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small gift given to each guest"
       },
       {
         "word": "cake slice",
-        "level": "A1"
+        "level": "A1",
+        "description": "one piece cut from a larger sweet cake"
       },
       {
         "word": "wrapping paper",
-        "level": "A1"
+        "level": "A1",
+        "description": "coloured sheets used to cover a present"
       },
       {
         "word": "gift tag",
-        "level": "A2"
+        "level": "A2",
+        "description": "a small label showing who a present is for"
       },
       {
-        "word": "party playlist",
-        "level": "A2"
+        "word": "playlist",
+        "level": "A2",
+        "description": "a list of songs ready to play"
       },
       {
-        "word": "party host",
-        "level": "A1"
+        "word": "host",
+        "level": "A1",
+        "description": "the person who welcomes guests to a party"
       },
       {
         "word": "number candle",
-        "level": "A1"
+        "level": "A1",
+        "description": "a wax light shaped like a birthday number"
       },
       {
         "word": "party banner",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long sign hung up for a celebration"
       }
     ],
     "imposter": [
       {
         "word": "birthday cake",
-        "decoy": "cupcake",
-        "level": "A1"
+        "level": "A1",
+        "description": "a sweet baked food with a candle on top",
+        "hint": "party food",
+        "crewQuestion": "What might guests eat after singing a special song?",
+        "imposterQuestion": "What might guests drink after singing a special song?"
       },
       {
         "word": "balloon",
-        "decoy": "beach ball",
-        "level": "A1"
+        "level": "A1",
+        "description": "a light rubber shape filled with air",
+        "hint": "party decoration",
+        "crewQuestion": "What can float above the table at a party?",
+        "imposterQuestion": "What can sit below the table at a party?"
       },
       {
         "word": "present",
-        "decoy": "goodie bag",
-        "level": "A1"
+        "level": "A1",
+        "description": "something wrapped and given to someone as a gift",
+        "hint": "party item",
+        "crewQuestion": "What can a child open after the guests arrive?",
+        "imposterQuestion": "What can a child close after the guests arrive?"
       },
       {
-        "word": "party hat",
-        "decoy": "paper crown",
-        "level": "A1"
+        "word": "invitation",
+        "level": "A1",
+        "description": "a note asking someone to come to a celebration",
+        "hint": "party paper",
+        "crewQuestion": "What can you send before the party begins?",
+        "imposterQuestion": "What can you send after the party ends?"
       },
       {
-        "word": "streamers",
-        "decoy": "banner",
-        "level": "A1"
-      },
-      {
-        "word": "party game",
-        "decoy": "board game",
-        "level": "A1"
+        "word": "cupcake",
+        "level": "A1",
+        "description": "a small sweet cake baked in a paper cup",
+        "hint": "party food",
+        "crewQuestion": "What treat can each guest have their own?",
+        "imposterQuestion": "What drink can each guest have their own?"
       },
       {
         "word": "pinata",
-        "decoy": "party box",
-        "level": "A2"
-      },
-      {
-        "word": "thank-you card",
-        "decoy": "invitation",
-        "level": "A1"
+        "level": "A2",
+        "description": "a decorated hanging shape filled with sweets",
+        "hint": "party game",
+        "crewQuestion": "What might children take turns hitting with a stick?",
+        "imposterQuestion": "What might children take turns kicking with a ball?"
       }
     ],
     "twentyQuestions": [
@@ -18047,7 +18479,8 @@
           "year",
           "day"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a public event with music, food or special customs"
       },
       {
         "word": "parade",
@@ -18057,7 +18490,8 @@
           "people",
           "band"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a line of people moving together through a street"
       },
       {
         "word": "lantern",
@@ -18067,7 +18501,8 @@
           "hang",
           "glow"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a light inside a paper or glass cover"
       },
       {
         "word": "drum",
@@ -18077,7 +18512,8 @@
           "round",
           "hit"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a musical object hit with the hand or a stick"
       },
       {
         "word": "costume",
@@ -18087,7 +18523,8 @@
           "character",
           "dress"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "special clothes worn for a celebration or show"
       },
       {
         "word": "fireworks",
@@ -18097,7 +18534,8 @@
           "bang",
           "sky"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "bright explosive lights seen high in the sky"
       },
       {
         "word": "mask",
@@ -18107,7 +18545,8 @@
           "hide",
           "eyes"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cover worn over the face"
       },
       {
         "word": "procession",
@@ -18117,7 +18556,8 @@
           "street",
           "slow"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a group moving together in an organised way"
       },
       {
         "word": "festival food",
@@ -18127,7 +18567,8 @@
           "stall",
           "share"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "food sold or shared during a public event"
       },
       {
         "word": "banner",
@@ -18137,7 +18578,8 @@
           "words",
           "colour"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a long sign with colours or a message"
       },
       {
         "word": "dancer",
@@ -18147,7 +18589,8 @@
           "steps",
           "perform"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person moving to music for others to watch"
       },
       {
         "word": "festival market",
@@ -18157,7 +18600,8 @@
           "crowd",
           "food"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a place where sellers offer special event goods"
       },
       {
         "word": "prayer flag",
@@ -18167,7 +18611,8 @@
           "hang",
           "wind"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a bright cloth hung on a pole for celebration"
       },
       {
         "word": "drumbeat",
@@ -18177,107 +18622,130 @@
           "music",
           "listen"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a repeated sound made by hitting a drum"
       }
     ],
     "hotSeat": [
       {
         "word": "marigold",
-        "level": "A2"
+        "level": "A2",
+        "description": "a bright orange flower often used as decoration"
       },
       {
         "word": "paper lantern",
-        "level": "A1"
+        "level": "A1",
+        "description": "a coloured cover holding a small light"
       },
       {
-        "word": "street musician",
-        "level": "A1"
+        "word": "musician",
+        "level": "A1",
+        "description": "a person who plays songs in a public place"
       },
       {
         "word": "parade float",
-        "level": "A2"
+        "level": "A2",
+        "description": "a decorated vehicle moving in a street event"
       },
       {
         "word": "festival mask",
-        "level": "A1"
+        "level": "A1",
+        "description": "a face cover worn during a celebration"
       },
       {
         "word": "food stall",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small stand where meals are sold"
       },
       {
         "word": "dancing shoes",
-        "level": "A1"
+        "level": "A1",
+        "description": "footwear worn while moving to music"
       },
       {
         "word": "festival map",
-        "level": "A2"
+        "level": "A2",
+        "description": "a drawing showing where event places are"
       },
       {
         "word": "hand fan",
-        "level": "A1"
+        "level": "A1",
+        "description": "a folding object that moves air when waved"
       },
       {
-        "word": "festival ticket",
-        "level": "A1"
+        "word": "ticket",
+        "level": "A1",
+        "description": "a small paper or card allowing entry"
       },
       {
         "word": "crowd barrier",
-        "level": "A2"
+        "level": "A2",
+        "description": "a fence keeping people away from a path"
       },
       {
         "word": "drumstick",
-        "level": "A1"
+        "level": "A1",
+        "description": "a thin stick used to hit a drum"
       },
       {
         "word": "market basket",
-        "level": "A1"
+        "level": "A1",
+        "description": "a container for carrying things from stalls"
       },
       {
         "word": "stage light",
-        "level": "A2"
+        "level": "A2",
+        "description": "a bright lamp shining on performers"
       }
     ],
     "imposter": [
       {
+        "word": "festival",
+        "level": "A1",
+        "description": "a public event with music, food or customs",
+        "hint": "public event",
+        "crewQuestion": "Where might neighbours gather to share music and food?",
+        "imposterQuestion": "Where might neighbours gather to share books and games?"
+      },
+      {
         "word": "parade",
-        "decoy": "procession",
-        "level": "A1"
+        "level": "A1",
+        "description": "a line of people moving through a street",
+        "hint": "public event",
+        "crewQuestion": "What can pass slowly through a town with music?",
+        "imposterQuestion": "What can pass slowly through a town with shopping?"
       },
       {
         "word": "lantern",
-        "decoy": "paper lantern",
-        "level": "A1"
+        "level": "A1",
+        "description": "a light inside a paper or glass cover",
+        "hint": "a celebration object",
+        "crewQuestion": "What can glow in the evening during a celebration?",
+        "imposterQuestion": "What can ring in the evening during a celebration?"
       },
       {
         "word": "drum",
-        "decoy": "drumstick",
-        "level": "A1"
+        "level": "A1",
+        "description": "a musical object hit by a hand or stick",
+        "hint": "music item",
+        "crewQuestion": "What can make a strong beat in a procession?",
+        "imposterQuestion": "What can make a bright light in a procession?"
       },
       {
         "word": "costume",
-        "decoy": "mask",
-        "level": "A1"
-      },
-      {
-        "word": "fireworks",
-        "decoy": "sparklers",
-        "level": "A2"
-      },
-      {
-        "word": "festival food",
-        "decoy": "street food",
-        "level": "A2"
-      },
-      {
-        "word": "banner",
-        "decoy": "flag",
-        "level": "A1"
+        "level": "A1",
+        "description": "special clothes worn for an event or show",
+        "hint": "party clothing",
+        "crewQuestion": "What might a performer wear for a dance?",
+        "imposterQuestion": "What might a performer carry for a dance?"
       },
       {
         "word": "food stall",
-        "decoy": "festival market",
-        "level": "A2"
+        "level": "A1",
+        "description": "a small stand where meals are sold",
+        "hint": "a festival place",
+        "crewQuestion": "Where can visitors buy a warm snack outdoors?",
+        "imposterQuestion": "Where can visitors buy a warm drink indoors?"
       }
     ],
     "twentyQuestions": [
@@ -18335,7 +18803,8 @@
           "break",
           "travel"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a special time away from school or work"
       },
       {
         "word": "suitcase",
@@ -18345,7 +18814,8 @@
           "travel",
           "bag"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a case used to carry clothes on a trip"
       },
       {
         "word": "postcard",
@@ -18355,7 +18825,8 @@
           "place",
           "mail"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a card sent to someone from a place visited"
       },
       {
         "word": "hotel",
@@ -18365,7 +18836,8 @@
           "travel",
           "stay"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a building where travellers can sleep"
       },
       {
         "word": "map",
@@ -18375,7 +18847,8 @@
           "road",
           "look"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a drawing showing roads and places"
       },
       {
         "word": "train ticket",
@@ -18385,7 +18858,8 @@
           "seat",
           "journey"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a paper that lets someone ride a train"
       },
       {
         "word": "beach towel",
@@ -18395,7 +18869,8 @@
           "lie",
           "water"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloth used to dry off after swimming"
       },
       {
         "word": "camping tent",
@@ -18405,7 +18880,8 @@
           "canvas",
           "pitch"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a cloth shelter used for sleeping outdoors"
       },
       {
         "word": "holiday photo",
@@ -18415,7 +18891,8 @@
           "remember",
           "smile"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a picture taken during a trip"
       },
       {
         "word": "sun cream",
@@ -18425,7 +18902,8 @@
           "protect",
           "rub"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a cream that helps protect skin from sunlight"
       },
       {
         "word": "airport",
@@ -18435,7 +18913,8 @@
           "terminal",
           "fly"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a place where planes arrive and leave"
       },
       {
         "word": "travel guide",
@@ -18445,7 +18924,8 @@
           "read",
           "visit"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a book with advice about places to visit"
       },
       {
         "word": "day trip",
@@ -18455,7 +18935,8 @@
           "visit",
           "travel"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a short journey made in one day"
       },
       {
         "word": "souvenir",
@@ -18465,107 +18946,130 @@
           "place",
           "keep"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "an object bought to remember a place"
       }
     ],
     "hotSeat": [
       {
         "word": "passport",
-        "level": "A1"
+        "level": "A1",
+        "description": "an official booklet used when travelling abroad"
       },
       {
         "word": "backpack",
-        "level": "A1"
+        "level": "A1",
+        "description": "a bag carried over both shoulders"
       },
       {
         "word": "compass",
-        "level": "A1"
+        "level": "A1",
+        "description": "a tool with a needle showing direction"
       },
       {
         "word": "train platform",
-        "level": "A1"
+        "level": "A1",
+        "description": "a raised place where passengers wait"
       },
       {
         "word": "hotel key",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small object opening a guest room"
       },
       {
         "word": "room service",
-        "level": "A2"
+        "level": "A2",
+        "description": "food brought to a guest room"
       },
       {
         "word": "travel pillow",
-        "level": "A1"
+        "level": "A1",
+        "description": "a soft support for sleeping while moving"
       },
       {
         "word": "campfire",
-        "level": "A1"
+        "level": "A1",
+        "description": "a small outdoor fire for warmth"
       },
       {
         "word": "swimming goggles",
-        "level": "A1"
+        "level": "A1",
+        "description": "eye covers used under water"
       },
       {
         "word": "city bus",
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle carrying people around town"
       },
       {
         "word": "road trip",
-        "level": "A1"
+        "level": "A1",
+        "description": "a long journey made in a car"
       },
       {
         "word": "boarding pass",
-        "level": "A2"
+        "level": "A2",
+        "description": "a card allowing someone onto a plane"
       },
       {
         "word": "hiking boot",
-        "level": "A1"
+        "level": "A1",
+        "description": "a strong shoe for walking on trails"
       },
       {
         "word": "camera strap",
-        "level": "A2"
+        "level": "A2",
+        "description": "a band that keeps a camera near you"
       }
     ],
     "imposter": [
       {
+        "word": "holiday",
+        "level": "A1",
+        "description": "a special time away from school or work",
+        "hint": "travel time",
+        "crewQuestion": "When might a family travel together to a new place?",
+        "imposterQuestion": "When might a family stay together at home?"
+      },
+      {
         "word": "suitcase",
-        "decoy": "backpack",
-        "level": "A1"
+        "level": "A1",
+        "description": "a case used to carry clothes on a trip",
+        "hint": "travel item",
+        "crewQuestion": "What can hold clothes for a week away?",
+        "imposterQuestion": "What can hold toys for a day at school?"
       },
       {
         "word": "postcard",
-        "decoy": "holiday photo",
-        "level": "A1"
+        "level": "A1",
+        "description": "a card sent from a place someone visited",
+        "hint": "travel paper",
+        "crewQuestion": "What can you mail to a friend from a trip?",
+        "imposterQuestion": "What can you mail to a friend before a trip?"
       },
       {
         "word": "hotel",
-        "decoy": "hostel",
-        "level": "A2"
+        "level": "A1",
+        "description": "a building where travellers can sleep overnight",
+        "hint": "travel place",
+        "crewQuestion": "Where can visitors book a room for the night?",
+        "imposterQuestion": "Where can visitors book a table for dinner?"
       },
       {
-        "word": "train ticket",
-        "decoy": "boarding pass",
-        "level": "A2"
+        "word": "passport",
+        "level": "A1",
+        "description": "an official booklet used when travelling abroad",
+        "hint": "travel paper",
+        "crewQuestion": "What may an officer check before a flight?",
+        "imposterQuestion": "What may an officer check before a concert?"
       },
       {
-        "word": "beach towel",
-        "decoy": "camping blanket",
-        "level": "A2"
-      },
-      {
-        "word": "map",
-        "decoy": "compass",
-        "level": "A1"
-      },
-      {
-        "word": "day trip",
-        "decoy": "road trip",
-        "level": "A1"
-      },
-      {
-        "word": "travel pillow",
-        "decoy": "sleeping bag",
-        "level": "A1"
+        "word": "souvenir",
+        "level": "A2",
+        "description": "an object bought to remember a place",
+        "hint": "travel item",
+        "crewQuestion": "What might someone bring home from a trip?",
+        "imposterQuestion": "What might someone bring along before a trip?"
       }
     ],
     "twentyQuestions": [
@@ -18623,7 +19127,8 @@
           "oven",
           "food"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who makes bread and cakes"
       },
       {
         "word": "doctor",
@@ -18633,7 +19138,8 @@
           "hospital",
           "help"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who helps sick people feel better"
       },
       {
         "word": "farmer",
@@ -18643,7 +19149,8 @@
           "animals",
           "food"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who grows food on land"
       },
       {
         "word": "builder",
@@ -18653,7 +19160,8 @@
           "make",
           "hardhat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who makes or fixes buildings"
       },
       {
         "word": "teacher",
@@ -18663,7 +19171,8 @@
           "learn",
           "students"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who helps children learn"
       },
       {
         "word": "firefighter",
@@ -18673,7 +19182,8 @@
           "brave",
           "rescue"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who puts out dangerous fires"
       },
       {
         "word": "dentist",
@@ -18683,7 +19193,8 @@
           "check",
           "chair"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who looks after teeth"
       },
       {
         "word": "chef",
@@ -18693,7 +19204,8 @@
           "food",
           "hat"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who prepares meals"
       },
       {
         "word": "pilot",
@@ -18703,7 +19215,8 @@
           "cockpit",
           "travel"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who flies an aircraft"
       },
       {
         "word": "vet",
@@ -18713,7 +19226,8 @@
           "clinic",
           "doctor"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a doctor who treats animals"
       },
       {
         "word": "plumber",
@@ -18723,7 +19237,8 @@
           "leak",
           "fix"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who fixes pipes and taps"
       },
       {
         "word": "artist",
@@ -18733,7 +19248,8 @@
           "picture",
           "creative"
         ],
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who makes pictures or objects"
       },
       {
         "word": "mail carrier",
@@ -18743,7 +19259,8 @@
           "post",
           "walk"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who brings letters and packages"
       },
       {
         "word": "mechanic",
@@ -18753,107 +19270,130 @@
           "repair",
           "garage"
         ],
-        "level": "A2"
+        "level": "A2",
+        "description": "a person who repairs cars and machines"
       }
     ],
     "hotSeat": [
       {
         "word": "lifeguard",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who watches swimmers for danger"
       },
       {
         "word": "gardener",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who grows and cares for plants"
       },
       {
         "word": "bus driver",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who drives passengers around town"
       },
       {
         "word": "cashier",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who takes money in a shop"
       },
       {
         "word": "hairdresser",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who cuts and styles hair"
       },
       {
         "word": "photographer",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who takes pictures for others"
       },
       {
         "word": "coach",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who teaches a team how to play"
       },
       {
         "word": "lifeguard chair",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tall seat above a swimming area"
       },
       {
         "word": "delivery van",
-        "level": "A1"
+        "level": "A1",
+        "description": "a vehicle used to bring orders to homes"
       },
       {
         "word": "tool belt",
-        "level": "A1"
+        "level": "A1",
+        "description": "a strap holding useful tools at the waist"
       },
       {
         "word": "uniform",
-        "level": "A1"
+        "level": "A1",
+        "description": "special clothes worn for a job"
       },
       {
         "word": "workshop",
-        "level": "A1"
+        "level": "A1",
+        "description": "a room where things are made or repaired"
       },
       {
         "word": "shop assistant",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who helps customers in a store"
       },
       {
         "word": "stethoscope",
-        "level": "A2"
+        "level": "A2",
+        "description": "a tool doctors use to listen inside a body"
       }
     ],
     "imposter": [
       {
-        "word": "doctor",
-        "decoy": "nurse",
-        "level": "A1"
-      },
-      {
         "word": "baker",
-        "decoy": "chef",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who makes bread and cakes",
+        "hint": "a job",
+        "crewQuestion": "Who may start work early to make fresh rolls?",
+        "imposterQuestion": "Who may start work early to sell fresh rolls?"
       },
       {
-        "word": "builder",
-        "decoy": "carpenter",
-        "level": "A2"
-      },
-      {
-        "word": "pilot",
-        "decoy": "flight attendant",
-        "level": "A2"
-      },
-      {
-        "word": "vet",
-        "decoy": "zookeeper",
-        "level": "A2"
+        "word": "doctor",
+        "level": "A1",
+        "description": "a person who helps sick people feel better",
+        "hint": "a job",
+        "crewQuestion": "Who can check a fever at a clinic?",
+        "imposterQuestion": "Who can check a tooth at a clinic?"
       },
       {
         "word": "farmer",
-        "decoy": "gardener",
-        "level": "A1"
+        "level": "A1",
+        "description": "a person who grows food on land",
+        "hint": "a job",
+        "crewQuestion": "Who may care for crops and farm animals?",
+        "imposterQuestion": "Who may care for books and school children?"
       },
       {
-        "word": "mail carrier",
-        "decoy": "delivery driver",
-        "level": "A2"
+        "word": "teacher",
+        "level": "A1",
+        "description": "a person who helps children learn new things",
+        "hint": "a job",
+        "crewQuestion": "Who can explain a new lesson to a class?",
+        "imposterQuestion": "Who can explain a new game to a team?"
       },
       {
-        "word": "mechanic",
-        "decoy": "plumber",
-        "level": "A2"
+        "word": "chef",
+        "level": "A1",
+        "description": "a person who prepares meals in a kitchen",
+        "hint": "a job",
+        "crewQuestion": "Who decides what food to cook in a restaurant?",
+        "imposterQuestion": "Who decides what music to play in a restaurant?"
+      },
+      {
+        "word": "pilot",
+        "level": "A1",
+        "description": "a person who flies an aircraft through the sky",
+        "hint": "a job",
+        "crewQuestion": "Who guides a plane above the clouds?",
+        "imposterQuestion": "Who guides a ship across the sea?"
       }
     ],
     "twentyQuestions": [

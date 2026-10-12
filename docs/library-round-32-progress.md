@@ -20,3 +20,7 @@ Completed Sharks, Sea Turtles, Frogs, Butterflies, Bees, Dinosaurs, Fossils, The
 ## Batch 4 — mountains through plant growth (15 topics)
 
 Completed Mountains, Rivers, Oceans, Coral Reefs, Rainforests, Deserts, Forests, Seasons, Rain, Snow, Wind, Clouds, Rainbows, Water Cycle, and Plant Growth. The partial validator passes all checks for 45 updated decks. Cumulative changed targets against `origin/main`: 158 Hot Seat and 18 Twenty Questions entries (before this batch's comparison; updated counts recorded below after measuring).
+
+## Batch 5 — cooking through jobs (15 topics)
+
+Completed Cooking, Baking, Fruits, Vegetables, Breakfast, School Lunch, Caring for Pets, School Day, Classroom Rules, Making Friends, Family Traditions, Birthday Parties, Festivals Around the World, Holidays, and Jobs People Do. The partial validator passes all checks for 60 updated decks. The current comparison to `origin/main` is  
