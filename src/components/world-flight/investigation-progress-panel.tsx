@@ -9,9 +9,16 @@ import type { WorldFlightInvestigationProgress } from '@/lib/world-flight/invest
 export function InvestigationProgressPanel({
   investigations,
   onLaunchDesignMission,
+  onPracticeMission,
+  practiceBusyId,
+  practiceError,
 }: {
   investigations: WorldFlightInvestigationProgress[];
   onLaunchDesignMission?: (investigationId: string) => void;
+  /** Try a mission before the class has unlocked it, using three city lessons from the library. Never saved. */
+  onPracticeMission?: (investigationId: string) => void;
+  practiceBusyId?: string | null;
+  practiceError?: string | null;
 }) {
   const [openBlueprintId, setOpenBlueprintId] = useState<string | null>(null);
   const openBlueprint = investigations.find((investigation) => investigation.id === openBlueprintId && investigation.completedBlueprint) ?? null;
@@ -21,6 +28,7 @@ export function InvestigationProgressPanel({
 
   return (
     <div className="min-h-0 flex-1 overflow-y-auto">
+      {practiceError && <p role="alert" className="border-b border-red-300/20 bg-red-400/10 px-5 py-3 text-xs text-red-200">{practiceError}</p>}
       <section className="border-b border-white/15 bg-cyan-300/[0.055] px-5 py-5">
         <p className="font-instrument flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/85">
           <Radar className="h-4 w-4" aria-hidden />
@@ -89,6 +97,18 @@ export function InvestigationProgressPanel({
                 ? `Design mission ready: ${investigation.designMissionTitle}`
                 : 'Design mission locked'}
             </div>
+            {investigation.designMissionStatus === 'locked' && onPracticeMission && (
+              <button
+                type="button"
+                onClick={() => onPracticeMission(investigation.id)}
+                disabled={Boolean(practiceBusyId)}
+                title="Runs the mission with three city lessons from the library. Nothing is saved to the class journey."
+                className="mt-3 flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-white/15 px-3 text-xs font-semibold text-lc-text2 transition-colors hover:border-white/30 hover:text-lc-text disabled:opacity-60"
+              >
+                <DraftingCompass className="h-3.5 w-3.5" aria-hidden />
+                {practiceBusyId === investigation.id ? 'Starting…' : 'Try a practice run'}
+              </button>
+            )}
             {investigation.designMissionStatus === 'completed' && investigation.completedBlueprint && (
               <button
                 type="button"

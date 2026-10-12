@@ -72,6 +72,8 @@ export interface WorldFlightDesignMissionContext extends WorldFlightDesignMissio
   designMissionTitle: string;
   successCriteria: string[];
   evidence: WorldFlightDesignMissionEvidence[];
+  /** A practice run from library lessons the class has not flown: never saved to the class journey. */
+  practice?: boolean;
 }
 
 export const WORLD_FLIGHT_INVESTIGATIONS: WorldFlightInvestigation[] = [

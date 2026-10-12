@@ -202,7 +202,8 @@ export function DesignStudioActivity({
     const groundedBrief = groundBriefInMissionEvidence(nextBrief, worldFlightMission);
     setBrief(groundedBrief);
 
-    if (!worldFlightMission || !sessionId || completedMissionRef.current) {
+    // A practice run is never saved: the class's real mission stays locked until it has flown its three cities.
+    if (!worldFlightMission || worldFlightMission.practice || !sessionId || completedMissionRef.current) {
       changePhase('complete');
       return;
     }
@@ -342,7 +343,7 @@ export function DesignStudioActivity({
         <div className="text-center">
           <p className={LABEL}>
             <DraftingCompass className="mr-2 inline h-3.5 w-3.5 -translate-y-px" aria-hidden />
-            {worldFlightMission ? `${worldFlightMission.investigationTitle} · design mission` : 'Design Studio'}
+            {worldFlightMission ? `${worldFlightMission.investigationTitle} · ${worldFlightMission.practice ? 'practice mission' : 'design mission'}` : 'Design Studio'}
           </p>
           <h2 className="mx-auto mt-3 max-w-3xl font-display text-4xl leading-tight text-white sm:text-5xl">{challenge}</h2>
           <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-white/60">
@@ -405,7 +406,7 @@ export function DesignStudioActivity({
         mission={worldFlightMission}
         designers={scoredDesigners(scoredParticipationRef.current)}
         notice={notice}
-        missionSaveStatus={worldFlightMission ? missionSaveStatus : 'idle'}
+        missionSaveStatus={worldFlightMission && !worldFlightMission.practice ? missionSaveStatus : 'idle'}
         onRetryMissionSave={worldFlightMission && missionSaveStatus === 'error'
           ? () => void finishWithBrief(brief, stateRef.current)
           : undefined}
@@ -534,7 +535,7 @@ function CityTag({ city }: { city: string }) {
 function MissionEvidence({ mission }: { mission: WorldFlightDesignMissionContext }) {
   return (
     <section className="space-y-3">
-      <p className={LABEL}>What the class found in three cities</p>
+      <p className={LABEL}>{mission.practice ? 'Three cities from the library (practice)' : 'What the class found in three cities'}</p>
       <div className="grid gap-3 md:grid-cols-3">
         {mission.evidence.map((evidence) => (
           <article key={evidence.requirementId} className={`${PANEL} p-4`}>
@@ -633,6 +634,9 @@ function DesignBriefView({
         completedAt={new Date().toISOString()}
         animate
       />
+      {mission?.practice && (
+        <p className="mx-auto max-w-4xl rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/60">Practice run: this blueprint is not saved to the class journey.</p>
+      )}
       {missionSaveStatus !== 'idle' && (
         <div className={`mx-auto flex max-w-4xl items-center gap-2 rounded-xl border px-4 py-3 text-sm ${
           missionSaveStatus === 'saved'
