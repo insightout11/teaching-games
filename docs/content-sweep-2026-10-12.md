@@ -221,3 +221,36 @@ SWEEP_MODE=games CONTENT_SWEEP=1 pnpm vitest run src/__tests__/sweep
 ```
 Load the environment file first, as in Part 1. The material sweep reads stored transcripts, so it needs the
 database settings as well as the AI key.
+
+---
+
+# Part 3: fixes applied and re-checked
+
+After both parts, the instructions the AI works from were changed for these activities, and each was re-run
+through the sweep. Before and after, same topics:
+
+| Activity | Before | After |
+| --- | --- | --- |
+| **Speak and Debate banks** | Trunyan lesson got a bus-shelter situation and a team-projects motion | The AI writes them for the real topic; a bank item is used only when it is about the topic |
+| **VocabSprint** | Rainbows: a park, a chef. Food chains: supermarkets | "The unicorn looked at the colorful rainbow in the sky." / "The hawk is a fast hunter that catches its prey in the field." |
+| **Say It Again** | Food chains: "What is your favourite meal…?" | "Which animal in a food chain would you least like to be and why?" |
+| **Debate motion** | Rainbows: "Students should use tablets instead of paper books" | "Unicorns are better pets than dragons." |
+| **Cargo Hold** | 2 different words on 32 cards; sentences with no full stop | 31 or 32 different words per deck; every sentence ends |
+| **Quick-fire** | Pizza, tacos or mangoes (from the presenter's joke) | "Which animal do you think is very cool?", "Which job do you think robots could do in the future?" |
+| **Imposter** | robot, pool, television | robot, economist, television |
+| **Sector Strike** | Four acceptable answers, one marked right | Easy and Intermediate: one clearly right answer |
+
+## Still imperfect after the fixes
+- **Quick-fire** still opened the food chains lesson with "What is your favourite food to eat?" in both re-runs.
+  The other two questions were on the lesson.
+- **Imposter** still chose "television" for the Future of Work video. Better, not solved.
+- **Sector Strike at Advanced** produced a new wrong question: "Trunyanese villagers ______ their deceased by
+  leaving bodies exposed…" with "inter" marked correct. To inter is to bury, which is the opposite of what the
+  sentence says. One clearly right answer is now the rule, but the AI can still be wrong about hard vocabulary.
+  Advanced multiple-choice vocabulary questions remain the riskiest content in the app.
+
+Stand-in content was also replaced where it ignored the topic (Sector Strike, Flash Quiz, Imposter, Taboo Sprint,
+Bluff Definition): see the stand-in audit in Part 1 for what they were.
+
+Not changed, by the owner's choice: Cargo Hold's jokes on sensitive topics, and the level of wording in
+Advanced spoken activities.

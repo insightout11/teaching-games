@@ -19,7 +19,7 @@ export interface GameSentence {
 }
 
 const GAME_KEY = 'vocab-sprint';
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4; // 4: sentences are about the topic itself (Oct 2026)
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very short, extremely simple sentences (4-6 words). Focus on basic everyday objects and actions.',
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
       ? '' // the source material below defines the setting
       : isGenericTopic
         ? 'Use a VARIED MIX of natural everyday situations (daily life, work, school, travel, food, shopping, hobbies). Do not center the sentences on any single named subject.'
-        : `Set every sentence in the real-world context of ${topic} — the situations and vocabulary a person actually encounters there. Do NOT write sentences that are ABOUT the subject of ${topic}.`;
+        : `Every sentence is about "${topic}": its own things, people, places and events, said the way a person talking about it would say them. Someone reading any single sentence must be able to tell the lesson is about ${topic}. Read the topic in its ordinary school meaning ("food chains" is what eats what in nature, not chains of food shops; "the web" is the internet). Never fall back on generic sentences about weather, shops, parks or work.`;
     const antiMeta = 'Every sentence must be a real, natural sentence a person would actually say or write. NEVER write meta sentences about a topic, lesson, or learning itself (e.g. avoid "Learning about General can be very good for students" or "The topic of X is interesting"). Do not use the words "topic", "lesson", or the topic name itself as the grammatical subject of a sentence.';
 
     const prompt = `Generate exactly 6 English sentences for vocabulary practice at ${difficultyPrompts[difficulty]}

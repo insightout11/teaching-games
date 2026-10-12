@@ -108,6 +108,8 @@ export function sanitizePrompts(raw: unknown): CargoPrompt[] {
     const id = typeof candidate.id === 'string' ? candidate.id.trim() : '';
     const textBefore = typeof candidate.textBefore === 'string' ? candidate.textBefore : '';
     const textAfter = typeof candidate.textAfter === 'string' ? candidate.textAfter : '';
+    // A sentence always ends: the AI sometimes leaves the ending blank.
+    const ending = textAfter.trim() ? textAfter : '.';
     const promptTag = typeof candidate.promptTag === 'string' ? candidate.promptTag.trim() : '';
     const previewLabel = typeof candidate.previewLabel === 'string' ? normalizeText(candidate.previewLabel) : '';
     const explanation = typeof candidate.explanation === 'string' ? normalizeText(candidate.explanation) : '';
@@ -127,7 +129,7 @@ export function sanitizePrompts(raw: unknown): CargoPrompt[] {
     prompts.push({
       id,
       textBefore,
-      ...(textAfter ? { textAfter } : {}),
+      textAfter: ending,
       acceptedFamilies: families,
       promptTag,
       previewLabel,

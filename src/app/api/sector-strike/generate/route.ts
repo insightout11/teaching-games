@@ -79,6 +79,8 @@ Create a multiple choice question with exactly 4 options at the stated language 
 - The 3 wrong options must be plausible: things a learner at this level might realistically confuse with the correct answer
 - Never use distractors that are trivially false (e.g. "It was invented last year", "It only exists in one country")
 - All 4 options should be similar in length and grammatical form
+- EXACTLY ONE option is correct. A fluent speaker must agree that each of the other three is wrong, not merely less usual. Do not ask which word "collocates", "fits best" or "is most natural" when more than one option is acceptable English: ask about a fact from the topic, a clear meaning, or a clear grammar rule instead
+- Before answering, test each wrong option: if you could defend it as also correct, replace it
 
 Return JSON:
 {

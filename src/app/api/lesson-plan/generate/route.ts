@@ -1363,7 +1363,7 @@ Topic: "${topic}"
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
 ${sourceCtx ? `\nLESSON MATERIAL (base the motion and evidence on it):\n${sourceCtx.slice(0, 4000)}\n` : ''}
 Return:
-- motion: a short, plain statement (max 12 words), e.g. "Schools should ban phones". No politics, religion, or topics targeting a group.
+- motion: a short, plain statement (max 12 words), e.g. "Schools should ban phones". No politics, religion, or topics targeting a group. The motion must be ABOUT THE TOPIC and name it or its key idea. If the topic is light or imaginary (unicorns, superheroes), find a real choice inside it that students can argue ("A unicorn would be a better pet than a dragon", "Believing in magic is good for children"). Never switch to a different, more serious subject.
 - pulse: the same as a question, e.g. "Should schools ban phones?"
 - forPoints, againstPoints: 3 short arguments each, balanced.
 - evidence: 2-4 facts, each { fact, side: "for" | "against", source }. ONLY well-known, checkable facts with a named organisation or study${sourceCtx ? ', or facts from the lesson material (source: the material title)' : ''}. No invented numbers. If you are not sure, return fewer facts.`;
@@ -2068,7 +2068,8 @@ async function generateQuickFire(topic: string, difficulty: Difficulty, sourceCt
 Topic: "${topic}"
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
 ${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 2000)}\n` : ''}
-Rules: max 12 words each; no yes/no questions; no facts to know; kids/teens must be able to answer. Go from easy (one word is fine) to a little more (a reason). Return { questions: [3 strings] }.`;
+Rules: max 12 words each; no yes/no questions; no facts to know; kids/teens must be able to answer. Go from easy (one word is fine) to a little more (a reason).
+Stay on what the lesson is ABOUT. Each question connects the student's own life to the topic's main idea (for food chains: animals, what eats what, nature; for a text about a first job: work, money, fairness). A detail mentioned in passing in the material, such as an example or a joke, is NOT the topic: do not ask about it. Return { questions: [3 strings] }.`;
   try {
     const parsed = await generateJSON<{ questions?: string[] }>(prompt, schema);
     const qs = (parsed.questions ?? []).map((q) => q.trim()).filter((q) => q.length > 3 && q.split(/\s+/).length <= 16);
@@ -2113,7 +2114,8 @@ async function generateSayItAgain(topic: string, difficulty: Difficulty, sourceC
 Topic: "${topic}"
 LANGUAGE RULE: ${difficultyDescriptions[difficulty]}
 ${sourceCtx ? `\nLESSON MATERIAL:\n${sourceCtx.slice(0, 1500)}\n` : ''}
-Rules: max 18 words; about the student's own life or opinion; not yes/no; kids/teens must have something to say. It may give a mini-structure, e.g. "Tell us about a time you…: what happened, and how did you feel?". Return { question }.`;
+Rules: max 18 words; about the student's own life or opinion; not yes/no; kids/teens must have something to say. It may give a mini-structure, e.g. "Tell us about a time you…: what happened, and how did you feel?".
+The question must be about the lesson's MAIN IDEA, so that the answer uses the lesson's language (food chains: "Which animal would you least like to be in a food chain, and why?", not "What is your favourite meal?"). A detail mentioned in passing in the material is not the topic. Return { question }.`;
   try {
     const parsed = await generateJSON<{ question?: string }>(prompt, schema);
     const q = parsed.question?.trim();
@@ -2799,7 +2801,7 @@ Return JSON with a "characters" array of exactly 9 objects.`;
 }
 
 async function generateImposter(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<ImposterContent> {
-  const cached = await getCachedContent('imposter', topic, difficulty, [], variant, 2);
+  const cached = await getCachedContent('imposter', topic, difficulty, [], variant, 3);
   if (cached) {
     const c = cached.content_json as { rounds: ImposterRound[] };
     return { activityKey: 'imposter', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -2831,6 +2833,7 @@ ${languageRule(difficulty)}
 ${sourceContext}
 Rules:
 - Each word must be a single concrete NOUN directly from the topic category (e.g. if topic is "food", use words like "noodle", "spice", "broth")
+- Choose words that are CENTRAL to what the lesson is about: someone who did this lesson would name them as its key words. A noun that only appears in passing in the material (an example, a joke, a side remark) must not be chosen
 - No verbs, adjectives, or abstract concepts — nouns only
 - The word must be clearly describable without saying it directly (good for giving one-word clues)
 - The description (1 sentence, max 20 words) is revealed to the class after the round — it explains the word simply
@@ -2844,7 +2847,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word", "descr
   try {
     const data = await generateJSON<{ rounds: ImposterRound[] }>(prompt, schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 12) : [];
-    void storeCachedContent('imposter', topic, difficulty, { rounds }, 2, variant);
+    void storeCachedContent('imposter', topic, difficulty, { rounds }, 3, variant);
     return { activityKey: 'imposter', topicContext: topic, rounds, topic };
   } catch {
     // A banked topic has its own rounds: use them before any filler.
@@ -2866,7 +2869,7 @@ async function generateCargoHold(
   variant?: string,
 ): Promise<CargoHoldContent> {
   // Deck version 3 (Oct 2026): funnier, interchangeable cards. Older cached decks are not reused.
-  const cached = await getCachedContent('cargo-hold', topic, difficulty, [], variant, 3);
+  const cached = await getCachedContent('cargo-hold', topic, difficulty, [], variant, 4);
   if (cached) {
     const c = cached.content_json as { cards?: unknown; prompts?: unknown };
     const checked = validateDeck(c.cards, c.prompts);
@@ -2941,6 +2944,7 @@ CARDS — generate 32 cards:
 - "meaning" = a plain-English definition of targetTerm, max 15 words.
 - "text" must be under 70 characters and must NOT start with a capital letter (it drops into the middle of a sentence). No full stop at the end.
 - Ground at least 24 of the 32 cards in vocabulary from the topic or source material above.
+- Use at least 14 DIFFERENT targetTerms across the deck, and no targetTerm more than 3 times. When the topic itself is only one or two words ("rainbows and unicorns"), draw on its wider world for the other words (colours, weather, light, myths, horses, magic, forests) so the class meets real vocabulary, not the same two words on every card.
 - "source" MUST be "lesson-vocab" for a card built on a word from the topic or source material, "lesson-expression" for one built on a multi-word expression from it, and "safe-fallback" for any card you invented for grammatical variety rather than taking from the lesson. Be honest: this field is checked, and a deck that is mostly "safe-fallback" is rejected.
 - "id" = short kebab-case, unique.
 
@@ -2954,7 +2958,7 @@ WHAT MAKES A CARD FUNNY (the class votes for the funniest sentence, so this matt
 
 PROMPTS — generate 6 prompts:
 - Each prompt is the SET-UP for a joke: an official or serious voice (a pilot, a head teacher, a news reporter, a doctor, a museum guide, a football commentator) with the blank where the surprise lands. At least 4 of the 6 are about the topic.
-- "textBefore" is the sentence up to the blank, "textAfter" is what follows (usually "."). textBefore must end with a space so the card joins cleanly.
+- "textBefore" is the sentence up to the blank, "textAfter" is what follows and is never empty: at least the final "." (or "!"). textBefore must end with a space so the card joins cleanly.
 - "acceptedFamilies" lists which card families fit grammatically. Each prompt accepts exactly ONE family. Use these frames, which work with every card of the family:
   - thing: "… because of ___." / "Nobody expected ___." / "The museum's newest exhibit is ___." / "Breaking news: scientists have discovered ___."
   - action: "The head teacher was caught ___." / "My hobby is ___." / "The lesson was cancelled after someone started ___."
@@ -2982,7 +2986,7 @@ Return JSON with "cards" and "prompts" arrays.`;
         topic,
         difficulty,
         { cards: checked.cards, prompts: checked.prompts },
-        3,
+        4,
         variant,
       );
       return {
