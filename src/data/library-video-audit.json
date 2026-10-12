@@ -1,4 +1,44 @@
 {
+  "bbc-ideas-library.json/bbcideas_philosophy_hedonism": {
+    "status": "ok",
+    "note": "Epicurus, tranquility and modest versus elaborate pleasures explain hedonism as claimed."
+  },
+  "bbc-ideas-library.json/bbcideas_philosophy_absurdism": {
+    "status": "partial",
+    "note": "Evidence: The full cache explains Camus, meaningless existence and absurd theatre, but never gives the promised Sisyphus example. Suggested action: Rewrite the description around Camus and the theatre of the absurd."
+  },
+  "bbc-ideas-library.json/bbcideas_sports_psychology": {
+    "status": "ok",
+    "note": "Sports examples, visualisation, support and self-talk match practical psychology strategies; some athlete quotes are missing from the cache but the principal explanations remain."
+  },
+  "bbc-ideas-library.json/bbcideas_critical_thinking": {
+    "status": "ok",
+    "note": "Confirmation, nuance, source checking and ad hominem examples match critical thinking tools."
+  },
+  "bbc-ideas-library.json/bbcideas_social_media_emotions": {
+    "status": "ok",
+    "note": "Laurence Scott discusses platform emotion categories, reactions and engagement mechanisms as claimed."
+  },
+  "bbc-ideas-library.json/bbcideas_science_of_storytelling": {
+    "status": "ok",
+    "note": "Reading immersion, activated brain areas, mirror neurons and social surrogates match storytelling neuroscience."
+  },
+  "bbc-ideas-library.json/bbcideas_power_of_kindness": {
+    "status": "level-off",
+    "note": "Evidence: The 833-word caption uses reward pathways, cooperative relationships, institutional enabling and abstract community consequences with idiomatic speech, beyond the stored A2/Easy level. Suggested action: Raise to B1 after checking spoken delivery."
+  },
+  "bbc-ideas-library.json/bbcideas_experience_world_differently": {
+    "status": "ok",
+    "note": "Brain predictions, shadows and the viral dress explain individual perception as claimed."
+  },
+  "bbc-ideas-library.json/bbcideas_hidden_clues_personality": {
+    "status": "mismatch",
+    "note": "Evidence: The cache discusses DNA, fingerprints, biometrics, government/corporate databases and privacy regulation, rather than personality cues from music, tidiness or walking. Suggested action: Retitle to Biometrics, Personal Data and Privacy and rewrite the description."
+  },
+  "bbc-ideas-library.json/bbcideas_psychology_seduction": {
+    "status": "ok",
+    "note": "A psychiatrist and burlesque performer discuss seduction as social influence and directing attention, matching the adult subject."
+  },
   "bbc-library.json/bbc_grammar_advanced_learner_mistakes": {
     "status": "partial",
     "note": "Evidence: Dan teaches indirect WH-clause order and general-reference articles (“relative pronouns”), rather than the promised preposition coverage. Suggested action: Rewrite description around WH clauses and articles."

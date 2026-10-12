@@ -15,12 +15,13 @@ Draft for owner review. No library entry was changed.
 
 ## Progress and coverage
 
-Completed libraries: 10/18; judged entries: 586/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
+Completed libraries: 11/18; judged entries: 596/641. Cached inventory captured at 2026-10-12T15:07:11.259Z. All 641 have cached text; 607 have timestamped segments, 34 have untimed text.
 
 ## Totals per library
 
 | Library | Entries | ok | mismatch | partial | weak-captions | no-captions | level-off |
 |---|---:|---:|---:|---:|---:|---:|---:|
+| bbc-ideas-library.json | 10 | 7 | 1 | 1 | 0 | 0 | 1 |
 | bbc-library.json | 115 | 86 | 1 | 9 | 19 | 0 | 0 |
 | crash-course-library.json | 14 | 1 | 0 | 1 | 11 | 0 | 1 |
 | grammar-library.json | 89 | 77 | 0 | 4 | 8 | 0 | 0 |
@@ -31,9 +32,17 @@ Completed libraries: 10/18; judged entries: 586/641. Cached inventory captured a
 | natgeo-library.json | 13 | 2 | 0 | 3 | 7 | 0 | 1 |
 | ted-library.json | 20 | 1 | 0 | 0 | 19 | 0 | 0 |
 | teded-library.json | 101 | 52 | 0 | 0 | 49 | 0 | 0 |
-| **TOTAL** | **586** | 416 | 3 | 24 | 133 | 0 | 10 |
+| **TOTAL** | **596** | 423 | 4 | 25 | 133 | 0 | 11 |
 
 ## Non-ok entries, grouped by library
+
+### bbc-ideas-library.json
+
+| ID | Title | Status | Caption evidence / limitation | Suggested action |
+|---|---|---|---|---|
+| bbcideas_philosophy_absurdism | The Philosophy of Absurdism: What Is the Point of Life? | partial | The full cache explains Camus, meaningless existence and absurd theatre, but never gives the promised Sisyphus example.  | Rewrite the description around Camus and the theatre of the absurd. |
+| bbcideas_power_of_kindness | The Extraordinary Power of Kindness | level-off | The 833-word caption uses reward pathways, cooperative relationships, institutional enabling and abstract community consequences with idiomatic speech, beyond the stored A2/Easy level.  | Raise to B1 after checking spoken delivery. |
+| bbcideas_hidden_clues_personality | The Hidden Clues That Reveal Who You Are | mismatch | The cache discusses DNA, fingerprints, biometrics, government/corporate databases and privacy regulation, rather than personality cues from music, tidiness or walking.  | Retitle to Biometrics, Personal Data and Privacy and rewrite the description. |
 
 ### bbc-library.json
 
