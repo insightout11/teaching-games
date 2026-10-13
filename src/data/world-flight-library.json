@@ -7207,7 +7207,103 @@
       "lng": -118.2437
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 36,
+          "question": "What can you use instead of a card to pay?",
+          "options": [
+            "Your phone",
+            "Your passport",
+            "Your student notebook"
+          ],
+          "correctIndex": 0,
+          "keyLine": "your phone to pay for your fair. Just"
+        },
+        {
+          "start": 41,
+          "end": 54,
+          "question": "How early should you arrive?",
+          "options": [
+            "Thirty minutes",
+            "Ten minutes",
+            "Twenty minutes"
+          ],
+          "correctIndex": 1,
+          "keyLine": "early to your station."
+        },
+        {
+          "start": 64,
+          "end": 77,
+          "question": "What signal should you wait for at a validator?",
+          "options": [
+            "A bell and a stop message",
+            "A whistle and a seat number",
+            "A beep and a go message"
+          ],
+          "correctIndex": 2,
+          "keyLine": "dial. Wait for the beep and go message"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What steps does this guide explain?",
+          "options": [
+            "Paying and entering an LA Metro train",
+            "Booking an LA airport taxi",
+            "Renting an LA bicycle"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What extra travel is free within two hours?",
+          "options": [
+            "Every return trip the next day",
+            "One-way transfers",
+            "Every airport taxi"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What should riders do before boarding?",
+          "options": [
+            "Stand inside the open doors immediately",
+            "Walk along the track to meet the train",
+            "Wait behind the safety line for the train to stop"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why wait for the validator’s signal?",
+        "options": [
+          "It confirms the tap before you continue",
+          "It tells you which restaurant to visit",
+          "It chooses your destination for you"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "phone",
+          "meaning": "a device used for calls and apps"
+        },
+        {
+          "word": "transfers",
+          "meaning": "changes to another travel service"
+        },
+        {
+          "word": "validator",
+          "meaning": "a machine checking travel payment"
+        },
+        {
+          "word": "boarding",
+          "meaning": "getting onto a vehicle"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-los-angeles-smog-history-video",
@@ -7239,7 +7335,103 @@
       "lng": -118.2437
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 44,
+          "end": 57,
+          "question": "What fruit did the company produce?",
+          "options": [
+            "Pineapples",
+            "Oranges",
+            "Apples"
+          ],
+          "correctIndex": 0,
+          "keyLine": "the world's largest producer of"
+        },
+        {
+          "start": 97,
+          "end": 110,
+          "question": "What problem drew the scientist toward air quality?",
+          "options": [
+            "Farmers were leaving the city",
+            "Crops were dying",
+            "Fruit prices were falling"
+          ],
+          "correctIndex": 1,
+          "keyLine": "California is that crops are dying. And"
+        },
+        {
+          "start": 127,
+          "end": 140,
+          "question": "About how much air did he collect?",
+          "options": [
+            "Fifty cubic feet",
+            "Five thousand cubic feet",
+            "Five hundred cubic feet"
+          ],
+          "correctIndex": 2,
+          "keyLine": "feet of air, about the amount that a"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What unexpected link does this story reveal?",
+          "options": [
+            "Fruit research helped explain air pollution",
+            "Fruit research invented a new subway",
+            "Fruit research stopped all car travel"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What method was reused?",
+          "options": [
+            "A method for printing newspapers",
+            "Chemical processes used to study pineapples",
+            "A method for counting railway passengers"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What did the collected air become after processing?",
+          "options": [
+            "A large block of clear ice",
+            "A pile of white powder",
+            "A few drops of brown liquid"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could knowledge from one research field help another?",
+        "options": [
+          "Air pollution only affects pineapple growers",
+          "The same chemical techniques could identify substances in different samples",
+          "Both studies required exactly the same fruit"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "artificial",
+          "meaning": "made by people rather than occurring naturally"
+        },
+        {
+          "word": "agriculture",
+          "meaning": "growing crops and raising farm animals"
+        },
+        {
+          "word": "crops",
+          "meaning": "plants grown for food or other use"
+        },
+        {
+          "word": "distilled",
+          "meaning": "separated or concentrated through a process"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-jakarta-historical-places-video",
@@ -7300,7 +7492,103 @@
       "lng": 106.8456
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 34,
+          "end": 47,
+          "question": "What equipment are workers checking?",
+          "options": [
+            "Water pumps",
+            "Traffic lights",
+            "Railway signals"
+          ],
+          "correctIndex": 0,
+          "keyLine": "workers are making sure that water pumps"
+        },
+        {
+          "start": 67,
+          "end": 80,
+          "question": "What are residents seeking through the lawsuit?",
+          "options": [
+            "Permission to build an airport",
+            "Compensation for damage and deaths",
+            "Free tickets on every bus"
+          ],
+          "correctIndex": 1,
+          "keyLine": "dollars in compensation for property"
+        },
+        {
+          "start": 117,
+          "end": 130,
+          "question": "Why is one canal solution delayed?",
+          "options": [
+            "The canal has no connection with rivers",
+            "The government has banned water pumps",
+            "Residents resist relocation and want better compensation"
+          ],
+          "correctIndex": 2,
+          "keyLine": "refusing to be relocated they want"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What challenge does the report examine?",
+          "options": [
+            "Flood protection in a crowded city",
+            "A shortage of buses during holidays",
+            "A new city festival beside a river"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What response is being used before more rain?",
+          "options": [
+            "Moving all residents outside Indonesia",
+            "Additional pumps in low-lying areas",
+            "Closing every bridge permanently"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What makes the longer-term problem harder?",
+          "options": [
+            "A lack of any rivers",
+            "A shortage of tourist hotels",
+            "Land clearing and disputes over relocation"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why are functioning pumps not a complete solution?",
+        "options": [
+          "Crowding and unresolved land issues also affect flood management",
+          "Pumps only work when roads are empty",
+          "The lawsuit removes the need for flood planning"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "compensation",
+          "meaning": "money for loss or damage"
+        },
+        {
+          "word": "mitigation",
+          "meaning": "reducing the seriousness of a problem"
+        },
+        {
+          "word": "divert",
+          "meaning": "send along a different route"
+        },
+        {
+          "word": "relocated",
+          "meaning": "moved to another place"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-jakarta-transport-video",
@@ -7332,7 +7620,103 @@
       "lng": 106.8456
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 27,
+          "end": 40,
+          "question": "When did the metro begin operating?",
+          "options": [
+            "2019",
+            "2009",
+            "1999"
+          ],
+          "correctIndex": 0,
+          "keyLine": "operational in 2019 close to 100,000"
+        },
+        {
+          "start": 51,
+          "end": 64,
+          "question": "What helped pay for the expansion?",
+          "options": [
+            "A donation from every passenger",
+            "A loan from Japan",
+            "A tax on hotels only"
+          ],
+          "correctIndex": 1,
+          "keyLine": "loan of nearly $1 billion from Japan"
+        },
+        {
+          "start": 115,
+          "end": 127,
+          "question": "What public-transport share is targeted for 2030?",
+          "options": [
+            "Forty percent",
+            "Eighty percent",
+            "Sixty percent"
+          ],
+          "correctIndex": 2,
+          "keyLine": "60% of the population using public"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why is the rail network being expanded?",
+          "options": [
+            "To improve movement in a crowded city",
+            "To remove every bus stop",
+            "To close surrounding towns"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What other problem is linked to car use?",
+          "options": [
+            "Food waste",
+            "Air pollution",
+            "Sea pollution"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the president describe mass transport projects?",
+          "options": [
+            "Cheap but unnecessary",
+            "Finished and no longer useful",
+            "Costly but necessary"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might rail expansion help more than journey times?",
+        "options": [
+          "A train line automatically removes every pollutant",
+          "Reducing reliance on cars could also improve air quality",
+          "All rail passengers stop needing jobs"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "commute",
+          "meaning": "travel regularly between home and work"
+        },
+        {
+          "word": "expansion",
+          "meaning": "making something larger"
+        },
+        {
+          "word": "pollutants",
+          "meaning": "substances that make air or water dirty"
+        },
+        {
+          "word": "congestion",
+          "meaning": "too much traffic in one place"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-lagos-local-city-video",
@@ -7608,7 +7992,103 @@
       "lng": 3.3792
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 42,
+          "question": "What goods are mentioned with masks?",
+          "options": [
+            "Clothing, jewellery and paintings",
+            "Computers, phones and cameras",
+            "Beds, tables and chairs"
+          ],
+          "correctIndex": 0,
+          "keyLine": "traditional clothing and handcrafted"
+        },
+        {
+          "start": 58,
+          "end": 71,
+          "question": "Why does the local customer like the market?",
+          "options": [
+            "It only sells foreign goods",
+            "It connects her with African culture",
+            "It is empty and silent"
+          ],
+          "correctIndex": 1,
+          "keyLine": "get to feel the African Vibe when I'm"
+        },
+        {
+          "start": 76,
+          "end": 89,
+          "question": "About how many stalls does the market have?",
+          "options": [
+            "Over 50",
+            "Over 250",
+            "Over 150"
+          ],
+          "correctIndex": 2,
+          "keyLine": "which has over 150 stalls also sells"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Who visits this market?",
+          "options": [
+            "Tourists and local residents",
+            "Only foreign tourists",
+            "Only people selling fish"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What do people find beyond art and clothing?",
+          "options": [
+            "Books and school uniforms",
+            "Fruit, vegetables and fish",
+            "Train tickets and passports"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the market offer besides things to buy?",
+          "options": [
+            "A place to take driving tests",
+            "A free airport shuttle",
+            "A feeling of cultural connection"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might someone bring visiting friends here?",
+        "options": [
+          "The market sells only goods from the visitors’ country",
+          "It offers local crafts and a sense of culture",
+          "Every stall is owned by their friends"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "traditional",
+          "meaning": "following customs from the past"
+        },
+        {
+          "word": "handcrafted",
+          "meaning": "made by hand"
+        },
+        {
+          "word": "culture",
+          "meaning": "a group’s customs and way of life"
+        },
+        {
+          "word": "stalls",
+          "meaning": "small places where people sell goods"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-hong-kong-animated-history-video",
@@ -8349,7 +8829,103 @@
       "lng": 4.9041
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 22,
+          "end": 35,
+          "question": "How many canals does Amsterdam have?",
+          "options": [
+            "165",
+            "65",
+            "265"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Amsterdam has 165 canals stretching for"
+        },
+        {
+          "start": 51,
+          "end": 64,
+          "question": "How many islands do the canals create?",
+          "options": [
+            "Nine",
+            "Ninety",
+            "Nineteen"
+          ],
+          "correctIndex": 1,
+          "keyLine": "canals into 90 distinct islands."
+        },
+        {
+          "start": 75,
+          "end": 88,
+          "question": "About how many bridges are there?",
+          "options": [
+            "More than 700",
+            "More than 2,700",
+            "More than 1,700"
+          ],
+          "correctIndex": 2,
+          "keyLine": "While there are more than 1,700 bridges"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What features are these facts about?",
+          "options": [
+            "Amsterdam’s canals and crossings",
+            "Amsterdam’s airports and runways",
+            "Amsterdam’s parks and playgrounds"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What recognition did the canal ring receive?",
+          "options": [
+            "A prize for the biggest shopping centre",
+            "World Heritage status",
+            "A prize for the newest railway"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does Amsterdam compare with Venice here?",
+          "options": [
+            "It has no waterways",
+            "It has fewer than ten islands",
+            "It has more bridges"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why would a city divided into many islands need many bridges?",
+        "options": [
+          "Bridges are needed only for tourists",
+          "Bridges connect places separated by water",
+          "Bridges make all the water disappear"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "canals",
+          "meaning": "water channels made by people"
+        },
+        {
+          "word": "heritage",
+          "meaning": "important things from the past"
+        },
+        {
+          "word": "islands",
+          "meaning": "land surrounded by water"
+        },
+        {
+          "word": "bridges",
+          "meaning": "structures crossing water or roads"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-honolulu-hula-story-video",
@@ -8381,7 +8957,103 @@
       "lng": -157.8583
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 63,
+          "end": 76,
+          "question": "What does kuleana mean?",
+          "options": [
+            "Responsibility",
+            "Celebration",
+            "Competition"
+          ],
+          "correctIndex": 0,
+          "keyLine": "means responsibility to be a Kumu hula"
+        },
+        {
+          "start": 86,
+          "end": 100,
+          "question": "What did hula keep alive without a written language?",
+          "options": [
+            "Trade prices",
+            "Stories",
+            "Building plans"
+          ],
+          "correctIndex": 1,
+          "keyLine": "all the stories alive and I take that"
+        },
+        {
+          "start": 123,
+          "end": 136,
+          "question": "How many women must tell the same story together?",
+          "options": [
+            "Sixteen",
+            "Six",
+            "Sixty"
+          ],
+          "correctIndex": 2,
+          "keyLine": "60 women have to tell the same story so"
+        }
+      ],
+      "gist": [
+        {
+          "q": "How does this teacher see hula?",
+          "options": [
+            "As a serious cultural responsibility",
+            "As only a casual pastime",
+            "As only a tourist competition"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What link does hula provide?",
+          "options": [
+            "A method for buying land",
+            "A bridge to the past",
+            "A route to a new airport"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What must the group achieve while dancing?",
+          "options": [
+            "Each tell a different story",
+            "Avoid learning from one another",
+            "Act and think as one"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might synchronised dancing matter beyond appearance?",
+        "options": [
+          "The dancers are competing to finish first",
+          "The teacher wants each dancer to forget the story",
+          "A shared story needs the group to express it together"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "responsibility",
+          "meaning": "a duty to care for something"
+        },
+        {
+          "word": "perpetuating",
+          "meaning": "keeping something alive or continuing"
+        },
+        {
+          "word": "foundation",
+          "meaning": "a base on which something is built"
+        },
+        {
+          "word": "bridge",
+          "meaning": "a connection between things or times"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-honolulu-spam-musubi-video",
@@ -8414,7 +9086,103 @@
       "lng": -157.8583
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 50,
+          "end": 63,
+          "question": "What is the base of a spam musubi?",
+          "options": [
+            "Rice",
+            "Bread",
+            "Potato"
+          ],
+          "correctIndex": 0,
+          "keyLine": "A spam musubi would be rice.\nIt's like, usually a rice ball,"
+        },
+        {
+          "start": 76,
+          "end": 89,
+          "question": "What kind of eating concept did the owners want?",
+          "options": [
+            "A cooking class",
+            "Grab and go",
+            "A long formal dinner"
+          ],
+          "correctIndex": 1,
+          "keyLine": "to do something that was, like a\ngraband go, kind of a concept."
+        },
+        {
+          "start": 104,
+          "end": 117,
+          "question": "What filling do local people usually think of?",
+          "options": [
+            "Salmon",
+            "Umeboshi",
+            "Spam"
+          ],
+          "correctIndex": 2,
+          "keyLine": "they tend to think spam,\nwhereas, if you told somebody"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What food is being explained?",
+          "options": [
+            "A snack combining rice and toppings",
+            "A soup made with noodles",
+            "A cake served with fruit"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the shop combine styles?",
+          "options": [
+            "Only mainland American desserts",
+            "Japanese and local Hawaiian ideas",
+            "Only European recipes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What difference between local and Japanese versions is described?",
+          "options": [
+            "Only the colour of the plate",
+            "Only the time of day they are eaten",
+            "Shapes and expected fillings"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why would portability suit the owners’ idea?",
+        "options": [
+          "Customers can take the snack with them easily",
+          "Customers must eat it at a long formal meal",
+          "Customers need special equipment to carry it"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "seaweed",
+          "meaning": "a plant-like food from the sea"
+        },
+        {
+          "word": "toppings",
+          "meaning": "foods added on top"
+        },
+        {
+          "word": "traditional",
+          "meaning": "following an older style"
+        },
+        {
+          "word": "portability",
+          "meaning": "being easy to carry"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-honolulu-city-history-video",
@@ -8727,7 +9495,103 @@
       "lng": -80.1918
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 21,
+          "end": 34,
+          "question": "What facilities do the shelters provide?",
+          "options": [
+            "Cooling, charging and Wi-Fi",
+            "Cooking, showers and beds",
+            "Shopping, ticket printing and lockers"
+          ],
+          "correctIndex": 0,
+          "keyLine": "with air conditioning, charging ports,"
+        },
+        {
+          "start": 62,
+          "end": 75,
+          "question": "How long is the route?",
+          "options": [
+            "Thirty miles",
+            "Twenty miles",
+            "Ten miles"
+          ],
+          "correctIndex": 1,
+          "keyLine": "transit system in the county. It runs 20"
+        },
+        {
+          "start": 80,
+          "end": 93,
+          "question": "What kind of service is called the longest in the US?",
+          "options": [
+            "Underground rail transit",
+            "Passenger ferry transit",
+            "Electric bus rapid transit"
+          ],
+          "correctIndex": 2,
+          "keyLine": "bus rapid transit service in the US"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What change is this report introducing?",
+          "options": [
+            "A new bus rapid transit service",
+            "A new airport terminal",
+            "A new bicycle rental scheme"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What problem do the shelters help with?",
+          "options": [
+            "High mountain winds",
+            "Strong summer heat",
+            "Heavy winter snow"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do the buses get priority?",
+          "options": [
+            "Only driving after midnight",
+            "Stopping every other vehicle permanently",
+            "A special lane and crossing-style gates"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could cooler shelters make this service more useful?",
+        "options": [
+          "Passengers no longer need to travel",
+          "Waiting becomes easier in hot weather",
+          "Every bus ride becomes free"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "shelter",
+          "meaning": "a covered place protecting people from weather"
+        },
+        {
+          "word": "commute",
+          "meaning": "a regular journey to work or school"
+        },
+        {
+          "word": "designated",
+          "meaning": "set aside for a particular use"
+        },
+        {
+          "word": "priority",
+          "meaning": "being allowed to go first"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-bogota-my-city-video",
@@ -8789,7 +9653,103 @@
       "lng": -74.0721
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 35,
+          "end": 48,
+          "question": "Which organisation has preserved the objects?",
+          "options": [
+            "The Bank of the Republic",
+            "The national railway",
+            "The airport authority"
+          ],
+          "correctIndex": 0,
+          "keyLine": "bank of the Republic has preserved"
+        },
+        {
+          "start": 56,
+          "end": 69,
+          "question": "What do the objects reflect about communities?",
+          "options": [
+            "The same modern sport",
+            "Different rituals and customs",
+            "Identical daily routines"
+          ],
+          "correctIndex": 1,
+          "keyLine": "different rituals myths and customs"
+        },
+        {
+          "start": 83,
+          "end": 96,
+          "question": "What event does the raft represent?",
+          "options": [
+            "A battle between two armies",
+            "A harvest celebration",
+            "A new chief taking office"
+          ],
+          "correctIndex": 2,
+          "keyLine": "investiture of a new Miska chief"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What does this museum preserve?",
+          "options": [
+            "Objects showing Colombia’s past cultures",
+            "Only paintings of modern hotels",
+            "Only maps of foreign cities"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What diversity do the exhibits celebrate?",
+          "options": [
+            "Only different building heights",
+            "Traditions, languages and backgrounds",
+            "Only different ticket prices"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is special about the small raft?",
+          "options": [
+            "It is used for daily boat trips",
+            "It was made to hold museum visitors",
+            "It carries a rich historical story"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why can a small object tell a large story?",
+        "options": [
+          "Its design can record an important cultural event",
+          "Its size tells us how many people lived in the city",
+          "Small objects always belong to the richest person"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "artifacts",
+          "meaning": "objects made or used by people in the past"
+        },
+        {
+          "word": "exhibits",
+          "meaning": "things displayed for people to see"
+        },
+        {
+          "word": "rituals",
+          "meaning": "actions performed as part of a custom"
+        },
+        {
+          "word": "relics",
+          "meaning": "objects surviving from the past"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-bogota-graffiti-projects-video",
@@ -9038,7 +9998,103 @@
       "lng": -21.9426
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 52,
+          "question": "How long had Clara first planned to stay?",
+          "options": [
+            "One year",
+            "Three years",
+            "Six years"
+          ],
+          "correctIndex": 0,
+          "keyLine": "one year but it's now been"
+        },
+        {
+          "start": 95,
+          "end": 108,
+          "question": "What can customers choose for a pullover order?",
+          "options": [
+            "Only the shop opening time",
+            "Their own design and colours",
+            "Only the delivery van"
+          ],
+          "correctIndex": 1,
+          "keyLine": "design and color"
+        },
+        {
+          "start": 142,
+          "end": 154,
+          "question": "In about how many US stores is the label sold?",
+          "options": [
+            "More than ten",
+            "More than one thousand",
+            "More than one hundred"
+          ],
+          "correctIndex": 2,
+          "keyLine": "where it can be found in more than a 100"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What interests Clara about Reykjavik?",
+          "options": [
+            "Architecture and local handicrafts",
+            "Only sports stadiums",
+            "Only airport shopping"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the church design connect with Iceland?",
+          "options": [
+            "It hides all natural forms",
+            "It reflects the landscape",
+            "It copies a tropical beach"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How are local creative businesses presented?",
+          "options": [
+            "All sell only to one neighbourhood",
+            "None survived the financial crisis",
+            "Some reach international markets"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What links the architecture and clothing in this account?",
+        "options": [
+          "Both were imported unchanged from Germany",
+          "Both are used only during festivals",
+          "Both combine local identity with practical or modern design"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "understated",
+          "meaning": "not showy or highly decorated"
+        },
+        {
+          "word": "handicrafts",
+          "meaning": "objects made by hand with skill"
+        },
+        {
+          "word": "water resistant",
+          "meaning": "able to keep some water out"
+        },
+        {
+          "word": "reputation",
+          "meaning": "what people think about someone or something"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-reykjavik-iceland-history-video",
@@ -9099,7 +10155,103 @@
       "lng": -21.9426
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 8,
+          "end": 21,
+          "question": "What share of the nation comes together?",
+          "options": [
+            "One third",
+            "One tenth",
+            "One half"
+          ],
+          "correctIndex": 0,
+          "keyLine": "of the nation come together and"
+        },
+        {
+          "start": 23,
+          "end": 36,
+          "question": "What event starts the day?",
+          "options": [
+            "A football match",
+            "A marathon",
+            "A boat race"
+          ],
+          "correctIndex": 1,
+          "keyLine": "framed in with with the marathon in the"
+        },
+        {
+          "start": 58,
+          "end": 71,
+          "question": "What is the firework designer’s main focus?",
+          "options": [
+            "Making the show happen at noon",
+            "Moving the show out of the city",
+            "Bringing the show closer to people"
+          ],
+          "correctIndex": 2,
+          "keyLine": "it closer to the people is the main"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What makes Culture Night special in the speaker’s view?",
+          "options": [
+            "Small events across the city",
+            "Only one large indoor concert",
+            "Only the official printed programme"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Who helps organise activities?",
+          "options": [
+            "Only professional athletes",
+            "Many kinds of people and places",
+            "Only the airport staff"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What closes the day’s programme?",
+          "options": [
+            "A morning race",
+            "A cooking lesson",
+            "A firework show"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might unofficial small events matter to this celebration?",
+        "options": [
+          "They are all held in the same private room",
+          "They let many people contribute to the city-wide experience",
+          "They stop people attending any official event"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "event",
+          "meaning": "something planned for people to attend"
+        },
+        {
+          "word": "organizing",
+          "meaning": "planning and arranging"
+        },
+        {
+          "word": "program",
+          "meaning": "a planned list of activities"
+        },
+        {
+          "word": "focus",
+          "meaning": "the main thing receiving attention"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-nairobi-capital-history-video",
@@ -9131,7 +10283,103 @@
       "lng": 36.8219
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 49,
+          "end": 62,
+          "question": "Where was the railway intended to run?",
+          "options": [
+            "From Mombasa to Uganda",
+            "From Nairobi to Cairo",
+            "From Uganda to Cape Town"
+          ],
+          "correctIndex": 0,
+          "keyLine": "build a train track from Mombasa all the"
+        },
+        {
+          "start": 82,
+          "end": 95,
+          "question": "What did the workers need at the difficult terrain?",
+          "options": [
+            "A place to plant a vineyard",
+            "A place to rest and store things",
+            "A place to build ships"
+          ],
+          "correctIndex": 1,
+          "keyLine": "place to put their stuff and rest"
+        },
+        {
+          "start": 114,
+          "end": 127,
+          "question": "What does Enkare Nairobi mean?",
+          "options": [
+            "Place of tall mountains",
+            "Place of hot sands",
+            "Place of cool waters"
+          ],
+          "correctIndex": 2,
+          "keyLine": "cool waters."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What unexpected origin of Nairobi is described?",
+          "options": [
+            "A railway workers’ stopping place grew into a city",
+            "A seaside port became an island",
+            "An airport became a farming village"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What made the route difficult?",
+          "options": [
+            "A ban on railway travel",
+            "The Great Rift Valley terrain",
+            "The lack of any water"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why did engineers find the site convenient?",
+          "options": [
+            "A deep harbour and a beach",
+            "A large existing palace",
+            "Flat land, water and nearby highlands"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why call the beginning accidental?",
+        "options": [
+          "Nobody knew how to build a railway",
+          "The place had never had a local name",
+          "The workers chose a camp rather than planning a future capital"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "project",
+          "meaning": "a planned piece of work"
+        },
+        {
+          "word": "cliff",
+          "meaning": "a steep rock face"
+        },
+        {
+          "word": "camp",
+          "meaning": "a temporary place to stay"
+        },
+        {
+          "word": "highlands",
+          "meaning": "an area of higher land"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-nairobi-railway-city-video",
@@ -9193,7 +10441,103 @@
       "lng": 36.8219
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 21,
+          "end": 34,
+          "question": "Which programmes has Nairobi hosted?",
+          "options": [
+            "UN Habitat and UN Environment",
+            "Only UNICEF and UN Women",
+            "Only UNESCO and UNFPA"
+          ],
+          "correctIndex": 0,
+          "keyLine": "UN Habitat and UN environment program."
+        },
+        {
+          "start": 47,
+          "end": 60,
+          "question": "About how many people now work under the UN in Kenya?",
+          "options": [
+            "More than 60,000",
+            "More than 6,000",
+            "More than 600"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Today, more than 6,000 people work under"
+        },
+        {
+          "start": 83,
+          "end": 96,
+          "question": "What conference capacity is planned by 2030?",
+          "options": [
+            "3,000 delegates",
+            "12,000 delegates",
+            "9,000 delegates"
+          ],
+          "correctIndex": 2,
+          "keyLine": "hosting 2,000 delegates to 9,000,"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What development is the report tracking?",
+          "options": [
+            "Nairobi’s growing role as a UN hub",
+            "Nairobi’s move away from international meetings",
+            "Nairobi’s first passenger railway"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What physical expansion is planned?",
+          "options": [
+            "A new sports stadium",
+            "New offices and an assembly hall",
+            "A new cruise port"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Who could benefit beyond diplomats?",
+          "options": [
+            "Only foreign airlines",
+            "Only people living outside Kenya",
+            "Local contractors and service businesses"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could expanding a meeting hub create work for hotels and restaurants?",
+        "options": [
+          "UN buildings replace all local businesses",
+          "More operations and delegates bring demand for local services",
+          "Every delegate must become a hotel owner"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "headquarters",
+          "meaning": "the main offices of an organisation"
+        },
+        {
+          "word": "entities",
+          "meaning": "organisations or units treated as separate bodies"
+        },
+        {
+          "word": "delegates",
+          "meaning": "people representing groups at meetings"
+        },
+        {
+          "word": "assembly",
+          "meaning": "a group meeting for discussion or decisions"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-lima-city-history-video",
@@ -9224,7 +10568,103 @@
       "lng": -77.0428
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 42,
+          "question": "What title did Lima gain?",
+          "options": [
+            "City of Kings",
+            "City of Bridges",
+            "City of Islands"
+          ],
+          "correctIndex": 0,
+          "keyLine": "earns the title of city of Kings a grand"
+        },
+        {
+          "start": 92,
+          "end": 105,
+          "question": "What influences are blended in the local markets?",
+          "options": [
+            "British and Greek",
+            "Spanish and Andean",
+            "French and Roman"
+          ],
+          "correctIndex": 1,
+          "keyLine": "riot of colors selling Goods that blend"
+        },
+        {
+          "start": 138,
+          "end": 151,
+          "question": "Which year marks the independence proclamation?",
+          "options": [
+            "1721",
+            "1921",
+            "1821"
+          ],
+          "correctIndex": 2,
+          "keyLine": "1821 is a pivotal moment not just for"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What transformation does this account describe?",
+          "options": [
+            "A fishing settlement becoming a major colonial and independent city",
+            "A capital moving onto an island",
+            "A city abandoning every historical building"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happened to indigenous traditions under Spanish influence?",
+          "options": [
+            "They became identical to Spanish traditions",
+            "They continued and shaped the city’s culture",
+            "They vanished from every local market"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What later struggle put Lima at the centre of national change?",
+          "options": [
+            "A campaign for a new airport",
+            "A campaign to end all trade",
+            "Independence"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why describe Lima as a living museum?",
+        "options": [
+          "Every resident works inside a museum",
+          "All buildings are kept empty for visitors",
+          "Historical influences remain visible in everyday places and traditions"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "heritage",
+          "meaning": "traditions and things inherited from the past"
+        },
+        {
+          "word": "fusion",
+          "meaning": "a combination of different elements"
+        },
+        {
+          "word": "diversity",
+          "meaning": "a range of different kinds"
+        },
+        {
+          "word": "proclamation",
+          "meaning": "a formal public announcement"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-lima-ancient-ruins-video",
@@ -9498,7 +10938,103 @@
       "lng": 115.8613
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 52,
+          "question": "Where do most quokkas now live?",
+          "options": [
+            "Rottnest Island",
+            "A mainland city park",
+            "An inland mountain"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Today, most quokkas reside on Rottnest"
+        },
+        {
+          "start": 58,
+          "end": 71,
+          "question": "What helped bring attention to quokkas?",
+          "options": [
+            "Train tickets",
+            "Selfies",
+            "School uniforms"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The rise of the quokka selfie may not"
+        },
+        {
+          "start": 71,
+          "end": 84,
+          "question": "What does the narrator discourage?",
+          "options": [
+            "Learning about wildlife",
+            "Protecting wildlife habitat",
+            "Direct interaction with wildlife"
+          ],
+          "correctIndex": 2,
+          "keyLine": "While direct interaction with wildlife"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What contrast does the account make?",
+          "options": [
+            "Threatened mainland animals and a safer island population",
+            "Wild animals and household pets",
+            "Winter animals and summer animals"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How are island quokkas described?",
+          "options": [
+            "Unable to move",
+            "Bold and curious",
+            "Territorial and aggressive"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What can attention lead toward?",
+          "options": [
+            "A ban on wildlife research",
+            "Replacing wild animals with pets",
+            "Awareness and protection"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why distinguish attention from conservation?",
+        "options": [
+          "Taking a photo always restores habitat",
+          "Conservation means avoiding all information about animals",
+          "Being popular can raise awareness but is not itself protection"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "bold",
+          "meaning": "confident rather than shy"
+        },
+        {
+          "word": "haven",
+          "meaning": "a safe place"
+        },
+        {
+          "word": "inquisitive",
+          "meaning": "curious"
+        },
+        {
+          "word": "awareness",
+          "meaning": "knowing and understanding that something exists"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-perth-transperth-video",
@@ -9771,7 +11307,103 @@
       "lng": 174.7645
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 35,
+          "end": 48,
+          "question": "How old is the eruption they stand beside?",
+          "options": [
+            "180,000 years",
+            "18,000 years",
+            "1,800 years"
+          ],
+          "correctIndex": 0,
+          "keyLine": "next to what's left from a\n180,000-year-old eruption"
+        },
+        {
+          "start": 50,
+          "end": 63,
+          "question": "How many volcanoes are in the field?",
+          "options": [
+            "Fifteen",
+            "Fifty-three",
+            "Thirty-five"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Pupuke is just one of 53\nvolcanoes that we have"
+        },
+        {
+          "start": 81,
+          "end": 94,
+          "question": "Which landforms are mentioned besides lakes?",
+          "options": [
+            "Sand dunes and coral reefs",
+            "Glaciers and ice caves",
+            "Scoria cones and lava flows"
+          ],
+          "correctIndex": 2,
+          "keyLine": "but you also get the maunga\nor the scoria cones, we call them."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this field trip investigating?",
+          "options": [
+            "Signs of past volcanic eruptions",
+            "Signs of recent ocean storms",
+            "Signs of ancient railway routes"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What feature is left from the nearby eruption?",
+          "options": [
+            "A harbour wall",
+            "A lake",
+            "A glacier"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How are the volcanoes arranged?",
+          "options": [
+            "All inside one building",
+            "Only on a distant island",
+            "Spread across the city area"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why look at several kinds of landform?",
+        "options": [
+          "Every eruption leaves only a lake",
+          "Scientists learn nothing from rock or hills",
+          "Eruptions can leave different visible traces"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "eruption",
+          "meaning": "when a volcano releases material"
+        },
+        {
+          "word": "volcanoes",
+          "meaning": "places where hot material can emerge from the earth"
+        },
+        {
+          "word": "features",
+          "meaning": "noticeable parts of a place"
+        },
+        {
+          "word": "lava flows",
+          "meaning": "streams of hot rock that later become solid"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-auckland-electric-bus-video",
@@ -9803,7 +11435,103 @@
       "lng": 174.7645
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 25,
+          "end": 38,
+          "question": "What makes this depot a New Zealand first?",
+          "options": [
+            "It is fully electric",
+            "It uses only double-decker buses",
+            "It is entirely underground"
+          ],
+          "correctIndex": 0,
+          "keyLine": "is the first fully electric bus depot"
+        },
+        {
+          "start": 71,
+          "end": 84,
+          "question": "How many diesel buses are being replaced?",
+          "options": [
+            "Fifty-four",
+            "Forty-four",
+            "Thirty-four"
+          ],
+          "correctIndex": 1,
+          "keyLine": "44 diesel buses that used to reside here"
+        },
+        {
+          "start": 91,
+          "end": 104,
+          "question": "What does one partner provide?",
+          "options": [
+            "New railway tunnels",
+            "Passenger ferry docks",
+            "Smart charging technology"
+          ],
+          "correctIndex": 2,
+          "keyLine": "smart charging technology wsp who did"
+        }
+      ],
+      "gist": [
+        {
+          "q": "How does this depot differ from a typical early electric-bus site?",
+          "options": [
+            "All its buses are electric rather than a mixed fleet",
+            "It has no charging equipment",
+            "It uses electric buses only on weekends"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What helped make the project possible?",
+          "options": [
+            "A ban on all public transport",
+            "Transport authorities, contractors and partners",
+            "One driver working alone"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What wider goal is mentioned?",
+          "options": [
+            "Increasing diesel use",
+            "Replacing buses with private cars",
+            "Moving toward net zero"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why describe partnerships in a vehicle launch?",
+        "options": [
+          "Changing a fleet also needs infrastructure, design and organisational support",
+          "Each passenger has to build a bus",
+          "Charging works without any equipment or planning"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "depot",
+          "meaning": "a place where vehicles are stored and maintained"
+        },
+        {
+          "word": "diesel",
+          "meaning": "a fuel used in some engines"
+        },
+        {
+          "word": "decarbonization",
+          "meaning": "reducing carbon emissions"
+        },
+        {
+          "word": "deployment",
+          "meaning": "putting equipment into active use"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-auckland-new-zealand-history-video",
@@ -9863,7 +11591,103 @@
       "lng": 178.4419
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 60,
+          "end": 73,
+          "question": "What does the market bring into the city?",
+          "options": [
+            "Produce from Fiji’s islands",
+            "Only imported cars",
+            "Only factory machinery"
+          ],
+          "correctIndex": 0,
+          "keyLine": "brings in produce from all around"
+        },
+        {
+          "start": 94,
+          "end": 107,
+          "question": "Over what period has the retail sector grown substantially?",
+          "options": [
+            "Forty to fifty years",
+            "Ten to fifteen years",
+            "One to two years"
+          ],
+          "correctIndex": 1,
+          "keyLine": "over the last 10 to 15 years since since"
+        },
+        {
+          "start": 123,
+          "end": 136,
+          "question": "What urban problem does the speaker point out?",
+          "options": [
+            "A lack of any shops",
+            "A lack of any roads",
+            "Traffic"
+          ],
+          "correctIndex": 2,
+          "keyLine": "significant problem with traffic and"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What mix of economic activity does the walk reveal?",
+          "options": [
+            "Local markets and global retail",
+            "Only industrial factories",
+            "Only subsistence farming"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Who buys the market produce?",
+          "options": [
+            "Only people outside Fiji",
+            "City residents",
+            "Only international airlines"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the speaker connect Suva with other Pacific cities?",
+          "options": [
+            "Through identical old temples",
+            "Through a shared underground railway",
+            "Through familiar global brands"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why show both a produce market and high-end shops?",
+        "options": [
+          "They prove local food has disappeared",
+          "They show every resident buys the same products",
+          "They reveal different economic connections within the same city"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "subsistence",
+          "meaning": "producing enough mainly for your own needs"
+        },
+        {
+          "word": "produce",
+          "meaning": "fresh farm products"
+        },
+        {
+          "word": "globalization",
+          "meaning": "growing connections across the world"
+        },
+        {
+          "word": "retail",
+          "meaning": "selling goods directly to customers"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-suva-city-history-video",
@@ -9924,7 +11748,103 @@
       "lng": 178.4419
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 56,
+          "end": 69,
+          "question": "What has happened to the former sandy playground?",
+          "options": [
+            "It has been washed away",
+            "It has become a shopping mall",
+            "It has been moved to a mountain"
+          ],
+          "correctIndex": 0,
+          "keyLine": "washed away"
+        },
+        {
+          "start": 87,
+          "end": 100,
+          "question": "What role does rugby play beyond being a game?",
+          "options": [
+            "It is only for visitors",
+            "It brings national pride",
+            "It replaces all school lessons"
+          ],
+          "correctIndex": 1,
+          "keyLine": "source of great national pride they say"
+        },
+        {
+          "start": 131,
+          "end": 144,
+          "question": "What do residents hope will preserve the village?",
+          "options": [
+            "A new airport",
+            "A mountain tunnel",
+            "A sea wall"
+          ],
+          "correctIndex": 2,
+          "keyLine": "hopes on the building of a sea wall"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is at risk alongside homes?",
+          "options": [
+            "Culture and ancestral traditions",
+            "Only sports equipment",
+            "Only tourist advertisements"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why are residents reluctant to move?",
+          "options": [
+            "They want to stop playing rugby",
+            "They have invested in homes and fear losing their way of life",
+            "They have never experienced flooding"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What danger has already forced other villages to relocate?",
+          "options": [
+            "A shortage of rugby players",
+            "A shortage of road signs",
+            "Rising seas and extreme weather"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is relocation more complex than replacing buildings?",
+        "options": [
+          "Only the government uses the village land",
+          "Land, traditions and community life are closely connected",
+          "Every resident can easily recreate every tradition elsewhere"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "climate change",
+          "meaning": "long-term change in weather patterns"
+        },
+        {
+          "word": "relocated",
+          "meaning": "moved to a different place"
+        },
+        {
+          "word": "ancestral",
+          "meaning": "connected with earlier generations of a family"
+        },
+        {
+          "word": "preserve",
+          "meaning": "keep safe from loss or damage"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-ulaanbaatar-changing-capital-video",
