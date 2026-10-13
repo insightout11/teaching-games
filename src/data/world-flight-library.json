@@ -30,7 +30,107 @@
       "lng": 100.5018
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 55,
+          "question": "What does the speaker say Bangkok keeps?",
+          "options": [
+            "Its traditions",
+            "Its old traffic rules",
+            "Its low buildings"
+          ],
+          "correctIndex": 0,
+          "keyLine": "but we really keep with tradition we do"
+        },
+        {
+          "start": 100,
+          "end": 113,
+          "question": "What does she put on her dish?",
+          "options": [
+            "Chilli",
+            "Sugar",
+            "Salt"
+          ],
+          "correctIndex": 1,
+          "keyLine": "on top put a little bit of sugar on top"
+        },
+        {
+          "start": 154,
+          "end": 167,
+          "question": "What does one shop on this street sell?",
+          "options": [
+            "Fish with potatoes",
+            "Chicken with bread",
+            "Pork leg with rice"
+          ],
+          "correctIndex": 2,
+          "keyLine": "sells pork leg on rice and then there's"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Which two sides of Bangkok does she bring together?",
+          "options": [
+            "Modern creativity and old traditions",
+            "Quiet suburbs and busy factories",
+            "New airports and old railways"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does she show her connection to the city?",
+          "options": [
+            "By interviewing foreign tourists",
+            "By returning to familiar food places",
+            "By visiting only new museums"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What kind of businesses does she describe on the street?",
+          "options": [
+            "Shops selling only imported snacks",
+            "Shops with identical large menus",
+            "Shops known for particular dishes"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might this street matter to her beyond its food?",
+        "options": [
+          "It connects her with childhood and local habits",
+          "It is the cheapest place to rent a studio",
+          "It is the only street open after midnight"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "tradition",
+          "meaning": "a custom passed from one generation to another"
+        },
+        {
+          "word": "creative",
+          "meaning": "using new ideas"
+        },
+        {
+          "word": "dish",
+          "meaning": "food prepared in a particular way"
+        },
+        {
+          "word": "vinegar",
+          "meaning": "a sour liquid used in food"
+        },
+        {
+          "word": "community",
+          "meaning": "people connected by a place or interest"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-bangkok-food-identity-video",
@@ -95,7 +195,107 @@
       "lng": 139.6503
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 58,
+          "end": 71,
+          "question": "What do direct railway connections reduce?",
+          "options": [
+            "Crowding and transfers",
+            "Ticket checks and fines",
+            "Train speed and noise"
+          ],
+          "correctIndex": 0,
+          "keyLine": "which reduces congestion\nand unnecessary transfers."
+        },
+        {
+          "start": 75,
+          "end": 88,
+          "question": "How many people travel into Tokyo each day?",
+          "options": [
+            "1.4 million",
+            "2.4 million",
+            "4.2 million"
+          ],
+          "correctIndex": 1,
+          "keyLine": "for the 2.4 million people"
+        },
+        {
+          "start": 105,
+          "end": 118,
+          "question": "Why are some New York rail systems separate?",
+          "options": [
+            "They use different track colours",
+            "They open in different seasons",
+            "Different authorities oversee them"
+          ],
+          "correctIndex": 2,
+          "keyLine": "of different jurisdictions\nthat oversee transit."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What comparison drives this explanation?",
+          "options": [
+            "How Tokyo and New York connect their trains",
+            "How Tokyo and New York build airports",
+            "How Tokyo and New York rent bicycles"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which benefit of Tokyo travel is highlighted?",
+          "options": [
+            "More seats on every train",
+            "Fewer changes between trains",
+            "Free travel for all commuters"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What makes paying in New York more complicated?",
+          "options": [
+            "Tickets can only be bought at home",
+            "Each station uses a different currency",
+            "Separate systems use different tickets"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How could connected tracks make a journey less stressful?",
+        "options": [
+          "Riders never need to know their destination",
+          "Riders can choose any train without checking its route",
+          "Riders can stay on a train instead of watching for a transfer"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "commutes",
+          "meaning": "regular journeys to and from work"
+        },
+        {
+          "word": "congestion",
+          "meaning": "too many people or vehicles in one place"
+        },
+        {
+          "word": "transfers",
+          "meaning": "changes from one train or vehicle to another"
+        },
+        {
+          "word": "destination",
+          "meaning": "the place a traveller is going to"
+        },
+        {
+          "word": "tickets",
+          "meaning": "proof that you have paid to travel"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-tokyo-vending-machines-video",
@@ -126,7 +326,107 @@
       "lng": 139.6503
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 24,
+          "end": 37,
+          "question": "What breakfast item does he try?",
+          "options": [
+            "Banana",
+            "Apple",
+            "Orange"
+          ],
+          "correctIndex": 0,
+          "keyLine": "with breakfast they have premium banana"
+        },
+        {
+          "start": 49,
+          "end": 62,
+          "question": "What hot food does this machine sell?",
+          "options": [
+            "Fried noodles",
+            "Oden stew",
+            "Rice porridge"
+          ],
+          "correctIndex": 1,
+          "keyLine": "noodle this machine sells Oden a Savory"
+        },
+        {
+          "start": 121,
+          "end": 134,
+          "question": "How many vending machines does the report say Japan has?",
+          "options": [
+            "Three million",
+            "Seven million",
+            "Five million"
+          ],
+          "correctIndex": 2,
+          "keyLine": "there are 5 million vending machines in"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What range of products is shown here?",
+          "options": [
+            "Drinks and food for different times of day",
+            "Only cold drinks for summer",
+            "Only fresh food for breakfast"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What makes the machines convenient?",
+          "options": [
+            "They accept only advance orders",
+            "They work around the clock",
+            "They deliver food to every home"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the factory explanation emphasise?",
+          "options": [
+            "Every machine has a completely different design",
+            "Machines are built only for one drink company",
+            "Similar interiors help production efficiency"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could a hot can of stew appeal in winter?",
+        "options": [
+          "It provides warm food without waiting for a shop to open",
+          "It costs less than every other meal in Japan",
+          "It has to be eaten inside the factory"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "breakfast",
+          "meaning": "the first meal of the day"
+        },
+        {
+          "word": "stew",
+          "meaning": "food cooked slowly in liquid"
+        },
+        {
+          "word": "clients",
+          "meaning": "people or companies buying a service"
+        },
+        {
+          "word": "efficiency",
+          "meaning": "doing a job with little wasted time or effort"
+        },
+        {
+          "word": "competition",
+          "meaning": "businesses trying to win the same customers"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-tokyo-urban-history-video",
@@ -190,7 +490,107 @@
       "lng": 126.978
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 67,
+          "end": 80,
+          "question": "What extra benefit do platform doors provide?",
+          "options": [
+            "Less noise and better air",
+            "More seats and cheaper fares",
+            "Faster trains and longer routes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "reducing noise and improving air"
+        },
+        {
+          "start": 120,
+          "end": 133,
+          "question": "What places does the operator keep clean?",
+          "options": [
+            "Airports, shops and taxis",
+            "Tunnels, stations and trains",
+            "Roads, parks and buses"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Network we maintain tunnels stations and"
+        },
+        {
+          "start": 144,
+          "end": 157,
+          "question": "Who are the barrier-free stations designed to help?",
+          "options": [
+            "Only people with monthly tickets",
+            "Only people travelling at night",
+            "People who need easier access"
+          ],
+          "correctIndex": 2,
+          "keyLine": "stations are available for disabled"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the operator mainly promoting?",
+          "options": [
+            "Safe and accessible subway service",
+            "Fast international air travel",
+            "Cheap long-distance bus travel"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the report connect equipment with passenger safety?",
+          "options": [
+            "Larger advertisements explain emergency routes",
+            "Doors and cameras help prevent or detect problems",
+            "Ticket machines replace all inspections"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Which everyday work is also mentioned?",
+          "options": [
+            "Selling food on every platform",
+            "Delivering luggage to homes",
+            "Keeping trains and stations clean"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why discuss both cameras and barrier-free stations?",
+        "options": [
+          "The operator wants to replace all drivers with cameras",
+          "Every passenger must use a special platform door",
+          "Good service includes safe equipment and access for different passengers"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "platform",
+          "meaning": "the place beside a train where people wait"
+        },
+        {
+          "word": "noise",
+          "meaning": "unwanted sound"
+        },
+        {
+          "word": "tunnels",
+          "meaning": "passages under the ground"
+        },
+        {
+          "word": "barrier-free",
+          "meaning": "easy to use without obstacles to movement"
+        },
+        {
+          "word": "disabled",
+          "meaning": "having a condition that can make some activities harder"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-seoul-gyeongbokgung-video",
@@ -220,7 +620,107 @@
       "lng": 126.978
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 18,
+          "end": 31,
+          "question": "What does the visitor notice about the palace?",
+          "options": [
+            "Bright colours and detailed designs",
+            "Plain colours and small rooms",
+            "Dark colours and broken windows"
+          ],
+          "correctIndex": 0,
+          "keyLine": "vibrant colors beautiful detailed"
+        },
+        {
+          "start": 39,
+          "end": 52,
+          "question": "How often does the ceremony happen?",
+          "options": [
+            "Twice a day",
+            "Three times a day",
+            "Once a day"
+          ],
+          "correctIndex": 1,
+          "keyLine": "three times a day and it's about 20"
+        },
+        {
+          "start": 62,
+          "end": 75,
+          "question": "How long could you spend walking around?",
+          "options": [
+            "At least three hours",
+            "At least five hours",
+            "At least an hour"
+          ],
+          "correctIndex": 2,
+          "keyLine": "life you could spend at least an hour"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the visitor recommending?",
+          "options": [
+            "A visit to the palace grounds",
+            "A visit to a shopping street",
+            "A visit to a train station"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which live event can visitors watch?",
+          "options": [
+            "A football match",
+            "The changing of the guard",
+            "A cooking competition"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What else is inside the palace grounds?",
+          "options": [
+            "A museum about aeroplanes",
+            "A museum about ocean fish",
+            "A museum about Korean life"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could this visit take longer than the ceremony?",
+        "options": [
+          "There are gardens, halls and a museum to explore",
+          "The ceremony lasts all day",
+          "Visitors must wait for a night train"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "guards",
+          "meaning": "people who protect a place"
+        },
+        {
+          "word": "ceremony",
+          "meaning": "a special event with planned actions"
+        },
+        {
+          "word": "costumes",
+          "meaning": "special clothes worn for an event"
+        },
+        {
+          "word": "Gardens",
+          "meaning": "places where plants and flowers grow"
+        },
+        {
+          "word": "traditional",
+          "meaning": "following customs from the past"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-seoul-korea-history-video",
@@ -280,7 +780,107 @@
       "lng": 103.8198
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 33,
+          "end": 46,
+          "question": "What facilities do the new towns include?",
+          "options": [
+            "Schools, shops and hospitals",
+            "Harbours, farms and airports",
+            "Factories, prisons and mines"
+          ],
+          "correctIndex": 0,
+          "keyLine": "with parks schools shopping centers gyms"
+        },
+        {
+          "start": 97,
+          "end": 110,
+          "question": "When was public housing first introduced here?",
+          "options": [
+            "1977",
+            "1927",
+            "1957"
+          ],
+          "correctIndex": 1,
+          "keyLine": "singapore in 1927 when it was a british"
+        },
+        {
+          "start": 126,
+          "end": 139,
+          "question": "What share of the population could the earlier housing serve?",
+          "options": [
+            "Nineteen percent",
+            "Ninety percent",
+            "Nine percent"
+          ],
+          "correctIndex": 2,
+          "keyLine": "only nine percent of the total"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What feature makes these neighbourhoods self-sustaining?",
+          "options": [
+            "Many daily services are close to home",
+            "Every resident works inside one building",
+            "Residents must travel out for all shopping"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How are residents connected to the wider city?",
+          "options": [
+            "By roads with no public transport",
+            "By nearby rail transport",
+            "By privately owned boats"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What problem faced the early housing programme?",
+          "options": [
+            "It built homes without any windows",
+            "It banned people from leaving the city",
+            "It built too few homes for the population"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could nearby schools and shops reduce car use?",
+        "options": [
+          "People are forbidden to own cars",
+          "All residents have exactly the same daily routine",
+          "People can meet many daily needs without a long journey"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "apartments",
+          "meaning": "homes inside a larger building"
+        },
+        {
+          "word": "estates",
+          "meaning": "groups of buildings planned together"
+        },
+        {
+          "word": "subway",
+          "meaning": "a railway running partly underground"
+        },
+        {
+          "word": "slums",
+          "meaning": "poor areas with crowded and inadequate housing"
+        },
+        {
+          "word": "population",
+          "meaning": "the people living in a place"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-singapore-hawker-culture-video",
@@ -312,7 +912,107 @@
       "lng": 103.8198
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 34,
+          "end": 47,
+          "question": "Which choice of food does the customer describe?",
+          "options": [
+            "Indian, Muslim and Chinese food",
+            "French, Spanish and Italian food",
+            "Mexican, Greek and Turkish food"
+          ],
+          "correctIndex": 0,
+          "keyLine": "food, Indian food, Muslim food, Chinese,"
+        },
+        {
+          "start": 56,
+          "end": 69,
+          "question": "How does the customer describe hawker food?",
+          "options": [
+            "Imported",
+            "Authentic",
+            "Expensive"
+          ],
+          "correctIndex": 1,
+          "keyLine": "very authentic food."
+        },
+        {
+          "start": 82,
+          "end": 95,
+          "question": "What might be lost when a good hawker stops?",
+          "options": [
+            "The name of the food centre",
+            "The number of nearby buses",
+            "The skill of cooking that dish"
+          ],
+          "correctIndex": 2,
+          "keyLine": "then that art is lost, right?"
+        }
+      ],
+      "gist": [
+        {
+          "q": "How do people feel about their hawker culture?",
+          "options": [
+            "They are proud of it",
+            "They want to avoid it",
+            "They know nothing about it"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why do some people return to a food centre?",
+          "options": [
+            "They must book a table there",
+            "A particular cook makes a dish well",
+            "All the stalls sell the same meal"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What worry does the report raise?",
+          "options": [
+            "Every food centre will move abroad",
+            "Restaurants will stop serving drinks",
+            "The food tradition may disappear"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is keeping a stall open more than keeping a building open?",
+        "options": [
+          "Its cook may have a skill that cannot easily be replaced",
+          "Every stall has the same cook",
+          "The building decides how the food tastes"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "culture",
+          "meaning": "the customs and way of life of a group"
+        },
+        {
+          "word": "variety",
+          "meaning": "many different kinds"
+        },
+        {
+          "word": "stall",
+          "meaning": "a small place where someone sells things"
+        },
+        {
+          "word": "authentic",
+          "meaning": "true to its original style"
+        },
+        {
+          "word": "heritage",
+          "meaning": "traditions passed down from the past"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-singapore-changi-jewel-video",
@@ -559,7 +1259,107 @@
       "lng": 2.3522
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 24,
+          "end": 37,
+          "question": "What helped Lutetia become wealthy?",
+          "options": [
+            "Bridges and a protected trading position",
+            "Gold mines and mountain roads",
+            "Fishing boats and coastal ports"
+          ],
+          "correctIndex": 0,
+          "keyLine": "to its bridges and fortified position"
+        },
+        {
+          "start": 71,
+          "end": 84,
+          "question": "What did people build after retreating to the island?",
+          "options": [
+            "Universities",
+            "Walls",
+            "Palaces"
+          ],
+          "correctIndex": 1,
+          "keyLine": "where they built walls, the first true"
+        },
+        {
+          "start": 134,
+          "end": 147,
+          "question": "How long did Notre Dame take to complete?",
+          "options": [
+            "One hundred years",
+            "Three hundred years",
+            "Two hundred years"
+          ],
+          "correctIndex": 2,
+          "keyLine": "would take 200 years to complete. During"
+        }
+      ],
+      "gist": [
+        {
+          "q": "How is early Paris presented in this section?",
+          "options": [
+            "A settlement shaped by trade, conquest and defence",
+            "A holiday resort built around beaches",
+            "A planned city built in one year"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What effect did Roman rule have on the city?",
+          "options": [
+            "It moved the city to the coast",
+            "It brought major public buildings",
+            "It removed every bridge"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What later role did the Left Bank develop?",
+          "options": [
+            "A centre of shipbuilding",
+            "A centre of mining",
+            "A centre of learning"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might an island become a refuge during raids?",
+        "options": [
+          "An island automatically provides more farmland",
+          "Attackers were unable to use any boats",
+          "Water and walls could make it easier to defend"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "settlement",
+          "meaning": "a place where people begin living together"
+        },
+        {
+          "word": "trade",
+          "meaning": "buying and selling goods"
+        },
+        {
+          "word": "raids",
+          "meaning": "sudden attacks"
+        },
+        {
+          "word": "defenses",
+          "meaning": "things used to protect a place"
+        },
+        {
+          "word": "learning",
+          "meaning": "gaining knowledge"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-paris-cafe-culture-video",
@@ -589,7 +1389,107 @@
       "lng": 2.3522
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 26,
+          "end": 39,
+          "question": "What freedom does Steve describe at a café?",
+          "options": [
+            "Ordering when you want",
+            "Cooking what you want",
+            "Paying what you want"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Steve: It’s a good tip. It’s a place to\norder what you want, when you want, on your"
+        },
+        {
+          "start": 57,
+          "end": 70,
+          "question": "What percentage of the bill goes to the waiter?",
+          "options": [
+            "25 percent",
+            "15 percent",
+            "5 percent"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Steve: In France the waiter’s tip is included…15%\nof your bill goes to the waiter. You’ve already"
+        },
+        {
+          "start": 77,
+          "end": 90,
+          "question": "What does Steve say about slow service?",
+          "options": [
+            "It is unusual service",
+            "It is cheap service",
+            "It is good service"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Steve: Yeah. I hear that all the time. \nIn France, slow service is good service."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What are Rick and Steve explaining?",
+          "options": [
+            "How to enjoy a Paris café",
+            "How to rent a Paris apartment",
+            "How to cook a French meal"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What makes the café part of local life?",
+          "options": [
+            "People visit only once a year",
+            "Regular customers know their waiter",
+            "All customers are hotel guests"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What matters more than eating quickly?",
+          "options": [
+            "Eating alone",
+            "Eating cheaply",
+            "Eating well"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might waiting longer feel different to locals and visitors?",
+        "options": [
+          "Locals may enjoy taking their time while visitors expect speed",
+          "Locals always receive a different menu",
+          "Visitors are not allowed to leave a tip"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "waiter",
+          "meaning": "a person who serves food and drinks"
+        },
+        {
+          "word": "bill",
+          "meaning": "the amount you must pay"
+        },
+        {
+          "word": "included",
+          "meaning": "already part of the price"
+        },
+        {
+          "word": "polite",
+          "meaning": "showing respect for others"
+        },
+        {
+          "word": "service",
+          "meaning": "the help given to customers"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-paris-louvre-history-video",
@@ -651,7 +1551,107 @@
       "lng": -0.1276
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 31,
+          "end": 44,
+          "question": "Who meets in the Houses of Parliament?",
+          "options": [
+            "The government",
+            "The police",
+            "The football team"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Parliament this is where the government"
+        },
+        {
+          "start": 47,
+          "end": 60,
+          "question": "What can most visitors not do in these parks?",
+          "options": [
+            "Run",
+            "Cycle",
+            "Walk"
+          ],
+          "correctIndex": 1,
+          "keyLine": "the Parks but you can't cycle only the"
+        },
+        {
+          "start": 86,
+          "end": 99,
+          "question": "What happened soon after the bridge opened?",
+          "options": [
+            "It changed its name",
+            "It became a road",
+            "It closed for a time"
+          ],
+          "correctIndex": 2,
+          "keyLine": "June the bridge had to be closed closed"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What kind of trip is this part of the video showing?",
+          "options": [
+            "A tour of London sights",
+            "A journey to a seaside hotel",
+            "A walk around a small village"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which outdoor places does the guide recommend?",
+          "options": [
+            "Mountains where people can ski",
+            "Parks where people can relax",
+            "Farms where people can camp"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What problem affected the new bridge?",
+          "options": [
+            "It was too short",
+            "It was too dark",
+            "It moved too much"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the guide say the bridge is okay now?",
+        "options": [
+          "To tell visitors it has never had a problem",
+          "To explain why visitors must stay away",
+          "To reassure visitors after explaining the earlier problem"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "government",
+          "meaning": "the people who run a country"
+        },
+        {
+          "word": "parks",
+          "meaning": "public places with grass and trees"
+        },
+        {
+          "word": "cycle",
+          "meaning": "ride a bicycle"
+        },
+        {
+          "word": "bridge",
+          "meaning": "a structure for crossing water or a road"
+        },
+        {
+          "word": "closed",
+          "meaning": "not open for people to use"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-london-tube-engineering-video",
@@ -932,7 +1932,107 @@
       "lng": -74.006
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 45,
+          "end": 58,
+          "question": "How long could the sea journey take?",
+          "options": [
+            "One to two weeks",
+            "One to two days",
+            "One to two months"
+          ],
+          "correctIndex": 0,
+          "keyLine": "could take one to two weeks"
+        },
+        {
+          "start": 74,
+          "end": 87,
+          "question": "How is steerage described?",
+          "options": [
+            "Quiet and luxurious",
+            "Crowded and unhealthy",
+            "Spacious and private"
+          ],
+          "correctIndex": 1,
+          "keyLine": "overcrowded and unsanitary with shared"
+        },
+        {
+          "start": 127,
+          "end": 140,
+          "question": "What did doctors watch people do?",
+          "options": [
+            "Lift their suitcases",
+            "Read their documents",
+            "Climb the stairs"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and watched each person climb the stairs"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What process does this section follow?",
+          "options": [
+            "Migration by ship and arrival checks",
+            "Training sailors for a sea voyage",
+            "Building a new passenger ship"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did wealth affect the journey?",
+          "options": [
+            "Wealthier passengers had longer voyages",
+            "Passengers travelled in different conditions",
+            "All passengers had private cabins"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why did people accept poor travel conditions?",
+          "options": [
+            "They wanted to work on the ship",
+            "They expected to return immediately",
+            "They hoped for a new life"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why put a health check near a staircase?",
+        "options": [
+          "Stairs made it easier to sort luggage by colour",
+          "Doctors needed to test every passenger for fear of heights",
+          "Climbing could reveal difficulties that were less visible at rest"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "voyages",
+          "meaning": "long journeys by sea"
+        },
+        {
+          "word": "steerage",
+          "meaning": "the cheaper passenger area of an old ship"
+        },
+        {
+          "word": "privacy",
+          "meaning": "being away from other people’s attention"
+        },
+        {
+          "word": "immigrants",
+          "meaning": "people who move to another country to live"
+        },
+        {
+          "word": "processing",
+          "meaning": "officially checking people and their information"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-new-york-subway-building-video",
@@ -995,7 +2095,107 @@
       "lng": -74.006
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 49,
+          "end": 62,
+          "question": "At least how many tickets were issued last year?",
+          "options": [
+            "Twenty-six thousand",
+            "Sixteen thousand",
+            "Thirty-six thousand"
+          ],
+          "correctIndex": 0,
+          "keyLine": "twenty six thousand tickets actually"
+        },
+        {
+          "start": 100,
+          "end": 113,
+          "question": "Why does the project organise vendors?",
+          "options": [
+            "To move them all into shopping malls",
+            "To give them more power over policies",
+            "To train them as police officers"
+          ],
+          "correctIndex": 1,
+          "keyLine": "organized so we'll have a more power and"
+        },
+        {
+          "start": 132,
+          "end": 145,
+          "question": "What wider change does the project want?",
+          "options": [
+            "More vendors working at night",
+            "More tourists buying souvenirs",
+            "More respect and better policies"
+          ],
+          "correctIndex": 2,
+          "keyLine": "measure of greater respect and more"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Whose difficulties are being discussed?",
+          "options": [
+            "People selling goods on the street",
+            "People building new railway stations",
+            "People working inside hospitals"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What kind of rule-breaking gets vendors tickets?",
+          "options": [
+            "Only refusing to pay rent",
+            "Small violations such as standing too close to a crossing",
+            "Only selling goods stolen from shops"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the project support vendors?",
+          "options": [
+            "Buying all their stalls",
+            "Replacing them with delivery workers",
+            "Organising them and offering services"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why work on attitudes as well as written laws?",
+        "options": [
+          "Vendors can choose which laws apply to them",
+          "Treatment can depend on how decision-makers see vendors",
+          "Written laws never affect street sellers"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "vendors",
+          "meaning": "people who sell things"
+        },
+        {
+          "word": "violations",
+          "meaning": "actions that break rules"
+        },
+        {
+          "word": "license",
+          "meaning": "official permission to do something"
+        },
+        {
+          "word": "policies",
+          "meaning": "rules or plans used by an organisation"
+        },
+        {
+          "word": "respect",
+          "meaning": "fair and considerate treatment"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-cairo-ancient-egypt-video",
@@ -1026,7 +2226,107 @@
       "lng": 31.2357
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 41,
+          "end": 54,
+          "question": "When did the two halves unite?",
+          "options": [
+            "About 3100 BC",
+            "About 2100 BC",
+            "About 1100 BC"
+          ],
+          "correctIndex": 0,
+          "keyLine": "by about 3100 bc the two halves united"
+        },
+        {
+          "start": 68,
+          "end": 81,
+          "question": "About how many rulers guided ancient Egypt?",
+          "options": [
+            "Five hundred",
+            "Three hundred",
+            "One hundred"
+          ],
+          "correctIndex": 1,
+          "keyLine": "succession of about 300 rulers often"
+        },
+        {
+          "start": 121,
+          "end": 134,
+          "question": "Why were items put in royal tombs?",
+          "options": [
+            "For sale to foreign traders",
+            "For the next ruler’s palace",
+            "For use in the afterlife"
+          ],
+          "correctIndex": 2,
+          "keyLine": "items they could need in the afterlife"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What does this section connect?",
+          "options": [
+            "Egypt’s formation, rulers and beliefs",
+            "Egypt’s beaches, hotels and roads",
+            "Egypt’s schools, sports and music"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did the earlier small states change?",
+          "options": [
+            "They stopped trading with each other",
+            "They became one Egyptian state",
+            "They all moved away from the river"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How were rulers seen by their people?",
+          "options": [
+            "As visitors with no local authority",
+            "As merchants who only collected goods",
+            "As protectors linked with the gods"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What do filled tombs suggest about death in these beliefs?",
+        "options": [
+          "People believed possessions had no value after death",
+          "People expected every ruler to return immediately to the throne",
+          "People expected a continuing life with practical needs"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "united",
+          "meaning": "joined together"
+        },
+        {
+          "word": "prosperity",
+          "meaning": "a period of success and wealth"
+        },
+        {
+          "word": "rulers",
+          "meaning": "people who govern"
+        },
+        {
+          "word": "tombs",
+          "meaning": "places where dead people are buried"
+        },
+        {
+          "word": "afterlife",
+          "meaning": "a life believed to follow death"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-cairo-nile-explainer-video",
@@ -1308,33 +2608,33 @@
     "listeningPack": {
       "segments": [
         {
-          "start": 46,
-          "end": 62,
-          "question": "What did Dubai International begin as?",
+          "start": 37,
+          "end": 50,
+          "question": "What qualities is Dubai said to be known for?",
           "options": [
-            "A train station",
-            "A small airstrip",
-            "A seaport"
-          ],
-          "correctIndex": 1,
-          "keyLine": "from a small airirstrip serving a few"
-        },
-        {
-          "start": 54,
-          "end": 70,
-          "question": "How many airlines does the gateway serve?",
-          "options": [
-            "130",
-            "30",
-            "230"
+            "Innovation and quality",
+            "Silence and privacy",
+            "Farming and fishing"
           ],
           "correctIndex": 0,
-          "keyLine": "airlines to a global gateway for 130"
+          "keyLine": "cosmopolitan population and a reputation"
         },
         {
-          "start": 94,
-          "end": 112,
-          "question": "Which airlines does the speaker name?",
+          "start": 64,
+          "end": 77,
+          "question": "How many millions of passengers had the airport welcomed?",
+          "options": [
+            "Over 62 million",
+            "Over 42 million",
+            "Over 24 million"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Dubai International has welcomed over 42"
+        },
+        {
+          "start": 96,
+          "end": 109,
+          "question": "Which airlines are expanding?",
           "options": [
             "Qantas and Jetstar",
             "Air France and KLM",
@@ -1348,29 +2648,29 @@
         {
           "q": "What story does the speaker tell?",
           "options": [
+            "An airport growing with its city",
             "A city closing its airport",
-            "A new kind of aircraft engine",
-            "An airport growing with its city"
+            "A new kind of aircraft engine"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         },
         {
           "q": "How does the speaker talk about the future?",
           "options": [
-            "With no plans at all",
+            "With regret about all air travel",
             "With confidence in more growth",
-            "With regret about all air travel"
+            "With no plans at all"
           ],
           "correctIndex": 1
         },
         {
           "q": "What connects the airport and Dubai?",
           "options": [
-            "Their development is closely linked.",
             "They compete for land.",
-            "The airport serves only one airline."
+            "The airport serves only one airline.",
+            "Their development is closely linked."
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         }
       ],
       "harder": {
@@ -1385,28 +2685,23 @@
       "words": [
         {
           "word": "airlines",
-          "meaning": "companies that fly passengers",
-          "at": 54.8
+          "meaning": "companies that fly passengers"
         },
         {
           "word": "gateway",
-          "meaning": "place connecting travellers to other places",
-          "at": 54.8
+          "meaning": "place connecting travellers to other places"
         },
         {
           "word": "passengers",
-          "meaning": "people travelling",
-          "at": 71.2
+          "meaning": "people travelling"
         },
         {
           "word": "infrastructure",
-          "meaning": "buildings and systems that support travel",
-          "at": 96.2
+          "meaning": "buildings and systems that support travel"
         },
         {
           "word": "expansion",
-          "meaning": "growth",
-          "at": 99
+          "meaning": "growth"
         }
       ],
       "static": [
@@ -1522,7 +2817,107 @@
       "lng": 55.2708
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 134,
+          "end": 146,
+          "question": "How long is the new extension?",
+          "options": [
+            "Fifteen kilometres",
+            "Fifty kilometres",
+            "Five kilometres"
+          ],
+          "correctIndex": 0,
+          "keyLine": "route 2020 project is the new\n15 kilometer extension to dubai metro"
+        },
+        {
+          "start": 156,
+          "end": 169,
+          "question": "How many stations does it have?",
+          "options": [
+            "Nine",
+            "Seven",
+            "Five"
+          ],
+          "correctIndex": 1,
+          "keyLine": "it features seven stations\nfive elevated ones and two"
+        },
+        {
+          "start": 220,
+          "end": 233,
+          "question": "What opportunities should the route create?",
+          "options": [
+            "Fishing opportunities",
+            "Farming opportunities",
+            "Investment opportunities"
+          ],
+          "correctIndex": 2,
+          "keyLine": "dubai's economic growth creating new\ninvestment opportunities along the metro"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What development is being presented?",
+          "options": [
+            "An extension of Dubai’s metro",
+            "A replacement for Dubai’s airport",
+            "A new highway through the desert"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the route run?",
+          "options": [
+            "Entirely on bridges over water",
+            "Both above ground and underground",
+            "Entirely underground"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What role does the larger network plan have?",
+          "options": [
+            "Closing older neighbourhoods to visitors",
+            "Replacing every other form of transport",
+            "Connecting new areas and encouraging growth"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might new rail stops attract investment nearby?",
+        "options": [
+          "Better access can bring people and businesses to those areas",
+          "Every passenger is required to buy property",
+          "Rail stops automatically make land free"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "extension",
+          "meaning": "an added part of something"
+        },
+        {
+          "word": "elevated",
+          "meaning": "raised above ground level"
+        },
+        {
+          "word": "underground",
+          "meaning": "below the ground"
+        },
+        {
+          "word": "accommodating",
+          "meaning": "providing room or capacity for"
+        },
+        {
+          "word": "investment",
+          "meaning": "money used to develop a business or project"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-dubai-dubai-history-video",
@@ -1584,7 +2979,107 @@
       "lng": 151.2093
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 56,
+          "end": 69,
+          "question": "Where did researchers get historical species records?",
+          "options": [
+            "Museum databases",
+            "Fishing club diaries",
+            "Ferry company records"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Museum databases which goes back to"
+        },
+        {
+          "start": 81,
+          "end": 94,
+          "question": "How often is a new fish species recorded from Australia?",
+          "options": [
+            "Each year",
+            "Each week",
+            "Each month"
+          ],
+          "correctIndex": 1,
+          "keyLine": "one new species of fish recorded from"
+        },
+        {
+          "start": 130,
+          "end": 143,
+          "question": "How often does the harbour water change?",
+          "options": [
+            "About every two weeks",
+            "About every two months",
+            "About every two days"
+          ],
+          "correctIndex": 2,
+          "keyLine": "water in the harbor changes about every"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What surprises the reporter about this city harbour?",
+          "options": [
+            "Its rich and still partly unknown wildlife",
+            "Its lack of any fish",
+            "Its complete separation from the sea"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Where did the researchers get historical records?",
+          "options": [
+            "Passenger ticket records",
+            "Australian Museum databases",
+            "Restaurant menus"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What helps the harbour support many species?",
+          "options": [
+            "Keeping every boat out permanently",
+            "Having only one kind of seabed",
+            "Water movement and varied habitats"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might the recorded species total be an underestimate?",
+        "options": [
+          "All the museum records describe the same animal",
+          "The harbour stopped supporting wildlife after 1850",
+          "Scientists still find species in areas not fully studied"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "species",
+          "meaning": "different kinds of living things"
+        },
+        {
+          "word": "databases",
+          "meaning": "organised collections of information"
+        },
+        {
+          "word": "documented",
+          "meaning": "recorded in writing or data"
+        },
+        {
+          "word": "habitats",
+          "meaning": "places where living things make their homes"
+        },
+        {
+          "word": "flushing",
+          "meaning": "water moving through and replacing older water"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-sydney-opera-house-history-video",
@@ -1615,7 +3110,107 @@
       "lng": 151.2093
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 64,
+          "end": 77,
+          "question": "What was needed to strengthen the site?",
+          "options": [
+            "Concrete supports",
+            "Wooden beams",
+            "Steel fences"
+          ],
+          "correctIndex": 0,
+          "keyLine": "site had to be reinforced by concrete"
+        },
+        {
+          "start": 103,
+          "end": 116,
+          "question": "What part of the design had to change?",
+          "options": [
+            "The ticket office",
+            "The roof",
+            "The front steps"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Thunder so the roof had to be redesigned"
+        },
+        {
+          "start": 134,
+          "end": 147,
+          "question": "What happened to the opening day?",
+          "options": [
+            "It moved a year earlier",
+            "It stayed on the original date",
+            "It kept being delayed"
+          ],
+          "correctIndex": 2,
+          "keyLine": "postponed and postponed again it had"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What was the main building problem described here?",
+          "options": [
+            "The design created repeated engineering difficulties",
+            "There was no way to sell lottery tickets",
+            "The city had no interest in an opera house"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why was a metal roof idea rejected?",
+          "options": [
+            "The roof would block the harbour entrance",
+            "Noise and temperature changes would cause problems",
+            "The metal was the wrong colour"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What happened when the roof design changed?",
+          "options": [
+            "All work on the foundations stopped permanently",
+            "The whole building moved to another city",
+            "Existing pillars had to be rebuilt"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could one design change cause further delays?",
+        "options": [
+          "Other parts had already been built for the earlier design",
+          "Every worker was also performing in the opera",
+          "The lottery rules required the roof to stay unfinished"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "reinforced",
+          "meaning": "made stronger"
+        },
+        {
+          "word": "bedrock",
+          "meaning": "solid rock beneath soil or water"
+        },
+        {
+          "word": "materials",
+          "meaning": "things used to build or make something"
+        },
+        {
+          "word": "demolished",
+          "meaning": "knocked down"
+        },
+        {
+          "word": "postponed",
+          "meaning": "delayed until a later time"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-sydney-city-growth-video",
@@ -1678,7 +3273,107 @@
       "lng": 116.4074
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 36,
+          "question": "In which century did Beijing become the capital in this account?",
+          "options": [
+            "The thirteenth",
+            "The fifteenth",
+            "The seventeenth"
+          ],
+          "correctIndex": 0,
+          "keyLine": "13th century and Beijing became the"
+        },
+        {
+          "start": 44,
+          "end": 57,
+          "question": "About how many buildings are mentioned in the palace complex?",
+          "options": [
+            "Over nine thousand",
+            "Over nine hundred",
+            "Over ninety"
+          ],
+          "correctIndex": 1,
+          "keyLine": "900 buildings in one place mindblowing"
+        },
+        {
+          "start": 75,
+          "end": 88,
+          "question": "Which modern event does the narrator mention?",
+          "options": [
+            "The 2010 World Cup",
+            "The 2012 Olympics",
+            "The 2008 Olympics"
+          ],
+          "correctIndex": 2,
+          "keyLine": "sites think of the 2008 Olympics and the"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What timeline does this short history trace?",
+          "options": [
+            "Beijing under dynasties and as a modern city",
+            "Beijing’s food markets during one day",
+            "Beijing’s transport during one holiday"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happened to the city’s name during the Ming era?",
+          "options": [
+            "It became Tokyo",
+            "It became Beijing",
+            "It became Shanghai"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How is the modern city described?",
+          "options": [
+            "Unchanged since the first dynasty",
+            "New with no older buildings left",
+            "Modern but still preserving historic sites"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why mention both a palace and an Olympic stadium?",
+        "options": [
+          "They prove both buildings have the same use",
+          "They show that all historic sites were replaced",
+          "They show different periods of the city’s development"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "Dynasty",
+          "meaning": "a family of rulers over several generations"
+        },
+        {
+          "word": "Imperial",
+          "meaning": "connected with an emperor"
+        },
+        {
+          "word": "structures",
+          "meaning": "buildings or other things constructed"
+        },
+        {
+          "word": "preserving",
+          "meaning": "keeping something safe from damage or loss"
+        },
+        {
+          "word": "Metropolis",
+          "meaning": "a large important city"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-beijing-hutong-culture-video",
@@ -1741,7 +3436,107 @@
       "lng": 116.4074
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 53,
+          "end": 66,
+          "question": "What language does the entrance sign use?",
+          "options": [
+            "English",
+            "French",
+            "Spanish"
+          ],
+          "correctIndex": 0,
+          "keyLine": "sign at the entrance that wrote line4 in"
+        },
+        {
+          "start": 82,
+          "end": 95,
+          "question": "Which feature helps people with disabilities?",
+          "options": [
+            "Special ticket colours",
+            "Special lifts",
+            "Special food stalls"
+          ],
+          "correctIndex": 1,
+          "keyLine": "elevators special lifts for persons with"
+        },
+        {
+          "start": 119,
+          "end": 132,
+          "question": "When does the traveller warn beginners not to travel?",
+          "options": [
+            "Late evening",
+            "Sunday morning",
+            "Rush hour"
+          ],
+          "correctIndex": 2,
+          "keyLine": "during rush hour"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What concern did the traveller have before the first ride?",
+          "options": [
+            "Not understanding the system",
+            "Not finding a restaurant",
+            "Not being able to take photographs"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What changed the traveller’s first impression?",
+          "options": [
+            "A guide doing every journey with them",
+            "English information and useful facilities",
+            "A private car waiting outside"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the traveller rate the system overall?",
+          "options": [
+            "Very negatively",
+            "Without giving any view",
+            "Very positively"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why can a good system still be difficult at rush hour?",
+        "options": [
+          "All lifts become food stalls at busy times",
+          "Heavy demand can make even a clear, accessible system crowded",
+          "The English signs are removed every morning"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "platform",
+          "meaning": "the place where people wait beside a train"
+        },
+        {
+          "word": "instructions",
+          "meaning": "information telling you what to do"
+        },
+        {
+          "word": "elevators",
+          "meaning": "machines that move people between floors"
+        },
+        {
+          "word": "cashless",
+          "meaning": "paid without notes or coins"
+        },
+        {
+          "word": "reliability",
+          "meaning": "being able to depend on something"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-shanghai-towers-temples-food-video",
@@ -3494,105 +5289,100 @@
     "listeningPack": {
       "segments": [
         {
-          "start": 94,
-          "end": 109,
-          "question": "What transport does a commuter take daily?",
-          "options": [
-            "A train",
-            "A bicycle",
-            "A boat"
-          ],
-          "correctIndex": 2,
-          "keyLine": "so I normally take boats every day in"
-        },
-        {
-          "start": 103,
-          "end": 119,
+          "start": 101,
+          "end": 114,
           "question": "How long does the boat journey take?",
           "options": [
-            "Two hours",
             "20 to 35 minutes",
-            "Five minutes"
+            "40 to 55 minutes",
+            "60 to 75 minutes"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "boat takes an average of 20 to 35"
         },
         {
-          "start": 134,
-          "end": 149,
-          "question": "Which land mode is named alongside roads?",
+          "start": 123,
+          "end": 136,
+          "question": "What condition makes transport alternatives necessary?",
           "options": [
-            "Rail",
-            "Air",
-            "Cycling"
+            "Earthquakes",
+            "Congestion",
+            "Snowfall"
           ],
-          "correctIndex": 0,
-          "keyLine": "transport and also the rail transport"
+          "correctIndex": 1,
+          "keyLine": "Lagos is a congested city so we have to"
+        },
+        {
+          "start": 158,
+          "end": 171,
+          "question": "What major challenge does the next speaker identify?",
+          "options": [
+            "The city’s airport",
+            "The city’s coastline",
+            "The city’s population"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Lagos population is a major challenge"
         }
       ],
       "gist": [
         {
           "q": "What challenge is the clip about?",
           "options": [
+            "Moving people through heavy city traffic",
             "Finding a new airline",
-            "Repairing a beach hotel",
-            "Moving people through heavy city traffic"
+            "Repairing a beach hotel"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         },
         {
           "q": "How is the boat presented?",
           "options": [
-            "As only a tourist activity",
+            "As slower than every car",
             "As a quicker commute than the road",
-            "As slower than every car"
+            "As only a tourist activity"
           ],
           "correctIndex": 1
         },
         {
           "q": "What solution does the official discuss?",
           "options": [
-            "Linking water transport with road and rail",
             "Closing all rail lines",
-            "Using boats without any other service"
+            "Using boats without any other service",
+            "Linking water transport with road and rail"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         }
       ],
       "harder": {
         "q": "Why does the official call for several transport modes?",
         "options": [
+          "Congestion needs alternatives that work together.",
           "No one in Lagos travels by road.",
-          "The city has no waterways.",
-          "Congestion needs alternatives that work together."
+          "The city has no waterways."
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
           "word": "boats",
-          "meaning": "small water vehicles",
-          "at": 96
+          "meaning": "small water vehicles"
         },
         {
           "word": "road",
-          "meaning": "route for land vehicles",
-          "at": 109
+          "meaning": "route for land vehicles"
         },
         {
           "word": "congested",
-          "meaning": "too crowded with traffic",
-          "at": 125.4
+          "meaning": "too crowded with traffic"
         },
         {
           "word": "alternatives",
-          "meaning": "other choices",
-          "at": 128.5
+          "meaning": "other choices"
         },
         {
           "word": "multimodal",
-          "meaning": "using several kinds of transport",
-          "at": 136.4
+          "meaning": "using several kinds of transport"
         }
       ],
       "static": [
@@ -3773,39 +5563,39 @@
     "listeningPack": {
       "segments": [
         {
-          "start": 24,
-          "end": 39,
+          "start": 29,
+          "end": 42,
           "question": "What does the MTR create around stations?",
           "options": [
             "Malls",
-            "Farms",
-            "Factories"
+            "Factories",
+            "Farms"
           ],
           "correctIndex": 0,
           "keyLine": "creates malls which include residential"
         },
         {
-          "start": 77,
-          "end": 91,
-          "question": "Where are some profits reinvested?",
+          "start": 69,
+          "end": 82,
+          "question": "What feature of Hong Kong suits this model?",
           "options": [
-            "Airport food",
-            "School uniforms",
-            "Expanding the network"
-          ],
-          "correctIndex": 2,
-          "keyLine": "is then reinvested to expand and"
-        },
-        {
-          "start": 85,
-          "end": 101,
-          "question": "What fare is mentioned?",
-          "options": [
-            "Over fifty dollars",
-            "Less than one dollar",
-            "About ten dollars"
+            "Empty land and little demand",
+            "Limited space and vertical living",
+            "Plentiful space and scattered homes"
           ],
           "correctIndex": 1,
+          "keyLine": "space is limited and vertical living is"
+        },
+        {
+          "start": 84,
+          "end": 97,
+          "question": "What fare does the report mention?",
+          "options": [
+            "About ten dollars",
+            "Over fifty dollars",
+            "Less than one dollar"
+          ],
+          "correctIndex": 2,
           "keyLine": "fairs being less than $1 which is low"
         }
       ],
@@ -3813,20 +5603,20 @@
         {
           "q": "What transport model is the report about?",
           "options": [
-            "A city without public transport",
             "Rail stations linked with property development",
+            "A city without public transport",
             "Buses replacing all trains"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How does the MTR use its buildings?",
           "options": [
+            "To keep all shops outside stations",
             "To support and expand the rail network",
-            "To stop residents using trains",
-            "To keep all shops outside stations"
+            "To stop residents using trains"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Why might this model fit Hong Kong?",
@@ -3841,37 +5631,32 @@
       "harder": {
         "q": "How can low fares coexist with network investment?",
         "options": [
-          "No one pays to use the buildings.",
           "Property income helps maintain and expand the system.",
+          "No one pays to use the buildings.",
           "The railway gives every ride away for free."
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
           "word": "rail",
-          "meaning": "train transport",
-          "at": 24.3
+          "meaning": "train transport"
         },
         {
           "word": "residential",
-          "meaning": "used as homes",
-          "at": 31.9
+          "meaning": "used as homes"
         },
         {
           "word": "infrastructure",
-          "meaning": "basic systems a city needs",
-          "at": 62.6
+          "meaning": "basic systems a city needs"
         },
         {
           "word": "profits",
-          "meaning": "money left after costs",
-          "at": 80.1
+          "meaning": "money left after costs"
         },
         {
           "word": "reinvested",
-          "meaning": "put back into a project",
-          "at": 82
+          "meaning": "put back into a project"
         }
       ],
       "static": [
@@ -5393,105 +7178,100 @@
     "listeningPack": {
       "segments": [
         {
-          "start": 8,
-          "end": 23,
-          "question": "Who called for a strike?",
+          "start": 7,
+          "end": 20,
+          "question": "Who called for the strike?",
           "options": [
-            "Shop owners",
             "Transport unions",
-            "School principals"
+            "School principals",
+            "Shop owners"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "transport unions have called for a"
         },
         {
-          "start": 38,
-          "end": 53,
-          "question": "How do about half of Lima’s workers commute?",
-          "options": [
-            "By bus",
-            "By ferry",
-            "By bicycle"
-          ],
-          "correctIndex": 0,
-          "keyLine": "by bus in response to the strike public"
-        },
-        {
-          "start": 42,
-          "end": 57,
+          "start": 43,
+          "end": 56,
           "question": "What public service closes during the strike?",
           "options": [
-            "Hospitals",
             "Libraries",
-            "Schools"
+            "Schools",
+            "Hospitals"
+          ],
+          "correctIndex": 1,
+          "keyLine": "schools are shut and the government has"
+        },
+        {
+          "start": 70,
+          "end": 83,
+          "question": "How much did extortion arrests rise in 2023?",
+          "options": [
+            "65 percent",
+            "265 percent",
+            "165 percent"
           ],
           "correctIndex": 2,
-          "keyLine": "schools are shut and the government has"
+          "keyLine": "2023 were up 165% from the previous year"
         }
       ],
       "gist": [
         {
           "q": "What crisis is the report about?",
           "options": [
+            "A bus strike linked to fear of crime",
             "A city festival without buses",
-            "A plan for a new airport",
-            "A bus strike linked to fear of crime"
+            "A plan for a new airport"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         },
         {
           "q": "How does the strike affect daily life?",
           "options": [
-            "Every road becomes empty for tourists.",
+            "Only bus drivers notice it.",
             "Commuting, schools and businesses are disrupted.",
-            "Only bus drivers notice it."
+            "Every road becomes empty for tourists."
           ],
           "correctIndex": 1
         },
         {
           "q": "What are the workers asking for?",
           "options": [
-            "Protection and action against crime",
             "Longer school holidays",
-            "Cheaper cinema tickets"
+            "Cheaper cinema tickets",
+            "Protection and action against crime"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         }
       ],
       "harder": {
         "q": "Why can a bus strike shut schools and shops?",
         "options": [
-          "The schools own all the buses.",
           "The weather has closed every building.",
-          "Many people depend on buses to travel to work and class."
+          "Many people depend on buses to travel to work and class.",
+          "The schools own all the buses."
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
           "word": "commuters",
-          "meaning": "people travelling regularly",
-          "at": 2.5
+          "meaning": "people travelling regularly"
         },
         {
           "word": "strike",
-          "meaning": "workers stopping work in protest",
-          "at": 11
+          "meaning": "workers stopping work in protest"
         },
         {
           "word": "insecurity",
-          "meaning": "lack of safety",
-          "at": 30.4
+          "meaning": "lack of safety"
         },
         {
           "word": "extortion",
-          "meaning": "getting money through threats",
-          "at": 57.4
+          "meaning": "getting money through threats"
         },
         {
           "word": "work from home",
-          "meaning": "do your job at home",
-          "at": 49.8
+          "meaning": "do your job at home"
         }
       ],
       "static": [
@@ -5642,60 +7422,60 @@
     "listeningPack": {
       "segments": [
         {
-          "start": 43,
-          "end": 56,
+          "start": 21,
+          "end": 34,
+          "question": "What population change is predicted?",
+          "options": [
+            "Doubling by 2030",
+            "Halving by 2030",
+            "Doubling by 2050"
+          ],
+          "correctIndex": 0,
+          "keyLine": "to double by"
+        },
+        {
+          "start": 48,
+          "end": 60,
           "question": "What technology did Transperth adopt first in Australia?",
           "options": [
-            "Digital maps",
+            "Driverless trains",
             "Smart cards",
-            "Driverless trains"
+            "Digital maps"
           ],
           "correctIndex": 1,
           "keyLine": "to use smart card technology it's also"
         },
         {
-          "start": 51,
-          "end": 66,
-          "question": "Which service joins buses and trains?",
+          "start": 72,
+          "end": 85,
+          "question": "What new service is being explored?",
           "options": [
-            "Ferries",
-            "Trams",
-            "Planes"
-          ],
-          "correctIndex": 0,
-          "keyLine": "ferry services"
-        },
-        {
-          "start": 62,
-          "end": 77,
-          "question": "What satisfaction level do surveys report?",
-          "options": [
-            "50%",
-            "30%",
-            "90%"
+            "Passenger flights",
+            "Water taxis",
+            "Bus rapid transport"
           ],
           "correctIndex": 2,
-          "keyLine": "to be consistently at 90 percent"
+          "keyLine": "include the introduction of a bus"
         }
       ],
       "gist": [
         {
           "q": "What is the clip mainly describing?",
           "options": [
-            "A new airport shopping centre",
             "A public transport network preparing for growth",
+            "A new airport shopping centre",
             "A city without buses"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What is distinctive about the system?",
           "options": [
+            "It has no plans to improve.",
             "It joins several transport types and uses smart cards.",
-            "It runs only ferries.",
-            "It has no plans to improve."
+            "It runs only ferries."
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How does the operator respond to positive surveys?",
@@ -5710,37 +7490,32 @@
       "harder": {
         "q": "Why are new bus and rail projects being explored?",
         "options": [
-          "The smart card no longer works.",
           "The city expects growing demand for travel.",
+          "The smart card no longer works.",
           "Passengers are all leaving Perth."
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
           "word": "demand",
-          "meaning": "how much a service is wanted",
-          "at": 40.8
+          "meaning": "how much a service is wanted"
         },
         {
           "word": "innovation",
-          "meaning": "use of new ideas",
-          "at": 45.8
+          "meaning": "use of new ideas"
         },
         {
           "word": "integrated",
-          "meaning": "joined into one system",
-          "at": 53.1
+          "meaning": "joined into one system"
         },
         {
           "word": "satisfaction",
-          "meaning": "feeling that something is good",
-          "at": 65.4
+          "meaning": "feeling that something is good"
         },
         {
           "word": "rapid transport",
-          "meaning": "fast travel service",
-          "at": 76.3
+          "meaning": "fast travel service"
         }
       ],
       "static": [
@@ -7862,6 +9637,106 @@
     "cefr": "A2",
     "ageBand": "all",
     "needsReview": false,
-    "transcriptVerified": true
+    "transcriptVerified": true,
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 47,
+          "end": 60,
+          "question": "What do many people use the river for?",
+          "options": [
+            "Transport",
+            "Farming",
+            "Sport"
+          ],
+          "correctIndex": 0,
+          "keyLine": "people in Bangkok, many people use the\nriver for transportation"
+        },
+        {
+          "start": 68,
+          "end": 81,
+          "question": "Which places can the boat reach?",
+          "options": [
+            "A beach and an island",
+            "Wat Pho and Chinatown",
+            "The airport and a mountain"
+          ],
+          "correctIndex": 1,
+          "keyLine": "major tourist places like Wat Pho, Grand\nPalace, Chinatown and Khoa San Road. Since"
+        },
+        {
+          "start": 91,
+          "end": 104,
+          "question": "Which two boat flags does Nina recommend?",
+          "options": [
+            "Green and yellow",
+            "Red and white",
+            "Orange and blue"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and the blue flag.\nThe orange flag boats are the most"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why does Nina explain the boats?",
+          "options": [
+            "To help visitors travel along the river",
+            "To teach visitors how to fish",
+            "To advertise a swimming course"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What extra experience comes with this journey?",
+          "options": [
+            "Cooking food on the boat",
+            "Seeing everyday life on the river",
+            "Learning to drive a train"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does Nina make the boat choices easier?",
+          "options": [
+            "She explains every ticket price",
+            "She lists every stop in order",
+            "She recommends two colours"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a visitor use a boat as well as a train?",
+        "options": [
+          "Every train station closes during the day",
+          "Boats leave only from train stations",
+          "Some places can be reached by boat but not by train"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "river",
+          "meaning": "a long natural flow of water"
+        },
+        {
+          "word": "transport",
+          "meaning": "a way to move people or things"
+        },
+        {
+          "word": "fishing",
+          "meaning": "trying to catch fish"
+        },
+        {
+          "word": "flag",
+          "meaning": "a piece of cloth used as a sign"
+        },
+        {
+          "word": "recommend",
+          "meaning": "say that something is a good choice"
+        }
+      ]
+    }
   }
 ]
