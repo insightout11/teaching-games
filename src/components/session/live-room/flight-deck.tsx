@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Blend, BookOpen, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { Blend, BookOpen, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -13,6 +13,7 @@ import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
 import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
+import { LandingRewards, useWorldFlightRecord, WorldFlightRecordPanel } from '@/components/session/live-room/world-flight-record';
 import { findPlanCity } from '@/lib/live-room/plan-city';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 import { parseWouldYouRather } from '@/lib/live-room/talk-vote';
@@ -263,6 +264,8 @@ export function FlightDeck({
   // World Flight in the room. `teachId`: an out-of-range city picked on the map (its lessons can be taught without
   // flying there). `cityLesson`: the city lesson being set up in the flight panel. `stayHome`: a far city's lesson
   // is running, so there is no take-off and the class stays where it is.
+  // Passport / Hangar, opened over the room.
+  const [recordTab, setRecordTab] = useState<'passport' | 'hangar' | null>(null);
   const [teachId, setTeachId] = useState<string | null>(null);
   const [cityLesson, setCityLesson] = useState<(CityLessonChoice & { cityId: string }) | null>(null);
   const [stayHome, setStayHome] = useState<string | null>(null);
@@ -390,6 +393,8 @@ export function FlightDeck({
       body: JSON.stringify({ destinationId: cityId, focusId, ...(canChooseStart && startId ? { departureDestinationId: startId } : {}) }),
     }).catch(() => {});
   };
+  // What this lesson has earned, for the landing card (fetched once the plane is down).
+  const { data: landingRecord } = useWorldFlightRecord(sessionId, landed ? 'landed' : 'flying');
   const stayHomeCity = stayHome ? SCENE_CITIES.find((c) => c.id === stayHome) ?? null : null;
   const visitedIds = useMemo(() => new Set((position?.journey ?? []).flatMap((l) => (l.from ? [l.from, l.to] : [l.to]))), [position]);
   // The city whose lessons the map card shows: a far city if one is picked, otherwise today's destination.
@@ -1659,6 +1664,7 @@ export function FlightDeck({
           }}
         />
       )}
+      {recordTab && <WorldFlightRecordPanel sessionId={sessionId} className={className} initialTab={recordTab} onClose={() => setRecordTab(null)} />}
       {cityLesson && (
         <FlightPlanPanel
           sessionId={sessionId}
@@ -1772,7 +1778,9 @@ export function FlightDeck({
             <p className="mt-1 text-sm">Passport stamped. Thanks for flying with {className}!</p>
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
             <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
-            <div className="mt-4 flex justify-end gap-2">
+            {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} />}
+            <div className="mt-4 flex flex-wrap justify-end gap-2">
+              <button type="button" onClick={() => setRecordTab('passport')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Passport</button>
               <button type="button" onClick={() => setHall(true)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Arrivals hall</button>
               <button type="button" onClick={() => onCompleteSession(destination.id)} className="rounded-full bg-[#1b2233] px-4 py-1.5 text-sm text-[#f4efe3] hover:bg-[#1b2233]/85">End class</button>
             </div>
@@ -1872,6 +1880,9 @@ export function FlightDeck({
         </nav>
         <button type="button" onClick={toggleZoomLayout} title="Big windscreen for sharing this window in Zoom" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${zoomLayout ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           <Video className="h-3.5 w-3.5" /> Zoom layout
+        </button>
+        <button type="button" onClick={() => setRecordTab('passport')} title="The class's passport, flight log and hangar" className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
+          <Stamp className="h-3.5 w-3.5" /> {zoomLayout ? '' : 'Journey'}
         </button>
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present

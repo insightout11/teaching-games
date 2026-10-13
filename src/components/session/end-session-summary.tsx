@@ -722,7 +722,7 @@ interface PlaneEquipResponse {
   };
 }
 
-function WorldFlightUpgradeProgress({
+export function WorldFlightUpgradeProgress({
   reward,
   classId,
   sessionId,
