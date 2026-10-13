@@ -43,7 +43,7 @@
             "Its low buildings"
           ],
           "correctIndex": 0,
-          "keyLine": "but we really keep with tradition we do"
+          "keyLine": "we're very developed at the same time\nbut we really keep with tradition we do"
         },
         {
           "start": 100,
@@ -55,7 +55,7 @@
             "Salt"
           ],
           "correctIndex": 1,
-          "keyLine": "on top put a little bit of sugar on top"
+          "keyLine": "on top put a little bit of sugar on top\nand then this is diksha which is a"
         },
         {
           "start": 154,
@@ -67,7 +67,7 @@
             "Pork leg with rice"
           ],
           "correctIndex": 2,
-          "keyLine": "sells pork leg on rice and then there's"
+          "keyLine": "sells pork leg on rice and then there's\nanother shop that sells like fish noodle"
         }
       ],
       "gist": [
@@ -111,23 +111,28 @@
       "words": [
         {
           "word": "tradition",
-          "meaning": "a custom passed from one generation to another"
+          "meaning": "a custom passed from one generation to another",
+          "at": 41.309
         },
         {
           "word": "creative",
-          "meaning": "using new ideas"
+          "meaning": "using new ideas",
+          "at": 33.989
         },
         {
           "word": "dish",
-          "meaning": "food prepared in a particular way"
+          "meaning": "food prepared in a particular way",
+          "at": 97.47
         },
         {
           "word": "vinegar",
-          "meaning": "a sour liquid used in food"
+          "meaning": "a sour liquid used in food",
+          "at": 109.5
         },
         {
           "word": "community",
-          "meaning": "people connected by a place or interest"
+          "meaning": "people connected by a place or interest",
+          "at": 33.989
         }
       ]
     }
@@ -208,7 +213,7 @@
             "Train speed and noise"
           ],
           "correctIndex": 0,
-          "keyLine": "which reduces congestion\nand unnecessary transfers."
+          "keyLine": "with city subway tracks,\nwhich reduces congestion\nand unnecessary transfers.\n- If you just ride the train all the way\nout to your final destination,\nyou don't have to be paying attention"
         },
         {
           "start": 75,
@@ -220,7 +225,7 @@
             "4.2 million"
           ],
           "correctIndex": 1,
-          "keyLine": "for the 2.4 million people"
+          "keyLine": "- [Narrator] These easy commutes are key\nfor the 2.4 million people\ntraveling into Tokyo daily\nfrom outside the city.\nOn top of that, Tokyo Wides\nonly need one of two cards"
         },
         {
           "start": 105,
@@ -232,7 +237,7 @@
             "Different authorities oversee them"
           ],
           "correctIndex": 2,
-          "keyLine": "of different jurisdictions\nthat oversee transit."
+          "keyLine": "of different jurisdictions\nthat oversee transit.\nThe subway, for example,\nis owned by the city\nand leased to the Metropolitan\nTransportation Authority,"
         }
       ],
       "gist": [
@@ -276,23 +281,28 @@
       "words": [
         {
           "word": "commutes",
-          "meaning": "regular journeys to and from work"
+          "meaning": "regular journeys to and from work",
+          "at": 76.2
         },
         {
           "word": "congestion",
-          "meaning": "too many people or vehicles in one place"
+          "meaning": "too many people or vehicles in one place",
+          "at": 60.81
         },
         {
           "word": "transfers",
-          "meaning": "changes from one train or vehicle to another"
+          "meaning": "changes from one train or vehicle to another",
+          "at": 60.81
         },
         {
           "word": "destination",
-          "meaning": "the place a traveller is going to"
+          "meaning": "the place a traveller is going to",
+          "at": 65.58
         },
         {
           "word": "tickets",
-          "meaning": "proof that you have paid to travel"
+          "meaning": "proof that you have paid to travel",
+          "at": 100.11
         }
       ]
     }
@@ -339,7 +349,7 @@
             "Orange"
           ],
           "correctIndex": 0,
-          "keyLine": "with breakfast they have premium banana"
+          "keyLine": "fueled on stuff from them let's begin\nwith breakfast they have premium banana\nlow sugar"
         },
         {
           "start": 49,
@@ -351,7 +361,7 @@
             "Rice porridge"
           ],
           "correctIndex": 1,
-          "keyLine": "noodle this machine sells Oden a Savory"
+          "keyLine": "noodle this machine sells Oden a Savory\nstew fish balls or beef tendon fishball"
         },
         {
           "start": 121,
@@ -363,7 +373,7 @@
             "Five million"
           ],
           "correctIndex": 2,
-          "keyLine": "there are 5 million vending machines in"
+          "keyLine": "there are 5 million vending machines in\nJapan according to the latest figures\nfrom the manufacturers Association"
         }
       ],
       "gist": [
@@ -407,23 +417,28 @@
       "words": [
         {
           "word": "breakfast",
-          "meaning": "the first meal of the day"
+          "meaning": "the first meal of the day",
+          "at": 26.679
         },
         {
           "word": "stew",
-          "meaning": "food cooked slowly in liquid"
+          "meaning": "food cooked slowly in liquid",
+          "at": 55.16
         },
         {
           "word": "clients",
-          "meaning": "people or companies buying a service"
+          "meaning": "people or companies buying a service",
+          "at": 101.84
         },
         {
           "word": "efficiency",
-          "meaning": "doing a job with little wasted time or effort"
+          "meaning": "doing a job with little wasted time or effort",
+          "at": 110.119
         },
         {
           "word": "competition",
-          "meaning": "businesses trying to win the same customers"
+          "meaning": "businesses trying to win the same customers",
+          "at": 140.12
         }
       ]
     }
@@ -503,7 +518,7 @@
             "Faster trains and longer routes"
           ],
           "correctIndex": 0,
-          "keyLine": "reducing noise and improving air"
+          "keyLine": "life-threatening accidents while\nreducing noise and improving air\nquality by monitoring inside of every"
         },
         {
           "start": 120,
@@ -515,7 +530,7 @@
             "Roads, parks and buses"
           ],
           "correctIndex": 1,
-          "keyLine": "Network we maintain tunnels stations and"
+          "keyLine": "Network we maintain tunnels stations and\ntrains clean and offer customer service"
         },
         {
           "start": 144,
@@ -527,7 +542,7 @@
             "People who need easier access"
           ],
           "correctIndex": 2,
-          "keyLine": "stations are available for disabled"
+          "keyLine": "stations are available for disabled\npeople senior citizens pregnant women"
         }
       ],
       "gist": [
@@ -571,23 +586,28 @@
       "words": [
         {
           "word": "platform",
-          "meaning": "the place beside a train where people wait"
+          "meaning": "the place beside a train where people wait",
+          "at": 63.719
         },
         {
           "word": "noise",
-          "meaning": "unwanted sound"
+          "meaning": "unwanted sound",
+          "at": 69.72
         },
         {
           "word": "tunnels",
-          "meaning": "passages under the ground"
+          "meaning": "passages under the ground",
+          "at": 77.2
         },
         {
           "word": "barrier-free",
-          "meaning": "easy to use without obstacles to movement"
+          "meaning": "easy to use without obstacles to movement",
+          "at": 143.76
         },
         {
           "word": "disabled",
-          "meaning": "having a condition that can make some activities harder"
+          "meaning": "having a condition that can make some activities harder",
+          "at": 146.16
         }
       ]
     }
@@ -633,7 +653,7 @@
             "Dark colours and broken windows"
           ],
           "correctIndex": 0,
-          "keyLine": "vibrant colors beautiful detailed"
+          "keyLine": "vibrant colors beautiful detailed\ndesigns it's just stunning"
         },
         {
           "start": 39,
@@ -645,7 +665,7 @@
             "Once a day"
           ],
           "correctIndex": 1,
-          "keyLine": "three times a day and it's about 20"
+          "keyLine": "it's a special ceremony that happens\nthree times a day and it's about 20\nminutes long the guards wear brilliant"
         },
         {
           "start": 62,
@@ -657,7 +677,7 @@
             "At least an hour"
           ],
           "correctIndex": 2,
-          "keyLine": "life you could spend at least an hour"
+          "keyLine": "life you could spend at least an hour\nstrolling Around The Pavilions halls and"
         }
       ],
       "gist": [
@@ -701,23 +721,28 @@
       "words": [
         {
           "word": "guards",
-          "meaning": "people who protect a place"
+          "meaning": "people who protect a place",
+          "at": 43.36
         },
         {
           "word": "ceremony",
-          "meaning": "a special event with planned actions"
+          "meaning": "a special event with planned actions",
+          "at": 37.719
         },
         {
           "word": "costumes",
-          "meaning": "special clothes worn for an event"
+          "meaning": "special clothes worn for an event",
+          "at": 46.28
         },
         {
           "word": "Gardens",
-          "meaning": "places where plants and flowers grow"
+          "meaning": "places where plants and flowers grow",
+          "at": 69.6
         },
         {
           "word": "traditional",
-          "meaning": "following customs from the past"
+          "meaning": "following customs from the past",
+          "at": 59.48
         }
       ]
     }
@@ -793,7 +818,7 @@
             "Factories, prisons and mines"
           ],
           "correctIndex": 0,
-          "keyLine": "with parks schools shopping centers gyms"
+          "keyLine": "estates are self-sustaining entities\nwith parks schools shopping centers gyms\nand hospitals people only really need to\nleave for work and when they do they're"
         },
         {
           "start": 97,
@@ -805,7 +830,7 @@
             "1957"
           ],
           "correctIndex": 1,
-          "keyLine": "singapore in 1927 when it was a british"
+          "keyLine": "housing was first introduced in\nsingapore in 1927 when it was a british\ncolony under the singapore improvement\ntrust or the sit"
         },
         {
           "start": 126,
@@ -817,7 +842,7 @@
             "Nine percent"
           ],
           "correctIndex": 2,
-          "keyLine": "only nine percent of the total"
+          "keyLine": "only nine percent of the total\npopulation\nand in 1959 when singapore gained\nself-governance the sit which turned out"
         }
       ],
       "gist": [
@@ -861,23 +886,28 @@
       "words": [
         {
           "word": "apartments",
-          "meaning": "homes inside a larger building"
+          "meaning": "homes inside a larger building",
+          "at": 29.119
         },
         {
           "word": "estates",
-          "meaning": "groups of buildings planned together"
+          "meaning": "groups of buildings planned together",
+          "at": 33.04
         },
         {
           "word": "subway",
-          "meaning": "a railway running partly underground"
+          "meaning": "a railway running partly underground",
+          "at": 44.0
         },
         {
           "word": "slums",
-          "meaning": "poor areas with crowded and inadequate housing"
+          "meaning": "poor areas with crowded and inadequate housing",
+          "at": 56.32
         },
         {
           "word": "population",
-          "meaning": "the people living in a place"
+          "meaning": "the people living in a place",
+          "at": 108.24
         }
       ]
     }
@@ -925,7 +955,7 @@
             "Mexican, Greek and Turkish food"
           ],
           "correctIndex": 0,
-          "keyLine": "food, Indian food, Muslim food, Chinese,"
+          "keyLine": "food, Indian food, Muslim food, Chinese,\nyou know. Uh my favorite stall uh lor\nmee.\nActually the one I love one is at the"
         },
         {
           "start": 56,
@@ -937,11 +967,11 @@
             "Expensive"
           ],
           "correctIndex": 1,
-          "keyLine": "very authentic food."
+          "keyLine": "very authentic food.\nYeah. Unlike those restaurants, you can\nget anywhere.\nYeah."
         },
         {
-          "start": 82,
-          "end": 95,
+          "start": 78,
+          "end": 93,
           "question": "What might be lost when a good hawker stops?",
           "options": [
             "The name of the food centre",
@@ -949,7 +979,7 @@
             "The skill of cooking that dish"
           ],
           "correctIndex": 2,
-          "keyLine": "then that art is lost, right?"
+          "keyLine": "that cooks this dish very well.\nUh so if they if they give up, you know,\nthen that art is lost, right?\nUh yeah, so there must be some way of\nAnd then the children maybe don't want"
         }
       ],
       "gist": [
@@ -993,23 +1023,28 @@
       "words": [
         {
           "word": "culture",
-          "meaning": "the customs and way of life of a group"
+          "meaning": "the customs and way of life of a group",
+          "at": 27.32
         },
         {
           "word": "variety",
-          "meaning": "many different kinds"
+          "meaning": "many different kinds",
+          "at": 33.68
         },
         {
           "word": "stall",
-          "meaning": "a small place where someone sells things"
+          "meaning": "a small place where someone sells things",
+          "at": 39.16
         },
         {
           "word": "authentic",
-          "meaning": "true to its original style"
+          "meaning": "true to its original style",
+          "at": 58.44
         },
         {
           "word": "heritage",
-          "meaning": "traditions passed down from the past"
+          "meaning": "traditions passed down from the past",
+          "at": 70.28
         }
       ]
     }
@@ -1272,7 +1307,7 @@
             "Fishing boats and coastal ports"
           ],
           "correctIndex": 0,
-          "keyLine": "to its bridges and fortified position"
+          "keyLine": "to its bridges and fortified position\nalong critical trade routes. Its"
         },
         {
           "start": 71,
@@ -1284,7 +1319,7 @@
             "Palaces"
           ],
           "correctIndex": 1,
-          "keyLine": "where they built walls, the first true"
+          "keyLine": "retreat to the island on the Seine,\nwhere they built walls, the first true\ncity of Paris. By 305 AD, milestones"
         },
         {
           "start": 134,
@@ -1296,7 +1331,7 @@
             "Two hundred years"
           ],
           "correctIndex": 2,
-          "keyLine": "would take 200 years to complete. During"
+          "keyLine": "would take 200 years to complete. During\nthis golden medieval age, the Left Bank"
         }
       ],
       "gist": [
@@ -1340,23 +1375,28 @@
       "words": [
         {
           "word": "settlement",
-          "meaning": "a place where people begin living together"
+          "meaning": "a place where people begin living together",
+          "at": 21.52
         },
         {
           "word": "trade",
-          "meaning": "buying and selling goods"
+          "meaning": "buying and selling goods",
+          "at": 29.04
         },
         {
           "word": "raids",
-          "meaning": "sudden attacks"
+          "meaning": "sudden attacks",
+          "at": 66.76
         },
         {
           "word": "defenses",
-          "meaning": "things used to protect a place"
+          "meaning": "things used to protect a place",
+          "at": 116.6
         },
         {
           "word": "learning",
-          "meaning": "gaining knowledge"
+          "meaning": "gaining knowledge",
+          "at": 142.08
         }
       ]
     }
@@ -1402,7 +1442,7 @@
             "Paying what you want"
           ],
           "correctIndex": 0,
-          "keyLine": "Steve: It’s a good tip. It’s a place to\norder what you want, when you want, on your"
+          "keyLine": "Steve: It’s a good tip. It’s a place to\norder what you want, when you want, on your\nown terms, in your own time really. You could\nbe indoors at a restaurant watching the person"
         },
         {
           "start": 57,
@@ -1414,7 +1454,7 @@
             "5 percent"
           ],
           "correctIndex": 1,
-          "keyLine": "Steve: In France the waiter’s tip is included…15%\nof your bill goes to the waiter. You’ve already"
+          "keyLine": "Steve: In France the waiter’s tip is included…15%\nof your bill goes to the waiter. You’ve already\npaid him. Tax and tip are included.\nRick: What do you do then?"
         },
         {
           "start": 77,
@@ -1426,7 +1466,7 @@
             "It is good service"
           ],
           "correctIndex": 2,
-          "keyLine": "Steve: Yeah. I hear that all the time. \nIn France, slow service is good service."
+          "keyLine": "Steve: Yeah. I hear that all the time. \nIn France, slow service is good service.\nRick: It’s good service!\nSteve: Remember, it’s not about how fast you eat.\nIt’s about how well you eat."
         }
       ],
       "gist": [
@@ -1470,23 +1510,28 @@
       "words": [
         {
           "word": "waiter",
-          "meaning": "a person who serves food and drinks"
+          "meaning": "a person who serves food and drinks",
+          "at": 53.51
         },
         {
           "word": "bill",
-          "meaning": "the amount you must pay"
+          "meaning": "the amount you must pay",
+          "at": 59.269
         },
         {
           "word": "included",
-          "meaning": "already part of the price"
+          "meaning": "already part of the price",
+          "at": 59.269
         },
         {
           "word": "polite",
-          "meaning": "showing respect for others"
+          "meaning": "showing respect for others",
+          "at": 70.54
         },
         {
           "word": "service",
-          "meaning": "the help given to customers"
+          "meaning": "the help given to customers",
+          "at": 75.17
         }
       ]
     }
@@ -1564,7 +1609,7 @@
             "The football team"
           ],
           "correctIndex": 0,
-          "keyLine": "Parliament this is where the government"
+          "keyLine": "Parliament this is where the government\nmeets one of the best things about"
         },
         {
           "start": 47,
@@ -1576,7 +1621,7 @@
             "Walk"
           ],
           "correctIndex": 1,
-          "keyLine": "the Parks but you can't cycle only the"
+          "keyLine": "the Parks but you can't cycle only the\npolice can do\nthat horses are another good and"
         },
         {
           "start": 86,
@@ -1588,7 +1633,7 @@
             "It closed for a time"
           ],
           "correctIndex": 2,
-          "keyLine": "June the bridge had to be closed closed"
+          "keyLine": "museum when it opened on the 10th of\nJune the bridge had to be closed closed\nafter just a few days because it was\nmoving too much don't worry it's okay"
         }
       ],
       "gist": [
@@ -1632,23 +1677,28 @@
       "words": [
         {
           "word": "government",
-          "meaning": "the people who run a country"
+          "meaning": "the people who run a country",
+          "at": 33.68
         },
         {
           "word": "parks",
-          "meaning": "public places with grass and trees"
+          "meaning": "public places with grass and trees",
+          "at": 39.52
         },
         {
           "word": "cycle",
-          "meaning": "ride a bicycle"
+          "meaning": "ride a bicycle",
+          "at": 49.68
         },
         {
           "word": "bridge",
-          "meaning": "a structure for crossing water or a road"
+          "meaning": "a structure for crossing water or a road",
+          "at": 82.4
         },
         {
           "word": "closed",
-          "meaning": "not open for people to use"
+          "meaning": "not open for people to use",
+          "at": 88.479
         }
       ]
     }
@@ -1945,7 +1995,7 @@
             "One to two months"
           ],
           "correctIndex": 0,
-          "keyLine": "could take one to two weeks"
+          "keyLine": "eastern and southern Europe voyages\ncould take one to two weeks\nships divided passengers by wealth and"
         },
         {
           "start": 74,
@@ -1957,7 +2007,7 @@
             "Spacious and private"
           ],
           "correctIndex": 1,
-          "keyLine": "overcrowded and unsanitary with shared"
+          "keyLine": "because of this steerage was often\novercrowded and unsanitary with shared\nsleeping compartments and no privacy but\nhopeful immigrants stuck it out"
         },
         {
           "start": 127,
@@ -1969,7 +2019,7 @@
             "Climb the stairs"
           ],
           "correctIndex": 2,
-          "keyLine": "and watched each person climb the stairs"
+          "keyLine": "reason doctors stood on the second floor\nand watched each person climb the stairs\nfor signs of health problems a registry\nroom nearly 20,000 square feet with"
         }
       ],
       "gist": [
@@ -2013,23 +2063,28 @@
       "words": [
         {
           "word": "voyages",
-          "meaning": "long journeys by sea"
+          "meaning": "long journeys by sea",
+          "at": 45.07
         },
         {
           "word": "steerage",
-          "meaning": "the cheaper passenger area of an old ship"
+          "meaning": "the cheaper passenger area of an old ship",
+          "at": 61.719
         },
         {
           "word": "privacy",
-          "meaning": "being away from other people’s attention"
+          "meaning": "being away from other people’s attention",
+          "at": 79.06
         },
         {
           "word": "immigrants",
-          "meaning": "people who move to another country to live"
+          "meaning": "people who move to another country to live",
+          "at": 81.97
         },
         {
           "word": "processing",
-          "meaning": "officially checking people and their information"
+          "meaning": "officially checking people and their information",
+          "at": 112.66
         }
       ]
     }
@@ -2108,7 +2163,7 @@
             "Thirty-six thousand"
           ],
           "correctIndex": 0,
-          "keyLine": "twenty six thousand tickets actually"
+          "keyLine": "tickets vendors get tickets every day\ntwenty six thousand tickets actually\nmore than that but at least twenty-six\nthousand tickets last year and it's not"
         },
         {
           "start": 100,
@@ -2120,7 +2175,7 @@
             "To train them as police officers"
           ],
           "correctIndex": 1,
-          "keyLine": "organized so we'll have a more power and"
+          "keyLine": "street vendors we try to get them\norganized so we'll have a more power and\nthey'll be able to affect some of the\npolicies that directly affect them here\nin New York and we also provide other"
         },
         {
           "start": 132,
@@ -2132,7 +2187,7 @@
             "More respect and better policies"
           ],
           "correctIndex": 2,
-          "keyLine": "measure of greater respect and more"
+          "keyLine": "eventually we want there to be some\nmeasure of greater respect and more\nprogressive policies both written down"
         }
       ],
       "gist": [
@@ -2176,23 +2231,28 @@
       "words": [
         {
           "word": "vendors",
-          "meaning": "people who sell things"
+          "meaning": "people who sell things",
+          "at": 45.059
         },
         {
           "word": "violations",
-          "meaning": "actions that break rules"
+          "meaning": "actions that break rules",
+          "at": 60.39
         },
         {
           "word": "license",
-          "meaning": "official permission to do something"
+          "meaning": "official permission to do something",
+          "at": 63.96
         },
         {
           "word": "policies",
-          "meaning": "rules or plans used by an organisation"
+          "meaning": "rules or plans used by an organisation",
+          "at": 105.68
         },
         {
           "word": "respect",
-          "meaning": "fair and considerate treatment"
+          "meaning": "fair and considerate treatment",
+          "at": 134.73
         }
       ]
     }
@@ -2239,7 +2299,7 @@
             "About 1100 BC"
           ],
           "correctIndex": 0,
-          "keyLine": "by about 3100 bc the two halves united"
+          "keyLine": "which was downstream\nby about 3100 bc the two halves united\nthereby creating one egyptian state that"
         },
         {
           "start": 68,
@@ -2251,7 +2311,7 @@
             "One hundred"
           ],
           "correctIndex": 1,
-          "keyLine": "succession of about 300 rulers often"
+          "keyLine": "guiding the egyptian people was a\nsuccession of about 300 rulers often\nreferred to as pharaohs"
         },
         {
           "start": 121,
@@ -2263,7 +2323,7 @@
             "For use in the afterlife"
           ],
           "correctIndex": 2,
-          "keyLine": "items they could need in the afterlife"
+          "keyLine": "rulers filled their tombs with all the\nitems they could need in the afterlife\nincluding gold jewelry\nfood\ndrink"
         }
       ],
       "gist": [
@@ -2307,23 +2367,28 @@
       "words": [
         {
           "word": "united",
-          "meaning": "joined together"
+          "meaning": "joined together",
+          "at": 43.2
         },
         {
           "word": "prosperity",
-          "meaning": "a period of success and wealth"
+          "meaning": "a period of success and wealth",
+          "at": 56.48
         },
         {
           "word": "rulers",
-          "meaning": "people who govern"
+          "meaning": "people who govern",
+          "at": 70.24
         },
         {
           "word": "tombs",
-          "meaning": "places where dead people are buried"
+          "meaning": "places where dead people are buried",
+          "at": 113.84
         },
         {
           "word": "afterlife",
-          "meaning": "a life believed to follow death"
+          "meaning": "a life believed to follow death",
+          "at": 111.6
         }
       ]
     }
@@ -2617,7 +2682,7 @@
             "Farming and fishing"
           ],
           "correctIndex": 0,
-          "keyLine": "cosmopolitan population and a reputation"
+          "keyLine": "cosmopolitan population and a reputation\nfor innovation and quality."
         },
         {
           "start": 64,
@@ -2629,7 +2694,7 @@
             "Over 24 million"
           ],
           "correctIndex": 1,
-          "keyLine": "Dubai International has welcomed over 42"
+          "keyLine": "In the half century since its opening,\nDubai International has welcomed over 42"
         },
         {
           "start": 96,
@@ -2641,7 +2706,7 @@
             "Emirates and Fly Dubai"
           ],
           "correctIndex": 2,
-          "keyLine": "expansion of Emirates and Fly Dubai."
+          "keyLine": "infrastructure to support the impressive\nexpansion of Emirates and Fly Dubai."
         }
       ],
       "gist": [
@@ -2685,23 +2750,28 @@
       "words": [
         {
           "word": "airlines",
-          "meaning": "companies that fly passengers"
+          "meaning": "companies that fly passengers",
+          "at": 54.8
         },
         {
           "word": "gateway",
-          "meaning": "place connecting travellers to other places"
+          "meaning": "place connecting travellers to other places",
+          "at": 54.8
         },
         {
           "word": "passengers",
-          "meaning": "people travelling"
+          "meaning": "people travelling",
+          "at": 71.2
         },
         {
           "word": "infrastructure",
-          "meaning": "buildings and systems that support travel"
+          "meaning": "buildings and systems that support travel",
+          "at": 96.24
         },
         {
           "word": "expansion",
-          "meaning": "growth"
+          "meaning": "growth",
+          "at": 98.96
         }
       ],
       "static": [
@@ -2854,7 +2924,7 @@
             "Investment opportunities"
           ],
           "correctIndex": 2,
-          "keyLine": "dubai's economic growth creating new\ninvestment opportunities along the metro"
+          "keyLine": "dubai's economic growth creating new\ninvestment opportunities along the metro\nroute\nall the way to the al maktoum"
         }
       ],
       "gist": [
@@ -2898,23 +2968,28 @@
       "words": [
         {
           "word": "extension",
-          "meaning": "an added part of something"
+          "meaning": "an added part of something",
+          "at": 136.0
         },
         {
           "word": "elevated",
-          "meaning": "raised above ground level"
+          "meaning": "raised above ground level",
+          "at": 158.72
         },
         {
           "word": "underground",
-          "meaning": "below the ground"
+          "meaning": "below the ground",
+          "at": 143.92
         },
         {
           "word": "accommodating",
-          "meaning": "providing room or capacity for"
+          "meaning": "providing room or capacity for",
+          "at": 191.76
         },
         {
           "word": "investment",
-          "meaning": "money used to develop a business or project"
+          "meaning": "money used to develop a business or project",
+          "at": 222.239
         }
       ]
     }
@@ -2992,7 +3067,7 @@
             "Ferry company records"
           ],
           "correctIndex": 0,
-          "keyLine": "Museum databases which goes back to"
+          "keyLine": "all the material in the Australian\nMuseum databases which goes back to\nabout 1850 of all the species of\ncrustaceans mollusks echinoderms worms"
         },
         {
           "start": 81,
@@ -3004,7 +3079,7 @@
             "Each month"
           ],
           "correctIndex": 1,
-          "keyLine": "one new species of fish recorded from"
+          "keyLine": "reckon the fish people reckon there's\none new species of fish recorded from\nAustralia each week every week yes it's"
         },
         {
           "start": 130,
@@ -3016,7 +3091,7 @@
             "About every two days"
           ],
           "correctIndex": 2,
-          "keyLine": "water in the harbor changes about every"
+          "keyLine": "water in the harbor changes about every\n2 days but it's that constant movement\nof water and also the variety of"
         }
       ],
       "gist": [
@@ -3060,23 +3135,28 @@
       "words": [
         {
           "word": "species",
-          "meaning": "different kinds of living things"
+          "meaning": "different kinds of living things",
+          "at": 60.64
         },
         {
           "word": "databases",
-          "meaning": "organised collections of information"
+          "meaning": "organised collections of information",
+          "at": 58.64
         },
         {
           "word": "documented",
-          "meaning": "recorded in writing or data"
+          "meaning": "recorded in writing or data",
+          "at": 79.88
         },
         {
           "word": "habitats",
-          "meaning": "places where living things make their homes"
+          "meaning": "places where living things make their homes",
+          "at": 139.56
         },
         {
           "word": "flushing",
-          "meaning": "water moving through and replacing older water"
+          "meaning": "water moving through and replacing older water",
+          "at": 129.52
         }
       ]
     }
@@ -3123,7 +3203,7 @@
             "Steel fences"
           ],
           "correctIndex": 0,
-          "keyLine": "site had to be reinforced by concrete"
+          "keyLine": "site had to be reinforced by concrete\npeers 550 of them each 3 ft in diameter"
         },
         {
           "start": 103,
@@ -3135,7 +3215,7 @@
             "The front steps"
           ],
           "correctIndex": 1,
-          "keyLine": "Thunder so the roof had to be redesigned"
+          "keyLine": "Tropical\nThunder so the roof had to be redesigned\nin reinforced concrete this meant the\nconcrete pillars already built were no"
         },
         {
           "start": 134,
@@ -3147,7 +3227,7 @@
             "It kept being delayed"
           ],
           "correctIndex": 2,
-          "keyLine": "postponed and postponed again it had"
+          "keyLine": "were only guessing the opening day was\npostponed and postponed again it had\nbeen planned for Australia Day 1963 it"
         }
       ],
       "gist": [
@@ -3191,23 +3271,28 @@
       "words": [
         {
           "word": "reinforced",
-          "meaning": "made stronger"
+          "meaning": "made stronger",
+          "at": 66.08
         },
         {
           "word": "bedrock",
-          "meaning": "solid rock beneath soil or water"
+          "meaning": "solid rock beneath soil or water",
+          "at": 72.72
         },
         {
           "word": "materials",
-          "meaning": "things used to build or make something"
+          "meaning": "things used to build or make something",
+          "at": 78.119
         },
         {
           "word": "demolished",
-          "meaning": "knocked down"
+          "meaning": "knocked down",
+          "at": 114.84
         },
         {
           "word": "postponed",
-          "meaning": "delayed until a later time"
+          "meaning": "delayed until a later time",
+          "at": 136.4
         }
       ]
     }
@@ -3286,7 +3371,7 @@
             "The seventeenth"
           ],
           "correctIndex": 0,
-          "keyLine": "13th century and Beijing became the"
+          "keyLine": "fast forward to the UN Dynasty in the\n13th century and Beijing became the\ncapital under kuan's rule the city was\nthen called dardu meaning great capital"
         },
         {
           "start": 44,
@@ -3298,7 +3383,7 @@
             "Over ninety"
           ],
           "correctIndex": 1,
-          "keyLine": "900 buildings in one place mindblowing"
+          "keyLine": "still stands today can you imagine over\n900 buildings in one place mindblowing\nright next up the Ching Dynasty which\nlasted from 1644 to"
         },
         {
           "start": 75,
@@ -3310,7 +3395,7 @@
             "The 2008 Olympics"
           ],
           "correctIndex": 2,
-          "keyLine": "sites think of the 2008 Olympics and the"
+          "keyLine": "sites think of the 2008 Olympics and the\nstunning bird's nest stadium so there\nyou have it a quick but fascinating look"
         }
       ],
       "gist": [
@@ -3354,23 +3439,28 @@
       "words": [
         {
           "word": "Dynasty",
-          "meaning": "a family of rulers over several generations"
+          "meaning": "a family of rulers over several generations",
+          "at": 16.44
         },
         {
           "word": "Imperial",
-          "meaning": "connected with an emperor"
+          "meaning": "connected with an emperor",
+          "at": 42.32
         },
         {
           "word": "structures",
-          "meaning": "buildings or other things constructed"
+          "meaning": "buildings or other things constructed",
+          "at": 62.359
         },
         {
           "word": "preserving",
-          "meaning": "keeping something safe from damage or loss"
+          "meaning": "keeping something safe from damage or loss",
+          "at": 74.799
         },
         {
           "word": "Metropolis",
-          "meaning": "a large important city"
+          "meaning": "a large important city",
+          "at": 74.799
         }
       ]
     }
@@ -3449,7 +3539,7 @@
             "Spanish"
           ],
           "correctIndex": 0,
-          "keyLine": "sign at the entrance that wrote line4 in"
+          "keyLine": "sign at the entrance that wrote line4 in\nEnglish an escalator to talk in English"
         },
         {
           "start": 82,
@@ -3461,7 +3551,7 @@
             "Special food stalls"
           ],
           "correctIndex": 1,
-          "keyLine": "elevators special lifts for persons with"
+          "keyLine": "elevators special lifts for persons with\ndisability double safety doors cash or"
         },
         {
           "start": 119,
@@ -3473,7 +3563,7 @@
             "Rush hour"
           ],
           "correctIndex": 2,
-          "keyLine": "during rush hour"
+          "keyLine": "first timer to avoid the Beijing Subway\nduring rush hour"
         }
       ],
       "gist": [
@@ -3517,23 +3607,28 @@
       "words": [
         {
           "word": "platform",
-          "meaning": "the place where people wait beside a train"
+          "meaning": "the place where people wait beside a train",
+          "at": 64.0
         },
         {
           "word": "instructions",
-          "meaning": "information telling you what to do"
+          "meaning": "information telling you what to do",
+          "at": 61.68
         },
         {
           "word": "elevators",
-          "meaning": "machines that move people between floors"
+          "meaning": "machines that move people between floors",
+          "at": 84.159
         },
         {
           "word": "cashless",
-          "meaning": "paid without notes or coins"
+          "meaning": "paid without notes or coins",
+          "at": 89.96
         },
         {
           "word": "reliability",
-          "meaning": "being able to depend on something"
+          "meaning": "being able to depend on something",
+          "at": 113.64
         }
       ]
     }
@@ -3614,7 +3709,7 @@
             "Her arrival time"
           ],
           "correctIndex": 0,
-          "keyLine": "parents will try to stop me and tell me"
+          "keyLine": "parents will try to stop me and tell me\nto lower my"
         },
         {
           "start": 118,
@@ -3638,7 +3733,7 @@
             "Being quiet"
           ],
           "correctIndex": 2,
-          "keyLine": "his opinion being quiet is decent while"
+          "keyLine": "his opinion being quiet is decent while\nloud noise is rude"
         }
       ],
       "gist": [
@@ -3682,19 +3777,23 @@
       "words": [
         {
           "word": "tone",
-          "meaning": "the sound or manner of a voice"
+          "meaning": "the sound or manner of a voice",
+          "at": 78.799
         },
         {
           "word": "customers",
-          "meaning": "people buying a product or service"
+          "meaning": "people buying a product or service",
+          "at": 94.04
         },
         {
           "word": "calm",
-          "meaning": "peaceful and not excited"
+          "meaning": "peaceful and not excited",
+          "at": 120.759
         },
         {
           "word": "rude",
-          "meaning": "not showing respect for others"
+          "meaning": "not showing respect for others",
+          "at": 136.92
         }
       ]
     }
@@ -3742,7 +3841,7 @@
             "180,000 miles in one flight"
           ],
           "correctIndex": 0,
-          "keyLine": "000 miles in a single somersault uh he"
+          "keyLine": "108\n000 miles in a single somersault uh he\nis immortal he will live forever\num he can transform into all sorts of"
         },
         {
           "start": 85,
@@ -3754,7 +3853,7 @@
             "Command of every army"
           ],
           "correctIndex": 1,
-          "keyLine": "quite lowly jobs"
+          "keyLine": "quite lowly jobs\nuh but monkey gets offended that he's\nnot being given"
         },
         {
           "start": 129,
@@ -3766,7 +3865,7 @@
             "Traps him under a mountain"
           ],
           "correctIndex": 2,
-          "keyLine": "pins him under a mountain and he stays"
+          "keyLine": "doing\npins him under a mountain and he stays\nthere for the next\n500 years until he's um learnt to be a"
         }
       ],
       "gist": [
@@ -3810,19 +3909,23 @@
       "words": [
         {
           "word": "immortal",
-          "meaning": "able to live forever"
+          "meaning": "able to live forever",
+          "at": 28.08
         },
         {
           "word": "arrogant",
-          "meaning": "thinking too highly of your own importance"
+          "meaning": "thinking too highly of your own importance",
+          "at": 53.44
         },
         {
           "word": "elixirs",
-          "meaning": "special liquids believed to have powerful effects"
+          "meaning": "special liquids believed to have powerful effects",
+          "at": 99.2
         },
         {
           "word": "syncretic",
-          "meaning": "combining ideas from different traditions"
+          "meaning": "combining ideas from different traditions",
+          "at": 113.92
         }
       ]
     }
@@ -3869,7 +3972,7 @@
             "Six"
           ],
           "correctIndex": 0,
-          "keyLine": "Germany was divided up into four zones"
+          "keyLine": "World War\nGermany was divided up into four zones\nbetween the victorious powers and so was"
         },
         {
           "start": 65,
@@ -3881,7 +3984,7 @@
             "People buying houses"
           ],
           "correctIndex": 1,
-          "keyLine": "people from leaving the country for this"
+          "keyLine": "people from leaving the country for this\nreason from 1952 on the internal border"
         },
         {
           "start": 96,
@@ -3893,7 +3996,7 @@
             "Barbed wire and barriers"
           ],
           "correctIndex": 2,
-          "keyLine": "in the blink of an eye barbed wire"
+          "keyLine": "began to eventually close this route -\nin the blink of an eye barbed wire\nfences and a concrete barrier were in"
         }
       ],
       "gist": [
@@ -3937,19 +4040,23 @@
       "words": [
         {
           "word": "zones",
-          "meaning": "areas divided for a particular purpose"
+          "meaning": "areas divided for a particular purpose",
+          "at": 32.34
         },
         {
           "word": "states",
-          "meaning": "countries or political units"
+          "meaning": "countries or political units",
+          "at": 49.789
         },
         {
           "word": "border",
-          "meaning": "the dividing line between territories"
+          "meaning": "the dividing line between territories",
+          "at": 70.17
         },
         {
           "word": "exodus",
-          "meaning": "a large departure of people"
+          "meaning": "a large departure of people",
+          "at": 83.759
         }
       ]
     }
@@ -3997,7 +4104,7 @@
             "Four"
           ],
           "correctIndex": 0,
-          "keyLine": "separated in three different Fair zones"
+          "keyLine": "take a brief look at the root map it's\nseparated in three different Fair zones\na b and c behold almost any sides and"
         },
         {
           "start": 65,
@@ -4009,7 +4116,7 @@
             "Fifteen minutes"
           ],
           "correctIndex": 1,
-          "keyLine": "have appointments maybe 45 just in case"
+          "keyLine": "have appointments maybe 45 just in case\ndon't worry though you won't get bored"
         },
         {
           "start": 83,
@@ -4021,7 +4128,7 @@
             "Yellow or grey"
           ],
           "correctIndex": 2,
-          "keyLine": "find one of these yellow or gray ticket"
+          "keyLine": "the ticket you can buy it at any station\nfind one of these yellow or gray ticket\nmachines located on the platform choose\nbetween different tariffs depending on\nthe length of your stay to be equipped"
         }
       ],
       "gist": [
@@ -4065,19 +4172,23 @@
       "words": [
         {
           "word": "zones",
-          "meaning": "areas with different travel prices"
+          "meaning": "areas with different travel prices",
+          "at": 32.8
         },
         {
           "word": "ticket",
-          "meaning": "proof that you paid to travel"
+          "meaning": "proof that you paid to travel",
+          "at": 46.199
         },
         {
           "word": "appointments",
-          "meaning": "planned meetings at a set time"
+          "meaning": "planned meetings at a set time",
+          "at": 67.0
         },
         {
           "word": "platform",
-          "meaning": "the place beside a train where you wait"
+          "meaning": "the place beside a train where you wait",
+          "at": 87.68
         }
       ]
     }
@@ -4187,11 +4298,11 @@
             "May 1945"
           ],
           "correctIndex": 0,
-          "keyLine": "when it opened in May 1935 the Moscow"
+          "keyLine": "what Stalin was providing for his people\nwhen it opened in May 1935 the Moscow\nMetro was a subterranean Soviet utopian"
         },
         {
-          "start": 44,
-          "end": 57,
+          "start": 41,
+          "end": 56,
           "question": "How many stations are cultural heritage sites?",
           "options": [
             "Sixty-four",
@@ -4199,7 +4310,7 @@
             "Twenty-four"
           ],
           "correctIndex": 1,
-          "keyLine": "stations are cultural heritage sites"
+          "keyLine": "history lesson forty-four of its 206\nstations are cultural heritage sites"
         },
         {
           "start": 95,
@@ -4255,19 +4366,23 @@
       "words": [
         {
           "word": "architecture",
-          "meaning": "the design of buildings"
+          "meaning": "the design of buildings",
+          "at": 35.12
         },
         {
           "word": "heritage",
-          "meaning": "important things passed down from the past"
+          "meaning": "important things passed down from the past",
+          "at": 46.61
         },
         {
           "word": "efficient",
-          "meaning": "working well without wasting time"
+          "meaning": "working well without wasting time",
+          "at": 70.63
         },
         {
           "word": "punctuality",
-          "meaning": "arriving at the expected time"
+          "meaning": "arriving at the expected time",
+          "at": 97.59
         }
       ]
     }
@@ -4313,7 +4428,7 @@
             "Cube-shaped"
           ],
           "correctIndex": 0,
-          "keyLine": "square it has many onion-shaped domes"
+          "keyLine": "square it has many onion-shaped domes\nwhich are characteristic of Russian\nOrthodox"
         },
         {
           "start": 75,
@@ -4325,7 +4440,7 @@
             "As a map of the city"
           ],
           "correctIndex": 1,
-          "keyLine": "icon of Miracles and people looked to it"
+          "keyLine": "icon of Miracles and people looked to it\nin times of National\nEmergency following the fall of the"
         },
         {
           "start": 121,
@@ -4337,7 +4452,7 @@
             "1991"
           ],
           "correctIndex": 2,
-          "keyLine": "religion oppression of the Russian"
+          "keyLine": "religion oppression of the Russian\nOrthodox Church ended in 1991 with the\nbreakup of the Soviet"
         }
       ],
       "gist": [
@@ -4381,19 +4496,23 @@
       "words": [
         {
           "word": "domes",
-          "meaning": "rounded roofs"
+          "meaning": "rounded roofs",
+          "at": 24.88
         },
         {
           "word": "icon",
-          "meaning": "a religious image"
+          "meaning": "a religious image",
+          "at": 71.04
         },
         {
           "word": "Alliance",
-          "meaning": "a close partnership"
+          "meaning": "a close partnership",
+          "at": 100.159
         },
         {
           "word": "oppression",
-          "meaning": "harsh and unfair control"
+          "meaning": "harsh and unfair control",
+          "at": 123.399
         }
       ]
     }
@@ -4483,7 +4602,7 @@
             "A new fortress"
           ],
           "correctIndex": 1,
-          "keyLine": "So when he decided to build a new mosque"
+          "keyLine": "So when he decided to build a new mosque\nUnencumbered by Christian leftovers he was making a point for Allah"
         },
         {
           "start": 100,
@@ -4495,7 +4614,7 @@
             "Four"
           ],
           "correctIndex": 2,
-          "keyLine": "Four minarets a structure as immense as the to"
+          "keyLine": "Four minarets a structure as immense as the to\nContinent empire a mosque the would eclipse higher Sofia"
         }
       ],
       "gist": [
@@ -4539,19 +4658,23 @@
       "words": [
         {
           "word": "demolishing",
-          "meaning": "knocking a building down"
+          "meaning": "knocking a building down",
+          "at": 21.16
         },
         {
           "word": "converted",
-          "meaning": "changed for a different use"
+          "meaning": "changed for a different use",
+          "at": 21.16
         },
         {
           "word": "rivals",
-          "meaning": "people competing for power or success"
+          "meaning": "people competing for power or success",
+          "at": 68.31
         },
         {
           "word": "minarets",
-          "meaning": "towers associated with a mosque"
+          "meaning": "towers associated with a mosque",
+          "at": 102.0
         }
       ]
     }
@@ -4596,7 +4719,7 @@
             "Over fifty million"
           ],
           "correctIndex": 0,
-          "keyLine": "15 million people from its bustling"
+          "keyLine": "15 million people from its bustling\nstreets to its tranquil waterways this\nis a city that has witnessed centuries"
         },
         {
           "start": 54,
@@ -4608,7 +4731,7 @@
             "Over 500 years"
           ],
           "correctIndex": 1,
-          "keyLine": "2,500 years once known as BZ"
+          "keyLine": "dates back over\n2,500 years once known as BZ\nit was later renamed Constantinople in\nhonor of emperor"
         },
         {
           "start": 81,
@@ -4620,7 +4743,7 @@
             "A cathedral"
           ],
           "correctIndex": 2,
-          "keyLine": "built as a cathedral in the 6th Century"
+          "keyLine": "built as a cathedral in the 6th Century\nit became a mosque after the ottoman"
         }
       ],
       "gist": [
@@ -4664,19 +4787,23 @@
       "words": [
         {
           "word": "streets",
-          "meaning": "roads in a town or city"
+          "meaning": "roads in a town or city",
+          "at": 40.039
         },
         {
           "word": "waterways",
-          "meaning": "rivers or channels used by water"
+          "meaning": "rivers or channels used by water",
+          "at": 40.039
         },
         {
           "word": "capital",
-          "meaning": "the main city of a state"
+          "meaning": "the main city of a state",
+          "at": 66.92
         },
         {
           "word": "cathedral",
-          "meaning": "a major Christian church"
+          "meaning": "a major Christian church",
+          "at": 83.68
         }
       ]
     }
@@ -4722,7 +4849,7 @@
             "More than five hundred"
           ],
           "correctIndex": 0,
-          "keyLine": "there were once more than 50 streams"
+          "keyLine": "historian and biologist Sharon Proctor\nthere were once more than 50 streams\nthat used to run all over this land\ntoday most of those streams have long"
         },
         {
           "start": 82,
@@ -4734,7 +4861,7 @@
             "It was widened into a harbour"
           ],
           "correctIndex": 1,
-          "keyLine": "was buried underground in 1951 the water"
+          "keyLine": "Creek what happened is that China Creek\nwas buried underground in 1951 the water\nwas directed into a pipe and covered up\nand that seems to have been the fate of"
         },
         {
           "start": 137,
@@ -4746,7 +4873,7 @@
             "Covering streams causes problems"
           ],
           "correctIndex": 2,
-          "keyLine": "up a stream or river actually leads to a"
+          "keyLine": "point we'd realized something covering\nup a stream or river actually leads to a\nlot of problems when rain falls on\nVancouver it usually hits a hard surface"
         }
       ],
       "gist": [
@@ -4790,19 +4917,23 @@
       "words": [
         {
           "word": "streams",
-          "meaning": "small flowing rivers"
+          "meaning": "small flowing rivers",
+          "at": 16.16
         },
         {
           "word": "nuisance",
-          "meaning": "something considered troublesome"
+          "meaning": "something considered troublesome",
+          "at": 94.479
         },
         {
           "word": "flooding",
-          "meaning": "water covering normally dry land"
+          "meaning": "water covering normally dry land",
+          "at": 96.04
         },
         {
           "word": "absorbed",
-          "meaning": "taken into something"
+          "meaning": "taken into something",
+          "at": 149.959
         }
       ]
     }
@@ -4850,7 +4981,7 @@
             "1995"
           ],
           "correctIndex": 0,
-          "keyLine": "was built in 1985 and connects Siri to"
+          "keyLine": "Network the first is the Expo line that\nwas built in 1985 and connects Siri to\ndowntown Vancouver it's the very first\nline we built and the one you'll be\nusing the most to get to our two"
         },
         {
           "start": 53,
@@ -4862,7 +4993,7 @@
             "The Expo Line"
           ],
           "correctIndex": 1,
-          "keyLine": "Canada line which was built prior to the"
+          "keyLine": "this line a lot the third line is the\nCanada line which was built prior to the\n2010 Vancouver Olympics and runs from\ndowntown Vancouver all the way to our\nYVR Airport if you're an international"
         },
         {
           "start": 81,
@@ -4874,7 +5005,7 @@
             "A Compass Card"
           ],
           "correctIndex": 2,
-          "keyLine": "compass card because this reloadable"
+          "keyLine": "recommend we also recommend getting a\ncompass card because this reloadable\nsmart card is something you can keep\nadding value to it and then tap in and\nout of the transit Gates for a seamless\ntravel"
         }
       ],
       "gist": [
@@ -4918,19 +5049,23 @@
       "words": [
         {
           "word": "campuses",
-          "meaning": "places where a college has buildings"
+          "meaning": "places where a college has buildings",
+          "at": 40.6
         },
         {
           "word": "Airport",
-          "meaning": "a place where planes arrive and leave"
+          "meaning": "a place where planes arrive and leave",
+          "at": 61.6
         },
         {
           "word": "transfer",
-          "meaning": "change from one vehicle to another"
+          "meaning": "change from one vehicle to another",
+          "at": 49.28
         },
         {
           "word": "reloadable",
-          "meaning": "able to have more money added"
+          "meaning": "able to have more money added",
+          "at": 83.72
         }
       ]
     }
@@ -5008,7 +5143,7 @@
             "All tracks had one platform"
           ],
           "correctIndex": 0,
-          "keyLine": "union station as it was a union of the"
+          "keyLine": "passenger trains in Toronto, making it a\nunion station as it was a union of the\nrailways under one roof.\nBy 1899, with three railways sharing the"
         },
         {
           "start": 83,
@@ -5020,7 +5155,7 @@
             "It moved to Montreal"
           ],
           "correctIndex": 1,
-          "keyLine": "went bankrupt in 1920 after basically"
+          "keyLine": "necessary to construct it. Grand Trunk\nwent bankrupt in 1920 after basically\nevery railway in Canada except the\nCanadian Pacific would dissolve into a\nnewly formed Canadian National Railways."
         },
         {
           "start": 131,
@@ -5032,7 +5167,7 @@
             "Cities connected by train"
           ],
           "correctIndex": 2,
-          "keyLine": "with all the cities that were connected"
+          "keyLine": "ceiling. And that ceiling was engraved\nwith all the cities that were connected\nto Toronto by trains leading out Union\nStation. Now that old Grand Trunk Union"
         }
       ],
       "gist": [
@@ -5076,19 +5211,23 @@
       "words": [
         {
           "word": "railways",
-          "meaning": "systems of tracks and trains"
+          "meaning": "systems of tracks and trains",
+          "at": 56.239
         },
         {
           "word": "bankrupt",
-          "meaning": "unable to pay debts"
+          "meaning": "unable to pay debts",
+          "at": 85.6
         },
         {
           "word": "cooperative",
-          "meaning": "willing to work with others"
+          "meaning": "willing to work with others",
+          "at": 94.24
         },
         {
           "word": "engraved",
-          "meaning": "cut or marked into a surface"
+          "meaning": "cut or marked into a surface",
+          "at": 131.12
         }
       ]
     }
@@ -5136,7 +5275,7 @@
             "Postcards"
           ],
           "correctIndex": 0,
-          "keyLine": "going now it was time to buy tokens to"
+          "keyLine": "felt fairly certain he knew where he was\ngoing now it was time to buy tokens to\nget on the\ntrain five tokens equals five trips"
         },
         {
           "start": 47,
@@ -5148,7 +5287,7 @@
             "To enter a museum"
           ],
           "correctIndex": 1,
-          "keyLine": "Toronto I need to get a transfer so then"
+          "keyLine": "Toronto I need to get a transfer so then\nI can take the street car across Alex\nwas lucky enough to catch one of"
         },
         {
           "start": 85,
@@ -5160,7 +5299,7 @@
             "Outside subway stations"
           ],
           "correctIndex": 2,
-          "keyLine": "there's street car stops outside every"
+          "keyLine": "find my way around lucky for Alex\nthere's street car stops outside every\nSubway to station so he hopped on the\nfirst one he saw and the drivers just"
         }
       ],
       "gist": [
@@ -5204,19 +5343,23 @@
       "words": [
         {
           "word": "tokens",
-          "meaning": "small objects used as travel payment"
+          "meaning": "small objects used as travel payment",
+          "at": 34.079
         },
         {
           "word": "transfer",
-          "meaning": "permission to change to another service"
+          "meaning": "permission to change to another service",
+          "at": 49.399
         },
         {
           "word": "station",
-          "meaning": "a place where trains stop"
+          "meaning": "a place where trains stop",
+          "at": 68.92
         },
         {
           "word": "lost",
-          "meaning": "not knowing where you are or should go"
+          "meaning": "not knowing where you are or should go",
+          "at": 83.4
         }
       ]
     }
@@ -5284,8 +5427,8 @@
     "listeningPack": {
       "segments": [
         {
-          "start": 62,
-          "end": 75,
+          "start": 57,
+          "end": 72,
           "question": "How did the island come under British control?",
           "options": [
             "Through a royal marriage",
@@ -5293,7 +5436,7 @@
             "Through a railway project"
           ],
           "correctIndex": 0,
-          "keyLine": "under British control the city became"
+          "keyLine": "marriage of King Charles II of Great\nBritain and Ireland to the king of\nPortugal's sister brought the island\nunder British control the city became\nknown as Bombay and was the capital of"
         },
         {
           "start": 83,
@@ -5305,7 +5448,7 @@
             "Sailors and pilots"
           ],
           "correctIndex": 1,
-          "keyLine": "drove Artisans and Merchants to resettle"
+          "keyLine": "drove Artisans and Merchants to resettle\non the island which helped to stimulate\nthe growth of Bombay trade and"
         },
         {
           "start": 128,
@@ -5317,7 +5460,7 @@
             "Complete independence"
           ],
           "correctIndex": 2,
-          "keyLine": "quit India resolution which demanded"
+          "keyLine": "Congress met in Bombay and passed the\nquit India resolution which demanded\nthat Britain Grant India complete\nIndependence Bombay remained a center of"
         }
       ],
       "gist": [
@@ -5361,19 +5504,23 @@
       "words": [
         {
           "word": "Artisans",
-          "meaning": "people who make things with skilled hands"
+          "meaning": "people who make things with skilled hands",
+          "at": 85.24
         },
         {
           "word": "Merchants",
-          "meaning": "people who buy and sell goods"
+          "meaning": "people who buy and sell goods",
+          "at": 85.24
         },
         {
           "word": "import",
-          "meaning": "bringing goods into a country"
+          "meaning": "bringing goods into a country",
+          "at": 100.56
         },
         {
           "word": "resolution",
-          "meaning": "a formal statement agreed by a group"
+          "meaning": "a formal statement agreed by a group",
+          "at": 130.8
         }
       ]
     }
@@ -5669,7 +5816,7 @@
             "Cape of Islands"
           ],
           "correctIndex": 0,
-          "keyLine": "to this place was the Cape of Storms. As"
+          "keyLine": "name that these Portuguese sailors gave\nto this place was the Cape of Storms. As\nyou can imagine, that name was a bit\ngrim. So, it was later changed to Cape"
         },
         {
           "start": 65,
@@ -5681,7 +5828,7 @@
             "Rice, tea, coffee and cotton"
           ],
           "correctIndex": 1,
-          "keyLine": "Cape Town, including grapes for wine,"
+          "keyLine": "the Dutch brought tons of new plants to\nCape Town, including grapes for wine,\ncitrus, potatoes, and wheat, a lot of"
         },
         {
           "start": 107,
@@ -5693,7 +5840,7 @@
             "Afrikaans"
           ],
           "correctIndex": 2,
-          "keyLine": "Afrikaans is still an official language"
+          "keyLine": "Afrikaans is still an official language\nof South Africa. And while these Dutch\nsettlers lived in the same regions as"
         }
       ],
       "gist": [
@@ -5737,19 +5884,23 @@
       "words": [
         {
           "word": "optimism",
-          "meaning": "hope that things will go well"
+          "meaning": "hope that things will go well",
+          "at": 34.8
         },
         {
           "word": "settlement",
-          "meaning": "a community established in a place"
+          "meaning": "a community established in a place",
+          "at": 57.24
         },
         {
           "word": "economy",
-          "meaning": "the production and exchange of goods and services"
+          "meaning": "the production and exchange of goods and services",
+          "at": 75.36
         },
         {
           "word": "dialects",
-          "meaning": "forms of a language used by particular groups"
+          "meaning": "forms of a language used by particular groups",
+          "at": 106.64
         }
       ]
     }
@@ -5795,7 +5946,7 @@
             "Train-seat numbers"
           ],
           "correctIndex": 0,
-          "keyLine": "check when the cable car is open before"
+          "keyLine": "check when the cable car is open before\nyou head up Table Mountain head to their\nwebsite to check if the cable car is"
         },
         {
           "start": 53,
@@ -5807,7 +5958,7 @@
             "At the kiosk"
           ],
           "correctIndex": 1,
-          "keyLine": "tickets online buying tickets online is"
+          "keyLine": "tickets online buying tickets online is\nnot only convenient but also cheaper I"
         },
         {
           "start": 91,
@@ -5819,7 +5970,7 @@
             "A free shuttle"
           ],
           "correctIndex": 2,
-          "keyLine": "using the brand new free shuttle service"
+          "keyLine": "alternatively we suggest considering\nusing the brand new free shuttle service\nleave your car at the lower parking lot\nand catch a shuttle which operates every"
         }
       ],
       "gist": [
@@ -5863,19 +6014,23 @@
       "words": [
         {
           "word": "operational",
-          "meaning": "working and available to use"
+          "meaning": "working and available to use",
+          "at": 39.8
         },
         {
           "word": "convenient",
-          "meaning": "easy and useful"
+          "meaning": "easy and useful",
+          "at": 58.64
         },
         {
           "word": "kiosk",
-          "meaning": "a small place selling tickets or goods"
+          "meaning": "a small place selling tickets or goods",
+          "at": 63.359
         },
         {
           "word": "shuttle",
-          "meaning": "a vehicle making short repeated trips"
+          "meaning": "a vehicle making short repeated trips",
+          "at": 93.6
         }
       ]
     }
@@ -5954,7 +6109,7 @@
             "A mountain fort"
           ],
           "correctIndex": 0,
-          "keyLine": "Rome began as a small village"
+          "keyLine": "Rome began as a small village\non central Italy's Tiber River.\nIn the coming centuries,\nit grew into an empire\nthat stretched from the north Atlantic"
         },
         {
           "start": 53,
@@ -5966,7 +6121,7 @@
             "Seventeen"
           ],
           "correctIndex": 1,
-          "keyLine": "and ruled by a succession\nof about seven kings."
+          "keyLine": "and ruled by a succession\nof about seven kings.\nRome's first king, according to legend,\nwas a man named Romulus.\nHe and his twin brother Remus are said"
         },
         {
           "start": 68,
@@ -5978,7 +6133,7 @@
             "A republic"
           ],
           "correctIndex": 2,
-          "keyLine": "In 509 B.C., Rome adopted a\nrepublican system of governance"
+          "keyLine": "In 509 B.C., Rome adopted a\nrepublican system of governance\nin which the state was primarily ruled"
         }
       ],
       "gist": [
@@ -6022,19 +6177,23 @@
       "words": [
         {
           "word": "regal",
-          "meaning": "connected with kings"
+          "meaning": "connected with kings",
+          "at": 45.652
         },
         {
           "word": "republican",
-          "meaning": "connected with government without a hereditary monarch"
+          "meaning": "connected with government without a hereditary monarch",
+          "at": 48.9
         },
         {
           "word": "monarchical",
-          "meaning": "ruled by a king or queen"
+          "meaning": "ruled by a king or queen",
+          "at": 52.21
         },
         {
           "word": "legend",
-          "meaning": "a traditional story about the past"
+          "meaning": "a traditional story about the past",
+          "at": 58.24
         }
       ]
     }
@@ -6113,7 +6272,7 @@
             "The late 1900s"
           ],
           "correctIndex": 0,
-          "keyLine": "since the late 1800s"
+          "keyLine": "since the late 1800s\nalso known as in Mecca is a popular D\nthe market for the locals let's go"
         },
         {
           "start": 47,
@@ -6125,7 +6284,7 @@
             "Over 170"
           ],
           "correctIndex": 1,
-          "keyLine": "undercover look with over 270 stands"
+          "keyLine": "Mankato 305 a was modernized with a new\nundercover look with over 270 stands\nspread over six thousand square meters"
         },
         {
           "start": 78,
@@ -6137,7 +6296,7 @@
             "Within twenty-four hours"
           ],
           "correctIndex": 2,
-          "keyLine": "mozzarella should be in within 24 hours"
+          "keyLine": "mozzarella should be in within 24 hours\nof being made and it should not be\nrefrigerated otherwise it becomes dry"
         }
       ],
       "gist": [
@@ -6181,19 +6340,23 @@
       "words": [
         {
           "word": "residential",
-          "meaning": "an area where people live"
+          "meaning": "an area where people live",
+          "at": 37.1
         },
         {
           "word": "stands",
-          "meaning": "small places where sellers display goods"
+          "meaning": "small places where sellers display goods",
+          "at": 49.82
         },
         {
           "word": "vegetables",
-          "meaning": "plants or plant parts eaten as food"
+          "meaning": "plants or plant parts eaten as food",
+          "at": 57.86
         },
         {
           "word": "refrigerated",
-          "meaning": "kept cold in a fridge"
+          "meaning": "kept cold in a fridge",
+          "at": 83.6
         }
       ]
     }
@@ -6489,7 +6652,7 @@
             "Over twenty thousand"
           ],
           "correctIndex": 0,
-          "keyLine": "Janeiro Carnival hosts over 2 million"
+          "keyLine": "Christian season of Lent. The Rio de\nJaneiro Carnival hosts over 2 million\npeople every day that it's on. And that\nincludes everyone taking part. The very"
         },
         {
           "start": 42,
@@ -6501,7 +6664,7 @@
             "A new city"
           ],
           "correctIndex": 1,
-          "keyLine": "Each samba school chooses a theme,"
+          "keyLine": "months preparing for the grand parades.\nEach samba school chooses a theme,\ncreates incredible floats, which are\nlike\ngiant moving sculptures,\n>> [music]"
         },
         {
           "start": 63,
@@ -6513,7 +6676,7 @@
             "Parades"
           ],
           "correctIndex": 2,
-          "keyLine": "stadium built just for the parades."
+          "keyLine": "stadium built just for the parades.\nThousands of dancers, drummers, singers\ndressed in these incredible costumes"
         }
       ],
       "gist": [
@@ -6557,19 +6720,23 @@
       "words": [
         {
           "word": "community",
-          "meaning": "people connected by a place or interest"
+          "meaning": "people connected by a place or interest",
+          "at": 39.96
         },
         {
           "word": "theme",
-          "meaning": "the main idea of an event"
+          "meaning": "the main idea of an event",
+          "at": 44.96
         },
         {
           "word": "floats",
-          "meaning": "large decorated platforms in a parade"
+          "meaning": "large decorated platforms in a parade",
+          "at": 47.08
         },
         {
           "word": "costumes",
-          "meaning": "special clothes for a performance"
+          "meaning": "special clothes for a performance",
+          "at": 52.04
         }
       ]
     }
@@ -6616,7 +6783,7 @@
             "Market trader"
           ],
           "correctIndex": 0,
-          "keyLine": "an art teacher. He used to take me and"
+          "keyLine": "an art teacher. He used to take me and\nmy brothers to the center. He would\nshare all these fascinating legends and"
         },
         {
           "start": 91,
@@ -6628,7 +6795,7 @@
             "To a doctor examining patients"
           ],
           "correctIndex": 1,
-          "keyLine": "like an actor performing in front of"
+          "keyLine": "like an actor performing in front of\nthis audience having as a stage not a\ntheater, but the actual city. So, the"
         },
         {
           "start": 114,
@@ -6640,7 +6807,7 @@
             "The Aztec city"
           ],
           "correctIndex": 2,
-          "keyLine": "the Aztec city. Only a small portion has"
+          "keyLine": "the Aztec city. Only a small portion has\nbeen\nexcavated. What the Spanish did was to\nbuild temples related to Jesus Christ on"
         }
       ],
       "gist": [
@@ -6684,19 +6851,23 @@
       "words": [
         {
           "word": "legends",
-          "meaning": "traditional stories"
+          "meaning": "traditional stories",
+          "at": 30.4
         },
         {
           "word": "perspective",
-          "meaning": "a way of seeing or understanding something"
+          "meaning": "a way of seeing or understanding something",
+          "at": 45.6
         },
         {
           "word": "audience",
-          "meaning": "people watching or listening"
+          "meaning": "people watching or listening",
+          "at": 96.32
         },
         {
           "word": "excavated",
-          "meaning": "uncovered by digging"
+          "meaning": "uncovered by digging",
+          "at": 119.32
         }
       ]
     }
@@ -6744,7 +6915,7 @@
             "Tourists under thirty"
           ],
           "correctIndex": 0,
-          "keyLine": "females use the female and uh kids of"
+          "keyLine": "females use the female and uh kids of\nless than 12 carriages"
         },
         {
           "start": 57,
@@ -6756,7 +6927,7 @@
             "About five to six"
           ],
           "correctIndex": 1,
-          "keyLine": "avoid you know from about seven in the"
+          "keyLine": "avoid you know from about seven in the\nmorning till 10 and then from like five\nto eight avoid if you can"
         },
         {
           "start": 77,
@@ -6768,7 +6939,7 @@
             "The train can move suddenly"
           ],
           "correctIndex": 2,
-          "keyLine": "hand the Metro is prone to jerking"
+          "keyLine": "hand the Metro is prone to jerking\naround a bit of stopping the suddenly so\nyeah and people do get thrown around a\nbit"
         }
       ],
       "gist": [
@@ -6812,19 +6983,23 @@
       "words": [
         {
           "word": "carriages",
-          "meaning": "sections of a train where people ride"
+          "meaning": "sections of a train where people ride",
+          "at": 45.54
         },
         {
           "word": "rush hour",
-          "meaning": "a busy time when many people travel"
+          "meaning": "a busy time when many people travel",
+          "at": 51.26
         },
         {
           "word": "pocket",
-          "meaning": "a small part of clothing for holding things"
+          "meaning": "a small part of clothing for holding things",
+          "at": 73.14
         },
         {
           "word": "railings",
-          "meaning": "bars that people can hold for support"
+          "meaning": "bars that people can hold for support",
+          "at": 76.619
         }
       ]
     }
@@ -6935,7 +7110,7 @@
             "Seven"
           ],
           "correctIndex": 0,
-          "keyLine": "gonna do right now so we've got five"
+          "keyLine": "you a crash course so that's what we're\ngonna do right now so we've got five"
         },
         {
           "start": 53,
@@ -6947,7 +7122,7 @@
             "Running steps"
           ],
           "correctIndex": 1,
-          "keyLine": "diagonal steps so there are these weird"
+          "keyLine": "diagonal steps so there are these weird\nsteps for like dragging speed like"
         },
         {
           "start": 88,
@@ -7003,19 +7178,23 @@
       "words": [
         {
           "word": "motions",
-          "meaning": "movements"
+          "meaning": "movements",
+          "at": 44.28
         },
         {
           "word": "pivots",
-          "meaning": "turns around a point"
+          "meaning": "turns around a point",
+          "at": 44.28
         },
         {
           "word": "pauses",
-          "meaning": "short stops"
+          "meaning": "short stops",
+          "at": 47.78
         },
         {
           "word": "diagonal",
-          "meaning": "moving at an angle"
+          "meaning": "moving at an angle",
+          "at": 55.23
         }
       ]
     }
@@ -7061,7 +7240,7 @@
             "Eighty-eight metres"
           ],
           "correctIndex": 0,
-          "keyLine": "Standing 68 meters tall, El Obelisco was erected\nin 1936 to commemorate the creation of the"
+          "keyLine": "Standing 68 meters tall, El Obelisco was erected\nin 1936 to commemorate the creation of the\ncity.\nIt is built on the site where the national\nflag was flown for the first time."
         },
         {
           "start": 54,
@@ -7085,7 +7264,7 @@
             "The British community"
           ],
           "correctIndex": 2,
-          "keyLine": "It is also known as El Torre de los Ingleses\n(The English Tower), because it was donated"
+          "keyLine": "It is also known as El Torre de los Ingleses\n(The English Tower), because it was donated\nto Argentina by the British Community of Buenos\nAires in the early 20th century."
         }
       ],
       "gist": [
@@ -7129,19 +7308,23 @@
       "words": [
         {
           "word": "landmark",
-          "meaning": "a well-known building or feature"
+          "meaning": "a well-known building or feature",
+          "at": 64.9
         },
         {
           "word": "commemorate",
-          "meaning": "help people remember an event"
+          "meaning": "help people remember an event",
+          "at": 38.46
         },
         {
           "word": "donated",
-          "meaning": "given as a gift"
+          "meaning": "given as a gift",
+          "at": 70.94
         },
         {
           "word": "emblems",
-          "meaning": "pictures or signs representing something"
+          "meaning": "pictures or signs representing something",
+          "at": 80.37
         }
       ]
     }
@@ -7220,10 +7403,10 @@
             "Your student notebook"
           ],
           "correctIndex": 0,
-          "keyLine": "your phone to pay for your fair. Just"
+          "keyLine": "your phone to pay for your fair. Just\ndownload the tap app on your phone."
         },
         {
-          "start": 41,
+          "start": 40,
           "end": 54,
           "question": "How early should you arrive?",
           "options": [
@@ -7232,7 +7415,7 @@
             "Twenty minutes"
           ],
           "correctIndex": 1,
-          "keyLine": "early to your station."
+          "keyLine": "It's a good idea to arrive 10 minutes\nearly to your station.\nOnce you arrive, locate the turn style\nor validator as you approach the rail"
         },
         {
           "start": 64,
@@ -7244,7 +7427,7 @@
             "A beep and a go message"
           ],
           "correctIndex": 2,
-          "keyLine": "dial. Wait for the beep and go message"
+          "keyLine": "your tap card or phone over the tap\ndial. Wait for the beep and go message\nand then proceed.\nRemember to stand behind the yellow"
         }
       ],
       "gist": [
@@ -7288,19 +7471,23 @@
       "words": [
         {
           "word": "phone",
-          "meaning": "a device used for calls and apps"
+          "meaning": "a device used for calls and apps",
+          "at": 25.76
         },
         {
           "word": "transfers",
-          "meaning": "changes to another travel service"
+          "meaning": "changes to another travel service",
+          "at": 31.84
         },
         {
           "word": "validator",
-          "meaning": "a machine checking travel payment"
+          "meaning": "a machine checking travel payment",
+          "at": 48.399
         },
         {
           "word": "boarding",
-          "meaning": "getting onto a vehicle"
+          "meaning": "getting onto a vehicle",
+          "at": 76.159
         }
       ]
     }
@@ -7348,7 +7535,7 @@
             "Apples"
           ],
           "correctIndex": 0,
-          "keyLine": "the world's largest producer of"
+          "keyLine": "the world's largest producer of\npineapples, and it had an interest in"
         },
         {
           "start": 97,
@@ -7360,11 +7547,11 @@
             "Fruit prices were falling"
           ],
           "correctIndex": 1,
-          "keyLine": "California is that crops are dying. And"
+          "keyLine": "happening to air quality in Southern\nCalifornia is that crops are dying. And\nthey are desperate to figure out why."
         },
         {
-          "start": 127,
-          "end": 140,
+          "start": 125,
+          "end": 141,
           "question": "About how much air did he collect?",
           "options": [
             "Fifty cubic feet",
@@ -7372,7 +7559,7 @@
             "Five hundred cubic feet"
           ],
           "correctIndex": 2,
-          "keyLine": "feet of air, about the amount that a"
+          "keyLine": "pineapples. He drew in about 500 cubic\nfeet of air, about the amount that a\ntypical person would breathe in a day."
         }
       ],
       "gist": [
@@ -7416,19 +7603,23 @@
       "words": [
         {
           "word": "artificial",
-          "meaning": "made by people rather than occurring naturally"
+          "meaning": "made by people rather than occurring naturally",
+          "at": 60.48
         },
         {
           "word": "agriculture",
-          "meaning": "growing crops and raising farm animals"
+          "meaning": "growing crops and raising farm animals",
+          "at": 89.2
         },
         {
           "word": "crops",
-          "meaning": "plants grown for food or other use"
+          "meaning": "plants grown for food or other use",
+          "at": 99.759
         },
         {
           "word": "distilled",
-          "meaning": "separated or concentrated through a process"
+          "meaning": "separated or concentrated through a process",
+          "at": 134.64
         }
       ]
     }
@@ -7505,7 +7696,7 @@
             "Railway signals"
           ],
           "correctIndex": 0,
-          "keyLine": "workers are making sure that water pumps"
+          "keyLine": "workers are making sure that water pumps\nare next to the Chilean river that flows\nthrough Jakarta are working properly in"
         },
         {
           "start": 67,
@@ -7517,7 +7708,7 @@
             "Free tickets on every bus"
           ],
           "correctIndex": 1,
-          "keyLine": "dollars in compensation for property"
+          "keyLine": "dollars in compensation for property\ndamages and loss of lives 67 people who"
         },
         {
           "start": 117,
@@ -7529,7 +7720,7 @@
             "Residents resist relocation and want better compensation"
           ],
           "correctIndex": 2,
-          "keyLine": "refusing to be relocated they want"
+          "keyLine": "close to the river banks are still\nrefusing to be relocated they want\nbetter compensation president Joko\nWidodo has stepped in to push regional"
         }
       ],
       "gist": [
@@ -7543,11 +7734,11 @@
           "correctIndex": 0
         },
         {
-          "q": "What response is being used before more rain?",
+          "q": "What action did affected residents take?",
           "options": [
-            "Moving all residents outside Indonesia",
-            "Additional pumps in low-lying areas",
-            "Closing every bridge permanently"
+            "Organised only volunteer repair teams",
+            "Sought compensation through a lawsuit",
+            "Requested only cheaper travel"
           ],
           "correctIndex": 1
         },
@@ -7573,19 +7764,23 @@
       "words": [
         {
           "word": "compensation",
-          "meaning": "money for loss or damage"
+          "meaning": "money for loss or damage",
+          "at": 69.03
         },
         {
           "word": "mitigation",
-          "meaning": "reducing the seriousness of a problem"
+          "meaning": "reducing the seriousness of a problem",
+          "at": 93.21
         },
         {
           "word": "divert",
-          "meaning": "send along a different route"
+          "meaning": "send along a different route",
+          "at": 103.619
         },
         {
           "word": "relocated",
-          "meaning": "moved to another place"
+          "meaning": "moved to another place",
+          "at": 119.579
         }
       ]
     }
@@ -7633,7 +7828,7 @@
             "1999"
           ],
           "correctIndex": 0,
-          "keyLine": "operational in 2019 close to 100,000"
+          "keyLine": "operational in 2019 close to 100,000\npeople use it every day Takata is home"
         },
         {
           "start": 51,
@@ -7645,7 +7840,7 @@
             "A tax on hotels only"
           ],
           "correctIndex": 1,
-          "keyLine": "loan of nearly $1 billion from Japan"
+          "keyLine": "expansion is made possible because of a\nloan of nearly $1 billion from Japan\nIndonesia's president Joo woto says the"
         },
         {
           "start": 115,
@@ -7657,7 +7852,7 @@
             "Sixty percent"
           ],
           "correctIndex": 2,
-          "keyLine": "60% of the population using public"
+          "keyLine": "60% of the population using public\ntransport the growing public"
         }
       ],
       "gist": [
@@ -7701,19 +7896,23 @@
       "words": [
         {
           "word": "commute",
-          "meaning": "travel regularly between home and work"
+          "meaning": "travel regularly between home and work",
+          "at": 41.92
         },
         {
           "word": "expansion",
-          "meaning": "making something larger"
+          "meaning": "making something larger",
+          "at": 51.399
         },
         {
           "word": "pollutants",
-          "meaning": "substances that make air or water dirty"
+          "meaning": "substances that make air or water dirty",
+          "at": 94.28
         },
         {
           "word": "congestion",
-          "meaning": "too much traffic in one place"
+          "meaning": "too much traffic in one place",
+          "at": 104.32
         }
       ]
     }
@@ -7806,7 +8005,7 @@
             "Snowfall"
           ],
           "correctIndex": 1,
-          "keyLine": "Lagos is a congested city so we have to"
+          "keyLine": "Lagos is a congested city so we have to\nobviously find Alternatives which is why\nthe state government has been carrying"
         },
         {
           "start": 158,
@@ -7818,7 +8017,7 @@
             "The city’s population"
           ],
           "correctIndex": 2,
-          "keyLine": "Lagos population is a major challenge"
+          "keyLine": "Lagos population is a major challenge\neven knowing the population is a major\nchallenge now even if when we know the"
         }
       ],
       "gist": [
@@ -7862,23 +8061,28 @@
       "words": [
         {
           "word": "boats",
-          "meaning": "small water vehicles"
+          "meaning": "small water vehicles",
+          "at": 95.96
         },
         {
           "word": "road",
-          "meaning": "route for land vehicles"
+          "meaning": "route for land vehicles",
+          "at": 109.04
         },
         {
           "word": "congested",
-          "meaning": "too crowded with traffic"
+          "meaning": "too crowded with traffic",
+          "at": 125.399
         },
         {
           "word": "alternatives",
-          "meaning": "other choices"
+          "meaning": "other choices",
+          "at": 128.459
         },
         {
           "word": "multimodal",
-          "meaning": "using several kinds of transport"
+          "meaning": "using several kinds of transport",
+          "at": 136.44
         }
       ],
       "static": [
@@ -8005,7 +8209,7 @@
             "Beds, tables and chairs"
           ],
           "correctIndex": 0,
-          "keyLine": "traditional clothing and handcrafted"
+          "keyLine": "traditional clothing and handcrafted\njewelry and paintings Philip a bazilian"
         },
         {
           "start": 58,
@@ -8017,7 +8221,7 @@
             "It is empty and silent"
           ],
           "correctIndex": 1,
-          "keyLine": "get to feel the African Vibe when I'm"
+          "keyLine": "get to feel the African Vibe when I'm\nhere like I get to see"
         },
         {
           "start": 76,
@@ -8029,7 +8233,7 @@
             "Over 150"
           ],
           "correctIndex": 2,
-          "keyLine": "which has over 150 stalls also sells"
+          "keyLine": "which has over 150 stalls also sells\nfruits vegetables and fresh fish and"
         }
       ],
       "gist": [
@@ -8073,19 +8277,23 @@
       "words": [
         {
           "word": "traditional",
-          "meaning": "following customs from the past"
+          "meaning": "following customs from the past",
+          "at": 31.359
         },
         {
           "word": "handcrafted",
-          "meaning": "made by hand"
+          "meaning": "made by hand",
+          "at": 31.359
         },
         {
           "word": "culture",
-          "meaning": "a group’s customs and way of life"
+          "meaning": "a group’s customs and way of life",
+          "at": 71.119
         },
         {
           "word": "stalls",
-          "meaning": "small places where people sell goods"
+          "meaning": "small places where people sell goods",
+          "at": 78.52
         }
       ]
     }
@@ -8164,7 +8372,7 @@
             "Farms"
           ],
           "correctIndex": 0,
-          "keyLine": "creates malls which include residential"
+          "keyLine": "developer it builds the subway around it\ncreates malls which include residential\nApartments office space hotels and"
         },
         {
           "start": 69,
@@ -8176,7 +8384,7 @@
             "Plentiful space and scattered homes"
           ],
           "correctIndex": 1,
-          "keyLine": "space is limited and vertical living is"
+          "keyLine": "works in a city like Hong Kong where\nspace is limited and vertical living is\nthe norm the MTR Corporation builds the\ntransport Hub and the malls in exchange"
         },
         {
           "start": 84,
@@ -8188,7 +8396,7 @@
             "Less than one dollar"
           ],
           "correctIndex": 2,
-          "keyLine": "fairs being less than $1 which is low"
+          "keyLine": "maintain the network that's all despite\nfairs being less than $1 which is low\ncompared to Tokyo and New York put the"
         }
       ],
       "gist": [
@@ -8232,23 +8440,28 @@
       "words": [
         {
           "word": "rail",
-          "meaning": "train transport"
+          "meaning": "train transport",
+          "at": 24.279
         },
         {
           "word": "residential",
-          "meaning": "used as homes"
+          "meaning": "used as homes",
+          "at": 31.92
         },
         {
           "word": "infrastructure",
-          "meaning": "basic systems a city needs"
+          "meaning": "basic systems a city needs",
+          "at": 62.559
         },
         {
           "word": "profits",
-          "meaning": "money left after costs"
+          "meaning": "money left after costs",
+          "at": 80.119
         },
         {
           "word": "reinvested",
-          "meaning": "put back into a project"
+          "meaning": "put back into a project",
+          "at": 82.04
         }
       ],
       "static": [
@@ -8842,7 +9055,7 @@
             "265"
           ],
           "correctIndex": 0,
-          "keyLine": "Amsterdam has 165 canals stretching for"
+          "keyLine": "Number one.\nAmsterdam has 165 canals stretching for\nmore than 100 km."
         },
         {
           "start": 51,
@@ -8854,7 +9067,7 @@
             "Nineteen"
           ],
           "correctIndex": 1,
-          "keyLine": "canals into 90 distinct islands."
+          "keyLine": "The city of Amsterdam is divided by\ncanals into 90 distinct islands.\nNumber five."
         },
         {
           "start": 75,
@@ -8866,7 +9079,7 @@
             "More than 1,700"
           ],
           "correctIndex": 2,
-          "keyLine": "While there are more than 1,700 bridges"
+          "keyLine": "Venice's waterways.\nWhile there are more than 1,700 bridges\nin Amsterdam.\nNumber seven."
         }
       ],
       "gist": [
@@ -8910,19 +9123,23 @@
       "words": [
         {
           "word": "canals",
-          "meaning": "water channels made by people"
+          "meaning": "water channels made by people",
+          "at": 20.48
         },
         {
           "word": "heritage",
-          "meaning": "important things from the past"
+          "meaning": "important things from the past",
+          "at": 36.16
         },
         {
           "word": "islands",
-          "meaning": "land surrounded by water"
+          "meaning": "land surrounded by water",
+          "at": 53.28
         },
         {
           "word": "bridges",
-          "meaning": "structures crossing water or roads"
+          "meaning": "structures crossing water or roads",
+          "at": 70.32
         }
       ]
     }
@@ -8982,7 +9199,7 @@
             "Building plans"
           ],
           "correctIndex": 1,
-          "keyLine": "all the stories alive and I take that"
+          "keyLine": "language and it was the hula that kept\nall the stories alive and I take that"
         },
         {
           "start": 123,
@@ -9038,19 +9255,23 @@
       "words": [
         {
           "word": "responsibility",
-          "meaning": "a duty to care for something"
+          "meaning": "a duty to care for something",
+          "at": 65.309
         },
         {
           "word": "perpetuating",
-          "meaning": "keeping something alive or continuing"
+          "meaning": "keeping something alive or continuing",
+          "at": 97.56
         },
         {
           "word": "foundation",
-          "meaning": "a base on which something is built"
+          "meaning": "a base on which something is built",
+          "at": 112.319
         },
         {
           "word": "bridge",
-          "meaning": "a connection between things or times"
+          "meaning": "a connection between things or times",
+          "at": 112.319
         }
       ]
     }
@@ -9099,7 +9320,7 @@
             "Potato"
           ],
           "correctIndex": 0,
-          "keyLine": "A spam musubi would be rice.\nIt's like, usually a rice ball,"
+          "keyLine": "including spam musubi.\nA spam musubi would be rice.\nIt's like, usually a rice ball,\nand then it has a slice of spam\nand seaweed on it, nori. But we"
         },
         {
           "start": 76,
@@ -9123,7 +9344,7 @@
             "Spam"
           ],
           "correctIndex": 2,
-          "keyLine": "they tend to think spam,\nwhereas, if you told somebody"
+          "keyLine": "they tend to think spam,\nwhereas, if you told somebody\nthat's Japanese, can you grab me\na musubi, it would be something"
         }
       ],
       "gist": [
@@ -9167,19 +9388,23 @@
       "words": [
         {
           "word": "seaweed",
-          "meaning": "a plant-like food from the sea"
+          "meaning": "a plant-like food from the sea",
+          "at": 57.09
         },
         {
           "word": "toppings",
-          "meaning": "foods added on top"
+          "meaning": "foods added on top",
+          "at": 64.77
         },
         {
           "word": "traditional",
-          "meaning": "following an older style"
+          "meaning": "following an older style",
+          "at": 68.46
         },
         {
           "word": "portability",
-          "meaning": "being easy to carry"
+          "meaning": "being easy to carry",
+          "at": 96.63
         }
       ]
     }
@@ -9508,7 +9733,7 @@
             "Shopping, ticket printing and lockers"
           ],
           "correctIndex": 0,
-          "keyLine": "with air conditioning, charging ports,"
+          "keyLine": "sun. Take a look. They have the shelter\nwith air conditioning, charging ports,\nand free Wi-Fi. Now, this is one of 14"
         },
         {
           "start": 62,
@@ -9520,7 +9745,7 @@
             "Ten miles"
           ],
           "correctIndex": 1,
-          "keyLine": "transit system in the county. It runs 20"
+          "keyLine": "transit system in the county. It runs 20\nmiles from Florida City to Dland South\nMetro Rail Station and a designated lane"
         },
         {
           "start": 80,
@@ -9532,7 +9757,7 @@
             "Electric bus rapid transit"
           ],
           "correctIndex": 2,
-          "keyLine": "bus rapid transit service in the US"
+          "keyLine": "officials say it's the longest electric\nbus rapid transit service in the US\n>> because it's going to transform the way\npeople get around. It's to their jobs,"
         }
       ],
       "gist": [
@@ -9576,19 +9801,23 @@
       "words": [
         {
           "word": "shelter",
-          "meaning": "a covered place protecting people from weather"
+          "meaning": "a covered place protecting people from weather",
+          "at": 21.039
         },
         {
           "word": "commute",
-          "meaning": "a regular journey to work or school"
+          "meaning": "a regular journey to work or school",
+          "at": 19.199
         },
         {
           "word": "designated",
-          "meaning": "set aside for a particular use"
+          "meaning": "set aside for a particular use",
+          "at": 69.28
         },
         {
           "word": "priority",
-          "meaning": "being allowed to go first"
+          "meaning": "being allowed to go first",
+          "at": 74.479
         }
       ]
     }
@@ -9666,7 +9895,7 @@
             "The airport authority"
           ],
           "correctIndex": 0,
-          "keyLine": "bank of the Republic has preserved"
+          "keyLine": "bank of the Republic has preserved\ncatalogued and exhibited these\nhistorical artifacts in the Colombian\ncapital the different exhibits also"
         },
         {
           "start": 56,
@@ -9678,7 +9907,7 @@
             "Identical daily routines"
           ],
           "correctIndex": 1,
-          "keyLine": "different rituals myths and customs"
+          "keyLine": "different rituals myths and customs\nreflected in the relics they left behind"
         },
         {
           "start": 83,
@@ -9734,19 +9963,23 @@
       "words": [
         {
           "word": "artifacts",
-          "meaning": "objects made or used by people in the past"
+          "meaning": "objects made or used by people in the past",
+          "at": 29.369
         },
         {
           "word": "exhibits",
-          "meaning": "things displayed for people to see"
+          "meaning": "things displayed for people to see",
+          "at": 43.739
         },
         {
           "word": "rituals",
-          "meaning": "actions performed as part of a custom"
+          "meaning": "actions performed as part of a custom",
+          "at": 58.079
         },
         {
           "word": "relics",
-          "meaning": "objects surviving from the past"
+          "meaning": "objects surviving from the past",
+          "at": 60.68
         }
       ]
     }
@@ -10011,7 +10244,7 @@
             "Six years"
           ],
           "correctIndex": 0,
-          "keyLine": "one year but it's now been"
+          "keyLine": "study she originally wanted to stay for\none year but it's now been"
         },
         {
           "start": 95,
@@ -10023,7 +10256,7 @@
             "Only the delivery van"
           ],
           "correctIndex": 1,
-          "keyLine": "design and color"
+          "keyLine": "one or order one according to your own\ndesign and color\ncombination they're great because\nthey're very warm and even slightly"
         },
         {
           "start": 142,
@@ -10035,7 +10268,7 @@
             "More than one hundred"
           ],
           "correctIndex": 2,
-          "keyLine": "where it can be found in more than a 100"
+          "keyLine": "where it can be found in more than a 100\nstores"
         }
       ],
       "gist": [
@@ -10079,19 +10312,23 @@
       "words": [
         {
           "word": "understated",
-          "meaning": "not showy or highly decorated"
+          "meaning": "not showy or highly decorated",
+          "at": 53.64
         },
         {
           "word": "handicrafts",
-          "meaning": "objects made by hand with skill"
+          "meaning": "objects made by hand with skill",
+          "at": 84.68
         },
         {
           "word": "water resistant",
-          "meaning": "able to keep some water out"
+          "meaning": "able to keep some water out",
+          "at": 104.159
         },
         {
           "word": "reputation",
-          "meaning": "what people think about someone or something"
+          "meaning": "what people think about someone or something",
+          "at": 139.0
         }
       ]
     }
@@ -10168,7 +10405,7 @@
             "One half"
           ],
           "correctIndex": 0,
-          "keyLine": "of the nation come together and"
+          "keyLine": "event of the year in Iceland. One third\nof the nation come together and\ncelebrates. We know that all kind of\npeople and and places are organizing\nevents that are not a part of our"
         },
         {
           "start": 23,
@@ -10180,7 +10417,7 @@
             "A boat race"
           ],
           "correctIndex": 1,
-          "keyLine": "framed in with with the marathon in the"
+          "keyLine": "framed in with with the marathon in the\nmorning and the firework show at the\nend. But uh what happens in the\nmeantime, all the all the small events"
         },
         {
           "start": 58,
@@ -10192,7 +10429,7 @@
             "Bringing the show closer to people"
           ],
           "correctIndex": 2,
-          "keyLine": "it closer to the people is the main"
+          "keyLine": "it closer to the people is the main\nfocus."
         }
       ],
       "gist": [
@@ -10236,19 +10473,23 @@
       "words": [
         {
           "word": "event",
-          "meaning": "something planned for people to attend"
+          "meaning": "something planned for people to attend",
+          "at": 8.8
         },
         {
           "word": "organizing",
-          "meaning": "planning and arranging"
+          "meaning": "planning and arranging",
+          "at": 14.88
         },
         {
           "word": "program",
-          "meaning": "a planned list of activities"
+          "meaning": "a planned list of activities",
+          "at": 18.16
         },
         {
           "word": "focus",
-          "meaning": "the main thing receiving attention"
+          "meaning": "the main thing receiving attention",
+          "at": 64.92
         }
       ]
     }
@@ -10296,7 +10537,7 @@
             "From Uganda to Cape Town"
           ],
           "correctIndex": 0,
-          "keyLine": "build a train track from Mombasa all the"
+          "keyLine": "build a train track from Mombasa all the\nway to Uganda. They called it [music]\nthe Lunatic Line because, honestly, it"
         },
         {
           "start": 82,
@@ -10308,7 +10549,7 @@
             "A place to build ships"
           ],
           "correctIndex": 1,
-          "keyLine": "place to put their stuff and rest"
+          "keyLine": "The workers were tired and needed a\nplace to put their stuff and rest\n[music] their feet before trying to\nclimb that giant wall. They were just\nlooking for a camp, but [music] they"
         },
         {
           "start": 114,
@@ -10320,7 +10561,7 @@
             "Place of cool waters"
           ],
           "correctIndex": 2,
-          "keyLine": "cool waters."
+          "keyLine": "cool waters.\nBut to the British engineers, it didn't\nhave such a poetic name. It was just"
         }
       ],
       "gist": [
@@ -10364,19 +10605,23 @@
       "words": [
         {
           "word": "project",
-          "meaning": "a planned piece of work"
+          "meaning": "a planned piece of work",
+          "at": 44.44
         },
         {
           "word": "cliff",
-          "meaning": "a steep rock face"
+          "meaning": "a steep rock face",
+          "at": 73.0
         },
         {
           "word": "camp",
-          "meaning": "a temporary place to stay"
+          "meaning": "a temporary place to stay",
+          "at": 91.12
         },
         {
           "word": "highlands",
-          "meaning": "an area of higher land"
+          "meaning": "an area of higher land",
+          "at": 132.68
         }
       ]
     }
@@ -10454,7 +10699,7 @@
             "Only UNESCO and UNFPA"
           ],
           "correctIndex": 0,
-          "keyLine": "UN Habitat and UN environment program."
+          "keyLine": "the city has hosted the headquarters of\nUN Habitat and UN environment program.\nAnd now even more is coming. UNICEF,"
         },
         {
           "start": 47,
@@ -10466,7 +10711,7 @@
             "More than 600"
           ],
           "correctIndex": 1,
-          "keyLine": "Today, more than 6,000 people work under"
+          "keyLine": "Today, more than 6,000 people work under\nthe UN in Kenya, and over 50 UN entities"
         },
         {
           "start": 83,
@@ -10478,7 +10723,7 @@
             "9,000 delegates"
           ],
           "correctIndex": 2,
-          "keyLine": "hosting 2,000 delegates to 9,000,"
+          "keyLine": "conference facilities will jump from\nhosting 2,000 delegates to 9,000,\nputting the city at par with New York\nand Geneva."
         }
       ],
       "gist": [
@@ -10505,7 +10750,7 @@
           "options": [
             "Only foreign airlines",
             "Only people living outside Kenya",
-            "Local contractors and service businesses"
+            "Local workers and businesses"
           ],
           "correctIndex": 2
         }
@@ -10522,19 +10767,23 @@
       "words": [
         {
           "word": "headquarters",
-          "meaning": "the main offices of an organisation"
+          "meaning": "the main offices of an organisation",
+          "at": 15.28
         },
         {
           "word": "entities",
-          "meaning": "organisations or units treated as separate bodies"
+          "meaning": "organisations or units treated as separate bodies",
+          "at": 52.399
         },
         {
           "word": "delegates",
-          "meaning": "people representing groups at meetings"
+          "meaning": "people representing groups at meetings",
+          "at": 85.36
         },
         {
           "word": "assembly",
-          "meaning": "a group meeting for discussion or decisions"
+          "meaning": "a group meeting for discussion or decisions",
+          "at": 69.52
         }
       ]
     }
@@ -10581,7 +10830,7 @@
             "City of Islands"
           ],
           "correctIndex": 0,
-          "keyLine": "earns the title of city of Kings a grand"
+          "keyLine": "earns the title of city of Kings a grand\nname don't you think a fitting title for\na city destined to become the heart of"
         },
         {
           "start": 92,
@@ -10593,7 +10842,7 @@
             "French and Roman"
           ],
           "correctIndex": 1,
-          "keyLine": "riot of colors selling Goods that blend"
+          "keyLine": "riot of colors selling Goods that blend\nboth Spanish and andian influences the\nSpanish brought their architectural"
         },
         {
           "start": 138,
@@ -10605,7 +10854,7 @@
             "1821"
           ],
           "correctIndex": 2,
-          "keyLine": "1821 is a pivotal moment not just for"
+          "keyLine": "Martin's proclamation of independence in\n1821 is a pivotal moment not just for\nLima but for all of Peru it's a moment\nthat shatters the shackles of colonial\nrule a moment that marks the dawn of a"
         }
       ],
       "gist": [
@@ -10649,19 +10898,23 @@
       "words": [
         {
           "word": "heritage",
-          "meaning": "traditions and things inherited from the past"
+          "meaning": "traditions and things inherited from the past",
+          "at": 62.519
         },
         {
           "word": "fusion",
-          "meaning": "a combination of different elements"
+          "meaning": "a combination of different elements",
+          "at": 83.64
         },
         {
           "word": "diversity",
-          "meaning": "a range of different kinds"
+          "meaning": "a range of different kinds",
+          "at": 106.079
         },
         {
           "word": "proclamation",
-          "meaning": "a formal public announcement"
+          "meaning": "a formal public announcement",
+          "at": 138.08
         }
       ]
     }
@@ -10739,7 +10992,7 @@
             "Shop owners"
           ],
           "correctIndex": 0,
-          "keyLine": "transport unions have called for a"
+          "keyLine": "transport unions have called for a\nsecond strike in 2 weeks demanding the\ngovernment to take action against"
         },
         {
           "start": 43,
@@ -10751,7 +11004,7 @@
             "Hospitals"
           ],
           "correctIndex": 1,
-          "keyLine": "schools are shut and the government has"
+          "keyLine": "schools are shut and the government has\nurged businesses to allow employees to\nwork from home many shops and markets"
         },
         {
           "start": 70,
@@ -10763,7 +11016,7 @@
             "165 percent"
           ],
           "correctIndex": 2,
-          "keyLine": "2023 were up 165% from the previous year"
+          "keyLine": "figures show arrests for extortion in\n2023 were up 165% from the previous year"
         }
       ],
       "gist": [
@@ -10807,23 +11060,28 @@
       "words": [
         {
           "word": "commuters",
-          "meaning": "people travelling regularly"
+          "meaning": "people travelling regularly",
+          "at": 2.52
         },
         {
           "word": "strike",
-          "meaning": "workers stopping work in protest"
+          "meaning": "workers stopping work in protest",
+          "at": 11.0
         },
         {
           "word": "insecurity",
-          "meaning": "lack of safety"
+          "meaning": "lack of safety",
+          "at": 30.439
         },
         {
           "word": "extortion",
-          "meaning": "getting money through threats"
+          "meaning": "getting money through threats",
+          "at": 57.359
         },
         {
           "word": "work from home",
-          "meaning": "do your job at home"
+          "meaning": "do your job at home",
+          "at": 49.8
         }
       ],
       "static": [
@@ -10951,7 +11209,7 @@
             "An inland mountain"
           ],
           "correctIndex": 0,
-          "keyLine": "Today, most quokkas reside on Rottnest"
+          "keyLine": "Today, most quokkas reside on Rottnest\n[music] Island, a rare haven where they"
         },
         {
           "start": 58,
@@ -10963,7 +11221,7 @@
             "School uniforms"
           ],
           "correctIndex": 1,
-          "keyLine": "The rise of the quokka selfie may not"
+          "keyLine": "The rise of the quokka selfie may not\nhave been conservation, but it was\nattention."
         },
         {
           "start": 71,
@@ -10975,7 +11233,7 @@
             "Direct interaction with wildlife"
           ],
           "correctIndex": 2,
-          "keyLine": "While direct interaction with wildlife"
+          "keyLine": "While direct interaction with wildlife\nis not encouraged, the global\nrecognition of these grinning marsupials"
         }
       ],
       "gist": [
@@ -11019,19 +11277,23 @@
       "words": [
         {
           "word": "bold",
-          "meaning": "confident rather than shy"
+          "meaning": "confident rather than shy",
+          "at": 53.2
         },
         {
           "word": "haven",
-          "meaning": "a safe place"
+          "meaning": "a safe place",
+          "at": 44.54
         },
         {
           "word": "inquisitive",
-          "meaning": "curious"
+          "meaning": "curious",
+          "at": 53.2
         },
         {
           "word": "awareness",
-          "meaning": "knowing and understanding that something exists"
+          "meaning": "knowing and understanding that something exists",
+          "at": 67.88
         }
       ]
     }
@@ -11079,7 +11341,7 @@
             "Doubling by 2050"
           ],
           "correctIndex": 0,
-          "keyLine": "to double by"
+          "keyLine": "to double by\n2030 with residents already spread over\nan area nearly four times the size of\nlondon"
         },
         {
           "start": 48,
@@ -11091,7 +11353,7 @@
             "Digital maps"
           ],
           "correctIndex": 1,
-          "keyLine": "to use smart card technology it's also"
+          "keyLine": "transport system in australia\nto use smart card technology it's also\nfully integrated with bus train and\nferry services"
         },
         {
           "start": 72,
@@ -11103,7 +11365,7 @@
             "Bus rapid transport"
           ],
           "correctIndex": 2,
-          "keyLine": "include the introduction of a bus"
+          "keyLine": "future developments being explored\ninclude the introduction of a bus\nrapid transport system a new light rail\nservice\nand expansion of the existing rail and"
         }
       ],
       "gist": [
@@ -11147,23 +11409,28 @@
       "words": [
         {
           "word": "demand",
-          "meaning": "how much a service is wanted"
+          "meaning": "how much a service is wanted",
+          "at": 40.8
         },
         {
           "word": "innovation",
-          "meaning": "use of new ideas"
+          "meaning": "use of new ideas",
+          "at": 45.84
         },
         {
           "word": "integrated",
-          "meaning": "joined into one system"
+          "meaning": "joined into one system",
+          "at": 53.12
         },
         {
           "word": "satisfaction",
-          "meaning": "feeling that something is good"
+          "meaning": "feeling that something is good",
+          "at": 65.36
         },
         {
           "word": "rapid transport",
-          "meaning": "fast travel service"
+          "meaning": "fast travel service",
+          "at": 76.32
         }
       ],
       "static": [
@@ -11320,7 +11587,7 @@
             "1,800 years"
           ],
           "correctIndex": 0,
-          "keyLine": "next to what's left from a\n180,000-year-old eruption"
+          "keyLine": "next to what's left from a\n180,000-year-old eruption\nin the Auckland Volcanic Field.\nSo it's very exciting."
         },
         {
           "start": 50,
@@ -11332,7 +11599,7 @@
             "Thirty-five"
           ],
           "correctIndex": 1,
-          "keyLine": "Pupuke is just one of 53\nvolcanoes that we have"
+          "keyLine": "Pupuke is just one of 53\nvolcanoes that we have\nhere in the Auckland\nVolcanic Field.\nAnd those volcanoes are\nspread out across an area,\nspanning 24 metres from the\ncity centre,"
         },
         {
           "start": 81,
@@ -11344,7 +11611,7 @@
             "Scoria cones and lava flows"
           ],
           "correctIndex": 2,
-          "keyLine": "but you also get the maunga\nor the scoria cones, we call them."
+          "keyLine": "but you also get the maunga\nor the scoria cones, we call them.\nYou also get some lava flows,\nwhich are like solid crusts"
         }
       ],
       "gist": [
@@ -11388,19 +11655,23 @@
       "words": [
         {
           "word": "eruption",
-          "meaning": "when a volcano releases material"
+          "meaning": "when a volcano releases material",
+          "at": 37.747
         },
         {
           "word": "volcanoes",
-          "meaning": "places where hot material can emerge from the earth"
+          "meaning": "places where hot material can emerge from the earth",
+          "at": 46.934
         },
         {
           "word": "features",
-          "meaning": "noticeable parts of a place"
+          "meaning": "noticeable parts of a place",
+          "at": 77.694
         },
         {
           "word": "lava flows",
-          "meaning": "streams of hot rock that later become solid"
+          "meaning": "streams of hot rock that later become solid",
+          "at": 87.826
         }
       ]
     }
@@ -11448,7 +11719,7 @@
             "It is entirely underground"
           ],
           "correctIndex": 0,
-          "keyLine": "is the first fully electric bus depot"
+          "keyLine": "is the first fully electric bus depot\nthat we're launching for New Zealand\nit's also australasia's largest electric"
         },
         {
           "start": 71,
@@ -11460,7 +11731,7 @@
             "Thirty-four"
           ],
           "correctIndex": 1,
-          "keyLine": "44 diesel buses that used to reside here"
+          "keyLine": "44 diesel buses that used to reside here\nwe couldn't do this without the\npartnership and support of at Auckland"
         },
         {
           "start": 91,
@@ -11472,7 +11743,7 @@
             "Smart charging technology"
           ],
           "correctIndex": 2,
-          "keyLine": "smart charging technology wsp who did"
+          "keyLine": "smart charging technology wsp who did\nthe design and all of the projects\npeople that made this happen it's been a"
         }
       ],
       "gist": [
@@ -11516,19 +11787,23 @@
       "words": [
         {
           "word": "depot",
-          "meaning": "a place where vehicles are stored and maintained"
+          "meaning": "a place where vehicles are stored and maintained",
+          "at": 27.24
         },
         {
           "word": "diesel",
-          "meaning": "a fuel used in some engines"
+          "meaning": "a fuel used in some engines",
+          "at": 38.52
         },
         {
           "word": "decarbonization",
-          "meaning": "reducing carbon emissions"
+          "meaning": "reducing carbon emissions",
+          "at": 83.52
         },
         {
           "word": "deployment",
-          "meaning": "putting equipment into active use"
+          "meaning": "putting equipment into active use",
+          "at": 105.18
         }
       ]
     }
@@ -11604,7 +11879,7 @@
             "Only factory machinery"
           ],
           "correctIndex": 0,
-          "keyLine": "brings in produce from all around"
+          "keyLine": "brings in produce from all around\nvt level and and indeed the rest of the"
         },
         {
           "start": 94,
@@ -11616,7 +11891,7 @@
             "One to two years"
           ],
           "correctIndex": 1,
-          "keyLine": "over the last 10 to 15 years since since"
+          "keyLine": "over the last 10 to 15 years since since\nI lived here they're you know connected\nto the world"
         },
         {
           "start": 123,
@@ -11628,7 +11903,7 @@
             "Traffic"
           ],
           "correctIndex": 2,
-          "keyLine": "significant problem with traffic and"
+          "keyLine": "of course you can see there's a\nsignificant problem with traffic and\nthere's what this kind of one-way in\nreally and one way out of silver kind of\nand it is a problem"
         }
       ],
       "gist": [
@@ -11672,19 +11947,23 @@
       "words": [
         {
           "word": "subsistence",
-          "meaning": "producing enough mainly for your own needs"
+          "meaning": "producing enough mainly for your own needs",
+          "at": 57.899
         },
         {
           "word": "produce",
-          "meaning": "fresh farm products"
+          "meaning": "fresh farm products",
+          "at": 62.37
         },
         {
           "word": "globalization",
-          "meaning": "growing connections across the world"
+          "meaning": "growing connections across the world",
+          "at": 78.09
         },
         {
           "word": "retail",
-          "meaning": "selling goods directly to customers"
+          "meaning": "selling goods directly to customers",
+          "at": 87.81
         }
       ]
     }
@@ -11761,7 +12040,7 @@
             "It has been moved to a mountain"
           ],
           "correctIndex": 0,
-          "keyLine": "washed away"
+          "keyLine": "it was being\nwashed away\nthe hardest thing\nwe don't want to leave is that\nbecause people they've they've used or"
         },
         {
           "start": 87,
@@ -11773,7 +12052,7 @@
             "It replaces all school lessons"
           ],
           "correctIndex": 1,
-          "keyLine": "source of great national pride they say"
+          "keyLine": "source of great national pride they say\nfiji's fast unpredictable and exciting\nstyle of play is representative of its"
         },
         {
           "start": 131,
@@ -11785,7 +12064,7 @@
             "A sea wall"
           ],
           "correctIndex": 2,
-          "keyLine": "hopes on the building of a sea wall"
+          "keyLine": "namatokola's residents are pinning their\nhopes on the building of a sea wall\nwhich would preserve the village and\nallow the children to continue playing\nrugby at least for now staying to battle"
         }
       ],
       "gist": [
@@ -11829,19 +12108,23 @@
       "words": [
         {
           "word": "climate change",
-          "meaning": "long-term change in weather patterns"
+          "meaning": "long-term change in weather patterns",
+          "at": 53.44
         },
         {
           "word": "relocated",
-          "meaning": "moved to a different place"
+          "meaning": "moved to a different place",
+          "at": 126.479
         },
         {
           "word": "ancestral",
-          "meaning": "connected with earlier generations of a family"
+          "meaning": "connected with earlier generations of a family",
+          "at": 105.84
         },
         {
           "word": "preserve",
-          "meaning": "keep safe from loss or damage"
+          "meaning": "keep safe from loss or damage",
+          "at": 135.28
         }
       ]
     }
@@ -11875,7 +12158,107 @@
       "lng": 106.9057
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 33,
+          "end": 46,
+          "question": "What brought Rich to live in the city?",
+          "options": [
+            "He fell in love with it while travelling",
+            "He was sent to build its metro",
+            "He came to organise an election"
+          ],
+          "correctIndex": 0,
+          "keyLine": "breath, but uh that's okay.\nGood to meet you nonetheless.\nRich Beal fell in love with this city\nwhile traveling. He moved here back in\n2018."
+        },
+        {
+          "start": 50,
+          "end": 63,
+          "question": "What was the city like a century earlier?",
+          "options": [
+            "A city of underground homes",
+            "A tented city",
+            "A city of tall glass towers"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Yeah, massively different. It would have\nbeen a tented city.\nYeah. dirt streets, uh, horses, carts in\nsome places, and and nowhere near as"
+        },
+        {
+          "start": 79,
+          "end": 92,
+          "question": "What does the city’s name mean?",
+          "options": [
+            "Blue river",
+            "White mountain",
+            "Red hero"
+          ],
+          "correctIndex": 2,
+          "keyLine": "meaning red hero.\nThis is Tukbat squared. It's the heart\nof the city where it's a good place to\nmeet."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What change are the speakers exploring?",
+          "options": [
+            "How the city changed over a century",
+            "How a new airport opened yesterday",
+            "How a market changes each weekend"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What transport is mentioned in the older city?",
+          "options": [
+            "Underground trains",
+            "Horses and carts",
+            "Electric buses"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What influence do they still notice?",
+          "options": [
+            "Roman influence",
+            "Spanish influence",
+            "Soviet influence"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might old photographs look very different from the present city?",
+        "options": [
+          "The city was always made of the same towers",
+          "Nobody lived there a century ago",
+          "There were fewer permanent buildings and more tents"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "expert",
+          "meaning": "a person who knows a subject well",
+          "at": 28.56
+        },
+        {
+          "word": "tented",
+          "meaning": "made up of tents",
+          "at": 52.399
+        },
+        {
+          "word": "carts",
+          "meaning": "vehicles pulled by people or animals",
+          "at": 53.92
+        },
+        {
+          "word": "influence",
+          "meaning": "an effect on how something develops",
+          "at": 90.96
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-ulaanbaatar-ger-area-transport-video",
@@ -11908,7 +12291,107 @@
       "lng": 106.9057
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 73,
+          "end": 86,
+          "question": "What was built to improve safety and access?",
+          "options": [
+            "Ramps",
+            "Car parks",
+            "Footbridges over every road"
+          ],
+          "correctIndex": 0,
+          "keyLine": "we built new ramps in strategic places\nfor safety and access."
+        },
+        {
+          "start": 125,
+          "end": 138,
+          "question": "How can commuters now report issues?",
+          "options": [
+            "Only by visiting a driver’s home",
+            "Through a customer feedback system",
+            "Only by changing their bus route"
+          ],
+          "correctIndex": 1,
+          "keyLine": "From Seten Badam's stories and other\nuser insights, we developed a customer\nfeedback system for commuters to report\nissues."
+        },
+        {
+          "start": 141,
+          "end": 154,
+          "question": "How is behaviour inside buses monitored?",
+          "options": [
+            "Paper diaries",
+            "Public posters",
+            "CCTV cameras"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and customer service. CCTV cameras\ninside buses monitor driver and\npassenger behavior for improved"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What shaped the transport improvements?",
+          "options": [
+            "Users’ stories and technical review",
+            "Only the colour of the buses",
+            "Only foreign tourist surveys"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Whose access is explicitly considered?",
+          "options": [
+            "Only professional athletes",
+            "People needing accessible vehicles and stops",
+            "Only private car owners"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What combination of changes is described?",
+          "options": [
+            "Only new advertisements",
+            "Only new ticket designs",
+            "Infrastructure, information and staff practices"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why combine physical ramps with a way to report incidents?",
+        "options": [
+          "Accessibility and accountability address different parts of a journey",
+          "A feedback form can replace every ramp",
+          "Only drivers need to understand the service"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "ramps",
+          "meaning": "sloping surfaces making movement between levels easier",
+          "at": 75.72
+        },
+        {
+          "word": "stakeholder",
+          "meaning": "a person or group affected by a project",
+          "at": 94.48
+        },
+        {
+          "word": "consultations",
+          "meaning": "discussions used to gather views",
+          "at": 96.52
+        },
+        {
+          "word": "commuters",
+          "meaning": "people making regular journeys to work or study",
+          "at": 96.52
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-ulaanbaatar-sustainable-gers-video",
@@ -11968,7 +12451,107 @@
       "lng": 76.8512
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 36,
+          "question": "Where in Kazakhstan is Almaty?",
+          "options": [
+            "In the south",
+            "In the north",
+            "In the west"
+          ],
+          "correctIndex": 0,
+          "keyLine": "the city of almati lies to the south of\nKazakhstan a stop off point in Years\nGone by and the Silk Road the great\ntrading route that linked East and"
+        },
+        {
+          "start": 39,
+          "end": 52,
+          "question": "About how many tourists visited last year?",
+          "options": [
+            "Ten million",
+            "Six million",
+            "Two million"
+          ],
+          "correctIndex": 1,
+          "keyLine": "center of Central Asia and attracted\nsome 6 million tourists last year\nhistory hot summers and a raft of Winter\nSports on Tap are among the top"
+        },
+        {
+          "start": 77,
+          "end": 90,
+          "question": "When do people like to take a traditional bath?",
+          "options": [
+            "At the end of every month",
+            "At the start of every year",
+            "At the start of the week"
+          ],
+          "correctIndex": 2,
+          "keyLine": "likes to start the week with a Bard to\ngather energy for the rest of the week\nbut what is a Russian bath without the\nsteam it's not a bath it's a great"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What combination attracts people to Almaty?",
+          "options": [
+            "History, seasonal activities and traditions",
+            "Only one new airport",
+            "Only sea beaches"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What older role did the city have?",
+          "options": [
+            "It was an uninhabited island",
+            "It was the country’s capital",
+            "It was a coastal fishing port"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why does the bath visitor enjoy the steam rooms?",
+          "options": [
+            "To buy winter sports tickets",
+            "To avoid speaking to anyone",
+            "To renew his energy"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why mention traditional baths during a tour of a modern city?",
+        "options": [
+          "Modern development has removed every old custom",
+          "Baths are only used as history museums",
+          "Old customs continue alongside new development"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "trading",
+          "meaning": "buying and selling",
+          "at": 31.279
+        },
+        {
+          "word": "financial",
+          "meaning": "connected with money and business",
+          "at": 37.68
+        },
+        {
+          "word": "tradition",
+          "meaning": "a custom passed from the past",
+          "at": 55.359
+        },
+        {
+          "word": "recharge",
+          "meaning": "get energy back",
+          "at": 88.68
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-almaty-apple-origin-video",
@@ -12032,7 +12615,107 @@
       "lng": 76.8512
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 41,
+          "end": 54,
+          "question": "When did construction work actually begin?",
+          "options": [
+            "September 1988",
+            "September 1998",
+            "September 2008"
+          ],
+          "correctIndex": 0,
+          "keyLine": "matters is that work actually started in\nSeptember 1988,\nwell before the end of the Soviet Union.\nAnyway, back to the story. After"
+        },
+        {
+          "start": 62,
+          "end": 75,
+          "question": "When did the metro open?",
+          "options": [
+            "2021",
+            "2011",
+            "2001"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Everything was wrapped up, and this was\nopened in 2011.\nBut look, we're in 2025 now, and there\nare talks of an extension.\nAnd look, while we're here, I need to"
+        },
+        {
+          "start": 145,
+          "end": 158,
+          "question": "What theme does Baikonur station have?",
+          "options": [
+            "Ocean life",
+            "Football",
+            "Space"
+          ],
+          "correctIndex": 2,
+          "keyLine": "As you'd expect, everything in here has\na space theme. Anyway, on to the next\nstation and you'll be pleased to know\nthe voice overs are now complete."
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why call this a Soviet metro despite its later opening?",
+          "options": [
+            "Work began before the Soviet Union ended",
+            "Every train still comes from the Soviet government",
+            "It opened before all other Soviet metros"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What helped construction move forward in 2005?",
+          "options": [
+            "Passengers built their own trains",
+            "Funding was arranged",
+            "All tunnels were removed"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How are the station designs described?",
+          "options": [
+            "All identical and undecorated",
+            "All modelled on airport departure halls",
+            "Different, with history and culture telling unique stories"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why can a station’s name influence its design?",
+        "options": [
+          "Passengers choose a new name each day",
+          "A local association can be expressed through a theme such as space",
+          "A name fixes every station’s ticket price"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "disrepair",
+          "meaning": "a poor state caused by lack of maintenance",
+          "at": 54.24
+        },
+        {
+          "word": "funding",
+          "meaning": "money available for a project",
+          "at": 59.64
+        },
+        {
+          "word": "extension",
+          "meaning": "an added part of a network",
+          "at": 68.12
+        },
+        {
+          "word": "cosmodrome",
+          "meaning": "a site used to launch spacecraft",
+          "at": 118.76
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-madrid-city-exploration-video",
@@ -12064,7 +12747,107 @@
       "lng": -3.7038
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 16,
+          "end": 29,
+          "question": "What kind of vehicle do they use for the tour?",
+          "options": [
+            "An electric tuk-tuk",
+            "A double-decker bus",
+            "A horse-drawn cart"
+          ],
+          "correctIndex": 0,
+          "keyLine": "electric vehicle similar to a rickshaw\nthis one had a clear roof so we didn't\nmiss any of the amazing architecture and"
+        },
+        {
+          "start": 36,
+          "end": 49,
+          "question": "What had their guide studied?",
+          "options": [
+            "Medicine",
+            "History",
+            "Engineering"
+          ],
+          "correctIndex": 1,
+          "keyLine": "in a short amount of time luckily he was\na history major at the University of\nMadrid so he was able to tell us all\nabout the different monuments churches"
+        },
+        {
+          "start": 66,
+          "end": 79,
+          "question": "About how many trees does the park have?",
+          "options": [
+            "More than five thousand",
+            "More than fifty thousand",
+            "More than fifteen thousand"
+          ],
+          "correctIndex": 2,
+          "keyLine": "more than 15,000 trees some other\nhighlights of the park are the beautiful\nLake which is a hub of activity with Rob"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why did the small vehicle suit the tour?",
+          "options": [
+            "It let them move around and see many sights",
+            "It carried every tourist in the city",
+            "It travelled only outside the city"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does the guide explain?",
+          "options": [
+            "Only train timetables",
+            "Monuments, churches and squares",
+            "Only supermarket prices"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What outdoor place do they highlight?",
+          "options": [
+            "A beach with a lighthouse",
+            "A mountain with a ski lift",
+            "A large park with trees and a lake"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a knowledgeable guide improve a short tour?",
+        "options": [
+          "He can make every monument free to enter",
+          "He can remove the need to travel between places",
+          "He can explain the significance of places quickly"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "electric",
+          "meaning": "powered by electricity",
+          "at": 18.16
+        },
+        {
+          "word": "architecture",
+          "meaning": "the design of buildings",
+          "at": 22.359
+        },
+        {
+          "word": "monuments",
+          "meaning": "structures remembering important people or events",
+          "at": 42.44
+        },
+        {
+          "word": "hectares",
+          "meaning": "units used to measure land area",
+          "at": 64.519
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-madrid-flamenco-video",
@@ -12345,7 +13128,107 @@
       "lng": -9.1393
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 31,
+          "end": 44,
+          "question": "How much time could you spend seeing everything, according to the narrator?",
+          "options": [
+            "A lifetime",
+            "One morning",
+            "One weekend"
+          ],
+          "correctIndex": 0,
+          "keyLine": "opinion you could spend a lifetime here\ntrying to visit all the things to see\nand do and even then you would probably\njust be scratching the"
+        },
+        {
+          "start": 51,
+          "end": 64,
+          "question": "What can visitors explore after people-watching?",
+          "options": [
+            "Only sports shops",
+            "Monuments and museums",
+            "Only car factories"
+          ],
+          "correctIndex": 1,
+          "keyLine": "you tired of watching others you can\nvisit one of the many monuments museums\nCathedrals monasteries and castles"
+        },
+        {
+          "start": 83,
+          "end": 96,
+          "question": "What does he say about many favourite activities?",
+          "options": [
+            "They all require costly tickets",
+            "They are free only at midnight",
+            "They cost little or nothing"
+          ],
+          "correctIndex": 2,
+          "keyLine": "cost little or no money especially if\nyou like to walk like I do\nbut if not no worries cuz public"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What draws the traveller back to Lisbon?",
+          "options": [
+            "Its atmosphere and history",
+            "Only a cheap airport car park",
+            "Only a new shopping mall"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does he enjoy the city’s squares?",
+          "options": [
+            "Buying train tickets",
+            "Watching people",
+            "Driving laps"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How has another visit changed his view?",
+          "options": [
+            "He no longer notices any history",
+            "He thinks there is nothing left to see",
+            "He appreciates the city’s historical importance more"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could walking suit this traveller’s preferred activities?",
+        "options": [
+          "Every museum requires visitors to walk all day",
+          "Public transport is unavailable",
+          "It lets him enjoy places that need little spending"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "historical",
+          "meaning": "connected with the past",
+          "at": 63.16
+        },
+        {
+          "word": "plazas",
+          "meaning": "open public squares",
+          "at": 46.92
+        },
+        {
+          "word": "significance",
+          "meaning": "importance",
+          "at": 63.16
+        },
+        {
+          "word": "appreciated",
+          "meaning": "understood and valued",
+          "at": 75.56
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-lisbon-azulejos-video",
@@ -12377,7 +13260,107 @@
       "lng": -9.1393
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 13,
+          "end": 26,
+          "question": "What language does the tile name come from?",
+          "options": [
+            "Arabic",
+            "French",
+            "English"
+          ],
+          "correctIndex": 0,
+          "keyLine": "the heritage of the\nMoors the name comes from the Arabic\nAzula which presumably means a mosaic"
+        },
+        {
+          "start": 48,
+          "end": 61,
+          "question": "What date is given for the chapel tiles?",
+          "options": [
+            "1830",
+            "1730",
+            "1630"
+          ],
+          "correctIndex": 1,
+          "keyLine": "from 1730 where scenes from the life of\nSt Laurence are Illustrated"
+        },
+        {
+          "start": 102,
+          "end": 115,
+          "question": "How long can one picture take to make?",
+          "options": [
+            "Six minutes to two hours",
+            "Six weeks to two months",
+            "Six hours to two weeks"
+          ],
+          "correctIndex": 2,
+          "keyLine": "for one picture she needs between 6\nhours and 2 weeks depending on how\ndemanding The Motif is"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Where are these painted tiles used?",
+          "options": [
+            "Building facades, a chapel and artworks",
+            "Only factory floors",
+            "Only ship engines"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Are their subjects only religious?",
+          "options": [
+            "No, they can only show shop names",
+            "No, artists make many kinds of pictures",
+            "Yes, every picture shows the same saint"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What affects the time needed for an artwork?",
+          "options": [
+            "The number of tourists in Lisbon",
+            "The day of the week alone",
+            "How demanding the design is"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why show both a chapel and a modern studio?",
+        "options": [
+          "The same tradition can serve religious and other artistic purposes",
+          "The tiles are no longer made anywhere",
+          "The studio makes only replicas of one chapel"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "heritage",
+          "meaning": "cultural things inherited from the past",
+          "at": 14.0
+        },
+        {
+          "word": "facades",
+          "meaning": "the fronts of buildings",
+          "at": 30.4
+        },
+        {
+          "word": "Illustrated",
+          "meaning": "shown through pictures",
+          "at": 53.039
+        },
+        {
+          "word": "Motif",
+          "meaning": "a design or subject in an artwork",
+          "at": 107.2
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-lisbon-fado-video",
@@ -12441,7 +13424,107 @@
       "lng": -6.2603
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 36,
+          "question": "When is St Patrick’s Day?",
+          "options": [
+            "March seventeenth",
+            "March seventh",
+            "March twenty-seventh"
+          ],
+          "correctIndex": 0,
+          "keyLine": "takes place on March 17th\nNow in Ireland they like to celebrate"
+        },
+        {
+          "start": 46,
+          "end": 59,
+          "question": "What if you cannot get the steps right?",
+          "options": [
+            "Leave the room quietly",
+            "Keep moving and enjoy it",
+            "Stop dancing immediately"
+          ],
+          "correctIndex": 1,
+          "keyLine": "important announcement\neven if you can't get the steps right"
+        },
+        {
+          "start": 75,
+          "end": 88,
+          "question": "Where should you keep your fists?",
+          "options": [
+            "Above your head",
+            "Behind your back",
+            "At your sides"
+          ],
+          "correctIndex": 2,
+          "keyLine": "glue them at your sides oh no\nnow that our arms are glued to our sides"
+        }
+      ],
+      "gist": [
+        {
+          "q": "How does this lesson celebrate the occasion?",
+          "options": [
+            "By teaching some dance moves",
+            "By cooking a meal",
+            "By drawing a map"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What attitude does the teacher encourage?",
+          "options": [
+            "Compete to finish before everyone else",
+            "Have fun even while learning",
+            "Never try unless you are already perfect"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What should you prepare before dancing?",
+          "options": [
+            "A full dinner table",
+            "A dark room",
+            "An open space"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why reassure learners before teaching the movements?",
+        "options": [
+          "It means there are no movements to learn",
+          "It means the teacher will dance instead of everyone",
+          "It can make beginners more willing to join in"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "celebrating",
+          "meaning": "doing something special for an occasion",
+          "at": 22.22
+        },
+        {
+          "word": "parades",
+          "meaning": "groups moving along a route for an event",
+          "at": 31.619
+        },
+        {
+          "word": "steps",
+          "meaning": "planned movements in a dance",
+          "at": 43.62
+        },
+        {
+          "word": "Fists",
+          "meaning": "hands with fingers curled in",
+          "at": 70.799
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-dublin-book-of-kells-video",
@@ -12722,7 +13805,107 @@
       "lng": -17.4677
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 58,
+          "end": 71,
+          "question": "What was the special property built for?",
+          "options": [
+            "Sheep",
+            "Visitors",
+            "Shops"
+          ],
+          "correctIndex": 0,
+          "keyLine": "real estate? A real estate not for\naccommodation\nnot for any other business but for the"
+        },
+        {
+          "start": 73,
+          "end": 86,
+          "question": "What value does the presenter mention for a sheep?",
+          "options": [
+            "$1,000",
+            "$100,000",
+            "$10,000"
+          ],
+          "correctIndex": 1,
+          "keyLine": "$100,000? Have you ever thought of that?"
+        },
+        {
+          "start": 94,
+          "end": 107,
+          "question": "What is the farm built beside?",
+          "options": [
+            "A railway station",
+            "A petrol station",
+            "A police station"
+          ],
+          "correctIndex": 2,
+          "keyLine": "to a police station with me. I'm joined\nby my sister from Ghana, the Ghanaian"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What makes this farm unusual to the presenter?",
+          "options": [
+            "Valuable sheep have specially built accommodation",
+            "It grows only vegetables",
+            "It has no animals"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Where was the farmer born and raised?",
+          "options": [
+            "Brazil",
+            "Senegal",
+            "Ghana"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the presenter react to the story?",
+          "options": [
+            "With boredom and impatience",
+            "With anger at visitors",
+            "With surprise and interest"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might someone invest in special housing for these animals?",
+        "options": [
+          "The sheep are kept only as decorations",
+          "The farm has no other use for its buildings",
+          "The sheep are treated as valuable assets"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "accommodation",
+          "meaning": "a place to stay",
+          "at": 63.68
+        },
+        {
+          "word": "farmer",
+          "meaning": "a person who raises animals or grows crops",
+          "at": 57.68
+        },
+        {
+          "word": "valuable",
+          "meaning": "worth a lot",
+          "at": 86.799
+        },
+        {
+          "word": "police",
+          "meaning": "people whose work includes keeping order and safety",
+          "at": 96.24
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-dakar-biennale-video",
@@ -12815,7 +13998,107 @@
       "lng": -34.877
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 38,
+          "end": 51,
+          "question": "Which two South American countries do not border Brazil?",
+          "options": [
+            "Chile and Ecuador",
+            "Peru and Bolivia",
+            "Uruguay and Paraguay"
+          ],
+          "correctIndex": 0,
+          "keyLine": "every other country in South America,\nexcept Chile and Ecuador.\nThat's French Guiana, Suriname, Guyana,"
+        },
+        {
+          "start": 58,
+          "end": 71,
+          "question": "What population figure does the narrator give?",
+          "options": [
+            "Over 313 million",
+            "Over 213 million",
+            "Over 113 million"
+          ],
+          "correctIndex": 1,
+          "keyLine": "beautiful coastline. [music]\nBrazil has a population of over 213\nmillion people, and is the world's fifth\nlargest country by total area, and the"
+        },
+        {
+          "start": 87,
+          "end": 100,
+          "question": "What does yellow on the flag represent in this explanation?",
+          "options": [
+            "The rivers",
+            "The mountain snow",
+            "Wealth in gold"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Brazil's forests, and yellow its wealth\nin gold. Now, inside is a blue globe\nwith a white banner reading [music]"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What kind of introduction is this?",
+          "options": [
+            "Brazil’s location and everyday country facts",
+            "A tour of one Brazilian restaurant",
+            "A history of one football match"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How is Brazil described within South America?",
+          "options": [
+            "A country with no land borders",
+            "The largest country",
+            "The smallest country"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What practical information is given for visitors?",
+          "options": [
+            "Only hotel room numbers",
+            "Only train platform numbers",
+            "The language and currency"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why include a greeting with geographical facts?",
+        "options": [
+          "It changes the country’s borders",
+          "It replaces the need to know any place names",
+          "It gives travellers a small way to communicate as well as locate the country"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "borders",
+          "meaning": "lines separating countries",
+          "at": 36.16
+        },
+        {
+          "word": "coastline",
+          "meaning": "the edge of land beside the sea",
+          "at": 58.32
+        },
+        {
+          "word": "population",
+          "meaning": "the people living in a place",
+          "at": 60.48
+        },
+        {
+          "word": "capital",
+          "meaning": "a country’s main city",
+          "at": 75.84
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-recife-frevo-video",
@@ -12846,7 +14129,107 @@
       "lng": -34.877
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 34,
+          "end": 47,
+          "question": "Which activity supplied some dance moves?",
+          "options": [
+            "Capoeira",
+            "Football",
+            "Rowing"
+          ],
+          "correctIndex": 0,
+          "keyLine": "moves from capera the then outlawed afro\nBrazilian martial art resulting in a\nCarnival Sensation that thrives to this"
+        },
+        {
+          "start": 68,
+          "end": 81,
+          "question": "When did the group of friends found the club?",
+          "options": [
+            "1957",
+            "1947",
+            "1937"
+          ],
+          "correctIndex": 1,
+          "keyLine": "of friends in 1947 when they decided to\njoke around by dancing down the streets\nwith branches from a Poma tree the joke"
+        },
+        {
+          "start": 121,
+          "end": 134,
+          "question": "Who is being involved to preserve the tradition?",
+          "options": [
+            "Only foreign visitors",
+            "Only retired musicians",
+            "Young people"
+          ],
+          "correctIndex": 2,
+          "keyLine": "in preserving this tradition by engaging\nyoung people ensuring fror remains a\nvibrant force in the Life ofa's working"
+        }
+      ],
+      "gist": [
+        {
+          "q": "How did this carnival tradition develop?",
+          "options": [
+            "Musical and movement traditions combined",
+            "It was imported unchanged from Europe",
+            "It began as a television competition"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did the club’s street-dancing joke develop?",
+          "options": [
+            "It became a private indoor lesson",
+            "It attracted large crowds",
+            "It was abandoned after one day"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What role do clubs play now?",
+          "options": [
+            "Replacing all local music",
+            "Stopping young people joining",
+            "Keeping the tradition active"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why involve young people in an old tradition?",
+        "options": [
+          "Its future depends on people continuing to practise it",
+          "Only young people can watch a parade",
+          "The tradition has no connection with previous generations"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "rhythms",
+          "meaning": "patterns of musical beats",
+          "at": 31.279
+        },
+        {
+          "word": "improvisational",
+          "meaning": "created partly in the moment",
+          "at": 48.36
+        },
+        {
+          "word": "revelers",
+          "meaning": "people enjoying a lively celebration",
+          "at": 82.64
+        },
+        {
+          "word": "preserving",
+          "meaning": "keeping something alive or safe",
+          "at": 122.0
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-recife-silent-drums-video",
@@ -12911,7 +14294,107 @@
       "lng": -79.5199
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 44,
+          "end": 57,
+          "question": "What image often appears in a mola?",
+          "options": [
+            "An animal",
+            "A train timetable",
+            "A restaurant menu"
+          ],
+          "correctIndex": 0,
+          "keyLine": "pieces of fabric that often include an\nimage of an animal surrounded by\ngeometric shapes and patterns they can"
+        },
+        {
+          "start": 60,
+          "end": 73,
+          "question": "What will the class use instead of fabric?",
+          "options": [
+            "Wooden boards",
+            "Coloured paper",
+            "Metal sheets"
+          ],
+          "correctIndex": 1,
+          "keyLine": "of colored paper let's take a look at\nthe materials we will need and get\nstarted for this activity you are going"
+        },
+        {
+          "start": 91,
+          "end": 104,
+          "question": "What should you do with the scraps after cutting?",
+          "options": [
+            "Throw them away",
+            "Wash them",
+            "Save them"
+          ],
+          "correctIndex": 2,
+          "keyLine": "out save the scraps because we will be"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the activity inspired by?",
+          "options": [
+            "A Panamanian layered-fabric art form",
+            "A railway map",
+            "A recipe for soup"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Where are traditional molas worn?",
+          "options": [
+            "On hats",
+            "On blouses",
+            "On shoes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is the first making step?",
+          "options": [
+            "Paint a finished wooden box",
+            "Sew a complete blouse",
+            "Draw and cut an animal or shape"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why use paper for this introduction to molas?",
+        "options": [
+          "It proves fabric molas are no longer made",
+          "It means no shapes need to be cut",
+          "It allows learners to try a layered design with simple classroom materials"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "fabric",
+          "meaning": "material used to make clothes",
+          "at": 46.5
+        },
+        {
+          "word": "patterns",
+          "meaning": "repeated or arranged designs",
+          "at": 51.09
+        },
+        {
+          "word": "scissors",
+          "meaning": "a tool used for cutting",
+          "at": 75.479
+        },
+        {
+          "word": "scraps",
+          "meaning": "small pieces left after cutting",
+          "at": 93.08
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-panama-city-canal-for-kids-video",
@@ -12974,7 +14457,107 @@
       "lng": -79.5199
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 91,
+          "end": 104,
+          "question": "What threat is Michelle discussing?",
+          "options": [
+            "A fungus infecting frogs",
+            "A shortage of nesting trees",
+            "A new species of fish"
+          ],
+          "correctIndex": 0,
+          "keyLine": "the kitd fungus that's infecting frogs"
+        },
+        {
+          "start": 118,
+          "end": 131,
+          "question": "What population reduction does she say the fungus can cause?",
+          "options": [
+            "Up to eight percent",
+            "Up to eighty percent",
+            "Up to eighteen percent"
+          ],
+          "correctIndex": 1,
+          "keyLine": "is capable to reduce up to 80% of the\npopulation of wild amphibians in the\nworld so that's why centers like the"
+        },
+        {
+          "start": 154,
+          "end": 167,
+          "question": "What is the golden frog’s status in the wild?",
+          "options": [
+            "Common across every continent",
+            "Increasing in every river",
+            "Extinct in the wild"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the world and it's now extinct in the\nwild so the only place where we can\nstill see the living frog is in the"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why does infection of the skin matter so much to frogs?",
+          "options": [
+            "Their skin helps them absorb what they need",
+            "Their skin stores all their food",
+            "Their skin lets them fly"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is the conservation centre trying to do?",
+          "options": [
+            "Replace frogs with fish",
+            "Protect vulnerable frogs and toads",
+            "Move every frog into the sea"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Where can visitors still see the golden frog described?",
+          "options": [
+            "In any city fountain",
+            "On every mountain path",
+            "In the conservation exhibit"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might captive protection become necessary here?",
+        "options": [
+          "Captivity automatically removes every threat to all amphibians",
+          "A species can disappear from the wild while living individuals remain in care",
+          "Every wild frog prefers indoor life"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "fungus",
+          "meaning": "a living organism that can include moulds and cause infections",
+          "at": 93.28
+        },
+        {
+          "word": "oxygen",
+          "meaning": "a gas needed by many living things",
+          "at": 114.84
+        },
+        {
+          "word": "amphibians",
+          "meaning": "animals such as frogs and toads",
+          "at": 123.88
+        },
+        {
+          "word": "extinct",
+          "meaning": "no longer living in a particular setting or anywhere",
+          "at": 156.599
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-santiago-chile-for-kids-video",
@@ -13006,7 +14589,107 @@
       "lng": -70.6693
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 20,
+          "end": 33,
+          "question": "What does the flag’s white represent?",
+          "options": [
+            "Snow in the Andes",
+            "Sand on the coast",
+            "Clouds above the capital"
+          ],
+          "correctIndex": 0,
+          "keyLine": "square in the top left corner holding a\nwhite star the white represents the snow\nof the Andes Mountains the blue"
+        },
+        {
+          "start": 40,
+          "end": 53,
+          "question": "Where does Chile run along South America?",
+          "options": [
+            "The northern edge",
+            "The western edge",
+            "The eastern edge"
+          ],
+          "correctIndex": 1,
+          "keyLine": "stretching along the western edge of\nSouth America with the Pacific Ocean on"
+        },
+        {
+          "start": 75,
+          "end": 88,
+          "question": "Where is Santiago described as sitting?",
+          "options": [
+            "On an island in the sea",
+            "On a flat desert coast",
+            "In a valley among mountains"
+          ],
+          "correctIndex": 2,
+          "keyLine": "city nestled in a valley surrounded by\nmountains Val perzo known for its"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What country features does the narrator introduce?",
+          "options": [
+            "Flag symbols, location and cities",
+            "Only airport rules",
+            "Only a restaurant menu"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What lies on either side of the country?",
+          "options": [
+            "The Indian Ocean and the Sahara",
+            "The Pacific and the Andes",
+            "The Atlantic and the Alps"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How is the country’s shape described?",
+          "options": [
+            "Short and round",
+            "A group of small islands",
+            "Long and narrow"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might the snow symbol connect with the location description?",
+        "options": [
+          "Both refer to a tropical island",
+          "Both refer to a railway built outside Chile",
+          "Both refer to the Andes beside the country"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "represents",
+          "meaning": "stands for an idea",
+          "at": 22.76
+        },
+        {
+          "word": "narrow",
+          "meaning": "not very wide",
+          "at": 39.48
+        },
+        {
+          "word": "borders",
+          "meaning": "has a boundary with",
+          "at": 49.879
+        },
+        {
+          "word": "valley",
+          "meaning": "low land between hills or mountains",
+          "at": 77.2
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-santiago-marraqueta-video",
@@ -13287,7 +14970,107 @@
       "lng": 38.7578
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 21,
+          "end": 34,
+          "question": "How is Ethiopia’s civilisation introduced?",
+          "options": [
+            "One of the oldest continuous civilisations",
+            "One that began only last century",
+            "One with no recorded history"
+          ],
+          "correctIndex": 0,
+          "keyLine": "today we are going to learn about a\ncountry that has had one of the oldest\ncontinuous civilizations in the world"
+        },
+        {
+          "start": 54,
+          "end": 67,
+          "question": "What does the centre star represent?",
+          "options": [
+            "Travel",
+            "Unity",
+            "Wealth"
+          ],
+          "correctIndex": 1,
+          "keyLine": "star symbolizes Unity an important\nfeature of the Ethiopian culture that we\nwill later get into"
+        },
+        {
+          "start": 74,
+          "end": 87,
+          "question": "Which set of neighbours is mentioned?",
+          "options": [
+            "Egypt, Libya and Tunisia",
+            "Kenya, Uganda and Rwanda",
+            "Eritrea, Djibouti and Somalia"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Horn of Africa neighboring countries\ninclude eretria Djibouti Somalia Sudan"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the presentation introducing?",
+          "options": [
+            "Ethiopian history, art and culture",
+            "Only Ethiopian train tickets",
+            "Only Ethiopian sports scores"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What colours are named for the flag?",
+          "options": [
+            "Blue, orange and pink",
+            "Green, yellow and red",
+            "Black, white and purple"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Where is Ethiopia located?",
+          "options": [
+            "Western Europe",
+            "Southern Asia",
+            "Eastern Africa"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a symbol of unity matter in a cultural introduction?",
+        "options": [
+          "It tells visitors every person has the same job",
+          "It replaces all other cultural traditions",
+          "It expresses an idea that connects people as well as showing flag colours"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "civilizations",
+          "meaning": "societies with long-developed ways of life",
+          "at": 26.599
+        },
+        {
+          "word": "consisting",
+          "meaning": "being made up of",
+          "at": 51.239
+        },
+        {
+          "word": "Unity",
+          "meaning": "people being joined together",
+          "at": 17.58
+        },
+        {
+          "word": "neighboring",
+          "meaning": "situated next to another place",
+          "at": 74.1
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-addis-ababa-coffee-traditions-video",
@@ -13350,7 +15133,107 @@
       "lng": 38.7578
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 82,
+          "end": 95,
+          "question": "How old is Lucy said to be?",
+          "options": [
+            "3.2 million years",
+            "2.3 million years",
+            "4.2 million years"
+          ],
+          "correctIndex": 0,
+          "keyLine": "found a 3.2 milliony old hominid known\nas Lucy"
+        },
+        {
+          "start": 100,
+          "end": 113,
+          "question": "What did the discoverer first notice?",
+          "options": [
+            "A stone tool",
+            "A fragment of bone",
+            "A complete skull"
+          ],
+          "correctIndex": 1,
+          "keyLine": "was a fragment of bone and I looked at\nit and almost instantaneously said\nthat's a"
+        },
+        {
+          "start": 148,
+          "end": 161,
+          "question": "About how tall would Lucy have been?",
+          "options": [
+            "Five and a half feet",
+            "Two and a half feet",
+            "Three and a half feet"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Verte on top of one another she'd be\nabout three and 1 half feet tall you\ndon't see that yeah you don't get that\nhere's the femur that's the left top end\nof the thigh bone and this one also when"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What made Lucy’s discovery significant?",
+          "options": [
+            "Evidence about very early ancestors who walked on two legs",
+            "Evidence about the first written language",
+            "Evidence about modern aircraft"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What mix of characteristics is highlighted?",
+          "options": [
+            "An upright body unable to walk",
+            "An ape-like appearance with two-legged walking",
+            "A human-like face with wings"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What evidence are the speakers examining?",
+          "options": [
+            "Painted pottery",
+            "Written diaries",
+            "Fossilised bones"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why can a bone fragment be more important than its size suggests?",
+        "options": [
+          "Its size alone proves how intelligent its owner was",
+          "It may reveal a much older example of a crucial trait",
+          "Every fragment contains a complete written history"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "fragment",
+          "meaning": "a small broken part",
+          "at": 102.56
+        },
+        {
+          "word": "ancestors",
+          "meaning": "earlier members of a biological or family line",
+          "at": 114.84
+        },
+        {
+          "word": "biped",
+          "meaning": "an animal that walks on two legs",
+          "at": 128.56
+        },
+        {
+          "word": "evidence",
+          "meaning": "information helping support a conclusion",
+          "at": 139.68
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-delhi-indian-food-video",
@@ -13383,7 +15266,107 @@
       "lng": 77.209
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 33,
+          "end": 46,
+          "question": "What filling is named for samosas?",
+          "options": [
+            "Spicy potatoes and peas",
+            "Sweet apples and cream",
+            "Fish and rice"
+          ],
+          "correctIndex": 0,
+          "keyLine": "are filled with spicy potatoes peas and\nsometimes\nmeat did you know that samosas"
+        },
+        {
+          "start": 68,
+          "end": 81,
+          "question": "When was butter chicken created in this account?",
+          "options": [
+            "The 1990s",
+            "The 1950s",
+            "The 1850s"
+          ],
+          "correctIndex": 1,
+          "keyLine": "1950s by a chef who accidentally made\nthe sauce by mixing leftover chicken"
+        },
+        {
+          "start": 91,
+          "end": 104,
+          "question": "What is dosa made from?",
+          "options": [
+            "Wheat and potatoes",
+            "Corn and chickpeas",
+            "Fermented rice and lentils"
+          ],
+          "correctIndex": 2,
+          "keyLine": "fermented rice and lentil\nbatter it's usually served with coconut\nchutney and"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What variety does this section show?",
+          "options": [
+            "Different Indian snacks and dishes",
+            "Only one kind of dessert",
+            "Only food served on aeroplanes"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did samosas reach India in this account?",
+          "options": [
+            "Through Antarctic explorers",
+            "Through traders from the Middle East",
+            "Through a recent television contest"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How is butter chicken’s creation described?",
+          "options": [
+            "A dish copied from a train menu",
+            "A dessert made without chicken",
+            "An accidental combination of leftovers and sauce"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What do these stories suggest about dishes becoming local favourites?",
+        "options": [
+          "They must all have begun in the same city",
+          "They never change after their first recipe",
+          "They can have outside influences or accidental beginnings"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "crispy",
+          "meaning": "firm with a light crunch",
+          "at": 31.68
+        },
+        {
+          "word": "gravy",
+          "meaning": "a sauce served with food",
+          "at": 75.96
+        },
+        {
+          "word": "leftover",
+          "meaning": "remaining after an earlier meal",
+          "at": 73.439
+        },
+        {
+          "word": "fermented",
+          "meaning": "changed by the action of microorganisms",
+          "at": 93.52
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-delhi-red-fort-video",
@@ -13415,7 +15398,107 @@
       "lng": 77.209
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 38,
+          "end": 51,
+          "question": "When did Shah Jahan commission the fort?",
+          "options": [
+            "1638",
+            "1538",
+            "1738"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Delhi\nShah Jahan commissioned the fort in 1638"
+        },
+        {
+          "start": 62,
+          "end": 75,
+          "question": "What gives the fort its name?",
+          "options": [
+            "Its red entrance flags",
+            "Its large red walls",
+            "Its red roof tiles"
+          ],
+          "correctIndex": 1,
+          "keyLine": "from its colossal red walls the walls"
+        },
+        {
+          "start": 82,
+          "end": 95,
+          "question": "What did the emperor hear in the public audience hall?",
+          "options": [
+            "Music from foreign orchestras",
+            "Reports only from army officers",
+            "Complaints and requests from ordinary people"
+          ],
+          "correctIndex": 2,
+          "keyLine": "to hear the complaints and pleas of the\ncommoners the Durrani hearts was the"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What roles did the fort combine?",
+          "options": [
+            "Residence, politics and ceremonies",
+            "Only shopping and food storage",
+            "Only sports and recreation"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does the account show about the complex?",
+          "options": [
+            "There were no places for visitors",
+            "Different spaces had different public and royal uses",
+            "Every room served the same purpose"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Whose visits are described in different halls?",
+          "options": [
+            "Only army officers",
+            "Only foreign artists",
+            "Ordinary people and royal guests"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why distinguish a public audience hall from a place for royal guests?",
+        "options": [
+          "Access and functions differed within the same royal complex",
+          "Ordinary people ruled the fort every day",
+          "Every visitor used the emperor’s private rooms"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "commissioned",
+          "meaning": "officially ordered a work to be built or made",
+          "at": 40.84
+        },
+        {
+          "word": "ceremonies",
+          "meaning": "formal special events",
+          "at": 54.67
+        },
+        {
+          "word": "commoners",
+          "meaning": "people outside the ruling or noble groups",
+          "at": 87.56
+        },
+        {
+          "word": "courtiers",
+          "meaning": "people attending a royal court",
+          "at": 94.13
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-delhi-qutub-minar-video",
@@ -13478,7 +15561,107 @@
       "lng": 120.9842
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 36,
+          "end": 49,
+          "question": "What shape is the volcano known for?",
+          "options": [
+            "A perfect cone",
+            "A flat square",
+            "A wide ring"
+          ],
+          "correctIndex": 0,
+          "keyLine": "perfect cone shape and the bow Rice\nTerraces which are often called The\nEighth Wonder of the"
+        },
+        {
+          "start": 53,
+          "end": 66,
+          "question": "What sport is Manny Pacquiao famous for?",
+          "options": [
+            "Swimming",
+            "Boxing",
+            "Football"
+          ],
+          "correctIndex": 1,
+          "keyLine": "boxer and Jose razal a national hero\ndaily life in the Philippines is a mix"
+        },
+        {
+          "start": 80,
+          "end": 93,
+          "question": "What is in halo-halo, according to this section?",
+          "options": [
+            "Bread, cheese and eggs",
+            "Rice, chicken and peas",
+            "Shaved ice, ice cream and fruit"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Halo Halo a colorful mix of shaved ice\nice cream and\nfruits the Philippines has a rich\nhistory"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What aspects of the Philippines are introduced?",
+          "options": [
+            "Sights, people and food",
+            "Only airport security",
+            "Only factory production"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What kind of gathering is part of daily life?",
+          "options": [
+            "Only private sports trials",
+            "Festivals and community events",
+            "Only business conferences"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What kind of dish is adobo?",
+          "options": [
+            "A sweet frozen dessert",
+            "A fresh fruit salad",
+            "A savoury chicken or pork stew"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a food introduction include both adobo and halo-halo?",
+        "options": [
+          "They are two names for the same dish",
+          "They are both only served as breakfast drinks",
+          "They show different parts of a meal and the variety of local food"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "Hospitality",
+          "meaning": "welcoming and caring for visitors",
+          "at": 50.32
+        },
+        {
+          "word": "Gatherings",
+          "meaning": "people coming together",
+          "at": 67.96
+        },
+        {
+          "word": "Savory",
+          "meaning": "having a salty or spicy taste rather than sweet",
+          "at": 74.159
+        },
+        {
+          "word": "dessert",
+          "meaning": "sweet food often eaten after a meal",
+          "at": 79.479
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-manila-filipino-identity-video",
@@ -13509,7 +15692,107 @@
       "lng": 120.9842
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 38,
+          "end": 51,
+          "question": "How many unique Filipino languages are mentioned?",
+          "options": [
+            "Over 170",
+            "Over 70",
+            "Over 270"
+          ],
+          "correctIndex": 0,
+          "keyLine": "tongue, although we don't really have\none since there are over 170 unique\nFilipino languages.\nSome say it's the color of our skin,"
+        },
+        {
+          "start": 101,
+          "end": 114,
+          "question": "What were the boats called?",
+          "options": [
+            "Bayanihans",
+            "Balangays",
+            "Barangays"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Eventually, they developed boats called\nbalangays, which they used to explore\nthe rivers and coastlines of these"
+        },
+        {
+          "start": 141,
+          "end": 154,
+          "question": "What is a barangay today?",
+          "options": [
+            "A type of sail",
+            "A fishing tool",
+            "A small community"
+          ],
+          "correctIndex": 2,
+          "keyLine": "which is why we still call a small\ncommunity in the Philippines a barangay\ntoday, named after the balangay boats of"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What simple explanation of Filipino identity does the narrator challenge?",
+          "options": [
+            "One language, one appearance or one location",
+            "Only a shared boat journey",
+            "Only a shared history of cooperation"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What made early sea journeys possible?",
+          "options": [
+            "Avoiding all contact with neighbouring islands",
+            "Community members contributing different skills",
+            "One person doing every job alone"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What connection does the narrator trace into today?",
+          "options": [
+            "A rule that everyone must live at sea",
+            "A ban on travelling beyond the islands",
+            "Togetherness from boats to community life"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why use a boat journey to explain cooperation?",
+        "options": [
+          "Survival depended on people carrying out different tasks for one another",
+          "Every person could navigate without help",
+          "The boat removed the need for shared responsibilities"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "diaspora",
+          "meaning": "people living away from their ancestral homeland",
+          "at": 63.2
+        },
+        {
+          "word": "archipelago",
+          "meaning": "a group of islands",
+          "at": 56.32
+        },
+        {
+          "word": "navigation",
+          "meaning": "finding and following a route",
+          "at": 121.12
+        },
+        {
+          "word": "collaboration",
+          "meaning": "working together",
+          "at": 150.68
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-manila-philippines-history-video",
@@ -13572,7 +15855,107 @@
       "lng": 106.6297
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 26,
+          "end": 39,
+          "question": "Who do people honour during Tet?",
+          "options": [
+            "Ancestors",
+            "Only teachers",
+            "Only athletes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "time to honor ancestors and spend time\nwith family"
+        },
+        {
+          "start": 44,
+          "end": 57,
+          "question": "Which calendar is Tet based on?",
+          "options": [
+            "A fixed solar date",
+            "The lunar calendar",
+            "The school calendar"
+          ],
+          "correctIndex": 1,
+          "keyLine": "the celebration of tet is based upon the\nLunar New Year which is based upon the\ncycles of the Moon also known as the"
+        },
+        {
+          "start": 60,
+          "end": 75,
+          "question": "When does Tet usually fall?",
+          "options": [
+            "Late March or early April",
+            "Late June or early July",
+            "Late January or early February"
+          ],
+          "correctIndex": 2,
+          "keyLine": "it usually Falls at the end of January\nor the beginning of February and is\ncelebrated over several days"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What does Tet celebrate?",
+          "options": [
+            "Vietnamese New Year",
+            "The first day of summer",
+            "The end of the school year"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What shared activity is highlighted?",
+          "options": [
+            "Taking a driving test",
+            "Spending time with family",
+            "Moving to a new city"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why does the date change?",
+          "options": [
+            "Families vote for a new date",
+            "It always follows the first rainy day",
+            "It follows a lunar calendar"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a calendar date change while the celebration’s meaning stays similar?",
+        "options": [
+          "Every year the festival celebrates a different country",
+          "The festival has no traditions at all",
+          "The timing follows the Moon while family traditions continue"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "ancestors",
+          "meaning": "family members from earlier generations",
+          "at": 28.68
+        },
+        {
+          "word": "celebration",
+          "meaning": "a special event for a happy occasion",
+          "at": 46.68
+        },
+        {
+          "word": "lunar",
+          "meaning": "connected with the Moon",
+          "at": 49.62
+        },
+        {
+          "word": "traditions",
+          "meaning": "customs passed down over time",
+          "at": 75.36
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-culture-video",
@@ -13605,7 +15988,107 @@
       "lng": 106.6297
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 182,
+          "end": 195,
+          "question": "About how many inhabitants does the city have?",
+          "options": [
+            "Almost ten million",
+            "Almost five million",
+            "Almost fifteen million"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Haim Min City the largest city in\nVietnam with almost 10 million\ninhabitants or first stop Beni Street\nFood"
+        },
+        {
+          "start": 198,
+          "end": 210,
+          "question": "What is banh mi described as?",
+          "options": [
+            "A Vietnamese dessert",
+            "A Vietnamese sandwich",
+            "A Vietnamese soup"
+          ],
+          "correctIndex": 1,
+          "keyLine": "affordable the dishes are all freshly\nprepared B me by the way is a Vietnamese\nsandwich that you have to"
+        },
+        {
+          "start": 210,
+          "end": 222,
+          "question": "What can visitors find at the market?",
+          "options": [
+            "Only clothes and shoes",
+            "Only flowers and books",
+            "Fruit and souvenirs"
+          ],
+          "correctIndex": 2,
+          "keyLine": "coffee it's brw directly over the glass\nand served with sweetened condensed\nmilk Le at bentan Market you'll find"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What experience does this city stop focus on?",
+          "options": [
+            "Street food and market browsing",
+            "A long mountain hike",
+            "An underground railway tour"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How are the street-food dishes described?",
+          "options": [
+            "Free but only available once a week",
+            "Affordable and freshly prepared",
+            "Expensive and all frozen"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How is the coffee served?",
+          "options": [
+            "Mixed with ice cream in a bowl",
+            "Poured over rice with no milk",
+            "Brewed over a glass with condensed milk"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might the food market suit visitors with different interests?",
+        "options": [
+          "It offers things to eat and things to take home",
+          "Every stall sells exactly the same sandwich",
+          "It is only open to local residents"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "inhabitants",
+          "meaning": "people who live in a place",
+          "at": 186.0
+        },
+        {
+          "word": "affordable",
+          "meaning": "not too expensive",
+          "at": 199.4
+        },
+        {
+          "word": "condensed",
+          "meaning": "made thicker by removing some water",
+          "at": 212.799
+        },
+        {
+          "word": "souvenirs",
+          "meaning": "things kept to remember a visit",
+          "at": 219.519
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-ho-chi-minh-city-vietnam-history-video",
@@ -13682,7 +16165,7 @@
             "Sport"
           ],
           "correctIndex": 0,
-          "keyLine": "people in Bangkok, many people use the\nriver for transportation"
+          "keyLine": "people in Bangkok, many people use the\nriver for transportation\nand if you pay close attention"
         },
         {
           "start": 68,
@@ -13706,7 +16189,7 @@
             "Orange and blue"
           ],
           "correctIndex": 2,
-          "keyLine": "and the blue flag.\nThe orange flag boats are the most"
+          "keyLine": "and the blue flag.\nThe orange flag boats are the most\ncommon ones. They stop at every pier\nfrom the central pier Sathorn, which is"
         }
       ],
       "gist": [
@@ -13750,23 +16233,28 @@
       "words": [
         {
           "word": "river",
-          "meaning": "a long natural flow of water"
+          "meaning": "a long natural flow of water",
+          "at": 45.34
         },
         {
           "word": "transport",
-          "meaning": "a way to move people or things"
+          "meaning": "a way to move people or things",
+          "at": 49.929
         },
         {
           "word": "fishing",
-          "meaning": "trying to catch fish"
+          "meaning": "trying to catch fish",
+          "at": 56.76
         },
         {
           "word": "flag",
-          "meaning": "a piece of cloth used as a sign"
+          "meaning": "a piece of cloth used as a sign",
+          "at": 88.0
         },
         {
           "word": "recommend",
-          "meaning": "say that something is a good choice"
+          "meaning": "say that something is a good choice",
+          "at": 88.0
         }
       ]
     }

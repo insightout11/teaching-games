@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { caughtGist, fallbackGist, listeningWindow, validPack, windowTranscript, WINDOW_CAP } from './listening-pack';
+import { caughtGist, fallbackGist, listeningWindow, validGist, validPack, windowTranscript, WINDOW_CAP } from './listening-pack';
+import type { ListeningPack } from './listening-pack';
 import worldFlight from '../data/world-flight-library.json';
 import { listLibraryEntriesWithListeningPack } from './library-source-material';
 
@@ -12,13 +13,23 @@ const pack = { segments: [
 describe('listening packs', () => {
   it('World Flight packs have complete questions and usable timed windows', () => {
     let count = 0;
+    const cities: Record<string, number> = {};
     worldFlight.forEach((entry) => {
+      cities[entry.place.name] = cities[entry.place.name] ?? 0;
       const raw = (entry as unknown as { listeningPack?: unknown }).listeningPack;
       if (!raw) return;
       count++;
+      cities[entry.place.name]++;
+      const stored = raw as ListeningPack;
       const parsed = validPack(raw);
       expect(parsed, entry.id).not.toBeNull();
       if (!parsed) return;
+      expect(parsed.segments.length, entry.id).toBe(stored.segments.length);
+      expect(stored.gist?.length, entry.id).toBe(3);
+      [...(stored.gist ?? []), stored.harder].forEach((question) => {
+        expect(validGist(question), entry.id).toBe(true);
+        expect(question?.options.length, entry.id).toBe(3);
+      });
       expect(parsed.segments.length, entry.id).toBeGreaterThanOrEqual(3);
       expect(parsed.segments.length, entry.id).toBeLessThanOrEqual(5);
       expect(parsed.gist?.length, entry.id).toBe(3);
@@ -36,7 +47,9 @@ describe('listening packs', () => {
       expect(segments[segments.length - 1].end - segments[0].start, entry.id).toBeLessThanOrEqual(WINDOW_CAP);
       [0, 1, 2].forEach((position) => expect(segments.some((s) => s.correctIndex === position), entry.id).toBe(true));
     });
-    console.log(`World Flight listening pack checker: ${count} packs checked.`);
+    const missing = Object.keys(cities).filter((city) => cities[city] === 0);
+    expect(missing, 'Cities without a listening pack').toEqual([]);
+    console.log(`World Flight listening pack checker: ${count} packs; ${Object.keys(cities).length - missing.length}/50 cities covered; ${missing.length} cities without a pack.`);
   });
 
   it('every library pack is valid', () => {
