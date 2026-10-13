@@ -62,7 +62,7 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
     const t = ++token.current;
     setPlaying(true);
     setPlays((n) => n + 1);
-    speak(text, slow ? 0.72 : 0.92, () => { if (t === token.current) setPlaying(false); });
+    speak(text, slow ? 0.72 : 0.92, () => { if (t === token.current) setPlaying(false); }, 'presenter');
   }, [stop]);
 
   // ─── Phones ───
@@ -151,7 +151,7 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
           <p className="text-sm text-white/75">Sharing on Zoom? Tick <span className="text-white">&ldquo;Share sound&rdquo;</span> so students hear the voice.</p>
         </div>
         <div className="flex flex-wrap justify-center gap-2">
-          <KitButton tone="cyan" onClick={() => speak('Radio check. Can you hear me?')} icon={<Headphones className="h-3.5 w-3.5" />}>Sound check</KitButton>
+          <KitButton tone="cyan" onClick={() => speak('Radio check. Can you hear me?', 0.9, undefined, 'captain')} icon={<Headphones className="h-3.5 w-3.5" />}>Sound check</KitButton>
           <KitButton tone="rose" solid onClick={() => openRound(0)} className="!px-8 !py-3 !text-base" icon={<Zap className="h-4 w-4" />}>Start</KitButton>
         </div>
       </div>

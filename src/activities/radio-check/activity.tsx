@@ -199,7 +199,7 @@ export function RadioCheckActivity({ generatedContent, onSetInputSpec, onRegiste
           <p className="text-sm text-white/75">Sharing on Zoom? Tick <span className="text-white">&ldquo;Share sound&rdquo;</span> when you share your screen, or students won&apos;t hear anything. Test it first.</p>
         </div>
         <div className="flex flex-wrap justify-center gap-2">
-          <KitButton tone="cyan" onClick={() => speak('Radio check. Can you hear me?')} icon={<Headphones className="h-3.5 w-3.5" />}>Sound check</KitButton>
+          <KitButton tone="cyan" onClick={() => speak('Radio check. Can you hear me?', 0.9, undefined, 'captain')} icon={<Headphones className="h-3.5 w-3.5" />}>Sound check</KitButton>
           <KitButton tone="amber" solid onClick={() => openSegment(0)} className="!px-8 !py-3 !text-base" icon={<Radio className="h-4 w-4" />}>Start</KitButton>
         </div>
       </div>

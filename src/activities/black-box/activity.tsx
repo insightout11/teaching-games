@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Box, Headphones, MessageCircleQuestion, Play, Radio, RotateCcw, Snail, Unlock, Volume2 } from 'lucide-react';
 import type { ActivityProps, BlackBoxContent } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
-import { speak, warmUpSpeech } from '@/lib/speech';
+import { speak, warmUpSpeech, prepareSpeech } from '@/lib/speech';
 import { useYouTubePlayer } from '../shared/use-youtube-player';
 
 // Black Box: the "flight recorder". A short passage is read aloud (twice); its key words are
@@ -79,8 +79,10 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
       }, 200);
       return;
     }
-    speak(passage.text, slow ? 0.72 : 0.9, () => { if (t === token.current) setPlaying(false); });
+    speak(passage.text, slow ? 0.72 : 0.9, () => { if (t === token.current) setPlaying(false); }, 'presenter');
   }, [passage, stop, playerRef]);
+  // The natural voice takes a few seconds to make: ask for the passage as soon as it is known.
+  useEffect(() => { if (passage && !passage.clip) prepareSpeech([passage.text], 'presenter'); }, [passage]);
 
   // ─── Phones: word cloud while listening and talking ───
   useEffect(() => {
@@ -186,7 +188,7 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
           <p className="text-sm text-white/75">Sharing on Zoom? Tick <span className="text-white">&ldquo;Share sound&rdquo;</span> so students hear the voice.</p>
         </div>
         <div className="flex flex-wrap justify-center gap-2">
-          <KitButton tone="cyan" onClick={() => speak('Radio check. Can you hear me?')} icon={<Headphones className="h-3.5 w-3.5" />}>Sound check</KitButton>
+          <KitButton tone="cyan" onClick={() => speak('Radio check. Can you hear me?', 0.9, undefined, 'captain')} icon={<Headphones className="h-3.5 w-3.5" />}>Sound check</KitButton>
           <KitButton tone="amber" solid onClick={() => openPassage(0)} className="!px-8 !py-3 !text-base" icon={<Box className="h-4 w-4" />}>Open recording 1</KitButton>
         </div>
       </div>

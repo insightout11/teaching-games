@@ -166,7 +166,7 @@ export function ListenCheckActivity({ generatedContent, onSetInputSpec, onRegist
             <p className="text-sm text-white/75">Sharing on Zoom? Tick “Share sound” when you share your screen, or students won’t hear anything.</p>
           </div>
           <div className="flex justify-center gap-2">
-            <button onClick={() => speak('Sound check. Can you hear me?')} className="rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white/80 hover:bg-white/10">Sound check</button>
+            <button onClick={() => speak('Sound check. Can you hear me?', 0.9, undefined, 'captain')} className="rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white/80 hover:bg-white/10">Sound check</button>
             <button onClick={() => go('listen')} className="rounded-2xl bg-gradient-to-br from-cyan-500 to-sky-600 px-10 py-3 font-game text-lg shadow-xl transition hover:scale-105">START</button>
           </div>
         </div>

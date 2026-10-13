@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ChevronLeft, ChevronRight, Volume2 } from 'lucide-react';
 import type { ActivityProps, RemoteVote } from '../types';
-import { speak, warmUpSpeech } from '@/lib/speech';
+import { speak, warmUpSpeech, prepareSpeech } from '@/lib/speech';
 import { stickerLabel } from '@/lib/stickers';
 import { participationFromResponders } from '@/lib/activity-participation';
 import { PICTURE_STORIES, pickStory, type PictureStory } from './bank';
@@ -25,18 +25,20 @@ export function PictureStoriesActivity({ customTopic, onSetInputSpec, onRegister
   phaseRef.current = phase;
   const question = story?.questions[qIndex];
 
+  // The natural voice takes a few seconds to make: ask for this page and the next as soon as they are known.
+  useEffect(() => { prepareSpeech([story?.pages[page]?.text, story?.pages[page + 1]?.text], 'junior'); }, [story, page]);
   const readPage = useCallback(() => {
     const p = story?.pages[page];
     if (!p) return;
     warmUpSpeech();
-    speak(p.text, 0.8);
+    speak(p.text, 0.8, undefined, 'junior');
   }, [story, page]);
 
   const sayQuestion = useCallback(() => {
     if (!question) return;
     warmUpSpeech();
     const opts = question.options.map(stickerLabel);
-    speak(`${question.prompt} ${opts.slice(0, -1).join(', ')}, or ${opts.at(-1)}?`, 0.8);
+    speak(`${question.prompt} ${opts.slice(0, -1).join(', ')}, or ${opts.at(-1)}?`, 0.8, undefined, 'junior');
   }, [question]);
 
   useEffect(() => { if (phase === 'reading') readPage(); }, [phase, page, readPage]);
@@ -105,7 +107,7 @@ export function PictureStoriesActivity({ customTopic, onSetInputSpec, onRegister
         idempotencyKey: `picture-stories:${story.id}:${qIndex}:${clientId}`,
       });
     }
-    if (question.answer) speak(`It's ${stickerLabel(question.answer)}!`, 0.85);
+    if (question.answer) speak(`It's ${stickerLabel(question.answer)}!`, 0.85, undefined, 'junior');
   };
 
   const nextQuestion = () => {

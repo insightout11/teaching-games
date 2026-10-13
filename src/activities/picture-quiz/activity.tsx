@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ChevronRight, Volume2 } from 'lucide-react';
 import type { ActivityProps, RemoteVote } from '../types';
-import { speak, warmUpSpeech } from '@/lib/speech';
+import { speak, warmUpSpeech, prepareSpeech } from '@/lib/speech';
 import { participationFromResponders } from '@/lib/activity-participation';
 import { JUNIOR_SETS, pickJuniorSet, stickerLabel, type JuniorSet } from './bank';
 
@@ -24,10 +24,14 @@ export function PictureQuizActivity({ customTopic, onSetInputSpec, onRegisterRem
   phaseRef.current = phase;
   const question = set?.questions[index];
 
+  // The natural voice takes a few seconds to make: ask for this question's lines as soon as it is shown.
+  useEffect(() => {
+    if (question) prepareSpeech([question.say, question.answer ? `It's ${stickerLabel(question.answer)}!` : null], 'junior');
+  }, [question]);
   const sayQuestion = useCallback(() => {
     if (!question) return;
     warmUpSpeech();
-    speak(question.say, 0.8);
+    speak(question.say, 0.8, undefined, 'junior');
   }, [question]);
 
   // Phones: picture tiles while asking.
@@ -101,7 +105,7 @@ export function PictureQuizActivity({ customTopic, onSetInputSpec, onRegisterRem
         idempotencyKey: `picture-quiz:${set?.id}:${question.id}:${clientId}`,
       });
     }
-    if (question.answer) speak(`It's ${stickerLabel(question.answer)}!`, 0.85);
+    if (question.answer) speak(`It's ${stickerLabel(question.answer)}!`, 0.85, undefined, 'junior');
   };
 
   const next = () => {
