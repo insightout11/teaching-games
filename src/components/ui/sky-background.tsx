@@ -22,6 +22,7 @@ interface SkyBackgroundProps {
   hideMoonOnMobile?: boolean;  // suppress the moon on narrow screens where it crowds the layout (default false)
   showSkyline?: boolean;       // distant destination city skyline at the horizon (default false)
   intensity?: 'subtle' | 'moderate';
+  starBoost?: number;        // multiplies the star field's brightness (default 1). The stars sit behind the clouds.
   parallaxScale?: number;    // multiplier on all layer shifts (default 1 — session behavior)
   parallaxDuration?: number; // transition duration for layer shifts in seconds (default 4)
   className?: string;
@@ -698,6 +699,7 @@ export function SkyBackground({
   hideMoonOnMobile = false,
   showSkyline = false,
   intensity = 'moderate',
+  starBoost = 1,
   parallaxScale = 1,
   parallaxDuration = 4,
   className,
@@ -738,7 +740,7 @@ export function SkyBackground({
   const isBrightSky = weatherState === 'climbing' || weatherState === 'landing' || weatherState === 'day';
   const starOpacity = isBrightSky
     ? Math.max(0, (0.22 + Math.min(0.55, altitude * 0.80)) * mult - 0.55)
-    : (0.22 + Math.min(0.55, altitude * 0.80)) * mult;
+    : Math.min(1, (0.22 + Math.min(0.55, altitude * 0.80)) * mult * starBoost);
 
   // Cumulus fade as you climb above them
   const cumulusAltFactor = Math.max(0.08, 1 - altitude * 0.88);

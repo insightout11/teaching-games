@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { TopBar } from '@/components/ui/top-bar';
 import { MOCK_USER } from '@/lib/mock/data';
 import type { User } from '@supabase/supabase-js';
-import { SkyBackground } from '@/components/ui/sky-background';
+import { ClockSky } from '@/components/ui/clock-sky';
 import { BrandStingGate } from '@/components/ui/brand-sting-gate';
 import { TeacherIdentify } from '@/components/analytics/TeacherIdentify';
 import { AudioUnlocker } from '@/components/ui/audio-unlocker';
@@ -39,7 +39,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Mute has to be reachable mid-lesson, not buried in settings (§6.4). */}
       <AudioControl />
 
-      <SkyBackground weatherState="golden" altitude={0.75} intensity="subtle" showCityLights={false} />
+      <ClockSky />
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-lc-blue focus:text-white focus:font-medium focus:outline-none"

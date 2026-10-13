@@ -92,6 +92,10 @@ body {
 }
 
 /* Session theme */
+/* Signed-in pages in daylight (components/ui/clock-sky sets data-sky): the grey text colours were chosen for a dark
+   sky, so they are lightened while the sky behind the page is blue. */
+html[data-sky='day'], html[data-sky='morning'] { --lc-text2: #E3EAF6; --lc-text3: #C4CFE3; }
+
 .theme-Midnight { background-color: #0f172a; color: #f8fafc; }
 html[data-theme="light"] .theme-Midnight { color: var(--lc-text); }
 

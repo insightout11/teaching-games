@@ -21,7 +21,8 @@ import type { CourseLesson } from '@/lib/course';
 
 function greeting(d: Date): string {
   const h = d.getHours();
-  return h < 12 ? 'Good morning, Captain' : h < 18 ? 'Good afternoon, Captain' : 'Good evening, Captain';
+  // Switches at the same hours as the sky behind the page (components/ui/clock-sky): sunset begins at 5pm.
+  return h < 12 ? 'Good morning, Captain' : h < 17 ? 'Good afternoon, Captain' : 'Good evening, Captain';
 }
 
 function shortDate(iso: string): string {
