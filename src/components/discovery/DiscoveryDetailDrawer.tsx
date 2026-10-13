@@ -23,6 +23,8 @@ import { usePlannerStore } from '@/stores/planner-store';
 import { SourceInputPanel } from '@/components/planner/source-input-panel';
 import { trackEvent } from '@/lib/analytics/posthog';
 import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
+import { levelLabel } from '@/lib/difficulty';
+import { LevelHelp } from '@/components/ui/level-help';
 import {
   type DiscoveryItem,
   getTypeLabel,
@@ -327,14 +329,14 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                     </Select>
                   </div>
                   <div className="flex-1">
-                    <label className="mb-1 block text-xs text-lc-text3">Difficulty</label>
+                    <label className="mb-1 flex items-center gap-1 text-xs text-lc-text3">Level <LevelHelp /></label>
                     <Select
                       value={difficulty}
                       onChange={(e) => setDifficulty(e.target.value as Difficulty)}
                       inputSize="compact"
                     >
                       {DIFFICULTIES.map((d) => (
-                        <option key={d} value={d}>{d}</option>
+                        <option key={d} value={d}>{levelLabel(d)}</option>
                       ))}
                     </Select>
                   </div>

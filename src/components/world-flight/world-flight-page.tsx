@@ -33,6 +33,7 @@ import { InvestigationProgressPanel } from './investigation-progress-panel';
 import { JourneyProgressPanel } from './journey-progress-panel';
 import { PassportArrivalReplay } from './passport-arrival-replay';
 
+import { levelLabel } from '@/lib/difficulty';
 type FocusFilter = 'all' | DestinationFocusKind;
 type SidebarMode = 'destinations' | 'expeditions' | 'passport' | 'missions' | 'hangar';
 type DestinationGroup = { id: string; label: string; destinations: DestinationPack[] };
@@ -1351,7 +1352,7 @@ function FocusButton({
           </div>
           <div className="mt-2 flex flex-wrap gap-1.5">
             <span className="rounded-full border border-lc-amber/25 bg-lc-amber/10 px-2 py-0.5 text-[11px] font-semibold text-lc-amber">
-              {focus.kind === 'reading' ? `Suggested: ${focus.difficulty}` : focus.difficulty}
+              {focus.kind === 'reading' ? `Suggested: ${levelLabel(focus.difficulty)}` : levelLabel(focus.difficulty)}
             </span>
             {primarySkill && (
               <span className="rounded-full border border-white/15 bg-white/[0.04] px-2 py-0.5 text-[11px] text-lc-text2">{primarySkill}</span>

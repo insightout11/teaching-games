@@ -8,6 +8,7 @@ import { listeningClipsFor } from '@/lib/listening-pack';
 import { getLibrarySourceMaterial, listBookLessons, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
 import type { SourceMaterial, SourceType } from '@/types/source-material';
 
+import { levelLabel, cefrLabel } from '@/lib/difficulty';
 // Listening and Reading fly on library material with prepared packs: a listening clip, or a book
 // lesson. Same lists as the Live Room picker (flight-plan-panel.tsx).
 
@@ -47,10 +48,10 @@ export function LibraryLessonPicker({ preset, difficulty, onConfirm, onCancel }:
   return (
     <Modal open title={preset.name} onClose={onCancel}>
       <p className="-mt-2 mb-4 text-sm text-lc-text2">{preset.description}</p>
-      <p className="mb-2 text-sm font-medium text-lc-text2">{listening ? `Choose a listening clip (${difficulty}, nearest level first)` : 'Choose a book lesson'}</p>
+      <p className="mb-2 text-sm font-medium text-lc-text2">{listening ? `Choose a listening clip (${levelLabel(difficulty)}, nearest level first)` : 'Choose a book lesson'}</p>
       <div className="grid max-h-80 gap-1.5 overflow-y-auto pr-1">
         {listening
-          ? clips.map((c) => row(c.id, <Headphones className="h-4 w-4 shrink-0 text-lc-blue" />, c.title, `${c.cefr} · ${c.minutes} min`))
+          ? clips.map((c) => row(c.id, <Headphones className="h-4 w-4 shrink-0 text-lc-blue" />, c.title, `${cefrLabel(c.cefr)} · ${c.minutes} min`))
           : books.map((b) => row(b.id, <BookOpen className="h-4 w-4 shrink-0 text-lc-blue" />, `${b.book} · ${b.order}. ${b.title}`, b.ageBand))}
       </div>
       <div className="mt-5 flex justify-end gap-2">

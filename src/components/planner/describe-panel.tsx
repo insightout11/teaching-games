@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { usePlannerStore } from '@/stores/planner-store';
-import { DIFFICULTIES } from '@/lib/difficulty';
+import { DIFFICULTIES, levelLabel } from '@/lib/difficulty';
 import { Sparkles } from 'lucide-react';
 import type { LessonIntent } from '@/app/api/lesson-plan/intent/route';
 
@@ -113,7 +113,7 @@ export function DescribePanel() {
           <div className="flex flex-wrap gap-1.5">
             {DIFFICULTIES.map((d) => (
               <button key={d} onClick={() => setDifficulty(d)} disabled={loading} className={chipClass(difficulty === d)}>
-                {d}
+                {levelLabel(d)}
               </button>
             ))}
           </div>

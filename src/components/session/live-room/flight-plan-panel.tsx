@@ -1,6 +1,6 @@
 'use client';
 
-import { cefrLabel } from '@/lib/difficulty';
+import { cefrLabel, levelLabel } from '@/lib/difficulty';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen, FileText, Headphones, Layers, MapPin, Plane, X } from 'lucide-react';
@@ -155,7 +155,7 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
           </div>
         ) : isListening ? (
           <div className="space-y-1.5">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Choose a listening clip ({settings.difficulty})</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Choose a listening clip ({levelLabel(settings.difficulty)})</p>
             <div className="grid max-h-56 gap-1.5 overflow-y-auto pr-1 sm:grid-cols-2">
               {clips.map((c) => (
                 <button key={`${c.sourceType}-${c.id}`} type="button" onClick={() => setClipId(c.id)} className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm ${c.id === clipId ? 'border-amber-300 bg-amber-300/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
@@ -197,7 +197,7 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
         <div className="sticky -bottom-6 -mx-6 !-mb-6 flex items-center justify-between gap-3 rounded-b-3xl border-t border-white/10 bg-slate-950 px-6 py-4">
           <p className="text-sm text-white/50">
             {preview ? `Fits the ${Math.round(minutesLeft ?? 0)} minutes left: ${preview.slots.length} stages (~${estimatePlanMinutes(preview.slots)} min). ` : ''}
-            Level: {settings.difficulty}. Students stay on board.
+            Level: {levelLabel(settings.difficulty)}. Students stay on board.
           </p>
           <button type="button" disabled={!ready} onClick={launch} className="flex items-center gap-2 rounded-full bg-amber-300 px-6 py-3 font-semibold text-slate-950 disabled:opacity-40">
             <Plane className="h-4 w-4" />Start the flight plan

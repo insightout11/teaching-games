@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { X, Clock, Search, Play, LayoutGrid, List, SlidersHorizontal, Info, ChevronRight, Star } from 'lucide-react';
-import { DIFFICULTIES } from '@/lib/difficulty';
+import { DIFFICULTIES, levelLabel } from '@/lib/difficulty';
 import { recommendedPresetForSource, PRESET_FIT_LABELS, ALL_FIT_PRESET_IDS, type SourceGenre } from '@/lib/preset-fit';
 import {
   useDrawerA11y, usePersistedState, useFavorites, useRecentlyUsed, useIncremental,
@@ -112,6 +112,7 @@ import sportsRaw from '@/data/sports-library.json';
 import grammarRaw from '@/data/grammar-library.json';
 import hooksRaw from '@/data/hooks-library.json';
 
+import { LevelHelp } from '@/components/ui/level-help';
 function tag<K extends LibrarySourceKey>(raw: unknown[], key: K): LibraryEntry[] {
   return (raw as Array<LibraryEntry & { hidden?: boolean }>).filter((e) => !e.hidden).map((e) => ({ ...e, sourceType: key }));
 }
@@ -237,7 +238,7 @@ function VideoDetailDrawer({
           )}
 
           <div className="flex flex-wrap gap-1.5">
-            <span className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[11px] text-lc-text3">{entry.difficultyLevel}</span>
+            <span className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[11px] text-lc-text3">{levelLabel(entry.difficultyLevel)}</span>
             {entry.topicTags.map((t) => (
               <span key={t} className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[11px] text-lc-text3 capitalize">{t}</span>
             ))}
@@ -543,7 +544,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
 
           {/* Level */}
           <div>
-            <p className="text-[11px] font-semibold text-lc-text3 uppercase tracking-wide mb-2">Level</p>
+            <p className="mb-2 flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-lc-text3">Level <LevelHelp /></p>
             <div className="flex gap-1.5 flex-wrap">
               {DIFFICULTIES.map((d) => (
                 <button
@@ -555,7 +556,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                       : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
                   }`}
                 >
-                  {d}
+                  {levelLabel(d)}
                 </button>
               ))}
             </div>
@@ -649,7 +650,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                     <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${SOURCE_BADGE[entry.sourceType]}`}>
                       {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{levelLabel(entry.difficultyLevel)}</span>
                     {fitLabel(entry) && (
                       <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabel(entry)}</span>
                     )}
@@ -683,7 +684,7 @@ export function VideoLibraryModal({ onSelect, onClose, mode = 'modal' }: Props) 
                     <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${SOURCE_BADGE[entry.sourceType]}`}>
                       {SOURCE_CONFIG.find((s) => s.key === entry.sourceType)?.label}
                     </span>
-                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{entry.difficultyLevel}</span>
+                    <span className="px-1.5 py-0.5 rounded-full bg-lc-bg border border-lc-border text-[10px] text-lc-text3">{levelLabel(entry.difficultyLevel)}</span>
                     {fitLabel(entry) && (
                       <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[10px] text-cyan-300">Best: {fitLabel(entry)}</span>
                     )}

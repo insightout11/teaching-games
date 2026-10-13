@@ -14,6 +14,7 @@ import { useFocusBus } from '@/stores/focus-bus-store';
 import { openTrickyChannel } from '@/lib/live-room/word-bank';
 import { KitButton, KitChip, KitLabel, KitReadout, KitStatus } from '@/components/session/widget-kit';
 
+import { levelLabel } from '@/lib/difficulty';
 /**
  * Read it together: students take turns reading short passages aloud while
  * everyone follows on their phones. Upgrades: a class version at the class's
@@ -290,7 +291,7 @@ export function ReadAloudActivity({
           <>
             <div className={`flex flex-wrap items-center gap-1.5 ${levelled ? 'hidden' : ''}`}>
               <KitChip on={useClassVersion && !!classVersion} tone="emerald" disabled={!classVersion} onClick={() => setUseClassVersion(true)}>
-                {preparing ? 'Preparing class version…' : classVersion ? `Class version (${sessionSettings.difficulty})` : 'Class version unavailable'}
+                {preparing ? 'Preparing class version…' : classVersion ? `Class version (${levelLabel(sessionSettings.difficulty)})` : 'Class version unavailable'}
               </KitChip>
               <KitChip on={!useClassVersion || !classVersion} tone="cyan" onClick={() => setUseClassVersion(false)}>Original</KitChip>
               <span className="ml-auto font-mono text-[11px] text-white/50">{readingTurns.length} turn{readingTurns.length === 1 ? '' : 's'} · {students.length} reader{students.length === 1 ? '' : 's'}</span>

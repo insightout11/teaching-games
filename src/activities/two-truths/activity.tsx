@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { ActivityProps } from '../types';
 import { ActivityStatus, type Guess, type TwoTruthsContent, type TwoTruthsRound } from './types';
 
+import { levelLabel } from '@/lib/difficulty';
 export function TwoTruthsActivity({
   generatedContent,
   onPhaseChange,
@@ -169,7 +170,7 @@ export function TwoTruthsActivity({
           )}
           {currentRound && (
             <span className={`text-xs uppercase ${getDifficultyColor(currentRound.difficulty)}`}>
-              {currentRound.difficulty}
+              {levelLabel(currentRound.difficulty)}
             </span>
           )}
         </div>

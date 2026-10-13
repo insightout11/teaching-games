@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { usePlannerStore } from '@/stores/planner-store';
 import { GOAL_LABELS } from '@/lib/flight-plan-config';
 import type { GoalTag } from '@/lib/flight-plan-config';
-import { DIFFICULTIES } from '@/lib/difficulty';
+import { DIFFICULTIES, levelLabel } from '@/lib/difficulty';
 import type { Difficulty } from '@/lib/difficulty';
 import { GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
 import type { GrammarTarget } from '@/lib/grammar';
@@ -22,6 +22,7 @@ import { getActivity } from '@/activities/registry';
 import { getGame } from '@/games/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
 
+import { LevelHelp } from '@/components/ui/level-help';
 type TeacherClass = {
   id: string;
   name: string;
@@ -306,8 +307,8 @@ export function ReviewLaunchScreen() {
                 </select>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-lc-text3">Difficulty</span>
-                <div className="flex gap-1.5">
+                <span className="flex items-center gap-1 text-lc-text3">Level <LevelHelp /></span>
+                <div className="flex flex-wrap justify-end gap-1.5">
                   {DIFFICULTIES.map((d) => (
                     <button
                       key={d}
@@ -318,7 +319,7 @@ export function ReviewLaunchScreen() {
                           : 'bg-lc-surface border border-lc-border text-lc-text2 hover:border-lc-blue/50'
                       }`}
                     >
-                      {d}
+                      {levelLabel(d)}
                     </button>
                   ))}
                 </div>
@@ -377,7 +378,7 @@ export function ReviewLaunchScreen() {
               <p className="text-sm font-medium text-lc-text">{sourceMaterial.title}</p>
               {sourceMaterial.briefingOptions?.length ? (
                 <p className="text-xs font-semibold text-cyan-300/75">
-                  Adapted for {difficulty} · {sourceMaterial.wordCount ?? 0} words
+                  Adapted for {levelLabel(difficulty)} · {sourceMaterial.wordCount ?? 0} words
                 </p>
               ) : null}
               {sourceMaterial.duration && (

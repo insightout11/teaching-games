@@ -22,6 +22,8 @@ import { SourceInputPanel } from '@/components/planner/source-input-panel';
 import { getFeaturedPreset } from '@/lib/discovery-shelves';
 import type { FlightPlanPreset } from '@/lib/flight-plan-presets';
 
+import { levelLabel } from '@/lib/difficulty';
+import { LevelHelp } from '@/components/ui/level-help';
 interface ClassRow {
   id: string;
   name: string;
@@ -197,14 +199,14 @@ export function FeaturedFlightLaunchModal({
               </Select>
             </div>
             <div className="flex-1">
-              <label className="mb-1 block text-xs text-lc-text3">Difficulty</label>
+              <label className="mb-1 flex items-center gap-1 text-xs text-lc-text3">Level <LevelHelp /></label>
               <Select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value as Difficulty)}
                 inputSize="compact"
               >
                 {DIFFICULTIES.map((d) => (
-                  <option key={d} value={d}>{d}</option>
+                  <option key={d} value={d}>{levelLabel(d)}</option>
                 ))}
               </Select>
             </div>

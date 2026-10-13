@@ -11,6 +11,7 @@ import type { Challenge, EvaluationResult, UserCorrection, ErrorLocation } from 
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { ArrowRight, Check, Clock, Eye, Search, Trophy } from 'lucide-react';
 
+import { levelLabel } from '@/lib/difficulty';
 interface WordData {
   word: string;
   index: number;
@@ -614,7 +615,7 @@ export function ErrorHunterGame({ currentStudentId, students, onScore, onPickStu
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {sessionSettings.topic}
+          {levelLabel(sessionSettings.difficulty)} / {sessionSettings.topic}
         </div>
       </div>
 

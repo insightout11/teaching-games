@@ -11,6 +11,7 @@ import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { ArrowRight, BookOpen, Check, Clock, Lightbulb, Sparkles, Trophy } from 'lucide-react';
 
+import { levelLabel } from '@/lib/difficulty';
 const EMPTY_SEEN: string[] = [];
 
 interface RaceSolver {
@@ -779,7 +780,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
           <div className="mb-6">
             <p className="text-xl mb-1 opacity-90 font-bold italic tracking-tight">Level Up Your Vocabulary</p>
             <p className="text-slate-500 text-[10px] uppercase tracking-widest font-black">
-              Mode: {getDisplayTopic(sessionSettings, sourceMaterial)} / {sessionSettings.difficulty}
+              Mode: {getDisplayTopic(sessionSettings, sourceMaterial)} / {levelLabel(sessionSettings.difficulty)}
             </p>
           </div>
 
@@ -842,7 +843,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             {renderSentence()}
             <div className="flex justify-between items-center mt-4 border-t border-white/5 pt-3 gap-2 opacity-50 text-[8px] font-black uppercase tracking-widest">
               <div className="flex gap-2">
-                <span>{sessionSettings.difficulty}</span>
+                <span>{levelLabel(sessionSettings.difficulty)}</span>
                 <span>{getDisplayTopic(sessionSettings, sourceMaterial)}</span>
               </div>
               <p>{currentSentence?.level === 'hard' ? "What's the precise term?" : 'Replace the highlighted word'}</p>

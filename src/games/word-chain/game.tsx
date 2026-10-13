@@ -8,6 +8,7 @@ import { useSessionStore, getDisplayTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { ExtendedChainLink, ValidationResult, BonusChallenge } from './types';
 
+import { levelLabel } from '@/lib/difficulty';
 type TeamId = 'A' | 'B';
 
 interface TeamState {
@@ -931,7 +932,7 @@ export function WordChainGame({ currentStudentId, students, onScore, onPickStude
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {themeTopic}
+          {levelLabel(sessionSettings.difficulty)} / {themeTopic}
         </div>
       </div>
 

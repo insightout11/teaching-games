@@ -26,7 +26,7 @@ export function LevelHelp({ align = 'left', className = '' }: { align?: 'left' |
       {open && (
         <span
           role="tooltip"
-          className={`absolute top-full z-50 mt-1 w-[min(22rem,80vw)] rounded-xl border border-white/10 bg-[#0a121e] p-3 text-left shadow-2xl ${align === 'right' ? 'right-0' : 'left-0'}`}
+          className={`absolute top-full z-50 mt-1 w-[min(22rem,80vw)] normal-case tracking-normal font-normal rounded-xl border border-white/10 bg-[#0a121e] p-3 text-left shadow-2xl ${align === 'right' ? 'right-0' : 'left-0'}`}
         >
           <span className="block font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-300/80">What the levels mean</span>
           <span className="mt-2 block space-y-1.5">

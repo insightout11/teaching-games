@@ -12,6 +12,7 @@ import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit
 import { ArrowRight, Clock, Mic, RefreshCw, Star } from 'lucide-react';
 import type { SynonymMine, SynonymRoom } from '@/components/student/synonym-panel';
 
+import { levelLabel } from '@/lib/difficulty';
 const UNIQUE_BONUS = 2;
 interface Entry { clientId: string; studentId: string; name: string; word: string; status: 'checking' | 'ok' | 'bad'; score: number; quality: string; feedback: string }
 
@@ -537,7 +538,7 @@ export function SynonymShowdownGame({ currentStudentId, students, onScore, onPic
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {getDisplayTopic(sessionSettings, sourceMaterial)}
+          {levelLabel(sessionSettings.difficulty)} / {getDisplayTopic(sessionSettings, sourceMaterial)}
         </div>
       </div>
 

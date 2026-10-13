@@ -13,6 +13,7 @@ import {
 import { GrammarTarget, GRAMMAR_TARGET_GROUPS } from '@/lib/grammar';
 import { useTeacherTier } from '@/hooks/use-teacher-tier';
 
+import { levelLabel } from '@/lib/difficulty';
 function persistSessionSettings(sessionId: string | null, patch: { topic?: string; difficulty?: string; customTopic?: string; grammarTarget?: string | null }) {
   if (!sessionId) return;
   void fetch('/api/session/settings', {
@@ -89,7 +90,7 @@ export function SessionSettingsBar() {
           className="bg-transparent font-bold outline-none cursor-pointer"
         >
           {DIFFICULTIES.map((d) => (
-            <option key={d} value={d}>{d}</option>
+            <option key={d} value={d}>{levelLabel(d)}</option>
           ))}
         </select>
 

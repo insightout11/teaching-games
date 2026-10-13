@@ -11,6 +11,7 @@ import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import { GamePhase } from './types';
 import type { GridContent, WordEntry, SentenceEntry, SpecialAwards, WordValidationResult, SentenceEvaluationResult } from './types';
+import { levelLabel } from '@/lib/difficulty';
 import {
   buildGridRushRound2InputSpec,
   getGridRushFlightPhase,
@@ -541,7 +542,7 @@ export function GridRushGame({
           <div className="flex items-center justify-center gap-3 text-slate-500 text-sm mb-6">
             <span>{students.length} students</span>
             <span>·</span>
-            <span>{sessionSettings.difficulty}</span>
+            <span>{levelLabel(sessionSettings.difficulty)}</span>
             <span>·</span>
             <span>{getDisplayTopic(sessionSettings, sourceMaterial)}</span>
           </div>

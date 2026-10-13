@@ -9,6 +9,7 @@ import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { Challenge, EvaluationResult } from './types';
 
+import { levelLabel } from '@/lib/difficulty';
 interface RaceSolver {
   studentId: string;
   clientId: string;
@@ -554,7 +555,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
             <p className="opacity-70 text-sm">Pick a student to start</p>
           )}
         </div>
-        <div className="text-xs opacity-40">{sessionSettings.difficulty} / {sessionSettings.topic}</div>
+        <div className="text-xs opacity-40">{levelLabel(sessionSettings.difficulty)} / {sessionSettings.topic}</div>
       </div>
 
       {/* IDLE State */}

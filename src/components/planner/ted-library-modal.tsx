@@ -15,6 +15,7 @@ type TedTalkMeta = {
 
 // Client-only metadata — no transcripts/summaries sent to browser
 import tedLibraryRaw from '@/data/ted-library.json';
+import { levelLabel } from '@/lib/difficulty';
 const TED_TALKS: TedTalkMeta[] = (tedLibraryRaw as TedTalkMeta[]).map(
   ({ id, title, speaker, durationSecs, topicTags, difficultyLevel, description }) => ({
     id, title, speaker, durationSecs, topicTags, difficultyLevel, description,
@@ -107,7 +108,7 @@ export function TedLibraryModal({ onSelect, onClose }: Props) {
                     : 'bg-lc-bg border border-lc-border text-lc-text3 hover:text-lc-text'
                 }`}
               >
-                {d}
+                {levelLabel(d)}
               </button>
             ))}
           </div>
@@ -139,7 +140,7 @@ export function TedLibraryModal({ onSelect, onClose }: Props) {
               <p className="text-xs text-lc-text3 leading-relaxed line-clamp-2">{talk.description}</p>
               <div className="flex gap-1 flex-wrap">
                 <span className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-xs text-lc-text3">
-                  {talk.difficultyLevel}
+                  {levelLabel(talk.difficultyLevel)}
                 </span>
                 {talk.topicTags.slice(0, 3).map((tag) => (
                   <span key={tag} className="px-2 py-0.5 rounded-full bg-lc-bg border border-lc-border text-xs text-lc-text3 capitalize">

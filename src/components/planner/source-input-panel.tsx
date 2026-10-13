@@ -11,6 +11,7 @@ import type { SourceBriefingMode, SourceBriefingOption, SourceMaterial } from '@
 import { recommendSources, type LibraryRecommendation } from '@/lib/source-library';
 import { preparePastedSource } from '@/lib/pasted-source';
 
+import { levelLabel } from '@/lib/difficulty';
 type Tab = 'video' | 'text' | 'upload';
 type SourceExtractResponse = SourceMaterial & {
   error?: string;
@@ -810,7 +811,7 @@ export function SourceInputPanel() {
                     disabled={processing || (genTopic.trim().length < 3 && topic.trim().length < 3)}
                     className="w-full rounded-lg border border-lc-blue/40 bg-lc-blue/10 py-2 text-sm font-semibold text-lc-blue hover:bg-lc-blue/15 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    {processing ? 'Generating…' : `Generate a ${difficulty} reading`}
+                    {processing ? 'Generating…' : `Generate a ${levelLabel(difficulty)} reading`}
                   </button>
                 </div>
               )}

@@ -10,6 +10,7 @@ import type { ConnectionsChallenge, ConnectionsGroup, ConnectionsResult, Connect
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import { ArrowRight, HeartCrack, Puzzle, Trophy } from 'lucide-react';
 
+import { levelLabel } from '@/lib/difficulty';
 const MAX_LIVES = 4;
 
 function getPositionPoints(position: number): number {
@@ -594,7 +595,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {getDisplayTopic(sessionSettings, sourceMaterial)}
+          {levelLabel(sessionSettings.difficulty)} / {getDisplayTopic(sessionSettings, sourceMaterial)}
         </div>
       </div>
 

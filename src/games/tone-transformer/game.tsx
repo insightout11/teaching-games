@@ -7,6 +7,7 @@ import { TargetTone, TONE_DESCRIPTIONS, GameStatus } from './types';
 import { getEffectiveTopic } from '@/stores/session-store';
 import type { Challenge, EvaluationResult } from './types';
 
+import { levelLabel } from '@/lib/difficulty';
 export function ToneTransformerGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler }: GameProps) {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
@@ -212,7 +213,7 @@ export function ToneTransformerGame({ currentStudentId, students, onScore, onPic
           )}
         </div>
         <div className="text-xs opacity-40">
-          {sessionSettings.difficulty} / {sessionSettings.topic}
+          {levelLabel(sessionSettings.difficulty)} / {sessionSettings.topic}
         </div>
       </div>
 

@@ -25,6 +25,8 @@ import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { trackEvent } from '@/lib/analytics/posthog';
 import { lessonPlanStorageKey } from '@/lib/lesson-plan-payload';
 
+import { levelLabel } from '@/lib/difficulty';
+import { LevelHelp } from '@/components/ui/level-help';
 type FilterTab = 'all' | 'games' | 'activities';
 type SkillFilter = 'all' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'critical-thinking' | 'debate' | 'creativity';
 
@@ -833,14 +835,14 @@ export function ExploreClient() {
                   </Select>
                 </div>
                 <div className="flex-1">
-                  <label className="block text-xs text-lc-text3 mb-1">Difficulty</label>
+                  <label className="mb-1 flex items-center gap-1 text-xs text-lc-text3">Level <LevelHelp /></label>
                   <Select
                     value={selectedDifficulty}
                     onChange={(e) => setSelectedDifficulty(e.target.value as Difficulty)}
                     inputSize="compact"
                   >
                     {DIFFICULTIES.map((d) => (
-                      <option key={d} value={d}>{d}</option>
+                      <option key={d} value={d}>{levelLabel(d)}</option>
                     ))}
                   </Select>
                 </div>

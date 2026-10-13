@@ -13,6 +13,7 @@ import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit
 import { ArrowLeft, ArrowRight, Check, Clock, Eye, EyeOff, Mic, PenLine, Trophy } from 'lucide-react';
 import { isUnchanged, wordDiff } from '@/lib/word-diff';
 
+import { levelLabel } from '@/lib/difficulty';
 const TENSE_TARGETS = [
   GrammarTarget.PresentSimple,
   GrammarTarget.PresentContinuous,
@@ -434,7 +435,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
         )}
         <div className="flex flex-wrap gap-2">
           <span className="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-bold uppercase">Must use: {currentChallenge.target}</span>
-          <span className="px-3 py-1 bg-white/10 text-slate-400 rounded-full text-xs font-bold uppercase">{sessionSettings.difficulty} Level</span>
+          <span className="px-3 py-1 bg-white/10 text-slate-400 rounded-full text-xs font-bold uppercase">{levelLabel(sessionSettings.difficulty)}</span>
         </div>
         {/* Grammar rule reference */}
         {(() => {
@@ -670,7 +671,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           {currentStudent && <p className="text-lg font-semibold text-cyan-400">{currentStudent.name}&apos;s turn</p>}
           {!currentStudentId && <p className="opacity-70 text-sm">Pick a student to start</p>}
         </div>
-        <div className="text-xs opacity-40">{sessionSettings.difficulty} / {sessionSettings.topic}</div>
+        <div className="text-xs opacity-40">{levelLabel(sessionSettings.difficulty)} / {sessionSettings.topic}</div>
       </div>
 
       {status === GameStatus.IDLE && (

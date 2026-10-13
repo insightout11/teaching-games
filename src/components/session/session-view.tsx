@@ -466,6 +466,7 @@ export interface SessionParticipant {
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
 
+import { levelLabel } from '@/lib/difficulty';
 const isMockMode = () => process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
 
 // Load students from localStorage in mock mode
@@ -2292,7 +2293,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-wider text-lc-text3">Teacher Tools</p>
                       <p className="mt-1 text-sm text-lc-text2">
-                        {settings.difficulty} - Grammar: {settings.grammarTarget ?? 'Any'}
+                        {levelLabel(settings.difficulty)} - Grammar: {settings.grammarTarget ?? 'Any'}
                       </p>
                     </div>
                     <div className="rounded-xl border border-lc-border/70 bg-lc-surface/70 p-3">
