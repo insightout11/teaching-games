@@ -187,7 +187,7 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
                       <li key={`${f.destinationId}-${f.at}-${i}`} className="flex items-baseline gap-3 px-3 py-2 text-sm">
                         <span className="w-14 shrink-0 font-mono text-xs text-white/45">{day(f.at)}</span>
                         <span className="min-w-0 flex-1">
-                          <span className="text-white">{f.flew ? `${f.from ?? 'LC International'} → ${f.city}` : `${f.city} lesson, taught without flying`}</span>
+                          <span className="text-white">{f.flew ? `${f.from ?? 'LC International'} → ${f.city}` : f.lesson?.startsWith('Design mission') ? `Design mission, in ${f.city}` : `${f.city} lesson, taught without flying`}</span>
                           <span className="block truncate text-xs text-white/50">{f.lesson ?? 'No city lesson'}</span>
                         </span>
                         {f.flew && <span className="shrink-0 font-mono text-xs text-white/45">{f.km.toLocaleString()} km</span>}

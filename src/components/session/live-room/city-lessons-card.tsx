@@ -1,6 +1,6 @@
 'use client';
 
-import { BookOpen, PlayCircle, Stamp } from 'lucide-react';
+import { BookOpen, Luggage, PlayCircle, Stamp } from 'lucide-react';
 import { levelLabel } from '@/lib/difficulty';
 import type { DestinationFocus, DestinationPack } from '@/lib/world-flight/types';
 
@@ -14,7 +14,7 @@ export function isPublishedFocus(focus: DestinationFocus) {
  * lessons. Picking a lesson opens the flight panel for it. Flying there with no city lesson is still one tap
  * (the take-off button beside this card).
  */
-export function CityLessonsCard({ city, originCity, km, far, visited, locked, onPickLesson, onVote }: {
+export function CityLessonsCard({ city, originCity, km, far, visited, locked, onPickLesson, onTravel, onVote }: {
   city: DestinationPack;
   originCity: string;
   km: number;
@@ -24,6 +24,8 @@ export function CityLessonsCard({ city, originCity, km, far, visited, locked, on
   /** A flight plan is already loaded or the destination is fixed: the lessons are shown but not offered. */
   locked: boolean;
   onPickLesson: (focus: DestinationFocus) => void;
+  /** The Travel flight for this city (its real airport, hotels, food and sights). Absent when the city has no trip pack or is out of range. */
+  onTravel?: () => void;
   onVote?: () => void;
 }) {
   const lessons = city.focusOptions.filter(isPublishedFocus);
@@ -58,6 +60,20 @@ export function CityLessonsCard({ city, originCity, km, far, visited, locked, on
               </button>
             ))}
           </div>
+          {onTravel && (
+            <button
+              type="button"
+              disabled={locked}
+              onClick={onTravel}
+              className="mt-1 flex w-full items-start gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-left transition hover:border-amber-300/50 hover:bg-amber-300/[0.07] disabled:opacity-50"
+            >
+              <Luggage className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
+              <span className="min-w-0">
+                <span className="block text-sm leading-snug text-white">A trip to {city.city}</span>
+                <span className="block text-xs text-white/50">Travel flight · airport, hotel, food and sights, using the city&apos;s real places</span>
+              </span>
+            </button>
+          )}
           {far && <p className="mt-1.5 text-xs text-white/50">The class stays in {originCity}: flight hour, stars and the lesson&apos;s clue, but no stamp.</p>}
         </>
       )}

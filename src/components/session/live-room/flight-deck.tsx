@@ -15,6 +15,7 @@ import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/liv
 import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
 import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
 import { buildRoomFlightPlan } from '@/lib/live-room/room-flight-plan';
+import { findTripDestination } from '@/lib/world-flight/trip-pack';
 import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 import { LandingRewards, useWorldFlightRecord, WorldFlightRecordPanel } from '@/components/session/live-room/world-flight-record';
 import { findPlanCity } from '@/lib/live-room/plan-city';
@@ -272,6 +273,8 @@ export function FlightDeck({
   const [teachId, setTeachId] = useState<string | null>(null);
   const [cityLesson, setCityLesson] = useState<(CityLessonChoice & { cityId: string }) | null>(null);
   const [stayHome, setStayHome] = useState<string | null>(null);
+  // The flight panel opened with a flight already chosen (the city card's Travel button).
+  const [planPreset, setPlanPreset] = useState<string | undefined>(undefined);
   const flightKey = `lc-room-flight-${sessionId}`;
   useEffect(() => {
     try {
@@ -1531,6 +1534,7 @@ export function FlightDeck({
                   visited={visitedIds.has(cardCity.id)}
                   locked={!!lockedId || !!flightPlan}
                   onPickLesson={(focus) => setCityLesson({ cityId: cardCity.id, focusId: focus.id, title: focus.title, source: focus.sourceMaterial, staysIn: cardIsFar ? origin.city : null })}
+                  onTravel={!cardIsFar && findTripDestination(cardCity.id, cardCity.city) ? () => { setPlanPreset('travel-60'); setPlanOpen(true); } : undefined}
                   onVote={cardIsFar ? undefined : () => void startCityPoll()}
                 />
               ) : <span />}
@@ -1751,9 +1755,11 @@ export function FlightDeck({
           destinationCity={destination.city}
           destinationId={destination.id}
           minutesLeft={flightStage === 'flying' ? minutesLeft : null}
-          onClose={() => setPlanOpen(false)}
+          initialPresetId={planPreset}
+          onClose={() => { setPlanOpen(false); setPlanPreset(undefined); }}
           onLaunch={(plan) => {
             setPlanOpen(false);
+            setPlanPreset(undefined);
             recordActivity(`Flight plan: ${plan.customTopic}`);
             // Mid-air: a new flight plan, not a new take-off.
             flash(flightStage === 'flying' ? `Captain's announcement: new flight plan, ${plan.customTopic}` : `Flight plan ready: ${plan.customTopic}`);

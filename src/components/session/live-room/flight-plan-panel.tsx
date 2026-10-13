@@ -30,7 +30,9 @@ export interface CityLessonChoice {
  * the source on screen, the level, the grammar focus). Only what a preset genuinely needs is
  * asked (the grammar point for Grammar). Flies in this session; the room keeps the journey.
  */
-export function FlightPlanPanel({ sessionId, destinationCity, destinationId, minutesLeft, cityLesson, onLaunch, onClose }: {
+export function FlightPlanPanel({ sessionId, destinationCity, destinationId, minutesLeft, cityLesson, initialPresetId, onLaunch, onClose }: {
+  /** Open with this flight already chosen (the city card's Travel button). */
+  initialPresetId?: string;
   /** One of a World Flight city's own lessons (chosen on the room map): the flight is built from it. */
   cityLesson?: CityLessonChoice | null; sessionId: string; destinationCity: string; /** The room's destination (a World Flight city id) — Travel builds its trip there. */ destinationId?: string | null; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload, info?: { usesCityLesson: boolean }) => void; onClose: () => void }) {
   const settings = useSessionStore((s) => s.settings);
@@ -42,12 +44,12 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
   const junior = useSessionStore((s) => s.junior);
   // Junior classes skip the debate and grammar flights (too much arguing and rule talk for 5-9s).
   const presets = useMemo(
-    () => roomFlightPresets({ travel: !!tripDestination && !cityLesson?.staysIn }).filter((p) => !junior || !/debate|grammar/.test(p.id))
+    () => roomFlightPresets({ travel: !!tripDestination && !cityLesson }).filter((p) => !junior || !/debate|grammar/.test(p.id))
       // Listening and Reading fly on their own prepared clips and books, not on a city's lesson.
       .filter((p) => !cityLesson || !/listening|reading/.test(p.id)),
     [tripDestination, junior, cityLesson],
   );
-  const [presetId, setPresetId] = useState(presets[0]?.id ?? '');
+  const [presetId, setPresetId] = useState(presets.find((p) => p.id === initialPresetId)?.id ?? presets[0]?.id ?? '');
   const [topic, setTopic] = useState(cityLesson ? cityLesson.title : settings.customTopic || sourceMaterial?.title || '');
   const [grammar, setGrammar] = useState<string>(settings.grammarTarget ?? '');
   const preset = presets.find((p) => p.id === presetId);

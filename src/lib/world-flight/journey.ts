@@ -156,6 +156,8 @@ export function buildWorldFlightEvidenceSnapshot(
 /** `focus_id` of a flight that carried no city lesson (the class flew there and was taught something else). */
 export const NO_CITY_LESSON_FOCUS_ID = 'live-room';
 export const NO_CITY_LESSON_TITLE = 'Flight (no city lesson)';
+/** `focus_id` of the record a Design mission leaves: a lesson taught where the class is, with no evidence of its own. */
+export const DESIGN_MISSION_FOCUS_ID = 'design-mission';
 
 /**
  * The record of a flight with no city lesson: the visit is real (stamp, flight hour, stars, expedition stop), but

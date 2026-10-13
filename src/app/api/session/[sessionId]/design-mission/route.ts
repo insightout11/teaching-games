@@ -3,6 +3,8 @@ import { requireAuth } from '@/lib/auth-credits';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { createServiceClient } from '@/lib/supabase/service';
 import { buildWorldFlightDesignMissionContext, type CompletedWorldFlightEvidence } from '@/lib/world-flight/investigations';
+import { getDestinationById } from '@/data/world-flight/destinations';
+import { buildVisitOnlySnapshot, DESIGN_MISSION_FOCUS_ID } from '@/lib/world-flight/journey';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,6 +46,28 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
     { onConflict: 'session_id' },
   );
   if (missionError) return NextResponse.json({ error: missionError.message }, { status: 500 });
+
+  // The mission is a lesson like any other, so it earns its flight hour and stars: recorded as taught where the
+  // class is (no move, no stamp, and no evidence of its own). Never replaces a flight this session already has.
+  const { data: state } = await service.from('class_world_flight_state').select('current_destination_id').eq('class_id', classId).maybeSingle();
+  const here = state?.current_destination_id ? getDestinationById(state.current_destination_id) : undefined;
+  if (here) {
+    const { error: legError } = await service.from('class_world_flight_legs').upsert(
+      {
+        class_id: classId,
+        session_id: params.sessionId,
+        origin_destination_id: here.id,
+        destination_id: here.id,
+        focus_id: DESIGN_MISSION_FOCUS_ID,
+        distance_km: 0,
+        evidence_snapshot: { ...buildVisitOnlySnapshot(here), focusId: DESIGN_MISSION_FOCUS_ID, focusTitle: `Design mission: ${mission.designMissionTitle}` },
+        moves_class: false,
+        status: 'planned',
+      },
+      { onConflict: 'session_id', ignoreDuplicates: true },
+    );
+    if (legError) console.error('[design-mission] flight record failed:', legError.message);
+  }
 
   return NextResponse.json({
     mission,
