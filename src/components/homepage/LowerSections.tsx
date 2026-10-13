@@ -40,7 +40,7 @@ export function ChangeCourseSection() {
   const [id, setId] = useState('food');
   const d = DETOURS.find((x) => x.id === id) ?? DETOURS[0];
   return (
-    <section className="border-t border-lc-border bg-[#0b1524] px-5 py-16 sm:px-6 sm:py-20">
+    <section className="border-t border-lc-border bg-[#0b1524]/60 px-5 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
         <div>
           <p className={EYEBROW}>Change course mid-flight</p>
@@ -143,7 +143,7 @@ export function FlightsSection() {
   const f = flights.find((x) => x.id === id) ?? flights[0];
   if (!f) return null;
   return (
-    <section id="flights" className="scroll-mt-20 border-t border-lc-border bg-[#0b1524] px-5 py-16 sm:px-6 sm:py-20">
+    <section id="flights" className="scroll-mt-20 border-t border-lc-border bg-[#0b1524]/60 px-5 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <p className={EYEBROW}>When you want a full plan</p>
         <h2 className={H2}>{flights.length === 7 ? 'Seven' : flights.length} flights, sized to your lesson.</h2>
@@ -205,7 +205,7 @@ const QUESTIONS: Array<[string, string]> = [
 
 export function QuestionsSection() {
   return (
-    <section className="border-t border-lc-border bg-[#0b1524] px-5 py-16 sm:px-6 sm:py-20">
+    <section className="border-t border-lc-border bg-[#0b1524]/60 px-5 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-4xl">
         <h2 className="font-game text-3xl leading-tight text-lc-text sm:text-[2.5rem]">Questions teachers ask first</h2>
         <div className="mt-6">

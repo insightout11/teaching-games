@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { HomeHero } from '@/components/homepage/HomeHero';
+import { HomeFlightRoute } from '@/components/homepage/HomeFlightRoute';
 import { TopicSection } from '@/components/homepage/TopicSection';
 import { WorldFlightSection } from '@/components/homepage/WorldFlightSection';
 import { ChangeCourseSection, ClosingSection, FlightsSection, PhonesSection, QuestionsSection, TeacherSection } from '@/components/homepage/LowerSections';
@@ -28,6 +29,7 @@ export default async function HomePage() {
   // Trust, TestFlight) are no longer mounted here.
   return (
     <>
+      <HomeFlightRoute />
       <HomeHero />
       <TopicSection />
       <WorldFlightSection />

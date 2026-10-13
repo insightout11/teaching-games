@@ -61,7 +61,7 @@ export function TopicSection() {
   };
 
   return (
-    <section id="try" className="scroll-mt-20 border-t border-lc-border bg-[#0b1524] px-5 py-16 sm:px-6 sm:py-20">
+    <section id="try" className="scroll-mt-20 border-t border-lc-border bg-[#0b1524]/60 px-5 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <p className="font-instrument text-[13px] font-semibold uppercase tracking-[0.14em] text-lc-amber">Anything can be the lesson</p>
         <h2 className="font-game mt-3 text-3xl leading-tight text-lc-text sm:text-[2.75rem]">Pick a topic. Watch it become a lesson.</h2>

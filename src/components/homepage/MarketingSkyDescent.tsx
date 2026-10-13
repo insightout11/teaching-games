@@ -48,7 +48,8 @@ export function MarketingSkyDescent() {
   const skyAltitude = reduce ? 0.85 : (1 - depth) * 0.85;
 
   // Veil darkens as we descend so lower sections stay legible while the hero sky stays vivid.
-  const veilOpacity = 0.42 + depth * 0.4;
+  // (Oct 2026: lighter than before, so the day-to-night sky and its clouds read behind the page.)
+  const veilOpacity = 0.3 + depth * 0.35;
 
   return (
     <>
@@ -67,6 +68,20 @@ export function MarketingSkyDescent() {
         showRunwayMarkings
         showSkyline
         intensity="moderate"
+      />
+
+      {/* Day to night (Oct 2026): the sky system itself is a night-flight palette, so a morning-blue wash sits over
+          it at the top of the page and fades as you descend, and a sunset band passes through two-thirds down.
+          What is left at the bottom is the system's own night arrival. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-[1] transition-opacity duration-500"
+        style={{ background: 'linear-gradient(180deg, #1c4f92 0%, #3f79b8 55%, #6f9fd0 100%)', opacity: reduce ? 0.35 : Math.max(0, 0.72 - depth * 1.5) }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-[1] transition-opacity duration-500"
+        style={{ background: 'linear-gradient(180deg, rgba(70,44,110,0.35) 0%, rgba(196,98,84,0.6) 62%, rgba(244,156,92,0.7) 100%)', opacity: reduce ? 0 : Math.max(0, 1 - Math.abs(depth - 0.58) / 0.24) * 0.9 }}
       />
 
       {/* Warm apron / departure-lounge glow that grows as the airport rises into view */}
