@@ -15,6 +15,10 @@ Recipes live in scripts/plane-tail-marks.json, keyed by file name. Run:
   python scripts/apply-plane-tail-mark.py <name> [--out DIR]     # one picture, e.g. lc-cadet
   python scripts/apply-plane-tail-mark.py --all [--out DIR]
 
+The recipes are measured on the ORIGINAL pictures (the ones in git at commit 32afc5e8, before the marks were
+redone). Running this on an already-fixed picture is not meaningful: restore the originals from that commit first
+(git checkout 32afc5e8 -- public/assets/flight/planes) if a recipe needs changing.
+
 Without --out the result is written to tmp/plane-tail-marks/ for review; nothing in public/ is touched unless
 --out points there. Needs Pillow and numpy.
 """
