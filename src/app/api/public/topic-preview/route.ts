@@ -20,7 +20,7 @@ const GLOBAL_MAX_UNCACHED = 150; // uncached previews / 24h (counted with the vi
 const WINDOW_MS = 24 * 60 * 60 * 1000;
 const MAX_TOPIC_CHARS = 60;
 
-export interface TopicPreviewActivity { kind: string; prompt: string; how: string }
+interface TopicPreviewActivity { kind: string; prompt: string; how: string }
 
 const SCHEMA: AISchema = {
   type: 'object',
@@ -46,7 +46,7 @@ function hashIp(req: NextRequest): string {
 }
 
 /** Letters, numbers and plain punctuation only: a topic, not a prompt. */
-export function cleanTopic(raw: unknown): string {
+function cleanTopic(raw: unknown): string {
   if (typeof raw !== 'string') return '';
   // Drop anything that is not part of a plain topic (markup, brackets, code-like symbols).
   return raw.replace(/[<>{}[\]\`$#|^~*=+_@:;"()/]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, MAX_TOPIC_CHARS);
