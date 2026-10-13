@@ -5,7 +5,7 @@ import {
   deriveWorldFlightInvestigationProgress,
   type CompletedWorldFlightEvidence,
 } from '@/lib/world-flight/investigations';
-import { buildWorldFlightEvidenceSnapshot, type WorldFlightEvidenceSnapshot } from '@/lib/world-flight/journey';
+import { buildVisitOnlySnapshot, buildWorldFlightEvidenceSnapshot, type WorldFlightEvidenceSnapshot } from '@/lib/world-flight/journey';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 
 function evidence(
@@ -92,5 +92,18 @@ describe('World Flight investigations', () => {
 
     expect(progress.every((investigation) => investigation.complete)).toBe(true);
     expect(catalogEvidence.every((entry) => entry.evidenceSnapshot.investigationTags.length > 0)).toBe(true);
+  });
+});
+
+describe('A flight with no city lesson', () => {
+  it('is never investigation evidence, however many cities the class visits', () => {
+    const visits = WORLD_DESTINATIONS.slice(0, 12).map((destination, i) => ({
+      destinationId: destination.id,
+      completedAt: `2026-10-${String(i + 1).padStart(2, '0')}T00:00:00Z`,
+      evidenceSnapshot: buildVisitOnlySnapshot(destination) as unknown as WorldFlightEvidenceSnapshot,
+    }));
+    const progress = deriveWorldFlightInvestigationProgress(visits);
+    expect(progress.every((investigation) => investigation.completedCount === 0)).toBe(true);
+    expect(progress.every((investigation) => investigation.designMissionStatus === 'locked')).toBe(true);
   });
 });

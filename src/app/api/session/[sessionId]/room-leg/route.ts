@@ -4,7 +4,7 @@ import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { createServiceClient } from '@/lib/supabase/service';
 import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { distanceKm } from '@/lib/world-flight/geo';
-import { buildWorldFlightEvidenceSnapshot, resolveWorldFlightMovement } from '@/lib/world-flight/journey';
+import { buildVisitOnlySnapshot, NO_CITY_LESSON_FOCUS_ID, resolveWorldFlightMovement } from '@/lib/world-flight/journey';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,29 +60,36 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   if ('error' in ctx && ctx.error) return ctx.error;
   const { service, classId, state } = ctx as Exclude<typeof ctx, { error: unknown }>;
 
-  const origin = state?.current_destination_id ? getDestinationById(state.current_destination_id) ?? null : null;
+  // A class with no city yet may start its journey anywhere (the teacher's choice at the gate).
+  const departure = !state?.current_destination_id && typeof body?.departureDestinationId === 'string'
+    ? getDestinationById(body.departureDestinationId) ?? null
+    : null;
+  const origin = state?.current_destination_id ? getDestinationById(state.current_destination_id) ?? null : departure;
   const km = origin ? distanceKm(origin, destination) : 0;
   const movement = resolveWorldFlightMovement({
     originDestinationId: origin?.id ?? null,
     destinationId: destination.id,
     distanceKm: km,
     rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
-    requestedMove: !state?.plane_selection_required,
+    // A plane choice that is still waiting never grounds the class: it keeps flying its current plane, at that
+    // plane's range, until the new one is chosen.
+    requestedMove: true,
   });
   if (!movement.movesClass) {
-    return NextResponse.json({ movesClass: false, reason: state?.plane_selection_required ? 'plane-selection-required' : 'out-of-range' });
+    return NextResponse.json({ movesClass: false, reason: origin?.id === destination.id ? 'same-city' : 'out-of-range' });
   }
 
-  const focus = destination.focusOptions[0];
   const { error } = await service.from('class_world_flight_legs').upsert(
     {
       class_id: classId,
       session_id: params.sessionId,
       origin_destination_id: origin?.id ?? null,
       destination_id: destination.id,
-      focus_id: focus?.id ?? 'live-room',
+      // The room flies to the city; what is taught on the way is the teacher's choice. So the flight is recorded
+      // as a visit only, never as one of the city's lessons (that would be evidence the class never met).
+      focus_id: NO_CITY_LESSON_FOCUS_ID,
       distance_km: Math.max(0, km),
-      evidence_snapshot: focus ? buildWorldFlightEvidenceSnapshot(destination, focus) : {},
+      evidence_snapshot: buildVisitOnlySnapshot(destination),
       status: 'planned',
     },
     { onConflict: 'session_id' },

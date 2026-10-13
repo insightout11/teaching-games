@@ -153,6 +153,29 @@ export function buildWorldFlightEvidenceSnapshot(
   };
 }
 
+/** `focus_id` of a flight that carried no city lesson (the class flew there and was taught something else). */
+export const NO_CITY_LESSON_FOCUS_ID = 'live-room';
+export const NO_CITY_LESSON_TITLE = 'Flight (no city lesson)';
+
+/**
+ * The record of a flight with no city lesson: the visit is real (stamp, flight hour, stars, expedition stop), but
+ * it carries no skills, tags or ideas, so it can never count as investigation evidence or feed a Design mission.
+ */
+export function buildVisitOnlySnapshot(destination: DestinationPack) {
+  return {
+    destinationId: destination.id,
+    city: destination.city,
+    country: destination.country,
+    focusId: NO_CITY_LESSON_FOCUS_ID,
+    focusTitle: NO_CITY_LESSON_TITLE,
+    skills: [] as string[],
+    investigationTags: [] as string[],
+    keyIdea: null,
+    tradeoff: null,
+    designUse: null,
+  };
+}
+
 export function deriveVisitedDestinationIds(
   currentDestinationId: string | null,
   completedLegs: Array<Pick<WorldFlightCompletedLegSummary, 'originDestinationId' | 'destinationId'>>,

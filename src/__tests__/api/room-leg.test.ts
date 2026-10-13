@@ -50,9 +50,16 @@ describe('room-leg route', () => {
     expect(upsert).not.toHaveBeenCalled();
   });
 
-  it('does not move the class while a plane choice is pending', async () => {
+  it('keeps flying the current plane while a plane choice is waiting', async () => {
     state = { current_destination_id: null, range_km: 5200, plane_selection_required: true };
-    expect(await (await post('tokyo')).json()).toMatchObject({ movesClass: false, reason: 'plane-selection-required' });
+    expect(await (await post('tokyo')).json()).toMatchObject({ movesClass: true });
+  });
+
+  it('records the flight as a visit, never as one of the city lessons', async () => {
+    await post('tokyo');
+    const row = (upsert.mock.calls as unknown as unknown[][])[0][0] as { focus_id: string; evidence_snapshot: { skills: string[]; investigationTags: string[]; keyIdea: unknown } };
+    expect(row.focus_id).toBe('live-room');
+    expect(row.evidence_snapshot).toMatchObject({ skills: [], investigationTags: [], keyIdea: null });
   });
 
   it('rejects unknown destinations', async () => {

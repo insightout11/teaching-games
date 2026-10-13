@@ -236,10 +236,14 @@ export function FlightDeck({
       .catch(() => { if (!cancelled) setPosition({ currentDestinationId: null, rangeKm: STARTER_PLANE_RANGE_KM }); });
     return () => { cancelled = true; };
   }, [sessionId]);
+  // A class that has never flown may start its journey from any city (LC International unless the teacher picks).
+  const [startId, setStartId] = useState<string | null>(null);
+  const canChooseStart = !!position && !position.currentDestinationId;
   const origin = useMemo<RouteCity>(() => {
-    const d = position?.currentDestinationId ? SCENE_CITIES.find((c) => c.id === position.currentDestinationId) : undefined;
+    const id = position?.currentDestinationId ?? (canChooseStart ? startId : null);
+    const d = id ? SCENE_CITIES.find((c) => c.id === id) : undefined;
     return d ? toRouteCity(d) : HOME;
-  }, [position]);
+  }, [position, canChooseStart, startId]);
   // Remembered once seen: the plan that named the city is dropped when its last stage ends, before the landing.
   const [lockedId, setLockedId] = useState<string | null>(fixedDestinationId ?? null);
   useEffect(() => { if (fixedDestinationId) setLockedId(fixedDestinationId); }, [fixedDestinationId]);
@@ -365,7 +369,7 @@ export function FlightDeck({
     void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ destinationId: destination.id }),
+      body: JSON.stringify({ destinationId: destination.id, ...(canChooseStart && startId ? { departureDestinationId: startId } : {}) }),
     }).catch(() => {});
   };
 
@@ -1223,6 +1227,20 @@ export function FlightDeck({
                 className="rounded-lg border border-white/20 bg-slate-900/80 px-2 py-1 text-white"
               >
                 {CLASS_MINUTES.map((m) => <option key={m} value={m}>{m} min</option>)}
+              </select>
+            </label>
+          )}
+          {flightStage === 'gate' && canChooseStart && !lockedId && (
+            <label className="flex items-center gap-2 text-sm text-white/75" title="This class has not flown yet: choose where its journey begins.">
+              Start from
+              <select
+                id="deck-start-city"
+                value={startId ?? ''}
+                onChange={(e) => { setStartId(e.target.value || null); setChosenId(null); }}
+                className="rounded-lg border border-white/20 bg-slate-900/80 px-2 py-1 text-white"
+              >
+                <option value="">{HOME.city}</option>
+                {[...SCENE_CITIES].sort((a, b) => a.city.localeCompare(b.city)).map((c) => <option key={c.id} value={c.id}>{c.city}</option>)}
               </select>
             </label>
           )}

@@ -146,6 +146,8 @@ function percentage(part: number, total: number) {
 export function calculateWorldFlightReward(
   participants: WorldFlightRewardParticipant[],
   scores: WorldFlightRewardScore[],
+  /** Students on the class list. Only used when no phone joined: then the teacher's marks decide Everyone Aboard. */
+  rosterCount = 0,
 ): WorldFlightFlightReward {
   const studentToClient = new Map(
     participants
@@ -190,7 +192,12 @@ export function calculateWorldFlightReward(
   const meaningfulParticipationRate = percentage(meaningfulParticipantCount, participantCount);
   const onTaskParticipationRate = percentage(onTaskParticipantCount, performanceParticipantCount);
   const accuracyRate = accuracyScores.length > 0 ? correctScores.length / accuracyScores.length : null;
-  const everyoneAboardEarned = participantCount > 0 && meaningfulParticipationRate >= 0.7;
+  // With phones: 70% of the phones took part. With no phones at all (a device-free or Zoom class): 70% of the
+  // class list was marked by the teacher, so those classes can earn both stars too.
+  const markedStudentCount = new Set(meaningfulScores.map((score) => score.studentId).filter(Boolean)).size;
+  const everyoneAboardEarned = participantCount > 0
+    ? meaningfulParticipationRate >= 0.7
+    : rosterCount > 0 && markedStudentCount / rosterCount >= 0.7;
   const strongLandingEarned = (
     accuracyRate !== null
       ? accuracyRate >= 0.65

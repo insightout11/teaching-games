@@ -132,3 +132,23 @@ describe('World Flight collaborative progression', () => {
     expect(getWorldFlightRangeForTier(99)).toMatchObject({ tier: 4, rangeKm: 13000 });
   });
 });
+
+describe('World Flight stars without phones', () => {
+  const marks = (ids: string[]) => ids.map((studentId) => ({ studentId, outcome: 'on-task', countsForLeaderboard: true }));
+
+  it('earns Everyone Aboard when the teacher has marked most of the class list', () => {
+    const reward = calculateWorldFlightReward([], marks(['s1', 's2', 's3']), 4);
+    expect(reward.snapshot.everyoneAboardEarned).toBe(true);
+    expect(reward.crewStarsAwarded).toBe(2);
+  });
+
+  it('does not earn it when only a few students were marked, or the class list is unknown', () => {
+    expect(calculateWorldFlightReward([], marks(['s1', 's2']), 6).snapshot.everyoneAboardEarned).toBe(false);
+    expect(calculateWorldFlightReward([], marks(['s1', 's2'])).snapshot.everyoneAboardEarned).toBe(false);
+  });
+
+  it('still judges by phones when any phone joined', () => {
+    const reward = calculateWorldFlightReward(participants, marks(['s1', 's2', 's3', 's4']), 4);
+    expect(reward.snapshot.everyoneAboardEarned).toBe(false);
+  });
+});

@@ -76,6 +76,7 @@ async function awardWorldFlightProgression(
   ]);
   if (!leg) return null;
 
+  const { count: rosterCount } = await service.from('students').select('id', { count: 'exact', head: true }).eq('class_id', classId);
   const reward = calculateWorldFlightReward(
     (participants ?? []).map((participant) => ({
       clientId: participant.client_id,
@@ -90,6 +91,7 @@ async function awardWorldFlightProgression(
       countsForLeaderboard: score.counts_for_leaderboard,
       responseType: typeof score.response_data?.type === 'string' ? score.response_data.type : null,
     })),
+    rosterCount ?? 0,
   );
 
   const { data, error } = await service.rpc('record_world_flight_reward', {
