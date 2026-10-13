@@ -72,6 +72,9 @@ export function MarketingSkyDescent() {
         earthOpacity={earthOpacity}
         // The moon belongs to the night end of the page, not the morning at the top.
         showMoon={reduce ? false : depth > 0.62}
+        // The sky system also draws its moon whenever it is in 'cruising' weather (the top of this page), so it has
+        // to be switched off outright until the night end.
+        hideMoon={reduce ? true : depth <= 0.62}
         moonPosition={{ top: '7%', right: '16%' }}
         hideMoonOnMobile
         showRunwayMarkings
