@@ -544,5 +544,185 @@
         206
       ]
     }
+  },
+  "lc-aurora-glider-front-3q": {
+    "mark": {
+      "at": [
+        728,
+        375
+      ],
+      "height": 60,
+      "lean": -0.3,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-cadet-front-3q": {
+    "mark": {
+      "at": [
+        508,
+        408
+      ],
+      "height": 46,
+      "lean": -0.15,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-cargo-cruiser-front-3q": {
+    "mark": {
+      "at": [
+        492,
+        328
+      ],
+      "height": 52,
+      "lean": -0.3,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-comet-jet-front-3q": {
+    "mark": {
+      "at": [
+        566,
+        345
+      ],
+      "height": 64,
+      "lean": -0.3,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-future-flyer-front-3q": {
+    "mark": {
+      "at": [
+        490,
+        372
+      ],
+      "height": 64,
+      "lean": -0.3,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-scout-monoplane-front-3q": {
+    "mark": {
+      "at": [
+        432,
+        385
+      ],
+      "height": 70,
+      "lean": -0.25,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-sky-racer-front-3q": {
+    "mark": {
+      "at": [
+        408,
+        355
+      ],
+      "height": 68,
+      "lean": -0.3,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-solar-flyer-front-3q": {
+    "mark": {
+      "at": [
+        476,
+        368
+      ],
+      "height": 46,
+      "lean": -0.3,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-starliner-mini-front-3q": {
+    "mark": {
+      "at": [
+        565,
+        374
+      ],
+      "height": 46,
+      "lean": -0.35,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-storm-runner-front-3q": {
+    "mark": {
+      "at": [
+        498,
+        340
+      ],
+      "height": 62,
+      "lean": -0.3,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-trailblazer-front-3q": {
+    "mark": {
+      "at": [
+        398,
+        440
+      ],
+      "height": 62,
+      "lean": -0.2,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
+  },
+  "lc-twin-prop-scout-front-3q": {
+    "mark": {
+      "at": [
+        418,
+        365
+      ],
+      "height": 70,
+      "lean": -0.25,
+      "color": [
+        255,
+        255,
+        255
+      ]
+    }
   }
 }
