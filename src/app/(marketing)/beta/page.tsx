@@ -38,6 +38,8 @@ export default function BetaPage({ searchParams }: { searchParams?: { status?: s
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl">
               LessonCaptain is new, and it is being shaped by the teachers who use it first. Teach real lessons with it, tell us what happened, and fly Pro for free.
             </p>
+            {/* The approved privacy notice covers this group; widening it means updating the notice first (see the privacy-route test). */}
+            <p className="mt-3 max-w-xl text-[17px] text-white/85">Open to online English teachers worldwide.</p>
 
             <div className="mt-8 grid overflow-hidden rounded-2xl bg-[#f4efe3] text-[#1b2233] shadow-[0_24px_60px_rgba(0,0,0,.5)] sm:grid-cols-[minmax(0,1fr)_180px]">
               <div className="flex min-w-0 flex-col gap-3 p-6">

@@ -176,7 +176,7 @@ export function BetaApplicationForm({ accountMismatch = false, linkageError = fa
           <span>
             I agree that LessonCaptain may contact me about the Founding Crew, onboarding and feedback, as described in the{' '}
             <Link href="/privacy" className="font-semibold text-white underline underline-offset-2">
-              privacy notice
+              Teacher Beta Privacy Notice
             </Link>. <span aria-hidden="true">*</span>
           </span>
         </label>
