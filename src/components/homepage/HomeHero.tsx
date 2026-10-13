@@ -10,17 +10,24 @@ import Image from 'next/image';
 import { Check, MonitorUp, PlaneTakeoff, Smartphone } from 'lucide-react';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { getPlaneAsset } from '@/lib/plane-progression';
+import { DynamicInput } from '@/components/student/dynamic-input';
+import type { InputSpec } from '@/lib/input-spec';
 
 const CHOICES = [
   { id: 'a', label: 'Street food', follow: 'Yuki chose street food. The room asks: “What would you eat first, and why?” Yuki answers out loud.' },
   { id: 'b', label: 'Home cooking', follow: 'Yuki chose home cooking. The room asks: “Whose cooking, and what makes it the best?” Yuki answers out loud.' },
 ] as const;
 
+// The phone in the picture is the product's own student screen (the same component a real phone runs), given a
+// sample question. Nothing is sent anywhere: the answer only changes this example.
+const PHONE_SPEC: InputSpec = { type: 'choice', gameKey: 'would-you-rather', prompt: 'Would you rather…', options: CHOICES.map((c) => c.label) };
+
 const STAGES = ['Boarded', 'Take-off', 'Talk', 'Game', 'Land in Rome'];
 
 export function HomeHero() {
   const [choice, setChoice] = useState<string | null>(null);
-  const follow = CHOICES.find((c) => c.id === choice)?.follow ?? 'Everyone chooses on their phone. Try it: you are Yuki.';
+  const [round, setRound] = useState(0);
+  const follow = CHOICES.find((c) => c.label === choice)?.follow ?? 'Everyone chooses on their phone. Try it: you are Yuki.';
   const plane = getPlaneAsset('scout-monoplane');
 
   return (
@@ -53,7 +60,7 @@ export function HomeHero() {
                 <span>Madrid to Rome</span>
                 <span className="ml-auto">Topic: street food</span>
               </div>
-              <div className="grid gap-3.5 p-3.5 sm:grid-cols-[minmax(0,1fr)_190px]">
+              <div className="grid gap-3.5 p-3.5 sm:grid-cols-[minmax(0,1fr)_250px]">
                 <div className="flex min-w-0 flex-col gap-3 rounded-xl border border-[#263a58] bg-gradient-to-b from-[#132744] to-[#0d1a2c] p-4">
                   <span className="font-instrument text-[13px] font-semibold uppercase tracking-[0.12em] text-cyan-300">Would you rather</span>
                   <p className="font-game text-2xl leading-tight text-lc-text sm:text-[1.75rem]">Eat only street food for a month, or only home cooking?</p>
@@ -67,19 +74,12 @@ export function HomeHero() {
                       <span className="ml-auto text-[13px] text-emerald-300">voted</span>
                     </div>
                   ))}
-                  <div className="col-span-2 flex flex-col gap-2 rounded-2xl bg-[#fbf9f3] p-3 text-[#1b2233] sm:col-span-1">
-                    <span className="font-instrument text-[13px] font-semibold text-[#4b566b]">Yuki&apos;s phone · seat 3A</span>
-                    {CHOICES.map((c) => (
-                      <button
-                        key={c.id}
-                        type="button"
-                        aria-pressed={choice === c.id}
-                        onClick={() => setChoice(c.id)}
-                        className={`min-h-[48px] rounded-xl border-2 border-[#1b2233] px-2.5 text-base font-semibold transition ${choice === c.id ? 'bg-[#1b2233] text-white' : 'bg-white text-[#1b2233] hover:bg-[#1b2233]/5'}`}
-                      >
-                        {c.label}
-                      </button>
-                    ))}
+                  <div className="theme-Midnight col-span-2 flex flex-col gap-2 rounded-[26px] border-[5px] border-[#05080f] bg-lc-bg p-3 text-lc-text shadow-[0_14px_34px_rgba(0,0,0,.55)] sm:col-span-1">
+                    <span className="font-instrument text-[13px] font-semibold text-lc-text2">Yuki&apos;s phone · seat 3A</span>
+                    <DynamicInput key={round} spec={PHONE_SPEC} onSubmit={async (value) => setChoice(value)} isSubmitting={false} submitStatus={choice ? 'success' : 'idle'} waitSeconds={0} displayName="Yuki" />
+                    {choice && (
+                      <button type="button" onClick={() => { setChoice(null); setRound((n) => n + 1); }} className="text-[15px] font-semibold text-lc-text2 underline underline-offset-4 hover:text-lc-text">Choose again</button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export function HomeHero() {
                 ))}
               </div>
             </div>
-            <p className="mt-2.5 text-[15px] text-lc-text2">A simplified example of the teaching screen and a student&apos;s phone. Tap either choice.</p>
+            <p className="mt-2.5 text-[15px] text-lc-text2">An example lesson. The phone is the real student screen: choose an answer and send it.</p>
           </div>
         </div>
 
