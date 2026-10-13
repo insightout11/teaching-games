@@ -129,7 +129,7 @@ describe('recommendSources', () => {
       topic: 'simple direction phrases',
       keywords: ['directions'],
       context: 'transportation',
-    }, { level: 'Easy' })?.id).toBe('travel-directions');
+    }, { level: 'Easy' })?.id).toBe('world-flight-berlin-public-transport-video');
     expect(recommendSource({
       topic: 'talking about personal transport',
       keywords: ['personal transport'],

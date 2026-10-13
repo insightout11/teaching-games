@@ -32,7 +32,7 @@
       "camus"
     ],
     "difficultyLevel": "Advanced",
-    "description": "What do you do when life feels meaningless? This video explores absurdism — the philosophy of Albert Camus — and his argument that we must imagine Sisyphus happy, embracing life despite its lack of meaning.",
+    "description": "An introduction to absurdism, including Camus’s response to meaninglessness and examples from absurd theatre.",
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
@@ -134,10 +134,10 @@
       "neuroscience",
       "wellbeing"
     ],
-    "difficultyLevel": "Easy",
+    "difficultyLevel": "Intermediate",
     "description": "Being kind doesn't just feel good — it rewires your brain. This video unpacks what neuroscience has discovered about acts of kindness: how they boost health, reduce stress, and create ripple effects through communities.",
     "genre": "expository",
-    "cefr": "A2",
+    "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
     "series": {
@@ -170,26 +170,24 @@
   },
   {
     "id": "bbcideas_hidden_clues_personality",
-    "title": "The Hidden Clues That Reveal Who You Are",
+    "title": "Biometrics and Personal Data",
     "speaker": "BBC Ideas",
     "url": "https://www.youtube.com/watch?v=zSc8SkszGwU",
     "youtubeId": "zSc8SkszGwU",
     "durationSecs": 480,
     "topicTags": [
-      "psychology",
-      "personality",
-      "identity",
-      "science"
+      "technology",
+      "privacy",
+      "society",
+      "biometrics"
     ],
     "difficultyLevel": "Intermediate",
-    "description": "Your music taste, bedroom tidiness, and even how you walk reveal more about your personality than you might think. This video digs into the psychology of personality cues — the unconscious signals we broadcast about who we are.",
+    "description": "The film examines biometric identifiers, large personal-data collections and the tension between useful applications and privacy risks.",
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
     "needsReview": false,
-    "flightQuestion": "Can music taste reveal much about someone’s personality?",
-    "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The cache discusses DNA, fingerprints, biometrics, government/corporate databases and privacy regulation, rather than personality cues from music, tidiness or walking. Suggested action: Retitle to Biometrics, Personal Data and Privacy and r"
+    "flightQuestion": "Can music taste reveal much about someone’s personality?"
   },
   {
     "id": "bbcideas_psychology_seduction",

@@ -21,11 +21,37 @@ const option = (name: string) => { const i = args.indexOf(name); return i >= 0 ?
 const snapshotPath = option('--snapshot');
 const library = option('--library');
 const root = process.cwd();
-function sources(): Source[] {
+function libraryEntries(): { file: string; entry: Entry }[] {
   return fs.readdirSync(path.join(root, 'src/data')).filter(file => /-library\.json$/.test(file)).sort().flatMap(file => {
     const entries = JSON.parse(fs.readFileSync(path.join(root, 'src/data', file), 'utf8')) as Entry[];
-    return entries.filter(entry => typeof entry.youtubeId === 'string' && entry.youtubeId.trim()).map(entry => ({ file, entry, sourceType: entry.transcriptSourceType || file.replace(/-library\.json$/, ''), sourceKey: entry.id }));
+    return entries.map(entry => ({ file, entry }));
   });
+}
+function sources(): Source[] {
+  return libraryEntries().filter(({ entry }) => typeof entry.youtubeId === 'string' && entry.youtubeId.trim()).map(({ file, entry }) => ({ file, entry, sourceType: entry.transcriptSourceType || file.replace(/-library\.json$/, ''), sourceKey: entry.id }));
+}
+function checkMetadata() {
+  const levels: Record<string, string> = { A1: 'Beginner', A2: 'Easy', B1: 'Intermediate', B2: 'Advanced', C1: 'Expert' };
+  let hiddenWithoutNote = 0; let levelDisagreements = 0;
+  const entries = libraryEntries();
+  for (const { file, entry } of entries) {
+    if (entry.hidden === true && (typeof entry.hiddenNote !== 'string' || !entry.hiddenNote.trim())) {
+      console.error(`${file}/${entry.id}: hidden entry lacks hiddenNote.`); hiddenWithoutNote += 1;
+    }
+    if (!entry.cefr || !levels[entry.cefr] || entry.difficultyLevel !== levels[entry.cefr]) {
+      console.error(`${file}/${entry.id}: CEFR/difficulty label disagreement.`); levelDisagreements += 1;
+    }
+  }
+  console.log(`Library metadata: ${entries.length} entries; hidden without note ${hiddenWithoutNote}; level disagreements ${levelDisagreements}.`);
+  if (hiddenWithoutNote || levelDisagreements) process.exitCode = 1;
+}
+// Round 36 permits metadata correction after capturing captions. All other
+// fields, including IDs, URLs, durations and needsReview, must still match.
+const editableMetadata = ['title', 'description', 'summary', 'topicTags', 'cefr', 'difficultyLevel', 'hidden', 'hiddenNote', 'publisherLevel'];
+function immutableEntry(entry: Entry) {
+  const result: Record<string, unknown> = {};
+  for (const key of Object.keys(entry).sort()) if (!editableMetadata.includes(key)) result[key] = entry[key];
+  return JSON.stringify(result);
 }
 const cacheKey = (sourceType: string, sourceKey: string) => `${sourceType}/${sourceKey}`;
 const auditKey = (source: Source) => `${source.file}/${source.entry.id}`;
@@ -117,6 +143,7 @@ function mechanical(snapshot: Snapshot) {
   for (const entry of entries.filter(entry => entry.durationDifferenceRatio !== null && entry.durationDifferenceRatio > 0.25)) console.log(`${entry.key}: library ${entry.entry.durationSecs}s; last start ${entry.lastTimestampSecs?.toFixed(3)}s; end ${entry.captionEndSecs?.toFixed(3) ?? 'unknown'}s; ${(entry.durationDifferenceRatio! * 100).toFixed(1)}%.`);
 }
 function check(snapshot: Snapshot) {
+  checkMetadata();
   const expected = sources().filter(source => source.file !== 'world-flight-library.json' && (!library || source.file === library));
   const audit = JSON.parse(fs.readFileSync(path.join(root, 'src/data/library-video-audit.json'), 'utf8')) as Record<string, Judgement>;
   const keys = expected.map(auditKey); const allKeys = new Set(sources().filter(source => source.file !== 'world-flight-library.json').map(auditKey));
@@ -128,7 +155,7 @@ function check(snapshot: Snapshot) {
     if (!judgement) { missing += 1; continue; }
     if (!statuses.includes(judgement.status) || typeof judgement.note !== 'string' || !judgement.note.trim()) { invalid += 1; continue; }
     const item = snapshot.entries.find(entry => entry.key === key);
-    if (!item || JSON.stringify(item.entry) !== JSON.stringify(source.entry)) throw new Error(`Snapshot missing or stale for ${key}.`);
+    if (!item || immutableEntry(item.entry) !== immutableEntry(source.entry)) throw new Error(`Snapshot missing or immutable fields changed for ${key}.`);
     if (judgement.status === 'no-captions' && item.cacheMatch !== 'none') throw new Error(`No-captions status conflicts with inventory for ${key}.`);
     if (item.cacheMatch === 'none' && judgement.status !== 'no-captions') throw new Error(`Missing cache must be reported for ${key}.`);
     if (judgement.status !== 'ok' && !/Suggested action: /i.test(judgement.note)) throw new Error(`Missing action for ${key}.`);

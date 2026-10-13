@@ -75,7 +75,7 @@
       "gravity"
     ],
     "difficultyLevel": "Easy",
-    "description": "What is gravity, and why does everything fall down? Sabrina explains the invisible force that holds the universe together — from falling apples to orbiting planets.",
+    "description": "Sabrina explains gravity using Newton’s apple story and a ball thrown in different directions, showing why unsupported objects fall back to the ground.",
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
@@ -106,24 +106,26 @@
   },
   {
     "id": "kids_science_of_lunch",
-    "title": "The Science of Lunch",
+    "title": "Properties of Your Lunch",
     "speaker": "Crash Course Kids",
     "url": "https://www.youtube.com/watch?v=dN2VDcmuTl4",
     "youtubeId": "dN2VDcmuTl4",
     "durationSecs": 210,
     "topicTags": [
       "science",
-      "food",
-      "chemistry"
+      "materials",
+      "properties",
+      "experiments"
     ],
     "difficultyLevel": "Easy",
-    "description": "What actually happens when you eat your lunch? Sabrina investigates the science behind food — from where ingredients come from to how your body uses energy.",
+    "description": "Sabrina uses a lunch bag and foods to investigate material properties, including hardness, malleability and conductivity.",
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Should children choose lunch for taste or for energy?"
+    "flightQuestion": "Should children choose lunch for taste or for energy?",
+    "summary": "A brown paper lunch bag starts an investigation of observable material properties. Sabrina compares objects and foods for hardness and malleability and explains how conductors transfer heat or electricity. The lesson applies the same property tests to familiar lunch items."
   },
   {
     "id": "kids_home_sweet_habitat",
@@ -139,7 +141,7 @@
       "animals"
     ],
     "difficultyLevel": "Easy",
-    "description": "What makes a habitat perfect for an animal? Sabrina explores the five things every habitat must provide — air, water, food, shelter, and space — and why animals need specific environments to survive.",
+    "description": "Sabrina uses polar bears and Arctic food webs to explain food, water, shelter and space, and how animals are suited to their habitats.",
     "audience": "kids",
     "genre": "expository",
     "cefr": "A2",
@@ -269,11 +271,11 @@
       "earth-science",
       "volcanoes"
     ],
-    "difficultyLevel": "Beginner",
+    "difficultyLevel": "Intermediate",
     "description": "Jessi and friends explore the different types of volcanoes — from shield volcanoes that ooze lava slowly to cinder cones that explode dramatically. Why do some erupt gently and others violently?",
     "audience": "kids",
     "genre": "expository",
-    "cefr": "A1",
+    "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
     "flightQuestion": "Would you rather study a quiet volcano or an active one?"
@@ -291,11 +293,11 @@
       "insects",
       "nature"
     ],
-    "difficultyLevel": "Beginner",
+    "difficultyLevel": "Easy",
     "description": "Jessi and Squeaks investigate bees — what makes bumblebees and honeybees different, how they make honey, why they're so important for plants, and how to spot them in the wild.",
     "audience": "kids",
     "genre": "expository",
-    "cefr": "A1",
+    "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
     "flightQuestion": "Should people protect both bumblebees and honeybees?"
@@ -313,11 +315,11 @@
       "insects",
       "nature"
     ],
-    "difficultyLevel": "Beginner",
+    "difficultyLevel": "Intermediate",
     "description": "Jessi makes the case that spiders are amazing, not scary — explaining how they spin silk, catch prey, and play a vital role in keeping insect populations under control.",
     "audience": "kids",
     "genre": "opinion",
-    "cefr": "A1",
+    "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
     "flightQuestion": "Should children be afraid of spiders that catch insects?"
@@ -335,11 +337,11 @@
       "caves",
       "adaptation"
     ],
-    "difficultyLevel": "Beginner",
-    "description": "Deep in caves with no light, strange animals have evolved incredible abilities. Jessi explores cave fish with no eyes, glowing worms, and other weird creatures that have adapted to life underground.",
+    "difficultyLevel": "Easy",
+    "description": "Mister Brown explores cave habitats and how eyeless salamanders, fish and spiders use senses suited to darkness.",
     "audience": "kids",
     "genre": "expository",
-    "cefr": "A1",
+    "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
     "flightQuestion": "Would you rather explore a bright forest or a dark cave?"
@@ -357,11 +359,11 @@
       "minerals",
       "earth-science"
     ],
-    "difficultyLevel": "Beginner",
+    "difficultyLevel": "Intermediate",
     "description": "Why are diamonds so hard? Jessi explains how carbon atoms arrange themselves under extreme heat and pressure deep underground — and why the same material that makes diamonds also makes pencil lead.",
     "audience": "kids",
     "genre": "expository",
-    "cefr": "A1",
+    "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
     "flightQuestion": "Is a diamond more useful as a tool or as jewelry?"
@@ -379,11 +381,11 @@
       "minerals",
       "earth-science"
     ],
-    "difficultyLevel": "Beginner",
-    "description": "Jessi and Squeaks crack open some rocks and discover the crystals, fossils, and minerals hidden inside — explaining how different types of rocks form over millions of years.",
+    "difficultyLevel": "Easy",
+    "description": "Jessi and Squeaks explain how crystals form inside geodes, then break geodes open with adult help and safety equipment.",
     "audience": "kids",
     "genre": "expository",
-    "cefr": "A1",
+    "cefr": "A2",
     "ageBand": "kids",
     "flightQuestion": "Would you rather find a crystal or a fossil inside rock?"
   },
@@ -400,11 +402,11 @@
       "caves",
       "earth-science"
     ],
-    "difficultyLevel": "Beginner",
+    "difficultyLevel": "Intermediate",
     "description": "How do those giant rock spikes grow inside caves? Jessi explores how water slowly builds stalactites and stalagmites drop by drop over thousands of years — and why caves are basically living, growing places.",
     "audience": "kids",
     "genre": "expository",
-    "cefr": "A1",
+    "cefr": "B1",
     "ageBand": "kids",
     "flightQuestion": "Should visitors be allowed to touch cave formations?"
   },
@@ -421,11 +423,11 @@
       "animals",
       "nature"
     ],
-    "difficultyLevel": "Beginner",
+    "difficultyLevel": "Easy",
     "description": "Jessi visits the world's coldest, windiest, and most remote continent — discovering the penguins, seals, and microorganisms that survive in Antarctica's extreme environment.",
     "audience": "kids",
     "genre": "narrative",
-    "cefr": "A1",
+    "cefr": "A2",
     "ageBand": "kids"
   },
   {
@@ -942,8 +944,8 @@
     "difficultyLevel": "Easy",
     "cefr": "A2",
     "ageBand": "kids",
-    "description": "An introduction to the ways living things communicate, with examples from animals and the natural world.",
-    "summary": "An introduction to the ways living things communicate, with examples from animals and the natural world.",
+    "description": "Sabrina explains how scientists investigate plant sensing, using Venus flytraps and Darwin’s stem-tip experiment.",
+    "summary": "Sabrina explains how scientists investigate plant sensing, using Venus flytraps and Darwin’s stem-tip experiment.",
     "genre": "expository",
     "place": null,
     "kind": "video",
@@ -1173,30 +1175,26 @@
   },
   {
     "id": "kids_glow_on",
-    "title": "Glow On",
+    "title": "Why Stars Glow",
     "speaker": "Crash Course Kids",
     "url": "https://www.youtube.com/watch?v=Zo-sKzMWYFA",
     "youtubeId": "Zo-sKzMWYFA",
     "durationSecs": 310,
     "topicTags": [
       "science",
-      "biology",
-      "light",
-      "animals",
-      "adaptation",
-      "nature"
+      "space",
+      "stars",
+      "astronomy"
     ],
-    "difficultyLevel": "Easy",
-    "cefr": "A2",
+    "difficultyLevel": "Intermediate",
+    "cefr": "B1",
     "ageBand": "kids",
-    "description": "An exploration of how and why some living things produce light, with examples from nature.",
-    "summary": "An exploration of how and why some living things produce light, with examples from nature.",
+    "description": "Sabrina explains why stars glow through nuclear fusion, then compares true and apparent brightness using the Sun and Betelgeuse.",
+    "summary": "Sabrina explains why stars glow through nuclear fusion, then compares true and apparent brightness using the Sun and Betelgeuse.",
     "genre": "expository",
     "place": null,
     "kind": "video",
-    "needsReview": false,
-    "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The full cache explains nuclear fusion, stellar luminosity and Betelgeuse versus the Sun; it does not concern living things producing light. Suggested action: Retitle to Why Stars Glow and rewrite the description."
+    "needsReview": false
   },
   {
     "id": "kids_engineering_process",

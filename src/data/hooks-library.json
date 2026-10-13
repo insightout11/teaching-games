@@ -107,7 +107,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "hidden": true,
+    "hiddenNote": "Evidence: The child-oriented cache says “slurping them up” after external digestion and “eat each other” with an Uncle Brian joke; this is detailed cannibalistic predation. Keep hidden from child-facing recommendations."
   },
   {
     "id": "hook-r2--nQzs_4WhO0",
@@ -261,7 +263,9 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "hidden": true,
+    "hiddenNote": "Evidence: The narration says “bites off the stinger” and “freshly killed scorpion”, giving explicit killing/eating detail. Keep hidden from child-facing recommendations."
   },
   {
     "id": "hook-r2-_hRJJdSg8Hw",
@@ -525,7 +529,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "hidden": true,
+    "hiddenNote": "Evidence: The caption describes biting victims, then “liquefy their bodies and suck it all up”; this explicitly describes bodily destruction/eating. Keep hidden from child-facing recommendations."
   },
   {
     "id": "hook-r2-jI6aFbBUqkY",
@@ -569,7 +575,9 @@
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "hidden": true,
+    "hiddenNote": "Evidence: The narrator says “spray acid into the crab’s mouth and eyes”, followed by pain dialogue and a survival warning; the attack is described in detail. Keep hidden from child-facing recommendations."
   },
   {
     "id": "hook-r2-XVYaz-D2MYE",
@@ -595,27 +603,26 @@
   },
   {
     "id": "hook-r2-TQgRIJdp2c0",
-    "title": "Eggs-periments!",
+    "title": "Homemade Lava Lamp",
     "speaker": "Nat Geo Kids",
     "url": "https://www.youtube.com/watch?v=TQgRIJdp2c0",
     "youtubeId": "TQgRIJdp2c0",
     "durationSecs": 116,
-    "summary": "A fast science demonstration using eggs to invite predictions and discussion.",
+    "summary": "A presenter makes a small lava lamp with oil, water, colouring and salt, explaining the movement through differences in density.",
     "topicTags": [
-      "hook",
       "science",
-      "video"
+      "experiments",
+      "materials",
+      "density"
     ],
     "difficultyLevel": "Easy",
-    "description": "A fast science demonstration using eggs to invite predictions and discussion.",
+    "description": "A presenter makes a small lava lamp with oil, water, colouring and salt, explaining the movement through differences in density.",
     "genre": "expository",
     "kind": "video",
     "cefr": "A2",
     "ageBand": "kids",
     "place": null,
-    "needsReview": false,
-    "hidden": true,
-    "hiddenNote": "Hidden 13 Oct 2026 (library audit): the video is not what this entry says. The full cache demonstrates a homemade lava lamp using oil, water, colouring and salt; eggs only appear in the closing introduction to the next videos. Suggested action: Retitle to Homemade Lava Lamp and rewrite the description."
+    "needsReview": false
   },
   {
     "id": "hook-r2-i7zpS4RkK2o",
@@ -791,7 +798,9 @@
     "cefr": "B1",
     "ageBand": "teens",
     "place": null,
-    "needsReview": false
+    "needsReview": false,
+    "hidden": true,
+    "hiddenNote": "The owner reports this video has no English captions. A short older English cache remains, but its speech alignment cannot be verified. Keep hidden pending verified English captions."
   },
   {
     "id": "hook-r2-fshNptg_BxY",
