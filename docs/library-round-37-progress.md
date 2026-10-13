@@ -9,7 +9,7 @@ Completed 13 October 2026. Branch: `codex/library-round-37`, based on `origin/ma
 - New packs by level: **A2 37, B1 41, B2 5**. All packs by level: **A2 37, B1 49, B2 14**.
 - Repaired overlapping detail segments in **five existing packs**: Dubai Airport, Lagos transit, Hong Kong transport, Lima strike and Transperth. Their Static and Black Box fields are preserved.
 - **0 structural failures, 0 caption/key-line evidence failures, 0 words absent from the heard window, 0 duplicate new detail questions, 0 duplicate new gist questions.**
-- Two proposed course entries will be recorded in a report-only follow-up. Neither will be added to a library; caption verification limits will be explicit.
+- Two proposed course entries are below. Neither was added to a library; caption verification limits are explicit.
 
 ## Method and scope
 
@@ -203,3 +203,96 @@ The entry’s JSON contains the complete copied key lines and answer options. Ti
 | ho-chi-minh-city-tet-for-kids-video | A2 | 26–39, 44–57, 60–75 |
 | ho-chi-minh-city-vietnam-culture-video | B1 | 182–195, 198–210, 210–222 |
 | bangkok-river-transport-video | A2 | 47–60, 68–81, 91–104 |
+
+## Task 2 — proposed course videos (draft entries)
+
+Only watch-page metadata and published lesson materials were checked. No YouTube captions were fetched. On 13 October 2026 both videos returned playable metadata. Durations and channel names below come from the YouTube player metadata, rather than an estimated runtime or third-party listing. A caption-track label proves availability, not accuracy; the owner should run the prefetch and inspect its English output before changing a course pointer.
+
+### Asking for and giving city directions
+
+- YouTube ID: `SHXPpsIJTb0`.
+- Title: **Asking for and giving directions: Easy English Conversations 💬 Episode 5**.
+- Channel: **BBC Learning English**.
+- Duration: **237 seconds (3:57)**.
+- Caption track: **English (UK), manually supplied** (`en-GB`; not an ASR track).
+- Fit: short model exchanges practise asking where a place is, following turns and identifying destinations by nearby landmarks. The publisher's [worksheet](https://downloads.bbc.co.uk/learningenglish/EEC/EEC_5%20worksheet.pdf) supplies direction and location language. This is a direct language-teaching match for Asking For Directions, rather than a transport documentary. A2 suitability is an editorial judgment from that simple language. [Publisher video](https://www.youtube.com/watch?v=SHXPpsIJTb0).
+- Remaining review: prefetch this exact ID, confirm the stored captions match the lesson, then repoint the course. No claim that a newly stored transcript already exists.
+
+Ready-to-paste draft for `src/data/travel-english-library.json`:
+
+```json
+{
+  "id": "travel-city-directions-bbc-eec",
+  "title": "Asking for and giving directions: Easy English Conversations 💬 Episode 5",
+  "speaker": "BBC Learning English",
+  "url": "https://www.youtube.com/watch?v=SHXPpsIJTb0",
+  "youtubeId": "SHXPpsIJTb0",
+  "durationSecs": 237,
+  "topicTags": [
+    "travel",
+    "directions",
+    "practical",
+    "listening",
+    "listening:dialogue"
+  ],
+  "difficultyLevel": "Easy",
+  "description": "Short English exchanges practise asking for directions, following turns and locating places near landmarks.",
+  "summary": "Presenters model simple exchanges about finding places. Learners hear direction verbs and location phrases, then can practise asking for and explaining a route in pairs.",
+  "genre": "dialogue",
+  "cefr": "A2",
+  "ageBand": "all",
+  "needsReview": true,
+  "reviewNote": "Round 37 proposal only. Manual en-GB caption track available; owner should prefetch and check the stored transcript before adoption and course repointing."
+}
+```
+
+### Restaurant menu, ordering and the bill
+
+- YouTube ID: `bgfdqVmVjfk`.
+- Title: **At the Restaurant Conversation**.
+- Channel: **Easy English**.
+- Duration: **289 seconds (4:49)**.
+- Caption track: **English automatic** (`en`, ASR). **Caption accuracy remains unverified.** This is a candidate, not a certified caption-ready replacement.
+- Fit: the [publisher description](https://www.youtube.com/watch?v=bgfdqVmVjfk) identifies food/drink ordering and responses to food. A [published teaching transcript](https://www.aprendainglesconandres.com/at-the-restaurant.html) supports a family requesting the menu, ordering starters/main courses/drinks/desserts and requesting the bill. The short, repeated requests are suitable for A2 practice (editorial judgment).
+- Scope limit: the supported end-of-meal language is **requesting the bill**. Cash/card handling is not established by the available lesson material. The entry deliberately avoids promising it. This and automatic-caption accuracy are the two checks for the owner before adoption; the brief's fully verified caption requirement is not yet met for this proposal.
+
+Ready-to-paste draft for `src/data/travel-english-library.json`:
+
+```json
+{
+  "id": "travel-restaurant-easy-english-conversation",
+  "title": "At the Restaurant Conversation",
+  "speaker": "Easy English",
+  "url": "https://www.youtube.com/watch?v=bgfdqVmVjfk",
+  "youtubeId": "bgfdqVmVjfk",
+  "durationSecs": 289,
+  "topicTags": [
+    "travel",
+    "food",
+    "restaurants",
+    "practical",
+    "listening",
+    "listening:dialogue"
+  ],
+  "difficultyLevel": "Easy",
+  "description": "A family requests a table and menu, orders drinks and courses, and asks for the bill.",
+  "summary": "An animated family meal models polite requests to a waiter, choices of food and drink, responses during the meal, dessert orders and a final bill request. Learners can reuse the exchanges in a restaurant role-play.",
+  "genre": "dialogue",
+  "cefr": "A2",
+  "ageBand": "all",
+  "needsReview": true,
+  "reviewNote": "Round 37 proposal only. English automatic captions exist, but their accuracy has not been verified or prefetched. Published lesson material confirms menu, ordering and requesting the bill; do not promise cash/card payment instruction. Owner should check the transcript before adopting."
+}
+```
+
+### Owner handoff
+
+Both objects use the existing travel library field shape and include `needsReview: true` plus an explicit `reviewNote`. Neither source was added, downloaded or caption-prefetched here. The owner can add the chosen entries, run the local caption pipeline, check the exact transcript and then change the two course sources. Keep the restaurant entry in review until its automatic captions and payment-language scope are acceptable.
+
+## Local commits
+
+- `4938d195` — first city packs and timed-window checks.
+- `590e9a4f` — Shanghai through Buenos Aires packs.
+- `b24f0d4f` — Los Angeles through Suva packs.
+- `e197a98c` — final city coverage and caption evidence refinements.
+- Report-only follow-up — course proposal entries and owner handoff.
