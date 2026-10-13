@@ -1,18 +1,27 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
-import { CheckCircle2, Gamepad2, Globe2, MonitorSmartphone, Users } from 'lucide-react';
+import Link from 'next/link';
 import { BetaApplicationForm } from './BetaApplicationForm';
 
 export const metadata: Metadata = {
-  title: 'Founding Captain Teacher Beta | LessonCaptain',
-  description: 'Join the LessonCaptain teacher beta and run live English lessons your students take part in from their own devices.',
+  title: 'Founding Crew | LessonCaptain',
+  description: 'Join the LessonCaptain Founding Crew: teach real lessons with it, tell us what happened, and fly Pro for free. Half price for life afterwards.',
   alternates: { canonical: '/beta' },
 };
 
-const proof = [
-  { icon: Gamepad2, title: 'You stay in control', copy: 'Run the lesson from the teacher view while your class follows together.' },
-  { icon: MonitorSmartphone, title: 'Students take part', copy: 'Students join from their own devices without creating accounts.' },
-  { icon: Globe2, title: 'A shared class journey', copy: 'World Flight turns activities into a journey; the cockpit view is always optional.' },
+// The Founding Crew page (Oct 2026; was "Teacher beta"). One name, one offer: Pro free while the beta runs, half
+// price for life afterwards, and a say in what gets built. The application itself is BetaApplicationForm: what it
+// saves and how it is checked are unchanged.
+
+const OFFER = [
+  { when: 'Now', what: 'Pro, free' },
+  { when: 'After the beta', what: 'Half price, for life' },
+  { when: 'Always', what: 'A say in what is built' },
+];
+
+const ASK: Array<[string, string]> = [
+  ['Use it in real lessons.', 'A few classes is enough to know if it works for you.'],
+  ['Tell us what happened.', 'A short message now and then: what worked, what broke, what you wished it did.'],
+  ['That is all.', 'No fees, no posts to write, no commitment to stay.'],
 ];
 
 export default function BetaPage({ searchParams }: { searchParams?: { status?: string } }) {
@@ -20,92 +29,60 @@ export default function BetaPage({ searchParams }: { searchParams?: { status?: s
   const linkageError = searchParams?.status === 'linkage-error';
 
   return (
-    <div className="px-5 pb-20 pt-10 sm:px-6 sm:pt-16">
+    <div className="px-5 pb-20 pt-10 sm:px-6 sm:pt-14">
       <div className="mx-auto max-w-6xl">
-        <section className="grid items-start gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
-          <div className="pt-2">
-            <p className="font-instrument text-xs font-semibold uppercase tracking-[0.22em] text-lc-blue">
-              Founding Captain teacher beta
-            </p>
-            <h1 className="mt-4 max-w-3xl font-display text-4xl leading-[1.06] text-white sm:text-5xl lg:text-6xl">
-              Run live English lessons students take part in.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-lc-text2">
-              Built for online English teachers worldwide, from independent tutors to small teaching teams. Bring a topic, article, or video; guide the lesson while students answer, vote, play, and speak.
+        <section className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+          <div>
+            <p className="font-instrument text-[13px] font-semibold uppercase tracking-[0.14em] text-lc-amber">The first teachers on board</p>
+            <h1 className="font-game mt-4 text-[2.75rem] leading-[1.05] text-white sm:text-6xl">Join the Founding Crew.</h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl">
+              LessonCaptain is new, and it is being shaped by the teachers who use it first. Teach real lessons with it, tell us what happened, and fly Pro for free.
             </p>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              {proof.map(({ icon: Icon, title, copy }) => (
-                <div key={title} className="rounded-2xl border border-lc-border bg-lc-card/70 p-4 backdrop-blur-sm">
-                  <Icon className="h-5 w-5 text-lc-blue" aria-hidden />
-                  <h2 className="mt-3 text-sm font-bold text-white">{title}</h2>
-                  <p className="mt-1 text-sm leading-relaxed text-lc-text3">{copy}</p>
-                </div>
-              ))}
+            <div className="mt-8 grid overflow-hidden rounded-2xl bg-[#f4efe3] text-[#1b2233] shadow-[0_24px_60px_rgba(0,0,0,.5)] sm:grid-cols-[minmax(0,1fr)_180px]">
+              <div className="flex min-w-0 flex-col gap-3 p-6">
+                <p className="font-instrument text-[13px] font-semibold uppercase tracking-[0.12em] text-[#4b566b]">Boarding pass · Founding Crew</p>
+                <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
+                  {OFFER.map((o) => (
+                    <div key={o.when}>
+                      <dt className="font-instrument text-[13px] font-semibold uppercase tracking-[0.1em] text-[#4b566b]">{o.when}</dt>
+                      <dd className="font-game text-[1.4rem] leading-tight">{o.what}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <ul className="list-disc space-y-1 pl-5 text-[17px]">
+                  <li>Unlimited lessons, courses and your own books while the beta runs</li>
+                  <li>$4.50 a month or $39.50 a year afterwards, for as long as you stay</li>
+                  <li>Your feedback goes straight to the person building it</li>
+                </ul>
+              </div>
+              <div className="relative flex flex-col items-center justify-center gap-3 border-t-[3px] border-dashed border-[#1b2233]/30 px-4 py-5 text-center sm:border-l-[3px] sm:border-t-0">
+                <span aria-hidden className="absolute -left-[11px] -top-[12px] h-[22px] w-[22px] rounded-full bg-[#2a5a99] sm:-left-[12px] sm:-top-[11px]" />
+                <span aria-hidden className="absolute -right-[11px] -top-[12px] h-[22px] w-[22px] rounded-full bg-[#2a5a99] sm:-bottom-[11px] sm:-left-[12px] sm:right-auto sm:top-auto" />
+                <p className="font-instrument text-[13px] font-semibold uppercase tracking-[0.12em] text-[#4b566b]">Seats are limited</p>
+                <div aria-hidden className="hidden h-10 w-[110px] sm:block" style={{ background: 'repeating-linear-gradient(90deg,#1b2233 0 3px,transparent 3px 5px,#1b2233 5px 6px,transparent 6px 10px)' }} />
+                <a href="#apply" className="inline-flex min-h-[50px] w-full items-center justify-center rounded-xl bg-gradient-to-r from-amber-300 to-orange-400 px-3 text-base font-semibold text-[#1a1204] transition hover:brightness-105">Apply to join</a>
+              </div>
             </div>
 
-            <section className="mt-8 overflow-hidden rounded-2xl border border-cyan-300/20 bg-slate-950/65 p-5">
-              <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/75">
-                One connected live lesson
-              </p>
-              <h2 className="mt-2 font-display text-2xl text-white">See the route teachers and students actually use.</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-lc-text2">
-                Start with lesson material, get a visible Flight Plan, teach from the shared screen, and bring student browsers in for focused participation.
-              </p>
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                <figure className="overflow-hidden rounded-xl border border-white/10 bg-black/25 sm:col-span-2">
-                  <Image
-                    src="/beta-proof/flight-plan.png"
-                    alt="Lesson Captain launch screen showing the connected Flight Plan from Prediction Round through Read Aloud, discussion and Final Word"
-                    width={1100}
-                    height={675}
-                    className="h-auto w-full"
-                  />
-                  <figcaption className="border-t border-white/10 px-3 py-2 text-xs text-lc-text3">The complete route stays visible.</figcaption>
-                </figure>
-                <figure className="overflow-hidden rounded-xl border border-white/10 bg-black/25">
-                  <Image
-                    src="/beta-proof/shared-reading.png"
-                    alt="Teacher shared screen running a live Read Aloud stage from a lesson about repair cafés"
-                    width={2048}
-                    height={680}
-                    className="h-full min-h-48 w-full object-cover object-center"
-                  />
-                  <figcaption className="border-t border-white/10 px-3 py-2 text-xs text-lc-text3">The teacher guides the shared lesson.</figcaption>
-                </figure>
-                <figure className="overflow-hidden rounded-xl border border-white/10 bg-black/25">
-                  <div className="flex h-64 items-start justify-center overflow-hidden bg-[#06101d] pt-3">
-                    <Image
-                      src="/beta-proof/student-reading.png"
-                      alt="Student browser showing a live reading turn using the same repair-café passage"
-                      width={375}
-                      height={844}
-                      className="h-auto w-44 rounded-t-lg"
-                    />
-                  </div>
-                  <figcaption className="border-t border-white/10 px-3 py-2 text-xs text-lc-text3">The student browser activates for its part.</figcaption>
-                </figure>
-              </div>
-            </section>
+            <div className="mt-8 rounded-2xl border border-[#2a4166] bg-[#0b1524]/90 p-6">
+              <h2 className="font-game text-2xl text-white sm:text-3xl">What we ask in return</h2>
+              <ul className="mt-4 space-y-3">
+                {ASK.map(([title, body]) => (
+                  <li key={title} className="relative pl-7 text-[17px] text-white/80">
+                    <span aria-hidden className="absolute left-1 top-[11px] h-2.5 w-2.5 rounded-full bg-lc-amber" />
+                    <b className="font-semibold text-white">{title}</b> {body}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-            <div className="mt-8 rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.05] p-5">
-              <div className="flex gap-3">
-                <Users className="mt-0.5 h-5 w-5 shrink-0 text-emerald-300" aria-hidden />
-                <div>
-                  <h2 className="font-semibold text-white">What being a beta teacher means</h2>
-                  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-lc-text2">
-                    {[
-                      'Early access and a direct say in what improves next.',
-                      'Try LessonCaptain in real lessons and share occasional feedback.',
-                      'No student accounts. Teachers use Google sign-in.',
-                    ].map((item) => (
-                      <li key={item} className="flex gap-2">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" aria-hidden />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="mt-8">
+              <h2 className="font-game text-2xl text-white sm:text-3xl">Not ready to apply?</h2>
+              <p className="mt-2 max-w-xl text-[17px] text-white/85">You do not need the Founding Crew to start. Every teacher gets 4 full lessons free every month, for good.</p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Link href="/login" className="inline-flex min-h-[50px] items-center justify-center rounded-xl bg-white px-6 text-base font-semibold text-[#1b2233] transition hover:bg-white/90">Start a Test Flight</Link>
+                <Link href="/" className="text-[17px] font-semibold text-white underline underline-offset-4">See what LessonCaptain does</Link>
               </div>
             </div>
           </div>
