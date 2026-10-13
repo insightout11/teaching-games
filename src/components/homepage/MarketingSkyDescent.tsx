@@ -12,6 +12,14 @@ import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SkyBackground } from '@/components/ui/sky-background';
 
+const DAY_CLOUDS = [
+  { top: '9%', left: '4%', w: 320, o: 0.5, drift: 30 },
+  { top: '20%', left: '70%', w: 420, o: 0.6, drift: 70 },
+  { top: '56%', left: '-4%', w: 360, o: 0.45, drift: 50 },
+  { top: '70%', left: '74%', w: 300, o: 0.5, drift: 40 },
+  { top: '84%', left: '36%', w: 460, o: 0.55, drift: 90 },
+];
+
 export function MarketingSkyDescent() {
   const reduce = useReducedMotion();
   const [depth, setDepth] = useState(0); // 0 = top of page (cruise) → 1 = bottom (airport)
@@ -49,7 +57,7 @@ export function MarketingSkyDescent() {
 
   // Veil darkens as we descend so lower sections stay legible while the hero sky stays vivid.
   // (Oct 2026: lighter than before, so the day-to-night sky and its clouds read behind the page.)
-  const veilOpacity = 0.3 + depth * 0.35;
+  const veilOpacity = 0.16 + depth * 0.5;
 
   return (
     <>
@@ -84,6 +92,22 @@ export function MarketingSkyDescent() {
         className="pointer-events-none fixed inset-0 z-[1] transition-opacity duration-500"
         style={{ background: 'linear-gradient(180deg, rgba(70,44,110,0.35) 0%, rgba(196,98,84,0.6) 62%, rgba(244,156,92,0.7) 100%)', opacity: reduce ? 0 : Math.max(0, 1 - Math.abs(depth - 0.58) / 0.24) * 0.9 }}
       />
+
+      {/* Daylight clouds: the sky system's own clouds sit under the morning wash and all but vanish in it, so the
+          top of the page gets its own bright ones above the wash. They drift sideways as you scroll (near ones
+          faster) and fade out with the daylight. */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-[1] overflow-hidden transition-opacity duration-500" style={{ opacity: reduce ? 0.6 : Math.max(0, 1 - depth * 2.2) }}>
+        {DAY_CLOUDS.map((c, i) => (
+          <div key={i} className="absolute" style={{ top: c.top, left: c.left, width: c.w, transform: `translateX(${reduce ? 0 : -depth * c.drift}vw)` }}>
+            {/* One soft shape: solid white puffs, blurred and faded together (so the overlaps do not show). */}
+            <div className="relative h-[90px] w-full blur-[14px]" style={{ opacity: c.o }}>
+              <span className="absolute bottom-0 left-0 h-[46px] w-full rounded-full bg-white" />
+              <span className="absolute bottom-[16px] left-[12%] h-[58px] w-[40%] rounded-full bg-white" />
+              <span className="absolute bottom-[20px] left-[40%] h-[70px] w-[40%] rounded-full bg-white" />
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Warm apron / departure-lounge glow that grows as the airport rises into view */}
       <motion.div

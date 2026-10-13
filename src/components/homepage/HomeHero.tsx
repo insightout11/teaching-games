@@ -37,7 +37,7 @@ export function HomeHero() {
           <div>
             <p className="font-instrument text-[13px] font-semibold uppercase tracking-[0.14em] text-lc-amber">Live English lessons</p>
             <h1 className="font-game mt-4 text-[2.75rem] leading-[1.05] text-lc-text sm:text-6xl lg:text-7xl">Every lesson is a flight.</h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-lc-text2 sm:text-xl">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl">
               A live English lesson on one shared screen. Your class talks, plays and votes, then lands in a new city.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -47,7 +47,7 @@ export function HomeHero() {
               </Link>
               <a href="#try" className="text-lg font-semibold text-lc-text underline decoration-lc-text3 underline-offset-[6px] hover:decoration-lc-amber">Try a topic first</a>
             </div>
-            <p className="mt-4 text-[15px] text-lc-text2">4 full lessons free every month. For good. No card.</p>
+            <p className="mt-4 text-[15px] text-white/85">4 full lessons free every month. For good. No card.</p>
           </div>
 
           <div className="min-w-0">
@@ -90,11 +90,11 @@ export function HomeHero() {
                 ))}
               </div>
             </div>
-            <p className="mt-2.5 text-[15px] text-lc-text2">An example lesson. The phone is the real student screen: choose an answer and send it.</p>
+            <p className="mt-2.5 text-[15px] text-white/85">An example lesson. The phone is the real student screen: choose an answer and send it.</p>
           </div>
         </div>
 
-        <ul className="mt-10 grid gap-x-6 gap-y-3 border-y border-lc-border py-4 text-[17px] text-lc-text2 sm:grid-cols-3">
+        <ul className="mt-10 grid gap-x-6 gap-y-3 rounded-2xl border border-white/10 bg-[#070B14]/50 px-5 py-4 text-[17px] text-white/90 backdrop-blur-sm sm:grid-cols-3">
           <li className="flex items-center gap-2.5"><MonitorUp className="h-5 w-5 shrink-0 text-lc-amber" aria-hidden />Share on any video call, or project in class</li>
           <li className="flex items-center gap-2.5"><Smartphone className="h-5 w-5 shrink-0 text-lc-amber" aria-hidden />Student phones are optional</li>
           <li className="flex items-center gap-2.5"><Check className="h-5 w-5 shrink-0 text-lc-amber" aria-hidden />Students join free, without accounts</li>
