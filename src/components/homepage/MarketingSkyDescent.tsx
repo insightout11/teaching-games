@@ -62,7 +62,8 @@ export function MarketingSkyDescent() {
         parallaxDuration={0.9}
         showEarth
         earthOpacity={earthOpacity}
-        showMoon
+        // The moon belongs to the night end of the page, not the morning at the top.
+        showMoon={reduce ? false : depth > 0.62}
         moonPosition={{ top: '7%', right: '16%' }}
         hideMoonOnMobile
         showRunwayMarkings

@@ -54,8 +54,9 @@ export function HomeFlightRoute() {
           </div>
         );
       })}
-      <div className="absolute left-[6px] w-[108px] -translate-y-1/2" style={{ top: `${y}%` }}>
-        <Image src={plane.png} alt="" width={216} height={108} className="h-auto w-full rotate-90 drop-shadow-[0_6px_12px_rgba(0,0,0,.65)]" />
+      {/* Level, as a marker travelling down the route (pointed nose-down it read as a dive). */}
+      <div className="absolute left-[12px] w-[96px] -translate-y-1/2" style={{ top: `${y}%` }}>
+        <Image src={plane.png} alt="" width={192} height={96} className="h-auto w-full drop-shadow-[0_6px_12px_rgba(0,0,0,.65)]" />
       </div>
     </div>
   );

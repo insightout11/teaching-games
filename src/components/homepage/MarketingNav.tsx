@@ -18,7 +18,8 @@ export function MarketingNav() {
       className={`sticky top-0 z-50 transition-all duration-200 ${
         scrolled
           ? 'bg-lc-bg/80 backdrop-blur-md border-b border-lc-border'
-          : 'bg-transparent'
+          // Never fully clear: the sky behind is bright at the top of the page (morning), and the links must read.
+          : 'bg-[#070B14]/55 backdrop-blur-sm'
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -35,16 +36,16 @@ export function MarketingNav() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          <Link href="/#try" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+          <Link href="/#try" className="text-[15px] font-medium text-white/85 hover:text-white transition-colors">
             How it works
           </Link>
-          <Link href="/showcase" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+          <Link href="/showcase" className="text-[15px] font-medium text-white/85 hover:text-white transition-colors">
             Explore
           </Link>
-          <Link href="/pro" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+          <Link href="/pro" className="text-[15px] font-medium text-white/85 hover:text-white transition-colors">
             Pricing
           </Link>
-          <Link href="/beta" className="text-sm font-medium text-lc-text3 hover:text-lc-blue transition-colors">
+          <Link href="/beta" className="text-[15px] font-medium text-white/85 hover:text-white transition-colors">
             Teacher beta
           </Link>
         </nav>
