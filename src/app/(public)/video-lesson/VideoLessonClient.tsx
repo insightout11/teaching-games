@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   PlaneTakeoff,
@@ -9,13 +10,10 @@ import {
   Lock,
   BookOpen,
   MessageSquare,
-  ArrowRight,
   Loader2,
-  Play,
   Link as LinkIcon,
   Check,
   FileText,
-  Trophy,
   X,
 } from 'lucide-react';
 import { FEATURED_CHIPS, type DemoVideo } from '@/lib/video-lesson-demos';
@@ -25,6 +23,9 @@ import { parseEmphasis } from '@/lib/emphasis';
 import { MarketingRouteStrip } from '@/components/homepage/MarketingRouteStrip';
 import { trackEvent } from '@/lib/analytics/posthog';
 import { EmailCaptureCard } from '@/components/marketing/EmailCaptureCard';
+import { DynamicInput } from '@/components/student/dynamic-input';
+import type { InputSpec } from '@/lib/input-spec';
+import { cefrLabel } from '@/lib/difficulty';
 
 interface PreviewVocab {
   word: string;
@@ -55,9 +56,9 @@ const FEATURED_ROUTE = getFeaturedRoute();
 
 // Aviation-voiced staged progress while the (uncached) request runs.
 const LOADING_STAGES = [
-  'Extracting the transcript…',
+  'Finding the transcript…',
   'Reading the video…',
-  'Planning the flight…',
+  'Building the lesson…',
 ];
 
 // Renders the AI's *word* emphasis markers as styled (non-italic) accents.
@@ -99,7 +100,7 @@ function StageSection({
     >
       <div className="mb-3 flex items-center gap-2">
         <span
-          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold ${
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-[13px] font-bold ${
             locked
               ? 'border-lc-border bg-white/[0.03] text-lc-text3'
               : 'border-cyan-300/40 bg-cyan-400/10 text-cyan-200'
@@ -107,98 +108,114 @@ function StageSection({
         >
           {order + 1}
         </span>
-        <span className="font-instrument text-[11px] uppercase tracking-[0.16em] text-lc-text2">
+        <span className="font-instrument text-[13px] font-semibold uppercase tracking-[0.14em] text-white/85">
           {label}
         </span>
-        {locked && <Lock className="h-3 w-3 text-lc-text3" aria-hidden />}
+        {locked && <Lock className="h-3.5 w-3.5 text-white/60" aria-hidden />}
       </div>
       {children}
     </motion.div>
   );
 }
 
-// Honest "generated when you fly it" chip — sells the full product without faking content.
+// Honest "made when you teach it" chip — sells the full product without faking content.
 function LockedChip({ children }: { children: ReactNode }) {
   return (
-    <div className="flex items-start gap-2.5 rounded-xl border border-dashed border-lc-border bg-white/[0.02] px-4 py-3">
-      <Lock className="mt-0.5 h-4 w-4 shrink-0 text-lc-text3" aria-hidden />
-      <p className="text-sm leading-relaxed text-lc-text3">{children}</p>
+    <div className="flex items-start gap-2.5 rounded-xl border border-dashed border-[#2a4166] bg-[#0b1524]/70 px-4 py-3">
+      <Lock className="mt-1 h-4 w-4 shrink-0 text-white/60" aria-hidden />
+      <p className="text-[17px] leading-relaxed text-white/75">{children}</p>
     </div>
   );
 }
 
-// Task 4 — the locked "live" panel: a frosted mini-leaderboard + student phone behind a
-// lock badge. All hardcoded (no session code), consistent with TwoScreensSection.
-const MOCK_LEADERBOARD = [
-  { rank: 1, name: 'Mei', score: 240 },
-  { rank: 2, name: 'Diego', score: 215 },
-  { rank: 3, name: 'Yuki', score: 190 },
-];
+// The level the preview suggests arrives as "B2 — Upper Intermediate"; the site names levels one way ("Advanced · B2").
+function levelFromPreview(suggested: string): string {
+  const letter = suggested.match(/\b([ABC][12])\b/i)?.[1];
+  return letter ? cefrLabel(letter) : suggested;
+}
 
-function LockedLivePanel({ isLoggedIn, onCta }: { isLoggedIn: boolean; onCta: () => void }) {
+// What the button does: a signed-in teacher goes home with this video attached and the launcher open; anyone else
+// signs in first and lands in the same place.
+function ctaLabel(isLoggedIn: boolean): string {
+  return isLoggedIn ? 'Teach this lesson' : 'Start a Test Flight';
+}
+
+function RunItPanel({ isLoggedIn, onCta }: { isLoggedIn: boolean; onCta: () => void }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-lc-amber/30 bg-gradient-to-br from-lc-amber/[0.08] to-transparent p-6">
-      <div className="grid items-center gap-6 sm:grid-cols-[1fr_auto]">
-        <div className="relative z-10">
-          <p className="flex items-center gap-2 text-sm font-semibold text-lc-amber">
-            <Lock className="h-4 w-4" aria-hidden />
-            Live student devices, real-time scoring, and a class leaderboard
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-lc-text2">
-            {isLoggedIn
-              ? 'Open this in your planner to build the full lesson — every stage, student devices, and live scoring.'
-              : 'Sign up free to run this as a full live lesson — students join from their phones, you run the whole flight, and scores track in real time.'}
-          </p>
-          <button
-            onClick={onCta}
-            className="mt-4 inline-flex items-center gap-2 rounded-xl bg-lc-amber px-5 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90"
-          >
-            {isLoggedIn ? 'Open in your planner' : 'Sign up free and fly this lesson'}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </button>
-        </div>
+    <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 rounded-2xl border border-lc-amber/40 bg-lc-amber/[0.08] p-6">
+      <div className="min-w-0 max-w-xl">
+        <h2 className="font-game text-2xl text-white sm:text-3xl">Run this lesson with your class.</h2>
+        <p className="mt-1 text-[17px] leading-relaxed text-white/85">
+          {isLoggedIn
+            ? 'It opens with this video attached. You choose the level, and the rest is made as you teach.'
+            : 'Share one screen on a video call or project it in class. Students join free from their phones, or you run it from the one screen. 4 full lessons free every month.'}
+        </p>
+      </div>
+      <button
+        onClick={onCta}
+        className="inline-flex min-h-[54px] items-center gap-2.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 px-7 font-game text-xl text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.3)] transition hover:brightness-105"
+      >
+        <PlaneTakeoff className="h-5 w-5" aria-hidden />
+        {ctaLabel(isLoggedIn)}
+      </button>
+    </div>
+  );
+}
 
-        {/* Frosted mock behind a lock badge */}
-        <div aria-hidden className="relative mx-auto hidden h-[150px] w-[230px] select-none sm:block">
-          <div className="absolute inset-0 opacity-70 blur-[1.5px]">
-            {/* Mini leaderboard */}
-            <div className="absolute right-0 top-0 w-40 rounded-xl border border-lc-border bg-[#0a1424]/90 p-3">
-              <p className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-lc-text2">
-                <Trophy className="h-3 w-3 text-lc-amber" aria-hidden /> Leaderboard
-              </p>
-              <ul className="space-y-1.5">
-                {MOCK_LEADERBOARD.map((e) => (
-                  <li key={e.rank} className="flex items-center gap-2">
-                    <span
-                      className={`flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold ${
-                        e.rank === 1 ? 'bg-lc-amber text-[#1a0f00]' : 'bg-lc-surface text-lc-text2'
-                      }`}
-                    >
-                      {e.rank}
-                    </span>
-                    <span className="flex-1 truncate text-[11px] text-lc-text">{e.name}</span>
-                    <span className="text-[11px] font-semibold text-lc-text2">{e.score}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {/* Student phone mid-answer */}
-            <div className="absolute bottom-0 left-0 w-28 rounded-[1rem] border-[5px] border-[#10192c] bg-[#0a1424]/95 p-2">
-              <p className="mb-1 text-center text-[8px] font-semibold text-lc-text">You · Mei</p>
-              <div className="space-y-1">
-                <div className="rounded bg-lc-blue px-1.5 py-1 text-[8px] font-semibold text-[#070B14]">It saves time</div>
-                <div className="rounded border border-lc-border bg-lc-card/70 px-1.5 py-1 text-[8px] text-lc-text3">It builds confidence</div>
+// The lesson as it looks in the room: a word check made from this video's own vocabulary, on the teaching screen
+// and on the product's real student screen. Nothing is sent anywhere; the answer only changes this picture.
+function RoomPicture({ preview }: { preview: PreviewResponse }) {
+  const [choice, setChoice] = useState<string | null>(null);
+  const [round, setRound] = useState(0);
+  const words = preview.keyVocab.slice(0, 4);
+  if (words.length < 2) return null;
+  const target = words[0];
+  // A fixed order that differs from video to video, so the answer is not always first.
+  const shift = preview.videoId.charCodeAt(0) % words.length;
+  const options = [...words.slice(shift), ...words.slice(0, shift)].map((w) => w.word);
+  const spec: InputSpec = { type: 'choice', gameKey: 'would-you-rather', prompt: 'Which word?', options };
+  const follow = !choice
+    ? 'Everyone chooses on their phone. Try it: you are Yuki.'
+    : choice === target.word
+      ? `Yes, “${target.word}”.`
+      : `Not this time. The word is “${target.word}”.`;
+
+  return (
+    <div>
+      <div className="overflow-hidden rounded-2xl border border-[#263a58] bg-[#0b1524] text-left shadow-[0_30px_80px_rgba(0,0,0,.6)]" role="group" aria-label="Example: the teacher's screen during this lesson, with one student's phone">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-[#263a58] px-4 py-2.5 text-[15px] text-lc-text2">
+          <span className="min-w-0 truncate">From the video: <b className="font-semibold text-lc-amber">{preview.title}</b></span>
+          <span className="ml-auto shrink-0">{levelFromPreview(preview.suggestedLevel)}</span>
+        </div>
+        <div className="grid gap-3.5 p-3.5 sm:grid-cols-[minmax(0,1fr)_250px]">
+          <div className="flex min-w-0 flex-col gap-3 rounded-xl border border-[#263a58] bg-gradient-to-b from-[#132744] to-[#0d1a2c] p-4">
+            <span className="font-instrument text-[13px] font-semibold uppercase tracking-[0.12em] text-cyan-300">Word check</span>
+            <p className="font-game text-2xl leading-tight text-lc-text sm:text-[1.75rem]">Which word means: {target.definition}</p>
+            <p className="rounded-lg border-l-4 border-lc-amber bg-[#0a1626] px-3 py-2.5 text-base text-lc-text" aria-live="polite">
+              {follow}
+              {choice && (
+                <span className="mt-1 block text-white/80">
+                  “<Emphasis text={target.example} />”
+                </span>
+              )}
+            </p>
+            {preview.discussionPrompts[0] && (
+              <div className="mt-auto border-t border-[#263a58] pt-3">
+                <span className="font-instrument text-[13px] font-semibold uppercase tracking-[0.12em] text-lc-text2">Next · talk about it</span>
+                <p className="mt-1 text-[17px] text-white/85"><Emphasis text={preview.discussionPrompts[0]} /></p>
               </div>
-            </div>
+            )}
           </div>
-          {/* Lock badge */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <span className="grid h-10 w-10 place-items-center rounded-full border border-lc-amber/40 bg-[#0a1424]/90 shadow-lg">
-              <Lock className="h-4 w-4 text-lc-amber" aria-hidden />
-            </span>
+          <div className="theme-Midnight flex min-w-0 flex-col gap-2 rounded-[26px] border-[5px] border-[#05080f] bg-lc-bg p-3 text-lc-text shadow-[0_14px_34px_rgba(0,0,0,.55)]">
+            <span className="font-instrument text-[13px] font-semibold text-lc-text2">Yuki&apos;s phone · seat 3A</span>
+            <DynamicInput key={round} spec={spec} onSubmit={async (value) => setChoice(value)} isSubmitting={false} submitStatus={choice ? 'success' : 'idle'} waitSeconds={0} displayName="Yuki" />
+            {choice && (
+              <button type="button" onClick={() => { setChoice(null); setRound((n) => n + 1); }} className="text-[15px] font-semibold text-lc-text2 underline underline-offset-4 hover:text-lc-text">Choose again</button>
+            )}
           </div>
         </div>
       </div>
+      <p className="mt-2.5 text-[15px] text-white/85">How this lesson looks in the room, with words from this video. The phone is the real student screen.</p>
     </div>
   );
 }
@@ -277,43 +294,45 @@ function LessonResult({
   return (
     <div className="mt-10 space-y-6">
       {isSample && (
-        <div className="flex items-center justify-center gap-2 rounded-xl border border-cyan-300/15 bg-cyan-400/[0.05] px-3 py-2 text-center text-xs text-lc-text2">
-          <Sparkles className="h-3.5 w-3.5 text-cyan-300" aria-hidden />
-          Here’s an example — paste your own video above to make one from it.
-        </div>
+        <p className="flex items-center justify-center gap-2 rounded-xl border border-[#2a4166] bg-[#0b1524]/80 px-3 py-2.5 text-center text-[15px] text-white/85">
+          <Sparkles className="h-4 w-4 shrink-0 text-lc-amber" aria-hidden />
+          Here is an example. Paste your own video above to make a lesson from it.
+        </p>
       )}
 
-      {/* Header: compact thumbnail beside title/level/hook + share */}
-      <div className="rounded-2xl border border-cyan-300/20 bg-[#04101f]/80 p-5">
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <div className="relative mx-auto aspect-video w-full max-w-[260px] shrink-0 overflow-hidden rounded-xl bg-black sm:mx-0 sm:w-[200px]">
+      <RoomPicture preview={preview} />
+
+      {/* The video itself: a small credit, never the picture */}
+      <div className="rounded-2xl border border-[#2a4166] bg-[#0b1524]/90 p-5">
+        <div className="flex items-start gap-4">
+          <div className="relative hidden aspect-video w-[112px] shrink-0 overflow-hidden rounded-lg bg-black sm:block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={preview.thumbnail} alt={preview.title} className="h-full w-full object-cover" />
+            <img src={preview.thumbnail} alt="" aria-hidden className="h-full w-full object-cover" />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-cyan-400/15 px-2.5 py-0.5 text-xs font-semibold text-cyan-200">
-                {preview.suggestedLevel}
+              <span className="rounded-full bg-lc-amber/15 px-3 py-0.5 text-[15px] font-semibold text-lc-amber">
+                {levelFromPreview(preview.suggestedLevel)}
               </span>
               <button
                 onClick={copyLink}
-                className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-lc-border bg-white/[0.03] px-3 py-1 text-xs font-medium text-lc-text2 transition-colors hover:border-cyan-300/40 hover:text-lc-text"
+                className="ml-auto inline-flex min-h-[36px] items-center gap-1.5 rounded-full border border-[#2a4166] bg-white/[0.03] px-3 text-[15px] font-medium text-white/85 transition-colors hover:border-lc-amber/60 hover:text-white"
               >
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-emerald-300" aria-hidden /> Copied
+                    <Check className="h-4 w-4 text-emerald-300" aria-hidden /> Copied
                   </>
                 ) : (
                   <>
-                    <LinkIcon className="h-3.5 w-3.5" aria-hidden /> Copy lesson link
+                    <LinkIcon className="h-4 w-4" aria-hidden /> Copy lesson link
                   </>
                 )}
               </button>
             </div>
-            <h2 className="mt-2 text-lg font-bold leading-snug text-lc-text">{preview.title}</h2>
-            <p className="mt-1.5 text-sm leading-relaxed text-lc-text2">{preview.hook}</p>
-            <p className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-lc-text3">
-              <FileText className="h-3.5 w-3.5" aria-hidden />
+            <h2 className="font-game mt-2 text-2xl leading-snug text-white">{preview.title}</h2>
+            <p className="mt-1.5 text-[17px] leading-relaxed text-white/85">{preview.hook}</p>
+            <p className="mt-2 inline-flex items-center gap-1.5 text-[15px] text-white/70">
+              <FileText className="h-4 w-4" aria-hidden />
               {preview.transcriptUsed
                 ? "Built from this video's transcript."
                 : "Based on the video's topic."}
@@ -323,7 +342,7 @@ function LessonResult({
       </div>
 
       {/* Route strip — the real Captain's Flight */}
-      <div className="rounded-2xl border border-cyan-300/15 bg-[#04101f]/70 p-5">
+      <div className="rounded-2xl border border-[#2a4166] bg-[#0b1524]/90 p-5">
         <MarketingRouteStrip route={FEATURED_ROUTE} animate={animate} />
       </div>
 
@@ -331,29 +350,20 @@ function LessonResult({
       <div className="space-y-6">
         <StageSection order={0} label="Warm-up" animate={animate} locked>
           <LockedChip>
-            3 quick warm-up questions that get students guessing about the video before they
-            watch — generated when you fly it.
+            Three quick questions that get students guessing about the video before they watch. Made when you
+            teach the lesson.
           </LockedChip>
         </StageSection>
 
         <StageSection order={1} label="Briefing" animate={animate}>
-          <div className="rounded-xl border border-lc-border bg-lc-surface/50 p-4">
-            <div className="flex items-center gap-3">
-              <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-black">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={preview.thumbnail} alt="" className="h-full w-full object-cover" aria-hidden />
-                <span className="absolute inset-0 grid place-items-center">
-                  <Play className="h-4 w-4 text-white/90" aria-hidden />
-                </span>
-              </div>
-              <p className="text-sm text-lc-text2">Watch the video together, then check understanding:</p>
-            </div>
+          <div className="rounded-xl border border-[#2a4166] bg-[#0b1524]/90 p-4">
+            <p className="text-[17px] text-white/85">Watch the video together, then check understanding:</p>
             {preview.comprehensionQuestions.length > 0 && (
               <ol className="mt-3 space-y-2">
                 {preview.comprehensionQuestions.map((q, i) => (
                   <li
                     key={i}
-                    className="flex gap-3 rounded-lg border border-lc-border bg-lc-surface/60 p-3 text-sm text-lc-text2"
+                    className="flex gap-3 rounded-lg border border-[#1d2f4d] bg-[#0a1626] p-3 text-[17px] text-white/90"
                   >
                     <span className="font-bold text-cyan-300">{i + 1}.</span>
                     <span>
@@ -367,18 +377,18 @@ function LessonResult({
         </StageSection>
 
         <StageSection order={2} label="Language Toolkit" animate={animate}>
-          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-lc-text">
+          <h3 className="mb-3 flex items-center gap-2 text-[17px] font-semibold text-white">
             <BookOpen className="h-4 w-4 text-emerald-300" aria-hidden /> Key vocabulary
-            <span className="font-instrument text-[10px] font-normal uppercase tracking-wide text-lc-text3">
+            <span className="font-instrument text-[13px] font-normal uppercase tracking-wide text-white/65">
               from this video
             </span>
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">
             {preview.keyVocab.map((v) => (
-              <div key={v.word} className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.04] p-4">
-                <p className="text-sm font-bold text-emerald-200">{v.word}</p>
-                <p className="mt-1 text-sm text-lc-text2">{v.definition}</p>
-                <p className="mt-1.5 text-xs italic text-lc-text3">
+              <div key={v.word} className="rounded-xl border border-emerald-400/25 bg-[#0b1524]/90 p-4">
+                <p className="text-lg font-bold text-emerald-200">{v.word}</p>
+                <p className="mt-1 text-[17px] text-white/90">{v.definition}</p>
+                <p className="mt-1.5 text-[15px] italic text-white/70">
                   “<Emphasis text={v.example} />”
                 </p>
               </div>
@@ -389,9 +399,8 @@ function LessonResult({
 
         <StageSection order={3} label="Quick mid-lesson rounds" animate={animate} locked>
           <LockedChip>
-            A quick opinion prompt to get students talking, a board where they post their own
-            questions, and a fast find-the-mistake round — each built from this video when you
-            fly it.
+            A quick opinion question to get students talking, a board where they post their own questions, and
+            a fast find-the-mistake round. Each is made from this video when you teach the lesson.
           </LockedChip>
         </StageSection>
 
@@ -400,9 +409,9 @@ function LessonResult({
             {preview.discussionPrompts.map((p, i) => (
               <div
                 key={i}
-                className="flex items-start gap-2.5 rounded-xl border border-violet-400/20 bg-violet-400/[0.05] p-3 text-sm text-lc-text2"
+                className="flex items-start gap-2.5 rounded-xl border border-violet-400/25 bg-[#0b1524]/90 p-3 text-[17px] text-white/90"
               >
-                <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-violet-300" aria-hidden />
+                <MessageSquare className="mt-1 h-4 w-4 shrink-0 text-violet-300" aria-hidden />
                 <span>
                   <Emphasis text={p} />
                 </span>
@@ -412,13 +421,13 @@ function LessonResult({
         </StageSection>
 
         <StageSection order={5} label="Review Game · Wrap-up" animate={animate} locked>
-          <LockedChip>A quiz built from today’s vocabulary, then a class wrap-up — generated when you fly it.</LockedChip>
+          <LockedChip>A quiz built from today’s words, then a class wrap-up. Made when you teach the lesson.</LockedChip>
         </StageSection>
       </div>
 
-      {/* Locked live panel + CTA */}
+      {/* How to run it + the one button */}
       <div ref={lockedRef}>
-        <LockedLivePanel isLoggedIn={isLoggedIn} onCta={onCta} />
+        <RunItPanel isLoggedIn={isLoggedIn} onCta={onCta} />
       </div>
 
       {/* Scroll CTA — slim sticky bar, dismissible, never overlapping the locked CTA */}
@@ -429,16 +438,16 @@ function LessonResult({
           exit={{ y: 60, opacity: 0 }}
           className="fixed inset-x-0 bottom-0 z-40 border-t border-lc-amber/20 bg-[#04101f]/95 px-4 py-3 backdrop-blur-md"
         >
-          <div className="mx-auto flex max-w-3xl items-center gap-3">
-            <p className="hidden flex-1 text-sm text-lc-text2 sm:block">
-              Run this as a full live lesson with your class.
+          <div className="mx-auto flex max-w-4xl items-center gap-3">
+            <p className="hidden flex-1 text-[17px] text-white/85 sm:block">
+              Run this lesson with your class.
             </p>
             <button
               onClick={onCta}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-lc-amber px-4 py-2.5 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 sm:flex-none"
+              className="inline-flex min-h-[46px] flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-amber-300 to-orange-400 px-5 text-base font-bold text-[#1a1204] transition hover:brightness-105 sm:flex-none"
             >
-              {isLoggedIn ? 'Open in your planner' : 'Sign up free and fly this lesson'}
-              <ArrowRight className="h-4 w-4" aria-hidden />
+              <PlaneTakeoff className="h-4 w-4" aria-hidden />
+              {ctaLabel(isLoggedIn)}
             </button>
             <button
               onClick={() => setCtaDismissed(true)}
@@ -562,7 +571,7 @@ export function VideoLessonClient() {
         /* ignore */
       }
     }
-    // Logged in → straight to the planner handoff on /home (video auto-attaches there).
+    // Logged in → straight to the handoff on /home (video auto-attaches there).
     // Logged out → sign up first, then the same handoff.
     router.push(isLoggedIn ? '/home' : '/login?next=/home');
   }
@@ -573,25 +582,22 @@ export function VideoLessonClient() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="mx-auto w-full max-w-4xl py-4 sm:py-8">
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="text-center">
-        {!isLoggedIn && (
-          <span className="font-instrument inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-cyan-400/[0.06] px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-cyan-200">
-            <Sparkles className="h-3 w-3" aria-hidden />
-            Free · No sign-up
-          </span>
-        )}
-        <h1 className="mt-5 text-3xl font-bold leading-tight text-lc-text sm:text-[2.6rem]">
-          Turn any YouTube video into a live English lesson
+        <p className="font-instrument text-[13px] font-semibold uppercase tracking-[0.14em] text-lc-amber">
+          {isLoggedIn ? 'A lesson from a video' : 'Free to try · no sign-up'}
+        </p>
+        <h1 className="font-game mt-4 text-[2.5rem] leading-[1.06] text-white sm:text-6xl">
+          Turn any YouTube video into a live English lesson.
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-lc-text2">
-          Paste a link and watch a full lesson build itself — vocabulary, comprehension,
-          discussion, and a live class flight you run together.
+        <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
+          Paste a link. LessonCaptain reads the video and builds the lesson: the words to teach, questions about
+          the video, and things to talk about. You run it with your class on one shared screen.
         </p>
 
         {/* Input */}
-        <div className="mx-auto mt-7 flex max-w-xl flex-col gap-2 sm:flex-row">
+        <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-2.5 sm:flex-row">
           <input
             type="text"
             inputMode="url"
@@ -601,23 +607,24 @@ export function VideoLessonClient() {
               if (e.key === 'Enter') build(url);
             }}
             disabled={loading}
+            aria-label="YouTube link"
             placeholder="https://youtube.com/watch?v=…"
-            className="min-w-0 flex-1 rounded-xl border border-lc-border bg-lc-surface px-4 py-3 text-sm text-lc-text placeholder-lc-text3 outline-none focus:border-cyan-400/60 focus:ring-1 focus:ring-cyan-400/40 disabled:opacity-60"
+            className="min-h-[54px] min-w-0 flex-1 rounded-xl border border-[#2a4166] bg-[#0a1626] px-4 py-3 text-[17px] text-white placeholder-white/40 outline-none focus:border-lc-amber focus:ring-1 focus:ring-lc-amber/40 disabled:opacity-60"
           />
           <button
             onClick={() => build(url)}
             disabled={loading || !url.trim()}
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-lc-amber px-5 py-3 text-sm font-bold text-[#1a0f00] transition-colors hover:bg-lc-amber/90 disabled:opacity-50"
+            className="inline-flex min-h-[54px] shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-300 to-orange-400 px-6 text-lg font-bold text-[#1a1204] transition hover:brightness-105 disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <PlaneTakeoff className="h-4 w-4" aria-hidden />}
             {loading ? 'Building…' : 'Build my lesson'}
           </button>
         </div>
 
-        {/* Instant-gratification chips — recognizable thumbnails, always one cache-hit away */}
+        {/* Example videos: one tap, always ready */}
         {!loading && (
-          <div className="mx-auto mt-6 max-w-md">
-            <p className="font-instrument mb-2 text-[11px] uppercase tracking-wider text-lc-text3">
+          <div className="mx-auto mt-6 max-w-2xl">
+            <p className="font-instrument mb-2.5 text-[13px] uppercase tracking-[0.12em] text-white/70">
               {preview && !isSample ? 'or try another' : 'or try one of these'}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-2">
@@ -625,35 +632,30 @@ export function VideoLessonClient() {
                 <button
                   key={chip.videoId}
                   onClick={() => pickChip(chip)}
-                  className="inline-flex items-center gap-2 rounded-full border border-cyan-300/15 bg-white/[0.03] py-1 pl-1 pr-3 text-left transition-colors hover:border-cyan-300/45"
+                  className="inline-flex min-h-[44px] max-w-full items-center rounded-full border border-[#2a4166] bg-[#0b1524]/80 px-4 text-[15px] font-medium text-white/90 transition-colors hover:border-lc-amber/70 hover:text-white"
                 >
-                  <span className="relative h-7 w-12 shrink-0 overflow-hidden rounded-full bg-black">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`https://i.ytimg.com/vi/${chip.videoId}/mqdefault.jpg`}
-                      alt=""
-                      aria-hidden
-                      className="h-full w-full object-cover opacity-85"
-                    />
-                  </span>
-                  <span className="max-w-[9rem] truncate text-xs font-medium text-lc-text2">{chip.title}</span>
+                  <span className="truncate">{chip.title}</span>
                 </button>
               ))}
             </div>
           </div>
         )}
+        <p className="mx-auto mt-6 max-w-2xl text-[15px] text-white/75">
+          No video? A lesson can also start from a topic, an article or a book.{' '}
+          <Link href="/" className="font-semibold text-white underline underline-offset-4">See how LessonCaptain works</Link>
+        </p>
       </section>
 
       {/* ── Loading ──────────────────────────────────────────── */}
       {loading && (
-        <div className="mt-10 flex flex-col items-center gap-3 rounded-2xl border border-cyan-300/15 bg-[#04101f]/70 p-8">
-          <Loader2 className="h-6 w-6 animate-spin text-cyan-300" aria-hidden />
-          <p className="font-instrument text-sm uppercase tracking-[0.16em] text-cyan-200">{LOADING_STAGES[stage]}</p>
+        <div className="mt-10 flex flex-col items-center gap-3 rounded-2xl border border-[#2a4166] bg-[#0b1524]/90 p-8">
+          <Loader2 className="h-6 w-6 animate-spin text-lc-amber" aria-hidden />
+          <p className="font-instrument text-[15px] uppercase tracking-[0.14em] text-white">{LOADING_STAGES[stage]}</p>
           <div className="flex gap-1.5">
             {LOADING_STAGES.map((_, i) => (
               <span
                 key={i}
-                className={`h-1.5 w-8 rounded-full transition-colors ${i <= stage ? 'bg-cyan-400' : 'bg-cyan-400/15'}`}
+                className={`h-1.5 w-8 rounded-full transition-colors ${i <= stage ? 'bg-lc-amber' : 'bg-white/15'}`}
               />
             ))}
           </div>
@@ -663,14 +665,14 @@ export function VideoLessonClient() {
       {/* ── Error ────────────────────────────────────────────── */}
       {error && !loading && (
         <div className="mt-8 rounded-2xl border border-amber-400/25 bg-amber-400/[0.06] p-6 text-center">
-          <p className="text-sm font-medium text-amber-200">{error.message}</p>
+          <p className="text-[17px] font-medium text-amber-200">{error.message}</p>
           {error.atCapacity && (
             <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
               {FEATURED_CHIPS.map((chip) => (
                 <button
                   key={chip.videoId}
                   onClick={() => pickChip(chip)}
-                  className="rounded-full border border-cyan-300/20 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-lc-text2 transition-colors hover:border-cyan-300/45 hover:text-lc-text"
+                  className="min-h-[44px] rounded-full border border-[#2a4166] bg-[#0b1524]/80 px-4 text-[15px] font-medium text-white/90 transition-colors hover:border-lc-amber/70 hover:text-white"
                 >
                   {chip.title}
                 </button>
