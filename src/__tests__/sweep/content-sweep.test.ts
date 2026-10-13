@@ -13,6 +13,7 @@
 import { describe, it, vi } from 'vitest';
 import { writeFileSync } from 'fs';
 
+import type { SourceMaterial } from '@/types/source-material';
 const RUN = process.env.CONTENT_SWEEP === '1';
 
 const ai = vi.hoisted(() => ({ calls: 0, failures: [] as string[] }));
@@ -63,7 +64,7 @@ pass-the-line say-it-again cargo-hold conversation-rounds would-you-rather hot-t
 taboo-sprint imposter static black-box answer-first compare-it prediction-round quick-pulse decision-council
 fix-the-captain radio-check`.split(/\s+/).filter(Boolean);
 
-const SOURCES: Array<{ ref: { kind: 'library'; sourceType: string; id: string; title: string } | null; text?: { title: string; text: string }; difficulty: string }> = [
+const SOURCES: Array<{ ref: { kind: 'library'; sourceType: string; id: string; title: string } | null; text?: { title: string; text: string }; material?: SourceMaterial; difficulty: string }> = [
   { ref: { kind: 'library', sourceType: 'kids', id: 'kids_fabulous_food_chains', title: 'Fabulous Food Chains' }, difficulty: 'Easy' },
   { ref: { kind: 'library', sourceType: 'bbc', id: 'bbc_tech_future_of_work', title: 'What Is the Future of Work?' }, difficulty: 'Intermediate' },
   {
@@ -149,18 +150,27 @@ describe.skipIf(!RUN || MODE !== 'source')('content sweep: lessons built from ma
     const keys = only?.length ? only : SOURCE_ACTIVITIES;
     const results: Array<Record<string, unknown>> = [];
 
-    for (const sample of SOURCES) {
-      const material = sample.ref
+    // SWEEP_CITY=rome,tokyo: the samples are those cities' own World Flight lessons (first video, first reading).
+    const cityIds = process.env.SWEEP_CITY?.split(',').map((c) => c.trim()).filter(Boolean) ?? [];
+    const { WORLD_DESTINATIONS } = cityIds.length ? await import('@/data/world-flight/destinations') : { WORLD_DESTINATIONS: [] };
+    const citySamples: typeof SOURCES = cityIds.flatMap((id) => {
+      const city = WORLD_DESTINATIONS.find((d) => d.id === id);
+      const picks = [city?.focusOptions.find((f) => f.kind === 'video'), city?.focusOptions.find((f) => f.kind === 'reading')];
+      return picks.filter((f): f is NonNullable<typeof f> => !!f).map((f) => ({ ref: null, material: f.sourceMaterial, difficulty: f.difficulty }));
+    });
+    for (const sample of cityIds.length ? citySamples : SOURCES) {
+      const material = sample.material ?? (sample.ref
         ? getLibrarySourceMaterial(sample.ref as never)
-        : { sourceType: 'text' as const, title: sample.text!.title, summary: sample.text!.text.slice(0, 500), rawText: sample.text!.text, originalText: sample.text!.text };
+        : { sourceType: 'text' as const, title: sample.text!.title, summary: sample.text!.text.slice(0, 500), rawText: sample.text!.text, originalText: sample.text!.text });
       if (!material) { results.push({ key: '(source)', topic: sample.ref?.id, warnings: ['LIBRARY ITEM NOT FOUND'] }); continue; }
-      const transcript = sample.ref ? await fetchSourceTranscript(material).catch(() => undefined) : undefined;
+      const isVideo = !!sample.ref || (!!sample.material && !sample.material.rawText);
+      const transcript = isVideo ? await fetchSourceTranscript(material).catch(() => undefined) : undefined;
       const reference = transcript ? extractPlainText(transcript) : material.rawText ?? material.summary;
       // eslint-disable-next-line no-console
       console.log(`SOURCE ${material.title} · transcript ${transcript ? `${reference.length} chars` : 'NONE (summary only)'}`);
       for (const key of keys) {
-        if (key === 'read-aloud' && sample.ref) continue; // reading aloud is for texts
-        if (key === 'video-player' && !sample.ref) continue;
+        if (key === 'read-aloud' && isVideo) continue; // reading aloud is for texts
+        if (key === 'video-player' && !isVideo) continue;
         ai.calls = 0;
         ai.failures = [];
         const started = Date.now();
@@ -183,7 +193,7 @@ describe.skipIf(!RUN || MODE !== 'source')('content sweep: lessons built from ma
           ? [`REQUEST FAILED: ${error}`]
           : warningsFor(content, material.title, ai.calls, [...ai.failures]).filter((w) => !w.startsWith('may be off-topic'));
         if (!error && content && share < 0.3) warnings.push(`weakly tied to the material: only ${Math.round(share * 100)}% of its words appear there`);
-        if (!transcript && sample.ref) warnings.push('no transcript stored for this video: built from the summary only');
+        if (!transcript && isVideo) warnings.push('no transcript stored for this video: built from the summary only');
         results.push({ key, topic: material.title, difficulty: sample.difficulty, ms: Date.now() - started, aiCalls: ai.calls, grounding: Math.round(share * 100), warnings, content });
         // eslint-disable-next-line no-console
         console.log(`${warnings.length ? 'WARN' : ' ok '} ${key} · ${material.title.slice(0, 22)} · tied ${Math.round(share * 100)}%${warnings.length ? ' · ' + warnings.join(' | ') : ''}`);
