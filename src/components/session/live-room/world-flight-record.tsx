@@ -11,8 +11,9 @@ export interface WorldFlightRecordData {
   stamps: Array<{ destinationId: string; city: string; at: string | null }>;
   flights: Array<{ destinationId: string; city: string; from: string | null; lesson: string | null; flew: boolean; km: number; at: string | null }>;
   investigations: Array<{ id: string; title: string; question: string; found: number; total: number; designDone: boolean; clues: Array<{ label: string; done: boolean; where: string | null }> }>;
-  expedition: { title: string; question: string; done: number; needed: number; remaining: string[] } | null;
-  hangar: { flightHours: number; crewStars: number; planeTier: number; planeKey: string; planeSelectionRequired: boolean; rangeKm: number; upgradeState: WorldFlightUpgradeState };
+  expedition: { runId: string; expeditionId: string; paused: boolean; title: string; question: string; done: number; needed: number; remaining: string[] } | null;
+  expeditions: Array<{ id: string; title: string; subtitle: string; lessons: string; needed: number; stops: string[] }>;
+  hangar: { planeChoices: string[]; flightHours: number; crewStars: number; planeTier: number; planeKey: string; planeSelectionRequired: boolean; rangeKm: number; upgradeState: WorldFlightUpgradeState };
   landing: { city: string; moves: boolean; newCity: boolean; lesson: string | null; everyoneAboard: boolean; strongLanding: boolean; stars: number; after: WorldFlightUpgradeState; hoursAfter: number; starsAfter: number } | null;
 }
 
@@ -37,9 +38,34 @@ const day = (at: string | null) => (at ? new Date(at).toLocaleDateString(undefin
 /**
  * Passport and Hangar, inside the class. Safe on the shared screen: it shows the class's journey, never a student.
  */
-export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'passport', onClose }: { sessionId: string; className: string; initialTab?: 'passport' | 'hangar'; onClose: () => void }) {
+export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'passport', canLaunch, onStartDesignMission, onPlaneVote, onClose }: {
+  sessionId: string;
+  className: string;
+  initialTab?: 'passport' | 'hangar';
+  /** False while a flight plan is running: a Design mission cannot be started on top of it. */
+  canLaunch: boolean;
+  onStartDesignMission: (investigationId: string) => void;
+  /** Open a class vote on the planes on offer. */
+  onPlaneVote: (planes: string[]) => void;
+  onClose: () => void;
+}) {
   const [tab, setTab] = useState<'passport' | 'hangar'>(initialTab);
-  const { data, failed } = useWorldFlightRecord(sessionId, 0);
+  const [refresh, setRefresh] = useState(0);
+  const { data, failed } = useWorldFlightRecord(sessionId, refresh);
+  const [choosing, setChoosing] = useState(false);
+  const [busy, setBusy] = useState(false);
+  // Start, pause, resume or leave an expedition. Starting a new one ends the one in progress, so that asks first.
+  const [confirmStart, setConfirmStart] = useState<string | null>(null);
+  const expeditionAction = async (action: 'activate' | 'pause' | 'resume' | 'leave', expeditionId: string, runId?: string) => {
+    if (!data || busy) return;
+    setBusy(true);
+    try {
+      await fetch('/api/world-flight/expeditions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ classId: data.classId, action, expeditionId, ...(runId ? { runId } : {}) }) });
+      setChoosing(false);
+      setConfirmStart(null);
+      setRefresh((n) => n + 1);
+    } finally { setBusy(false); }
+  };
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
@@ -81,12 +107,45 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
 
               {data.expedition && (
                 <section className="rounded-2xl border border-emerald-300/25 bg-emerald-400/[0.05] p-4">
-                  <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-emerald-200"><Compass className="h-4 w-4" />Expedition · {data.expedition.done} of {data.expedition.needed} stops</p>
+                  <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-emerald-200"><Compass className="h-4 w-4" />Expedition{data.expedition.paused ? ' (paused)' : ''} · {data.expedition.done} of {data.expedition.needed} stops</p>
                   <p className="mt-1 font-display text-xl">{data.expedition.title}</p>
                   <p className="text-sm text-white/65">{data.expedition.question}</p>
                   {data.expedition.remaining.length > 0 && data.expedition.done < data.expedition.needed && (
                     <p className="mt-2 text-sm text-white/65">Still to visit: {data.expedition.remaining.join(', ')}.</p>
                   )}
+                  <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                    <button type="button" disabled={busy} onClick={() => void expeditionAction(data.expedition!.paused ? 'resume' : 'pause', data.expedition!.expeditionId, data.expedition!.runId)} className="rounded-full border border-white/20 px-3 py-1 text-white/80 hover:text-white disabled:opacity-50">{data.expedition.paused ? 'Resume' : 'Pause'}</button>
+                    <button type="button" disabled={busy} onClick={() => setChoosing((v) => !v)} className="rounded-full border border-white/20 px-3 py-1 text-white/80 hover:text-white disabled:opacity-50">Change expedition</button>
+                  </div>
+                </section>
+              )}
+              {!data.expedition && !choosing && (
+                <button type="button" onClick={() => setChoosing(true)} className="flex w-full items-center gap-3 rounded-2xl border border-dashed border-emerald-300/30 px-4 py-3 text-left text-sm text-emerald-100 hover:bg-emerald-400/[0.05]">
+                  <Compass className="h-5 w-5 shrink-0" />
+                  <span><span className="block font-semibold">Start an expedition</span><span className="block text-white/55">A themed route across several cities with one big question. Visiting its cities counts, whatever you teach there.</span></span>
+                </button>
+              )}
+              {choosing && (
+                <section>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Choose an expedition</p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    {data.expeditions.filter((e) => e.id !== data.expedition?.expeditionId).map((e) => (
+                      <div key={e.id} className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+                        <p className="font-semibold">{e.title}</p>
+                        <p className="text-xs text-white/55">{e.subtitle}</p>
+                        <p className="mt-1 text-xs text-white/45">Visit {e.needed} of: {e.stops.join(', ')}. {e.lessons}.</p>
+                        {confirmStart === e.id ? (
+                          <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-amber-100">
+                            This ends the current expedition.
+                            <button type="button" disabled={busy} onClick={() => void expeditionAction('activate', e.id)} className="rounded-full bg-amber-300 px-3 py-1 font-semibold text-slate-950 disabled:opacity-50">Start it</button>
+                            <button type="button" onClick={() => setConfirmStart(null)} className="text-white/60 hover:text-white">Keep the current one</button>
+                          </p>
+                        ) : (
+                          <button type="button" disabled={busy} onClick={() => (data.expedition ? setConfirmStart(e.id) : void expeditionAction('activate', e.id))} className="mt-2 rounded-full border border-emerald-300/40 px-3 py-1 text-xs text-emerald-100 hover:bg-emerald-400/10 disabled:opacity-50">Start this expedition</button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </section>
               )}
 
@@ -109,7 +168,12 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
                       </ul>
                       {inv.designDone
                         ? <p className="mt-2 text-xs text-emerald-200">Design mission complete.</p>
-                        : inv.found >= inv.total && <p className="mt-2 text-xs text-amber-200">All clues found: the Design mission is unlocked.</p>}
+                        : inv.found >= inv.total && (
+                          <div className="mt-2">
+                            <p className="text-xs text-amber-200">All clues found: the Design mission is unlocked.</p>
+                            <button type="button" disabled={!canLaunch} onClick={() => onStartDesignMission(inv.id)} title={canLaunch ? 'The class designs something from the evidence it collected' : 'Finish the flight plan that is running first'} className="mt-1.5 rounded-full bg-amber-300 px-3 py-1 text-xs font-semibold text-slate-950 disabled:opacity-40">Start the Design mission</button>
+                          </div>
+                        )}
                     </div>
                   ))}
                 </div>
@@ -145,6 +209,13 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
               <p className="text-sm text-white/55">
                 Every finished lesson earns 1 flight hour and up to 2 stars: <span className="text-white/80">Everyone Aboard</span> (most of the class took part) and <span className="text-white/80">Strong Landing</span> (most answers right, or most of the class on task). The class keeps flying its current plane until it chooses a new one.
               </p>
+              {data.hangar.planeChoices.length > 1 && (
+                <p className="flex flex-wrap items-center gap-2 rounded-xl border border-amber-300/30 bg-amber-300/[0.06] px-3 py-2 text-sm text-amber-100">
+                  A new plane is ready: {data.hangar.planeChoices.join(', ')}.
+                  <button type="button" onClick={() => onPlaneVote(data.hangar.planeChoices)} className="rounded-full bg-amber-300 px-3 py-1 text-xs font-semibold text-slate-950">Let the class vote</button>
+                  <span className="text-xs text-amber-100/70">Then pick the winner below.</span>
+                </p>
+              )}
               <div className="-mx-5 theme-Midnight">
                 <WorldFlightUpgradeProgress
                   reward={{ ...data.hangar, flightHoursAwarded: 0, crewStarsAwarded: 0, alreadyRecorded: true, snapshot: { participantCount: 0, meaningfulParticipantCount: 0, meaningfulParticipationRate: 0, accuracyAttemptCount: 0, accuracyRate: null, onTaskParticipantCount: 0, onTaskParticipationRate: 0, everyoneAboardEarned: false, strongLandingEarned: false } } as unknown as WorldFlightProgressionRewardResult}

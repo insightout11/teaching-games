@@ -4,10 +4,10 @@ import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { createServiceClient } from '@/lib/supabase/service';
 import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { deriveWorldFlightInvestigationProgress, type CompletedWorldFlightEvidence } from '@/lib/world-flight/investigations';
-import { deriveWorldFlightExpeditionProgress, getWorldFlightExpedition } from '@/lib/world-flight/expeditions';
+import { deriveWorldFlightExpeditionProgress, getWorldFlightExpedition, WORLD_FLIGHT_EXPEDITIONS } from '@/lib/world-flight/expeditions';
 import { NO_CITY_LESSON_FOCUS_ID } from '@/lib/world-flight/journey';
 import { calculateWorldFlightReward, getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
-import { DEFAULT_PLANE_KEY } from '@/lib/plane-progression';
+import { DEFAULT_PLANE_KEY, getPlaneTier } from '@/lib/plane-progression';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,7 +32,7 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     service.from('class_world_flight_state').select('current_destination_id, plane_tier, plane_key, plane_selection_required, range_km, flight_hours, crew_stars').eq('class_id', classId).maybeSingle(),
     service.from('class_world_flight_legs').select('session_id, origin_destination_id, destination_id, focus_id, distance_km, completed_at, evidence_snapshot, status, moves_class').eq('class_id', classId).in('status', ['completed', 'taught', 'planned']).order('completed_at', { ascending: true }).limit(400),
     service.from('class_world_flight_design_missions').select('investigation_id, completed_at').eq('class_id', classId).eq('status', 'completed'),
-    service.from('class_world_flight_expedition_runs').select('expedition_id, visited_destination_ids').eq('class_id', classId).eq('status', 'active').maybeSingle(),
+    service.from('class_world_flight_expedition_runs').select('id, expedition_id, status, visited_destination_ids').eq('class_id', classId).in('status', ['active', 'paused']).order('activated_at', { ascending: false }).limit(1).maybeSingle(),
     service.from('session_participants').select('client_id, student_id').eq('session_id', params.sessionId),
     service.from('scores').select('client_id, student_id, outcome, accuracy_status, counts_for_accuracy, counts_for_leaderboard, response_data').eq('session_id', params.sessionId),
     service.from('students').select('id', { count: 'exact', head: true }).eq('class_id', classId),
@@ -68,10 +68,13 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     clues: inv.requirements.map((r) => ({ label: r.label, done: r.complete, where: r.evidence ? `${r.evidence.city}: ${r.evidence.focusTitle}` : null })),
   }));
 
-  const expeditionRow = run as { expedition_id: string; visited_destination_ids: string[] | null } | null;
+  const expeditionRow = run as { id: string; expedition_id: string; status: string; visited_destination_ids: string[] | null } | null;
   const expeditionDef = expeditionRow ? getWorldFlightExpedition(expeditionRow.expedition_id) : null;
   const expeditionProgress = expeditionDef ? deriveWorldFlightExpeditionProgress(expeditionDef, expeditionRow?.visited_destination_ids ?? []) : null;
-  const expedition = expeditionDef && expeditionProgress ? {
+  const expedition = expeditionDef && expeditionProgress && expeditionRow ? {
+    runId: expeditionRow.id,
+    expeditionId: expeditionDef.id,
+    paused: expeditionRow.status === 'paused',
     title: expeditionDef.title,
     question: expeditionDef.centralQuestion,
     done: expeditionProgress.completedStopCount,
@@ -79,18 +82,32 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     remaining: expeditionProgress.remainingDestinationIds.map((id) => getDestinationById(id)?.city ?? id),
   } : null;
 
+  // Every expedition the class could start, with how many of its stops it has already stamped.
+  const expeditions = WORLD_FLIGHT_EXPEDITIONS.map((e) => ({
+    id: e.id,
+    title: e.title,
+    subtitle: e.subtitle,
+    lessons: e.estimatedLessons,
+    needed: e.requiredStopCount,
+    stops: e.stops.map((stop) => getDestinationById(stop.destinationId)?.city ?? stop.destinationId),
+  }));
+
   const flightHours = state?.flight_hours ?? 0;
   const crewStars = state?.crew_stars ?? 0;
   const planeTier = state?.plane_tier ?? 0;
   const rangeKm = state?.range_km ?? STARTER_PLANE_RANGE_KM;
+  const upgradeNow = getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours, crewStars });
+  // The planes the class may choose between right now (an upgrade is ready, or a choice is still waiting).
+  const choiceTier = state?.plane_selection_required ? planeTier : upgradeNow.claimableTier;
   const hangar = {
+    planeChoices: choiceTier !== null && choiceTier !== undefined ? getPlaneTier(choiceTier).choices.map((plane) => plane.name) : [],
     flightHours,
     crewStars,
     planeTier,
     planeKey: state?.plane_key ?? DEFAULT_PLANE_KEY,
     planeSelectionRequired: state?.plane_selection_required ?? false,
     rangeKm,
-    upgradeState: getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours, crewStars }),
+    upgradeState: upgradeNow,
   };
 
   // This lesson so far. Only a lesson with a flight record earns (it took off, or it is a city lesson taught from here).
@@ -122,5 +139,5 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     starsAfter: crewStars + (alreadySaved ? 0 : reward.crewStarsAwarded),
   } : null;
 
-  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, hangar, landing });
+  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, expeditions, hangar, landing });
 }

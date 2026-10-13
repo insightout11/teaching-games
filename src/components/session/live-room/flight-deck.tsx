@@ -13,6 +13,9 @@ import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
 import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
+import { FLIGHT_PLAN_PRESETS } from '@/lib/flight-plan-presets';
+import { buildRoomFlightPlan } from '@/lib/live-room/room-flight-plan';
+import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investigations';
 import { LandingRewards, useWorldFlightRecord, WorldFlightRecordPanel } from '@/components/session/live-room/world-flight-record';
 import { findPlanCity } from '@/lib/live-room/plan-city';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
@@ -321,22 +324,30 @@ export function FlightDeck({
 
   // "Where should we fly next, and why?": a poll of up to four cities in range
   // (the picked one first). The Poll widget's "Fly to …" sets the winner.
+  const startPoll = async (question: string, options: string[], metadata: Record<string, unknown>, opened: string) => {
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { error } = await supabase.from('polls').insert({ session_id: sessionId, question, options, is_active: true, metadata });
+    if (error) { flash('Could not start the vote.'); return; }
+    openTool('poll', window.innerWidth / 2, window.innerHeight / 2);
+    flash(opened);
+  };
   const startCityPoll = async () => {
     // Every city in range is a choice (nearest first reads naturally as a list).
     const options = Array.from(new Set(reachable.map((c) => c.city)));
     if (options.length < 2) { flash('Only one city is in range right now.'); return; }
-    const supabase = createClient();
-    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
-    const { error } = await supabase.from('polls').insert({
-      session_id: sessionId,
-      question: 'Where should we fly next, and why?',
-      options,
-      is_active: true,
-      metadata: { askWhy: true, purpose: 'next-city' },
-    });
-    if (error) { flash('Could not start the vote.'); return; }
-    openTool('poll', window.innerWidth / 2, window.innerHeight / 2);
-    flash('Vote open on phones: where next, and why?');
+    await startPoll('Where should we fly next, and why?', options, { askWhy: true, purpose: 'next-city' }, 'Vote open on phones: where next, and why?');
+  };
+  // After landing: where to next time? The cities in range of where the class has just landed.
+  const nextReachable = useMemo<RouteCity[]>(() => {
+    const here = SCENE_CITIES.find((c) => c.id === destination.id);
+    if (!here) return [];
+    return destinationsWithinRange(here, SCENE_CITIES, position?.rangeKm ?? STARTER_PLANE_RANGE_KM).map((r) => toRouteCity(r.destination)).slice(0, 8);
+  }, [destination.id, position]);
+  const startNextCityPoll = async () => {
+    const options = Array.from(new Set(nextReachable.map((c) => c.city)));
+    if (options.length < 2) { flash('Only one city is in range from here.'); return; }
+    await startPoll('Where should we fly next time, and why?', options, { askWhy: true, purpose: 'next-city' }, 'Vote open on phones: where next time?');
   };
 
   // One journey: the flight plan rides on the room's flight. Leaving the first stage at the gate is
@@ -395,6 +406,23 @@ export function FlightDeck({
   };
   // What this lesson has earned, for the landing card (fetched once the plane is down).
   const { data: landingRecord } = useWorldFlightRecord(sessionId, landed ? 'landed' : 'flying');
+  const classKey = landingRecord?.classId ?? null;
+  // The Design mission, started from the Passport: the class designs from the evidence it collected. It runs where
+  // the class is (no take-off), like a city lesson taught from here.
+  const startDesignMission = async (investigationId: string) => {
+    setRecordTab(null);
+    const preset = FLIGHT_PLAN_PRESETS.find((candidate) => candidate.id === 'design-studio-60');
+    try {
+      const res = await fetch(`/api/session/${encodeURIComponent(sessionId)}/design-mission`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ investigationId }) });
+      const data = await res.json().catch(() => null) as { mission?: WorldFlightDesignMissionContext; content?: Record<string, unknown>; error?: string } | null;
+      if (!res.ok || !data?.mission || !data.content || !preset) { flash(data?.error ?? 'Could not start the Design mission.'); return; }
+      const plan = buildRoomFlightPlan({ preset, topic: data.mission.designMissionTitle, difficulty });
+      setStayHome('design-mission');
+      recordActivity(`Design mission: ${data.mission.designMissionTitle}`);
+      flash(`Design mission: ${data.mission.designMissionTitle}`);
+      onLaunchPlan({ ...plan, worldFlightDesignMissionContext: data.mission, generatedContent: { ...plan.generatedContent, 'design-studio': data.content } } as unknown as LessonPlanPayload);
+    } catch { flash('Could not start the Design mission.'); }
+  };
   const stayHomeCity = stayHome ? SCENE_CITIES.find((c) => c.id === stayHome) ?? null : null;
   const visitedIds = useMemo(() => new Set((position?.journey ?? []).flatMap((l) => (l.from ? [l.from, l.to] : [l.to]))), [position]);
   // The city whose lessons the map card shows: a far city if one is picked, otherwise today's destination.
@@ -1087,11 +1115,26 @@ export function FlightDeck({
   const setFlyTo = useFocusBus((s) => s.setFlyTo);
   useEffect(() => {
     setFlyTo((city: string) => {
+      if (landed) {
+        const next = nextReachable.find((r) => r.city === city);
+        if (!next) return;
+        try { if (classKey) localStorage.setItem(`lc-next-city-${classKey}`, next.id); } catch { /* storage blocked */ }
+        flash(`Saved: next time we fly to ${next.city}`);
+        return;
+      }
       const c = reachable.find((r) => r.city === city);
       if (c) { setChosenId(c.id); flash(`The class chose ${c.city}!`); }
     });
     return () => setFlyTo(null);
-  }, [reachable, setFlyTo, flash]);
+  }, [reachable, nextReachable, landed, classKey, setFlyTo, flash]);
+  // The city the class voted for last lesson is today's default (when it is still in range).
+  useEffect(() => {
+    if (!classKey || chosenId || flightStage !== 'gate') return;
+    try {
+      const saved = localStorage.getItem(`lc-next-city-${classKey}`);
+      if (saved && reachable.some((c) => c.id === saved)) { setChosenId(saved); localStorage.removeItem(`lc-next-city-${classKey}`); }
+    } catch { /* storage blocked */ }
+  }, [classKey, reachable]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const openTool = (id: string, x: number, y: number) => {
     setWidgetPosition(id, { x: Math.max(8, Math.min(window.innerWidth - 340, x - 160)), y: Math.max(8, y - 420) });
@@ -1296,6 +1339,9 @@ export function FlightDeck({
                 Let the class vote
               </button>
             </label>
+          )}
+          {flightStage === 'gate' && stayHome === 'design-mission' && (
+            <p className="text-sm text-amber-100">Design mission. The class stays in {origin.city}.</p>
           )}
           {flightStage === 'gate' && stayHomeCity && (
             <p className="text-sm text-amber-100">City lesson: {stayHomeCity.city}. The class stays in {origin.city}.</p>
@@ -1664,7 +1710,17 @@ export function FlightDeck({
           }}
         />
       )}
-      {recordTab && <WorldFlightRecordPanel sessionId={sessionId} className={className} initialTab={recordTab} onClose={() => setRecordTab(null)} />}
+      {recordTab && (
+        <WorldFlightRecordPanel
+          sessionId={sessionId}
+          className={className}
+          initialTab={recordTab}
+          canLaunch={!flightPlan && flightStage === 'gate' && !stayHome}
+          onStartDesignMission={(id) => void startDesignMission(id)}
+          onPlaneVote={(planes) => { setRecordTab(null); void startPoll('Which plane should we fly next?', planes, { purpose: 'plane-choice' }, 'Vote open on phones: choose our plane'); }}
+          onClose={() => setRecordTab(null)}
+        />
+      )}
       {cityLesson && (
         <FlightPlanPanel
           sessionId={sessionId}
@@ -1780,6 +1836,8 @@ export function FlightDeck({
             <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} />}
             <div className="mt-4 flex flex-wrap justify-end gap-2">
+              {nextReachable.length > 1 && <button type="button" onClick={() => void startNextCityPoll()} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Vote: where next?</button>}
+              {landingRecord?.landing?.after.claimableTier != null && <button type="button" onClick={() => setRecordTab('hangar')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Hangar</button>}
               <button type="button" onClick={() => setRecordTab('passport')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Passport</button>
               <button type="button" onClick={() => setHall(true)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Arrivals hall</button>
               <button type="button" onClick={() => onCompleteSession(destination.id)} className="rounded-full bg-[#1b2233] px-4 py-1.5 text-sm text-[#f4efe3] hover:bg-[#1b2233]/85">End class</button>
