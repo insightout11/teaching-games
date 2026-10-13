@@ -38,11 +38,11 @@
           "end": 55,
           "question": "What does the speaker say Bangkok keeps?",
           "options": [
-            "Its traditions",
             "Its old traffic rules",
-            "Its low buildings"
+            "Its low buildings",
+            "Its traditions"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "we're very developed at the same time\nbut we really keep with tradition we do"
         },
         {
@@ -50,11 +50,11 @@
           "end": 113,
           "question": "What does she put on her dish?",
           "options": [
-            "Chilli",
             "Sugar",
+            "Chilli",
             "Salt"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "on top put a little bit of sugar on top\nand then this is diksha which is a"
         },
         {
@@ -63,10 +63,10 @@
           "question": "What does one shop on this street sell?",
           "options": [
             "Fish with potatoes",
-            "Chicken with bread",
-            "Pork leg with rice"
+            "Pork leg with rice",
+            "Chicken with bread"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "sells pork leg on rice and then there's\nanother shop that sells like fish noodle"
         }
       ],
@@ -74,20 +74,20 @@
         {
           "q": "Which two sides of Bangkok does she bring together?",
           "options": [
-            "Modern creativity and old traditions",
             "Quiet suburbs and busy factories",
+            "Modern creativity and old traditions",
             "New airports and old railways"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How does she show her connection to the city?",
           "options": [
-            "By interviewing foreign tourists",
             "By returning to familiar food places",
+            "By interviewing foreign tourists",
             "By visiting only new museums"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What kind of businesses does she describe on the street?",
@@ -102,11 +102,11 @@
       "harder": {
         "q": "Why might this street matter to her beyond its food?",
         "options": [
-          "It connects her with childhood and local habits",
           "It is the cheapest place to rent a studio",
+          "It connects her with childhood and local habits",
           "It is the only street open after midnight"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -208,11 +208,11 @@
           "end": 71,
           "question": "What do direct railway connections reduce?",
           "options": [
-            "Crowding and transfers",
             "Ticket checks and fines",
-            "Train speed and noise"
+            "Train speed and noise",
+            "Crowding and transfers"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "with city subway tracks,\nwhich reduces congestion\nand unnecessary transfers.\n- If you just ride the train all the way\nout to your final destination,\nyou don't have to be paying attention"
         },
         {
@@ -220,11 +220,11 @@
           "end": 88,
           "question": "How many people travel into Tokyo each day?",
           "options": [
-            "1.4 million",
             "2.4 million",
+            "1.4 million",
             "4.2 million"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "- [Narrator] These easy commutes are key\nfor the 2.4 million people\ntraveling into Tokyo daily\nfrom outside the city.\nOn top of that, Tokyo Wides\nonly need one of two cards"
         },
         {
@@ -233,10 +233,10 @@
           "question": "Why are some New York rail systems separate?",
           "options": [
             "They use different track colours",
-            "They open in different seasons",
-            "Different authorities oversee them"
+            "Different authorities oversee them",
+            "They open in different seasons"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "of different jurisdictions\nthat oversee transit.\nThe subway, for example,\nis owned by the city\nand leased to the Metropolitan\nTransportation Authority,"
         }
       ],
@@ -244,39 +244,39 @@
         {
           "q": "What comparison drives this explanation?",
           "options": [
-            "How Tokyo and New York connect their trains",
             "How Tokyo and New York build airports",
+            "How Tokyo and New York connect their trains",
             "How Tokyo and New York rent bicycles"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Which benefit of Tokyo travel is highlighted?",
           "options": [
             "More seats on every train",
-            "Fewer changes between trains",
-            "Free travel for all commuters"
+            "Free travel for all commuters",
+            "Fewer changes between trains"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What makes paying in New York more complicated?",
           "options": [
+            "Separate systems use different tickets",
             "Tickets can only be bought at home",
-            "Each station uses a different currency",
-            "Separate systems use different tickets"
+            "Each station uses a different currency"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "How could connected tracks make a journey less stressful?",
         "options": [
           "Riders never need to know their destination",
-          "Riders can choose any train without checking its route",
-          "Riders can stay on a train instead of watching for a transfer"
+          "Riders can stay on a train instead of watching for a transfer",
+          "Riders can choose any train without checking its route"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -344,11 +344,11 @@
           "end": 37,
           "question": "What breakfast item does he try?",
           "options": [
-            "Banana",
             "Apple",
+            "Banana",
             "Orange"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "fueled on stuff from them let's begin\nwith breakfast they have premium banana\nlow sugar"
         },
         {
@@ -357,10 +357,10 @@
           "question": "What hot food does this machine sell?",
           "options": [
             "Fried noodles",
-            "Oden stew",
-            "Rice porridge"
+            "Rice porridge",
+            "Oden stew"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "noodle this machine sells Oden a Savory\nstew fish balls or beef tendon fishball"
         },
         {
@@ -368,11 +368,11 @@
           "end": 134,
           "question": "How many vending machines does the report say Japan has?",
           "options": [
+            "Five million",
             "Three million",
-            "Seven million",
-            "Five million"
+            "Seven million"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "there are 5 million vending machines in\nJapan according to the latest figures\nfrom the manufacturers Association"
         }
       ],
@@ -380,11 +380,11 @@
         {
           "q": "What range of products is shown here?",
           "options": [
-            "Drinks and food for different times of day",
             "Only cold drinks for summer",
-            "Only fresh food for breakfast"
+            "Only fresh food for breakfast",
+            "Drinks and food for different times of day"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What makes the machines convenient?",
@@ -398,21 +398,21 @@
         {
           "q": "What does the factory explanation emphasise?",
           "options": [
+            "Similar interiors help production efficiency",
             "Every machine has a completely different design",
-            "Machines are built only for one drink company",
-            "Similar interiors help production efficiency"
+            "Machines are built only for one drink company"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why could a hot can of stew appeal in winter?",
         "options": [
-          "It provides warm food without waiting for a shop to open",
           "It costs less than every other meal in Japan",
+          "It provides warm food without waiting for a shop to open",
           "It has to be eaten inside the factory"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -513,11 +513,11 @@
           "end": 80,
           "question": "What extra benefit do platform doors provide?",
           "options": [
-            "Less noise and better air",
             "More seats and cheaper fares",
+            "Less noise and better air",
             "Faster trains and longer routes"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "life-threatening accidents while\nreducing noise and improving air\nquality by monitoring inside of every"
         },
         {
@@ -526,10 +526,10 @@
           "question": "What places does the operator keep clean?",
           "options": [
             "Airports, shops and taxis",
-            "Tunnels, stations and trains",
-            "Roads, parks and buses"
+            "Roads, parks and buses",
+            "Tunnels, stations and trains"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "Network we maintain tunnels stations and\ntrains clean and offer customer service"
         },
         {
@@ -537,11 +537,11 @@
           "end": 157,
           "question": "Who are the barrier-free stations designed to help?",
           "options": [
+            "People who need easier access",
             "Only people with monthly tickets",
-            "Only people travelling at night",
-            "People who need easier access"
+            "Only people travelling at night"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "stations are available for disabled\npeople senior citizens pregnant women"
         }
       ],
@@ -577,11 +577,11 @@
       "harder": {
         "q": "Why discuss both cameras and barrier-free stations?",
         "options": [
+          "Good service includes safe equipment and access for different passengers",
           "The operator wants to replace all drivers with cameras",
-          "Every passenger must use a special platform door",
-          "Good service includes safe equipment and access for different passengers"
+          "Every passenger must use a special platform door"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -661,10 +661,10 @@
           "question": "How often does the ceremony happen?",
           "options": [
             "Twice a day",
-            "Three times a day",
-            "Once a day"
+            "Once a day",
+            "Three times a day"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "it's a special ceremony that happens\nthree times a day and it's about 20\nminutes long the guards wear brilliant"
         },
         {
@@ -673,10 +673,10 @@
           "question": "How long could you spend walking around?",
           "options": [
             "At least three hours",
-            "At least five hours",
-            "At least an hour"
+            "At least an hour",
+            "At least five hours"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "life you could spend at least an hour\nstrolling Around The Pavilions halls and"
         }
       ],
@@ -684,20 +684,20 @@
         {
           "q": "What is the visitor recommending?",
           "options": [
-            "A visit to the palace grounds",
             "A visit to a shopping street",
+            "A visit to the palace grounds",
             "A visit to a train station"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Which live event can visitors watch?",
           "options": [
-            "A football match",
             "The changing of the guard",
+            "A football match",
             "A cooking competition"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What else is inside the palace grounds?",
@@ -813,11 +813,11 @@
           "end": 46,
           "question": "What facilities do the new towns include?",
           "options": [
-            "Schools, shops and hospitals",
             "Harbours, farms and airports",
-            "Factories, prisons and mines"
+            "Factories, prisons and mines",
+            "Schools, shops and hospitals"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "estates are self-sustaining entities\nwith parks schools shopping centers gyms\nand hospitals people only really need to\nleave for work and when they do they're"
         },
         {
@@ -837,11 +837,11 @@
           "end": 139,
           "question": "What share of the population could the earlier housing serve?",
           "options": [
+            "Nine percent",
             "Nineteen percent",
-            "Ninety percent",
-            "Nine percent"
+            "Ninety percent"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "only nine percent of the total\npopulation\nand in 1959 when singapore gained\nself-governance the sit which turned out"
         }
       ],
@@ -849,20 +849,20 @@
         {
           "q": "What feature makes these neighbourhoods self-sustaining?",
           "options": [
-            "Many daily services are close to home",
             "Every resident works inside one building",
+            "Many daily services are close to home",
             "Residents must travel out for all shopping"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How are residents connected to the wider city?",
           "options": [
-            "By roads with no public transport",
             "By nearby rail transport",
+            "By roads with no public transport",
             "By privately owned boats"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What problem faced the early housing programme?",
@@ -877,11 +877,11 @@
       "harder": {
         "q": "Why could nearby schools and shops reduce car use?",
         "options": [
+          "People can meet many daily needs without a long journey",
           "People are forbidden to own cars",
-          "All residents have exactly the same daily routine",
-          "People can meet many daily needs without a long journey"
+          "All residents have exactly the same daily routine"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -963,10 +963,10 @@
           "question": "How does the customer describe hawker food?",
           "options": [
             "Imported",
-            "Authentic",
-            "Expensive"
+            "Expensive",
+            "Authentic"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "very authentic food.\nYeah. Unlike those restaurants, you can\nget anywhere.\nYeah."
         },
         {
@@ -975,10 +975,10 @@
           "question": "What might be lost when a good hawker stops?",
           "options": [
             "The name of the food centre",
-            "The number of nearby buses",
-            "The skill of cooking that dish"
+            "The skill of cooking that dish",
+            "The number of nearby buses"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "that cooks this dish very well.\nUh so if they if they give up, you know,\nthen that art is lost, right?\nUh yeah, so there must be some way of\nAnd then the children maybe don't want"
         }
       ],
@@ -1014,11 +1014,11 @@
       "harder": {
         "q": "Why is keeping a stall open more than keeping a building open?",
         "options": [
-          "Its cook may have a skill that cannot easily be replaced",
           "Every stall has the same cook",
-          "The building decides how the food tastes"
+          "The building decides how the food tastes",
+          "Its cook may have a skill that cannot easily be replaced"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -1302,11 +1302,11 @@
           "end": 37,
           "question": "What helped Lutetia become wealthy?",
           "options": [
-            "Bridges and a protected trading position",
             "Gold mines and mountain roads",
+            "Bridges and a protected trading position",
             "Fishing boats and coastal ports"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "to its bridges and fortified position\nalong critical trade routes. Its"
         },
         {
@@ -1315,10 +1315,10 @@
           "question": "What did people build after retreating to the island?",
           "options": [
             "Universities",
-            "Walls",
-            "Palaces"
+            "Palaces",
+            "Walls"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "retreat to the island on the Seine,\nwhere they built walls, the first true\ncity of Paris. By 305 AD, milestones"
         },
         {
@@ -1326,11 +1326,11 @@
           "end": 147,
           "question": "How long did Notre Dame take to complete?",
           "options": [
+            "Two hundred years",
             "One hundred years",
-            "Three hundred years",
-            "Two hundred years"
+            "Three hundred years"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "would take 200 years to complete. During\nthis golden medieval age, the Left Bank"
         }
       ],
@@ -1338,11 +1338,11 @@
         {
           "q": "How is early Paris presented in this section?",
           "options": [
-            "A settlement shaped by trade, conquest and defence",
             "A holiday resort built around beaches",
-            "A planned city built in one year"
+            "A planned city built in one year",
+            "A settlement shaped by trade, conquest and defence"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What effect did Roman rule have on the city?",
@@ -1356,21 +1356,21 @@
         {
           "q": "What later role did the Left Bank develop?",
           "options": [
+            "A centre of learning",
             "A centre of shipbuilding",
-            "A centre of mining",
-            "A centre of learning"
+            "A centre of mining"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why might an island become a refuge during raids?",
         "options": [
+          "Water and walls could make it easier to defend",
           "An island automatically provides more farmland",
-          "Attackers were unable to use any boats",
-          "Water and walls could make it easier to defend"
+          "Attackers were unable to use any boats"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -1437,11 +1437,11 @@
           "end": 39,
           "question": "What freedom does Steve describe at a café?",
           "options": [
-            "Ordering when you want",
             "Cooking what you want",
+            "Ordering when you want",
             "Paying what you want"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Steve: It’s a good tip. It’s a place to\norder what you want, when you want, on your\nown terms, in your own time really. You could\nbe indoors at a restaurant watching the person"
         },
         {
@@ -1450,10 +1450,10 @@
           "question": "What percentage of the bill goes to the waiter?",
           "options": [
             "25 percent",
-            "15 percent",
-            "5 percent"
+            "5 percent",
+            "15 percent"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "Steve: In France the waiter’s tip is included…15%\nof your bill goes to the waiter. You’ve already\npaid him. Tax and tip are included.\nRick: What do you do then?"
         },
         {
@@ -1461,11 +1461,11 @@
           "end": 90,
           "question": "What does Steve say about slow service?",
           "options": [
+            "It is good service",
             "It is unusual service",
-            "It is cheap service",
-            "It is good service"
+            "It is cheap service"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "Steve: Yeah. I hear that all the time. \nIn France, slow service is good service.\nRick: It’s good service!\nSteve: Remember, it’s not about how fast you eat.\nIt’s about how well you eat."
         }
       ],
@@ -1473,11 +1473,11 @@
         {
           "q": "What are Rick and Steve explaining?",
           "options": [
-            "How to enjoy a Paris café",
             "How to rent a Paris apartment",
-            "How to cook a French meal"
+            "How to cook a French meal",
+            "How to enjoy a Paris café"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What makes the café part of local life?",
@@ -1491,21 +1491,21 @@
         {
           "q": "What matters more than eating quickly?",
           "options": [
+            "Eating well",
             "Eating alone",
-            "Eating cheaply",
-            "Eating well"
+            "Eating cheaply"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why might waiting longer feel different to locals and visitors?",
         "options": [
-          "Locals may enjoy taking their time while visitors expect speed",
           "Locals always receive a different menu",
-          "Visitors are not allowed to leave a tip"
+          "Visitors are not allowed to leave a tip",
+          "Locals may enjoy taking their time while visitors expect speed"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -1604,11 +1604,11 @@
           "end": 44,
           "question": "Who meets in the Houses of Parliament?",
           "options": [
-            "The government",
             "The police",
-            "The football team"
+            "The football team",
+            "The government"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "Parliament this is where the government\nmeets one of the best things about"
         },
         {
@@ -1616,11 +1616,11 @@
           "end": 60,
           "question": "What can most visitors not do in these parks?",
           "options": [
-            "Run",
             "Cycle",
+            "Run",
             "Walk"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "the Parks but you can't cycle only the\npolice can do\nthat horses are another good and"
         },
         {
@@ -1629,10 +1629,10 @@
           "question": "What happened soon after the bridge opened?",
           "options": [
             "It changed its name",
-            "It became a road",
-            "It closed for a time"
+            "It closed for a time",
+            "It became a road"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "museum when it opened on the 10th of\nJune the bridge had to be closed closed\nafter just a few days because it was\nmoving too much don't worry it's okay"
         }
       ],
@@ -1640,39 +1640,39 @@
         {
           "q": "What kind of trip is this part of the video showing?",
           "options": [
-            "A tour of London sights",
             "A journey to a seaside hotel",
+            "A tour of London sights",
             "A walk around a small village"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Which outdoor places does the guide recommend?",
           "options": [
             "Mountains where people can ski",
-            "Parks where people can relax",
-            "Farms where people can camp"
+            "Farms where people can camp",
+            "Parks where people can relax"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What problem affected the new bridge?",
           "options": [
+            "It moved too much",
             "It was too short",
-            "It was too dark",
-            "It moved too much"
+            "It was too dark"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why does the guide say the bridge is okay now?",
         "options": [
           "To tell visitors it has never had a problem",
-          "To explain why visitors must stay away",
-          "To reassure visitors after explaining the earlier problem"
+          "To reassure visitors after explaining the earlier problem",
+          "To explain why visitors must stay away"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -1990,11 +1990,11 @@
           "end": 58,
           "question": "How long could the sea journey take?",
           "options": [
-            "One to two weeks",
             "One to two days",
-            "One to two months"
+            "One to two months",
+            "One to two weeks"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "eastern and southern Europe voyages\ncould take one to two weeks\nships divided passengers by wealth and"
         },
         {
@@ -2014,11 +2014,11 @@
           "end": 140,
           "question": "What did doctors watch people do?",
           "options": [
+            "Climb the stairs",
             "Lift their suitcases",
-            "Read their documents",
-            "Climb the stairs"
+            "Read their documents"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "reason doctors stood on the second floor\nand watched each person climb the stairs\nfor signs of health problems a registry\nroom nearly 20,000 square feet with"
         }
       ],
@@ -2036,29 +2036,29 @@
           "q": "How did wealth affect the journey?",
           "options": [
             "Wealthier passengers had longer voyages",
-            "Passengers travelled in different conditions",
-            "All passengers had private cabins"
+            "All passengers had private cabins",
+            "Passengers travelled in different conditions"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "Why did people accept poor travel conditions?",
           "options": [
             "They wanted to work on the ship",
-            "They expected to return immediately",
-            "They hoped for a new life"
+            "They hoped for a new life",
+            "They expected to return immediately"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why put a health check near a staircase?",
         "options": [
           "Stairs made it easier to sort luggage by colour",
-          "Doctors needed to test every passenger for fear of heights",
-          "Climbing could reveal difficulties that were less visible at rest"
+          "Climbing could reveal difficulties that were less visible at rest",
+          "Doctors needed to test every passenger for fear of heights"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -2158,11 +2158,11 @@
           "end": 62,
           "question": "At least how many tickets were issued last year?",
           "options": [
-            "Twenty-six thousand",
             "Sixteen thousand",
+            "Twenty-six thousand",
             "Thirty-six thousand"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "tickets vendors get tickets every day\ntwenty six thousand tickets actually\nmore than that but at least twenty-six\nthousand tickets last year and it's not"
         },
         {
@@ -2170,11 +2170,11 @@
           "end": 113,
           "question": "Why does the project organise vendors?",
           "options": [
-            "To move them all into shopping malls",
             "To give them more power over policies",
+            "To move them all into shopping malls",
             "To train them as police officers"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "street vendors we try to get them\norganized so we'll have a more power and\nthey'll be able to affect some of the\npolicies that directly affect them here\nin New York and we also provide other"
         },
         {
@@ -2204,29 +2204,29 @@
           "q": "What kind of rule-breaking gets vendors tickets?",
           "options": [
             "Only refusing to pay rent",
-            "Small violations such as standing too close to a crossing",
-            "Only selling goods stolen from shops"
+            "Only selling goods stolen from shops",
+            "Small violations such as standing too close to a crossing"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How does the project support vendors?",
           "options": [
             "Buying all their stalls",
-            "Replacing them with delivery workers",
-            "Organising them and offering services"
+            "Organising them and offering services",
+            "Replacing them with delivery workers"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why work on attitudes as well as written laws?",
         "options": [
-          "Vendors can choose which laws apply to them",
           "Treatment can depend on how decision-makers see vendors",
+          "Vendors can choose which laws apply to them",
           "Written laws never affect street sellers"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -2307,10 +2307,10 @@
           "question": "About how many rulers guided ancient Egypt?",
           "options": [
             "Five hundred",
-            "Three hundred",
-            "One hundred"
+            "One hundred",
+            "Three hundred"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "guiding the egyptian people was a\nsuccession of about 300 rulers often\nreferred to as pharaohs"
         },
         {
@@ -2319,10 +2319,10 @@
           "question": "Why were items put in royal tombs?",
           "options": [
             "For sale to foreign traders",
-            "For the next ruler’s palace",
-            "For use in the afterlife"
+            "For use in the afterlife",
+            "For the next ruler’s palace"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "rulers filled their tombs with all the\nitems they could need in the afterlife\nincluding gold jewelry\nfood\ndrink"
         }
       ],
@@ -2330,20 +2330,20 @@
         {
           "q": "What does this section connect?",
           "options": [
-            "Egypt’s formation, rulers and beliefs",
             "Egypt’s beaches, hotels and roads",
+            "Egypt’s formation, rulers and beliefs",
             "Egypt’s schools, sports and music"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How did the earlier small states change?",
           "options": [
-            "They stopped trading with each other",
             "They became one Egyptian state",
+            "They stopped trading with each other",
             "They all moved away from the river"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How were rulers seen by their people?",
@@ -2359,10 +2359,10 @@
         "q": "What do filled tombs suggest about death in these beliefs?",
         "options": [
           "People believed possessions had no value after death",
-          "People expected every ruler to return immediately to the throne",
-          "People expected a continuing life with practical needs"
+          "People expected a continuing life with practical needs",
+          "People expected every ruler to return immediately to the throne"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -2931,39 +2931,39 @@
         {
           "q": "What development is being presented?",
           "options": [
-            "An extension of Dubai’s metro",
             "A replacement for Dubai’s airport",
+            "An extension of Dubai’s metro",
             "A new highway through the desert"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How does the route run?",
           "options": [
             "Entirely on bridges over water",
-            "Both above ground and underground",
-            "Entirely underground"
+            "Entirely underground",
+            "Both above ground and underground"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What role does the larger network plan have?",
           "options": [
+            "Connecting new areas and encouraging growth",
             "Closing older neighbourhoods to visitors",
-            "Replacing every other form of transport",
-            "Connecting new areas and encouraging growth"
+            "Replacing every other form of transport"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why might new rail stops attract investment nearby?",
         "options": [
-          "Better access can bring people and businesses to those areas",
           "Every passenger is required to buy property",
+          "Better access can bring people and businesses to those areas",
           "Rail stops automatically make land free"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -3062,11 +3062,11 @@
           "end": 69,
           "question": "Where did researchers get historical species records?",
           "options": [
-            "Museum databases",
             "Fishing club diaries",
+            "Museum databases",
             "Ferry company records"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "all the material in the Australian\nMuseum databases which goes back to\nabout 1850 of all the species of\ncrustaceans mollusks echinoderms worms"
         },
         {
@@ -3074,11 +3074,11 @@
           "end": 94,
           "question": "How often is a new fish species recorded from Australia?",
           "options": [
-            "Each year",
             "Each week",
+            "Each year",
             "Each month"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "reckon the fish people reckon there's\none new species of fish recorded from\nAustralia each week every week yes it's"
         },
         {
@@ -3108,29 +3108,29 @@
           "q": "Where did the researchers get historical records?",
           "options": [
             "Passenger ticket records",
-            "Australian Museum databases",
-            "Restaurant menus"
+            "Restaurant menus",
+            "Australian Museum databases"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What helps the harbour support many species?",
           "options": [
             "Keeping every boat out permanently",
-            "Having only one kind of seabed",
-            "Water movement and varied habitats"
+            "Water movement and varied habitats",
+            "Having only one kind of seabed"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why might the recorded species total be an underestimate?",
         "options": [
           "All the museum records describe the same animal",
-          "The harbour stopped supporting wildlife after 1850",
-          "Scientists still find species in areas not fully studied"
+          "Scientists still find species in areas not fully studied",
+          "The harbour stopped supporting wildlife after 1850"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -3198,11 +3198,11 @@
           "end": 77,
           "question": "What was needed to strengthen the site?",
           "options": [
-            "Concrete supports",
             "Wooden beams",
+            "Concrete supports",
             "Steel fences"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "site had to be reinforced by concrete\npeers 550 of them each 3 ft in diameter"
         },
         {
@@ -3211,10 +3211,10 @@
           "question": "What part of the design had to change?",
           "options": [
             "The ticket office",
-            "The roof",
-            "The front steps"
+            "The front steps",
+            "The roof"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "Tropical\nThunder so the roof had to be redesigned\nin reinforced concrete this meant the\nconcrete pillars already built were no"
         },
         {
@@ -3222,11 +3222,11 @@
           "end": 147,
           "question": "What happened to the opening day?",
           "options": [
+            "It kept being delayed",
             "It moved a year earlier",
-            "It stayed on the original date",
-            "It kept being delayed"
+            "It stayed on the original date"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "were only guessing the opening day was\npostponed and postponed again it had\nbeen planned for Australia Day 1963 it"
         }
       ],
@@ -3234,39 +3234,39 @@
         {
           "q": "What was the main building problem described here?",
           "options": [
-            "The design created repeated engineering difficulties",
             "There was no way to sell lottery tickets",
+            "The design created repeated engineering difficulties",
             "The city had no interest in an opera house"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Why was a metal roof idea rejected?",
           "options": [
             "The roof would block the harbour entrance",
-            "Noise and temperature changes would cause problems",
-            "The metal was the wrong colour"
+            "The metal was the wrong colour",
+            "Noise and temperature changes would cause problems"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What happened when the roof design changed?",
           "options": [
+            "Existing pillars had to be rebuilt",
             "All work on the foundations stopped permanently",
-            "The whole building moved to another city",
-            "Existing pillars had to be rebuilt"
+            "The whole building moved to another city"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why could one design change cause further delays?",
         "options": [
-          "Other parts had already been built for the earlier design",
           "Every worker was also performing in the opera",
-          "The lottery rules required the roof to stay unfinished"
+          "The lottery rules required the roof to stay unfinished",
+          "Other parts had already been built for the earlier design"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -3366,11 +3366,11 @@
           "end": 36,
           "question": "In which century did Beijing become the capital in this account?",
           "options": [
-            "The thirteenth",
             "The fifteenth",
-            "The seventeenth"
+            "The seventeenth",
+            "The thirteenth"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "fast forward to the UN Dynasty in the\n13th century and Beijing became the\ncapital under kuan's rule the city was\nthen called dardu meaning great capital"
         },
         {
@@ -3390,11 +3390,11 @@
           "end": 88,
           "question": "Which modern event does the narrator mention?",
           "options": [
+            "The 2008 Olympics",
             "The 2010 World Cup",
-            "The 2012 Olympics",
-            "The 2008 Olympics"
+            "The 2012 Olympics"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "sites think of the 2008 Olympics and the\nstunning bird's nest stadium so there\nyou have it a quick but fascinating look"
         }
       ],
@@ -3431,10 +3431,10 @@
         "q": "Why mention both a palace and an Olympic stadium?",
         "options": [
           "They prove both buildings have the same use",
-          "They show that all historic sites were replaced",
-          "They show different periods of the city’s development"
+          "They show different periods of the city’s development",
+          "They show that all historic sites were replaced"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -3534,11 +3534,11 @@
           "end": 66,
           "question": "What language does the entrance sign use?",
           "options": [
-            "English",
             "French",
-            "Spanish"
+            "Spanish",
+            "English"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "sign at the entrance that wrote line4 in\nEnglish an escalator to talk in English"
         },
         {
@@ -3546,11 +3546,11 @@
           "end": 95,
           "question": "Which feature helps people with disabilities?",
           "options": [
-            "Special ticket colours",
             "Special lifts",
+            "Special ticket colours",
             "Special food stalls"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "elevators special lifts for persons with\ndisability double safety doors cash or"
         },
         {
@@ -3559,10 +3559,10 @@
           "question": "When does the traveller warn beginners not to travel?",
           "options": [
             "Late evening",
-            "Sunday morning",
-            "Rush hour"
+            "Rush hour",
+            "Sunday morning"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "first timer to avoid the Beijing Subway\nduring rush hour"
         }
       ],
@@ -3599,10 +3599,10 @@
         "q": "Why can a good system still be difficult at rush hour?",
         "options": [
           "All lifts become food stalls at busy times",
-          "Heavy demand can make even a clear, accessible system crowded",
-          "The English signs are removed every morning"
+          "The English signs are removed every morning",
+          "Heavy demand can make even a clear, accessible system crowded"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -3704,11 +3704,11 @@
           "end": 94,
           "question": "What did the speaker’s parents ask her to change abroad?",
           "options": [
-            "Her speaking volume",
             "Her meal choice",
+            "Her speaking volume",
             "Her arrival time"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "parents will try to stop me and tell me\nto lower my"
         },
         {
@@ -3717,10 +3717,10 @@
           "question": "How did the visitor describe restaurants in other countries?",
           "options": [
             "Small and colourful",
-            "Quiet and calm",
-            "Crowded and expensive"
+            "Crowded and expensive",
+            "Quiet and calm"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "Etc many restaurants were quiet and calm"
         },
         {
@@ -3728,11 +3728,11 @@
           "end": 155,
           "question": "What did that visitor consider decent behaviour?",
           "options": [
+            "Being quiet",
             "Laughing loudly",
-            "Eating quickly",
-            "Being quiet"
+            "Eating quickly"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "his opinion being quiet is decent while\nloud noise is rude"
         }
       ],
@@ -3740,11 +3740,11 @@
         {
           "q": "What difference caused surprise on both sides?",
           "options": [
-            "How loudly people speak in restaurants",
             "How early restaurants close",
-            "How many courses people order"
+            "How many courses people order",
+            "How loudly people speak in restaurants"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "How did the foreign visitor interpret loud conversation?",
@@ -3758,21 +3758,21 @@
         {
           "q": "What does the speaker begin to reconsider?",
           "options": [
+            "Her understanding of culture shock",
             "Her choice of travel luggage",
-            "Her family’s favourite ingredients",
-            "Her understanding of culture shock"
+            "Her family’s favourite ingredients"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "What does the pair of experiences suggest about judging behaviour?",
         "options": [
-          "Expectations learned at home can shape judgments abroad",
           "All restaurants should use the same menu",
+          "Expectations learned at home can shape judgments abroad",
           "Visitors always understand local customs immediately"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -3836,11 +3836,11 @@
           "end": 35,
           "question": "What extraordinary journey can Monkey make?",
           "options": [
-            "108,000 miles in one somersault",
             "18,000 miles in one leap",
+            "108,000 miles in one somersault",
             "180,000 miles in one flight"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "108\n000 miles in a single somersault uh he\nis immortal he will live forever\num he can transform into all sorts of"
         },
         {
@@ -3849,10 +3849,10 @@
           "question": "What kind of work is he offered in heaven?",
           "options": [
             "Ruling the whole universe",
-            "Low-status jobs",
-            "Command of every army"
+            "Command of every army",
+            "Low-status jobs"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "quite lowly jobs\nuh but monkey gets offended that he's\nnot being given"
         },
         {
@@ -3860,11 +3860,11 @@
           "end": 142,
           "question": "How does the Buddha punish him?",
           "options": [
+            "Traps him under a mountain",
             "Sends him across the ocean",
-            "Turns him into a tree",
-            "Traps him under a mountain"
+            "Turns him into a tree"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "doing\npins him under a mountain and he stays\nthere for the next\n500 years until he's um learnt to be a"
         }
       ],
@@ -3872,11 +3872,11 @@
         {
           "q": "How does the speaker characterise Monkey?",
           "options": [
-            "Powerful but flawed",
             "Weak but perfectly obedient",
-            "Ordinary and uninterested in religion"
+            "Ordinary and uninterested in religion",
+            "Powerful but flawed"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What provokes trouble in heaven?",
@@ -3890,21 +3890,21 @@
         {
           "q": "How are religious traditions represented?",
           "options": [
+            "Ideas from different traditions appear together",
             "Only one tradition is mentioned",
-            "Religious ideas are entirely absent",
-            "Ideas from different traditions appear together"
+            "Religious ideas are entirely absent"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why do extraordinary powers fail to protect Monkey from punishment?",
         "options": [
-          "The emperor never gives him any task",
           "His arrogance leads him to misuse them",
+          "The emperor never gives him any task",
           "His powers stop working when he enters heaven"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -3967,11 +3967,11 @@
           "end": 43,
           "question": "How many zones was Germany divided into?",
           "options": [
-            "Four",
             "Two",
+            "Four",
             "Six"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "World War\nGermany was divided up into four zones\nbetween the victorious powers and so was"
         },
         {
@@ -3980,10 +3980,10 @@
           "question": "What did the GDR government want to prevent?",
           "options": [
             "People studying languages",
-            "People leaving",
-            "People buying houses"
+            "People buying houses",
+            "People leaving"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "people from leaving the country for this\nreason from 1952 on the internal border"
         },
         {
@@ -3991,11 +3991,11 @@
           "end": 109,
           "question": "What appeared when the route was closed?",
           "options": [
+            "Barbed wire and barriers",
             "Ticket booths and buses",
-            "Shops and apartment blocks",
-            "Barbed wire and barriers"
+            "Shops and apartment blocks"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "began to eventually close this route -\nin the blink of an eye barbed wire\nfences and a concrete barrier were in"
         }
       ],
@@ -4003,39 +4003,39 @@
         {
           "q": "What chain of events is explained?",
           "options": [
-            "Division after war followed by restrictions on leaving",
             "A city expanding its tourist railway",
-            "A country opening every border at once"
+            "A country opening every border at once",
+            "Division after war followed by restrictions on leaving"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What made Berlin important to people escaping?",
           "options": [
-            "It was outside Germany",
             "It had a remaining open crossing",
+            "It was outside Germany",
             "It offered free flights to everyone"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What helped drive the mass departure in 1961?",
           "options": [
             "A new summer festival",
-            "A change in train colours",
-            "Poor economic conditions"
+            "Poor economic conditions",
+            "A change in train colours"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why close the Berlin crossing as well as the internal border?",
         "options": [
           "The government wanted more visitors to arrive by road",
-          "The crossing had no connection with migration",
-          "People were still using that route to leave"
+          "People were still using that route to leave",
+          "The crossing had no connection with migration"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -4099,11 +4099,11 @@
           "end": 43,
           "question": "How many fare zones are on the map?",
           "options": [
-            "Three",
             "Two",
-            "Four"
+            "Four",
+            "Three"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "take a brief look at the root map it's\nseparated in three different Fair zones\na b and c behold almost any sides and"
         },
         {
@@ -4111,11 +4111,11 @@
           "end": 77,
           "question": "How much travel time does the guide suggest for an appointment?",
           "options": [
-            "Sixty-five minutes",
             "Forty-five minutes",
+            "Sixty-five minutes",
             "Fifteen minutes"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "have appointments maybe 45 just in case\ndon't worry though you won't get bored"
         },
         {
@@ -4124,10 +4124,10 @@
           "question": "What colours are the ticket machines?",
           "options": [
             "Blue or green",
-            "Red or black",
-            "Yellow or grey"
+            "Yellow or grey",
+            "Red or black"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "the ticket you can buy it at any station\nfind one of these yellow or gray ticket\nmachines located on the platform choose\nbetween different tariffs depending on\nthe length of your stay to be equipped"
         }
       ],
@@ -4135,20 +4135,20 @@
         {
           "q": "Who is this advice useful for?",
           "options": [
-            "A visitor using Berlin’s trains",
             "A visitor renting a car",
+            "A visitor using Berlin’s trains",
             "A visitor booking a flight"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Which ticket is enough for most central sights?",
           "options": [
-            "A ticket for every zone",
             "An AB ticket",
+            "A ticket for every zone",
             "An airport-only ticket"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What should travellers do before setting off?",
@@ -4293,11 +4293,11 @@
           "end": 39,
           "question": "When did the Moscow Metro open?",
           "options": [
-            "May 1935",
             "May 1925",
+            "May 1935",
             "May 1945"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "what Stalin was providing for his people\nwhen it opened in May 1935 the Moscow\nMetro was a subterranean Soviet utopian"
         },
         {
@@ -4306,10 +4306,10 @@
           "question": "How many stations are cultural heritage sites?",
           "options": [
             "Sixty-four",
-            "Forty-four",
-            "Twenty-four"
+            "Twenty-four",
+            "Forty-four"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "history lesson forty-four of its 206\nstations are cultural heritage sites"
         },
         {
@@ -4317,11 +4317,11 @@
           "end": 108,
           "question": "What world record does the Metro hold?",
           "options": [
+            "Train punctuality",
             "Journey length",
-            "Ticket price",
-            "Train punctuality"
+            "Ticket price"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "for the punctuality of its trains"
         }
       ],
@@ -4329,20 +4329,20 @@
         {
           "q": "What two features does the report bring together?",
           "options": [
-            "Grand architecture and efficient service",
             "Cheap food and long-distance travel",
+            "Grand architecture and efficient service",
             "Quiet streets and private cars"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What did the station architecture aim to demonstrate?",
           "options": [
-            "The history of overseas airlines",
             "The power and purpose of the state",
+            "The history of overseas airlines",
             "The independence of each train driver"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What does the narrator say about punctuality?",
@@ -4357,11 +4357,11 @@
       "harder": {
         "q": "Why describe a daily commute as a history lesson?",
         "options": [
-          "Passengers encounter architecture designed to communicate political ideas",
           "Passengers must sit an exam before boarding",
-          "Every ticket contains a history essay"
+          "Every ticket contains a history essay",
+          "Passengers encounter architecture designed to communicate political ideas"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -4423,11 +4423,11 @@
           "end": 35,
           "question": "What shape are the cathedral’s domes?",
           "options": [
-            "Onion-shaped",
             "Pyramid-shaped",
+            "Onion-shaped",
             "Cube-shaped"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "square it has many onion-shaped domes\nwhich are characteristic of Russian\nOrthodox"
         },
         {
@@ -4435,11 +4435,11 @@
           "end": 88,
           "question": "How did people regard the Vladimir Virgin icon?",
           "options": [
-            "As a portrait of a ruler",
             "As an icon of miracles",
+            "As a portrait of a ruler",
             "As a map of the city"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "icon of Miracles and people looked to it\nin times of National\nEmergency following the fall of the"
         },
         {
@@ -4459,20 +4459,20 @@
         {
           "q": "What connection runs through this account?",
           "options": [
-            "Religion and the Russian state",
             "Agriculture and the railway",
+            "Religion and the Russian state",
             "Sport and the city’s hotels"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How did the Soviet government treat the church?",
           "options": [
-            "It put the church in charge of schools",
             "It suppressed its influence",
+            "It put the church in charge of schools",
             "It made every church a palace"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What change follows the Soviet breakup?",
@@ -4487,11 +4487,11 @@
       "harder": {
         "q": "Why can the same cathedral symbolise different periods?",
         "options": [
-          "It has always been used only as a train station",
           "Its meaning changes as the relationship between religion and government changes",
+          "It has always been used only as a train station",
           "Its domes are rebuilt every year"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -4585,11 +4585,11 @@
           "end": 32,
           "question": "What did the rulers do with Hagia Sophia?",
           "options": [
-            "Converted it into a mosque",
             "Demolished it for a palace",
+            "Converted it into a mosque",
             "Moved it outside the city"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Instead of demolishing the higher Sofia they converted it into a mosque"
         },
         {
@@ -4597,11 +4597,11 @@
           "end": 71,
           "question": "What did Suleiman decide to build?",
           "options": [
-            "A new cathedral",
             "A new mosque",
+            "A new cathedral",
             "A new fortress"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "So when he decided to build a new mosque\nUnencumbered by Christian leftovers he was making a point for Allah"
         },
         {
@@ -4621,20 +4621,20 @@
         {
           "q": "What contrast does the historian draw?",
           "options": [
-            "Adapting an older church versus building a new mosque",
             "Repairing a harbour versus building a bridge",
+            "Adapting an older church versus building a new mosque",
             "Moving a palace versus restoring its gardens"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What was the new building intended to express?",
           "options": [
-            "The end of all large buildings",
             "Religious and imperial power",
+            "The end of all large buildings",
             "A retreat from public life"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "Why was the architect’s task daunting?",
@@ -4649,11 +4649,11 @@
       "harder": {
         "q": "Why might a ruler prefer a new building to a conversion?",
         "options": [
-          "A new design can express his message without the older building’s associations",
           "A new building automatically needs no skilled workers",
-          "A conversion can never be used by worshippers"
+          "A conversion can never be used by worshippers",
+          "A new design can express his message without the older building’s associations"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -4714,11 +4714,11 @@
           "end": 48,
           "question": "About how many people live in Istanbul?",
           "options": [
-            "Over fifteen million",
             "Over five million",
-            "Over fifty million"
+            "Over fifty million",
+            "Over fifteen million"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "15 million people from its bustling\nstreets to its tranquil waterways this\nis a city that has witnessed centuries"
         },
         {
@@ -4738,11 +4738,11 @@
           "end": 94,
           "question": "What was Hagia Sophia first built as?",
           "options": [
+            "A cathedral",
             "A palace",
-            "A market",
-            "A cathedral"
+            "A market"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "built as a cathedral in the 6th Century\nit became a mosque after the ottoman"
         }
       ],
@@ -4750,20 +4750,20 @@
         {
           "q": "What picture of Istanbul does this part give?",
           "options": [
-            "A busy city with a long history",
             "A new town with few people",
+            "A busy city with a long history",
             "A quiet island with no old buildings"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Which two empires are linked to the city?",
           "options": [
-            "Mongol and Spanish",
             "Byzantine and Ottoman",
+            "Mongol and Spanish",
             "Roman and British"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What kind of change does Hagia Sophia show?",
@@ -4844,11 +4844,11 @@
           "end": 36,
           "question": "How many streams once ran across this land?",
           "options": [
-            "More than fifty",
             "More than fifteen",
-            "More than five hundred"
+            "More than five hundred",
+            "More than fifty"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "historian and biologist Sharon Proctor\nthere were once more than 50 streams\nthat used to run all over this land\ntoday most of those streams have long"
         },
         {
@@ -4868,11 +4868,11 @@
           "end": 150,
           "question": "What had people realised by the 1990s?",
           "options": [
+            "Covering streams causes problems",
             "Every stream is permanently dry",
-            "Pipes absorb all heavy rain",
-            "Covering streams causes problems"
+            "Pipes absorb all heavy rain"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "point we'd realized something covering\nup a stream or river actually leads to a\nlot of problems when rain falls on\nVancouver it usually hits a hard surface"
         }
       ],
@@ -4890,29 +4890,29 @@
           "q": "Why were streams originally covered?",
           "options": [
             "To improve access for canoes",
-            "To reduce perceived flooding risks and make space",
-            "To create new fishing areas"
+            "To create new fishing areas",
+            "To reduce perceived flooding risks and make space"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How does Still Creek differ from many earlier streams?",
           "options": [
             "It was turned into a shopping mall",
-            "It no longer carries water",
-            "It remains visible and flowing"
+            "It remains visible and flowing",
+            "It no longer carries water"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "What does the change in attitude toward streams suggest?",
         "options": [
+          "A former solution can create problems understood later",
           "People always agreed on the best way to use streams",
-          "Streams are useful only when hidden",
-          "A former solution can create problems understood later"
+          "Streams are useful only when hidden"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -4976,11 +4976,11 @@
           "end": 43,
           "question": "When was the first line built?",
           "options": [
-            "1985",
             "1975",
+            "1985",
             "1995"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Network the first is the Expo line that\nwas built in 1985 and connects Siri to\ndowntown Vancouver it's the very first\nline we built and the one you'll be\nusing the most to get to our two"
         },
         {
@@ -4989,10 +4989,10 @@
           "question": "Which line runs toward the airport?",
           "options": [
             "The Millennium Line",
-            "The Canada Line",
-            "The Expo Line"
+            "The Expo Line",
+            "The Canada Line"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "this line a lot the third line is the\nCanada line which was built prior to the\n2010 Vancouver Olympics and runs from\ndowntown Vancouver all the way to our\nYVR Airport if you're an international"
         },
         {
@@ -5000,11 +5000,11 @@
           "end": 94,
           "question": "What card does the guide recommend?",
           "options": [
+            "A Compass Card",
             "A Museum Card",
-            "A Library Card",
-            "A Compass Card"
+            "A Library Card"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "recommend we also recommend getting a\ncompass card because this reloadable\nsmart card is something you can keep\nadding value to it and then tap in and\nout of the transit Gates for a seamless\ntravel"
         }
       ],
@@ -5022,29 +5022,29 @@
           "q": "What can a journey-planning app help with?",
           "options": [
             "Class grades and homework",
-            "Routes, transfers and travel time",
-            "Meal prices and recipes"
+            "Meal prices and recipes",
+            "Routes, transfers and travel time"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How does the recommended card work?",
           "options": [
             "You buy a new card for every ride",
-            "You show it only to airport staff",
-            "You add value and tap at gates"
+            "You add value and tap at gates",
+            "You show it only to airport staff"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why might a new international student first use the Canada Line?",
         "options": [
-          "It connects the airport with downtown",
           "It is the only line that accepts cash",
+          "It connects the airport with downtown",
           "It runs only during university holidays"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -5138,11 +5138,11 @@
           "end": 65,
           "question": "Why was it called a union station?",
           "options": [
-            "Railways shared one roof",
             "Passengers formed a union",
+            "Railways shared one roof",
             "All tracks had one platform"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "passenger trains in Toronto, making it a\nunion station as it was a union of the\nrailways under one roof.\nBy 1899, with three railways sharing the"
         },
         {
@@ -5150,11 +5150,11 @@
           "end": 96,
           "question": "What happened to Grand Trunk in 1920?",
           "options": [
-            "It bought every other railway",
             "It went bankrupt",
+            "It bought every other railway",
             "It moved to Montreal"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "necessary to construct it. Grand Trunk\nwent bankrupt in 1920 after basically\nevery railway in Canada except the\nCanadian Pacific would dissolve into a\nnewly formed Canadian National Railways."
         },
         {
@@ -5174,39 +5174,39 @@
         {
           "q": "What development does this account follow?",
           "options": [
-            "Toronto’s changing Union Station",
             "Toronto’s first international airport",
+            "Toronto’s changing Union Station",
             "Toronto’s expanding ferry port"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Why was a bigger station needed?",
           "options": [
             "The original station had no tracks",
-            "More railways and trains were using the old one",
-            "The city had stopped using trains"
+            "The city had stopped using trains",
+            "More railways and trains were using the old one"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What delayed the new station?",
           "options": [
+            "Company disagreements and wartime shortages",
             "A ban on passenger railways",
-            "A lack of any design",
-            "Company disagreements and wartime shortages"
+            "A lack of any design"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why did a more cooperative partner help complete the station?",
         "options": [
           "Passengers had to design their own platforms",
-          "Every company wanted a different city",
-          "The project required railway companies to work together"
+          "The project required railway companies to work together",
+          "Every company wanted a different city"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -5270,11 +5270,11 @@
           "end": 45,
           "question": "What must Alex buy before getting on the train?",
           "options": [
-            "Tokens",
             "Stamps",
-            "Postcards"
+            "Postcards",
+            "Tokens"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "felt fairly certain he knew where he was\ngoing now it was time to buy tokens to\nget on the\ntrain five tokens equals five trips"
         },
         {
@@ -5282,11 +5282,11 @@
           "end": 60,
           "question": "Why does Alex need a transfer?",
           "options": [
-            "To board a ferry",
             "To take a streetcar",
+            "To board a ferry",
             "To enter a museum"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "Toronto I need to get a transfer so then\nI can take the street car across Alex\nwas lucky enough to catch one of"
         },
         {
@@ -5295,10 +5295,10 @@
           "question": "Where does Alex find streetcar stops?",
           "options": [
             "Inside shopping centres",
-            "Beside the airport runway",
-            "Outside subway stations"
+            "Outside subway stations",
+            "Beside the airport runway"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "find my way around lucky for Alex\nthere's street car stops outside every\nSubway to station so he hopped on the\nfirst one he saw and the drivers just"
         }
       ],
@@ -5431,11 +5431,11 @@
           "end": 72,
           "question": "How did the island come under British control?",
           "options": [
-            "Through a royal marriage",
             "Through a mining discovery",
-            "Through a railway project"
+            "Through a railway project",
+            "Through a royal marriage"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "marriage of King Charles II of Great\nBritain and Ireland to the king of\nPortugal's sister brought the island\nunder British control the city became\nknown as Bombay and was the capital of"
         },
         {
@@ -5455,11 +5455,11 @@
           "end": 141,
           "question": "What did the 1942 resolution demand?",
           "options": [
+            "Complete independence",
             "A new port tax",
-            "A new city name",
-            "Complete independence"
+            "A new city name"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "Congress met in Bombay and passed the\nquit India resolution which demanded\nthat Britain Grant India complete\nIndependence Bombay remained a center of"
         }
       ],
@@ -5496,10 +5496,10 @@
         "q": "Why might a trading centre also become a political centre?",
         "options": [
           "Trading prevents anyone from meeting",
-          "A port must always be a country’s capital",
-          "Connections and population bring people and ideas together"
+          "Connections and population bring people and ideas together",
+          "A port must always be a country’s capital"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -5811,11 +5811,11 @@
           "end": 38,
           "question": "What name did the Portuguese sailors first give the cape?",
           "options": [
-            "Cape of Storms",
             "Cape of Kings",
+            "Cape of Storms",
             "Cape of Islands"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "name that these Portuguese sailors gave\nto this place was the Cape of Storms. As\nyou can imagine, that name was a bit\ngrim. So, it was later changed to Cape"
         },
         {
@@ -5824,10 +5824,10 @@
           "question": "Which crops did Dutch settlers bring?",
           "options": [
             "Olives, bananas, dates and corn",
-            "Grapes, citrus, potatoes and wheat",
-            "Rice, tea, coffee and cotton"
+            "Rice, tea, coffee and cotton",
+            "Grapes, citrus, potatoes and wheat"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "the Dutch brought tons of new plants to\nCape Town, including grapes for wine,\ncitrus, potatoes, and wheat, a lot of"
         },
         {
@@ -5835,11 +5835,11 @@
           "end": 119,
           "question": "Which language remains official in South Africa?",
           "options": [
+            "Afrikaans",
             "Portuguese",
-            "Spanish",
-            "Afrikaans"
+            "Spanish"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "Afrikaans is still an official language\nof South Africa. And while these Dutch\nsettlers lived in the same regions as"
         }
       ],
@@ -5847,39 +5847,39 @@
         {
           "q": "What does the account connect with present-day culture?",
           "options": [
-            "Earlier settlement and colonial changes",
             "Only recent tourist advertising",
-            "Only the building of an airport"
+            "Only the building of an airport",
+            "Earlier settlement and colonial changes"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "Why was the cape’s name changed?",
           "options": [
-            "To honour a new railway",
             "To express hope rather than a grim impression",
+            "To honour a new railway",
             "To describe a new mountain"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What happened after British policies targeted Dutch culture?",
           "options": [
             "Dutch settlers all sailed to Asia",
-            "Dutch settlers stopped speaking entirely",
-            "Dutch settlers moved inland"
+            "Dutch settlers moved inland",
+            "Dutch settlers stopped speaking entirely"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why mention crops and language in a history of settlement?",
         "options": [
+          "They show influences that continued after political control changed",
           "They show that settlers never changed local life",
-          "They prove all communities had identical customs",
-          "They show influences that continued after political control changed"
+          "They prove all communities had identical customs"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -5941,11 +5941,11 @@
           "end": 44,
           "question": "What should you check before heading up?",
           "options": [
-            "Cable-car opening times",
             "Restaurant menus",
-            "Train-seat numbers"
+            "Train-seat numbers",
+            "Cable-car opening times"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "check when the cable car is open before\nyou head up Table Mountain head to their\nwebsite to check if the cable car is"
         },
         {
@@ -5953,11 +5953,11 @@
           "end": 66,
           "question": "Where does the guide say tickets cost less?",
           "options": [
-            "On the cable car",
             "Online",
+            "On the cable car",
             "At the kiosk"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "tickets online buying tickets online is\nnot only convenient but also cheaper I"
         },
         {
@@ -5966,10 +5966,10 @@
           "question": "What alternative to driving up is suggested?",
           "options": [
             "A private helicopter",
-            "A paid boat",
-            "A free shuttle"
+            "A free shuttle",
+            "A paid boat"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "alternatively we suggest considering\nusing the brand new free shuttle service\nleave your car at the lower parking lot\nand catch a shuttle which operates every"
         }
       ],
@@ -5977,20 +5977,20 @@
         {
           "q": "What is the guide helping visitors plan?",
           "options": [
-            "A cable-car trip up Table Mountain",
             "A train trip across the country",
+            "A cable-car trip up Table Mountain",
             "A boat trip round the harbour"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What should visitors check before leaving?",
           "options": [
-            "Whether the sea is warm",
             "Whether the cable car is running",
+            "Whether the sea is warm",
             "Whether every restaurant is open"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "Why can the drive take extra patience?",
@@ -6005,11 +6005,11 @@
       "harder": {
         "q": "Why could checking the website save both time and money?",
         "options": [
-          "It shows closures and lets you buy cheaper tickets",
           "It guarantees that the wind will stop",
-          "It gives everyone a free cable-car ride"
+          "It gives everyone a free cable-car ride",
+          "It shows closures and lets you buy cheaper tickets"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -6117,10 +6117,10 @@
           "question": "About how many kings ruled in the regal period?",
           "options": [
             "Twenty-seven",
-            "Seven",
-            "Seventeen"
+            "Seventeen",
+            "Seven"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "and ruled by a succession\nof about seven kings.\nRome's first king, according to legend,\nwas a man named Romulus.\nHe and his twin brother Remus are said"
         },
         {
@@ -6129,10 +6129,10 @@
           "question": "What system did Rome adopt in 509 BC?",
           "options": [
             "An empire",
-            "A city council led by a king",
-            "A republic"
+            "A republic",
+            "A city council led by a king"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "In 509 B.C., Rome adopted a\nrepublican system of governance\nin which the state was primarily ruled"
         }
       ],
@@ -6140,39 +6140,39 @@
         {
           "q": "What change is being traced in early Rome?",
           "options": [
-            "From village to different forms of government",
             "From empire to an empty island",
+            "From village to different forms of government",
             "From capital to fishing harbour"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How does the narrator introduce Romulus?",
           "options": [
             "As the last consul according to a diary",
-            "As the first king according to legend",
-            "As the first emperor according to a census"
+            "As the first emperor according to a census",
+            "As the first king according to legend"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How was the republican state mainly led?",
           "options": [
+            "By two representatives chosen annually",
             "By one king for life",
-            "By every army officer at once",
-            "By two representatives chosen annually"
+            "By every army officer at once"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why does the narrator say “according to legend”?",
         "options": [
           "The narrator is explaining a modern election rule",
-          "The narrator believes the city had no early history",
-          "The founding story is being distinguished from a fully established fact"
+          "The founding story is being distinguished from a fully established fact",
+          "The narrator believes the city had no early history"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -6332,10 +6332,10 @@
         "q": "Why might freshness matter when choosing the mozzarella here?",
         "options": [
           "Its colour changes every hour",
-          "The seller says it should be eaten soon after it is made",
-          "The market sells it only in winter"
+          "The market sells it only in winter",
+          "The seller says it should be eaten soon after it is made"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -6647,11 +6647,11 @@
           "end": 33,
           "question": "About how many people attend each day?",
           "options": [
-            "Over two million",
             "Over two hundred thousand",
+            "Over two million",
             "Over twenty thousand"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Christian season of Lent. The Rio de\nJaneiro Carnival hosts over 2 million\npeople every day that it's on. And that\nincludes everyone taking part. The very"
         },
         {
@@ -6659,11 +6659,11 @@
           "end": 55,
           "question": "What does each samba school choose?",
           "options": [
-            "A new language",
             "A theme",
+            "A new language",
             "A new city"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "months preparing for the grand parades.\nEach samba school chooses a theme,\ncreates incredible floats, which are\nlike\ngiant moving sculptures,\n>> [music]"
         },
         {
@@ -6693,29 +6693,29 @@
           "q": "What are samba schools in this account?",
           "options": [
             "Private language colleges",
-            "Large community groups",
-            "Ordinary classroom schools"
+            "Ordinary classroom schools",
+            "Large community groups"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How long do groups prepare?",
           "options": [
             "For one afternoon",
-            "For one morning",
-            "For months"
+            "For months",
+            "For one morning"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why is the parade more than a last-minute party?",
         "options": [
           "Only visitors are allowed to perform",
-          "Groups spend months preparing themes, floats and dances",
-          "Everyone arrives without any preparation"
+          "Everyone arrives without any preparation",
+          "Groups spend months preparing themes, floats and dances"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -6791,10 +6791,10 @@
           "question": "How does Rodrigo compare his work?",
           "options": [
             "To a builder repairing walls",
-            "To an actor performing",
-            "To a doctor examining patients"
+            "To a doctor examining patients",
+            "To an actor performing"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "like an actor performing in front of\nthis audience having as a stage not a\ntheater, but the actual city. So, the"
         },
         {
@@ -6803,10 +6803,10 @@
           "question": "What city lies beneath the Spanish city?",
           "options": [
             "The Roman city",
-            "The Inca city",
-            "The Aztec city"
+            "The Aztec city",
+            "The Inca city"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "the Aztec city. Only a small portion has\nbeen\nexcavated. What the Spanish did was to\nbuild temples related to Jesus Christ on"
         }
       ],
@@ -6843,10 +6843,10 @@
         "q": "Why does the city itself work as Rodrigo’s stage?",
         "options": [
           "All visitors must perform a play",
-          "The city has no outdoor spaces",
-          "Its places help him bring historical stories to life"
+          "Its places help him bring historical stories to life",
+          "The city has no outdoor spaces"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -6910,11 +6910,11 @@
           "end": 52,
           "question": "Who may use the special carriages along with women?",
           "options": [
-            "Children under twelve",
             "Men over sixty",
+            "Children under twelve",
             "Tourists under thirty"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "females use the female and uh kids of\nless than 12 carriages"
         },
         {
@@ -6922,11 +6922,11 @@
           "end": 70,
           "question": "Which morning period does he suggest avoiding?",
           "options": [
-            "About eleven to twelve",
             "About seven to ten",
+            "About eleven to twelve",
             "About five to six"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "avoid you know from about seven in the\nmorning till 10 and then from like five\nto eight avoid if you can"
         },
         {
@@ -6946,11 +6946,11 @@
         {
           "q": "What kind of advice is this?",
           "options": [
-            "Practical tips for using the metro",
             "Advice for hiring a taxi",
-            "Instructions for driving a bus"
+            "Instructions for driving a bus",
+            "Practical tips for using the metro"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "Why avoid the busy periods?",
@@ -6964,21 +6964,21 @@
         {
           "q": "What should riders hold while travelling?",
           "options": [
+            "The railings",
             "The doors",
-            "Another rider’s bag",
-            "The railings"
+            "Another rider’s bag"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why combine phone advice with advice about holding a railing?",
         "options": [
-          "The speaker wants riders to protect belongings and stay steady",
           "Phones are required to open the train doors",
-          "Every passenger must photograph each station"
+          "Every passenger must photograph each station",
+          "The speaker wants riders to protect belongings and stay steady"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -7141,39 +7141,39 @@
         {
           "q": "What is the teacher offering?",
           "options": [
-            "A quick introduction to tango movements",
             "A history of tango music",
-            "A guide to tango costumes"
+            "A guide to tango costumes",
+            "A quick introduction to tango movements"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "How does he compare basic steps to cooking?",
           "options": [
-            "They are recipes you cannot change",
             "They are ingredients you combine",
+            "They are recipes you cannot change",
             "They are meals you buy ready-made"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What does he do with some of the steps?",
           "options": [
             "Leaves each one completely separate",
-            "Replaces them all with jumps",
-            "Puts them together in a short sequence"
+            "Puts them together in a short sequence",
+            "Replaces them all with jumps"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why compare a few steps with basic ingredients?",
         "options": [
-          "Many combinations can grow from a small set of elements",
           "Dancers must cook before practising",
+          "Many combinations can grow from a small set of elements",
           "Every dance uses exactly the same order"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -7235,11 +7235,11 @@
           "end": 49,
           "question": "How tall is the obelisk?",
           "options": [
-            "Sixty-eight metres",
             "Forty-eight metres",
+            "Sixty-eight metres",
             "Eighty-eight metres"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Standing 68 meters tall, El Obelisco was erected\nin 1936 to commemorate the creation of the\ncity.\nIt is built on the site where the national\nflag was flown for the first time."
         },
         {
@@ -7247,11 +7247,11 @@
           "end": 67,
           "question": "Who celebrates at the plaza?",
           "options": [
-            "Train drivers",
             "Football fans",
+            "Train drivers",
             "School teachers"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "It is also a popular spot where local football\nfans celebrate their teams triumphs.Our next"
         },
         {
@@ -7281,29 +7281,29 @@
           "q": "What uses of the obelisk plaza are mentioned?",
           "options": [
             "Only daily food markets",
-            "Cultural events and public celebrations",
-            "Only private weddings"
+            "Only private weddings",
+            "Cultural events and public celebrations"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How does the clock tower connect two countries?",
           "options": [
             "It was moved between the two capitals",
-            "It shows the time in every British city",
-            "It was a gift with symbols of both countries"
+            "It was a gift with symbols of both countries",
+            "It shows the time in every British city"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why can a plaza matter beyond the monument standing in it?",
         "options": [
-          "It is open only on the monument’s birthday",
           "People use it for shared events and celebrations",
+          "It is open only on the monument’s birthday",
           "No one is allowed to stand there"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -7398,11 +7398,11 @@
           "end": 36,
           "question": "What can you use instead of a card to pay?",
           "options": [
-            "Your phone",
             "Your passport",
-            "Your student notebook"
+            "Your student notebook",
+            "Your phone"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "your phone to pay for your fair. Just\ndownload the tap app on your phone."
         },
         {
@@ -7410,11 +7410,11 @@
           "end": 54,
           "question": "How early should you arrive?",
           "options": [
-            "Thirty minutes",
             "Ten minutes",
+            "Thirty minutes",
             "Twenty minutes"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "It's a good idea to arrive 10 minutes\nearly to your station.\nOnce you arrive, locate the turn style\nor validator as you approach the rail"
         },
         {
@@ -7423,10 +7423,10 @@
           "question": "What signal should you wait for at a validator?",
           "options": [
             "A bell and a stop message",
-            "A whistle and a seat number",
-            "A beep and a go message"
+            "A beep and a go message",
+            "A whistle and a seat number"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "your tap card or phone over the tap\ndial. Wait for the beep and go message\nand then proceed.\nRemember to stand behind the yellow"
         }
       ],
@@ -7444,29 +7444,29 @@
           "q": "What extra travel is free within two hours?",
           "options": [
             "Every return trip the next day",
-            "One-way transfers",
-            "Every airport taxi"
+            "Every airport taxi",
+            "One-way transfers"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What should riders do before boarding?",
           "options": [
             "Stand inside the open doors immediately",
-            "Walk along the track to meet the train",
-            "Wait behind the safety line for the train to stop"
+            "Wait behind the safety line for the train to stop",
+            "Walk along the track to meet the train"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why wait for the validator’s signal?",
         "options": [
-          "It confirms the tap before you continue",
           "It tells you which restaurant to visit",
+          "It confirms the tap before you continue",
           "It chooses your destination for you"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -7530,11 +7530,11 @@
           "end": 57,
           "question": "What fruit did the company produce?",
           "options": [
-            "Pineapples",
             "Oranges",
-            "Apples"
+            "Apples",
+            "Pineapples"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "the world's largest producer of\npineapples, and it had an interest in"
         },
         {
@@ -7542,11 +7542,11 @@
           "end": 110,
           "question": "What problem drew the scientist toward air quality?",
           "options": [
-            "Farmers were leaving the city",
             "Crops were dying",
+            "Farmers were leaving the city",
             "Fruit prices were falling"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "happening to air quality in Southern\nCalifornia is that crops are dying. And\nthey are desperate to figure out why."
         },
         {
@@ -7555,10 +7555,10 @@
           "question": "About how much air did he collect?",
           "options": [
             "Fifty cubic feet",
-            "Five thousand cubic feet",
-            "Five hundred cubic feet"
+            "Five hundred cubic feet",
+            "Five thousand cubic feet"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "pineapples. He drew in about 500 cubic\nfeet of air, about the amount that a\ntypical person would breathe in a day."
         }
       ],
@@ -7595,10 +7595,10 @@
         "q": "Why could knowledge from one research field help another?",
         "options": [
           "Air pollution only affects pineapple growers",
-          "The same chemical techniques could identify substances in different samples",
-          "Both studies required exactly the same fruit"
+          "Both studies required exactly the same fruit",
+          "The same chemical techniques could identify substances in different samples"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -7704,10 +7704,10 @@
           "question": "What are residents seeking through the lawsuit?",
           "options": [
             "Permission to build an airport",
-            "Compensation for damage and deaths",
-            "Free tickets on every bus"
+            "Free tickets on every bus",
+            "Compensation for damage and deaths"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "dollars in compensation for property\ndamages and loss of lives 67 people who"
         },
         {
@@ -7716,10 +7716,10 @@
           "question": "Why is one canal solution delayed?",
           "options": [
             "The canal has no connection with rivers",
-            "The government has banned water pumps",
-            "Residents resist relocation and want better compensation"
+            "Residents resist relocation and want better compensation",
+            "The government has banned water pumps"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "close to the river banks are still\nrefusing to be relocated they want\nbetter compensation president Joko\nWidodo has stepped in to push regional"
         }
       ],
@@ -7727,39 +7727,39 @@
         {
           "q": "What challenge does the report examine?",
           "options": [
-            "Flood protection in a crowded city",
             "A shortage of buses during holidays",
-            "A new city festival beside a river"
+            "A new city festival beside a river",
+            "Flood protection in a crowded city"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What action did affected residents take?",
           "options": [
-            "Organised only volunteer repair teams",
             "Sought compensation through a lawsuit",
+            "Organised only volunteer repair teams",
             "Requested only cheaper travel"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What makes the longer-term problem harder?",
           "options": [
             "A lack of any rivers",
-            "A shortage of tourist hotels",
-            "Land clearing and disputes over relocation"
+            "Land clearing and disputes over relocation",
+            "A shortage of tourist hotels"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why are functioning pumps not a complete solution?",
         "options": [
-          "Crowding and unresolved land issues also affect flood management",
           "Pumps only work when roads are empty",
-          "The lawsuit removes the need for flood planning"
+          "The lawsuit removes the need for flood planning",
+          "Crowding and unresolved land issues also affect flood management"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -7823,11 +7823,11 @@
           "end": 40,
           "question": "When did the metro begin operating?",
           "options": [
-            "2019",
             "2009",
+            "2019",
             "1999"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "operational in 2019 close to 100,000\npeople use it every day Takata is home"
         },
         {
@@ -7836,10 +7836,10 @@
           "question": "What helped pay for the expansion?",
           "options": [
             "A donation from every passenger",
-            "A loan from Japan",
-            "A tax on hotels only"
+            "A tax on hotels only",
+            "A loan from Japan"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "expansion is made possible because of a\nloan of nearly $1 billion from Japan\nIndonesia's president Joo woto says the"
         },
         {
@@ -7847,11 +7847,11 @@
           "end": 127,
           "question": "What public-transport share is targeted for 2030?",
           "options": [
+            "Sixty percent",
             "Forty percent",
-            "Eighty percent",
-            "Sixty percent"
+            "Eighty percent"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "60% of the population using public\ntransport the growing public"
         }
       ],
@@ -7859,20 +7859,20 @@
         {
           "q": "Why is the rail network being expanded?",
           "options": [
-            "To improve movement in a crowded city",
             "To remove every bus stop",
+            "To improve movement in a crowded city",
             "To close surrounding towns"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What other problem is linked to car use?",
           "options": [
-            "Food waste",
             "Air pollution",
+            "Food waste",
             "Sea pollution"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How does the president describe mass transport projects?",
@@ -7888,10 +7888,10 @@
         "q": "Why might rail expansion help more than journey times?",
         "options": [
           "A train line automatically removes every pollutant",
-          "Reducing reliance on cars could also improve air quality",
-          "All rail passengers stop needing jobs"
+          "All rail passengers stop needing jobs",
+          "Reducing reliance on cars could also improve air quality"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -8204,11 +8204,11 @@
           "end": 42,
           "question": "What goods are mentioned with masks?",
           "options": [
-            "Clothing, jewellery and paintings",
             "Computers, phones and cameras",
+            "Clothing, jewellery and paintings",
             "Beds, tables and chairs"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "traditional clothing and handcrafted\njewelry and paintings Philip a bazilian"
         },
         {
@@ -8217,10 +8217,10 @@
           "question": "Why does the local customer like the market?",
           "options": [
             "It only sells foreign goods",
-            "It connects her with African culture",
-            "It is empty and silent"
+            "It is empty and silent",
+            "It connects her with African culture"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "get to feel the African Vibe when I'm\nhere like I get to see"
         },
         {
@@ -8228,11 +8228,11 @@
           "end": 89,
           "question": "About how many stalls does the market have?",
           "options": [
+            "Over 150",
             "Over 50",
-            "Over 250",
-            "Over 150"
+            "Over 250"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "which has over 150 stalls also sells\nfruits vegetables and fresh fish and"
         }
       ],
@@ -8240,20 +8240,20 @@
         {
           "q": "Who visits this market?",
           "options": [
-            "Tourists and local residents",
             "Only foreign tourists",
+            "Tourists and local residents",
             "Only people selling fish"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What do people find beyond art and clothing?",
           "options": [
-            "Books and school uniforms",
             "Fruit, vegetables and fish",
+            "Books and school uniforms",
             "Train tickets and passports"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What does the market offer besides things to buy?",
@@ -9050,11 +9050,11 @@
           "end": 35,
           "question": "How many canals does Amsterdam have?",
           "options": [
-            "165",
             "65",
+            "165",
             "265"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Number one.\nAmsterdam has 165 canals stretching for\nmore than 100 km."
         },
         {
@@ -9062,11 +9062,11 @@
           "end": 64,
           "question": "How many islands do the canals create?",
           "options": [
-            "Nine",
             "Ninety",
+            "Nine",
             "Nineteen"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "The city of Amsterdam is divided by\ncanals into 90 distinct islands.\nNumber five."
         },
         {
@@ -9114,11 +9114,11 @@
       "harder": {
         "q": "Why would a city divided into many islands need many bridges?",
         "options": [
-          "Bridges are needed only for tourists",
           "Bridges connect places separated by water",
+          "Bridges are needed only for tourists",
           "Bridges make all the water disappear"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -9182,11 +9182,11 @@
           "end": 76,
           "question": "What does kuleana mean?",
           "options": [
-            "Responsibility",
             "Celebration",
+            "Responsibility",
             "Competition"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "means responsibility to be a Kumu hula"
         },
         {
@@ -9194,11 +9194,11 @@
           "end": 100,
           "question": "What did hula keep alive without a written language?",
           "options": [
-            "Trade prices",
             "Stories",
+            "Trade prices",
             "Building plans"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "language and it was the hula that kept\nall the stories alive and I take that"
         },
         {
@@ -9218,39 +9218,39 @@
         {
           "q": "How does this teacher see hula?",
           "options": [
-            "As a serious cultural responsibility",
             "As only a casual pastime",
-            "As only a tourist competition"
+            "As only a tourist competition",
+            "As a serious cultural responsibility"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What link does hula provide?",
           "options": [
-            "A method for buying land",
             "A bridge to the past",
+            "A method for buying land",
             "A route to a new airport"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What must the group achieve while dancing?",
           "options": [
             "Each tell a different story",
-            "Avoid learning from one another",
-            "Act and think as one"
+            "Act and think as one",
+            "Avoid learning from one another"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why might synchronised dancing matter beyond appearance?",
         "options": [
           "The dancers are competing to finish first",
-          "The teacher wants each dancer to forget the story",
-          "A shared story needs the group to express it together"
+          "A shared story needs the group to express it together",
+          "The teacher wants each dancer to forget the story"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -9315,11 +9315,11 @@
           "end": 63,
           "question": "What is the base of a spam musubi?",
           "options": [
-            "Rice",
             "Bread",
-            "Potato"
+            "Potato",
+            "Rice"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "including spam musubi.\nA spam musubi would be rice.\nIt's like, usually a rice ball,\nand then it has a slice of spam\nand seaweed on it, nori. But we"
         },
         {
@@ -9339,11 +9339,11 @@
           "end": 117,
           "question": "What filling do local people usually think of?",
           "options": [
+            "Spam",
             "Salmon",
-            "Umeboshi",
-            "Spam"
+            "Umeboshi"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "they tend to think spam,\nwhereas, if you told somebody\nthat's Japanese, can you grab me\na musubi, it would be something"
         }
       ],
@@ -9361,29 +9361,29 @@
           "q": "How does the shop combine styles?",
           "options": [
             "Only mainland American desserts",
-            "Japanese and local Hawaiian ideas",
-            "Only European recipes"
+            "Only European recipes",
+            "Japanese and local Hawaiian ideas"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What difference between local and Japanese versions is described?",
           "options": [
             "Only the colour of the plate",
-            "Only the time of day they are eaten",
-            "Shapes and expected fillings"
+            "Shapes and expected fillings",
+            "Only the time of day they are eaten"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why would portability suit the owners’ idea?",
         "options": [
-          "Customers can take the snack with them easily",
           "Customers must eat it at a long formal meal",
+          "Customers can take the snack with them easily",
           "Customers need special equipment to carry it"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -9728,11 +9728,11 @@
           "end": 34,
           "question": "What facilities do the shelters provide?",
           "options": [
-            "Cooling, charging and Wi-Fi",
             "Cooking, showers and beds",
-            "Shopping, ticket printing and lockers"
+            "Shopping, ticket printing and lockers",
+            "Cooling, charging and Wi-Fi"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "sun. Take a look. They have the shelter\nwith air conditioning, charging ports,\nand free Wi-Fi. Now, this is one of 14"
         },
         {
@@ -9752,11 +9752,11 @@
           "end": 93,
           "question": "What kind of service is called the longest in the US?",
           "options": [
+            "Electric bus rapid transit",
             "Underground rail transit",
-            "Passenger ferry transit",
-            "Electric bus rapid transit"
+            "Passenger ferry transit"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "officials say it's the longest electric\nbus rapid transit service in the US\n>> because it's going to transform the way\npeople get around. It's to their jobs,"
         }
       ],
@@ -9764,20 +9764,20 @@
         {
           "q": "What change is this report introducing?",
           "options": [
-            "A new bus rapid transit service",
             "A new airport terminal",
+            "A new bus rapid transit service",
             "A new bicycle rental scheme"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What problem do the shelters help with?",
           "options": [
-            "High mountain winds",
             "Strong summer heat",
+            "High mountain winds",
             "Heavy winter snow"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How do the buses get priority?",
@@ -9792,11 +9792,11 @@
       "harder": {
         "q": "Why could cooler shelters make this service more useful?",
         "options": [
-          "Passengers no longer need to travel",
           "Waiting becomes easier in hot weather",
+          "Passengers no longer need to travel",
           "Every bus ride becomes free"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -9903,10 +9903,10 @@
           "question": "What do the objects reflect about communities?",
           "options": [
             "The same modern sport",
-            "Different rituals and customs",
-            "Identical daily routines"
+            "Identical daily routines",
+            "Different rituals and customs"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "different rituals myths and customs\nreflected in the relics they left behind"
         },
         {
@@ -9915,10 +9915,10 @@
           "question": "What event does the raft represent?",
           "options": [
             "A battle between two armies",
-            "A harvest celebration",
-            "A new chief taking office"
+            "A new chief taking office",
+            "A harvest celebration"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "investiture of a new Miska chief"
         }
       ],
@@ -9926,39 +9926,39 @@
         {
           "q": "What does this museum preserve?",
           "options": [
-            "Objects showing Colombia’s past cultures",
             "Only paintings of modern hotels",
-            "Only maps of foreign cities"
+            "Only maps of foreign cities",
+            "Objects showing Colombia’s past cultures"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What diversity do the exhibits celebrate?",
           "options": [
-            "Only different building heights",
             "Traditions, languages and backgrounds",
+            "Only different building heights",
             "Only different ticket prices"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What is special about the small raft?",
           "options": [
             "It is used for daily boat trips",
-            "It was made to hold museum visitors",
-            "It carries a rich historical story"
+            "It carries a rich historical story",
+            "It was made to hold museum visitors"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why can a small object tell a large story?",
         "options": [
-          "Its design can record an important cultural event",
           "Its size tells us how many people lived in the city",
-          "Small objects always belong to the richest person"
+          "Small objects always belong to the richest person",
+          "Its design can record an important cultural event"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -10239,11 +10239,11 @@
           "end": 52,
           "question": "How long had Clara first planned to stay?",
           "options": [
-            "One year",
             "Three years",
-            "Six years"
+            "Six years",
+            "One year"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "study she originally wanted to stay for\none year but it's now been"
         },
         {
@@ -10251,11 +10251,11 @@
           "end": 108,
           "question": "What can customers choose for a pullover order?",
           "options": [
-            "Only the shop opening time",
             "Their own design and colours",
+            "Only the shop opening time",
             "Only the delivery van"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "one or order one according to your own\ndesign and color\ncombination they're great because\nthey're very warm and even slightly"
         },
         {
@@ -10264,10 +10264,10 @@
           "question": "In about how many US stores is the label sold?",
           "options": [
             "More than ten",
-            "More than one thousand",
-            "More than one hundred"
+            "More than one hundred",
+            "More than one thousand"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "where it can be found in more than a 100\nstores"
         }
       ],
@@ -10275,39 +10275,39 @@
         {
           "q": "What interests Clara about Reykjavik?",
           "options": [
-            "Architecture and local handicrafts",
             "Only sports stadiums",
+            "Architecture and local handicrafts",
             "Only airport shopping"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How does the church design connect with Iceland?",
           "options": [
             "It hides all natural forms",
-            "It reflects the landscape",
-            "It copies a tropical beach"
+            "It copies a tropical beach",
+            "It reflects the landscape"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How are local creative businesses presented?",
           "options": [
+            "Some reach international markets",
             "All sell only to one neighbourhood",
-            "None survived the financial crisis",
-            "Some reach international markets"
+            "None survived the financial crisis"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "What links the architecture and clothing in this account?",
         "options": [
+          "Both combine local identity with practical or modern design",
           "Both were imported unchanged from Germany",
-          "Both are used only during festivals",
-          "Both combine local identity with practical or modern design"
+          "Both are used only during festivals"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -10400,11 +10400,11 @@
           "end": 21,
           "question": "What share of the nation comes together?",
           "options": [
-            "One third",
             "One tenth",
-            "One half"
+            "One half",
+            "One third"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "event of the year in Iceland. One third\nof the nation come together and\ncelebrates. We know that all kind of\npeople and and places are organizing\nevents that are not a part of our"
         },
         {
@@ -10412,11 +10412,11 @@
           "end": 36,
           "question": "What event starts the day?",
           "options": [
-            "A football match",
             "A marathon",
+            "A football match",
             "A boat race"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "framed in with with the marathon in the\nmorning and the firework show at the\nend. But uh what happens in the\nmeantime, all the all the small events"
         },
         {
@@ -10425,10 +10425,10 @@
           "question": "What is the firework designer’s main focus?",
           "options": [
             "Making the show happen at noon",
-            "Moving the show out of the city",
-            "Bringing the show closer to people"
+            "Bringing the show closer to people",
+            "Moving the show out of the city"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "it closer to the people is the main\nfocus."
         }
       ],
@@ -10446,29 +10446,29 @@
           "q": "Who helps organise activities?",
           "options": [
             "Only professional athletes",
-            "Many kinds of people and places",
-            "Only the airport staff"
+            "Only the airport staff",
+            "Many kinds of people and places"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What closes the day’s programme?",
           "options": [
             "A morning race",
-            "A cooking lesson",
-            "A firework show"
+            "A firework show",
+            "A cooking lesson"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why might unofficial small events matter to this celebration?",
         "options": [
-          "They are all held in the same private room",
           "They let many people contribute to the city-wide experience",
+          "They are all held in the same private room",
           "They stop people attending any official event"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -10532,11 +10532,11 @@
           "end": 62,
           "question": "Where was the railway intended to run?",
           "options": [
-            "From Mombasa to Uganda",
             "From Nairobi to Cairo",
+            "From Mombasa to Uganda",
             "From Uganda to Cape Town"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "build a train track from Mombasa all the\nway to Uganda. They called it [music]\nthe Lunatic Line because, honestly, it"
         },
         {
@@ -10545,10 +10545,10 @@
           "question": "What did the workers need at the difficult terrain?",
           "options": [
             "A place to plant a vineyard",
-            "A place to rest and store things",
-            "A place to build ships"
+            "A place to build ships",
+            "A place to rest and store things"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "The workers were tired and needed a\nplace to put their stuff and rest\n[music] their feet before trying to\nclimb that giant wall. They were just\nlooking for a camp, but [music] they"
         },
         {
@@ -10556,11 +10556,11 @@
           "end": 127,
           "question": "What does Enkare Nairobi mean?",
           "options": [
+            "Place of cool waters",
             "Place of tall mountains",
-            "Place of hot sands",
-            "Place of cool waters"
+            "Place of hot sands"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "cool waters.\nBut to the British engineers, it didn't\nhave such a poetic name. It was just"
         }
       ],
@@ -10578,29 +10578,29 @@
           "q": "What made the route difficult?",
           "options": [
             "A ban on railway travel",
-            "The Great Rift Valley terrain",
-            "The lack of any water"
+            "The lack of any water",
+            "The Great Rift Valley terrain"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "Why did engineers find the site convenient?",
           "options": [
             "A deep harbour and a beach",
-            "A large existing palace",
-            "Flat land, water and nearby highlands"
+            "Flat land, water and nearby highlands",
+            "A large existing palace"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why call the beginning accidental?",
         "options": [
+          "The workers chose a camp rather than planning a future capital",
           "Nobody knew how to build a railway",
-          "The place had never had a local name",
-          "The workers chose a camp rather than planning a future capital"
+          "The place had never had a local name"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -10730,20 +10730,20 @@
         {
           "q": "What development is the report tracking?",
           "options": [
-            "Nairobi’s growing role as a UN hub",
             "Nairobi’s move away from international meetings",
+            "Nairobi’s growing role as a UN hub",
             "Nairobi’s first passenger railway"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What physical expansion is planned?",
           "options": [
-            "A new sports stadium",
             "New offices and an assembly hall",
+            "A new sports stadium",
             "A new cruise port"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "Who could benefit beyond diplomats?",
@@ -10759,10 +10759,10 @@
         "q": "Why could expanding a meeting hub create work for hotels and restaurants?",
         "options": [
           "UN buildings replace all local businesses",
-          "More operations and delegates bring demand for local services",
-          "Every delegate must become a hotel owner"
+          "Every delegate must become a hotel owner",
+          "More operations and delegates bring demand for local services"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -10825,11 +10825,11 @@
           "end": 42,
           "question": "What title did Lima gain?",
           "options": [
-            "City of Kings",
             "City of Bridges",
+            "City of Kings",
             "City of Islands"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "earns the title of city of Kings a grand\nname don't you think a fitting title for\na city destined to become the heart of"
         },
         {
@@ -10837,11 +10837,11 @@
           "end": 105,
           "question": "What influences are blended in the local markets?",
           "options": [
-            "British and Greek",
             "Spanish and Andean",
+            "British and Greek",
             "French and Roman"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "riot of colors selling Goods that blend\nboth Spanish and andian influences the\nSpanish brought their architectural"
         },
         {
@@ -11204,11 +11204,11 @@
           "end": 52,
           "question": "Where do most quokkas now live?",
           "options": [
-            "Rottnest Island",
             "A mainland city park",
+            "Rottnest Island",
             "An inland mountain"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Today, most quokkas reside on Rottnest\n[music] Island, a rare haven where they"
         },
         {
@@ -11216,11 +11216,11 @@
           "end": 71,
           "question": "What helped bring attention to quokkas?",
           "options": [
-            "Train tickets",
             "Selfies",
+            "Train tickets",
             "School uniforms"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "The rise of the quokka selfie may not\nhave been conservation, but it was\nattention."
         },
         {
@@ -11240,11 +11240,11 @@
         {
           "q": "What contrast does the account make?",
           "options": [
-            "Threatened mainland animals and a safer island population",
             "Wild animals and household pets",
-            "Winter animals and summer animals"
+            "Winter animals and summer animals",
+            "Threatened mainland animals and a safer island population"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "How are island quokkas described?",
@@ -11258,21 +11258,21 @@
         {
           "q": "What can attention lead toward?",
           "options": [
+            "Awareness and protection",
             "A ban on wildlife research",
-            "Replacing wild animals with pets",
-            "Awareness and protection"
+            "Replacing wild animals with pets"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why distinguish attention from conservation?",
         "options": [
+          "Being popular can raise awareness but is not itself protection",
           "Taking a photo always restores habitat",
-          "Conservation means avoiding all information about animals",
-          "Being popular can raise awareness but is not itself protection"
+          "Conservation means avoiding all information about animals"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -11582,11 +11582,11 @@
           "end": 48,
           "question": "How old is the eruption they stand beside?",
           "options": [
-            "180,000 years",
             "18,000 years",
-            "1,800 years"
+            "1,800 years",
+            "180,000 years"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "next to what's left from a\n180,000-year-old eruption\nin the Auckland Volcanic Field.\nSo it's very exciting."
         },
         {
@@ -11594,11 +11594,11 @@
           "end": 63,
           "question": "How many volcanoes are in the field?",
           "options": [
-            "Fifteen",
             "Fifty-three",
+            "Fifteen",
             "Thirty-five"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "Pupuke is just one of 53\nvolcanoes that we have\nhere in the Auckland\nVolcanic Field.\nAnd those volcanoes are\nspread out across an area,\nspanning 24 metres from the\ncity centre,"
         },
         {
@@ -11607,10 +11607,10 @@
           "question": "Which landforms are mentioned besides lakes?",
           "options": [
             "Sand dunes and coral reefs",
-            "Glaciers and ice caves",
-            "Scoria cones and lava flows"
+            "Scoria cones and lava flows",
+            "Glaciers and ice caves"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "but you also get the maunga\nor the scoria cones, we call them.\nYou also get some lava flows,\nwhich are like solid crusts"
         }
       ],
@@ -11618,29 +11618,29 @@
         {
           "q": "What is this field trip investigating?",
           "options": [
-            "Signs of past volcanic eruptions",
             "Signs of recent ocean storms",
-            "Signs of ancient railway routes"
+            "Signs of ancient railway routes",
+            "Signs of past volcanic eruptions"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What feature is left from the nearby eruption?",
           "options": [
-            "A harbour wall",
             "A lake",
+            "A harbour wall",
             "A glacier"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How are the volcanoes arranged?",
           "options": [
             "All inside one building",
-            "Only on a distant island",
-            "Spread across the city area"
+            "Spread across the city area",
+            "Only on a distant island"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
@@ -11714,11 +11714,11 @@
           "end": 38,
           "question": "What makes this depot a New Zealand first?",
           "options": [
-            "It is fully electric",
             "It uses only double-decker buses",
-            "It is entirely underground"
+            "It is entirely underground",
+            "It is fully electric"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "is the first fully electric bus depot\nthat we're launching for New Zealand\nit's also australasia's largest electric"
         },
         {
@@ -11738,11 +11738,11 @@
           "end": 104,
           "question": "What does one partner provide?",
           "options": [
+            "Smart charging technology",
             "New railway tunnels",
-            "Passenger ferry docks",
-            "Smart charging technology"
+            "Passenger ferry docks"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "smart charging technology wsp who did\nthe design and all of the projects\npeople that made this happen it's been a"
         }
       ],
@@ -11750,20 +11750,20 @@
         {
           "q": "How does this depot differ from a typical early electric-bus site?",
           "options": [
-            "All its buses are electric rather than a mixed fleet",
             "It has no charging equipment",
+            "All its buses are electric rather than a mixed fleet",
             "It uses electric buses only on weekends"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What helped make the project possible?",
           "options": [
-            "A ban on all public transport",
             "Transport authorities, contractors and partners",
+            "A ban on all public transport",
             "One driver working alone"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What wider goal is mentioned?",
@@ -11874,11 +11874,11 @@
           "end": 73,
           "question": "What does the market bring into the city?",
           "options": [
-            "Produce from Fiji’s islands",
             "Only imported cars",
+            "Produce from Fiji’s islands",
             "Only factory machinery"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "brings in produce from all around\nvt level and and indeed the rest of the"
         },
         {
@@ -11886,11 +11886,11 @@
           "end": 107,
           "question": "Over what period has the retail sector grown substantially?",
           "options": [
-            "Forty to fifty years",
             "Ten to fifteen years",
+            "Forty to fifty years",
             "One to two years"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "over the last 10 to 15 years since since\nI lived here they're you know connected\nto the world"
         },
         {
@@ -11910,29 +11910,29 @@
         {
           "q": "What mix of economic activity does the walk reveal?",
           "options": [
-            "Local markets and global retail",
             "Only industrial factories",
+            "Local markets and global retail",
             "Only subsistence farming"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Who buys the market produce?",
           "options": [
             "Only people outside Fiji",
-            "City residents",
-            "Only international airlines"
+            "Only international airlines",
+            "City residents"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How does the speaker connect Suva with other Pacific cities?",
           "options": [
+            "Through familiar global brands",
             "Through identical old temples",
-            "Through a shared underground railway",
-            "Through familiar global brands"
+            "Through a shared underground railway"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
@@ -12071,39 +12071,39 @@
         {
           "q": "What is at risk alongside homes?",
           "options": [
-            "Culture and ancestral traditions",
             "Only sports equipment",
-            "Only tourist advertisements"
+            "Only tourist advertisements",
+            "Culture and ancestral traditions"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "Why are residents reluctant to move?",
           "options": [
-            "They want to stop playing rugby",
             "They have invested in homes and fear losing their way of life",
+            "They want to stop playing rugby",
             "They have never experienced flooding"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What danger has already forced other villages to relocate?",
           "options": [
             "A shortage of rugby players",
-            "A shortage of road signs",
-            "Rising seas and extreme weather"
+            "Rising seas and extreme weather",
+            "A shortage of road signs"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why is relocation more complex than replacing buildings?",
         "options": [
           "Only the government uses the village land",
-          "Land, traditions and community life are closely connected",
-          "Every resident can easily recreate every tradition elsewhere"
+          "Every resident can easily recreate every tradition elsewhere",
+          "Land, traditions and community life are closely connected"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -12166,11 +12166,11 @@
           "end": 46,
           "question": "What brought Rich to live in the city?",
           "options": [
-            "He fell in love with it while travelling",
             "He was sent to build its metro",
+            "He fell in love with it while travelling",
             "He came to organise an election"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "breath, but uh that's okay.\nGood to meet you nonetheless.\nRich Beal fell in love with this city\nwhile traveling. He moved here back in\n2018."
         },
         {
@@ -12178,11 +12178,11 @@
           "end": 63,
           "question": "What was the city like a century earlier?",
           "options": [
-            "A city of underground homes",
             "A tented city",
+            "A city of underground homes",
             "A city of tall glass towers"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "Yeah, massively different. It would have\nbeen a tented city.\nYeah. dirt streets, uh, horses, carts in\nsome places, and and nowhere near as"
         },
         {
@@ -12202,11 +12202,11 @@
         {
           "q": "What change are the speakers exploring?",
           "options": [
-            "How the city changed over a century",
             "How a new airport opened yesterday",
-            "How a market changes each weekend"
+            "How a market changes each weekend",
+            "How the city changed over a century"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What transport is mentioned in the older city?",
@@ -12220,11 +12220,11 @@
         {
           "q": "What influence do they still notice?",
           "options": [
+            "Soviet influence",
             "Roman influence",
-            "Spanish influence",
-            "Soviet influence"
+            "Spanish influence"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
@@ -12299,11 +12299,11 @@
           "end": 86,
           "question": "What was built to improve safety and access?",
           "options": [
-            "Ramps",
             "Car parks",
+            "Ramps",
             "Footbridges over every road"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "we built new ramps in strategic places\nfor safety and access."
         },
         {
@@ -12312,10 +12312,10 @@
           "question": "How can commuters now report issues?",
           "options": [
             "Only by visiting a driver’s home",
-            "Through a customer feedback system",
-            "Only by changing their bus route"
+            "Only by changing their bus route",
+            "Through a customer feedback system"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "From Seten Badam's stories and other\nuser insights, we developed a customer\nfeedback system for commuters to report\nissues."
         },
         {
@@ -12323,11 +12323,11 @@
           "end": 154,
           "question": "How is behaviour inside buses monitored?",
           "options": [
+            "CCTV cameras",
             "Paper diaries",
-            "Public posters",
-            "CCTV cameras"
+            "Public posters"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "and customer service. CCTV cameras\ninside buses monitor driver and\npassenger behavior for improved"
         }
       ],
@@ -12335,29 +12335,29 @@
         {
           "q": "What shaped the transport improvements?",
           "options": [
-            "Users’ stories and technical review",
             "Only the colour of the buses",
-            "Only foreign tourist surveys"
+            "Only foreign tourist surveys",
+            "Users’ stories and technical review"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "Whose access is explicitly considered?",
           "options": [
-            "Only professional athletes",
             "People needing accessible vehicles and stops",
+            "Only professional athletes",
             "Only private car owners"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What combination of changes is described?",
           "options": [
             "Only new advertisements",
-            "Only new ticket designs",
-            "Infrastructure, information and staff practices"
+            "Infrastructure, information and staff practices",
+            "Only new ticket designs"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
@@ -12495,11 +12495,11 @@
         {
           "q": "What combination attracts people to Almaty?",
           "options": [
-            "History, seasonal activities and traditions",
             "Only one new airport",
-            "Only sea beaches"
+            "Only sea beaches",
+            "History, seasonal activities and traditions"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What older role did the city have?",
@@ -12513,21 +12513,21 @@
         {
           "q": "Why does the bath visitor enjoy the steam rooms?",
           "options": [
+            "To renew his energy",
             "To buy winter sports tickets",
-            "To avoid speaking to anyone",
-            "To renew his energy"
+            "To avoid speaking to anyone"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why mention traditional baths during a tour of a modern city?",
         "options": [
+          "Old customs continue alongside new development",
           "Modern development has removed every old custom",
-          "Baths are only used as history museums",
-          "Old customs continue alongside new development"
+          "Baths are only used as history museums"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -12623,11 +12623,11 @@
           "end": 54,
           "question": "When did construction work actually begin?",
           "options": [
-            "September 1988",
             "September 1998",
+            "September 1988",
             "September 2008"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "matters is that work actually started in\nSeptember 1988,\nwell before the end of the Soviet Union.\nAnyway, back to the story. After"
         },
         {
@@ -12635,11 +12635,11 @@
           "end": 75,
           "question": "When did the metro open?",
           "options": [
-            "2021",
             "2011",
+            "2021",
             "2001"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "Everything was wrapped up, and this was\nopened in 2011.\nBut look, we're in 2025 now, and there\nare talks of an extension.\nAnd look, while we're here, I need to"
         },
         {
@@ -12659,39 +12659,39 @@
         {
           "q": "Why call this a Soviet metro despite its later opening?",
           "options": [
-            "Work began before the Soviet Union ended",
             "Every train still comes from the Soviet government",
-            "It opened before all other Soviet metros"
+            "It opened before all other Soviet metros",
+            "Work began before the Soviet Union ended"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What helped construction move forward in 2005?",
           "options": [
-            "Passengers built their own trains",
             "Funding was arranged",
+            "Passengers built their own trains",
             "All tunnels were removed"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How are the station designs described?",
           "options": [
             "All identical and undecorated",
-            "All modelled on airport departure halls",
-            "Different, with history and culture telling unique stories"
+            "Different, with history and culture telling unique stories",
+            "All modelled on airport departure halls"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why can a station’s name influence its design?",
         "options": [
           "Passengers choose a new name each day",
-          "A local association can be expressed through a theme such as space",
-          "A name fixes every station’s ticket price"
+          "A name fixes every station’s ticket price",
+          "A local association can be expressed through a theme such as space"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       "words": [
         {
@@ -12755,11 +12755,11 @@
           "end": 29,
           "question": "What kind of vehicle do they use for the tour?",
           "options": [
-            "An electric tuk-tuk",
             "A double-decker bus",
+            "An electric tuk-tuk",
             "A horse-drawn cart"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "electric vehicle similar to a rickshaw\nthis one had a clear roof so we didn't\nmiss any of the amazing architecture and"
         },
         {
@@ -12768,10 +12768,10 @@
           "question": "What had their guide studied?",
           "options": [
             "Medicine",
-            "History",
-            "Engineering"
+            "Engineering",
+            "History"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "in a short amount of time luckily he was\na history major at the University of\nMadrid so he was able to tell us all\nabout the different monuments churches"
         },
         {
@@ -12779,11 +12779,11 @@
           "end": 79,
           "question": "About how many trees does the park have?",
           "options": [
+            "More than fifteen thousand",
             "More than five thousand",
-            "More than fifty thousand",
-            "More than fifteen thousand"
+            "More than fifty thousand"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "more than 15,000 trees some other\nhighlights of the park are the beautiful\nLake which is a hub of activity with Rob"
         }
       ],
@@ -12801,19 +12801,19 @@
           "q": "What does the guide explain?",
           "options": [
             "Only train timetables",
-            "Monuments, churches and squares",
-            "Only supermarket prices"
+            "Only supermarket prices",
+            "Monuments, churches and squares"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What outdoor place do they highlight?",
           "options": [
             "A beach with a lighthouse",
-            "A mountain with a ski lift",
-            "A large park with trees and a lake"
+            "A large park with trees and a lake",
+            "A mountain with a ski lift"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
@@ -13136,11 +13136,11 @@
           "end": 44,
           "question": "How much time could you spend seeing everything, according to the narrator?",
           "options": [
-            "A lifetime",
             "One morning",
+            "A lifetime",
             "One weekend"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "opinion you could spend a lifetime here\ntrying to visit all the things to see\nand do and even then you would probably\njust be scratching the"
         },
         {
@@ -13148,11 +13148,11 @@
           "end": 64,
           "question": "What can visitors explore after people-watching?",
           "options": [
-            "Only sports shops",
             "Monuments and museums",
+            "Only sports shops",
             "Only car factories"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "you tired of watching others you can\nvisit one of the many monuments museums\nCathedrals monasteries and castles"
         },
         {
@@ -13268,11 +13268,11 @@
           "end": 26,
           "question": "What language does the tile name come from?",
           "options": [
-            "Arabic",
             "French",
-            "English"
+            "English",
+            "Arabic"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "the heritage of the\nMoors the name comes from the Arabic\nAzula which presumably means a mosaic"
         },
         {
@@ -13280,11 +13280,11 @@
           "end": 61,
           "question": "What date is given for the chapel tiles?",
           "options": [
-            "1830",
             "1730",
+            "1830",
             "1630"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "from 1730 where scenes from the life of\nSt Laurence are Illustrated"
         },
         {
@@ -13293,10 +13293,10 @@
           "question": "How long can one picture take to make?",
           "options": [
             "Six minutes to two hours",
-            "Six weeks to two months",
-            "Six hours to two weeks"
+            "Six hours to two weeks",
+            "Six weeks to two months"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "for one picture she needs between 6\nhours and 2 weeks depending on how\ndemanding The Motif is"
         }
       ],
@@ -13332,11 +13332,11 @@
       "harder": {
         "q": "Why show both a chapel and a modern studio?",
         "options": [
-          "The same tradition can serve religious and other artistic purposes",
           "The tiles are no longer made anywhere",
-          "The studio makes only replicas of one chapel"
+          "The studio makes only replicas of one chapel",
+          "The same tradition can serve religious and other artistic purposes"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -13432,11 +13432,11 @@
           "end": 36,
           "question": "When is St Patrick’s Day?",
           "options": [
-            "March seventeenth",
             "March seventh",
-            "March twenty-seventh"
+            "March twenty-seventh",
+            "March seventeenth"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "takes place on March 17th\nNow in Ireland they like to celebrate"
         },
         {
@@ -13444,11 +13444,11 @@
           "end": 59,
           "question": "What if you cannot get the steps right?",
           "options": [
-            "Leave the room quietly",
             "Keep moving and enjoy it",
+            "Leave the room quietly",
             "Stop dancing immediately"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "important announcement\neven if you can't get the steps right"
         },
         {
@@ -13457,10 +13457,10 @@
           "question": "Where should you keep your fists?",
           "options": [
             "Above your head",
-            "Behind your back",
-            "At your sides"
+            "At your sides",
+            "Behind your back"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "glue them at your sides oh no\nnow that our arms are glued to our sides"
         }
       ],
@@ -13468,39 +13468,39 @@
         {
           "q": "How does this lesson celebrate the occasion?",
           "options": [
-            "By teaching some dance moves",
             "By cooking a meal",
+            "By teaching some dance moves",
             "By drawing a map"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What attitude does the teacher encourage?",
           "options": [
             "Compete to finish before everyone else",
-            "Have fun even while learning",
-            "Never try unless you are already perfect"
+            "Never try unless you are already perfect",
+            "Have fun even while learning"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What should you prepare before dancing?",
           "options": [
+            "An open space",
             "A full dinner table",
-            "A dark room",
-            "An open space"
+            "A dark room"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why reassure learners before teaching the movements?",
         "options": [
           "It means there are no movements to learn",
-          "It means the teacher will dance instead of everyone",
-          "It can make beginners more willing to join in"
+          "It can make beginners more willing to join in",
+          "It means the teacher will dance instead of everyone"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -13849,39 +13849,39 @@
         {
           "q": "What makes this farm unusual to the presenter?",
           "options": [
-            "Valuable sheep have specially built accommodation",
             "It grows only vegetables",
+            "Valuable sheep have specially built accommodation",
             "It has no animals"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Where was the farmer born and raised?",
           "options": [
             "Brazil",
-            "Senegal",
-            "Ghana"
+            "Ghana",
+            "Senegal"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How does the presenter react to the story?",
           "options": [
+            "With surprise and interest",
             "With boredom and impatience",
-            "With anger at visitors",
-            "With surprise and interest"
+            "With anger at visitors"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why might someone invest in special housing for these animals?",
         "options": [
+          "The sheep are treated as valuable assets",
           "The sheep are kept only as decorations",
-          "The farm has no other use for its buildings",
-          "The sheep are treated as valuable assets"
+          "The farm has no other use for its buildings"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
@@ -14006,11 +14006,11 @@
           "end": 51,
           "question": "Which two South American countries do not border Brazil?",
           "options": [
-            "Chile and Ecuador",
             "Peru and Bolivia",
+            "Chile and Ecuador",
             "Uruguay and Paraguay"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "every other country in South America,\nexcept Chile and Ecuador.\nThat's French Guiana, Suriname, Guyana,"
         },
         {
@@ -14018,11 +14018,11 @@
           "end": 71,
           "question": "What population figure does the narrator give?",
           "options": [
-            "Over 313 million",
             "Over 213 million",
+            "Over 313 million",
             "Over 113 million"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "beautiful coastline. [music]\nBrazil has a population of over 213\nmillion people, and is the world's fifth\nlargest country by total area, and the"
         },
         {
@@ -14052,19 +14052,19 @@
           "q": "How is Brazil described within South America?",
           "options": [
             "A country with no land borders",
-            "The largest country",
-            "The smallest country"
+            "The smallest country",
+            "The largest country"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What practical information is given for visitors?",
           "options": [
             "Only hotel room numbers",
-            "Only train platform numbers",
-            "The language and currency"
+            "The language and currency",
+            "Only train platform numbers"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
@@ -14137,11 +14137,11 @@
           "end": 47,
           "question": "Which activity supplied some dance moves?",
           "options": [
-            "Capoeira",
             "Football",
+            "Capoeira",
             "Rowing"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "moves from capera the then outlawed afro\nBrazilian martial art resulting in a\nCarnival Sensation that thrives to this"
         },
         {
@@ -14149,11 +14149,11 @@
           "end": 81,
           "question": "When did the group of friends found the club?",
           "options": [
-            "1957",
             "1947",
+            "1957",
             "1937"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "of friends in 1947 when they decided to\njoke around by dancing down the streets\nwith branches from a Poma tree the joke"
         },
         {
@@ -14173,39 +14173,39 @@
         {
           "q": "How did this carnival tradition develop?",
           "options": [
-            "Musical and movement traditions combined",
             "It was imported unchanged from Europe",
-            "It began as a television competition"
+            "It began as a television competition",
+            "Musical and movement traditions combined"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "How did the club’s street-dancing joke develop?",
           "options": [
-            "It became a private indoor lesson",
             "It attracted large crowds",
+            "It became a private indoor lesson",
             "It was abandoned after one day"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What role do clubs play now?",
           "options": [
             "Replacing all local music",
-            "Stopping young people joining",
-            "Keeping the tradition active"
+            "Keeping the tradition active",
+            "Stopping young people joining"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why involve young people in an old tradition?",
         "options": [
-          "Its future depends on people continuing to practise it",
           "Only young people can watch a parade",
+          "Its future depends on people continuing to practise it",
           "The tradition has no connection with previous generations"
         ],
-        "correctIndex": 0
+        "correctIndex": 1
       },
       "words": [
         {
@@ -14315,10 +14315,10 @@
           "question": "What will the class use instead of fabric?",
           "options": [
             "Wooden boards",
-            "Coloured paper",
-            "Metal sheets"
+            "Metal sheets",
+            "Coloured paper"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "of colored paper let's take a look at\nthe materials we will need and get\nstarted for this activity you are going"
         },
         {
@@ -14327,10 +14327,10 @@
           "question": "What should you do with the scraps after cutting?",
           "options": [
             "Throw them away",
-            "Wash them",
-            "Save them"
+            "Save them",
+            "Wash them"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "out save the scraps because we will be"
         }
       ],
@@ -14338,20 +14338,20 @@
         {
           "q": "What is the activity inspired by?",
           "options": [
-            "A Panamanian layered-fabric art form",
             "A railway map",
+            "A Panamanian layered-fabric art form",
             "A recipe for soup"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "Where are traditional molas worn?",
           "options": [
-            "On hats",
             "On blouses",
+            "On hats",
             "On shoes"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "What is the first making step?",
@@ -14465,11 +14465,11 @@
           "end": 104,
           "question": "What threat is Michelle discussing?",
           "options": [
-            "A fungus infecting frogs",
             "A shortage of nesting trees",
-            "A new species of fish"
+            "A new species of fish",
+            "A fungus infecting frogs"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "the kitd fungus that's infecting frogs"
         },
         {
@@ -14489,11 +14489,11 @@
           "end": 167,
           "question": "What is the golden frog’s status in the wild?",
           "options": [
+            "Extinct in the wild",
             "Common across every continent",
-            "Increasing in every river",
-            "Extinct in the wild"
+            "Increasing in every river"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "the world and it's now extinct in the\nwild so the only place where we can\nstill see the living frog is in the"
         }
       ],
@@ -14501,39 +14501,39 @@
         {
           "q": "Why does infection of the skin matter so much to frogs?",
           "options": [
-            "Their skin helps them absorb what they need",
             "Their skin stores all their food",
+            "Their skin helps them absorb what they need",
             "Their skin lets them fly"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What is the conservation centre trying to do?",
           "options": [
             "Replace frogs with fish",
-            "Protect vulnerable frogs and toads",
-            "Move every frog into the sea"
+            "Move every frog into the sea",
+            "Protect vulnerable frogs and toads"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "Where can visitors still see the golden frog described?",
           "options": [
+            "In the conservation exhibit",
             "In any city fountain",
-            "On every mountain path",
-            "In the conservation exhibit"
+            "On every mountain path"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
         "q": "Why might captive protection become necessary here?",
         "options": [
-          "Captivity automatically removes every threat to all amphibians",
           "A species can disappear from the wild while living individuals remain in care",
+          "Captivity automatically removes every threat to all amphibians",
           "Every wild frog prefers indoor life"
         ],
-        "correctIndex": 1
+        "correctIndex": 0
       },
       "words": [
         {
@@ -14633,29 +14633,29 @@
         {
           "q": "What country features does the narrator introduce?",
           "options": [
-            "Flag symbols, location and cities",
             "Only airport rules",
-            "Only a restaurant menu"
+            "Only a restaurant menu",
+            "Flag symbols, location and cities"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What lies on either side of the country?",
           "options": [
-            "The Indian Ocean and the Sahara",
             "The Pacific and the Andes",
+            "The Indian Ocean and the Sahara",
             "The Atlantic and the Alps"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How is the country’s shape described?",
           "options": [
             "Short and round",
-            "A group of small islands",
-            "Long and narrow"
+            "Long and narrow",
+            "A group of small islands"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
@@ -14991,10 +14991,10 @@
           "question": "What does the centre star represent?",
           "options": [
             "Travel",
-            "Unity",
-            "Wealth"
+            "Wealth",
+            "Unity"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "star symbolizes Unity an important\nfeature of the Ethiopian culture that we\nwill later get into"
         },
         {
@@ -15003,10 +15003,10 @@
           "question": "Which set of neighbours is mentioned?",
           "options": [
             "Egypt, Libya and Tunisia",
-            "Kenya, Uganda and Rwanda",
-            "Eritrea, Djibouti and Somalia"
+            "Eritrea, Djibouti and Somalia",
+            "Kenya, Uganda and Rwanda"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "Horn of Africa neighboring countries\ninclude eretria Djibouti Somalia Sudan"
         }
       ],
@@ -15141,11 +15141,11 @@
           "end": 95,
           "question": "How old is Lucy said to be?",
           "options": [
-            "3.2 million years",
             "2.3 million years",
+            "3.2 million years",
             "4.2 million years"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "found a 3.2 milliony old hominid known\nas Lucy"
         },
         {
@@ -15154,10 +15154,10 @@
           "question": "What did the discoverer first notice?",
           "options": [
             "A stone tool",
-            "A fragment of bone",
-            "A complete skull"
+            "A complete skull",
+            "A fragment of bone"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "was a fragment of bone and I looked at\nit and almost instantaneously said\nthat's a"
         },
         {
@@ -15165,11 +15165,11 @@
           "end": 161,
           "question": "About how tall would Lucy have been?",
           "options": [
+            "Three and a half feet",
             "Five and a half feet",
-            "Two and a half feet",
-            "Three and a half feet"
+            "Two and a half feet"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "Verte on top of one another she'd be\nabout three and 1 half feet tall you\ndon't see that yeah you don't get that\nhere's the femur that's the left top end\nof the thigh bone and this one also when"
         }
       ],
@@ -15187,19 +15187,19 @@
           "q": "What mix of characteristics is highlighted?",
           "options": [
             "An upright body unable to walk",
-            "An ape-like appearance with two-legged walking",
-            "A human-like face with wings"
+            "A human-like face with wings",
+            "An ape-like appearance with two-legged walking"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What evidence are the speakers examining?",
           "options": [
             "Painted pottery",
-            "Written diaries",
-            "Fossilised bones"
+            "Fossilised bones",
+            "Written diaries"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
@@ -15274,11 +15274,11 @@
           "end": 46,
           "question": "What filling is named for samosas?",
           "options": [
-            "Spicy potatoes and peas",
             "Sweet apples and cream",
-            "Fish and rice"
+            "Fish and rice",
+            "Spicy potatoes and peas"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "are filled with spicy potatoes peas and\nsometimes\nmeat did you know that samosas"
         },
         {
@@ -15298,11 +15298,11 @@
           "end": 104,
           "question": "What is dosa made from?",
           "options": [
+            "Fermented rice and lentils",
             "Wheat and potatoes",
-            "Corn and chickpeas",
-            "Fermented rice and lentils"
+            "Corn and chickpeas"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "fermented rice and lentil\nbatter it's usually served with coconut\nchutney and"
         }
       ],
@@ -15310,20 +15310,20 @@
         {
           "q": "What variety does this section show?",
           "options": [
-            "Different Indian snacks and dishes",
             "Only one kind of dessert",
+            "Different Indian snacks and dishes",
             "Only food served on aeroplanes"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "How did samosas reach India in this account?",
           "options": [
-            "Through Antarctic explorers",
             "Through traders from the Middle East",
+            "Through Antarctic explorers",
             "Through a recent television contest"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How is butter chicken’s creation described?",
@@ -15419,10 +15419,10 @@
           "question": "What gives the fort its name?",
           "options": [
             "Its red entrance flags",
-            "Its large red walls",
-            "Its red roof tiles"
+            "Its red roof tiles",
+            "Its large red walls"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "from its colossal red walls the walls"
         },
         {
@@ -15431,10 +15431,10 @@
           "question": "What did the emperor hear in the public audience hall?",
           "options": [
             "Music from foreign orchestras",
-            "Reports only from army officers",
-            "Complaints and requests from ordinary people"
+            "Complaints and requests from ordinary people",
+            "Reports only from army officers"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "to hear the complaints and pleas of the\ncommoners the Durrani hearts was the"
         }
       ],
@@ -15452,29 +15452,29 @@
           "q": "What does the account show about the complex?",
           "options": [
             "There were no places for visitors",
-            "Different spaces had different public and royal uses",
-            "Every room served the same purpose"
+            "Every room served the same purpose",
+            "Different spaces had different public and royal uses"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "Whose visits are described in different halls?",
           "options": [
             "Only army officers",
-            "Only foreign artists",
-            "Ordinary people and royal guests"
+            "Ordinary people and royal guests",
+            "Only foreign artists"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why distinguish a public audience hall from a place for royal guests?",
         "options": [
-          "Access and functions differed within the same royal complex",
           "Ordinary people ruled the fort every day",
-          "Every visitor used the emperor’s private rooms"
+          "Every visitor used the emperor’s private rooms",
+          "Access and functions differed within the same royal complex"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -15569,11 +15569,11 @@
           "end": 49,
           "question": "What shape is the volcano known for?",
           "options": [
-            "A perfect cone",
             "A flat square",
+            "A perfect cone",
             "A wide ring"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "perfect cone shape and the bow Rice\nTerraces which are often called The\nEighth Wonder of the"
         },
         {
@@ -15581,11 +15581,11 @@
           "end": 66,
           "question": "What sport is Manny Pacquiao famous for?",
           "options": [
-            "Swimming",
             "Boxing",
+            "Swimming",
             "Football"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "boxer and Jose razal a national hero\ndaily life in the Philippines is a mix"
         },
         {
@@ -15615,19 +15615,19 @@
           "q": "What kind of gathering is part of daily life?",
           "options": [
             "Only private sports trials",
-            "Festivals and community events",
-            "Only business conferences"
+            "Only business conferences",
+            "Festivals and community events"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What kind of dish is adobo?",
           "options": [
             "A sweet frozen dessert",
-            "A fresh fruit salad",
-            "A savoury chicken or pork stew"
+            "A savoury chicken or pork stew",
+            "A fresh fruit salad"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
@@ -15700,11 +15700,11 @@
           "end": 51,
           "question": "How many unique Filipino languages are mentioned?",
           "options": [
-            "Over 170",
             "Over 70",
-            "Over 270"
+            "Over 270",
+            "Over 170"
           ],
-          "correctIndex": 0,
+          "correctIndex": 2,
           "keyLine": "tongue, although we don't really have\none since there are over 170 unique\nFilipino languages.\nSome say it's the color of our skin,"
         },
         {
@@ -15724,11 +15724,11 @@
           "end": 154,
           "question": "What is a barangay today?",
           "options": [
+            "A small community",
             "A type of sail",
-            "A fishing tool",
-            "A small community"
+            "A fishing tool"
           ],
-          "correctIndex": 2,
+          "correctIndex": 0,
           "keyLine": "which is why we still call a small\ncommunity in the Philippines a barangay\ntoday, named after the balangay boats of"
         }
       ],
@@ -15736,29 +15736,29 @@
         {
           "q": "What simple explanation of Filipino identity does the narrator challenge?",
           "options": [
-            "One language, one appearance or one location",
             "Only a shared boat journey",
+            "One language, one appearance or one location",
             "Only a shared history of cooperation"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What made early sea journeys possible?",
           "options": [
             "Avoiding all contact with neighbouring islands",
-            "Community members contributing different skills",
-            "One person doing every job alone"
+            "One person doing every job alone",
+            "Community members contributing different skills"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "What connection does the narrator trace into today?",
           "options": [
+            "Togetherness from boats to community life",
             "A rule that everyone must live at sea",
-            "A ban on travelling beyond the islands",
-            "Togetherness from boats to community life"
+            "A ban on travelling beyond the islands"
           ],
-          "correctIndex": 2
+          "correctIndex": 0
         }
       ],
       "harder": {
@@ -15863,11 +15863,11 @@
           "end": 39,
           "question": "Who do people honour during Tet?",
           "options": [
-            "Ancestors",
             "Only teachers",
+            "Ancestors",
             "Only athletes"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "time to honor ancestors and spend time\nwith family"
         },
         {
@@ -15875,11 +15875,11 @@
           "end": 57,
           "question": "Which calendar is Tet based on?",
           "options": [
-            "A fixed solar date",
             "The lunar calendar",
+            "A fixed solar date",
             "The school calendar"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "the celebration of tet is based upon the\nLunar New Year which is based upon the\ncycles of the Moon also known as the"
         },
         {
@@ -15899,39 +15899,39 @@
         {
           "q": "What does Tet celebrate?",
           "options": [
-            "Vietnamese New Year",
             "The first day of summer",
-            "The end of the school year"
+            "The end of the school year",
+            "Vietnamese New Year"
           ],
-          "correctIndex": 0
+          "correctIndex": 2
         },
         {
           "q": "What shared activity is highlighted?",
           "options": [
-            "Taking a driving test",
             "Spending time with family",
+            "Taking a driving test",
             "Moving to a new city"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "Why does the date change?",
           "options": [
             "Families vote for a new date",
-            "It always follows the first rainy day",
-            "It follows a lunar calendar"
+            "It follows a lunar calendar",
+            "It always follows the first rainy day"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why might a calendar date change while the celebration’s meaning stays similar?",
         "options": [
           "Every year the festival celebrates a different country",
-          "The festival has no traditions at all",
-          "The timing follows the Moon while family traditions continue"
+          "The timing follows the Moon while family traditions continue",
+          "The festival has no traditions at all"
         ],
-        "correctIndex": 2
+        "correctIndex": 1
       },
       "words": [
         {
@@ -15996,11 +15996,11 @@
           "end": 195,
           "question": "About how many inhabitants does the city have?",
           "options": [
-            "Almost ten million",
             "Almost five million",
+            "Almost ten million",
             "Almost fifteen million"
           ],
-          "correctIndex": 0,
+          "correctIndex": 1,
           "keyLine": "Haim Min City the largest city in\nVietnam with almost 10 million\ninhabitants or first stop Beni Street\nFood"
         },
         {
@@ -16008,11 +16008,11 @@
           "end": 210,
           "question": "What is banh mi described as?",
           "options": [
-            "A Vietnamese dessert",
             "A Vietnamese sandwich",
+            "A Vietnamese dessert",
             "A Vietnamese soup"
           ],
-          "correctIndex": 1,
+          "correctIndex": 0,
           "keyLine": "affordable the dishes are all freshly\nprepared B me by the way is a Vietnamese\nsandwich that you have to"
         },
         {
@@ -16042,29 +16042,29 @@
           "q": "How are the street-food dishes described?",
           "options": [
             "Free but only available once a week",
-            "Affordable and freshly prepared",
-            "Expensive and all frozen"
+            "Expensive and all frozen",
+            "Affordable and freshly prepared"
           ],
-          "correctIndex": 1
+          "correctIndex": 2
         },
         {
           "q": "How is the coffee served?",
           "options": [
             "Mixed with ice cream in a bowl",
-            "Poured over rice with no milk",
-            "Brewed over a glass with condensed milk"
+            "Brewed over a glass with condensed milk",
+            "Poured over rice with no milk"
           ],
-          "correctIndex": 2
+          "correctIndex": 1
         }
       ],
       "harder": {
         "q": "Why might the food market suit visitors with different interests?",
         "options": [
-          "It offers things to eat and things to take home",
           "Every stall sells exactly the same sandwich",
-          "It is only open to local residents"
+          "It is only open to local residents",
+          "It offers things to eat and things to take home"
         ],
-        "correctIndex": 0
+        "correctIndex": 2
       },
       "words": [
         {
@@ -16173,10 +16173,10 @@
           "question": "Which places can the boat reach?",
           "options": [
             "A beach and an island",
-            "Wat Pho and Chinatown",
-            "The airport and a mountain"
+            "The airport and a mountain",
+            "Wat Pho and Chinatown"
           ],
-          "correctIndex": 1,
+          "correctIndex": 2,
           "keyLine": "major tourist places like Wat Pho, Grand\nPalace, Chinatown and Khoa San Road. Since"
         },
         {
@@ -16185,10 +16185,10 @@
           "question": "Which two boat flags does Nina recommend?",
           "options": [
             "Green and yellow",
-            "Red and white",
-            "Orange and blue"
+            "Orange and blue",
+            "Red and white"
           ],
-          "correctIndex": 2,
+          "correctIndex": 1,
           "keyLine": "and the blue flag.\nThe orange flag boats are the most\ncommon ones. They stop at every pier\nfrom the central pier Sathorn, which is"
         }
       ],
@@ -16196,20 +16196,20 @@
         {
           "q": "Why does Nina explain the boats?",
           "options": [
-            "To help visitors travel along the river",
             "To teach visitors how to fish",
+            "To help visitors travel along the river",
             "To advertise a swimming course"
           ],
-          "correctIndex": 0
+          "correctIndex": 1
         },
         {
           "q": "What extra experience comes with this journey?",
           "options": [
-            "Cooking food on the boat",
             "Seeing everyday life on the river",
+            "Cooking food on the boat",
             "Learning to drive a train"
           ],
-          "correctIndex": 1
+          "correctIndex": 0
         },
         {
           "q": "How does Nina make the boat choices easier?",
@@ -16224,11 +16224,11 @@
       "harder": {
         "q": "Why might a visitor use a boat as well as a train?",
         "options": [
+          "Some places can be reached by boat but not by train",
           "Every train station closes during the day",
-          "Boats leave only from train stations",
-          "Some places can be reached by boat but not by train"
+          "Boats leave only from train stations"
         ],
-        "correctIndex": 2
+        "correctIndex": 0
       },
       "words": [
         {
