@@ -233,7 +233,7 @@ export function FlightDeck({
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
   // The class journey is World Flight's: depart from the class's current city,
   // within the plane's range (LC International before its first flight).
-  const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number; planeKey?: string | null; journey?: Array<{ from: string | null; to: string }> } | null>(null);
+  const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number; planeKey?: string | null; nextDestinationId?: string | null; journey?: Array<{ from: string | null; to: string }> } | null>(null);
   useEffect(() => {
     let cancelled = false;
     fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, { cache: 'no-store' })
@@ -409,7 +409,6 @@ export function FlightDeck({
   };
   // What this lesson has earned, for the landing card (fetched once the plane is down).
   const { data: landingRecord } = useWorldFlightRecord(sessionId, landed ? 'landed' : 'flying');
-  const classKey = landingRecord?.classId ?? null;
   // The Design mission, started from the Passport: the class designs from the evidence it collected. It runs where
   // the class is (no take-off), like a city lesson taught from here.
   const startDesignMission = async (investigationId: string) => {
@@ -1121,7 +1120,8 @@ export function FlightDeck({
       if (landed) {
         const next = nextReachable.find((r) => r.city === city);
         if (!next) return;
-        try { if (classKey) localStorage.setItem(`lc-next-city-${classKey}`, next.id); } catch { /* storage blocked */ }
+        // Saved on the class, so it is the default next lesson on any device.
+        void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nextDestinationId: next.id }) }).catch(() => {});
         flash(`Saved: next time we fly to ${next.city}`);
         return;
       }
@@ -1129,15 +1129,13 @@ export function FlightDeck({
       if (c) { setChosenId(c.id); flash(`The class chose ${c.city}!`); }
     });
     return () => setFlyTo(null);
-  }, [reachable, nextReachable, landed, classKey, setFlyTo, flash]);
+  }, [reachable, nextReachable, landed, sessionId, setFlyTo, flash]);
   // The city the class voted for last lesson is today's default (when it is still in range).
   useEffect(() => {
-    if (!classKey || chosenId || flightStage !== 'gate') return;
-    try {
-      const saved = localStorage.getItem(`lc-next-city-${classKey}`);
-      if (saved && reachable.some((c) => c.id === saved)) { setChosenId(saved); localStorage.removeItem(`lc-next-city-${classKey}`); }
-    } catch { /* storage blocked */ }
-  }, [classKey, reachable]); // eslint-disable-line react-hooks/exhaustive-deps
+    const saved = position?.nextDestinationId;
+    if (!saved || chosenId || flightStage !== 'gate') return;
+    if (reachable.some((c) => c.id === saved)) setChosenId(saved);
+  }, [position, reachable]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const openTool = (id: string, x: number, y: number) => {
     setWidgetPosition(id, { x: Math.max(8, Math.min(window.innerWidth - 340, x - 160)), y: Math.max(8, y - 420) });

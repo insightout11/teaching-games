@@ -3,6 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 let state: Record<string, unknown> | null = null;
 let journey: Array<{ origin_destination_id: string | null; destination_id: string }> = [];
 const upsert = vi.fn(async () => ({ error: null }));
+const stateUpdate = vi.fn(() => ({ eq: async () => ({ error: null }) }));
+const stateUpsert = vi.fn(async () => ({ error: null }));
 vi.mock('@/lib/auth-credits', () => ({ requireAuth: vi.fn(async () => ({ teacher: { id: 't1' }, error: null })) }));
 vi.mock('@/lib/session-ownership', () => ({
   verifyTeacherOwnsSession: vi.fn(async (id: string) => ({ session: { id, class_id: 'c1', status: 'active' }, error: null })),
@@ -10,7 +12,7 @@ vi.mock('@/lib/session-ownership', () => ({
 vi.mock('@/lib/supabase/service', () => ({
   createServiceClient: () => ({
     from: (table: string) => table === 'class_world_flight_state'
-      ? { select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: state }) }) }) }
+      ? { select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: state }) }) }), update: stateUpdate, upsert: stateUpsert }
       : {
         upsert,
         select: () => ({ eq: () => ({ eq: () => ({ order: () => ({ limit: async () => ({ data: journey }) }) }) }) }),
@@ -18,7 +20,7 @@ vi.mock('@/lib/supabase/service', () => ({
   }),
 }));
 
-import { GET, POST } from '@/app/api/session/[sessionId]/room-leg/route';
+import { GET, POST, PUT } from '@/app/api/session/[sessionId]/room-leg/route';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 
 const params = { params: { sessionId: 's1' } };
@@ -83,6 +85,16 @@ describe('room-leg route', () => {
   it('ignores a lesson id that does not belong to the city', async () => {
     await postLesson('tokyo', 'not-a-tokyo-lesson');
     expect(lastRow().focus_id).toBe('live-room');
+  });
+
+  it('saves the next-city choice for the class, and clears it at the next take-off', async () => {
+    const put = (nextDestinationId: unknown) => PUT(new Request('http://x', { method: 'PUT', body: JSON.stringify({ nextDestinationId }) }), params);
+    expect(await (await put('tokyo')).json()).toEqual({ nextDestinationId: 'tokyo' });
+    expect(stateUpsert).toHaveBeenCalledWith({ class_id: 'c1', next_destination_id: 'tokyo' }, { onConflict: 'class_id' });
+    expect((await put('atlantis')).status).toBe(400);
+    stateUpdate.mockClear();
+    await post('tokyo');
+    expect(stateUpdate).toHaveBeenCalledWith({ next_destination_id: null });
   });
 
   it('rejects unknown destinations', async () => {

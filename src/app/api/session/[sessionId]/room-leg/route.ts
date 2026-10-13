@@ -24,7 +24,7 @@ async function load(sessionId: string) {
   const service = createServiceClient();
   const { data: state } = await service
     .from('class_world_flight_state')
-    .select('current_destination_id, range_km, plane_selection_required, plane_key')
+    .select('current_destination_id, range_km, plane_selection_required, plane_key, next_destination_id')
     .eq('class_id', owned.session.class_id)
     .maybeSingle();
   return { service, classId: owned.session.class_id, state };
@@ -48,6 +48,8 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     rangeKm: state?.range_km ?? STARTER_PLANE_RANGE_KM,
     planeSelectionRequired: state?.plane_selection_required ?? false,
     planeKey: (state as { plane_key?: string | null } | null)?.plane_key ?? null,
+    // The city the class voted for after its last landing (today's default destination).
+    nextDestinationId: (state as { next_destination_id?: string | null } | null)?.next_destination_id ?? null,
   });
 }
 
@@ -100,5 +102,20 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
     { onConflict: 'session_id' },
   );
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  // The class is on its way: last lesson's "where next?" choice has been used (or overruled).
+  if (!taughtOnly) await service.from('class_world_flight_state').update({ next_destination_id: null }).eq('class_id', classId);
   return NextResponse.json({ movesClass: !taughtOnly, taughtOnly, cityLesson: !!focus, distanceKm: Math.round(km) });
+}
+
+/** Save the city the class chose for its next flight (the vote after landing). `null` clears it. */
+export async function PUT(request: Request, { params }: { params: { sessionId: string } }) {
+  const body = await request.json().catch(() => null);
+  const next = body?.nextDestinationId === null ? null : typeof body?.nextDestinationId === 'string' ? getDestinationById(body.nextDestinationId) : undefined;
+  if (next === undefined) return NextResponse.json({ error: 'Unknown destination' }, { status: 400 });
+  const ctx = await load(params.sessionId);
+  if ('error' in ctx && ctx.error) return ctx.error;
+  const { service, classId } = ctx as Exclude<typeof ctx, { error: unknown }>;
+  const { error } = await service.from('class_world_flight_state').upsert({ class_id: classId, next_destination_id: next?.id ?? null }, { onConflict: 'class_id' });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ nextDestinationId: next?.id ?? null });
 }
