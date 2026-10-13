@@ -23,3 +23,5 @@ New A2 packs fit within a 90-second padded window; other new packs fit within 18
 - `docs/library-round-37-progress.md` — this report, including proposed course entries when researched.
 
 Final city counts, skipped videos, checks and proposed course entries will be recorded below.
+
+- Batch 2: 22 new packs across Shanghai, Berlin, Moscow, Istanbul, Vancouver, Toronto, Mumbai, Cape Town, Rome, Rio de Janeiro, Mexico City and Buenos Aires. Narrow check: 58 packs checked; all six tests pass.

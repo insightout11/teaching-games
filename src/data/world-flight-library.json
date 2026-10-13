@@ -3601,7 +3601,103 @@
       "lng": 121.4737
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 81,
+          "end": 94,
+          "question": "What did the speaker’s parents ask her to change abroad?",
+          "options": [
+            "Her speaking volume",
+            "Her meal choice",
+            "Her arrival time"
+          ],
+          "correctIndex": 0,
+          "keyLine": "parents will try to stop me and tell me"
+        },
+        {
+          "start": 118,
+          "end": 131,
+          "question": "How did the visitor describe restaurants in other countries?",
+          "options": [
+            "Small and colourful",
+            "Quiet and calm",
+            "Crowded and expensive"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Etc many restaurants were quiet and calm"
+        },
+        {
+          "start": 142,
+          "end": 155,
+          "question": "What did that visitor consider decent behaviour?",
+          "options": [
+            "Laughing loudly",
+            "Eating quickly",
+            "Being quiet"
+          ],
+          "correctIndex": 2,
+          "keyLine": "his opinion being quiet is decent while"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What difference caused surprise on both sides?",
+          "options": [
+            "How loudly people speak in restaurants",
+            "How early restaurants close",
+            "How many courses people order"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did the foreign visitor interpret loud conversation?",
+          "options": [
+            "As a sign of low prices",
+            "As rude behaviour",
+            "As a welcome greeting"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the speaker begin to reconsider?",
+          "options": [
+            "Her choice of travel luggage",
+            "Her family’s favourite ingredients",
+            "Her understanding of culture shock"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What does the pair of experiences suggest about judging behaviour?",
+        "options": [
+          "Expectations learned at home can shape judgments abroad",
+          "All restaurants should use the same menu",
+          "Visitors always understand local customs immediately"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "tone",
+          "meaning": "the sound or manner of a voice"
+        },
+        {
+          "word": "customers",
+          "meaning": "people buying a product or service"
+        },
+        {
+          "word": "calm",
+          "meaning": "peaceful and not excited"
+        },
+        {
+          "word": "rude",
+          "meaning": "not showing respect for others"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-shanghai-journey-to-the-west-video",
@@ -3633,7 +3729,103 @@
       "lng": 121.4737
     },
     "cefr": "B2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 22,
+          "end": 35,
+          "question": "What extraordinary journey can Monkey make?",
+          "options": [
+            "108,000 miles in one somersault",
+            "18,000 miles in one leap",
+            "180,000 miles in one flight"
+          ],
+          "correctIndex": 0,
+          "keyLine": "000 miles in a single somersault uh he"
+        },
+        {
+          "start": 85,
+          "end": 98,
+          "question": "What kind of work is he offered in heaven?",
+          "options": [
+            "Ruling the whole universe",
+            "Low-status jobs",
+            "Command of every army"
+          ],
+          "correctIndex": 1,
+          "keyLine": "quite lowly jobs"
+        },
+        {
+          "start": 129,
+          "end": 142,
+          "question": "How does the Buddha punish him?",
+          "options": [
+            "Sends him across the ocean",
+            "Turns him into a tree",
+            "Traps him under a mountain"
+          ],
+          "correctIndex": 2,
+          "keyLine": "pins him under a mountain and he stays"
+        }
+      ],
+      "gist": [
+        {
+          "q": "How does the speaker characterise Monkey?",
+          "options": [
+            "Powerful but flawed",
+            "Weak but perfectly obedient",
+            "Ordinary and uninterested in religion"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What provokes trouble in heaven?",
+          "options": [
+            "Monkey is unable to transform",
+            "Monkey feels offended by his position",
+            "Monkey cannot find any food"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How are religious traditions represented?",
+          "options": [
+            "Only one tradition is mentioned",
+            "Religious ideas are entirely absent",
+            "Ideas from different traditions appear together"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why do extraordinary powers fail to protect Monkey from punishment?",
+        "options": [
+          "The emperor never gives him any task",
+          "His arrogance leads him to misuse them",
+          "His powers stop working when he enters heaven"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "immortal",
+          "meaning": "able to live forever"
+        },
+        {
+          "word": "arrogant",
+          "meaning": "thinking too highly of your own importance"
+        },
+        {
+          "word": "elixirs",
+          "meaning": "special liquids believed to have powerful effects"
+        },
+        {
+          "word": "syncretic",
+          "meaning": "combining ideas from different traditions"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-berlin-berlin-wall-video",
@@ -3664,7 +3856,103 @@
       "lng": 13.405
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 30,
+          "end": 43,
+          "question": "How many zones was Germany divided into?",
+          "options": [
+            "Four",
+            "Two",
+            "Six"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Germany was divided up into four zones"
+        },
+        {
+          "start": 65,
+          "end": 78,
+          "question": "What did the GDR government want to prevent?",
+          "options": [
+            "People studying languages",
+            "People leaving",
+            "People buying houses"
+          ],
+          "correctIndex": 1,
+          "keyLine": "people from leaving the country for this"
+        },
+        {
+          "start": 96,
+          "end": 109,
+          "question": "What appeared when the route was closed?",
+          "options": [
+            "Ticket booths and buses",
+            "Shops and apartment blocks",
+            "Barbed wire and barriers"
+          ],
+          "correctIndex": 2,
+          "keyLine": "in the blink of an eye barbed wire"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What chain of events is explained?",
+          "options": [
+            "Division after war followed by restrictions on leaving",
+            "A city expanding its tourist railway",
+            "A country opening every border at once"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What made Berlin important to people escaping?",
+          "options": [
+            "It was outside Germany",
+            "It had a remaining open crossing",
+            "It offered free flights to everyone"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What helped drive the mass departure in 1961?",
+          "options": [
+            "A new summer festival",
+            "A change in train colours",
+            "Poor economic conditions"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why close the Berlin crossing as well as the internal border?",
+        "options": [
+          "The government wanted more visitors to arrive by road",
+          "The crossing had no connection with migration",
+          "People were still using that route to leave"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "zones",
+          "meaning": "areas divided for a particular purpose"
+        },
+        {
+          "word": "states",
+          "meaning": "countries or political units"
+        },
+        {
+          "word": "border",
+          "meaning": "the dividing line between territories"
+        },
+        {
+          "word": "exodus",
+          "meaning": "a large departure of people"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-berlin-public-transport-video",
@@ -3696,7 +3984,103 @@
       "lng": 13.405
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 30,
+          "end": 43,
+          "question": "How many fare zones are on the map?",
+          "options": [
+            "Three",
+            "Two",
+            "Four"
+          ],
+          "correctIndex": 0,
+          "keyLine": "separated in three different Fair zones"
+        },
+        {
+          "start": 65,
+          "end": 77,
+          "question": "How much travel time does the guide suggest for an appointment?",
+          "options": [
+            "Sixty-five minutes",
+            "Forty-five minutes",
+            "Fifteen minutes"
+          ],
+          "correctIndex": 1,
+          "keyLine": "have appointments maybe 45 just in case"
+        },
+        {
+          "start": 83,
+          "end": 96,
+          "question": "What colours are the ticket machines?",
+          "options": [
+            "Blue or green",
+            "Red or black",
+            "Yellow or grey"
+          ],
+          "correctIndex": 2,
+          "keyLine": "find one of these yellow or gray ticket"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Who is this advice useful for?",
+          "options": [
+            "A visitor using Berlin’s trains",
+            "A visitor renting a car",
+            "A visitor booking a flight"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which ticket is enough for most central sights?",
+          "options": [
+            "A ticket for every zone",
+            "An AB ticket",
+            "An airport-only ticket"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What should travellers do before setting off?",
+          "options": [
+            "Wait until the last train",
+            "Avoid looking at the map",
+            "Allow enough time and buy a ticket"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why allow extra time for an appointment?",
+        "options": [
+          "A journey may take longer than expected",
+          "An appointment always includes a sightseeing tour",
+          "Every train stops for forty-five minutes"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "zones",
+          "meaning": "areas with different travel prices"
+        },
+        {
+          "word": "ticket",
+          "meaning": "proof that you paid to travel"
+        },
+        {
+          "word": "appointments",
+          "meaning": "planned meetings at a set time"
+        },
+        {
+          "word": "platform",
+          "meaning": "the place beside a train where you wait"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-berlin-berlin-blockade-video",
@@ -3790,7 +4174,103 @@
       "lng": 37.6173
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 26,
+          "end": 39,
+          "question": "When did the Moscow Metro open?",
+          "options": [
+            "May 1935",
+            "May 1925",
+            "May 1945"
+          ],
+          "correctIndex": 0,
+          "keyLine": "when it opened in May 1935 the Moscow"
+        },
+        {
+          "start": 44,
+          "end": 57,
+          "question": "How many stations are cultural heritage sites?",
+          "options": [
+            "Sixty-four",
+            "Forty-four",
+            "Twenty-four"
+          ],
+          "correctIndex": 1,
+          "keyLine": "stations are cultural heritage sites"
+        },
+        {
+          "start": 95,
+          "end": 108,
+          "question": "What world record does the Metro hold?",
+          "options": [
+            "Journey length",
+            "Ticket price",
+            "Train punctuality"
+          ],
+          "correctIndex": 2,
+          "keyLine": "for the punctuality of its trains"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What two features does the report bring together?",
+          "options": [
+            "Grand architecture and efficient service",
+            "Cheap food and long-distance travel",
+            "Quiet streets and private cars"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What did the station architecture aim to demonstrate?",
+          "options": [
+            "The history of overseas airlines",
+            "The power and purpose of the state",
+            "The independence of each train driver"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the narrator say about punctuality?",
+          "options": [
+            "The trains rarely arrive on time",
+            "The timetable changes every day",
+            "The trains hold a world record"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why describe a daily commute as a history lesson?",
+        "options": [
+          "Passengers encounter architecture designed to communicate political ideas",
+          "Passengers must sit an exam before boarding",
+          "Every ticket contains a history essay"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "architecture",
+          "meaning": "the design of buildings"
+        },
+        {
+          "word": "heritage",
+          "meaning": "important things passed down from the past"
+        },
+        {
+          "word": "efficient",
+          "meaning": "working well without wasting time"
+        },
+        {
+          "word": "punctuality",
+          "meaning": "arriving at the expected time"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-moscow-kremlin-red-square-video",
@@ -3820,7 +4300,103 @@
       "lng": 37.6173
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 22,
+          "end": 35,
+          "question": "What shape are the cathedral’s domes?",
+          "options": [
+            "Onion-shaped",
+            "Pyramid-shaped",
+            "Cube-shaped"
+          ],
+          "correctIndex": 0,
+          "keyLine": "square it has many onion-shaped domes"
+        },
+        {
+          "start": 75,
+          "end": 88,
+          "question": "How did people regard the Vladimir Virgin icon?",
+          "options": [
+            "As a portrait of a ruler",
+            "As an icon of miracles",
+            "As a map of the city"
+          ],
+          "correctIndex": 1,
+          "keyLine": "icon of Miracles and people looked to it"
+        },
+        {
+          "start": 121,
+          "end": 134,
+          "question": "When did the oppression described come to an end?",
+          "options": [
+            "1971",
+            "2001",
+            "1991"
+          ],
+          "correctIndex": 2,
+          "keyLine": "religion oppression of the Russian"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What connection runs through this account?",
+          "options": [
+            "Religion and the Russian state",
+            "Agriculture and the railway",
+            "Sport and the city’s hotels"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did the Soviet government treat the church?",
+          "options": [
+            "It put the church in charge of schools",
+            "It suppressed its influence",
+            "It made every church a palace"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What change follows the Soviet breakup?",
+          "options": [
+            "The construction of the first cathedral",
+            "The beginning of Orthodox Christianity",
+            "Religious restoration"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why can the same cathedral symbolise different periods?",
+        "options": [
+          "It has always been used only as a train station",
+          "Its meaning changes as the relationship between religion and government changes",
+          "Its domes are rebuilt every year"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "domes",
+          "meaning": "rounded roofs"
+        },
+        {
+          "word": "icon",
+          "meaning": "a religious image"
+        },
+        {
+          "word": "Alliance",
+          "meaning": "a close partnership"
+        },
+        {
+          "word": "oppression",
+          "meaning": "harsh and unfair control"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-istanbul-constantinople-istanbul-video",
@@ -3882,7 +4458,103 @@
       "lng": 28.9784
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 19,
+          "end": 32,
+          "question": "What did the rulers do with Hagia Sophia?",
+          "options": [
+            "Converted it into a mosque",
+            "Demolished it for a palace",
+            "Moved it outside the city"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Instead of demolishing the higher Sofia they converted it into a mosque"
+        },
+        {
+          "start": 58,
+          "end": 71,
+          "question": "What did Suleiman decide to build?",
+          "options": [
+            "A new cathedral",
+            "A new mosque",
+            "A new fortress"
+          ],
+          "correctIndex": 1,
+          "keyLine": "So when he decided to build a new mosque"
+        },
+        {
+          "start": 100,
+          "end": 112,
+          "question": "How many minarets were ordered?",
+          "options": [
+            "Two",
+            "Six",
+            "Four"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Four minarets a structure as immense as the to"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What contrast does the historian draw?",
+          "options": [
+            "Adapting an older church versus building a new mosque",
+            "Repairing a harbour versus building a bridge",
+            "Moving a palace versus restoring its gardens"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What was the new building intended to express?",
+          "options": [
+            "The end of all large buildings",
+            "Religious and imperial power",
+            "A retreat from public life"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why was the architect’s task daunting?",
+          "options": [
+            "The ruler wanted no dome at all",
+            "The architect could only use wooden walls",
+            "The ruler wanted an immense, ambitious structure"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a ruler prefer a new building to a conversion?",
+        "options": [
+          "A new design can express his message without the older building’s associations",
+          "A new building automatically needs no skilled workers",
+          "A conversion can never be used by worshippers"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "demolishing",
+          "meaning": "knocking a building down"
+        },
+        {
+          "word": "converted",
+          "meaning": "changed for a different use"
+        },
+        {
+          "word": "rivals",
+          "meaning": "people competing for power or success"
+        },
+        {
+          "word": "minarets",
+          "meaning": "towers associated with a mosque"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-istanbul-two-continents-video",
@@ -3911,7 +4583,103 @@
       "lng": 28.9784
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 35,
+          "end": 48,
+          "question": "About how many people live in Istanbul?",
+          "options": [
+            "Over fifteen million",
+            "Over five million",
+            "Over fifty million"
+          ],
+          "correctIndex": 0,
+          "keyLine": "15 million people from its bustling"
+        },
+        {
+          "start": 54,
+          "end": 67,
+          "question": "How far back does this account trace the city’s history?",
+          "options": [
+            "Over 5,000 years",
+            "Over 2,500 years",
+            "Over 500 years"
+          ],
+          "correctIndex": 1,
+          "keyLine": "2,500 years once known as BZ"
+        },
+        {
+          "start": 81,
+          "end": 94,
+          "question": "What was Hagia Sophia first built as?",
+          "options": [
+            "A palace",
+            "A market",
+            "A cathedral"
+          ],
+          "correctIndex": 2,
+          "keyLine": "built as a cathedral in the 6th Century"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What picture of Istanbul does this part give?",
+          "options": [
+            "A busy city with a long history",
+            "A new town with few people",
+            "A quiet island with no old buildings"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which two empires are linked to the city?",
+          "options": [
+            "Mongol and Spanish",
+            "Byzantine and Ottoman",
+            "Roman and British"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What kind of change does Hagia Sophia show?",
+          "options": [
+            "A building moved between cities",
+            "A building rebuilt as a train station",
+            "A building used by different religions over time"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might one building help tell the city’s story?",
+        "options": [
+          "It was built only for tourists",
+          "Its changing use reflects changes in the city’s rulers and beliefs",
+          "It contains every person who lives in the city"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "streets",
+          "meaning": "roads in a town or city"
+        },
+        {
+          "word": "waterways",
+          "meaning": "rivers or channels used by water"
+        },
+        {
+          "word": "capital",
+          "meaning": "the main city of a state"
+        },
+        {
+          "word": "cathedral",
+          "meaning": "a major Christian church"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-vancouver-underground-streams-video",
@@ -3941,7 +4709,103 @@
       "lng": -123.1207
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 36,
+          "question": "How many streams once ran across this land?",
+          "options": [
+            "More than fifty",
+            "More than fifteen",
+            "More than five hundred"
+          ],
+          "correctIndex": 0,
+          "keyLine": "there were once more than 50 streams"
+        },
+        {
+          "start": 82,
+          "end": 95,
+          "question": "What happened to China Creek in 1951?",
+          "options": [
+            "It was moved into a lake",
+            "It was buried underground",
+            "It was widened into a harbour"
+          ],
+          "correctIndex": 1,
+          "keyLine": "was buried underground in 1951 the water"
+        },
+        {
+          "start": 137,
+          "end": 150,
+          "question": "What had people realised by the 1990s?",
+          "options": [
+            "Every stream is permanently dry",
+            "Pipes absorb all heavy rain",
+            "Covering streams causes problems"
+          ],
+          "correctIndex": 2,
+          "keyLine": "up a stream or river actually leads to a"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What hidden part of Vancouver is being investigated?",
+          "options": [
+            "Streams buried beneath the city",
+            "Railways buried beneath the sea",
+            "Gardens built on rooftops"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why were streams originally covered?",
+          "options": [
+            "To improve access for canoes",
+            "To reduce perceived flooding risks and make space",
+            "To create new fishing areas"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does Still Creek differ from many earlier streams?",
+          "options": [
+            "It was turned into a shopping mall",
+            "It no longer carries water",
+            "It remains visible and flowing"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What does the change in attitude toward streams suggest?",
+        "options": [
+          "People always agreed on the best way to use streams",
+          "Streams are useful only when hidden",
+          "A former solution can create problems understood later"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "streams",
+          "meaning": "small flowing rivers"
+        },
+        {
+          "word": "nuisance",
+          "meaning": "something considered troublesome"
+        },
+        {
+          "word": "flooding",
+          "meaning": "water covering normally dry land"
+        },
+        {
+          "word": "absorbed",
+          "meaning": "taken into something"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-vancouver-skytrain-video",
@@ -3973,7 +4837,103 @@
       "lng": -123.1207
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 30,
+          "end": 43,
+          "question": "When was the first line built?",
+          "options": [
+            "1985",
+            "1975",
+            "1995"
+          ],
+          "correctIndex": 0,
+          "keyLine": "was built in 1985 and connects Siri to"
+        },
+        {
+          "start": 53,
+          "end": 66,
+          "question": "Which line runs toward the airport?",
+          "options": [
+            "The Millennium Line",
+            "The Canada Line",
+            "The Expo Line"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Canada line which was built prior to the"
+        },
+        {
+          "start": 81,
+          "end": 94,
+          "question": "What card does the guide recommend?",
+          "options": [
+            "A Museum Card",
+            "A Library Card",
+            "A Compass Card"
+          ],
+          "correctIndex": 2,
+          "keyLine": "compass card because this reloadable"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Who is the guide mainly helping here?",
+          "options": [
+            "Students learning to use SkyTrain",
+            "Drivers buying their first car",
+            "Tourists booking a hotel"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What can a journey-planning app help with?",
+          "options": [
+            "Class grades and homework",
+            "Routes, transfers and travel time",
+            "Meal prices and recipes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the recommended card work?",
+          "options": [
+            "You buy a new card for every ride",
+            "You show it only to airport staff",
+            "You add value and tap at gates"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a new international student first use the Canada Line?",
+        "options": [
+          "It connects the airport with downtown",
+          "It is the only line that accepts cash",
+          "It runs only during university holidays"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "campuses",
+          "meaning": "places where a college has buildings"
+        },
+        {
+          "word": "Airport",
+          "meaning": "a place where planes arrive and leave"
+        },
+        {
+          "word": "transfer",
+          "meaning": "change from one vehicle to another"
+        },
+        {
+          "word": "reloadable",
+          "meaning": "able to have more money added"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-vancouver-city-in-nature-video",
@@ -4035,7 +4995,103 @@
       "lng": -79.3832
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 52,
+          "end": 65,
+          "question": "Why was it called a union station?",
+          "options": [
+            "Railways shared one roof",
+            "Passengers formed a union",
+            "All tracks had one platform"
+          ],
+          "correctIndex": 0,
+          "keyLine": "union station as it was a union of the"
+        },
+        {
+          "start": 83,
+          "end": 96,
+          "question": "What happened to Grand Trunk in 1920?",
+          "options": [
+            "It bought every other railway",
+            "It went bankrupt",
+            "It moved to Montreal"
+          ],
+          "correctIndex": 1,
+          "keyLine": "went bankrupt in 1920 after basically"
+        },
+        {
+          "start": 131,
+          "end": 144,
+          "question": "What names were engraved on the hall’s ceiling?",
+          "options": [
+            "People who built the station",
+            "Ships arriving at the harbour",
+            "Cities connected by train"
+          ],
+          "correctIndex": 2,
+          "keyLine": "with all the cities that were connected"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What development does this account follow?",
+          "options": [
+            "Toronto’s changing Union Station",
+            "Toronto’s first international airport",
+            "Toronto’s expanding ferry port"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why was a bigger station needed?",
+          "options": [
+            "The original station had no tracks",
+            "More railways and trains were using the old one",
+            "The city had stopped using trains"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What delayed the new station?",
+          "options": [
+            "A ban on passenger railways",
+            "A lack of any design",
+            "Company disagreements and wartime shortages"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why did a more cooperative partner help complete the station?",
+        "options": [
+          "Passengers had to design their own platforms",
+          "Every company wanted a different city",
+          "The project required railway companies to work together"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "railways",
+          "meaning": "systems of tracks and trains"
+        },
+        {
+          "word": "bankrupt",
+          "meaning": "unable to pay debts"
+        },
+        {
+          "word": "cooperative",
+          "meaning": "willing to work with others"
+        },
+        {
+          "word": "engraved",
+          "meaning": "cut or marked into a surface"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-toronto-public-transit-video",
@@ -4067,7 +5123,103 @@
       "lng": -79.3832
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 32,
+          "end": 45,
+          "question": "What must Alex buy before getting on the train?",
+          "options": [
+            "Tokens",
+            "Stamps",
+            "Postcards"
+          ],
+          "correctIndex": 0,
+          "keyLine": "going now it was time to buy tokens to"
+        },
+        {
+          "start": 47,
+          "end": 60,
+          "question": "Why does Alex need a transfer?",
+          "options": [
+            "To board a ferry",
+            "To take a streetcar",
+            "To enter a museum"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Toronto I need to get a transfer so then"
+        },
+        {
+          "start": 85,
+          "end": 98,
+          "question": "Where does Alex find streetcar stops?",
+          "options": [
+            "Inside shopping centres",
+            "Beside the airport runway",
+            "Outside subway stations"
+          ],
+          "correctIndex": 2,
+          "keyLine": "there's street car stops outside every"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is Alex trying to do?",
+          "options": [
+            "Reach a place using public transport",
+            "Choose a hotel room",
+            "Buy a bicycle"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does he feel about the system map?",
+          "options": [
+            "It is easy without checking",
+            "It is somewhat confusing",
+            "It has no useful information"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What happens after his train ride?",
+          "options": [
+            "He returns home by taxi",
+            "He rents a car",
+            "He looks for a streetcar"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does Alex need more than a subway ticket for this journey?",
+        "options": [
+          "His route also uses streetcars",
+          "Every subway ride requires an aeroplane ticket",
+          "Tokens are only used in shops"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "tokens",
+          "meaning": "small objects used as travel payment"
+        },
+        {
+          "word": "transfer",
+          "meaning": "permission to change to another service"
+        },
+        {
+          "word": "station",
+          "meaning": "a place where trains stop"
+        },
+        {
+          "word": "lost",
+          "meaning": "not knowing where you are or should go"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-toronto-multicultural-video",
@@ -4128,7 +5280,103 @@
       "lng": 72.8777
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 62,
+          "end": 75,
+          "question": "How did the island come under British control?",
+          "options": [
+            "Through a royal marriage",
+            "Through a mining discovery",
+            "Through a railway project"
+          ],
+          "correctIndex": 0,
+          "keyLine": "under British control the city became"
+        },
+        {
+          "start": 83,
+          "end": 96,
+          "question": "Who moved to the island after mainland conflict?",
+          "options": [
+            "Doctors and teachers",
+            "Artisans and merchants",
+            "Sailors and pilots"
+          ],
+          "correctIndex": 1,
+          "keyLine": "drove Artisans and Merchants to resettle"
+        },
+        {
+          "start": 128,
+          "end": 141,
+          "question": "What did the 1942 resolution demand?",
+          "options": [
+            "A new port tax",
+            "A new city name",
+            "Complete independence"
+          ],
+          "correctIndex": 2,
+          "keyLine": "quit India resolution which demanded"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Which roles of Bombay does this section trace?",
+          "options": [
+            "Trading centre and political centre",
+            "Ski resort and fishing village",
+            "Military camp and airport terminal"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did movement from the mainland affect Bombay?",
+          "options": [
+            "It emptied the island",
+            "It helped the city grow",
+            "It ended all trade"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What political movement held important meetings here?",
+          "options": [
+            "A campaign to join Portugal",
+            "A campaign to abolish every city",
+            "The Indian independence movement"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might a trading centre also become a political centre?",
+        "options": [
+          "Trading prevents anyone from meeting",
+          "A port must always be a country’s capital",
+          "Connections and population bring people and ideas together"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "Artisans",
+          "meaning": "people who make things with skilled hands"
+        },
+        {
+          "word": "Merchants",
+          "meaning": "people who buy and sell goods"
+        },
+        {
+          "word": "import",
+          "meaning": "bringing goods into a country"
+        },
+        {
+          "word": "resolution",
+          "meaning": "a formal statement agreed by a group"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-mumbai-dabbawalas-video",
@@ -4408,7 +5656,103 @@
       "lng": 18.4241
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 25,
+          "end": 38,
+          "question": "What name did the Portuguese sailors first give the cape?",
+          "options": [
+            "Cape of Storms",
+            "Cape of Kings",
+            "Cape of Islands"
+          ],
+          "correctIndex": 0,
+          "keyLine": "to this place was the Cape of Storms. As"
+        },
+        {
+          "start": 65,
+          "end": 78,
+          "question": "Which crops did Dutch settlers bring?",
+          "options": [
+            "Olives, bananas, dates and corn",
+            "Grapes, citrus, potatoes and wheat",
+            "Rice, tea, coffee and cotton"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Cape Town, including grapes for wine,"
+        },
+        {
+          "start": 107,
+          "end": 119,
+          "question": "Which language remains official in South Africa?",
+          "options": [
+            "Portuguese",
+            "Spanish",
+            "Afrikaans"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Afrikaans is still an official language"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What does the account connect with present-day culture?",
+          "options": [
+            "Earlier settlement and colonial changes",
+            "Only recent tourist advertising",
+            "Only the building of an airport"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why was the cape’s name changed?",
+          "options": [
+            "To honour a new railway",
+            "To express hope rather than a grim impression",
+            "To describe a new mountain"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What happened after British policies targeted Dutch culture?",
+          "options": [
+            "Dutch settlers all sailed to Asia",
+            "Dutch settlers stopped speaking entirely",
+            "Dutch settlers moved inland"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why mention crops and language in a history of settlement?",
+        "options": [
+          "They show that settlers never changed local life",
+          "They prove all communities had identical customs",
+          "They show influences that continued after political control changed"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "optimism",
+          "meaning": "hope that things will go well"
+        },
+        {
+          "word": "settlement",
+          "meaning": "a community established in a place"
+        },
+        {
+          "word": "economy",
+          "meaning": "the production and exchange of goods and services"
+        },
+        {
+          "word": "dialects",
+          "meaning": "forms of a language used by particular groups"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-cape-town-table-mountain-video",
@@ -4438,7 +5782,103 @@
       "lng": 18.4241
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 31,
+          "end": 44,
+          "question": "What should you check before heading up?",
+          "options": [
+            "Cable-car opening times",
+            "Restaurant menus",
+            "Train-seat numbers"
+          ],
+          "correctIndex": 0,
+          "keyLine": "check when the cable car is open before"
+        },
+        {
+          "start": 53,
+          "end": 66,
+          "question": "Where does the guide say tickets cost less?",
+          "options": [
+            "On the cable car",
+            "Online",
+            "At the kiosk"
+          ],
+          "correctIndex": 1,
+          "keyLine": "tickets online buying tickets online is"
+        },
+        {
+          "start": 91,
+          "end": 104,
+          "question": "What alternative to driving up is suggested?",
+          "options": [
+            "A private helicopter",
+            "A paid boat",
+            "A free shuttle"
+          ],
+          "correctIndex": 2,
+          "keyLine": "using the brand new free shuttle service"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the guide helping visitors plan?",
+          "options": [
+            "A cable-car trip up Table Mountain",
+            "A train trip across the country",
+            "A boat trip round the harbour"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What should visitors check before leaving?",
+          "options": [
+            "Whether the sea is warm",
+            "Whether the cable car is running",
+            "Whether every restaurant is open"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why can the drive take extra patience?",
+          "options": [
+            "All cars must stop for a museum tour",
+            "The route crosses a beach",
+            "Road works and buses can cause traffic"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why could checking the website save both time and money?",
+        "options": [
+          "It shows closures and lets you buy cheaper tickets",
+          "It guarantees that the wind will stop",
+          "It gives everyone a free cable-car ride"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "operational",
+          "meaning": "working and available to use"
+        },
+        {
+          "word": "convenient",
+          "meaning": "easy and useful"
+        },
+        {
+          "word": "kiosk",
+          "meaning": "a small place selling tickets or goods"
+        },
+        {
+          "word": "shuttle",
+          "meaning": "a vehicle making short repeated trips"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-cape-town-water-crisis-video",
@@ -4501,7 +5941,103 @@
       "lng": 12.4964
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 14,
+          "end": 27,
+          "question": "What did Rome begin as?",
+          "options": [
+            "A small village",
+            "A large port",
+            "A mountain fort"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Rome began as a small village"
+        },
+        {
+          "start": 53,
+          "end": 66,
+          "question": "About how many kings ruled in the regal period?",
+          "options": [
+            "Twenty-seven",
+            "Seven",
+            "Seventeen"
+          ],
+          "correctIndex": 1,
+          "keyLine": "and ruled by a succession\nof about seven kings."
+        },
+        {
+          "start": 68,
+          "end": 81,
+          "question": "What system did Rome adopt in 509 BC?",
+          "options": [
+            "An empire",
+            "A city council led by a king",
+            "A republic"
+          ],
+          "correctIndex": 2,
+          "keyLine": "In 509 B.C., Rome adopted a\nrepublican system of governance"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What change is being traced in early Rome?",
+          "options": [
+            "From village to different forms of government",
+            "From empire to an empty island",
+            "From capital to fishing harbour"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the narrator introduce Romulus?",
+          "options": [
+            "As the last consul according to a diary",
+            "As the first king according to legend",
+            "As the first emperor according to a census"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How was the republican state mainly led?",
+          "options": [
+            "By one king for life",
+            "By every army officer at once",
+            "By two representatives chosen annually"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the narrator say “according to legend”?",
+        "options": [
+          "The narrator is explaining a modern election rule",
+          "The narrator believes the city had no early history",
+          "The founding story is being distinguished from a fully established fact"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "regal",
+          "meaning": "connected with kings"
+        },
+        {
+          "word": "republican",
+          "meaning": "connected with government without a hereditary monarch"
+        },
+        {
+          "word": "monarchical",
+          "meaning": "ruled by a king or queen"
+        },
+        {
+          "word": "legend",
+          "meaning": "a traditional story about the past"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-rome-colosseum-video",
@@ -4564,7 +6100,103 @@
       "lng": 12.4964
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 18,
+          "end": 31,
+          "question": "Since when has the market operated?",
+          "options": [
+            "The late 1800s",
+            "The early 1700s",
+            "The late 1900s"
+          ],
+          "correctIndex": 0,
+          "keyLine": "since the late 1800s"
+        },
+        {
+          "start": 47,
+          "end": 60,
+          "question": "About how many stands does it have?",
+          "options": [
+            "Over 370",
+            "Over 270",
+            "Over 170"
+          ],
+          "correctIndex": 1,
+          "keyLine": "undercover look with over 270 stands"
+        },
+        {
+          "start": 78,
+          "end": 91,
+          "question": "How soon should this mozzarella be eaten?",
+          "options": [
+            "Within one week",
+            "Within one month",
+            "Within twenty-four hours"
+          ],
+          "correctIndex": 2,
+          "keyLine": "mozzarella should be in within 24 hours"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this tour showing?",
+          "options": [
+            "A local food market in Rome",
+            "A factory making kitchen equipment",
+            "A museum of Roman buildings"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What range of food is mentioned?",
+          "options": [
+            "Only imported frozen meals",
+            "Produce, fish, pasta and more",
+            "Only packaged sweets"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What food receives special advice?",
+          "options": [
+            "Dried pasta",
+            "Green olives",
+            "Buffalo mozzarella"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might freshness matter when choosing the mozzarella here?",
+        "options": [
+          "Its colour changes every hour",
+          "The seller says it should be eaten soon after it is made",
+          "The market sells it only in winter"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "residential",
+          "meaning": "an area where people live"
+        },
+        {
+          "word": "stands",
+          "meaning": "small places where sellers display goods"
+        },
+        {
+          "word": "vegetables",
+          "meaning": "plants or plant parts eaten as food"
+        },
+        {
+          "word": "refrigerated",
+          "meaning": "kept cold in a fridge"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-rio-de-janeiro-city-history-video",
@@ -4844,7 +6476,103 @@
       "lng": -43.1729
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 20,
+          "end": 33,
+          "question": "About how many people attend each day?",
+          "options": [
+            "Over two million",
+            "Over two hundred thousand",
+            "Over twenty thousand"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Janeiro Carnival hosts over 2 million"
+        },
+        {
+          "start": 42,
+          "end": 55,
+          "question": "What does each samba school choose?",
+          "options": [
+            "A new language",
+            "A theme",
+            "A new city"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Each samba school chooses a theme,"
+        },
+        {
+          "start": 63,
+          "end": 76,
+          "question": "What was the Sambadrome built for?",
+          "options": [
+            "Football matches",
+            "Swimming races",
+            "Parades"
+          ],
+          "correctIndex": 2,
+          "keyLine": "stadium built just for the parades."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What does this section explain about Carnival?",
+          "options": [
+            "How community groups prepare and compete",
+            "How tourists book hotel rooms",
+            "How performers learn to cook"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What are samba schools in this account?",
+          "options": [
+            "Private language colleges",
+            "Large community groups",
+            "Ordinary classroom schools"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How long do groups prepare?",
+          "options": [
+            "For one afternoon",
+            "For one morning",
+            "For months"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is the parade more than a last-minute party?",
+        "options": [
+          "Only visitors are allowed to perform",
+          "Groups spend months preparing themes, floats and dances",
+          "Everyone arrives without any preparation"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "community",
+          "meaning": "people connected by a place or interest"
+        },
+        {
+          "word": "theme",
+          "meaning": "the main idea of an event"
+        },
+        {
+          "word": "floats",
+          "meaning": "large decorated platforms in a parade"
+        },
+        {
+          "word": "costumes",
+          "meaning": "special clothes for a performance"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-mexico-city-complex-history-video",
@@ -4875,7 +6603,103 @@
       "lng": -99.1332
     },
     "cefr": "B1",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 24,
+          "end": 36,
+          "question": "What was Rodrigo’s uncle’s job?",
+          "options": [
+            "Art teacher",
+            "Train driver",
+            "Market trader"
+          ],
+          "correctIndex": 0,
+          "keyLine": "an art teacher. He used to take me and"
+        },
+        {
+          "start": 91,
+          "end": 104,
+          "question": "How does Rodrigo compare his work?",
+          "options": [
+            "To a builder repairing walls",
+            "To an actor performing",
+            "To a doctor examining patients"
+          ],
+          "correctIndex": 1,
+          "keyLine": "like an actor performing in front of"
+        },
+        {
+          "start": 114,
+          "end": 127,
+          "question": "What city lies beneath the Spanish city?",
+          "options": [
+            "The Roman city",
+            "The Inca city",
+            "The Aztec city"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the Aztec city. Only a small portion has"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What does Rodrigo share with visitors?",
+          "options": [
+            "His local perspective and the city’s past",
+            "Only hotel prices",
+            "Only instructions for buying tickets"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What sparked his interest as a child?",
+          "options": [
+            "A television cooking contest",
+            "His uncle’s stories and legends",
+            "A restaurant menu"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How is the centre’s history presented?",
+          "options": [
+            "As a place built entirely last year",
+            "As a place with no earlier settlements",
+            "As layers from different periods"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the city itself work as Rodrigo’s stage?",
+        "options": [
+          "All visitors must perform a play",
+          "The city has no outdoor spaces",
+          "Its places help him bring historical stories to life"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "legends",
+          "meaning": "traditional stories"
+        },
+        {
+          "word": "perspective",
+          "meaning": "a way of seeing or understanding something"
+        },
+        {
+          "word": "audience",
+          "meaning": "people watching or listening"
+        },
+        {
+          "word": "excavated",
+          "meaning": "uncovered by digging"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-mexico-city-metro-tips-video",
@@ -4907,7 +6731,103 @@
       "lng": -99.1332
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 52,
+          "question": "Who may use the special carriages along with women?",
+          "options": [
+            "Children under twelve",
+            "Men over sixty",
+            "Tourists under thirty"
+          ],
+          "correctIndex": 0,
+          "keyLine": "females use the female and uh kids of"
+        },
+        {
+          "start": 57,
+          "end": 70,
+          "question": "Which morning period does he suggest avoiding?",
+          "options": [
+            "About eleven to twelve",
+            "About seven to ten",
+            "About five to six"
+          ],
+          "correctIndex": 1,
+          "keyLine": "avoid you know from about seven in the"
+        },
+        {
+          "start": 77,
+          "end": 90,
+          "question": "Why should you hold a railing?",
+          "options": [
+            "The lighting can change suddenly",
+            "The ticket price can change suddenly",
+            "The train can move suddenly"
+          ],
+          "correctIndex": 2,
+          "keyLine": "hand the Metro is prone to jerking"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What kind of advice is this?",
+          "options": [
+            "Practical tips for using the metro",
+            "Advice for hiring a taxi",
+            "Instructions for driving a bus"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why avoid the busy periods?",
+          "options": [
+            "The stations close for cleaning",
+            "The trains can be very crowded",
+            "The fares become free"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What should riders hold while travelling?",
+          "options": [
+            "The doors",
+            "Another rider’s bag",
+            "The railings"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why combine phone advice with advice about holding a railing?",
+        "options": [
+          "The speaker wants riders to protect belongings and stay steady",
+          "Phones are required to open the train doors",
+          "Every passenger must photograph each station"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "carriages",
+          "meaning": "sections of a train where people ride"
+        },
+        {
+          "word": "rush hour",
+          "meaning": "a busy time when many people travel"
+        },
+        {
+          "word": "pocket",
+          "meaning": "a small part of clothing for holding things"
+        },
+        {
+          "word": "railings",
+          "meaning": "bars that people can hold for support"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-mexico-city-street-food-video",
@@ -5002,7 +6922,103 @@
       "lng": -58.3816
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 32,
+          "end": 48,
+          "question": "How many basic motions does the teacher introduce?",
+          "options": [
+            "Five",
+            "Three",
+            "Seven"
+          ],
+          "correctIndex": 0,
+          "keyLine": "gonna do right now so we've got five"
+        },
+        {
+          "start": 53,
+          "end": 66,
+          "question": "What kind of steps come with more advanced technique?",
+          "options": [
+            "Jumping steps",
+            "Diagonal steps",
+            "Running steps"
+          ],
+          "correctIndex": 1,
+          "keyLine": "diagonal steps so there are these weird"
+        },
+        {
+          "start": 88,
+          "end": 101,
+          "question": "What other direction can the dancers move?",
+          "options": [
+            "Only forwards",
+            "Only sideways",
+            "Backwards"
+          ],
+          "correctIndex": 2,
+          "keyLine": "walk back"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the teacher offering?",
+          "options": [
+            "A quick introduction to tango movements",
+            "A history of tango music",
+            "A guide to tango costumes"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does he compare basic steps to cooking?",
+          "options": [
+            "They are recipes you cannot change",
+            "They are ingredients you combine",
+            "They are meals you buy ready-made"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does he do with some of the steps?",
+          "options": [
+            "Leaves each one completely separate",
+            "Replaces them all with jumps",
+            "Puts them together in a short sequence"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why compare a few steps with basic ingredients?",
+        "options": [
+          "Many combinations can grow from a small set of elements",
+          "Dancers must cook before practising",
+          "Every dance uses exactly the same order"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "motions",
+          "meaning": "movements"
+        },
+        {
+          "word": "pivots",
+          "meaning": "turns around a point"
+        },
+        {
+          "word": "pauses",
+          "meaning": "short stops"
+        },
+        {
+          "word": "diagonal",
+          "meaning": "moving at an angle"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-buenos-aires-landmarks-video",
@@ -5032,7 +7048,103 @@
       "lng": -58.3816
     },
     "cefr": "A2",
-    "ageBand": "all"
+    "ageBand": "all",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 36,
+          "end": 49,
+          "question": "How tall is the obelisk?",
+          "options": [
+            "Sixty-eight metres",
+            "Forty-eight metres",
+            "Eighty-eight metres"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Standing 68 meters tall, El Obelisco was erected\nin 1936 to commemorate the creation of the"
+        },
+        {
+          "start": 54,
+          "end": 67,
+          "question": "Who celebrates at the plaza?",
+          "options": [
+            "Train drivers",
+            "Football fans",
+            "School teachers"
+          ],
+          "correctIndex": 1,
+          "keyLine": "It is also a popular spot where local football\nfans celebrate their teams triumphs.Our next"
+        },
+        {
+          "start": 68,
+          "end": 81,
+          "question": "Who gave the clock tower to Argentina?",
+          "options": [
+            "The French community",
+            "The Italian community",
+            "The British community"
+          ],
+          "correctIndex": 2,
+          "keyLine": "It is also known as El Torre de los Ingleses\n(The English Tower), because it was donated"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this tour comparing?",
+          "options": [
+            "Two landmarks in Buenos Aires",
+            "Two restaurants in Buenos Aires",
+            "Two beaches near Buenos Aires"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What uses of the obelisk plaza are mentioned?",
+          "options": [
+            "Only daily food markets",
+            "Cultural events and public celebrations",
+            "Only private weddings"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the clock tower connect two countries?",
+          "options": [
+            "It was moved between the two capitals",
+            "It shows the time in every British city",
+            "It was a gift with symbols of both countries"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why can a plaza matter beyond the monument standing in it?",
+        "options": [
+          "It is open only on the monument’s birthday",
+          "People use it for shared events and celebrations",
+          "No one is allowed to stand there"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "landmark",
+          "meaning": "a well-known building or feature"
+        },
+        {
+          "word": "commemorate",
+          "meaning": "help people remember an event"
+        },
+        {
+          "word": "donated",
+          "meaning": "given as a gift"
+        },
+        {
+          "word": "emblems",
+          "meaning": "pictures or signs representing something"
+        }
+      ]
+    }
   },
   {
     "id": "world-flight-los-angeles-hollywood-history-video",
