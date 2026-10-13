@@ -9,6 +9,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
+import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import type { HeroCity } from './hero-cities';
 
 export function DestinationWindow({
@@ -54,6 +55,8 @@ export function DestinationWindow({
             progress={0.34}
             motion="static"
             planeKey={city.plane}
+            // Each city in its own typical weather (the same climate-weighted roll the live flights use).
+            weather={rollWeather(`hero:${city.id}`, city.scene)}
             className="h-full w-full"
           />
         </motion.div>

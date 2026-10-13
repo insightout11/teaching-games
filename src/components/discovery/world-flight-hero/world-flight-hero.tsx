@@ -67,7 +67,7 @@ export function WorldFlightHero({
   const eyebrow = (
     <p className="font-instrument inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.26em] text-cyan-300/85">
       <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_8px_2px_rgba(34,211,238,0.8)]" />
-      World Flight · A teaching mode
+      World Flight · inside every lesson
     </p>
   );
 
@@ -135,8 +135,8 @@ export function WorldFlightHero({
             {eyebrow}
             <h2 className="font-game mt-2 text-[2rem] leading-[0.95] text-lc-text">Fly your class around the world</h2>
             <p className="mt-3 text-[14px] leading-relaxed text-lc-text2">
-              Pick from {DESTINATION_COUNT} real destinations and run a full live lesson built around that
-              city — earn range, upgrade your plane, and chart a course across the map.
+              Every lesson that takes off and lands moves your class to a new city. {DESTINATION_COUNT} real
+              destinations to stamp, a plane to upgrade, and a class vote on where to fly next.
             </p>
             <div className="mt-5 flex flex-col gap-4">
               {cta}
@@ -159,9 +159,9 @@ export function WorldFlightHero({
                 Fly your class around the world
               </h2>
               <p className="mt-4 max-w-md text-[15px] leading-relaxed text-lc-text2">
-                Pick from {DESTINATION_COUNT} real destinations and run a full live lesson built around
-                that city: its streets, its stories, its language. Earn range, upgrade your plane, and
-                chart a course across the map together.
+                Every lesson that takes off and lands moves your class to a new city. {DESTINATION_COUNT} real
+                destinations to stamp, each with its own scene and its own lessons. Earn a bigger plane, and let
+                the class choose where to fly next.
               </p>
 
               <div className="mt-6 flex items-baseline gap-3">
