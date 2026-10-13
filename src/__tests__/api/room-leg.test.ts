@@ -19,6 +19,7 @@ vi.mock('@/lib/supabase/service', () => ({
 }));
 
 import { GET, POST } from '@/app/api/session/[sessionId]/room-leg/route';
+import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 
 const params = { params: { sessionId: 's1' } };
 const post = (destinationId: string) => POST(new Request('http://x', { method: 'POST', body: JSON.stringify({ destinationId }) }), params);
@@ -60,6 +61,28 @@ describe('room-leg route', () => {
     const row = (upsert.mock.calls as unknown as unknown[][])[0][0] as { focus_id: string; evidence_snapshot: { skills: string[]; investigationTags: string[]; keyIdea: unknown } };
     expect(row.focus_id).toBe('live-room');
     expect(row.evidence_snapshot).toMatchObject({ skills: [], investigationTags: [], keyIdea: null });
+  });
+
+  const postLesson = (destinationId: string, focusId: string) => POST(new Request('http://x', { method: 'POST', body: JSON.stringify({ destinationId, focusId }) }), params);
+  const lastRow = () => (upsert.mock.calls as unknown as unknown[][])[0][0] as { focus_id: string; moves_class: boolean; distance_km: number; evidence_snapshot: { focusTitle: string; skills: string[] } };
+
+  it('records a chosen city lesson with its real evidence, and moves the class when in range', async () => {
+    const focus = WORLD_DESTINATIONS.find((d) => d.id === 'tokyo')!.focusOptions[0];
+    expect(await (await postLesson('tokyo', focus.id)).json()).toMatchObject({ movesClass: true, cityLesson: true });
+    expect(lastRow()).toMatchObject({ focus_id: focus.id, moves_class: true });
+    expect(lastRow().evidence_snapshot.focusTitle).toBe(focus.title);
+  });
+
+  it('records a far city lesson as taught from here: evidence kept, class not moved', async () => {
+    state = { current_destination_id: 'london', range_km: 500, plane_selection_required: false };
+    const focus = WORLD_DESTINATIONS.find((d) => d.id === 'tokyo')!.focusOptions[0];
+    expect(await (await postLesson('tokyo', focus.id)).json()).toMatchObject({ movesClass: false, taughtOnly: true });
+    expect(lastRow()).toMatchObject({ focus_id: focus.id, moves_class: false, distance_km: 0 });
+  });
+
+  it('ignores a lesson id that does not belong to the city', async () => {
+    await postLesson('tokyo', 'not-a-tokyo-lesson');
+    expect(lastRow().focus_id).toBe('live-room');
   });
 
   it('rejects unknown destinations', async () => {

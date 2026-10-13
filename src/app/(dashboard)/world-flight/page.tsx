@@ -49,6 +49,7 @@ export default async function WorldFlightRoutePage({
     distance_km: number;
     completed_at: string | null;
     evidence_snapshot: CompletedWorldFlightEvidence['evidenceSnapshot'];
+    status?: string;
   }> = [];
   let completedMissionRows: Array<{
     class_id: string;
@@ -78,9 +79,10 @@ export default async function WorldFlightRoutePage({
         .in('class_id', classIds),
       supabase
         .from('class_world_flight_legs')
-        .select('id, class_id, origin_destination_id, destination_id, focus_id, distance_km, completed_at, evidence_snapshot')
+        .select('id, class_id, origin_destination_id, destination_id, focus_id, distance_km, completed_at, evidence_snapshot, status')
         .in('class_id', classIds)
-        .eq('status', 'completed')
+        // 'taught' = a city's lesson done without flying there: evidence, but not a visit.
+        .in('status', ['completed', 'taught'])
         .order('completed_at', { ascending: true }),
       supabase
         .from('class_world_flight_design_missions')
@@ -132,6 +134,7 @@ export default async function WorldFlightRoutePage({
       evidenceSnapshot: leg.evidence_snapshot,
     });
     completedEvidenceByClass.set(leg.class_id, entries);
+    if (leg.status === 'taught') continue;
 
     const legs = completedLegsByClass.get(leg.class_id) ?? [];
     legs.push({

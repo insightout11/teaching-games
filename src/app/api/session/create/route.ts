@@ -98,9 +98,7 @@ export async function POST(request: Request) {
     if (selectedDeparture?.id === destination.id && launchContext.requestedMove) {
       return NextResponse.json({ error: 'The first destination must be different from the departure city' }, { status: 400 });
     }
-    if (state?.plane_selection_required && launchContext.requestedMove) {
-      return NextResponse.json({ error: 'Choose the class aircraft in World Flight before moving to another city' }, { status: 409 });
-    }
+    // A waiting plane choice never grounds the class: it flies its current plane at its current range.
     const rangeKm = state?.range_km ?? STARTER_PLANE_RANGE_KM;
     const planeKey = state?.plane_key ?? DEFAULT_PLANE_KEY;
     const planeTier = state?.plane_tier ?? 0;
@@ -183,7 +181,7 @@ export async function POST(request: Request) {
       .from('class_world_flight_legs')
       .select('destination_id, completed_at, evidence_snapshot')
       .eq('class_id', classId)
-      .eq('status', 'completed')
+      .in('status', ['completed', 'taught'])
       .order('completed_at', { ascending: true });
 
     if (completedLegsError) {

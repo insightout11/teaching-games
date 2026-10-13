@@ -63,7 +63,8 @@ async function awardWorldFlightProgression(
       .from('class_world_flight_legs')
       .select('id')
       .eq('session_id', sessionId)
-      .eq('status', 'completed')
+      // 'taught' = a city's lesson done without flying there: it earns the hour and stars too.
+      .in('status', ['completed', 'taught'])
       .maybeSingle(),
     service
       .from('session_participants')
@@ -260,7 +261,8 @@ export async function POST(request: Request) {
   }
 
   let progressionReward: WorldFlightProgressionRewardResult | null = null;
-  if ((data as { legStatus?: string } | null)?.legStatus === 'completed') {
+  const endedLegStatus = (data as { legStatus?: string } | null)?.legStatus;
+  if (endedLegStatus === 'completed' || endedLegStatus === 'taught') {
     // Travel arc: fold the trip log into the completed leg's evidence snapshot so the
     // journey (stamps, share page, design missions) remembers what the class actually did.
     if (tripSummary) {

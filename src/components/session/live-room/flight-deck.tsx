@@ -11,7 +11,8 @@ import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/cop
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
-import { FlightPlanPanel } from '@/components/session/live-room/flight-plan-panel';
+import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
+import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
 import { findPlanCity } from '@/lib/live-room/plan-city';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 import { parseWouldYouRather } from '@/lib/live-room/talk-vote';
@@ -259,18 +260,25 @@ export function FlightDeck({
     return list.slice(0, 24);
   }, [origin, position, lockedId]);
   const [chosenId, setChosenId] = useState<string | null>(null);
+  // World Flight in the room. `teachId`: an out-of-range city picked on the map (its lessons can be taught without
+  // flying there). `cityLesson`: the city lesson being set up in the flight panel. `stayHome`: a far city's lesson
+  // is running, so there is no take-off and the class stays where it is.
+  const [teachId, setTeachId] = useState<string | null>(null);
+  const [cityLesson, setCityLesson] = useState<(CityLessonChoice & { cityId: string }) | null>(null);
+  const [stayHome, setStayHome] = useState<string | null>(null);
   const flightKey = `lc-room-flight-${sessionId}`;
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string } | null;
+      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string } | null;
       if (saved?.chosenId) setChosenId(saved.chosenId);
       if (saved?.lockedId) setLockedId((cur) => cur ?? saved.lockedId ?? null);
+      if (saved?.stayHome) setStayHome(saved.stayHome);
       if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
     } catch { /* storage blocked */ }
   }, [flightKey]);
   useEffect(() => {
-    try { localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId })); } catch { /* storage blocked */ }
-  }, [flightKey, flightStage, takeoffAt, chosenId, lockedId]);
+    try { localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome })); } catch { /* storage blocked */ }
+  }, [flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome]);
   const destination = useMemo<RouteCity>(
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
@@ -356,11 +364,11 @@ export function FlightDeck({
       if (flightStage === 'flying') beginLanding();
       return;
     }
-    if (flightStage === 'gate' && flightPlan.index === 0) takeOff();
+    if (flightStage === 'gate' && flightPlan.index === 0 && !stayHome) takeOff();
     flightPlan.onNext();
   };
 
-  const takeOff = () => {
+  const takeOff = (focusId?: string) => {
     setFlightStage('flying');
     setTakeoffAt(Date.now());
     flash(`Flight to ${destination.city}: cleared for take-off`);
@@ -369,9 +377,24 @@ export function FlightDeck({
     void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ destinationId: destination.id, ...(canChooseStart && startId ? { departureDestinationId: startId } : {}) }),
+      body: JSON.stringify({ destinationId: destination.id, ...(focusId ? { focusId } : {}), ...(canChooseStart && startId ? { departureDestinationId: startId } : {}) }),
     }).catch(() => {});
   };
+
+  // A far city's lesson, taught from where the class is: recorded so it earns its hour, stars and clue (no stamp).
+  const teachFromHere = (cityId: string, focusId: string) => {
+    setStayHome(cityId);
+    void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ destinationId: cityId, focusId, ...(canChooseStart && startId ? { departureDestinationId: startId } : {}) }),
+    }).catch(() => {});
+  };
+  const stayHomeCity = stayHome ? SCENE_CITIES.find((c) => c.id === stayHome) ?? null : null;
+  const visitedIds = useMemo(() => new Set((position?.journey ?? []).flatMap((l) => (l.from ? [l.from, l.to] : [l.to]))), [position]);
+  // The city whose lessons the map card shows: a far city if one is picked, otherwise today's destination.
+  const cardCity = (teachId ? SCENE_CITIES.find((c) => c.id === teachId) : undefined) ?? SCENE_CITIES.find((c) => c.id === destination.id) ?? null;
+  const cardIsFar = !!teachId && cardCity?.id === teachId;
 
   // Route planner (before take-off): home plus every city in range as a pin.
   const plannerPins = useMemo<DeckMapPin[]>(() => [
@@ -381,11 +404,17 @@ export function FlightDeck({
       lat: c.lat,
       lng: c.lng,
       label: c.city,
-      color: c.id === destination.id ? '#f59e0b' : '#60a5fa',
+      color: c.id === destination.id && !teachId ? '#f59e0b' : visitedIds.has(c.id) ? '#34d399' : '#60a5fa',
     })),
-  ], [origin, reachable, destination.id]);
+    ...(lockedId ? [] : SCENE_CITIES.filter((c) => c.id !== origin.id && !reachable.some((r) => r.id === c.id)).map((c) => ({
+      id: `far:${c.id}`,
+      lat: c.lat,
+      lng: c.lng,
+      label: c.city,
+      color: c.id === teachId ? '#f59e0b' : '#475569',
+    }))),
+  ], [origin, reachable, destination.id, teachId, visitedIds, lockedId]);
   const plannerPaths = useMemo(() => [{ a: origin as LatLng, b: destination as LatLng }], [origin, destination]);
-  const plannerKm = Math.round(distanceBetweenCoordsKm(origin, destination));
 
   // Class pin map: every phone drops a pin (geo-point input); pins land live.
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
@@ -1263,10 +1292,13 @@ export function FlightDeck({
               </button>
             </label>
           )}
-          {flightStage === 'gate' && (
+          {flightStage === 'gate' && stayHomeCity && (
+            <p className="text-sm text-amber-100">City lesson: {stayHomeCity.city}. The class stays in {origin.city}.</p>
+          )}
+          {flightStage === 'gate' && !stayHome && (
             <button
               type="button"
-              onClick={takeOff}
+              onClick={() => takeOff()}
               className="mt-1 w-max rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-6 py-3 font-display text-lg text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105"
             >
               Take off to {destination.city}
@@ -1423,19 +1455,39 @@ export function FlightDeck({
           </>
         ) : flightStage === 'gate' ? (
           <>
-            <DeckMap className="h-full w-full" pins={plannerPins} paths={plannerPaths} onPinClick={(id) => { if (!id.startsWith('origin:')) setChosenId(id); }} />
+            <DeckMap
+              className="h-full w-full"
+              pins={plannerPins}
+              paths={teachId ? [] : plannerPaths}
+              onPinClick={(id) => {
+                if (id.startsWith('origin:') || stayHome) return;
+                if (id.startsWith('far:')) setTeachId(id.slice(4));
+                else { setTeachId(null); setChosenId(id); }
+              }}
+            />
             <div className="absolute inset-x-3 bottom-3 flex flex-wrap items-end justify-between gap-2">
-              <div className="rounded-xl border border-white/15 bg-slate-950/80 px-3 py-2 backdrop-blur-md">
-                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-sky-300">Where next? Tap a city</p>
-                <p className="font-display text-lg text-white">{origin.city} → {destination.city}</p>
-                <p className="font-mono text-xs text-white/60">{plannerKm.toLocaleString()} km</p>
-                <button type="button" onClick={() => void startCityPoll()} className="mt-1.5 rounded-lg border border-amber-300/40 px-2 py-0.5 text-xs text-amber-200 hover:bg-amber-300/10">
-                  Let the class vote (with reasons)
+              {stayHomeCity ? (
+                <div className="rounded-xl border border-white/15 bg-slate-950/85 px-3 py-2 backdrop-blur-md">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">City lesson: {stayHomeCity.city}</p>
+                  <p className="text-sm text-white/75">The class stays in {origin.city} for this one.</p>
+                </div>
+              ) : cardCity ? (
+                <CityLessonsCard
+                  city={cardCity}
+                  originCity={origin.city}
+                  km={Math.round(distanceBetweenCoordsKm(origin, cardCity))}
+                  far={cardIsFar}
+                  visited={visitedIds.has(cardCity.id)}
+                  locked={!!lockedId || !!flightPlan}
+                  onPickLesson={(focus) => setCityLesson({ cityId: cardCity.id, focusId: focus.id, title: focus.title, source: focus.sourceMaterial, staysIn: cardIsFar ? origin.city : null })}
+                  onVote={cardIsFar ? undefined : () => void startCityPoll()}
+                />
+              ) : <span />}
+              {!stayHome && !cardIsFar && (
+                <button type="button" onClick={() => takeOff()} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
+                  Take off to {destination.city}
                 </button>
-              </div>
-              <button type="button" onClick={takeOff} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
-                Take off to {destination.city}
-              </button>
+              )}
             </div>
           </>
         ) : (
@@ -1604,6 +1656,30 @@ export function FlightDeck({
             if (item) { setFocusId(item.id); flash(`Back to ${title}`); }
             else makeFocus({ title });
             setPanel(null);
+          }}
+        />
+      )}
+      {cityLesson && (
+        <FlightPlanPanel
+          sessionId={sessionId}
+          destinationCity={SCENE_CITIES.find((c) => c.id === cityLesson.cityId)?.city ?? destination.city}
+          destinationId={cityLesson.cityId}
+          minutesLeft={null}
+          cityLesson={cityLesson}
+          onClose={() => setCityLesson(null)}
+          onLaunch={(plan, info) => {
+            const lesson = cityLesson;
+            setCityLesson(null);
+            recordActivity(`City lesson: ${lesson.title}`);
+            onLaunchPlan(plan);
+            if (lesson.staysIn) {
+              flash(`City lesson: ${lesson.title}. The class stays in ${lesson.staysIn}`);
+              teachFromHere(lesson.cityId, lesson.focusId);
+              setView('show');
+            } else {
+              setTeachId(null);
+              takeOff(info?.usesCityLesson ? lesson.focusId : undefined);
+            }
           }}
         />
       )}
@@ -1800,6 +1876,16 @@ export function FlightDeck({
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
+        {flightStage === 'gate' && stayHome && (
+          <button
+            type="button"
+            onClick={() => { if (!landArmed) { setLandArmed(true); return; } setLandArmed(false); if (flightPlan) flightPlan.onEnd(); onCompleteSession(origin.id); }}
+            title={`Finish the lesson. The class stays in ${origin.city}.`}
+            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors ${landArmed ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}
+          >
+            <ListChecks className="h-3.5 w-3.5" /> {landArmed ? 'Tap again to finish' : 'Finish lesson'}
+          </button>
+        )}
         {flightStage === 'flying' && (
           <button
             type="button"
@@ -1829,9 +1915,10 @@ export function FlightDeck({
                   </button>
                 </>
               ) : (
-                // Never took off: the class is still at its departure city.
-                <button type="button" onClick={() => { setPanel(null); onEndSession(origin.id); }} className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10">
-                  End the session
+                // Never took off: the class is still at its departure city. A city lesson taught from here still
+                // counts as a finished lesson.
+                <button type="button" onClick={() => { setPanel(null); if (stayHome) { if (flightPlan) flightPlan.onEnd(); onCompleteSession(origin.id); } else onEndSession(origin.id); }} className="w-full rounded-lg px-3 py-2 text-left text-sm text-rose-300 hover:bg-rose-400/10">
+                  {stayHome ? 'Finish the lesson' : 'End the session'}
                 </button>
               )}
             </div>

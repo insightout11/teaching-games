@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import { BookOpen, FileText, Headphones, Layers, MapPin, Plane, X } from 'lucide-react';
 import { listeningClipsFor } from '@/lib/listening-pack';
 import { getLibrarySourceMaterial, listBookLessons, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
+import { resolveSourceMaterialForDifficulty } from '@/lib/world-flight/readings';
+import type { SourceMaterial } from '@/types/source-material';
 import type { SourceType } from '@/types/source-material';
 import type { Course, CourseLesson } from '@/lib/course';
 import { withCarryOver } from '@/lib/launch-course-lesson';
@@ -15,24 +17,38 @@ import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
 import { buildRoomFlightPlan, estimatePlanMinutes, roomFlightPresets } from '@/lib/live-room/room-flight-plan';
 import { buildTripPack, findTripDestination } from '@/lib/world-flight/trip-pack';
 
+export interface CityLessonChoice {
+  focusId: string;
+  title: string;
+  source: SourceMaterial;
+  /** Set when the city is out of range: the lesson is taught from this city and the class does not move. */
+  staysIn?: string | null;
+}
+
 /**
  * Launch a flight from inside the Live Room: preset cards, prefilled from the room (the topic,
  * the source on screen, the level, the grammar focus). Only what a preset genuinely needs is
  * asked (the grammar point for Grammar). Flies in this session; the room keeps the journey.
  */
-export function FlightPlanPanel({ sessionId, destinationCity, destinationId, minutesLeft, onLaunch, onClose }: { sessionId: string; destinationCity: string; /** The room's destination (a World Flight city id) — Travel builds its trip there. */ destinationId?: string | null; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload) => void; onClose: () => void }) {
+export function FlightPlanPanel({ sessionId, destinationCity, destinationId, minutesLeft, cityLesson, onLaunch, onClose }: {
+  /** One of a World Flight city's own lessons (chosen on the room map): the flight is built from it. */
+  cityLesson?: CityLessonChoice | null; sessionId: string; destinationCity: string; /** The room's destination (a World Flight city id) — Travel builds its trip there. */ destinationId?: string | null; /** Set while flying: the plan is sized to the time left. */ minutesLeft?: number | null; onLaunch: (plan: LessonPlanPayload, info?: { usesCityLesson: boolean }) => void; onClose: () => void }) {
   const settings = useSessionStore((s) => s.settings);
-  const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
+  const roomSource = useSessionStore((s) => s.sourceMaterial);
+  // A city reading comes in several levels: use the one written for this class.
+  const sourceMaterial = useMemo(() => (cityLesson ? resolveSourceMaterialForDifficulty(cityLesson.source, settings.difficulty) : roomSource), [cityLesson, roomSource, settings.difficulty]);
   // Travel flies to the room's destination with that city's trip pack (real stops, no AI).
   const tripDestination = useMemo(() => findTripDestination(destinationId, destinationCity), [destinationId, destinationCity]);
   const junior = useSessionStore((s) => s.junior);
   // Junior classes skip the debate and grammar flights (too much arguing and rule talk for 5-9s).
   const presets = useMemo(
-    () => roomFlightPresets({ travel: !!tripDestination }).filter((p) => !junior || !/debate|grammar/.test(p.id)),
-    [tripDestination, junior],
+    () => roomFlightPresets({ travel: !!tripDestination && !cityLesson?.staysIn }).filter((p) => !junior || !/debate|grammar/.test(p.id))
+      // Listening and Reading fly on their own prepared clips and books, not on a city's lesson.
+      .filter((p) => !cityLesson || !/listening|reading/.test(p.id)),
+    [tripDestination, junior, cityLesson],
   );
   const [presetId, setPresetId] = useState(presets[0]?.id ?? '');
-  const [topic, setTopic] = useState(settings.customTopic || sourceMaterial?.title || '');
+  const [topic, setTopic] = useState(cityLesson ? cityLesson.title : settings.customTopic || sourceMaterial?.title || '');
   const [grammar, setGrammar] = useState<string>(settings.grammarTarget ?? '');
   const preset = presets.find((p) => p.id === presetId);
 
@@ -80,7 +96,8 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
   const launch = () => {
     const plan = build();
     if (!plan || !ready) return;
-    onLaunch(plan);
+    // Travel flies on the city's real places, not on the chosen lesson, so it does not count as that lesson.
+    onLaunch(plan, { usesCityLesson: !!cityLesson && !isTravel });
   };
 
   return (
@@ -94,7 +111,13 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
           <button type="button" onClick={onClose} className="rounded-full p-2 text-white/60 hover:bg-white/10" aria-label="Close"><X className="h-5 w-5" /></button>
         </div>
 
-        {courseNext.length > 0 && (
+        {cityLesson && (
+          <p className="flex items-start gap-2 rounded-xl border border-amber-300/30 bg-amber-300/[0.06] px-3 py-2 text-sm text-amber-100">
+            <FileText className="mt-0.5 h-4 w-4 shrink-0" />
+            <span><span className="font-semibold">City lesson: {cityLesson.title}.</span> {cityLesson.staysIn ? `The class stays in ${cityLesson.staysIn}: this earns the flight hour, stars and the lesson's clue, but no stamp.` : 'Choose how to teach it.'}</span>
+          </p>
+        )}
+        {!cityLesson && courseNext.length > 0 && (
           <div className="space-y-1.5">
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Continue a course</p>
             {courseNext.map(({ course, lesson }) => (

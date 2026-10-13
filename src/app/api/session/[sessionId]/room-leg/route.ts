@@ -4,7 +4,7 @@ import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { createServiceClient } from '@/lib/supabase/service';
 import { getDestinationById, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { distanceKm } from '@/lib/world-flight/geo';
-import { buildVisitOnlySnapshot, NO_CITY_LESSON_FOCUS_ID, resolveWorldFlightMovement } from '@/lib/world-flight/journey';
+import { buildVisitOnlySnapshot, buildWorldFlightEvidenceSnapshot, NO_CITY_LESSON_FOCUS_ID, resolveWorldFlightMovement } from '@/lib/world-flight/journey';
 
 export const dynamic = 'force-dynamic';
 
@@ -75,7 +75,11 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
     // plane's range, until the new one is chosen.
     requestedMove: true,
   });
-  if (!movement.movesClass) {
+  // One of the city's own lessons, when the teacher chose one on the room map.
+  const focus = typeof body?.focusId === 'string' ? destination.focusOptions.find((f) => f.id === body.focusId) : undefined;
+  // Out of range (or already there) with a city lesson: the lesson counts, but the class stays where it is.
+  const taughtOnly = !movement.movesClass && !!focus;
+  if (!movement.movesClass && !taughtOnly) {
     return NextResponse.json({ movesClass: false, reason: origin?.id === destination.id ? 'same-city' : 'out-of-range' });
   }
 
@@ -85,15 +89,16 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
       session_id: params.sessionId,
       origin_destination_id: origin?.id ?? null,
       destination_id: destination.id,
-      // The room flies to the city; what is taught on the way is the teacher's choice. So the flight is recorded
-      // as a visit only, never as one of the city's lessons (that would be evidence the class never met).
-      focus_id: NO_CITY_LESSON_FOCUS_ID,
-      distance_km: Math.max(0, km),
-      evidence_snapshot: buildVisitOnlySnapshot(destination),
+      // With no city lesson the flight is recorded as a visit only, never as one of the city's lessons (that
+      // would be evidence the class never met). What is taught on the way is the teacher's choice.
+      focus_id: focus?.id ?? NO_CITY_LESSON_FOCUS_ID,
+      distance_km: taughtOnly ? 0 : Math.max(0, km),
+      evidence_snapshot: focus ? buildWorldFlightEvidenceSnapshot(destination, focus) : buildVisitOnlySnapshot(destination),
+      moves_class: !taughtOnly,
       status: 'planned',
     },
     { onConflict: 'session_id' },
   );
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ movesClass: true, distanceKm: Math.round(km) });
+  return NextResponse.json({ movesClass: !taughtOnly, taughtOnly, cityLesson: !!focus, distanceKm: Math.round(km) });
 }

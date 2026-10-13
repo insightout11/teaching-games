@@ -1310,10 +1310,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         return;
       }
 
-      if (expectsJourneyMove) {
-        setJourneySaveStatus(result.legStatus === 'completed' ? 'saved' : 'error');
-        setWorldFlightReward(result.progressionReward ?? null);
-      }
+      if (expectsJourneyMove) setJourneySaveStatus(result.legStatus === 'completed' ? 'saved' : 'error');
+      // Hours and stars are earned by every landed flight (and by a city lesson taught without flying).
+      if (result.progressionReward) setWorldFlightReward(result.progressionReward);
       if (result.courseContext) {
         setNextDestination({
           kind: 'course',
