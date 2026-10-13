@@ -33,7 +33,6 @@ export function WorldFlightHero({
   const reduced = !!useReducedMotion();
   const cities = HERO_CITIES;
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
 
   // Container-measured layout switch so the mobile + desktop variants respond to the
   // panel width (works in a dev gallery at any width, not just the real viewport).
@@ -55,10 +54,10 @@ export function WorldFlightHero({
   const isMobile = width !== null && width < MOBILE_MAX;
 
   useEffect(() => {
-    if (reduced || paused || cities.length < 2) return;
+    if (reduced || cities.length < 2) return;
     const id = setInterval(() => setActive((a) => (a + 1) % cities.length), ADVANCE_MS);
     return () => clearInterval(id);
-  }, [reduced, paused, cities.length]);
+  }, [reduced, cities.length]);
 
   if (cities.length === 0) return null;
   const city = cities[active];
@@ -109,8 +108,6 @@ export function WorldFlightHero({
     <section
       ref={ref}
       aria-label="World Flight"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       className="relative isolate overflow-hidden rounded-2xl border border-cyan-300/25 bg-[#04101f] shadow-2xl shadow-black/30"
     >
       {isMobile ? (
@@ -122,7 +119,7 @@ export function WorldFlightHero({
             </div>
             <div className="relative flex-1 overflow-hidden rounded-xl border border-cyan-300/20 bg-[#03101f]">
               <DestinationWindow cities={cities} activeIndex={active} reduced={reduced} />
-              <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[#030a14]/92 to-transparent" />
+              <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#030a14]/75 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-2.5">
                 <span className="font-instrument block text-[9px] uppercase tracking-[0.2em] text-cyan-300/70">Now arriving</span>
                 <span className="block truncate text-[15px] font-bold text-lc-text">{city.city}</span>
@@ -149,8 +146,8 @@ export function WorldFlightHero({
         <div className="relative min-h-[460px] md:min-h-[540px]">
           <DestinationWindow cities={cities} activeIndex={active} reduced={reduced} />
 
-          <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#030a14]/95 via-[#030a14]/72 to-transparent md:via-[#030a14]/55" />
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#030a14]/90 to-transparent" />
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#030a14]/90 via-[#030a14]/55 to-transparent md:via-[#030a14]/40" />
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#030a14]/70 to-transparent" />
 
           <div className="relative z-10 grid h-full min-h-[460px] grid-cols-1 items-center gap-6 p-6 md:min-h-[540px] md:grid-cols-[1.05fr_minmax(0,380px)] md:p-10">
             <div className="max-w-xl">
@@ -158,7 +155,7 @@ export function WorldFlightHero({
               <h2 className="font-game mt-3 text-[2.6rem] leading-[0.92] text-lc-text sm:text-[3.4rem]">
                 Fly your class around the world
               </h2>
-              <p className="mt-4 max-w-md text-[15px] leading-relaxed text-lc-text2">
+              <p className="mt-4 max-w-md text-base leading-relaxed text-white/90 [text-shadow:0_1px_10px_rgba(3,10,20,.9)]">
                 Every lesson that takes off and lands moves your class to a new city. {DESTINATION_COUNT} real
                 destinations to stamp, each with its own scene and its own lessons. Earn a bigger plane, and let
                 the class choose where to fly next.
