@@ -12,7 +12,9 @@ import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import type { HeroCity } from './hero-cities';
 
-const HOURS = ['day', 'day', 'dusk', 'day', 'dawn', 'day', 'day', 'dusk'] as const;
+// Each city at the hour that suits it: Tokyo and New York are night cities; most of the rest read best in daylight.
+const CITY_HOUR: Record<string, 'dawn' | 'day' | 'dusk' | 'night'> = { tokyo: 'night', 'new-york': 'night', cairo: 'dusk', paris: 'dawn', 'cape-town': 'dusk' };
+const hourFor = (cityId: string) => CITY_HOUR[cityId] ?? 'day';
 
 export function DestinationWindow({
   cities,
@@ -58,9 +60,8 @@ export function DestinationWindow({
             motion="static"
             planeKey={city.plane}
             // Each city in its own typical weather (the same climate-weighted roll the live flights use).
-            weather={rollWeather(`hero:${city.id}`, city.scene)}
-            // Mostly daylight, so the art reads on a dark page; a dawn and a dusk for variety.
-            timeOfDay={HOURS[activeIndex % HOURS.length]}
+            weather={rollWeather(`hero:${city.id}`, city.scene, hourFor(city.id) === 'night')}
+            timeOfDay={hourFor(city.id)}
             className="h-full w-full"
           />
         </motion.div>

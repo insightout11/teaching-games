@@ -31,13 +31,13 @@ function Points({ items }: { items: Array<[string, string]> }) {
 // ── Change course mid-flight ─────────────────────────────────────────────────
 
 const DETOURS = [
-  { id: 'food', chip: 'Street food', topic: 'Street food', note: 'The plan for today', kind: 'Would you rather', q: 'Eat only street food for a month, or only home cooking?' },
+  { id: 'jobs', chip: 'Dream jobs', topic: 'Dream jobs', note: 'The plan for today', kind: 'Would you rather', q: 'Have a job you love with low pay, or a boring job with high pay?' },
   { id: 'volcano', chip: 'Diego asks: volcanoes?', topic: 'Volcanoes', note: 'Detour · asked by Diego', kind: 'Fact detective', q: 'Three facts about volcanoes. One is false. Which one?' },
-  { id: 'word', chip: 'A new word: “queue”', topic: 'The word “queue”', note: 'Detour · a new word', kind: 'Quick fire', q: 'Where do you queue the most, and what do you do while you wait?' },
+  { id: 'word', chip: 'A new word: “freelance”', topic: 'The word “freelance”', note: 'Detour · a new word', kind: 'Quick fire', q: 'Would you like to work freelance? Why, or why not?' },
 ];
 
 export function ChangeCourseSection() {
-  const [id, setId] = useState('food');
+  const [id, setId] = useState('jobs');
   const d = DETOURS.find((x) => x.id === id) ?? DETOURS[0];
   return (
     <section className="border-t border-lc-border bg-[#0b1524]/60 px-5 py-16 sm:px-6 sm:py-20">
@@ -66,7 +66,7 @@ export function ChangeCourseSection() {
               </div>
             </div>
           </div>
-          <p className="mt-2.5 text-[15px] text-lc-text2">An example. Tap a detour, then tap Street food to come back.</p>
+          <p className="mt-2.5 text-[15px] text-lc-text2">An example. Tap a detour, then tap Dream jobs to come back.</p>
         </div>
       </div>
     </section>

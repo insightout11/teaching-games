@@ -10,10 +10,10 @@ import { Loader2, Sparkles } from 'lucide-react';
 type Activity = { kind: string; prompt: string; how: string };
 
 const EXAMPLES: Array<{ id: string; label: string; activities: Activity[] }> = [
-  { id: 'food', label: 'Street food', activities: [
-    { kind: 'Would you rather', prompt: 'Eat only street food for a month, or only home cooking?', how: 'Everyone votes, then two students explain why.' },
-    { kind: 'Words for today', prompt: 'crispy · spicy · stall · queue · bargain', how: 'Each word with its meaning, an example and a question to answer aloud.' },
-    { kind: 'Hot Seat', prompt: 'Describe a street food without saying its name.', how: 'One student describes; the class buzzes in to guess.' },
+  { id: 'games', label: 'Video games', activities: [
+    { kind: 'Would you rather', prompt: 'Play only old games for ever, or only games that do not exist yet?', how: 'Everyone votes, then two students explain why.' },
+    { kind: 'Words for today', prompt: 'level · character · controller · multiplayer · upgrade', how: 'Each word with its meaning, an example and a question to answer aloud.' },
+    { kind: 'Hot Seat', prompt: 'Describe a video game without saying its name.', how: 'One student describes; the class buzzes in to guess.' },
   ] },
   { id: 'football', label: 'Football', activities: [
     { kind: 'Hot take', prompt: 'Video replays have made football worse.', how: 'The class lines up from agree to disagree, then defends its spot.' },
@@ -33,7 +33,7 @@ const EXAMPLES: Array<{ id: string; label: string; activities: Activity[] }> = [
 ];
 
 export function TopicSection() {
-  const [exampleId, setExampleId] = useState<string | null>('food');
+  const [exampleId, setExampleId] = useState<string | null>('games');
   const [own, setOwn] = useState<{ topic: string; activities: Activity[] } | null>(null);
   const [topic, setTopic] = useState('');
   const [busy, setBusy] = useState(false);
