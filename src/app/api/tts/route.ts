@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
@@ -35,6 +35,8 @@ export async function POST(request: Request) {
   const { teacher, error: authError } = await requireAuth();
   if (authError) return authError;
   if (!teacher) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const overLimit = await checkAndRecordAiUsage(teacher, 'speech');
+  if (overLimit) return overLimit;
 
   const body = await request.json().catch(() => null) as { text?: unknown; role?: unknown } | null;
   const text = typeof body?.text === 'string' ? body.text.replace(/\s+/g, ' ').trim().slice(0, MAX_CHARS) : '';

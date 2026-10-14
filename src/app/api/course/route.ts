@@ -38,8 +38,9 @@ export async function GET() {
     const sessionIds = Array.from(new Set(rows.map((r) => r.session_id).filter((x): x is string => !!x)));
     const classBySession = new Map<string, { id: string; name: string }>();
     if (sessionIds.length) {
-      const { data: sess } = await supabase.from('sessions').select('id, started_at, classes(id, name)').in('id', sessionIds);
-      for (const s of (sess ?? []) as unknown as Array<{ id: string; classes: { id: string; name: string } | null }>) if (s.classes) classBySession.set(s.id, s.classes);
+      const { data: sess } = await supabase.from('sessions').select('id, started_at, classes(id, name, teacher_id)').in('id', sessionIds);
+      // Only this teacher's own classes (a lesson could once be linked to any session).
+      for (const s of (sess ?? []) as unknown as Array<{ id: string; classes: { id: string; name: string; teacher_id: string } | null }>) if (s.classes && s.classes.teacher_id === teacher.id) classBySession.set(s.id, { id: s.classes.id, name: s.classes.name });
     }
     const fixedIds = Array.from(new Set(courses.map((c) => c.class_id).filter((x): x is string => !!x)));
     const classNames = new Map<string, string>();

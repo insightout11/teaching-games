@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { requireAuth } from '@/lib/auth-credits';
 import { cleanText, libraryRaw, searchLibrary } from '@/lib/live-room/library-catalog';
 import type { LibraryKind, LibraryLength } from '@/lib/live-room/library-search';
@@ -15,11 +16,13 @@ const LENGTHS: LibraryLength[] = ['short', 'medium', 'long'];
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const VIDEO_KINDS = new Set<LibraryKind>(['video', 'hook', 'grammar']);
 
-async function sessionTopic(sessionId: string): Promise<string | null> {
+async function sessionTopic(sessionId: string, teacherId: string): Promise<string | null> {
   if (!sessionId) return null;
   try {
     if (isMockMode()) { const s = mockStore.getSession(sessionId) as { topic?: string; custom_topic?: string | null } | undefined; return s?.custom_topic || s?.topic || null; }
     // custom_topic is the Live Room Focus (updated on every new topic); topic is the planned one.
+    // Someone else's session gives no topic (the shelf is simply empty), never an error.
+    if ((await verifyTeacherOwnsSession(sessionId, teacherId)).error) return null;
     const { data } = await createServiceClient().from('sessions').select('topic, custom_topic').eq('id', sessionId).maybeSingle();
     const row = data as { topic?: string | null; custom_topic?: string | null } | null;
     return row?.custom_topic || row?.topic || null;
@@ -82,7 +85,7 @@ export async function GET(request: Request) {
   const filters = { levels, age, kind, length };
 
   const liveTopic = (p.get('topic') ?? '').trim().slice(0, 120);
-  const topic = q ? null : liveTopic || await sessionTopic(p.get('sessionId') ?? '');
+  const topic = q ? null : liveTopic || await sessionTopic(p.get('sessionId') ?? '', teacher.id);
   const shelf = topic ? searchLibrary({ ...filters, topic, limit: 8 }) : [];
   const shelfKeys = new Set(shelf.map((e) => e.key));
   const results = searchLibrary({ ...filters, q, limit: 60 }).filter((e) => !shelfKeys.has(e.key));

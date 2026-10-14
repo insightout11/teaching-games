@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 // Mock the Supabase service client used by checkAndRecordAiUsage.
 const mockRpc = vi.fn();
 const mockGte = vi.fn();
-const mockEq = vi.fn(() => ({ gte: mockGte }));
+const mockEq: ReturnType<typeof vi.fn> = vi.fn(() => ({ eq: mockEq, gte: mockGte }));
 const mockSelect = vi.fn(() => ({ eq: mockEq }));
 const mockInsert = vi.fn().mockResolvedValue({ error: null });
 
@@ -31,7 +31,7 @@ describe('checkAndRecordAiUsage', () => {
     const res = await checkAndRecordAiUsage(teacher);
 
     expect(res).toBeNull();
-    expect(mockInsert).toHaveBeenCalledWith({ teacher_id: 'teacher-1' });
+    expect(mockInsert).toHaveBeenCalledWith({ teacher_id: 'teacher-1', kind: 'ai' });
   });
 
   it('returns a 429 with AI_LIMIT_REACHED at the cap and does not record', async () => {

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI, SchemaType as GeminiSchemaType } from '@google/generative-ai';
 import type { GenerationConfig } from '@google/generative-ai';
 import { getGeminiDocumentModel, getThinkingConfig } from '@/lib/ai/config';
-import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { requireAuthForGeneration, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { SourceBriefingMode, SourceBriefingOption } from '@/types/source-material';
 
 export const maxDuration = 60;
@@ -196,8 +196,10 @@ function buildBriefingOptions(params: {
 }
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
+  const { teacher: meteredTeacher, error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
+  const overLimit = meteredTeacher ? await checkAndRecordAiUsage(meteredTeacher, 'more') : null;
+  if (overLimit) return overLimit;
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {

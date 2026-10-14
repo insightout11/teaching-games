@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { createServerSupabase } from '@/lib/supabase/server';
@@ -142,6 +143,8 @@ Return JSON: { "scores": [...] } — one entry per clientId, same order as input
   };
 
   try {
+    const overLimit = await checkAndRecordAiUsage({ id: user.id }, 'more');
+    if (overLimit) return overLimit;
     const parsed = await generateJSON<{ scores: LandingScore[] }>(aiPrompt, schema, {
       taskClass: 'activity-facilitation',
     });

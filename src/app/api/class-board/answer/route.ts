@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { createServerSupabase } from '@/lib/supabase/server';
@@ -96,6 +97,8 @@ Topic: "${topic}" | Level: "${difficulty}"
 Student question: "${item.content}"
 
 Give one clear, direct sentence that answers the question. ${difficulty}-appropriate language. No follow-up question.`;
+      const overLimit = await checkAndRecordAiUsage({ id: user.id }, 'more');
+      if (overLimit) return overLimit;
       const data = await generateJSON<AIAnswerResponse>(prompt, aiAnswerSchema, {
         taskClass: 'activity-facilitation',
       });

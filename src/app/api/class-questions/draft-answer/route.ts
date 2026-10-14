@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { createServerSupabase } from '@/lib/supabase/server';
@@ -67,6 +68,8 @@ Give a clear, concise teacher's answer.
 - example: one natural example sentence (optional, only if useful)
 - teacherTip: one brief delivery tip for the teacher (optional)`;
 
+    const overLimit = await checkAndRecordAiUsage({ id: user.id }, 'more');
+    if (overLimit) return overLimit;
     const data = await generateJSON<DraftResponse>(prompt, schema, {
       taskClass: 'activity-facilitation',
     });

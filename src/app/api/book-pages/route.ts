@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { ensureBookPagesBucket } from '@/lib/book-import/scan-usage';
 
@@ -21,6 +21,9 @@ export async function POST(request: NextRequest) {
   const page = Number(form?.get('page'));
   if (!(file instanceof Blob) || file.type !== 'image/jpeg' || file.size > MAX_BYTES) return NextResponse.json({ error: 'A JPEG page picture is required' }, { status: 400 });
   if (!SAFE.test(bookId) || !Number.isInteger(page) || page < 1 || page > 2000) return NextResponse.json({ error: 'Bad page' }, { status: 400 });
+
+  const overLimit = await checkAndRecordAiUsage(teacher, 'upload');
+  if (overLimit) return overLimit;
 
   const supabase = createServiceClient();
   await ensureBookPagesBucket(supabase);

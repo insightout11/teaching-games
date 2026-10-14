@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { requireAuthForGeneration, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { DIFFICULTIES, type Difficulty } from '@/lib/difficulty';
@@ -80,8 +80,10 @@ Return JSON only.`;
 }
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration();
+  const { teacher: meteredTeacher, error: authError } = await requireAuthForGeneration();
   if (authError) return authError;
+  const overLimit = meteredTeacher ? await checkAndRecordAiUsage(meteredTeacher, 'more') : null;
+  if (overLimit) return overLimit;
 
   let body: { text?: string; hasSource?: boolean; currentDifficulty?: string; currentDurationMinutes?: number };
   try {

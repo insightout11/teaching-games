@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
-import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { requireAuthForGeneration, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import type { Difficulty } from '@/stores/session-store';
 import { GrammarTarget } from '@/games/grammar-boss/types';
 
@@ -27,8 +27,10 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration();
+  const { teacher: meteredTeacher, error: authError } = await requireAuthForGeneration();
   if (authError) return authError;
+  const overLimit = meteredTeacher ? await checkAndRecordAiUsage(meteredTeacher, 'more') : null;
+  if (overLimit) return overLimit;
 
   try {
     const { sentence, grammarTarget, task, difficulty } = await request.json() as {

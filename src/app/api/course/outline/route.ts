@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { requireAuthForGeneration, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import { GOAL_LABELS, type GoalTag } from '@/lib/flight-plan-config';
 import { DIFFICULTIES, difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
@@ -93,8 +93,10 @@ Return JSON only.`;
 
 export async function POST(request: NextRequest) {
   // Course Builder is a Pro feature.
-  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
+  const { teacher: meteredTeacher, error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
+  const overLimit = meteredTeacher ? await checkAndRecordAiUsage(meteredTeacher, 'more') : null;
+  if (overLimit) return overLimit;
 
   let body: { theme?: string; lessonCount?: number; level?: string; junior?: boolean };
   try {

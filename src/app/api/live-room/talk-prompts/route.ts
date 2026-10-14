@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { generateJSON, type AISchema } from '@/lib/ai';
-import { requireAuth } from '@/lib/auth-credits';
+import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
 import { cleanVoteOptions } from '@/lib/live-room/talk-vote';
 
@@ -59,6 +59,8 @@ export async function POST(request: Request) {
   const { teacher, error } = await requireAuth();
   if (error) return error;
   if (!teacher) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const overLimit = await checkAndRecordAiUsage(teacher, 'more');
+  if (overLimit) return overLimit;
 
   const level = difficultyDescriptions[difficulty] ?? difficultyDescriptions.Intermediate;
   const voteable = VOTE_KINDS.includes(kind);

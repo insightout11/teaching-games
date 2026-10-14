@@ -4,7 +4,7 @@ import type { AISchema } from '@/lib/ai';
 import type { Difficulty, Topic } from '@/stores/session-store';
 import { GrammarTarget } from '@/games/grammar-boss/types';
 import { getCachedContent, storeCachedContent } from '@/lib/content-cache';
-import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { requireAuthForGeneration, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { grammarBossFallback } from '@/lib/fallback-content';
 import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
@@ -33,8 +33,10 @@ const schema: AISchema = {
 };
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration();
+  const { teacher: meteredTeacher, error: authError } = await requireAuthForGeneration();
   if (authError) return authError;
+  const overLimit = meteredTeacher ? await checkAndRecordAiUsage(meteredTeacher, 'more') : null;
+  if (overLimit) return overLimit;
 
   const { grammarTarget, topic, difficulty, excludeCacheIds = [], sourceMaterial, lessonKit } = await request.json() as {
     grammarTarget: GrammarTarget;

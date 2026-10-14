@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
@@ -59,6 +60,10 @@ export async function POST(request: Request) {
   if (!uuidRegex.test(sessionId)) {
     return NextResponse.json({ error: 'Invalid sessionId' }, { status: 400 });
   }
+
+  // The service client below skips the database's own access rules, so the owner check happens here.
+  const owned = await verifyTeacherOwnsSession(sessionId, teacher.id);
+  if (owned.error) return owned.error;
 
   const supabase = createServiceClient();
 

@@ -307,7 +307,9 @@ export async function GET(request: NextRequest) {
           .order('joined_at', { ascending: false })
           .limit(1)
           .maybeSingle();
-        participant = rosterParticipant;
+        // Found by the name picked, not by this device: enough to total the right points, but the private
+        // results link stays with the device that joined (anyone can pick a name from the roster).
+        participant = rosterParticipant ? { student_id: rosterParticipant.student_id, debrief_token: null } : null;
       }
       studentId = (participant?.student_id as string | undefined) ?? null;
       debriefToken = (participant?.debrief_token as string | undefined) ?? null;

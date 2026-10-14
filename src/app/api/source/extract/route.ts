@@ -1,6 +1,6 @@
 import 'server-only';
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { requireAuthForGeneration, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import {
   parseYouTubeId,
   fetchYouTubeTranscript,
@@ -52,8 +52,10 @@ type TedTalk = {
 // ─── Route handler ───────────────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
-  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
+  const { teacher: meteredTeacher, error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
+  const overLimit = meteredTeacher ? await checkAndRecordAiUsage(meteredTeacher, 'more') : null;
+  if (overLimit) return overLimit;
 
   let body: { type: SourceType; payload: string; title?: string };
   try {

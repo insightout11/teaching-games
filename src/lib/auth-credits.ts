@@ -182,12 +182,17 @@ export async function requireAuthForGeneration(options?: {
   };
 }
 
-// Generous weekly cap on free-tier per-round AI calls. Per-round generations are
-// cheap; this stops scripted abuse, not real teachers. Pro/developer are exempt.
-const FREE_WEEKLY_AI_CALLS = 200;
+// Generous weekly caps for free accounts. These stop scripted abuse, not real teachers. Pro/developer are exempt.
+// Each kind of paid work has its own allowance, so speech or uploads never eat into lesson generation:
+//   ai     - per-round generation inside a lesson (the original counter)
+//   more   - planning, sources, documents and other generation outside a round
+//   speech - natural-voice clips
+//   upload - book page pictures kept in storage
+export type UsageKind = 'ai' | 'more' | 'speech' | 'upload';
+const FREE_WEEKLY_LIMIT: Record<UsageKind, number> = { ai: 200, more: 600, speech: 1000, upload: 1500 };
 
 /**
- * Rolling-window AI usage guard for per-round generate routes.
+ * Rolling-window usage guard for routes that cost money.
  *
  * `requireAuth()` never hits the DB and always reports `isPro: false`, so this
  * looks up the teacher's real tier via `get_teacher_credits` and exempts
@@ -196,7 +201,8 @@ const FREE_WEEKLY_AI_CALLS = 200;
  *
  * Fails OPEN (returns null) on any DB error — never block a teacher mid-lesson.
  */
-export async function checkAndRecordAiUsage(teacher: AuthedTeacher): Promise<NextResponse | null> {
+export async function checkAndRecordAiUsage(teacher: { id: string }, kind: UsageKind = 'ai'): Promise<NextResponse | null> {
+  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') return null;
   const service = createServiceClient();
 
   // Look up real tier — Pro/developer are exempt from the cap.
@@ -211,24 +217,36 @@ export async function checkAndRecordAiUsage(teacher: AuthedTeacher): Promise<Nex
   if (info?.is_pro || info?.is_developer) return null;
 
   const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  const { count, error } = await service
+  let { count, error } = await service
     .from('ai_usage')
     .select('id', { count: 'exact', head: true })
     .eq('teacher_id', teacher.id)
+    .eq('kind', kind)
     .gte('created_at', weekAgo);
+  // The `kind` column arrives with migration 064. Until it is applied, the original counter keeps working
+  // exactly as before (one allowance, no kinds) and the newer kinds are simply not limited yet.
+  let hasKinds = true;
+  if (error && kind === 'ai') {
+    hasKinds = false;
+    ({ count, error } = await service
+      .from('ai_usage')
+      .select('id', { count: 'exact', head: true })
+      .eq('teacher_id', teacher.id)
+      .gte('created_at', weekAgo));
+  }
   if (error) {
     console.error('ai_usage count error:', error);
     return null; // fail open, but logged
   }
 
-  if ((count ?? 0) >= FREE_WEEKLY_AI_CALLS) {
+  if ((count ?? 0) >= FREE_WEEKLY_LIMIT[kind]) {
     return NextResponse.json(
       { error: 'Weekly free AI limit reached. Upgrade to Pro for unlimited generation.', code: 'AI_LIMIT_REACHED' },
       { status: 429 }
     );
   }
 
-  await service.from('ai_usage').insert({ teacher_id: teacher.id });
+  await service.from('ai_usage').insert(hasKinds ? { teacher_id: teacher.id, kind } : { teacher_id: teacher.id });
   return null;
 }
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAuthForGeneration } from '@/lib/auth-credits';
+import { requireAuthForGeneration, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { generateJSON } from '@/lib/ai';
 import { DIFFICULTIES, difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
 import type { SourceBriefingOption, SourceMaterial } from '@/types/source-material';
@@ -50,8 +50,10 @@ Return JSON: { "title": string, "passage": string }.`;
 
 export async function POST(request: NextRequest) {
   // Generated readings are a source-based (Pro) feature — match /api/source/extract.
-  const { error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
+  const { teacher: meteredTeacher, error: authError } = await requireAuthForGeneration({ requiresEntitlement: true });
   if (authError) return authError;
+  const overLimit = meteredTeacher ? await checkAndRecordAiUsage(meteredTeacher, 'more') : null;
+  if (overLimit) return overLimit;
 
   let body: { topic?: string; difficulty?: string; lens?: string };
   try {

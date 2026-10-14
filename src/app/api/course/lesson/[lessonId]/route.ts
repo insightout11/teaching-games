@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { requireAuth } from '@/lib/auth-credits';
 import { createServiceClient } from '@/lib/supabase/service';
 import { toLesson } from '@/lib/course-serialize';
@@ -37,7 +38,14 @@ export async function PATCH(request: NextRequest, { params }: { params: { lesson
 
   const update: Record<string, unknown> = {};
   if (body.status && ['planned', 'launched', 'completed'].includes(body.status)) update.status = body.status;
-  if (body.sessionId !== undefined) update.session_id = body.sessionId;
+  if (body.sessionId !== undefined) {
+    if (body.sessionId !== null) {
+      if (typeof body.sessionId !== 'string') return NextResponse.json({ error: 'Invalid sessionId' }, { status: 400 });
+      const owned = await verifyTeacherOwnsSession(body.sessionId, teacher.id);
+      if (owned.error) return owned.error;
+    }
+    update.session_id = body.sessionId;
+  }
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
   }
