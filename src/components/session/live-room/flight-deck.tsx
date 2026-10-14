@@ -1666,6 +1666,7 @@ export function FlightDeck({
         calm={view !== 'boarding' && view !== 'talk'}
         turbulence={shaking}
         paused={runningKey === 'video-player'}
+        planeKey={position?.planeKey ?? null}
         onCinematic={setCinematic}
         onLanded={() => setLanded(true)}
       />

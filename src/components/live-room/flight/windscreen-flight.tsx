@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
-import { arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
+import { A_TOUCHDOWN_END, arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
+import { play, playDescent, playTakeoff } from '@/lib/audio/manager';
+import { getPlaneAsset } from '@/lib/plane-progression';
 import type { TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import { skyForSun, lightSpot } from '@/components/live-room/flight/sun-sky';
@@ -72,11 +74,13 @@ export interface WindscreenFlightProps {
   /** A video is playing over the windscreen: the scenery holds still so playback stays smooth. */
   paused?: boolean;
   onLanded?: () => void;
+  /** The class's plane: take-off and landing sound like its engine. */
+  planeKey?: string | null;
   /** Reports whether the outside camera is showing (a cinematic owns the screen). */
   onCinematic?: (cinematic: boolean) => void;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, cloudCover, calm = false, turbulence = false, paused = false, onLanded, onCinematic }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -118,6 +122,30 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     raf.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf.current);
   }, [phase]);
+
+  // Engine sound rides the flight, as it did in the older flight scenes: the class plane's own take-off, then on
+  // the way down its approach engine and the wheels touching the runway. Nothing plays during the cruise (the
+  // lesson itself). The sound settings and the browser's first-tap rule are handled by the audio manager.
+  const planeKeyRef = useRef(planeKey);
+  planeKeyRef.current = planeKey;
+  const approachRef = useRef<(() => void) | null>(null);
+  useEffect(() => {
+    const engine = getPlaneAsset(planeKeyRef.current).engineClass;
+    if (phase === 'takeoff') return playTakeoff(engine);
+    if (phase === 'descent') {
+      approachRef.current?.();
+      approachRef.current = playDescent(engine);
+      return undefined;
+    }
+    if (phase === 'landing') {
+      // Contact is at A_TOUCHDOWN_END of the arrival timeline; this phase runs its last (1 - APPROACH_SPLIT).
+      const contact = Math.max(0, (A_TOUCHDOWN_END - APPROACH_SPLIT) / (1 - APPROACH_SPLIT)) * ARRIVAL_MS * (1 - APPROACH_SPLIT);
+      return play('touchdown', { delayMs: contact });
+    }
+    if (phase === 'gate' || phase === 'cruise') { approachRef.current?.(); approachRef.current = null; }
+    return undefined;
+  }, [phase]);
+  useEffect(() => () => { approachRef.current?.(); }, []);
 
   const diving = phase === 'descent' && progress < DIVE;
   const outside = phase !== 'climb' && phase !== 'cruise' && !diving;
