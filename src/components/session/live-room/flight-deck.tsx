@@ -838,11 +838,32 @@ export function FlightDeck({
     if (briefs[focused.id]) return;
     const item = focused;
     setBriefs((b) => ({ ...b, [item.id]: 'loading' }));
-    void fetch(`/api/session/${encodeURIComponent(sessionId)}/focus`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: item.title, text: item.text ?? item.description ?? '' }),
-    })
+    // A YouTube video from outside the library has only its title: read the whole video first (free when it was
+    // read before; a new video needs Pro), so the briefing and activities are about what it really says.
+    const readVideo: Promise<string | null> = item.kind === 'video' && item.videoId && !item.library && !item.text
+      ? fetch(`/api/session/${encodeURIComponent(sessionId)}/video-transcript`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoId: item.videoId }),
+      })
+        .then(async (r) => {
+          const d = (await r.json().catch(() => null)) as { summary?: string; code?: string } | null;
+          if (r.ok && d?.summary) {
+            updateItem(sessionId, item.id, { text: d.summary });
+            return d.summary;
+          }
+          if (d?.code === 'PRO_REQUIRED') flash('Using the video title only (Pro reads the whole video)');
+          else if (d?.code === 'NO_TRANSCRIPT') flash('This video has no captions: using its title');
+          return null;
+        })
+        .catch(() => null)
+      : Promise.resolve(null);
+    void readVideo
+      .then((transcript) => fetch(`/api/session/${encodeURIComponent(sessionId)}/focus`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '' }),
+      }))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: FocusBrief | null) => {
         if (!d?.briefing) {
@@ -866,6 +887,11 @@ export function FlightDeck({
   // The topic's key words feed the Word bank widget.
   const setBusVocab = useFocusBus((s) => s.setVocab);
   useEffect(() => { setBusVocab(brief?.vocab ?? []); }, [brief, setBusVocab]);
+  const setBusContext = useFocusBus((s) => s.setContext);
+  useEffect(() => {
+    setBusContext(brief ? [brief.briefing, ...(brief.facts ?? [])].join(' ').slice(0, 900) : '');
+    return () => setBusContext('');
+  }, [brief, setBusContext]);
   useEffect(() => { if (brief?.vocab?.length) recordWords(brief.vocab.map((v) => v.word)); }, [brief, recordWords]);
 
   // Setting a focus item starts preparing the top two activity stamps for it, so

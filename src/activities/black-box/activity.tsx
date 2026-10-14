@@ -84,9 +84,9 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
   // The natural voice takes a few seconds to make: ask for the passage as soon as it is known.
   useEffect(() => { if (passage && !passage.clip) prepareSpeech([passage.text], 'presenter'); }, [passage]);
 
-  // ─── Phones: word cloud while listening and talking ───
+  // ─── Phones: word cloud while listening. Picks lock when the class moves on to talk. ───
   useEffect(() => {
-    if ((phase === 'listening' || phase === 'talk') && passage) {
+    if (phase === 'listening' && passage) {
       onSetInputSpec?.({ type: 'confirm', gameKey: 'black-box', prompt: `Recording ${idx + 1}: tap every word you heard.`, options: cloud, allowMultiple: true, stableInput: true });
     } else onSetInputSpec?.(null);
   }, [phase, passage, cloud, idx, onSetInputSpec]);
@@ -94,7 +94,7 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
-      if (phase !== 'listening' && phase !== 'talk') return;
+      if (phase !== 'listening') return;
       let msg: { w?: string; on?: boolean } = {};
       try { msg = JSON.parse(vote.choice); } catch { return; }
       if (!msg.w || !cloud.includes(msg.w)) return;
@@ -210,7 +210,8 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
   if (!passage) return null;
   const opened = phase === 'open';
 
-  // Render the passage with gaps: words recovered by the class (or all, once opened) show.
+  // Render the passage with gaps. While listening, nothing the class picked shows (it would give the answer to
+  // everyone else). Once the class moves on to talk, the words it caught appear; opening the box shows the rest.
   const tokens = passage.text.split(/(\s+)/);
   const usedGap = new Set<string>();
   const rendered = tokens.map((tok, i) => {
@@ -219,8 +220,9 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
     const gap = passage.gaps.find((g) => clean(g) === c && !usedGap.has(clean(g)));
     if (!gap) return <span key={i}>{tok}</span>;
     usedGap.add(clean(gap));
-    const shown = opened || recovered.has(gap);
-    const byClass = recovered.has(gap);
+    const caughtShown = phase !== 'listening' && recovered.has(gap);
+    const shown = opened || caughtShown;
+    const byClass = caughtShown;
     return (
       <span key={i} className="relative inline-block align-baseline">
         {shown ? (
@@ -240,14 +242,14 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
       {clipPlayer}
       <div className="flex items-center justify-between">
         <KitLabel tone="amber">Black Box · recording {idx + 1} of {passages.length}</KitLabel>
-        <KitReadout>{recovered.size} / {passage.gaps.length} words recovered · {answerers.length} listening</KitReadout>
+        <KitReadout>{phase === 'listening' ? `${answerers.length} ${answerers.length === 1 ? 'student has' : 'students have'} picked words` : `${recovered.size} / ${passage.gaps.length} words recovered by the class`}</KitReadout>
       </div>
 
       <div className="rounded-3xl border border-white/10 bg-slate-950/70 px-8 py-10">
         <p className="text-center font-display text-3xl leading-[1.7] md:text-4xl">{rendered}</p>
       </div>
 
-      {noise.length > 0 && !opened && (
+      {noise.length > 0 && phase === 'talk' && (
         <p className="text-center text-white/60">Static on the line: some of you heard <span className="text-rose-200">{noise.map((n) => `“${n}”`).join(', ')}</span>. Was it really said?</p>
       )}
       {phase === 'talk' && (

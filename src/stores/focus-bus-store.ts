@@ -20,6 +20,9 @@ interface FocusBusState {
   /** Key words from the current topic's briefing (the Word bank shows them). */
   vocab: FocusWord[];
   setVocab: (vocab: FocusWord[]) => void;
+  /** What the current topic is actually about (its briefing and facts), so widgets write for it, not for its title. */
+  context: string;
+  setContext: (context: string) => void;
   /** Set the next destination by city name (the class's "where next?" poll). */
   flyTo: ((city: string) => void) | null;
   setFlyTo: (fn: ((city: string) => void) | null) => void;
@@ -30,6 +33,8 @@ export const useFocusBus = create<FocusBusState>((set) => ({
   setMakeFocus: (makeFocus) => set({ makeFocus }),
   vocab: [],
   setVocab: (vocab) => set({ vocab }),
+  context: '',
+  setContext: (context) => set({ context }),
   flyTo: null,
   setFlyTo: (flyTo) => set({ flyTo }),
 }));

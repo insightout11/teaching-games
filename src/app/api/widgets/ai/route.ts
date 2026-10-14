@@ -42,6 +42,7 @@ export async function POST(request: Request) {
   const difficulty = (typeof body?.difficulty === 'string' && body.difficulty in difficultyDescriptions ? body.difficulty : 'Intermediate') as Difficulty;
   const level = difficultyDescriptions[difficulty];
   const topic = clean(body?.topic, 200);
+  const context = clean(body?.context, 900);
   const words: string[] = (Array.isArray(body?.words) ? body.words : []).map((w: unknown) => clean(w, 40).toLowerCase()).filter(Boolean).slice(0, 120);
   if (action !== 'cloudTidy' && !topic) return NextResponse.json({ error: 'topic is required' }, { status: 400 });
   if (action === 'cloudTidy' && !words.length) return NextResponse.json({ merge: [], blocked: [] });
@@ -54,6 +55,7 @@ export async function POST(request: Request) {
       const raw = await generateJSON<{ question: string; options: string[] }>(
         `LANGUAGE RULE: simple English for ${difficulty} learners (${level}).
 Write one quick poll for a live English class (kids or teens) about: "${topic}".
+${context ? `What the class is discussing: ${context}\n` : ''}Stay on this exact topic. Do not swap it for an easier or more general one (a video about a country's design is about that country, not about designing a playground).
 A fun or thought-provoking "question" and 2 to 5 short "options" (1–4 words each). No right answer needed.`,
         pollSchema,
         { taskClass: 'content-generation' },

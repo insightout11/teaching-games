@@ -39,6 +39,8 @@ export function PollContent({ sessionId }: PollContentProps) {
   const [note, setNote] = useState<string | null>(null);
   const supabase = useMemo(() => createClient(), []);
   const topic = useSessionStore((s) => s.settings.customTopic || s.settings.topic);
+  // In the Live Room: what the topic is actually about, not only its title (a video title can mislead).
+  const topicContext = useFocusBus((s) => s.context);
   const difficulty = useSessionStore((s) => s.settings.difficulty);
   const makeFocus = useFocusBus((s) => s.makeFocus);
   const flyTo = useFocusBus((s) => s.flyTo);
@@ -107,7 +109,7 @@ export function PollContent({ sessionId }: PollContentProps) {
       const res = await fetch('/api/widgets/ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'poll', topic: t, difficulty }),
+        body: JSON.stringify({ action: 'poll', topic: t, difficulty, context: topicContext }),
       });
       const d = res.ok ? await res.json() : null;
       if (!d?.question) { setNote('Could not write a poll right now.'); return; }
