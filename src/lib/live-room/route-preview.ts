@@ -48,7 +48,10 @@ export function routePreview(
     const city = citiesAround(p, heading, 80)[0];
     if (city && city.km < 25) { add(`city:${city.name}`, t, `Over ${city.name}`); continue; }
     if (city && !near.some((n) => n.name === city.name)) near.push({ t, name: city.name });
-    if (below.name && below.terrain !== 'farmland') add(`area:${below.name}`, t, `Over ${below.name}`);
+    // Seas only where the country outlines agree there is no land: the rough land map behind "below" can put
+    // the Mediterranean over northern Spain. Without the outlines, seas are left out rather than guessed.
+    const sea = below.terrain === 'ocean';
+    if (below.name && below.terrain !== 'farmland' && (!sea || (countries && !country))) add(`area:${below.name}`, t, `Over ${below.name}`);
   }
   if (stops.length < 3) {
     for (const n of near) add(`city:${n.name}`, n.t, `Pass near ${n.name}`);
