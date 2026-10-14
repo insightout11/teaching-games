@@ -21,7 +21,7 @@ const FARES = [
     price: '$9',
     per: ' a month',
     alt: 'or $79 a year',
-    items: ['Unlimited lessons', 'Courses and your own books', 'Class notes and reports'],
+    items: ['Unlimited lessons', 'Any YouTube video read in full', 'Courses and your own books', 'Class notes and reports'],
     cta: 'Go Pro',
     href: '/pro',
     pro: true,

@@ -53,7 +53,7 @@ export default function BetaPage({ searchParams }: { searchParams?: { status?: s
                   ))}
                 </dl>
                 <ul className="list-disc space-y-1 pl-5 text-[17px]">
-                  <li>Unlimited lessons, courses and your own books while the beta runs</li>
+                  <li>Unlimited lessons, courses, your own books and any YouTube video read in full, while the beta runs</li>
                   <li>$4.50 a month or $39.50 a year afterwards, for as long as you stay</li>
                   <li>Your feedback goes straight to the person building it</li>
                 </ul>
