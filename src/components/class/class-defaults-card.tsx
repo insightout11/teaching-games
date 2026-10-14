@@ -12,13 +12,13 @@ import { LevelHelp } from '@/components/ui/level-help';
 export function ClassDefaultsCard({
   classId,
   initialDifficulty,
-  initialTone,
   initialStudentDeviceMode,
   initialJunior = false,
 }: {
   classId: string;
   initialDifficulty: string | null;
-  initialTone: string | null;
+  /** No longer shown (the Tone menu was removed); still accepted so callers need no change. */
+  initialTone?: string | null;
   initialStudentDeviceMode?: 'devices' | 'shared-screen';
   initialJunior?: boolean;
 }) {
