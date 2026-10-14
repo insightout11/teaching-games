@@ -12,6 +12,8 @@ import type { EngineClass } from '@/lib/plane-progression';
 export const SOUNDS = {
   brandResolve: '/sounds/brand-resolve.mp3',
   touchdown: '/sounds/touchdown.mp3',
+  /** Cabin "bing-bong" before take-off and before the descent: once each, the way a real cabin warns. */
+  seatbelt: '/sounds/seatbelt-chime.mp3',
   arrivalResolve: '/sounds/arrival-resolve.mp3',
   cruise: '/sounds/cruise.mp3',
   /** Cruise micro-events. There is deliberately no `instrument` cue: a beep on an

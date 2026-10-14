@@ -131,10 +131,16 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const approachRef = useRef<(() => void) | null>(null);
   useEffect(() => {
     const engine = getPlaneAsset(planeKeyRef.current).engineClass;
-    if (phase === 'takeoff') return playTakeoff(engine);
+    // The seatbelt chime first, then the engine.
+    if (phase === 'takeoff') {
+      const stopChime = play('seatbelt');
+      const stopEngine = playTakeoff(engine, { delayMs: 1400 });
+      return () => { stopChime(); stopEngine(); };
+    }
     if (phase === 'descent') {
+      play('seatbelt');
       approachRef.current?.();
-      approachRef.current = playDescent(engine);
+      approachRef.current = playDescent(engine, { delayMs: 1200 });
       return undefined;
     }
     if (phase === 'landing') {

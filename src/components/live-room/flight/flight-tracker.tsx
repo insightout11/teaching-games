@@ -5,6 +5,7 @@ import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker } 
 import { createWorldFlightGuessMapStyle } from '@/data/world-flight/map-style';
 import { greatCirclePoint, type LatLng } from '@/lib/live-room/route-terrain';
 import { distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
+import type { RouteStop } from '@/lib/live-room/route-preview';
 
 /**
  * Seat-back flight map for the Live Room: the class's curved route in the World
@@ -20,6 +21,10 @@ export interface FlightTrackerProps {
   below: string | null;
   holding?: boolean;
   compact?: boolean;
+  /** Today's route: what the class will pass, with the minute each comes up. */
+  preview?: RouteStop[];
+  /** Minutes since take-off (null at the gate), to mark the stops already passed. */
+  minutesFlown?: number | null;
 }
 
 const STEPS = 96;
@@ -38,7 +43,7 @@ function bearing(a: LatLng, b: LatLng) {
   return (Math.atan2(y, x) * 180) / Math.PI;
 }
 
-export function FlightTracker({ origin, destination, progress, minutesLeft, below, holding = false, compact = false }: FlightTrackerProps) {
+export function FlightTracker({ origin, destination, progress, minutesLeft, below, holding = false, compact = false, preview = [], minutesFlown = null }: FlightTrackerProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const planeRef = useRef<Marker | null>(null);
@@ -115,6 +120,22 @@ export function FlightTracker({ origin, destination, progress, minutesLeft, belo
   return (
     <div className="relative h-full w-full overflow-hidden rounded-2xl">
       <div ref={box} className="absolute inset-0" />
+      {!compact && preview.length > 1 && (
+        <div className="pointer-events-none absolute left-3 top-3 w-[min(320px,46%)] rounded-xl border border-white/15 bg-slate-950/80 px-4 py-3 backdrop-blur-md">
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">Today&apos;s route</p>
+          <ol className="mt-2 space-y-1.5">
+            {preview.map((s) => {
+              const passed = minutesFlown != null && s.at <= minutesFlown;
+              return (
+                <li key={s.text} className={`flex items-baseline gap-3 ${passed ? 'text-white/45' : 'text-white'}`}>
+                  <span className="w-14 shrink-0 font-mono text-xs text-white/60">{minutesFlown == null ? `${s.at} min` : passed ? 'passed' : `in ${Math.max(1, Math.round(s.at - minutesFlown))} min`}</span>
+                  <span className="text-[15px] leading-snug">{s.text}</span>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      )}
       <div className="pointer-events-none absolute inset-x-3 bottom-3 flex flex-wrap items-end justify-between gap-2">
         <div className="rounded-xl border border-white/15 bg-slate-950/75 px-3 py-2 backdrop-blur-md">
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">{origin.city} → {destination.city}</p>

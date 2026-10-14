@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Blend, BookOpen, Crosshair, ExternalLink, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -33,11 +33,13 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
+import { routePreview } from '@/lib/live-room/route-preview';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
 import { rollWeather } from '@/components/world-flight/arrival-scene/weather';
 import { useCabinShake } from '@/components/session/turbulence-beat';
-import { play } from '@/lib/audio/manager';
+import { play, startMusic, stopMusic } from '@/lib/audio/manager';
+import { LOBBY_BED } from '@/lib/audio/sounds';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS, STARTER_PLANE_RANGE_KM } from '@/data/world-flight/destinations';
 import { destinationsWithinRange, distanceBetweenCoordsKm } from '@/lib/world-flight/geo';
@@ -571,6 +573,13 @@ export function FlightDeck({
   const [huds, setHuds] = useState<Instrument[]>([]);
   const [hudPos, setHudPos] = useState<Record<string, { x: number; y: number }>>({});
   const [presenting, setPresenting] = useState(false);
+  const [clearScreen, setClearScreen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  // Soft music while the class boards; it fades out as soon as the class leaves the boarding screen.
+  useEffect(() => {
+    if (view === 'boarding') startMusic(LOBBY_BED);
+    else stopMusic();
+  }, [view]);
   // Zoom layout: the whole window is shared, so the windscreen takes the space;
   // cargo + cabin fold into edge rails that slide open over it. Remembered.
   const [zoomLayout, setZoomLayout] = useState(false);
@@ -642,6 +651,10 @@ export function FlightDeck({
     [flightStage, holding, below.point, origin, destination, routeT, flightMs, now],
   );
   const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
+  // Today's route, shown to the class on the route map before and during the flight.
+  const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
+  const minutesFlown = takeoffAt ? elapsedMs / 60_000 : null;
+  const nextStop = minutesFlown == null ? null : preview.find((s) => s.at > minutesFlown && !s.text.startsWith('Land in')) ?? null;
   const place = useMemo(() => {
     const nearest = around[0];
     const region = below.terrain !== 'farmland' && below.terrain !== 'ocean' ? below.name : null;
@@ -883,6 +896,7 @@ export function FlightDeck({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused?.id]);
   const focusBrief = focused ? briefs[focused.id] : undefined;
+  useEffect(() => { setAboutOpen(false); }, [focused?.id]);
   const brief = typeof focusBrief === 'object' ? focusBrief : null;
   // The topic's key words feed the Word bank widget.
   const setBusVocab = useFocusBus((s) => s.setVocab);
@@ -1251,7 +1265,7 @@ export function FlightDeck({
     const topic = focused?.title ?? (sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life');
     const context = kind === 'journey'
       ? `The class is flying from ${origin.city} to ${destination.city}${below.name ? `, currently over ${below.name}` : ''}.`
-      : [focused?.description ?? focused?.text?.slice(0, 400), talkUsed.length ? `Avoid repeating: ${talkUsed.slice(-5).join(' | ')}` : ''].filter(Boolean).join(' ');
+      : [brief?.briefing, (focused?.text ?? focused?.description)?.slice(0, 600), talkUsed.length ? `Avoid repeating: ${talkUsed.slice(-5).join(' | ')}` : ''].filter(Boolean).join(' ');
     try {
       const res = await fetch('/api/live-room/talk-prompts', {
         method: 'POST',
@@ -1570,7 +1584,7 @@ export function FlightDeck({
             </div>
           </>
         ) : (
-          <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={minutesLeft} below={below.name} holding={holding} />
+          <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={minutesLeft} below={below.name} holding={holding} preview={preview} minutesFlown={minutesFlown} />
         )}
         <div className="absolute inset-x-3 top-3 flex flex-wrap items-start justify-between gap-2">
           {mapMode === 'pins' ? (
@@ -1668,18 +1682,40 @@ export function FlightDeck({
         paused={runningKey === 'video-player'}
         planeKey={position?.planeKey ?? null}
         onCinematic={setCinematic}
-        onLanded={() => setLanded(true)}
+        onLanded={() => { setLanded(true); play('arrivalResolve'); }}
       />
       {focused && !cinematic && !(landed && !hall) && view !== 'boarding' && view !== 'map' && (
-        <div className="pointer-events-none absolute inset-x-0 top-3 z-10 flex justify-center">
-          <span className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md">
+        <div className="absolute inset-x-0 top-3 z-10 flex flex-col items-center gap-2 px-4">
+          <button type="button" onClick={() => setAboutOpen((o) => !o)} title="What this topic is about" className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md hover:border-amber-300/60">
             <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}
-          </span>
+          </button>
+          {aboutOpen && (
+            <div className="w-full max-w-xl rounded-2xl border border-white/15 bg-slate-950/90 p-4 text-left text-sm text-white/90 shadow-2xl backdrop-blur-md">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">
+                  {focused.kind === 'video'
+                    ? (focused.text && !focused.aiNotes ? 'About this video · from the whole video' : 'About this video · from its title only')
+                    : 'About this topic'}
+                </span>
+                <button type="button" onClick={() => setAboutOpen(false)} aria-label="Close" className="text-white/60 hover:text-white"><X className="h-4 w-4" /></button>
+              </div>
+              {focusBrief === 'loading' && <p className="text-white/70">Reading it…</p>}
+              {focusBrief === 'failed' && <p className="text-white/70">No summary this time.</p>}
+              {brief && (
+                <>
+                  <p className="leading-relaxed">{brief.briefing}</p>
+                  {brief.facts.length > 0 && (
+                    <ul className="mt-2 list-disc space-y-1 pl-5 text-white/80">{brief.facts.slice(0, 4).map((f) => <li key={f}>{f}</li>)}</ul>
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </div>
       )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="pointer-events-none absolute bottom-3 left-4 z-[5] max-w-[88%] truncate rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
-          {holding ? `Holding over ${destination.city}` : `Below us: ${belowText}`} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
+          {holding ? `Holding over ${destination.city}` : `Below us: ${belowText}${nextStop ? ` · Next: ${nextStop.text.toLowerCase()} in ${Math.max(1, Math.round(nextStop.at - (minutesFlown ?? 0)))} min` : ''}`} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
         </p>
       )}
 
@@ -1814,7 +1850,7 @@ export function FlightDeck({
             // Zoom layout: grow the content with the (much bigger) windscreen so it reads on a phone in Zoom.
             style={sceneZoom !== 1 ? { zoom: sceneZoom } : undefined}
           >
-            {scene}
+            {!(clearScreen && view === 'talk') && scene}
           </motion.div>
         </AnimatePresence>
       )}
@@ -1973,6 +2009,11 @@ export function FlightDeck({
         <button type="button" onClick={() => setRecordTab('passport')} title="The class's passport, flight log and hangar" className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Stamp className="h-3.5 w-3.5" /> {zoomLayout ? '' : 'Journey'}
         </button>
+        {view === 'talk' && (
+          <button type="button" onClick={() => setClearScreen((c) => !c)} title="Hide the talking point, so the windscreen is clear for a widget" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${clearScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+            {clearScreen ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />} {clearScreen ? 'Show talking point' : 'Clear screen'}
+          </button>
+        )}
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
