@@ -8,7 +8,6 @@ import { Select } from '@/components/ui/select';
 import { Baby, Settings2 } from 'lucide-react';
 import { DIFFICULTIES, LEVELS_EXPLAINED, levelLabel, type Difficulty } from '@/lib/difficulty';
 import { LevelHelp } from '@/components/ui/level-help';
-import { TONES, type Tone } from '@/stores/session-store';
 
 export function ClassDefaultsCard({
   classId,
@@ -24,7 +23,6 @@ export function ClassDefaultsCard({
   initialJunior?: boolean;
 }) {
   const [difficulty, setDifficulty] = useState(initialDifficulty ?? '');
-  const [tone, setTone] = useState(initialTone ?? '');
   const [studentDeviceMode, setStudentDeviceMode] = useState(initialStudentDeviceMode ?? 'devices');
   const [junior, setJunior] = useState(initialJunior);
   const supabase = createClient();
@@ -56,22 +54,6 @@ export function ClassDefaultsCard({
           <option value="">Level: not set</option>
           {DIFFICULTIES.map((d: Difficulty) => (
             <option key={d} value={d}>{levelLabel(d)}</option>
-          ))}
-        </Select>
-        <Select
-          value={tone}
-          onChange={(e) => {
-            const value = e.target.value || null;
-            setTone(e.target.value);
-            updatePreset({ default_tone: value });
-          }}
-          inputSize="compact"
-          className="w-full"
-          title="Default tone"
-        >
-          <option value="">Tone: not set</option>
-          {TONES.map((t: Tone) => (
-            <option key={t} value={t}>{t}</option>
           ))}
         </Select>
         <div>

@@ -102,6 +102,7 @@ export function TwentyQuestionsGame({
 }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const lessonKit = useSessionStore((s) => s.lessonKit);
+  const junior = useSessionStore((s) => s.junior);
   // ─── State ───
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [hostId, setHostId] = useState<string | null>(null);
@@ -397,7 +398,7 @@ export function TwentyQuestionsGame({
         body: JSON.stringify({
           secret,
           topic: sessionSettings.customTopic || sessionSettings.topic,
-          tone: sessionSettings.tone,
+          junior,
           questionsHistory: answeredQuestions.map((q) => ({ question: q.text, answer: q.answer })),
           existingHints: hints,
         }),
@@ -436,7 +437,7 @@ export function TwentyQuestionsGame({
         body: JSON.stringify({
           secret,
           question: question.text,
-          tone: sessionSettings.tone,
+          junior,
           questionsHistory: answeredQuestions.map((q) => ({
             question: q.text,
             answer: q.answer,

@@ -8,7 +8,9 @@ export const maxDuration = 60;
 interface AnswerRequest {
   secret: string;
   question: string;
-  tone: string;
+  /** Older clients only: 'kid-friendly' meant the same as junior. */
+  tone?: string;
+  junior?: boolean;
   questionsHistory: { question: string; answer: string }[];
 }
 
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
   if (authError || !teacher) return authError!;
 
   try {
-    const { secret, question, tone, questionsHistory } =
+    const { secret, question, tone, junior, questionsHistory } =
       (await request.json()) as AnswerRequest;
 
     if (!secret || !question) {
@@ -72,7 +74,7 @@ export async function POST(request: NextRequest) {
         : '';
 
     const toneInstruction =
-      tone === 'kid-friendly'
+      junior === true || tone === 'kid-friendly'
         ? 'Use simple, kid-friendly language in your explanation.'
         : 'Be concise and clear in your explanation.';
 

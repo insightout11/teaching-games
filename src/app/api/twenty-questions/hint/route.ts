@@ -9,6 +9,7 @@ interface HintRequest {
   secret: string;
   topic?: string;
   tone?: string;
+  junior?: boolean;
   questionsHistory?: { question: string; answer: string }[];
   existingHints?: string[];
 }
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
   if (authError || !teacher) return authError!;
 
   try {
-    const { secret, topic, tone, questionsHistory = [], existingHints = [] } =
+    const { secret, topic, tone, junior, questionsHistory = [], existingHints = [] } =
       (await request.json()) as HintRequest;
 
     if (!secret) {
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
         : '';
 
     const toneInstruction =
-      tone === 'kid-friendly'
+      junior === true || tone === 'kid-friendly'
         ? 'Use simple, kid-friendly language.'
         : 'Keep it concise and clear.';
 
