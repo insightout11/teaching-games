@@ -27,7 +27,7 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange, isMicroEvent }: ActivityProps) {
+export function BlackBoxActivity({ generatedContent, students, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange, isMicroEvent }: ActivityProps) {
   const content = generatedContent as BlackBoxContent;
   const all = content.passages ?? [];
   const passages = isMicroEvent ? all.slice(0, 1) : all;
@@ -87,8 +87,18 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
   // ─── Phones: word cloud while listening. Picks lock when the class moves on to talk. ───
   useEffect(() => {
     if (phase === 'listening' && passage) {
-      onSetInputSpec?.({ type: 'confirm', gameKey: 'black-box', prompt: `Recording ${idx + 1}: tap every word you heard.`, options: cloud, allowMultiple: true, stableInput: true });
+      onSetInputSpec?.({ type: 'confirm', gameKey: 'black-box', prompt: `Recording ${idx + 1}: tap every word you heard, in any order.`, options: cloud, allowMultiple: true, stableInput: true });
+    } else if (phase === 'open' && passage) {
+      // Each phone sees only its own row (keyed by device), never anyone's name.
+      const perStudentData = Object.fromEntries(Object.entries(picks).map(([clientId, p]) => [clientId, {
+        caught: p.words.filter((w) => gapSet.has(clean(w))).length,
+        total: passage.gaps.length,
+        words: p.words.map((w) => ({ w, said: gapSet.has(clean(w)) })),
+      }]));
+      onSetInputSpec?.({ type: 'confirm', gameKey: 'black-box-result', prompt: 'The box is open.', perStudentData });
     } else onSetInputSpec?.(null);
+    // picks only change while listening, so the result is built once, when the box opens
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, passage, cloud, idx, onSetInputSpec]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
@@ -113,6 +123,8 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
   const countFor = (w: string) => answerers.filter((p) => p.words.includes(w)).length;
   const recovered = new Set((passage?.gaps ?? []).filter((g) => countFor(g) >= need));
   const noise = (passage?.decoys ?? []).filter((d) => countFor(d) >= need);
+  const topTrap = (passage?.decoys ?? []).map((d) => ({ d, n: countFor(d) })).filter((x) => x.n > 0).sort((x, y) => y.n - x.n)[0] ?? null;
+  const everyone = students.length > 0 && answerers.length >= students.length;
 
   // ─── Flow ───
   const openPassage = (i: number) => {
@@ -242,7 +254,7 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
       {clipPlayer}
       <div className="flex items-center justify-between">
         <KitLabel tone="amber">Black Box · recording {idx + 1} of {passages.length}</KitLabel>
-        <KitReadout>{phase === 'listening' ? `${answerers.length} ${answerers.length === 1 ? 'student has' : 'students have'} picked words` : `${recovered.size} / ${passage.gaps.length} words recovered by the class`}</KitReadout>
+        <KitReadout>{phase === 'listening' ? (everyone ? 'Everyone has picked' : `${answerers.length}${students.length ? ` of ${students.length}` : ''} picked so far`) : `${recovered.size} / ${passage.gaps.length} words recovered by the class`}</KitReadout>
       </div>
 
       <div className="rounded-3xl border border-white/10 bg-slate-950/70 px-8 py-10">
@@ -252,10 +264,19 @@ export function BlackBoxActivity({ generatedContent, onSetInputSpec, onRegisterR
       {noise.length > 0 && phase === 'talk' && (
         <p className="text-center text-white/60">Static on the line: some of you heard <span className="text-rose-200">{noise.map((n) => `“${n}”`).join(', ')}</span>. Was it really said?</p>
       )}
+      {phase === 'listening' && (
+        <div className="space-y-1 text-center">
+          <p className="text-xl text-white">Tap every word you heard, in any order. Some words were never said.</p>
+          <p className="text-white/60">{everyone ? 'Everyone has picked. Talk about the gaps when you are ready.' : 'While they pick: play it again, or ask what the recording was about.'}</p>
+        </div>
+      )}
       {phase === 'talk' && (
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-center gap-3 rounded-2xl border border-amber-300/40 bg-amber-300/[0.07] px-5 py-4 text-xl text-amber-50">
           <MessageCircleQuestion className="h-6 w-6 text-amber-300" />What goes in the gaps? Talk about it, then open the box.
         </motion.div>
+      )}
+      {opened && topTrap && (
+        <p className="text-center text-lg text-white/85">The trap that fooled the most people: <span className="text-rose-200">“{topTrap.d}”</span> ({topTrap.n} {topTrap.n === 1 ? 'person' : 'people'}). It was never said.</p>
       )}
       {opened && <p className="text-center text-white/60"><span className="text-emerald-200">Green</span> = the class caught it. <span className="text-amber-200">Amber</span> = recovered from the box.</p>}
 

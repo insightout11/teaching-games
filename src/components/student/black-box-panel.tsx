@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Check } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import type { InputSpec } from '@/lib/input-spec';
 import { PhoneLabel, PhonePrompt } from './phone-kit';
 
@@ -43,6 +43,38 @@ export function BlackBoxPanel({ spec, onSubmit }: { spec: InputSpec; onSubmit: (
           );
         })}
       </div>
+    </div>
+  );
+}
+
+/** What one phone gets when the box is opened: how many hidden words it caught, and each word it picked. */
+export interface BlackBoxResult { caught: number; total: number; words: Array<{ w: string; said: boolean }> }
+
+export function BlackBoxResultPanel({ spec, clientId }: { spec: InputSpec; clientId?: string }) {
+  const mine = clientId ? (spec.perStudentData?.[clientId] as BlackBoxResult | undefined) : undefined;
+  if (!mine || mine.words.length === 0) {
+    return (
+      <div className="space-y-3">
+        <PhonePrompt>The box is open.</PhonePrompt>
+        <PhoneLabel>You did not pick any words this time. Look at the screen to see what was said.</PhoneLabel>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-4">
+      <PhonePrompt>You caught {mine.caught} of {mine.total} hidden words.</PhonePrompt>
+      <div className="flex flex-wrap gap-2">
+        {mine.words.map(({ w, said }) => (
+          <span
+            key={w}
+            className={`flex items-center gap-1.5 rounded-full border px-4 py-2.5 text-[17px] ${said ? 'border-emerald-400 bg-emerald-400/15 text-emerald-50' : 'border-rose-400/60 bg-rose-400/10 text-rose-100'}`}
+          >
+            {said ? <Check className="h-4 w-4 text-emerald-300" /> : <X className="h-4 w-4 text-rose-300" />}
+            {w}
+          </span>
+        ))}
+      </div>
+      <PhoneLabel><span className="text-emerald-300">Green</span> was said. <span className="text-rose-300">Red</span> was never said.</PhoneLabel>
     </div>
   );
 }
