@@ -434,12 +434,36 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             ctx.fillRect(cx + d.u * rx, cy + d.v * ry, size, size * 0.8);
           }
         } else {
-          ctx.translate(cx, cy);
-          ctx.scale(rx, ry);
-          ctx.fillStyle = `rgba(148,136,124,${0.32 * (1 - fog * 0.6)})`;
-          ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = `rgba(176,166,152,${0.26 * (1 - fog * 0.6)})`;
-          ctx.beginPath(); ctx.arc(0, 0, 0.55, 0, Math.PI * 2); ctx.fill();
+          // By day: the city's own uneven shape (each city's outline is pulled into lobes, never an oval), a patchwork
+          // of streets and blocks on the ground, and small buildings standing up from it, back ones first. All of it
+          // greys into the haze with distance.
+          const ph1 = c.dots[0].b * 6.283, ph2 = c.dots[1].warm * 6.283, ph3 = c.dots[2].b * 6.283;
+          const mist = 1 - fog * 0.6;
+          const pts = c.dots.map((d) => {
+            const a = Math.atan2(d.v, d.u);
+            const k = 1 + 0.4 * Math.sin(2 * a + ph1) + 0.22 * Math.sin(3 * a + ph2) + 0.12 * Math.sin(5 * a + ph3);
+            return { x: cx + d.u * k * rx, y: cy + d.v * k * ry, b: d.b, warm: d.warm };
+          }).sort((p, q) => p.y - q.y);
+          const bw0 = Math.max(2, rx * 0.15), bh0 = Math.max(1, ry * 0.2);
+          for (const pt of pts) {
+            const g = mixRgb([150 + pt.b * 28, 144 + pt.b * 24, 134 + pt.warm * 18] as RGB, haze, fog * 0.7);
+            ctx.fillStyle = `rgba(${g[0] | 0},${g[1] | 0},${g[2] | 0},${0.3 * mist})`;
+            ctx.fillRect(pt.x - bw0 / 2, pt.y - bh0 / 2, bw0 * (0.6 + pt.warm * 0.8), bh0);
+          }
+          const unit = Math.max(0.8, rx * 0.03);
+          for (const pt of pts) {
+            if (pt.b < 0.4) continue;
+            // Taller towards the middle of the city, as real skylines are.
+            const centre = 1 - Math.min(1, Math.hypot((pt.x - cx) / (rx || 1), (pt.y - cy) / (ry || 1)));
+            const tall = unit * (1.2 + pt.b * pt.b * 4 + centre * 5);
+            const wide = Math.max(1, unit * (0.9 + pt.warm * 1.1));
+            const lit = mixRgb([206, 212, 220], haze, fog * 0.75);
+            const side = mixRgb([140, 148, 160], haze, fog * 0.75);
+            ctx.fillStyle = `rgba(${lit[0] | 0},${lit[1] | 0},${lit[2] | 0},${0.85 * mist})`;
+            ctx.fillRect(pt.x - wide / 2, pt.y - tall, wide * 0.6, tall);
+            ctx.fillStyle = `rgba(${side[0] | 0},${side[1] | 0},${side[2] | 0},${0.85 * mist})`;
+            ctx.fillRect(pt.x - wide / 2 + wide * 0.6, pt.y - tall, wide * 0.4, tall);
+          }
         }
         ctx.restore();
         void id;
