@@ -15,7 +15,10 @@ import type { HeroCity } from './hero-cities';
 // Each city at the hour that suits it: Tokyo and New York are night cities; most of the rest read best in daylight.
 const CITY_HOUR: Record<string, 'dawn' | 'day' | 'dusk' | 'night'> = { tokyo: 'night', 'new-york': 'night', cairo: 'dusk', paris: 'dawn', 'cape-town': 'dusk' };
 const hourFor = (cityId: string) => CITY_HOUR[cityId] ?? 'day';
+// Snow where it makes the picture: falling past New York's lit towers at night, and on Vancouver's mountains.
+const SHOWCASE_SNOW = new Set(['new-york', 'vancouver']);
 function showcaseWeather(cityId: string, scene: Parameters<typeof rollWeather>[1], night: boolean) {
+  if (SHOWCASE_SNOW.has(cityId)) return 'snow' as const;
   const w = rollWeather(`hero:${cityId}`, scene, night);
   return w === 'rain' || w === 'storm' ? 'clear' : w;
 }
