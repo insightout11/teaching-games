@@ -34,7 +34,7 @@ const REAL = [
 
 const BULLETS = [
   { title: 'A stamp and souvenirs in every city', body: `${WORLD_DESTINATIONS.length} cities, each with its own scene, souvenirs to collect, a postcard home from the class, and its own video and reading lessons.` },
-  { title: 'The class chooses the next stop', body: 'Students guess where you will land. At landing the class sees what it improved, gets its stamp, and votes on where the next lesson flies.' },
+  { title: 'The class chooses the next stop', body: 'At landing the class sees what it improved, gets its stamp, and votes on where the next lesson flies.' },
   { title: 'Stars the class earns together', body: 'One when the class takes part, one for a strong lesson.' },
   { title: 'A journey worth replaying', body: 'Replay every flight on the map, watch visited countries light up, and pass milestones like halfway around the Earth. Plus themed expeditions and design missions.' },
 ];
