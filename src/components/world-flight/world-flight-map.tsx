@@ -37,6 +37,8 @@ export interface WorldFlightMapProps {
   souvenirs?: Array<{ destinationId: string; icon: string | null; waiting: boolean }>;
   /** Change this number to replay the class's journey: the plane flies every leg in turn (about 20 seconds). */
   replayKey?: number;
+  /** A still picture of the class's journey (the landing card): no dragging or zoom buttons, framed on the journey. */
+  still?: boolean;
   onReplayDone?: () => void;
   className?: string;
 }
@@ -45,7 +47,7 @@ const byId = new Map(WORLD_DESTINATIONS.map((d) => [d.id, d]));
 const asData = (d: unknown) => d as Parameters<GeoJSONSource['setData']>[0];
 const src = (map: MapLibreMap | null, id: string) => map?.getSource(id) as GeoJSONSource | undefined;
 
-export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedId, farId = null, expedition = null, onCityClick, souvenirs = [], replayKey = 0, onReplayDone, className = '' }: WorldFlightMapProps) {
+export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedId, farId = null, expedition = null, onCityClick, souvenirs = [], replayKey = 0, onReplayDone, still = false, className = '' }: WorldFlightMapProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const [ready, setReady] = useState(false);
@@ -75,9 +77,10 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
       minZoom: 1.35,
       maxZoom: 7,
       attributionControl: false,
+      interactive: !still,
     });
     mapRef.current = map;
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    if (!still) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     map.on('load', () => {
       // The world lights up: each country the class has visited glows softly, under everything else.
       map.addSource('wf-lit-countries', { type: 'geojson', data: asData(EMPTY_FEATURE_COLLECTION) });
@@ -109,7 +112,7 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
   useEffect(() => {
     const map = mapRef.current;
     if (!ready || !map) return;
-    src(map, 'world-flight-range')?.setData(asData(rangeRing(originPack, rangeKm)));
+    src(map, 'world-flight-range')?.setData(asData(rangeKm > 0 ? rangeRing(originPack, rangeKm) : EMPTY_FEATURE_COLLECTION));
     src(map, 'world-flight-journey-routes')?.setData(asData(journeyRouteFeatures(legs, null)));
     src(map, 'world-flight-journey-steps')?.setData(asData(journeyStepFeatures(legs, null)));
     src(map, 'world-flight-cities')?.setData(asData(destinationFeatures(
@@ -144,9 +147,19 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
       };
       routeAnim.current = requestAnimationFrame(draw);
     }
+    if (still) {
+      // Frame the whole journey (the route lines are unwrapped, so a Pacific crossing frames the short way).
+      const coords = legs.flatMap((l) => {
+        const a = l.originDestinationId ? byId.get(l.originDestinationId) : undefined;
+        const b = byId.get(l.destinationId);
+        return a && b ? (greatCircleLine(a, b).geometry.coordinates as Array<[number, number]>) : b ? [destinationCoord(b)] : [];
+      });
+      if (coords.length) map.fitBounds([[Math.min(...coords.map((c) => c[0])), Math.min(...coords.map((c) => c[1]))], [Math.max(...coords.map((c) => c[0])), Math.max(...coords.map((c) => c[1]))]], { padding: 24, maxZoom: 4, duration: 0 });
+      return;
+    }
     const focus = dest ?? byId.get(farId ?? '') ?? originPack;
     map.easeTo({ center: destinationCoord(focus), zoom: 3.05, duration: 650, padding: { left: 60, right: 60, top: 60, bottom: 140 } });
-  }, [ready, selectedId, farId, originPack]);
+  }, [ready, selectedId, farId, originPack, still, legs]);
 
   // Countries the class has stamped, from the same outlines the room uses for "Below us".
   const [countries, setCountries] = useState<CountryShape[] | null>(null);

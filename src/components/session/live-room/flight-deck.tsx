@@ -313,16 +313,6 @@ export function FlightDeck({
     const legs = (position?.journey ?? []).map((l) => ({ a: at(l.from), b: at(l.to) }));
     return [...legs, { a: origin as LatLng, b: destination as LatLng }];
   }, [position, origin, destination]);
-  const journeyPins = useMemo<DeckMapPin[]>(() => {
-    const stops = new Map<string, DeckMapPin>();
-    stops.set(HOME.id, { id: HOME.id, lat: HOME.lat, lng: HOME.lng, color: '#94a3b8' });
-    for (const l of position?.journey ?? []) {
-      const c = SCENE_CITIES.find((d) => d.id === l.to);
-      if (c) { const r = toRouteCity(c); stops.set(r.id, { id: r.id, lat: r.lat, lng: r.lng, color: '#60a5fa' }); }
-    }
-    stops.set(destination.id, { id: destination.id, lat: destination.lat, lng: destination.lng, label: destination.city, color: '#f59e0b' });
-    return Array.from(stops.values());
-  }, [position, destination]);
 
   // The plan is set somewhere (e.g. a Tokyo travel course lesson): suggest flying there, or to
   // the nearest city in range on the way when it's too far for today's plane.
@@ -453,6 +443,12 @@ export function FlightDeck({
   // The World Flight map's tick marks: every city the class has stamped.
   const visitedList = useMemo(() => Array.from(visitedIds), [visitedIds]);
   const journeyLegs = useMemo(() => position?.journey ?? [], [position]);
+  // The landing card's journey: every flight so far, ending with the one that just landed.
+  const landingJourney = useMemo(() => {
+    const legs = position?.journey ?? [];
+    const last = legs[legs.length - 1];
+    return last && last.to === destination.id ? legs : [...legs, { from: origin.id, to: destination.id }];
+  }, [position, origin.id, destination.id]);
   // The class's whole journey in km (its flights so far), for the milestones and the route map line.
   const journeyKm = useMemo(() => {
     const at = (id: string | null) => { const c = id ? SCENE_CITIES.find((d) => d.id === id) : undefined; return c ? toRouteCity(c) : HOME; };
@@ -2079,7 +2075,7 @@ export function FlightDeck({
             <p className="font-display text-3xl">Welcome to {destination.city}</p>
             <p className="mt-1 text-sm">Passport stamped. Thanks for flying with {className}!</p>
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
-            <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
+            <WorldFlightMap still className="mt-1 h-44 w-[min(420px,70vw)] overflow-hidden rounded-xl" origin={destination} rangeKm={0} visitedIds={visitedList} journey={landingJourney} selectedId={null} souvenirs={mapSouvenirs} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
             {landingMilestone && <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/30 px-3 py-2 text-sm font-semibold text-[#1b2233]"><Plane className="h-4 w-4" />Milestone: {landingMilestone.text}!</p>}
             <div className="mt-4 flex flex-wrap justify-end gap-2">
