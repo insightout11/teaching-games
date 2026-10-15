@@ -3,7 +3,7 @@ import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { isSessionStale } from '@/lib/session-freshness';
 import { normalizeClassBoardKey, type ClassBoardVisibility } from '@/lib/class-board';
-import { isProfane } from '@/lib/profanity';
+import { isProfane, mentionsName } from '@/lib/profanity';
 
 export const dynamic = 'force-dynamic';
 
@@ -64,14 +64,14 @@ async function requireTeacherSession(sessionId: string) {
     return { error: NextResponse.json({ error: 'Session is not active' }, { status: 400 }) };
   }
 
-  return { supabase };
+  return { supabase, classId: session.class_id };
 }
 
 async function requireStudentSession(sessionId: string, clientId: string) {
   const supabase = createServiceClient();
   const { data: session, error: sessionError } = await supabase
     .from('sessions')
-    .select('id, status, started_at')
+    .select('id, class_id, status, started_at')
     .eq('id', sessionId)
     .single();
 
@@ -93,7 +93,7 @@ async function requireStudentSession(sessionId: string, clientId: string) {
     return { error: NextResponse.json({ error: 'Join the session first' }, { status: 403 }) };
   }
 
-  return { supabase };
+  return { supabase, classId: session.class_id };
 }
 
 export async function POST(request: NextRequest) {
@@ -129,6 +129,21 @@ export async function POST(request: NextRequest) {
       ? await requireTeacherSession(sessionId)
       : await requireStudentSession(sessionId, body.clientId!);
     if ('error' in auth) return auth.error;
+
+    if (body.wordCloud) {
+      const [roster, participants] = await Promise.all([
+        auth.supabase.from('students').select('name').eq('class_id', auth.classId),
+        auth.supabase.from('session_participants').select('display_name').eq('session_id', sessionId),
+      ]);
+      if (roster.error || participants.error) throw roster.error || participants.error;
+      const names = [
+        ...(roster.data ?? []).map((student) => student.name),
+        ...(participants.data ?? []).map((participant) => participant.display_name),
+      ];
+      if (mentionsName(content, names)) {
+        return NextResponse.json({ success: true, filtered: true });
+      }
+    }
 
     if (authorType === 'student') {
       const { count } = await auth.supabase

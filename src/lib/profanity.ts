@@ -22,3 +22,14 @@ export function isProfane(text: string): boolean {
   if (BLOCKED.has(tokens.join(''))) return true; // "f u c k" -> "fuck"
   return tokens.some((token) => BLOCKED.has(token));
 }
+
+
+/** Whole-word first-name matching for the live Word Cloud. */
+export function mentionsName(text: string, names: string[]): boolean {
+  return names.some((name) => {
+    const first = name.trim().split(/\s+/)[0];
+    if (!first || first.replace(/[^a-z\u00c0-\uffff]/gi, '').length < 3) return false;
+    const escaped = first.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`(^|[^\\w\\u00c0-\\uffff])${escaped}(?=$|[^\\w\\u00c0-\\uffff])`, 'i').test(text);
+  });
+}
