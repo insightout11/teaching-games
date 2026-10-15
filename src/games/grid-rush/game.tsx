@@ -41,6 +41,7 @@ export function GridRushGame({
   onRegisterRemoteVoteHandler,
   onPhaseChange,
 }: GameProps) {
+  const junior = useSessionStore((s) => s.junior);
   const [phase, setPhase] = useState<GamePhase>(GamePhase.IDLE);
   const phaseRef = useRef<GamePhase>(GamePhase.IDLE);
   phaseRef.current = phase;
@@ -743,7 +744,9 @@ export function GridRushGame({
   // -------- PHASE: REVEALING --------
   if (phase === GamePhase.REVEALING) {
     // Leaderboard: built from vote participants (vote keys may be clientIds, not roster UUIDs)
-    const participantKeys = Object.keys(studentWords);
+    const participantKeys = junior
+      ? Array.from(new Set([...Object.keys(studentWords), ...Object.keys(studentSentences)]))
+      : Object.keys(studentWords);
     const participantEntries = participantKeys.map((sid) => {
       const r1Pts = (studentWords[sid] ?? []).reduce((sum, w) => sum + w.points, 0);
       const r2Pts = studentSentences[sid]?.totalPoints ?? 0;
@@ -765,7 +768,7 @@ export function GridRushGame({
         name: studentIdToDisplayNameRef.current[sid] ?? students.find((s) => s.id === sid)?.name ?? 'Player',
         ...entry,
       }))
-      .sort((a, b) => b.score - a.score);
+      .sort((a, b) => junior ? 0 : b.score - a.score);
 
 
     return (
@@ -775,7 +778,12 @@ export function GridRushGame({
         </div>
 
         {/* Leaderboard */}
-        <div className="bg-slate-800/60 rounded-2xl border border-slate-700 overflow-hidden">
+        {junior ? (
+          <div className="bg-slate-800/60 rounded-2xl border border-slate-700 p-6 text-center">
+            <p className="text-2xl font-bold text-white">Class total: {participantEntries.reduce((sum, entry) => sum + entry.total, 0)} points</p>
+            <p className="mt-2 text-slate-300">{participantKeys.length} students took part</p>
+          </div>
+        ) : <div className="bg-slate-800/60 rounded-2xl border border-slate-700 overflow-hidden">
           {leaderboard.map((entry, i) => (
             <motion.div
               key={entry.id}
@@ -796,10 +804,10 @@ export function GridRushGame({
           {leaderboard.length === 0 && (
             <p className="text-slate-500 text-center p-6">No scores recorded.</p>
           )}
-        </div>
+        </div>}
 
         {/* Special awards */}
-        {specialAwards && (
+        {!junior && specialAwards && (
           <div className="grid grid-cols-3 gap-3">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -885,13 +893,13 @@ export function GridRushGame({
                   return (
                     <div
                       key={item.sid}
-                      className={`px-5 py-3 cursor-pointer hover:bg-slate-700/20 transition-colors ${item.totalPoints === 0 ? 'opacity-60' : ''}`}
+                      className={`px-5 py-3 cursor-pointer hover:bg-slate-700/20 transition-colors ${!junior && item.totalPoints === 0 ? 'opacity-60' : ''}`}
                       onClick={() => setExpandedSentenceId(isExpanded ? null : item.sid)}
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-amber-400 text-sm tracking-tight font-mono shrink-0">{stars}</span>
+                        {!junior && <span className="text-amber-400 text-sm tracking-tight font-mono shrink-0">{stars}</span>}
                         <span className="text-white font-medium flex-1">{item.name}</span>
-                        <span className="text-violet-400 text-sm font-bold">+{item.totalPoints}pt</span>
+                        {!junior && <span className="text-violet-400 text-sm font-bold">+{item.totalPoints}pt</span>}
                         <span className="text-slate-500 text-xs">{isExpanded ? '▾' : '▸'}</span>
                       </div>
                       {!isExpanded && (
@@ -909,7 +917,7 @@ export function GridRushGame({
                             ))}
                           </div>
                           <p className="text-slate-400 text-xs italic">{item.feedback}</p>
-                          {item.totalPoints === 0 && (
+                          {!junior && item.totalPoints === 0 && (
                             <p className="text-red-400 text-xs">Needs 2+ of their words to earn points</p>
                           )}
                         </div>
