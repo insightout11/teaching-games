@@ -16,7 +16,8 @@ export const twentyQuestionsPlugin: GamePlugin = {
   defaultTimerSeconds: 30,
   estimatedMinutes: 15,
   scoringProfile: { displayMode: 'class', supportsOnTask: false, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'genuine' },
-  minStudents: 2,
+  // One student can play against the AI keeper; a student keeper needs at least two (one keeps, one asks).
+  minStudents: 1,
   idealStudents: { min: 4, max: null },
   deviceFree: false,
 };

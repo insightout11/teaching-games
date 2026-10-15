@@ -36,6 +36,7 @@ describe('class-size metadata', () => {
     expect(getClassSizeChip(imposter, { setup: 'small-group', studentCount: 2 })).toBe('Needs 3+ students');
     expect(getClassSizeChip(imposter, { setup: 'small-group', studentCount: 3 })).toBe('Great for small groups');
     expect(getClassSizeChip(storySprint, { setup: 'classroom' })).toBe('Best for small groups');
-    expect(getClassSizeChip(twentyQuestions, { setup: 'one-on-one' })).toBe('Best with 2+');
+    // Playable one-on-one against the AI keeper (minimum 1), but still at its best with a group.
+    expect(getClassSizeChip(twentyQuestions, { setup: 'one-on-one' })).toBe('Best for groups & classes');
   });
 });

@@ -113,7 +113,10 @@ export function TwentyQuestionsGame({
   const [guesses, setGuesses] = useState<Guess[]>([]);
   const [winner, setWinner] = useState<{ name: string; id: string } | null>(null);
   const [aiLoading, setAiLoading] = useState<string | null>(null);
-  const [aiMode, setAiMode] = useState(false);
+  // With one student there is nobody to ask a student keeper, so the AI keeps the secret.
+  const soloStudent = students.length < 2;
+  const [aiMode, setAiMode] = useState(soloStudent);
+  useEffect(() => { if (soloStudent) setAiMode(true); }, [soloStudent]);
   const [secretVisible, setSecretVisible] = useState(false);
   const [secretOverrideVisible, setSecretOverrideVisible] = useState(false);
   const [hints, setHints] = useState<string[]>([]);
@@ -612,7 +615,9 @@ export function TwentyQuestionsGame({
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => setAiMode(false)}
-            className={`p-3 rounded-xl text-left transition-all border ${
+            disabled={soloStudent}
+            title={soloStudent ? 'A student keeper needs at least two students' : undefined}
+            className={`p-3 rounded-xl text-left transition-all border disabled:cursor-not-allowed disabled:opacity-40 ${
               !aiMode ? 'bg-violet-500/20 border-violet-500/40 text-violet-200' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
             }`}
           >
