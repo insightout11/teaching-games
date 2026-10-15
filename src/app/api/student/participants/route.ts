@@ -58,3 +58,28 @@ export async function GET(request: NextRequest) {
     headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
   });
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { sessionId, participantId } = await request.json();
+    if (typeof sessionId !== 'string' || !sessionId || typeof participantId !== 'string' || !participantId) {
+      return NextResponse.json({ error: 'sessionId and participantId are required' }, { status: 400 });
+    }
+    const { teacher, error: authError } = await requireAuth();
+    if (authError) return authError;
+    if (!teacher) return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+    const ownership = await verifyTeacherOwnsSession(sessionId, teacher.id);
+    if (ownership.error) return ownership.error;
+
+    if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+      mockStore.sessionParticipants = mockStore.sessionParticipants.filter((p) => p.session_id !== sessionId || p.id !== participantId);
+    } else {
+      const { error } = await createServiceClient().from('session_participants').delete()
+        .eq('session_id', sessionId).eq('id', participantId);
+      if (error) return NextResponse.json({ error: 'Failed to remove student' }, { status: 500 });
+    }
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: 'Failed to remove student' }, { status: 500 });
+  }
+}

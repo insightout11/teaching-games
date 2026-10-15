@@ -251,7 +251,7 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     expect(data.responseCount).toBe(2);
   });
 
-  it('uses the saved roster student id when the replacement client has no participant row yet', async () => {
+  it('returns to name entry when this device has no participant row, even if another device picked the same name', async () => {
     mockStore.upsertSessionParticipant({
       session_id: SESSION_ID,
       student_id: 'student-1',
@@ -275,7 +275,7 @@ describe('GET /api/student/session realtime fallback metadata', () => {
     ) as never);
     const data = await response.json();
 
-    expect(data.responseCount).toBe(1);
+    expect(data).toEqual({ notJoined: true });
   });
 
   it('cold-hydrates the active Prediction Round answer and confirmation', async () => {

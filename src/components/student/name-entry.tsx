@@ -141,7 +141,9 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
 
     } catch (e) {
       console.error('Failed to register session attendance:', e);
-      setJoinError('Couldn\'t board yet. Check the connection and try again.');
+      setJoinError(e instanceof Error && e.message === 'Please choose a different name.'
+        ? e.message
+        : 'Couldn\'t board yet. Check the connection and try again.');
       setIsJoining(false);
     }
   };
@@ -293,13 +295,14 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
                   id="name"
                   type="text"
                   value={freeName}
-                  onChange={(e) => setFreeName(e.target.value)}
+                  onChange={(e) => { setFreeName(e.target.value); setJoinError(null); }}
                   onKeyDown={(e) => { if (e.key === 'Enter' && freeName.trim()) handleJoin(); }}
                   placeholder="First name or nickname"
                   maxLength={20}
                   autoFocus
                   className="w-full rounded-xl border border-white/15 bg-white/10 px-4 py-3 text-white placeholder:text-lc-text3 transition-all focus:border-cyan-500/50 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
                 />
+                {joinError && <p role="alert" className="mt-2 text-sm text-rose-300">{joinError}</p>}
               </div>
 
               <div>
@@ -340,7 +343,7 @@ export function NameEntry({ sessionId, onJoin }: NameEntryProps) {
             <PlaneTakeoff className="h-5 w-5" aria-hidden />
             {isJoining ? 'Boarding…' : 'Board Flight'}
           </Button>
-          {joinError ? (
+          {joinError && !freeTextMode ? (
             <p role="alert" className="text-center text-sm text-rose-300">
               {joinError}
             </p>

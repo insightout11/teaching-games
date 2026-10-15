@@ -50,6 +50,7 @@ export async function registerStudentAttendance(
   const request = options.request ?? fetch;
   const retryDelaysMs = options.retryDelaysMs ?? [0, 500, 1_500];
   let lastStatus = 0;
+  let nameRejected = false;
 
   for (let attempt = 0; attempt < retryDelaysMs.length; attempt += 1) {
     if (retryDelaysMs[attempt] > 0) await wait(retryDelaysMs[attempt]);
@@ -70,12 +71,17 @@ export async function registerStudentAttendance(
         };
       }
 
+      if (response.status === 400) {
+        const data = await response.json() as { error?: string };
+        nameRejected = data.error === 'Please choose a different name.';
+      }
       if (response.status > 0 && response.status < 500) break;
     } catch {
       // Network failures use the same bounded retry cadence.
     }
   }
 
+  if (nameRejected) throw new Error('Please choose a different name.');
   throw new Error(`Student attendance registration failed${lastStatus ? ` (${lastStatus})` : ''}`);
 }
 import { resolveAvatarSeed } from '@/lib/avatar-options';

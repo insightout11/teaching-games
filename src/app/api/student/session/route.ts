@@ -168,6 +168,11 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Session not found' }, { status: 404 });
       }
 
+      if (clientId && requestedStudentId && session.status === 'active'
+        && !mockStore.getSessionParticipants(sessionId).some((p) => p.client_id === clientId)) {
+        return NextResponse.json({ notJoined: true }, { headers: { 'Cache-Control': 'no-store' } });
+      }
+
       const mockInputSpec = (session as { input_spec?: unknown }).input_spec || null;
       const mockActivePoll = ((session as { active_poll?: SessionPayload['activePoll'] }).active_poll) ?? null;
       const mockSideChannel = getActiveSideChannelItem(
@@ -292,12 +297,17 @@ export async function GET(request: NextRequest) {
     let debriefToken: string | null = null;
     let seatIndex: number | null = null;
     if (clientId) {
-      let { data: participant } = await supabase
+      const { data: deviceParticipant, error: participantError } = await supabase
         .from('session_participants')
         .select('student_id, debrief_token')
         .eq('session_id', sessionId)
         .eq('client_id', clientId)
         .maybeSingle();
+      if (participantError) throw participantError;
+      if (isActive && validRequestedStudentId && !deviceParticipant) {
+        return NextResponse.json({ notJoined: true }, { headers: { 'Cache-Control': 'no-store' } });
+      }
+      let participant = deviceParticipant;
       if (!participant && validRequestedStudentId) {
         const { data: rosterParticipant } = await supabase
           .from('session_participants')

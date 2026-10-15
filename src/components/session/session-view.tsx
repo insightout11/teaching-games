@@ -79,7 +79,7 @@ import {
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
-import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star, Wind } from 'lucide-react';
+import { UserX, AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star, Wind } from 'lucide-react';
 
 // Map a flight-clock hour to a SkyBackground weather palette. Thresholds are
 // tuned so a sunset departure -> overnight -> sunrise arrival reproduces the
@@ -676,6 +676,21 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
   const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>(initialParticipants);
+  const [removeConfirm, setRemoveConfirm] = useState<string | null>(null);
+  const [removeError, setRemoveError] = useState<string | null>(null);
+  const removeParticipant = async (participantId: string) => {
+    if (removeConfirm !== participantId) { setRemoveConfirm(participantId); return; }
+    setRemoveError(null);
+    try {
+      const res = await fetch('/api/student/participants', {
+        method: 'DELETE', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: session.id, participantId }),
+      });
+      if (!res.ok) throw new Error('Failed to remove student');
+      setSessionParticipants((prev) => prev.filter((p) => p.id !== participantId));
+      setRemoveConfirm(null);
+    } catch { setRemoveError('Could not remove student. Try again.'); }
+  };
   const liveParticipantCount = sessionParticipants.length;
   const liveParticipantCountRef = useRef(liveParticipantCount);
   liveParticipantCountRef.current = liveParticipantCount;
@@ -1969,6 +1984,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     </div>
                   </div>
                   <div className="flex-1 overflow-y-auto min-h-0">
+                    {removeError && <p role="alert" className="text-xs text-rose-300">{removeError}</p>}
                     {sessionParticipants.length === 0 ? (
                       <div className="text-center py-6">
                         <div className="w-8 h-8 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin mx-auto mb-2" />
@@ -1991,6 +2007,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                             >
                               <CrewAvatar seed={p.avatar_seed} name={p.display_name} captain={captain} size={36} className="rounded-xl" />
                               <span className="text-[10px] font-semibold text-lc-text truncate max-w-[56px] text-center">{p.display_name}</span>
+                              <button onClick={() => void removeParticipant(p.id)} className="flex items-center gap-1 text-[10px] text-rose-300">
+                                <UserX className="h-3 w-3" />{removeConfirm === p.id ? 'Confirm remove' : 'Remove'}
+                              </button>
                             </motion.div>
                             );
                           })}
@@ -2206,6 +2225,9 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             className={cls.name}
             joinUrl={joinUrl}
             participants={sessionParticipants}
+            onRemoveParticipant={removeParticipant}
+            removeConfirm={removeConfirm}
+            removeError={removeError}
             rosterCount={students.length}
             startedAt={session.started_at ?? null}
             games={games}

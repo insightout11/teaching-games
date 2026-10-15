@@ -585,6 +585,10 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       }
 
       const data = await res.json();
+      if (data.notJoined === true) {
+        onLeave();
+        return;
+      }
       if (!sessionRequestGateRef.current.isCurrent(requestSequence)) return;
       // Sync clock offset before the spec lands so a freshly mounted timer reads it.
       const offset = typeof data.serverNow === 'number' ? data.serverNow - Date.now() : 0;
@@ -716,7 +720,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       sessionRequestInFlightRef.current = false;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionId, applyAuthoritativeInputSpec]);
+  }, [sessionId, applyAuthoritativeInputSpec, onLeave]);
   const checkSessionRef = useRef(checkSession);
   checkSessionRef.current = checkSession;
 

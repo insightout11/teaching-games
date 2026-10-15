@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Blend, BookOpen, Crosshair, MapPin, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { UserX, Blend, BookOpen, Crosshair, MapPin, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -113,6 +113,9 @@ export interface FlightDeckProps {
   className: string;
   joinUrl: string;
   participants: DeckParticipant[];
+  onRemoveParticipant: (id: string) => Promise<void>;
+  removeConfirm: string | null;
+  removeError: string | null;
   rosterCount: number;
   startedAt: string | null;
   games: GamePlugin[];
@@ -171,6 +174,9 @@ export function FlightDeck({
   className,
   joinUrl,
   participants,
+  onRemoveParticipant,
+  removeConfirm,
+  removeError,
   rosterCount,
   startedAt,
   games,
@@ -2132,6 +2138,7 @@ export function FlightDeck({
         onMouseLeave={() => { if (zoomLayout && !dragging) leaveRail(); }}
         className={`flex min-h-0 flex-col gap-2 overflow-hidden rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#0e1524] to-[#0a101c] p-3 ${zoomLayout ? (railOpen === 'cargo' ? 'absolute top-[62px] bottom-[74px] left-2.5 z-40 w-[260px] shadow-2xl' : 'hidden') : 'col-start-1 row-start-2'}`}
       >
+        {removeError && <p role="alert" className="text-xs text-rose-300">{removeError}</p>}
         <p className="flex justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Cargo <span>{material.length}</span></p>
         <div className="-mr-1 flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1">
           {material.length === 0 && <p className="text-xs text-white/45">Things you find with Sources land here. Drag one onto the windscreen to show it.</p>}
@@ -2335,6 +2342,9 @@ export function FlightDeck({
                       <span className="h-2.5 w-2.5 rounded-full border border-dashed border-[#2b3855]" />
                     )}
                     {p && <span className="absolute -bottom-3 left-1/2 max-w-[56px] -translate-x-1/2 truncate font-mono text-[8px] text-white/60">{p.display_name}</span>}
+                    {p && <button type="button" onClick={() => void onRemoveParticipant(p.id)} title={removeConfirm === p.id ? 'Confirm remove' : 'Remove'} aria-label={`${removeConfirm === p.id ? 'Confirm remove' : 'Remove'} ${p.display_name}`} className="absolute -right-1 -top-2 rounded bg-slate-900 px-1 text-[9px] text-rose-300">
+                      {removeConfirm === p.id ? 'Confirm remove' : <UserX className="h-3 w-3" />}
+                    </button>}
                     {handPos >= 0 && (
                       <span className="absolute -right-1.5 -top-1.5 flex h-4 items-center gap-0.5 rounded-full bg-amber-300 px-1 font-mono text-[9px] font-bold text-[#1a1204] shadow-[0_0_10px_rgba(252,211,77,.7)]" title={`Hand up (#${handPos + 1})`}>
                         <Hand className="h-2.5 w-2.5" />{handPos + 1}

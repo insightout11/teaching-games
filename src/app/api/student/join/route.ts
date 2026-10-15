@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isProfane } from '@/lib/profanity';
 import { studentFirstName } from '@/lib/student-name';
 import { createServiceClient } from '@/lib/supabase/service';
 import { mockStore } from '@/lib/mock/data';
@@ -20,6 +21,10 @@ export async function POST(request: NextRequest) {
 
     if (!sessionId) {
       return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
+    }
+
+    if (!studentId && typeof newName === 'string' && isProfane(newName)) {
+      return NextResponse.json({ error: 'Please choose a different name.' }, { status: 400 });
     }
 
     if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
