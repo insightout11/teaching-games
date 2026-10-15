@@ -401,7 +401,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         if (gl && glintK > 0.02) drawSeaGlint(ctx, gl, glintK, now / 1000, w, h, horizonY);
       }
 
-      // ── Cities in the distance: lights by night, a smudge of haze by day. Seen through the air, so they fade with
+      // ── Cities in the distance: lights by night, streets and small buildings by day. Seen through the air, so they fade with
       // distance, and the mountains drawn after them stand in front. ───────────────────────────────────────────────
       cityWorld.current.forEach((c, id) => {
         const rz = c.z - camZ;
@@ -415,35 +415,43 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const fade = Math.min(1, (Z_FAR - rz) / 8000) * Math.min(1, (rz - Z_NEAR * 6) / 9000);
         ctx.save();
         ctx.globalAlpha = fade;
+        // The city's own uneven outline (lobes, never an oval), the same by day and by night.
+        const ph1 = c.dots[0].b * 6.283, ph2 = c.dots[1].warm * 6.283, ph3 = c.dots[2].b * 6.283;
+        const shaped = c.dots.map((d) => {
+          const a = Math.atan2(d.v, d.u);
+          const k = 1 + 0.4 * Math.sin(2 * a + ph1) + 0.22 * Math.sin(3 * a + ph2) + 0.12 * Math.sin(5 * a + ph3);
+          return { x: cx + d.u * k * rx, y: cy + d.v * k * ry, b: d.b, warm: d.warm };
+        });
         if (dark) {
-          const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
-          glow.addColorStop(0, `rgba(255,190,112,${0.5 * (1 - fog * 0.45)})`);
-          glow.addColorStop(1, 'rgba(255,170,90,0)');
-          ctx.save();
-          ctx.translate(cx, cy);
-          ctx.scale(rx * 1.35, ry * 1.35);
-          ctx.fillStyle = glow;
-          ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill();
-          ctx.restore();
+          // A soft glow built from several pools of light where the lights are, then the lights themselves.
+          const pool = Math.max(4, rx * 0.42);
+          for (let i = 0; i < shaped.length; i += 7) {
+            const pt = shaped[i];
+            // Each pool is flattened like the ground it lies on.
+            ctx.save();
+            ctx.translate(pt.x, pt.y);
+            ctx.scale(1, Math.max(0.15, ry / (rx || 1)));
+            const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, pool);
+            glow.addColorStop(0, `rgba(255,186,108,${0.16 * (1 - fog * 0.45)})`);
+            glow.addColorStop(1, 'rgba(255,170,90,0)');
+            ctx.fillStyle = glow;
+            ctx.fillRect(-pool, -pool, pool * 2, pool * 2);
+            ctx.restore();
+          }
           ctx.globalCompositeOperation = 'lighter';
-          const n = Math.min(c.dots.length, Math.max(12, Math.round(rx * 0.9)));
+          const n = Math.min(shaped.length, Math.max(12, Math.round(rx * 0.9)));
           const size = Math.max(1, 1.7 * (1 - fog * 0.4));
           for (let i = 0; i < n; i++) {
-            const d = c.dots[i];
+            const d = shaped[i];
             ctx.fillStyle = `rgba(255,${200 + Math.round(d.warm * 40)},${120 + Math.round(d.warm * 70)},${(0.45 + d.b * 0.5) * (1 - fog * 0.4)})`;
-            ctx.fillRect(cx + d.u * rx, cy + d.v * ry, size, size * 0.8);
+            ctx.fillRect(d.x, d.y, size, size * 0.8);
           }
         } else {
           // By day: the city's own uneven shape (each city's outline is pulled into lobes, never an oval), a patchwork
           // of streets and blocks on the ground, and small buildings standing up from it, back ones first. All of it
           // greys into the haze with distance.
-          const ph1 = c.dots[0].b * 6.283, ph2 = c.dots[1].warm * 6.283, ph3 = c.dots[2].b * 6.283;
           const mist = 1 - fog * 0.6;
-          const pts = c.dots.map((d) => {
-            const a = Math.atan2(d.v, d.u);
-            const k = 1 + 0.4 * Math.sin(2 * a + ph1) + 0.22 * Math.sin(3 * a + ph2) + 0.12 * Math.sin(5 * a + ph3);
-            return { x: cx + d.u * k * rx, y: cy + d.v * k * ry, b: d.b, warm: d.warm };
-          }).sort((p, q) => p.y - q.y);
+          const pts = [...shaped].sort((p, q) => p.y - q.y);
           const bw0 = Math.max(2, rx * 0.15), bh0 = Math.max(1, ry * 0.2);
           for (const pt of pts) {
             const g = mixRgb([150 + pt.b * 28, 144 + pt.b * 24, 134 + pt.warm * 18] as RGB, haze, fog * 0.7);
