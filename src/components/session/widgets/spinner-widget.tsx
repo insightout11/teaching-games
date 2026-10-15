@@ -92,6 +92,16 @@ export function SpinnerContent({ students }: { students: Student[] }) {
   };
 
   const R = 100;
+  // One text size for every slice, so short names are not bigger than long ones.
+  const labelSize = useMemo(() => {
+    const room = R - 6 - 16;
+    const need = entries.map((e) => {
+      const w = e.trim().split(' ');
+      const half = w.length > 1 ? Math.max(w.slice(0, Math.ceil(w.length / 2)).join(' ').length, w.slice(Math.ceil(w.length / 2)).join(' ').length) : e.length;
+      return room / (Math.min(e.length, Math.max(half, e.length > 12 ? half : e.length)) * 0.56);
+    });
+    return Math.max(7, Math.min(12, ...need));
+  }, [entries]);
   const arc = (i: number) => {
     const a0 = ((i * slice - 90) * Math.PI) / 180;
     const a1 = (((i + 1) * slice - 90) * Math.PI) / 180;
@@ -170,22 +180,10 @@ export function SpinnerContent({ students }: { students: Student[] }) {
             <circle r={R} fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.2)" />
           ) : (
             entries.map((e, i) => {
-              const mid = ((i + 0.5) * slice - 90) * (Math.PI / 180);
               return (
                 <g key={`${e}-${i}`}>
                   <path d={n === 1 ? `M0,0 m-${R},0 a${R},${R} 0 1,0 ${R * 2},0 a${R},${R} 0 1,0 -${R * 2},0` : arc(i)} fill={SLICE_COLORS[i % SLICE_COLORS.length]} stroke="#0b1220" strokeWidth="1.5" />
-                  <text
-                    x={Math.cos(mid) * R * 0.62}
-                    y={Math.sin(mid) * R * 0.62}
-                    fill="#0b1220"
-                    fontSize={n > 12 ? 7 : n > 6 ? 9 : 11}
-                    fontWeight={700}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    transform={`rotate(${(i + 0.5) * slice}, ${Math.cos(mid) * R * 0.62}, ${Math.sin(mid) * R * 0.62})`}
-                  >
-                    {e.length > 14 ? `${e.slice(0, 13)}…` : e}
-                  </text>
+                  <SliceLabel text={e} index={i} slice={slice} n={n} r={R} maxSize={labelSize} />
                 </g>
               );
             })
@@ -209,5 +207,54 @@ export function SpinnerContent({ students }: { students: Student[] }) {
         </div>
       )}
     </div>
+  );
+}
+
+/**
+ * A slice's label, running from the centre out to the rim (the long way across a slice), sized to fit: long names
+ * break onto two lines, and labels on the left half are turned so none reads upside down.
+ */
+function SliceLabel({ text, index, slice, n, r, maxSize = 12 }: { text: string; index: number; slice: number; n: number; r: number; maxSize?: number }) {
+  const angle = (index + 0.5) * slice - 90; // from the centre towards the middle of the slice
+  const flip = angle > 90 && angle < 270;
+  const inner = 16, outer = r - 6;
+  const length = outer - inner; // room along the radius
+  const mid = (inner + outer) / 2;
+  // How tall a line may be: the slice's width at the label's middle, shared by up to two lines.
+  const across = n === 1 ? 60 : 2 * mid * Math.sin(Math.PI / n);
+  const words = text.trim().split(/\s+/);
+  const oneLine = text.trim();
+  // Two lines when a single line would have to shrink a lot and there is a space to break at.
+  const fitOne = Math.min(12, length / (oneLine.length * 0.56), across * 0.62);
+  let lines = [oneLine];
+  if (fitOne < 8 && words.length > 1) {
+    let best = 1;
+    let bestDiff = Infinity;
+    for (let k = 1; k < words.length; k++) {
+      const d = Math.abs(words.slice(0, k).join(' ').length - words.slice(k).join(' ').length);
+      if (d < bestDiff) { bestDiff = d; best = k; }
+    }
+    lines = [words.slice(0, best).join(' '), words.slice(best).join(' ')];
+  }
+  const longest = Math.max(...lines.map((l) => l.length));
+  const size = Math.max(5, Math.min(maxSize, length / (longest * 0.56), (across * 0.62) / lines.length));
+  const shown = lines.map((l) => (l.length * size * 0.56 > length ? `${l.slice(0, Math.max(3, Math.floor(length / (size * 0.56)) - 1))}…` : l));
+  const rad = (angle * Math.PI) / 180;
+  const x = Math.cos(rad) * mid, y = Math.sin(rad) * mid;
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="#0b1220"
+      fontSize={size}
+      fontWeight={700}
+      textAnchor="middle"
+      dominantBaseline="middle"
+      transform={`rotate(${flip ? angle + 180 : angle}, ${x}, ${y})`}
+    >
+      {shown.map((l, k) => (
+        <tspan key={k} x={x} dy={k === 0 ? `${-(shown.length - 1) * 0.55}em` : '1.1em'}>{l}</tspan>
+      ))}
+    </text>
   );
 }
