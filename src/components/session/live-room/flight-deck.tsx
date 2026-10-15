@@ -738,15 +738,16 @@ export function FlightDeck({
     const nearest = around[0];
     const region = below.terrain !== 'farmland' && below.terrain !== 'ocean' ? below.name : null;
     const named = featureNear(below.point);
-    const cityText = nearest
-      ? nearest.km < 20
-        ? `over ${nearest.name}`
-        : `${nearest.name}, ${nearest.km} km ${sideOf(nearest) === 'ahead' ? 'ahead' : `on your ${sideOf(nearest)}`}`
+    // A city right under the plane is "below"; one further off is a city you can see (or not) to the side, so it
+    // comes after the country and says how far away it is ("Prague is 99 km off to the left").
+    const overText = nearest && nearest.km < 20 ? `over ${nearest.name}` : null;
+    const offText = nearest && nearest.km >= 20
+      ? `${nearest.name} is ${nearest.km} km ${sideOf(nearest) === 'ahead' ? 'ahead' : `off to the ${sideOf(nearest)}`}`
       : null;
-    // Parts of "Below us: …", most specific first; the country is added after them (or replaced by a border crossing).
-    const parts = [chasing ? 'chasing the sun' : null, named ? featureText(named) : region, cityText].filter((p): p is string => !!p);
+    // Parts of "Below us: …", most specific first; the country follows (or a border crossing), then a distant city.
+    const parts = [chasing ? 'chasing the sun' : null, named ? featureText(named) : region, overText].filter((p): p is string => !!p);
     const overCity = nearest && nearest.km < 30 ? nearest.name : null;
-    return { parts, country: countryNow, fallback: below.name, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
+    return { parts, offText, country: countryNow, fallback: below.name, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
   }, [around, countryNow, below, chasing]);
   // Crossing a border shows in the same line for a little while: no pop-up, no interruption.
   const lastCountry = useRef<string | null>(null);
@@ -756,7 +757,7 @@ export function FlightDeck({
     lastCountry.current = countryNow; // null over sea, so reaching a coast later is not "crossing" anything
   }, [countryNow]);
   const crossingNow = crossing && now < crossing.until ? crossing : null;
-  const belowText = (crossingNow ? [`crossing into ${crossingNow.name}`, ...place.parts] : [...place.parts, place.country]).filter(Boolean).join(' · ') || place.fallback;
+  const belowText = [...(crossingNow ? [`crossing into ${crossingNow.name}`, ...place.parts] : [...place.parts, place.country]), place.offText].filter(Boolean).join(' · ') || place.fallback;
   // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
   const distantCities = useMemo(
     () => around.map((c) => ({ id: c.id, ahead: c.ahead, lateral: c.lateral, size: 9 + (c.name.length * 7) % 12 })),
