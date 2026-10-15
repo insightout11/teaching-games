@@ -120,6 +120,9 @@ export function addWorldFlightMapLayers(map: MapLibreMap) {
       'text-size': 18,
       'text-rotate': 0,
       'text-rotation-alignment': 'map',
+      // The arrow must point the way the class flew. By default the map turns text to stay upright, which flips
+      // the arrow on routes flown westward.
+      'text-keep-upright': false,
       'text-allow-overlap': true,
     },
     paint: {
@@ -171,6 +174,9 @@ export function addWorldFlightMapLayers(map: MapLibreMap) {
       'text-font': ['Noto Sans Bold'],
       'text-size': 17,
       'text-rotation-alignment': 'map',
+      // The arrow must point the way the class flew. By default the map turns text to stay upright, which flips
+      // the arrow on routes flown westward.
+      'text-keep-upright': false,
       'text-allow-overlap': true,
     },
     paint: {

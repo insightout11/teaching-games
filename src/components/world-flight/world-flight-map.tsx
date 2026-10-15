@@ -243,7 +243,8 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
 
   return (
     <>
-      <div ref={box} className={className} />
+      {/* The zoom buttons sit below the map's own top-row buttons (Class map, …), not on top of them. */}
+      <div ref={box} className={`${className} [&_.maplibregl-ctrl-top-right]:!top-12`} />
       {planeEl && replaying && createPortal(
         <span className="block drop-shadow-[0_0_8px_rgba(248,210,139,.9)]" style={{ transform: `rotate(${planeAngle - 45}deg)` }}>
           <Plane className="h-6 w-6 fill-amber-200 text-amber-100" />

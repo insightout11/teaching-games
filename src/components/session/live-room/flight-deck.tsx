@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { UserX, Blend, BookOpen, Crosshair, MapPin, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -492,17 +492,6 @@ export function FlightDeck({
     } as InputSpec);
     return id;
   };
-  // "Guess where we'll land": a pin round before take-off; the pins are kept, and the closest is named at landing.
-  const [landGuess, setLandGuess] = useState<{ roundId: string; pins: DeckMapPin[] } | null>(null);
-  const startLandGuess = () => setLandGuess({ roundId: startPins('Where will we land today? Drop your pin.'), pins: [] });
-  useEffect(() => {
-    if (landGuess && pinRound?.id === landGuess.roundId && pins !== landGuess.pins) setLandGuess({ roundId: landGuess.roundId, pins });
-  }, [pins, pinRound, landGuess]);
-  const closestGuess = useMemo(() => {
-    if (!landed || !landGuess?.pins.length) return null;
-    const best = landGuess.pins.map((p) => ({ name: p.label ?? 'A student', km: Math.round(distanceBetweenCoordsKm(p, destination)) })).sort((x, y) => x.km - y.km)[0];
-    return best ?? null;
-  }, [landed, landGuess, destination]);
   // Class map extras: your own question, a detailed map, and pin → topic.
   const [customPin, setCustomPin] = useState('');
   const [detailedMap, setDetailedMap] = useState(false);
@@ -1639,11 +1628,6 @@ export function FlightDeck({
             {mapMode === 'pins' && pinRound && (
               <button type="button" onClick={stopPins} className="rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">Close pins</button>
             )}
-            {mapMode === 'tracker' && flightStage === 'gate' && !stayHome && (
-              <button type="button" onClick={startLandGuess} className="flex items-center gap-1 rounded-lg border border-sky-300/40 bg-slate-950/75 px-2.5 py-1 text-xs text-sky-100 hover:bg-sky-300/10">
-                <MapPin className="h-3 w-3" /> {landGuess?.pins.length ? `Guesses: ${landGuess.pins.length}` : "Guess where we'll land"}
-              </button>
-            )}
             {mapMode === 'tracker' && flightStage !== 'gate' && (
               <button type="button" onClick={shrinkTracker} className="flex items-center gap-1 rounded-lg border border-white/20 bg-slate-950/75 px-2.5 py-1 text-xs text-white/85 hover:text-white">
                 <Minimize2 className="h-3 w-3" /> Shrink to corner
@@ -1949,7 +1933,6 @@ export function FlightDeck({
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
             <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
-            {closestGuess && <p className="mt-2 flex items-center gap-2 rounded-xl bg-sky-300/25 px-3 py-2 text-sm font-semibold text-[#1b2233]"><MapPin className="h-4 w-4" />Closest guess: {closestGuess.name}{closestGuess.km < 25 ? ', spot on!' : `, ${closestGuess.km.toLocaleString()} km away`}</p>}
             {landingMilestone && <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/30 px-3 py-2 text-sm font-semibold text-[#1b2233]"><Plane className="h-4 w-4" />Milestone: {landingMilestone.text}!</p>}
             <div className="mt-4 flex flex-wrap justify-end gap-2">
               {nextReachable.length > 1 && <button type="button" onClick={() => void startNextCityPoll()} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Vote: where next?</button>}
