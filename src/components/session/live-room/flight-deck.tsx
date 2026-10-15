@@ -748,7 +748,13 @@ export function FlightDeck({
     // Parts of "Below us: …", most specific first; the country follows (or a border crossing), then a distant city.
     const parts = [chasing ? 'chasing the sun' : null, named ? featureText(named) : region, overText].filter((p): p is string => !!p);
     const overCity = nearest && nearest.km < 30 ? nearest.name : null;
-    return { parts, offText, country: countryNow, fallback: below.name, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
+    // Each part of the line as something the class can learn about (tap it to make it the topic).
+    const items: Array<{ text: string; topic: string | null }> = [
+      ...(chasing ? [{ text: 'chasing the sun', topic: null }] : []),
+      ...(named ? [{ text: featureText(named), topic: named.name }] : region ? [{ text: region, topic: region }] : []),
+      ...(overText && nearest ? [{ text: overText, topic: nearest.name }] : []),
+    ];
+    return { parts, items, offText, offTopic: offText && nearest ? nearest.name : null, country: countryNow, fallback: below.name, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
   }, [around, countryNow, below, chasing]);
   // Crossing a border shows in the same line for a little while: no pop-up, no interruption.
   const lastCountry = useRef<string | null>(null);
@@ -758,7 +764,13 @@ export function FlightDeck({
     lastCountry.current = countryNow; // null over sea, so reaching a coast later is not "crossing" anything
   }, [countryNow]);
   const crossingNow = crossing && now < crossing.until ? crossing : null;
-  const belowText = [...(crossingNow ? [`crossing into ${crossingNow.name}`, ...place.parts] : [...place.parts, place.country]), place.offText].filter(Boolean).join(' · ') || place.fallback;
+  const belowItems: Array<{ text: string; topic: string | null }> = [
+    ...(crossingNow ? [{ text: `crossing into ${crossingNow.name}`, topic: crossingNow.name }] : []),
+    ...place.items,
+    ...(!crossingNow && place.country ? [{ text: place.country, topic: place.country }] : []),
+    ...(place.offText ? [{ text: place.offText, topic: place.offTopic }] : []),
+  ];
+  if (belowItems.length === 0 && place.fallback) belowItems.push({ text: place.fallback, topic: place.fallback });
   // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
   const distantCities = useMemo(
     () => around.map((c) => ({ id: c.id, ahead: c.ahead, lateral: c.lateral, size: 9 + (c.name.length * 7) % 12 })),
@@ -1855,8 +1867,27 @@ export function FlightDeck({
         </div>
       )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
-        <p className="pointer-events-none absolute bottom-3 left-4 z-[5] max-w-[88%] truncate rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
-          {holding ? `Holding over ${destination.city}` : `Below us: ${belowText}${nextStop ? ` · Next: ${nextStop.text.toLowerCase()} in ${Math.max(1, Math.round(nextStop.at - (minutesFlown ?? 0)))} min` : ''}`} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
+        <p className="absolute bottom-3 left-4 z-[5] max-w-[88%] truncate rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
+          {holding ? `Holding over ${destination.city}` : (
+            <>
+              Below us:{' '}
+              {belowItems.map((it, i) => (
+                <span key={`${it.text}-${i}`}>
+                  {i > 0 && ' · '}
+                  {it.topic ? (
+                    <button type="button" onClick={() => { makeFocus({ title: it.topic! }); flash(`New topic: ${it.topic}`); }} title={`Make ${it.topic} the topic`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{it.text}</button>
+                  ) : it.text}
+                </span>
+              ))}
+              {nextStop && (
+                <>
+                  {' · Next: '}
+                  <button type="button" onClick={() => { const topic = stopTopic(nextStop.text); makeFocus({ title: topic }); flash(`New topic: ${topic}`); }} title="Make it the topic" className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{nextStop.text.toLowerCase()}</button>
+                  {` in ${Math.max(1, Math.round(nextStop.at - (minutesFlown ?? 0)))} min`}
+                </>
+              )}
+            </>
+          )} · {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock}{liveWx ? ` · ${liveWx.label}` : ''}
         </p>
       )}
 
@@ -2646,6 +2677,7 @@ const FLIGHT_WIDGET = 'flight-tracker';
 const QR_WIDGET = 'boarding-qr';
 const DECK_WIDGET_IDS = [...WIDGET_REGISTRY.map((w) => w.id), FLIGHT_WIDGET, QR_WIDGET];
 const ROOM_PINS_KEY = 'room-pins';
+const stopTopic = (text: string) => text.replace(/^(Cross into|Over|Pass near|Near|Land in)\s+/i, '');
 const PIN_PROMPTS = ['Where are you right now?', 'A place you would love to visit', 'Where were you born?'];
 const PIN_COLORS = ['#fb7185', '#f59e0b', '#34d399', '#60a5fa', '#a78bfa', '#f472b6', '#22d3ee', '#facc15'];
 
