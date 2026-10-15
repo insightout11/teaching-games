@@ -97,7 +97,7 @@ export function caughtGist(answers: Record<string, Record<number, number>>, ques
   return { caught, of: ids.length };
 }
 
-export interface ListeningClipOption { sourceType: string; id: string; title: string; cefr: string; ageBand: string; minutes: number }
+export interface ListeningClipOption { sourceType: string; id: string; title: string; cefr: string; ageBand: string; minutes: number; /** World Flight clips: the city it was filmed in, e.g. "Lisbon, Portugal". */ place?: string }
 
 const LEVEL_CEFR: Record<string, string[]> = { Beginner: ['A1', 'A2'], Easy: ['A1', 'A2'], Intermediate: ['A2', 'B1'], Advanced: ['B1', 'B2'], Expert: ['B2', 'C1'] };
 
@@ -115,6 +115,7 @@ export function listeningClipsFor(entries: Array<{ sourceType: string; entry: Re
         cefr: String(entry.cefr ?? ''),
         ageBand: String(entry.ageBand ?? ''),
         minutes: win ? Math.max(1, Math.round((win.end - win.start) / 60)) : 0,
+        ...(typeof (entry.place as { name?: unknown } | undefined)?.name === 'string' ? { place: (entry.place as { name: string }).name } : {}),
       };
     })
     .filter((c) => c.minutes > 0)

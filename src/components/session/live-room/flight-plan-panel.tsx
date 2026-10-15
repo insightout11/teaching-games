@@ -87,6 +87,9 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
   const bookSource = useMemo(() => (bookLesson ? getLibrarySourceMaterial({ kind: 'library', sourceType: 'books' as SourceType, id: bookLesson.id, title: bookLesson.title }) : null), [bookLesson]);
   // Listening flies on a library clip with a listening pack, picked here (nearest the class level first).
   const clips = useMemo(() => (isListening ? listeningClipsFor(listLibraryEntriesWithListeningPack(), settings.difficulty) : []), [isListening, settings.difficulty]);
+  // Flying to a World Flight city: that city's own clips come first.
+  const cityClips = useMemo(() => clips.filter((c) => c.place && c.place.split(',')[0].trim().toLowerCase() === destinationCity.trim().toLowerCase()), [clips, destinationCity]);
+  const otherClips = useMemo(() => clips.filter((c) => !cityClips.includes(c)), [clips, cityClips]);
   const [clipId, setClipId] = useState('');
   const clip = clips.find((c) => c.id === clipId) ?? null;
   const clipSource = useMemo(() => (clip ? getLibrarySourceMaterial({ kind: 'library', sourceType: clip.sourceType as SourceType, id: clip.id, title: clip.title }) : null), [clip]);
@@ -157,9 +160,23 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
           </div>
         ) : isListening ? (
           <div className="space-y-1.5">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Choose a listening clip ({levelLabel(settings.difficulty)})</p>
+            {cityClips.length > 0 && (
+              <>
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-amber-300">Filmed in {destinationCity}</p>
             <div className="grid max-h-56 gap-1.5 overflow-y-auto pr-1 sm:grid-cols-2">
-              {clips.map((c) => (
+              {cityClips.map((c) => (
+                <button key={`${c.sourceType}-${c.id}`} type="button" onClick={() => setClipId(c.id)} className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm ${c.id === clipId ? 'border-amber-300 bg-amber-300/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
+                  <Headphones className="h-4 w-4 shrink-0 text-cyan-300" />
+                  <span className="min-w-0 flex-1 truncate text-white">{c.title}</span>
+                  <span className="shrink-0 text-xs text-white/50">{cefrLabel(c.cefr)} · {c.minutes} min</span>
+                </button>
+              ))}
+            </div>
+              </>
+            )}
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{cityClips.length > 0 ? 'Other clips' : 'Choose a listening clip'} ({levelLabel(settings.difficulty)})</p>
+            <div className="grid max-h-56 gap-1.5 overflow-y-auto pr-1 sm:grid-cols-2">
+              {otherClips.map((c) => (
                 <button key={`${c.sourceType}-${c.id}`} type="button" onClick={() => setClipId(c.id)} className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm ${c.id === clipId ? 'border-amber-300 bg-amber-300/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
                   <Headphones className="h-4 w-4 shrink-0 text-cyan-300" />
                   <span className="min-w-0 flex-1 truncate text-white">{c.title}</span>
