@@ -450,6 +450,7 @@ export function FlightDeck({
   // Route planner (before take-off): home plus every city in range as a pin.
   // The World Flight map's tick marks: every city the class has stamped.
   const visitedList = useMemo(() => Array.from(visitedIds), [visitedIds]);
+  const journeyLegs = useMemo(() => position?.journey ?? [], [position]);
   // The class's whole journey in km (its flights so far), for the milestones and the route map line.
   const journeyKm = useMemo(() => {
     const at = (id: string | null) => { const c = id ? SCENE_CITIES.find((d) => d.id === id) : undefined; return c ? toRouteCity(c) : HOME; };
@@ -1578,7 +1579,7 @@ export function FlightDeck({
               origin={origin}
               rangeKm={position?.rangeKm ?? STARTER_PLANE_RANGE_KM}
               visitedIds={visitedList}
-              journey={position?.journey ?? []}
+              journey={journeyLegs}
               selectedId={teachId || stayHome ? null : destination.id}
               souvenirs={mapSouvenirs}
               replayKey={replayKey}
@@ -1590,7 +1591,7 @@ export function FlightDeck({
                 else if (!lockedId && SCENE_CITIES.some((c) => c.id === id)) setTeachId(id);
               }}
             />
-            <div className="absolute inset-x-3 bottom-3 flex flex-wrap items-end justify-between gap-2">
+            <div className="pointer-events-none absolute inset-x-3 bottom-3 flex flex-wrap items-end justify-between gap-2 [&>*]:pointer-events-auto">
               {stayHomeCity ? (
                 <div className="rounded-xl border border-white/15 bg-slate-950/85 px-3 py-2 backdrop-blur-md">
                   <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">City lesson: {stayHomeCity.city}</p>
@@ -1619,7 +1620,7 @@ export function FlightDeck({
         ) : (
           <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={minutesLeft} below={below.name} holding={holding} preview={preview} minutesFlown={minutesFlown} />
         )}
-        <div className="absolute inset-x-3 top-3 flex flex-wrap items-start justify-between gap-2">
+        <div className="pointer-events-none absolute inset-x-3 top-3 flex flex-wrap items-start justify-between gap-2 [&>*]:pointer-events-auto">
           {mapMode === 'pins' ? (
             <div className="rounded-xl border border-white/15 bg-slate-950/75 px-3 py-2 backdrop-blur-md">
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-rose-300">{pinRound ? 'Pins open on your phones' : 'Class map'}</p>
@@ -1627,11 +1628,9 @@ export function FlightDeck({
               <p className="font-mono text-xs text-white/60">{pins.length} pin{pins.length === 1 ? '' : 's'}</p>
             </div>
           ) : flightStage === 'gate' && journeyKm > 0 ? (
-            <div className="rounded-xl border border-white/15 bg-slate-950/80 px-3 py-2 backdrop-blur-md">
-              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">Our journey</p>
-              <p className="font-display text-lg leading-tight text-white">{journeyKm.toLocaleString()} km flown</p>
-              <p className="text-xs text-white/65">{aroundTheEarth(journeyKm)}</p>
-              <button type="button" disabled={replayRunning} onClick={() => { setReplayRunning(true); setReplayKey((k) => k + 1); }} className="mt-1.5 flex items-center gap-1.5 rounded-lg border border-amber-300/40 px-2.5 py-1 text-xs text-amber-100 hover:bg-amber-300/10 disabled:opacity-50">
+            <div className="flex max-w-[60%] flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-white/15 bg-slate-950/80 px-3 py-1.5 backdrop-blur-md">
+              <span className="text-sm text-white"><b className="font-semibold text-amber-200">{journeyKm.toLocaleString()} km</b> flown · <span className="text-white/65">{aroundTheEarth(journeyKm)}</span></span>
+              <button type="button" disabled={replayRunning} onClick={() => { setReplayRunning(true); setReplayKey((k) => k + 1); }} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 px-2 py-0.5 text-xs text-amber-100 hover:bg-amber-300/10 disabled:opacity-50">
                 <Plane className="h-3.5 w-3.5" /> {replayRunning ? 'Replaying…' : 'Replay our journey'}
               </button>
             </div>
@@ -1895,7 +1894,8 @@ export function FlightDeck({
             transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
             className="absolute inset-0 flex items-center justify-center p-6"
             // Zoom layout: grow the content with the (much bigger) windscreen so it reads on a phone in Zoom.
-            style={sceneZoom !== 1 ? { zoom: sceneZoom } : undefined}
+            // (Not the map: a CSS zoom puts the map's mouse position out, so dragging and clicking miss.)
+            style={sceneZoom !== 1 && view !== 'map' ? { zoom: sceneZoom } : undefined}
           >
             {!(clearScreen && view === 'talk') && scene}
           </motion.div>

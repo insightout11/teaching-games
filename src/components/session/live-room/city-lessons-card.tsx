@@ -1,6 +1,7 @@
 'use client';
 
-import { BookOpen, Luggage, PlayCircle, Stamp } from 'lucide-react';
+import { useState } from 'react';
+import { BookOpen, ChevronDown, ChevronUp, Luggage, PlayCircle, Stamp } from 'lucide-react';
 import { levelLabel } from '@/lib/difficulty';
 import type { DestinationFocus, DestinationPack } from '@/lib/world-flight/types';
 
@@ -29,8 +30,21 @@ export function CityLessonsCard({ city, originCity, km, far, visited, locked, on
   onVote?: () => void;
 }) {
   const lessons = city.focusOptions.filter(isPublishedFocus);
+  const [open, setOpen] = useState(true);
+  if (!open) {
+    return (
+      <button type="button" onClick={() => setOpen(true)} className="flex items-center gap-2 rounded-xl border border-white/15 bg-slate-950/85 px-3 py-2 text-sm text-white backdrop-blur-md hover:border-amber-300/50">
+        <span className="font-display">{far ? city.city : `${originCity} → ${city.city}`}</span>
+        <span className="text-xs text-white/55">{lessons.length} lesson{lessons.length === 1 ? '' : 's'}</span>
+        <ChevronUp className="h-4 w-4 text-white/60" />
+      </button>
+    );
+  }
   return (
-    <div className="w-[min(24rem,calc(100vw-3rem))] rounded-xl border border-white/15 bg-slate-950/85 px-3 py-2.5 backdrop-blur-md">
+    <div className="relative w-[min(24rem,calc(100vw-3rem))] rounded-xl border border-white/15 bg-slate-950/85 px-3 py-2.5 backdrop-blur-md">
+      <button type="button" onClick={() => setOpen(false)} title="Fold away, to see the map" aria-label="Fold the city card away" className="absolute right-2 top-2 rounded-md p-1 text-white/55 hover:bg-white/10 hover:text-white">
+        <ChevronDown className="h-4 w-4" />
+      </button>
       <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-sky-300">{far ? 'Out of range today' : 'Where next? Tap a city'}</p>
       <p className="font-display text-lg leading-tight text-white">{far ? city.city : `${originCity} → ${city.city}`}</p>
       <p className="flex flex-wrap items-center gap-x-2 font-mono text-xs text-white/60">
