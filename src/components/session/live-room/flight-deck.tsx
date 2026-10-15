@@ -659,6 +659,7 @@ export function FlightDeck({
     if (view === 'boarding') startMusic(LOBBY_BED);
     else stopMusic();
   }, [view]);
+  useEffect(() => () => stopMusic(0), []);
   // Zoom layout: the whole window is shared, so the windscreen takes the space;
   // cargo + cabin fold into edge rails that slide open over it. Remembered.
   const [zoomLayout, setZoomLayout] = useState(false);

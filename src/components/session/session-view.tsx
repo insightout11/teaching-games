@@ -1035,9 +1035,12 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   // lesson starts, so it never plays under a module (docs/sound-design.md §2).
   // Keyed on session phase rather than on the lobby component's lifetime.
   useEffect(() => {
+    // In the Live Room the room's own screens decide (music only on the boarding screen), so two parts of the
+    // page never fight over it.
+    if (LIVE_ROOM_ENV || liveRoomOptIn) return;
     if (lesson.phase === 'lobby') startMusic(LOBBY_BED);
     else stopMusic();
-  }, [lesson.phase]);
+  }, [lesson.phase, liveRoomOptIn]);
 
   useEffect(() => () => stopMusic(0), []);
 

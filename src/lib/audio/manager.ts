@@ -206,11 +206,17 @@ function clearMusicFade() {
   }
 }
 
+// Whether the music should be playing right now. The last call wins: a stop always stops (even if the browser
+// is still starting the track), and a start during a fade-out brings the music back.
+let musicWanted = false;
+
 /** Fade the lobby bed in. No-op if music is disabled or already playing. */
 export function startMusic(url: string, fadeMs = 1800) {
   loadPrefs();
   if (typeof window === 'undefined' || !prefs.musicEnabled) return;
-  if (musicEl && !musicEl.paused) return;
+  const fadingOut = !musicWanted;
+  musicWanted = true;
+  if (musicEl && !musicEl.paused && !fadingOut) return;
 
   clearMusicFade();
   if (!musicEl) {
@@ -218,23 +224,28 @@ export function startMusic(url: string, fadeMs = 1800) {
     musicEl.preload = 'auto';
   }
   const target = Math.max(0, Math.min(1, prefs.volume * MUSIC_TRIM));
-  musicEl.volume = 0;
-  musicEl.play().catch(() => {
+  if (musicEl.paused) musicEl.volume = 0;
+  musicEl.play().then(() => {
+    // Stopped while the browser was still starting it.
+    if (!musicWanted) musicEl?.pause();
+  }).catch(() => {
     /* no gesture yet — the bed simply doesn't start, which is fine */
   });
+  const startVolume = musicEl.volume;
 
   const step = 50;
   let elapsed = 0;
   musicFade = window.setInterval(() => {
     elapsed += step;
     if (!musicEl) return clearMusicFade();
-    musicEl.volume = Math.min(target, (elapsed / fadeMs) * target);
+    musicEl.volume = Math.min(target, startVolume + (elapsed / fadeMs) * (target - startVolume));
     if (elapsed >= fadeMs) clearMusicFade();
   }, step);
 }
 
 /** Fade the lobby bed out and stop it. Called the moment a module starts. */
 export function stopMusic(fadeMs = 700) {
+  musicWanted = false;
   if (typeof window === 'undefined' || !musicEl) return;
   clearMusicFade();
   const el = musicEl;
