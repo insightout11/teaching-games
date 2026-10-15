@@ -28,6 +28,7 @@ import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
 import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map';
 import { WorldFlightMap } from '@/components/world-flight/world-flight-map';
+import { aroundTheEarth, milestonePassed } from '@/lib/world-flight/milestones';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
@@ -412,6 +413,12 @@ export function FlightDeck({
   };
   // What this lesson has earned, for the landing card (fetched once the plane is down).
   const { data: landingRecord } = useWorldFlightRecord(sessionId, landed ? 'landed' : 'flying');
+  // Souvenirs on the World Flight map: one the class has in each visited city, and whether more are waiting there.
+  const mapSouvenirs = useMemo(() => (landingRecord?.souvenirShelf ?? []).map((c) => ({
+    destinationId: c.destinationId,
+    icon: c.items.find((i) => i.owned)?.icon ?? null,
+    waiting: c.items.some((i) => !i.owned),
+  })), [landingRecord]);
   // The Design mission, started from the Passport: the class designs from the evidence it collected. It runs where
   // the class is (no take-off), like a city lesson taught from here.
   const startDesignMission = async (investigationId: string) => {
@@ -437,6 +444,22 @@ export function FlightDeck({
   // Route planner (before take-off): home plus every city in range as a pin.
   // The World Flight map's tick marks: every city the class has stamped.
   const visitedList = useMemo(() => Array.from(visitedIds), [visitedIds]);
+  // The class's whole journey in km (its flights so far), for the milestones and the route map line.
+  const journeyKm = useMemo(() => {
+    const at = (id: string | null) => { const c = id ? SCENE_CITIES.find((d) => d.id === id) : undefined; return c ? toRouteCity(c) : HOME; };
+    return Math.round((position?.journey ?? []).reduce((km, l) => km + distanceBetweenCoordsKm(at(l.from), at(l.to)), 0));
+  }, [position]);
+  const [replayKey, setReplayKey] = useState(0);
+  const [replayRunning, setReplayRunning] = useState(false);
+  // A distance milestone this flight passed (the journey list may already include it once the class has landed).
+  const landingMilestone = useMemo(() => {
+    if (!landed) return null;
+    const last = position?.journey?.[position.journey.length - 1];
+    const thisKm = Math.round(distanceBetweenCoordsKm(origin, destination));
+    const included = !!last && last.to === destination.id;
+    const before = included ? journeyKm - thisKm : journeyKm;
+    return milestonePassed(before, before + thisKm);
+  }, [landed, position, origin, destination, journeyKm]);
 
   // Class pin map: every phone drops a pin (geo-point input); pins land live.
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
@@ -1539,6 +1562,9 @@ export function FlightDeck({
               visitedIds={visitedList}
               journey={position?.journey ?? []}
               selectedId={teachId || stayHome ? null : destination.id}
+              souvenirs={mapSouvenirs}
+              replayKey={replayKey}
+              onReplayDone={() => setReplayRunning(false)}
               farId={teachId}
               onCityClick={(id, inRange) => {
                 if (id === origin.id || stayHome) return;
@@ -1581,6 +1607,15 @@ export function FlightDeck({
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-rose-300">{pinRound ? 'Pins open on your phones' : 'Class map'}</p>
               <p className="font-display text-lg text-white">{pinRound?.prompt ?? 'Pinned by the class'}</p>
               <p className="font-mono text-xs text-white/60">{pins.length} pin{pins.length === 1 ? '' : 's'}</p>
+            </div>
+          ) : flightStage === 'gate' && journeyKm > 0 ? (
+            <div className="rounded-xl border border-white/15 bg-slate-950/80 px-3 py-2 backdrop-blur-md">
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">Our journey</p>
+              <p className="font-display text-lg leading-tight text-white">{journeyKm.toLocaleString()} km flown</p>
+              <p className="text-xs text-white/65">{aroundTheEarth(journeyKm)}</p>
+              <button type="button" disabled={replayRunning} onClick={() => { setReplayRunning(true); setReplayKey((k) => k + 1); }} className="mt-1.5 flex items-center gap-1.5 rounded-lg border border-amber-300/40 px-2.5 py-1 text-xs text-amber-100 hover:bg-amber-300/10 disabled:opacity-50">
+                <Plane className="h-3.5 w-3.5" /> {replayRunning ? 'Replaying…' : 'Replay our journey'}
+              </button>
             </div>
           ) : <span />}
           <div className="flex flex-wrap justify-end gap-1.5">
@@ -1891,6 +1926,7 @@ export function FlightDeck({
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
             <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
+            {landingMilestone && <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/30 px-3 py-2 text-sm font-semibold text-[#1b2233]"><Plane className="h-4 w-4" />Milestone: {landingMilestone.text}!</p>}
             <div className="mt-4 flex flex-wrap justify-end gap-2">
               {nextReachable.length > 1 && <button type="button" onClick={() => void startNextCityPoll()} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Vote: where next?</button>}
               {landingRecord?.landing?.after.claimableTier != null && <button type="button" onClick={() => setRecordTab('hangar')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Hangar</button>}
