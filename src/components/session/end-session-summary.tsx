@@ -50,7 +50,6 @@ export function EndSessionSummary({
   currentTopic,
   currentSessionAlreadyRecorded = false,
   teacherView = true,
-  onLaunchBonusVote,
   previewMode = false,
   moduleCount,
   sessionStartedAt,
@@ -615,17 +614,6 @@ export function EndSessionSummary({
         </div>
         )}
 
-        {teacherView && onLaunchBonusVote && (
-          <div className="mt-6 p-4 bg-slate-950/55 backdrop-blur-md border border-cyan-400/30 rounded-2xl text-center">
-            <p className="text-sm text-white/80 mb-3">Got time to spare? Let the class pick a bonus game.</p>
-            <button
-              onClick={onLaunchBonusVote}
-              className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold text-sm text-white shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
-            >
-              Bonus Round?
-            </button>
-          </div>
-        )}
 
         {nextDestination && (
           <div className="mt-8 rounded-2xl border border-cyan-300/25 bg-slate-950/60 p-4 text-center backdrop-blur-md">

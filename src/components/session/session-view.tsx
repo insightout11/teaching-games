@@ -2420,12 +2420,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <PlaneLanding className="h-4 w-4" strokeWidth={2} />
                     Land · View Results
                   </button>
-                  <button
-                    onClick={handleLaunchBonusVote}
-                    className="px-5 py-2.5 rounded-xl font-semibold text-sm text-cyan-200 border border-cyan-400/25 bg-cyan-400/5 hover:bg-cyan-400/10 active:scale-95 transition-all"
-                  >
-                    Bonus Round
-                  </button>
                 </div>
               </motion.div>
             )}
