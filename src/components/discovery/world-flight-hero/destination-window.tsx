@@ -15,6 +15,10 @@ import type { HeroCity } from './hero-cities';
 // Each city at the hour that suits it: Tokyo and New York are night cities; most of the rest read best in daylight.
 const CITY_HOUR: Record<string, 'dawn' | 'day' | 'dusk' | 'night'> = { tokyo: 'night', 'new-york': 'night', cairo: 'dusk', paris: 'dawn', 'cape-town': 'dusk' };
 const hourFor = (cityId: string) => CITY_HOUR[cityId] ?? 'day';
+function showcaseWeather(cityId: string, scene: Parameters<typeof rollWeather>[1], night: boolean) {
+  const w = rollWeather(`hero:${cityId}`, scene, night);
+  return w === 'rain' || w === 'storm' ? 'clear' : w;
+}
 
 export function DestinationWindow({
   cities,
@@ -59,8 +63,9 @@ export function DestinationWindow({
             progress={0.34}
             motion="static"
             planeKey={city.plane}
-            // Each city in its own typical weather (the same climate-weighted roll the live flights use).
-            weather={rollWeather(`hero:${city.id}`, city.scene, hourFor(city.id) === 'night')}
+            // A showcase, not a forecast: mostly clear skies, a little character where it suits (cloud, snow, the
+            // northern lights by night), and never rain or storms (the room itself still uses the real weather).
+            weather={showcaseWeather(city.id, city.scene, hourFor(city.id) === 'night')}
             timeOfDay={hourFor(city.id)}
             className="h-full w-full"
           />
