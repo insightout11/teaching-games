@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -2531,8 +2531,9 @@ export function FlightDeck({
                 {s.name}
               </button>
             ))}
-            <button type="button" onClick={() => setPanel(panel === 'catalogue' ? null : 'catalogue')} className="rounded-lg border-[1.5px] border-dashed border-white/30 px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-white/70 hover:text-white">
-              All {catalogue.length}…
+            {/* Not another activity: a different look (solid, with an icon and an arrow) so it reads as "see the rest". */}
+            <button type="button" onClick={() => setPanel(panel === 'catalogue' ? null : 'catalogue')} title="Every game and activity, by kind" className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-3 py-2 text-xs font-semibold transition ${panel === 'catalogue' ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 bg-amber-300/10 text-amber-100 hover:bg-amber-300/20'}`}>
+              <LayoutGrid className="h-3.5 w-3.5" /> Browse all {catalogue.length} <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
           {zoomLayout && <span className="mx-1 h-6 w-px shrink-0 bg-white/15" aria-hidden />}
