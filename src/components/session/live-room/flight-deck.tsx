@@ -733,7 +733,8 @@ export function FlightDeck({
   // Today's route, shown to the class on the route map before and during the flight.
   const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
   const minutesFlown = takeoffAt ? elapsedMs / 60_000 : null;
-  const nextStop = minutesFlown == null ? null : preview.find((s) => s.at > minutesFlown && !s.text.startsWith('Land in')) ?? null;
+  // The next thing on Today's route (never a border into the country the plane is already over).
+  const nextStop = minutesFlown == null ? null : preview.find((s) => s.at > minutesFlown && !s.text.startsWith('Land in') && !(countryNow && s.text === `Cross into ${countryNow}`)) ?? null;
   const place = useMemo(() => {
     const nearest = around[0];
     const region = below.terrain !== 'farmland' && below.terrain !== 'ocean' ? below.name : null;
