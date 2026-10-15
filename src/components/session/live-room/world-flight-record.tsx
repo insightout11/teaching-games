@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Check, Compass, Loader2, Plane, Search, Stamp, Star, X } from 'lucide-react';
+import { Check, Compass, Loader2, Mail, Plane, Search, Stamp, Star, X } from 'lucide-react';
+import { souvenirIcon } from '@/components/session/live-room/souvenir-icons';
 import { WorldFlightUpgradeProgress } from '@/components/session/end-session-summary';
 import type { WorldFlightProgressionRewardResult, WorldFlightUpgradeState } from '@/lib/world-flight/progression';
 
@@ -14,7 +15,14 @@ export interface WorldFlightRecordData {
   expedition: { runId: string; expeditionId: string; paused: boolean; title: string; question: string; done: number; needed: number; remaining: string[] } | null;
   expeditions: Array<{ id: string; title: string; subtitle: string; lessons: string; needed: number; stops: string[] }>;
   hangar: { planeChoices: string[]; flightHours: number; crewStars: number; planeTier: number; planeKey: string; planeSelectionRequired: boolean; rangeKm: number; upgradeState: WorldFlightUpgradeState };
-  landing: { city: string; moves: boolean; newCity: boolean; lesson: string | null; everyoneAboard: boolean; strongLanding: boolean; stars: number; after: WorldFlightUpgradeState; hoursAfter: number; starsAfter: number } | null;
+  landing: {
+    city: string; moves: boolean; newCity: boolean; lesson: string | null; everyoneAboard: boolean; strongLanding: boolean; stars: number; after: WorldFlightUpgradeState; hoursAfter: number; starsAfter: number;
+    souvenirs?: Array<{ id: string; name: string; description: string; icon: string }>;
+    saved?: boolean;
+    postcard?: { prompts: string[]; souvenir: string | null; written: boolean } | null;
+  } | null;
+  souvenirShelf?: Array<{ destinationId: string; city: string; items: Array<{ id: string; name: string; description: string; icon: string; owned: boolean; how: string }> }>;
+  postcards?: Array<{ id: string; destinationId: string; city: string; prompt: string; message: string; createdAt: string }>;
 }
 
 /** The class's World Flight record for this session (Passport, Hangar, landing card). Null while loading or offline. */
@@ -104,6 +112,50 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
                   </div>
                 )}
               </section>
+
+              {(data.souvenirShelf?.length ?? 0) > 0 && (
+                <section>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">
+                    Souvenirs · {data.souvenirShelf!.reduce((n, c) => n + c.items.filter((i) => i.owned).length, 0)} collected
+                  </p>
+                  <div className="mt-2 space-y-3">
+                    {data.souvenirShelf!.map((c) => (
+                      <div key={c.destinationId}>
+                        <p className="text-sm text-white/70">{c.city}</p>
+                        <div className="mt-1 flex flex-wrap gap-2">
+                          {c.items.map((item) => {
+                            const Icon = souvenirIcon(item.icon);
+                            return item.owned ? (
+                              <span key={item.id} title={item.description} className="flex items-center gap-2 rounded-xl border border-amber-300/40 bg-amber-300/[0.08] px-3 py-1.5 text-sm text-amber-50">
+                                <Icon className="h-4 w-4 text-amber-300" />{item.name}
+                              </span>
+                            ) : (
+                              <span key={item.id} title={item.how} className="flex items-center gap-2 rounded-xl border border-dashed border-white/20 px-3 py-1.5 text-sm text-white/45">
+                                <Icon className="h-4 w-4 opacity-50" />{item.how}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {(data.postcards?.length ?? 0) > 0 && (
+                <section>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Postcards · {data.postcards!.length}</p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    {data.postcards!.map((pc) => (
+                      <div key={pc.id} className="rounded-2xl bg-[#f4efe3] p-3 text-[#1b2233]">
+                        <p className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-[#1b2233]/60"><span>From {pc.city}</span><span>{day(pc.createdAt)}</span></p>
+                        {pc.prompt && <p className="mt-1 text-xs italic text-[#1b2233]/60">{pc.prompt}</p>}
+                        <p className="mt-1 font-display text-lg leading-snug">{pc.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               {data.expedition && (
                 <section className="rounded-2xl border border-emerald-300/25 bg-emerald-400/[0.05] p-4">
@@ -234,7 +286,7 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
 }
 
 /** The landing card's reward lines: what this lesson earned, shown while the class is still there. */
-export function LandingRewards({ landing }: { landing: NonNullable<WorldFlightRecordData['landing']> }) {
+export function LandingRewards({ landing, sessionId, onPostcardSaved }: { landing: NonNullable<WorldFlightRecordData['landing']>; sessionId?: string; onPostcardSaved?: () => void }) {
   const next = landing.after.nextMilestone;
   const ready = landing.after.claimableTier !== null;
   return (
@@ -247,6 +299,21 @@ export function LandingRewards({ landing }: { landing: NonNullable<WorldFlightRe
           {[landing.everyoneAboard && 'Everyone Aboard', landing.strongLanding && 'Strong Landing'].filter(Boolean).join(' · ') || 'No stars this time'}
         </span>
       </p>
+      {(landing.souvenirs?.length ?? 0) > 0 && (
+        <div className="space-y-1">
+          {landing.souvenirs!.map((sv) => {
+            const Icon = souvenirIcon(sv.icon);
+            return (
+              <p key={sv.id} className="flex items-start gap-2">
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#b7791f]" />
+                <span><span className="font-semibold">Souvenir: {sv.name}.</span> <span className="text-[#1b2233]/70">{sv.description}</span></span>
+              </p>
+            );
+          })}
+          {!landing.saved && <p className="text-xs text-[#1b2233]/60">Saved to the class shelf when you end class.</p>}
+        </div>
+      )}
+      {landing.postcard && sessionId && <PostcardWriter sessionId={sessionId} city={landing.city} postcard={landing.postcard} onSaved={onPostcardSaved} />}
       <p className="text-xs text-[#1b2233]/70">
         {ready
           ? 'A new plane is ready: choose it when you end class, or from the Hangar.'
@@ -254,6 +321,59 @@ export function LandingRewards({ landing }: { landing: NonNullable<WorldFlightRe
             ? `Next plane: ${Math.max(0, next.requiredFlightHours - landing.hoursAfter)} more hour${next.requiredFlightHours - landing.hoursAfter === 1 ? '' : 's'} and ${Math.max(0, next.requiredCrewStars - landing.starsAfter)} more star${next.requiredCrewStars - landing.starsAfter === 1 ? '' : 's'}.`
             : 'The hangar is fully upgraded.'}
       </p>
+    </div>
+  );
+}
+
+/**
+ * The class postcard from this city: the class answers one of the city's prompts out loud, and the teacher types a
+ * line or two. Saving it keeps it on the class shelf and earns the city's postcard souvenir.
+ */
+function PostcardWriter({ sessionId, city, postcard, onSaved }: { sessionId: string; city: string; postcard: { prompts: string[]; souvenir: string | null; written: boolean }; onSaved?: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [prompt, setPrompt] = useState(postcard.prompts[0] ?? '');
+  const [message, setMessage] = useState('');
+  const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'failed'>(postcard.written ? 'saved' : 'idle');
+  const save = async () => {
+    if (!message.trim()) return;
+    setState('saving');
+    const res = await fetch(`/api/session/${encodeURIComponent(sessionId)}/postcard`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt, message }),
+    }).catch(() => null);
+    if (res?.ok) { setState('saved'); setOpen(false); onSaved?.(); } else setState('failed');
+  };
+  if (state === 'saved' && !open) {
+    return <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-[#d4537e]" />Postcard from {city} saved to the class shelf.</p>;
+  }
+  if (!open) {
+    return (
+      <button type="button" onClick={() => setOpen(true)} className="flex items-center gap-2 rounded-full border border-[#1b2233]/25 px-3 py-1 text-sm hover:bg-[#1b2233]/5">
+        <Mail className="h-4 w-4 text-[#d4537e]" />Write a postcard home{postcard.souvenir ? ` (earns the ${postcard.souvenir})` : ''}
+      </button>
+    );
+  }
+  return (
+    <div className="space-y-2 rounded-xl border border-[#1b2233]/15 bg-white/60 p-3">
+      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#1b2233]/60">Postcard from {city}: ask the class</p>
+      <div className="flex flex-wrap gap-1.5">
+        {postcard.prompts.map((p) => (
+          <button key={p} type="button" onClick={() => setPrompt(p)} className={`rounded-lg border px-2 py-1 text-left text-xs ${p === prompt ? 'border-[#d4537e] bg-[#d4537e]/10' : 'border-[#1b2233]/20'}`}>{p}</button>
+        ))}
+      </div>
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value.slice(0, 500))}
+        rows={3}
+        placeholder="Type what the class said, in a line or two."
+        className="w-full resize-none rounded-lg border border-[#1b2233]/20 bg-white px-2 py-1.5 font-display text-base text-[#1b2233] outline-none focus:border-[#d4537e]"
+      />
+      <div className="flex items-center justify-end gap-2">
+        {state === 'failed' && <span className="text-xs text-[#b42318]">Could not save it. Try again.</span>}
+        <button type="button" onClick={() => setOpen(false)} className="text-xs text-[#1b2233]/60 hover:text-[#1b2233]">Not now</button>
+        <button type="button" disabled={!message.trim() || state === 'saving'} onClick={() => void save()} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs font-semibold text-[#f4efe3] disabled:opacity-40">
+          {state === 'saving' ? 'Saving…' : 'Save the postcard'}
+        </button>
+      </div>
     </div>
   );
 }

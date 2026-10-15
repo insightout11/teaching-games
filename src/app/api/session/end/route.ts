@@ -4,6 +4,7 @@ import { requireAuth } from '@/lib/auth-credits';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
+import { awardLandingSouvenirs } from '@/lib/world-flight/souvenir-store';
 import { advanceWorldFlightExpedition, type WorldFlightExpeditionSnapshot } from '@/lib/world-flight/expeditions';
 import {
   calculateWorldFlightSessionMetrics,
@@ -293,6 +294,12 @@ export async function POST(request: Request) {
       await advanceActiveExpedition(ownership.session.class_id, sessionId);
     } catch (expeditionError) {
       console.error('[api/session/end] expedition progress error:', expeditionError);
+    }
+    try {
+      // Souvenirs earned by landing (first visit, World Flight, return visit, the rare one).
+      await awardLandingSouvenirs(ownership.session.class_id, sessionId);
+    } catch (souvenirError) {
+      console.error('[api/session/end] souvenirs error:', souvenirError);
     }
   }
 

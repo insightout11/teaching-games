@@ -8,6 +8,8 @@ import { deriveWorldFlightExpeditionProgress, getWorldFlightExpedition, WORLD_FL
 import { NO_CITY_LESSON_FOCUS_ID } from '@/lib/world-flight/journey';
 import { calculateWorldFlightReward, getWorldFlightUpgradeState } from '@/lib/world-flight/progression';
 import { DEFAULT_PLANE_KEY, getPlaneTier } from '@/lib/plane-progression';
+import { citySouvenirs, howToEarn, postcardPrompts, postcardSouvenir, souvenirsForLanding } from '@/lib/world-flight/souvenirs';
+import { classPostcards, ownedSouvenirs } from '@/lib/world-flight/souvenir-store';
 
 export const dynamic = 'force-dynamic';
 
@@ -125,6 +127,28 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     rosterCount ?? 0,
   );
   const alreadySaved = thisLeg ? thisLeg.status !== 'planned' : false;
+
+  // Souvenirs: the shelf (every city the class has visited, what it has and what it can still earn there) and postcards.
+  const [ownedSv, postcards] = await Promise.all([ownedSouvenirs(service, classId), classPostcards(service, classId)]);
+  const ownedIds = new Set(ownedSv.map((s) => s.souvenirId));
+  const shelfCities = Array.from(new Set([...stamps.map((s) => s.destinationId), ...ownedSv.map((s) => s.destinationId)]));
+  const souvenirShelf = shelfCities.map((destinationId) => ({
+    destinationId,
+    city: getDestinationById(destinationId)?.city ?? destinationId,
+    items: citySouvenirs(destinationId).map((s) => ({ id: s.id, name: s.name, description: s.description, icon: s.icon, owned: ownedIds.has(s.id), how: howToEarn(s) })),
+  })).filter((c) => c.items.length > 0);
+  const postcardList = postcards.map((p) => ({ ...p, city: getDestinationById(p.destinationId)?.city ?? p.destinationId }));
+  // What this landing earns: saved ones once the class has ended, otherwise a preview worked out the same way.
+  const landingMoves = !!thisLeg && thisLeg.status !== 'taught' && thisLeg.moves_class !== false;
+  const landingSouvenirs = !thisLeg || !landingMoves ? [] : alreadySaved
+    ? ownedSv.filter((s) => s.sessionId === params.sessionId && citySouvenirs(thisLeg.destination_id).some((x) => x.id === s.souvenirId)).map((s) => citySouvenirs(thisLeg.destination_id).find((x) => x.id === s.souvenirId)!)
+    : souvenirsForLanding({
+      destinationId: thisLeg.destination_id,
+      sessionId: params.sessionId,
+      firstLanding: !done.some((l) => l.status === 'completed' && l.destination_id === thisLeg.destination_id && l.session_id !== params.sessionId),
+      owned: ownedIds,
+    });
+  const cityPostcardSouvenir = thisLeg && landingMoves ? postcardSouvenir(thisLeg.destination_id) : null;
   const landing = thisLeg ? {
     city: getDestinationById(thisLeg.destination_id)?.city ?? thisLeg.destination_id,
     moves: thisLeg.status !== 'taught' && thisLeg.moves_class !== false,
@@ -137,7 +161,14 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     after: getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours: flightHours + (alreadySaved ? 0 : 1), crewStars: crewStars + (alreadySaved ? 0 : reward.crewStarsAwarded) }),
     hoursAfter: flightHours + (alreadySaved ? 0 : 1),
     starsAfter: crewStars + (alreadySaved ? 0 : reward.crewStarsAwarded),
+    souvenirs: landingSouvenirs.map((s) => ({ id: s.id, name: s.name, description: s.description, icon: s.icon })),
+    saved: alreadySaved,
+    postcard: landingMoves && postcardPrompts(thisLeg.destination_id).length ? {
+      prompts: postcardPrompts(thisLeg.destination_id),
+      souvenir: cityPostcardSouvenir && !ownedIds.has(cityPostcardSouvenir.id) ? cityPostcardSouvenir.name : null,
+      written: postcards.some((p) => p.destinationId === thisLeg.destination_id),
+    } : null,
   } : null;
 
-  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, expeditions, hangar, landing });
+  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, expeditions, hangar, landing , souvenirShelf, postcards: postcardList });
 }

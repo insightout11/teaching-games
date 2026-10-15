@@ -1901,7 +1901,7 @@ export function FlightDeck({
             <p className="mt-1 text-sm">Passport stamped. Thanks for flying with {className}!</p>
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
             <DeckMap className="mt-1 h-44 w-[min(420px,70vw)] rounded-xl" pins={journeyPins} paths={journeyPaths} labels={false} />
-            {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} />}
+            {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
             <div className="mt-4 flex flex-wrap justify-end gap-2">
               {nextReachable.length > 1 && <button type="button" onClick={() => void startNextCityPoll()} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Vote: where next?</button>}
               {landingRecord?.landing?.after.claimableTier != null && <button type="button" onClick={() => setRecordTab('hangar')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Hangar</button>}
