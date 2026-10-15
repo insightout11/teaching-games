@@ -27,6 +27,7 @@ import type { SourceMaterial } from '@/types/source-material';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
 import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map';
+import { WorldFlightMap } from '@/components/world-flight/world-flight-map';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
@@ -434,24 +435,8 @@ export function FlightDeck({
   const cardIsFar = !!teachId && cardCity?.id === teachId;
 
   // Route planner (before take-off): home plus every city in range as a pin.
-  const plannerPins = useMemo<DeckMapPin[]>(() => [
-    { id: `origin:${origin.id}`, lat: origin.lat, lng: origin.lng, label: origin.city, color: '#94a3b8' },
-    ...reachable.map((c) => ({
-      id: c.id,
-      lat: c.lat,
-      lng: c.lng,
-      label: c.city,
-      color: c.id === destination.id && !teachId ? '#f59e0b' : visitedIds.has(c.id) ? '#34d399' : '#60a5fa',
-    })),
-    ...(lockedId ? [] : SCENE_CITIES.filter((c) => c.id !== origin.id && !reachable.some((r) => r.id === c.id)).map((c) => ({
-      id: `far:${c.id}`,
-      lat: c.lat,
-      lng: c.lng,
-      label: c.city,
-      color: c.id === teachId ? '#f59e0b' : '#475569',
-    }))),
-  ], [origin, reachable, destination.id, teachId, visitedIds, lockedId]);
-  const plannerPaths = useMemo(() => [{ a: origin as LatLng, b: destination as LatLng }], [origin, destination]);
+  // The World Flight map's tick marks: every city the class has stamped.
+  const visitedList = useMemo(() => Array.from(visitedIds), [visitedIds]);
 
   // Class pin map: every phone drops a pin (geo-point input); pins land live.
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
@@ -1547,14 +1532,18 @@ export function FlightDeck({
           </>
         ) : flightStage === 'gate' ? (
           <>
-            <DeckMap
+            <WorldFlightMap
               className="h-full w-full"
-              pins={plannerPins}
-              paths={teachId ? [] : plannerPaths}
-              onPinClick={(id) => {
-                if (id.startsWith('origin:') || stayHome) return;
-                if (id.startsWith('far:')) setTeachId(id.slice(4));
-                else { setTeachId(null); setChosenId(id); }
+              origin={origin}
+              rangeKm={position?.rangeKm ?? STARTER_PLANE_RANGE_KM}
+              visitedIds={visitedList}
+              journey={position?.journey ?? []}
+              selectedId={teachId || stayHome ? null : destination.id}
+              farId={teachId}
+              onCityClick={(id, inRange) => {
+                if (id === origin.id || stayHome) return;
+                if (inRange && reachable.some((c) => c.id === id)) { setTeachId(null); setChosenId(id); }
+                else if (!lockedId && SCENE_CITIES.some((c) => c.id === id)) setTeachId(id);
               }}
             />
             <div className="absolute inset-x-3 bottom-3 flex flex-wrap items-end justify-between gap-2">
