@@ -366,6 +366,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     totalParticipants: number | null;
   } | null>(null);
   const [debriefToken, setDebriefToken] = useState<string | null>(null);
+  const [brandDone, setBrandDone] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
 
   // Brief visual handoff when an untimed inputSpec first arrives. Timed specs already
@@ -1456,13 +1457,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   return (
     <StudentSkyShell weather="cruising">
       {/* The brand reveal once when a student joins: short and silent (rules: src/lib/brand-moments.ts). */}
-      <BrandMomentOverlay moment="phone-join" sessionId={sessionId} markSize={130} />
-      <BoardingMoment
+      <BrandMomentOverlay moment="phone-join" sessionId={sessionId} markSize={130} onDone={() => setBrandDone(true)} />
+      {/* The student's own boarding (their avatar walking on, then their seat) starts once the logo reveal has
+          finished: played together, the reveal covered it and it was over before anyone saw it. */}
+      {brandDone && <BoardingMoment
         sessionId={sessionId}
         name={studentSession.displayName}
         seed={studentSession.avatarSeed ?? null}
         seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}
-      />
+      />}
       <BoardingHeader
         name={studentSession.displayName}
         seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}

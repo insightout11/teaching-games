@@ -223,6 +223,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
               weather={weather}
               skyLight={sun && moon ? { sun, moon, heading: sun.heading } : undefined}
               fit="slice"
+              planeKey={planeKey}
               className="absolute inset-0"
             />
           </motion.div>
