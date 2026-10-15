@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { citySouvenirs, howToEarn, postcardPrompts, postcardSouvenir, rareLanding, souvenirsForLanding } from './souvenirs';
+import { citySouvenirs, howToEarn, localWords, mysteryClues, packCityIds, postcardPrompts, postcardSouvenir, rareLanding, souvenirsForLanding } from './souvenirs';
 
 describe('souvenirs', () => {
   it('every city has souvenirs, three postcard prompts and an icon for each souvenir', () => {
@@ -33,5 +33,16 @@ describe('souvenirs', () => {
 
   it('cities with a postcard souvenir say so', () => {
     expect(postcardSouvenir('bangkok')?.id).toBe('bangkok-market-tote');
+  });
+
+  it('boarding games have clues (vague first, giveaway last) and local words for every city', () => {
+    expect(packCityIds().length).toBe(50);
+    const clues = mysteryClues('bangkok');
+    expect(clues).toHaveLength(6);
+    expect(clues[5]).toMatch(/capital of Thailand/);
+    packCityIds().forEach((id) => {
+      expect(mysteryClues(id).length, id).toBeGreaterThanOrEqual(4);
+      expect(localWords(id).length, id).toBeGreaterThan(0);
+    });
   });
 });

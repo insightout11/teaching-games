@@ -29,6 +29,8 @@ import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
 import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map';
 import { WorldFlightMap } from '@/components/world-flight/world-flight-map';
 import { aroundTheEarth, milestonePassed } from '@/lib/world-flight/milestones';
+import { localWords, mysteryClues, packCityIds } from '@/lib/world-flight/souvenirs';
+import { getDestinationById } from '@/data/world-flight/destinations';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
@@ -491,6 +493,67 @@ export function FlightDeck({
       mapMaxZoom: 9,
     } as InputSpec);
     return id;
+  };
+
+  // ── Boarding games (Where in the world? · Say hello like a local · How far is it?) ──
+  // The two map games are pin rounds whose pins stay hidden until the reveal, so nobody copies a classmate.
+  type PinGame = { kind: 'where' | 'hello'; roundId: string; city: { id: string; city: string; country: string; lat: number; lng: number }; clues: string[]; shown: number; word?: { word: string; meaning: string; say: string; language: string }; revealed: boolean };
+  const [pinGame, setPinGame] = useState<PinGame | null>(null);
+  const randomPackCity = (needWords: boolean) => {
+    const ids = packCityIds().filter((id) => !!getDestinationById(id) && (needWords ? localWords(id).length > 0 : mysteryClues(id).length >= 4));
+    const id = ids[Math.floor(Math.random() * ids.length)];
+    const d = id ? getDestinationById(id) : undefined;
+    return d ? { id: d.id, city: d.city, country: d.country, lat: d.lat, lng: d.lng } : null;
+  };
+  const startPinGame = (kind: 'where' | 'hello') => {
+    const city = randomPackCity(kind === 'hello');
+    if (!city) return;
+    // Keep the boarding QR code in a corner so late arrivals can still join.
+    if (view === 'boarding') shrinkToCorner(QR_WIDGET, 'tr', 'map');
+    if (kind === 'where') {
+      const roundId = startPins('Where in the world? Read the clues and pin the city.');
+      setPinGame({ kind, roundId, city, clues: mysteryClues(city.id), shown: 1, revealed: false });
+    } else {
+      const words = localWords(city.id);
+      const w = words[Math.floor(Math.random() * words.length)];
+      const roundId = startPins(`Where do people say "${w.word}"? Pin the place.`);
+      setPinGame({ kind, roundId, city, clues: [], shown: 0, word: w, revealed: false });
+    }
+  };
+  // A new clue every 15 seconds (the last clue gives it away).
+  useEffect(() => {
+    if (!pinGame || pinGame.kind !== 'where' || pinGame.revealed || pinGame.shown >= pinGame.clues.length) return;
+    const t = window.setTimeout(() => setPinGame((g) => (g && g.roundId === pinGame.roundId ? { ...g, shown: g.shown + 1 } : g)), 15000);
+    return () => window.clearTimeout(t);
+  }, [pinGame]);
+  const pinGameGuesses = pinGame ? pins.map((p) => ({ name: p.label ?? 'A student', km: Math.round(distanceBetweenCoordsKm(p, pinGame.city)) })).sort((a, b) => a.km - b.km) : [];
+  const revealPinGame = () => {
+    setPinGame((g) => (g ? { ...g, revealed: true, shown: g.clues.length } : g));
+    void setInputSpec(null);
+  };
+  const endPinGame = () => { setPinGame(null); stopPins(); };
+
+  // How far is it? A phone vote between four distances, then the answer.
+  const [distanceQuiz, setDistanceQuiz] = useState<{ city: string; from: string; km: number; shown: boolean } | null>(null);
+  const startDistanceQuiz = async () => {
+    const pick = randomPackCity(false);
+    if (!pick || pick.id === origin.id) return;
+    const km = Math.round(distanceBetweenCoordsKm(origin, pick) / 500) * 500 || 500;
+    const fmt = (n: number) => `about ${n.toLocaleString()} km`;
+    const decoys = [0.45, 1.7, 2.6].map((f) => Math.max(500, Math.round((km * f) / 500) * 500)).filter((n) => n !== km);
+    const options = Array.from(new Set([km, ...decoys])).sort((a, b) => a - b).map(fmt);
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { error } = await supabase.from('polls').insert({
+      session_id: sessionId,
+      question: `How far is ${pick.city} from ${origin.city}?`,
+      options,
+      is_active: true,
+      metadata: { purpose: 'distance-quiz' },
+    });
+    if (error) { flash('Could not start the vote.'); return; }
+    setDistanceQuiz({ city: pick.city, from: origin.city, km, shown: false });
+    openTool('poll', window.innerWidth / 2, window.innerHeight / 2);
   };
   // Class map extras: your own question, a detailed map, and pin → topic.
   const [customPin, setCustomPin] = useState('');
@@ -1413,6 +1476,21 @@ export function FlightDeck({
             </button>
           )}
           <div className="flex flex-wrap items-center gap-2 text-xs text-white/60">
+            While you wait:
+            <button type="button" onClick={() => startPinGame('where')} className="rounded-lg border border-amber-300/40 px-2.5 py-1 text-amber-100 hover:bg-amber-300/10">Where in the world?</button>
+            <button type="button" onClick={() => startPinGame('hello')} className="rounded-lg border border-amber-300/40 px-2.5 py-1 text-amber-100 hover:bg-amber-300/10">Say hello like a local</button>
+            <button type="button" onClick={() => void startDistanceQuiz()} className="rounded-lg border border-amber-300/40 px-2.5 py-1 text-amber-100 hover:bg-amber-300/10">How far is it?</button>
+          </div>
+          {distanceQuiz && (
+            <div className="flex flex-wrap items-center gap-2 rounded-xl border border-amber-300/30 bg-slate-950/60 px-3 py-2 text-sm text-white">
+              <span>How far is {distanceQuiz.city} from {distanceQuiz.from}?</span>
+              {distanceQuiz.shown
+                ? <b className="text-amber-200">About {distanceQuiz.km.toLocaleString()} km</b>
+                : <button type="button" onClick={() => setDistanceQuiz((q) => (q ? { ...q, shown: true } : q))} className="rounded-lg bg-amber-300 px-2.5 py-0.5 text-xs font-semibold text-slate-950">Show the answer</button>}
+              <button type="button" onClick={() => setDistanceQuiz(null)} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
+            </div>
+          )}
+          <div className="flex flex-wrap items-center gap-2 text-xs text-white/60">
             Class map:
             {PIN_PROMPTS.map((q) => (
               <button key={q} type="button" onClick={() => startPins(q)} className="rounded-lg border border-white/20 px-2.5 py-1 text-white/80 hover:border-rose-300/60 hover:text-white">
@@ -1532,7 +1610,7 @@ export function FlightDeck({
           <>
             <DeckMap
               className="h-full w-full"
-              pins={pins}
+              pins={pinGame ? (pinGame.revealed ? [...pins, { id: `answer:${pinGame.city.id}`, lat: pinGame.city.lat, lng: pinGame.city.lng, label: pinGame.city.city, color: '#facc15' }] : []) : pins}
               detailed={detailedMap}
               onPinClick={pickPin}
               focusPoint={pinPick ? { lat: pinPick.pin.lat, lng: pinPick.pin.lng, zoom: detailedMap ? 11 : 6 } : null}
@@ -1610,7 +1688,38 @@ export function FlightDeck({
           <FlightTracker origin={origin} destination={destination} progress={routeT} minutesLeft={minutesLeft} below={below.name} holding={holding} preview={preview} minutesFlown={minutesFlown} />
         )}
         <div className="pointer-events-none absolute inset-x-3 top-3 flex flex-wrap items-start justify-between gap-2 [&>*]:pointer-events-auto">
-          {mapMode === 'pins' ? (
+          {mapMode === 'pins' && pinGame ? (
+            <div className="w-[min(26rem,calc(100vw-3rem))] rounded-xl border border-amber-300/30 bg-slate-950/85 px-3 py-2.5 backdrop-blur-md">
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">{pinGame.kind === 'where' ? 'Where in the world?' : 'Say hello like a local'}</p>
+              {pinGame.kind === 'hello' && pinGame.word && (
+                <p className="mt-1 font-display text-3xl text-white">“{pinGame.word.word}”</p>
+              )}
+              {pinGame.kind === 'where' && (
+                <ol className="mt-1 space-y-1">
+                  {pinGame.clues.slice(0, pinGame.shown).map((c, i) => (
+                    <li key={c} className={`text-sm leading-snug ${i === pinGame.shown - 1 && !pinGame.revealed ? 'text-white' : 'text-white/65'}`}><span className="mr-1.5 font-mono text-xs text-amber-300">{i + 1}</span>{c}</li>
+                  ))}
+                </ol>
+              )}
+              {pinGame.revealed ? (
+                <div className="mt-2 space-y-1 text-sm">
+                  <p className="font-display text-xl text-amber-200">{pinGame.city.city}, {pinGame.city.country}</p>
+                  {pinGame.word && <p className="text-white/80">“{pinGame.word.word}” means <b className="text-white">{pinGame.word.meaning}</b> in {pinGame.word.language}. Say it: <b className="text-white">{pinGame.word.say}</b></p>}
+                  {pinGameGuesses[0] && <p className="text-white/80">Closest: <b className="text-white">{pinGameGuesses[0].name}</b>{pinGameGuesses[0].km < 50 ? ', spot on!' : `, ${pinGameGuesses[0].km.toLocaleString()} km away`}</p>}
+                </div>
+              ) : (
+                <p className="mt-1.5 font-mono text-xs text-white/60">{pins.length} pin{pins.length === 1 ? '' : 's'} so far · hidden until the reveal</p>
+              )}
+              <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
+                {!pinGame.revealed && pinGame.kind === 'where' && pinGame.shown < pinGame.clues.length && (
+                  <button type="button" onClick={() => setPinGame((g) => (g ? { ...g, shown: g.shown + 1 } : g))} className="rounded-lg border border-white/20 px-2.5 py-1 text-white/85 hover:text-white">Next clue</button>
+                )}
+                {!pinGame.revealed && <button type="button" onClick={revealPinGame} className="rounded-lg bg-amber-300 px-2.5 py-1 font-semibold text-slate-950">Reveal</button>}
+                {pinGame.revealed && <button type="button" onClick={() => startPinGame(pinGame.kind)} className="rounded-lg bg-amber-300 px-2.5 py-1 font-semibold text-slate-950">Another one</button>}
+                <button type="button" onClick={endPinGame} className="rounded-lg border border-white/20 px-2.5 py-1 text-white/70 hover:text-white">Done</button>
+              </div>
+            </div>
+          ) : mapMode === 'pins' ? (
             <div className="rounded-xl border border-white/15 bg-slate-950/75 px-3 py-2 backdrop-blur-md">
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-rose-300">{pinRound ? 'Pins open on your phones' : 'Class map'}</p>
               <p className="font-display text-lg text-white">{pinRound?.prompt ?? 'Pinned by the class'}</p>

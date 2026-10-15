@@ -18,7 +18,7 @@ export interface Souvenir {
   icon: string;
 }
 export interface LocalWord { word: string; language: string; meaning: string; say: string }
-interface CityPack { id: string; souvenirs: Souvenir[]; postcardPrompts: string[]; localWords: LocalWord[] }
+interface CityPack { id: string; souvenirs: Souvenir[]; postcardPrompts: string[]; localWords: LocalWord[]; mysteryClues?: Array<{ order: number; text: string }> }
 
 const PACKS = cityPacksRaw as unknown as Record<string, CityPack>;
 
@@ -31,6 +31,15 @@ export function postcardPrompts(destinationId: string): string[] {
 export function localWords(destinationId: string): LocalWord[] {
   return PACKS[destinationId]?.localWords ?? [];
 }
+/** The city's clues, vague first and the giveaway last (Codex city packs). */
+export function mysteryClues(destinationId: string): string[] {
+  return [...(PACKS[destinationId]?.mysteryClues ?? [])].sort((a, b) => a.order - b.order).map((c) => c.text);
+}
+/** Every city with a pack (clues, words, souvenirs). */
+export function packCityIds(): string[] {
+  return Object.keys(PACKS);
+}
+
 export function findSouvenir(souvenirId: string): (Souvenir & { destinationId: string }) | null {
   for (const [destinationId, pack] of Object.entries(PACKS)) {
     const s = pack.souvenirs.find((x) => x.id === souvenirId);
