@@ -13,6 +13,7 @@ import { ClassDefaultsCard } from '@/components/class/class-defaults-card';
 import type { Class, Student, Session } from '@/lib/supabase/types';
 import { countsForAccuracy, isCorrectScore } from '@/lib/scoring-reporting';
 import { buildClassLogbookSummary, type ClassLogbookScoreRow, type ClassLogbookSessionRow } from '@/lib/class-logbook';
+import { StudentsSection, type StudentSummary } from '@/components/class/students-section';
 
 export default async function ClassDetailPage({ params }: { params: { classId: string } }) {
   const supabase = createServerSupabase();
@@ -100,7 +101,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
   if (logbookSessionIds.length > 0) {
     const { data } = await supabase
       .from('scores')
-      .select('session_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
+      .select('session_id, student_id, points, streak_count, is_correct, accuracy_status, counts_for_accuracy, counts_for_leaderboard, scoring_version, response_data')
       .in('session_id', logbookSessionIds) as { data: ClassLogbookScoreRow[] | null };
 
     const scores = data ?? [];
@@ -125,6 +126,41 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
       .eq('class_id', cls.id)
       .eq('status', 'completed'),
   ]);
+  // ── Students: attendance, answers, notes (the Students section; replaces the Control Room pages) ──
+  const sessionById = new Map(logbookSessionRows.map((r) => [r.id, r]));
+  const titleOf = (id: string) => { const r = sessionById.get(id); return r?.custom_topic || r?.topic || 'Lesson'; };
+  const startedOf = (id: string) => sessionById.get(id)?.started_at ?? '';
+  const [{ data: attendanceRows }, { data: noteRows }, { data: teacherRow }] = await Promise.all([
+    logbookSessionIds.length
+      ? supabase.from('session_participants').select('session_id, student_id').in('session_id', logbookSessionIds).not('student_id', 'is', null) as unknown as Promise<{ data: Array<{ session_id: string; student_id: string }> | null }>
+      : Promise.resolve({ data: [] as Array<{ session_id: string; student_id: string }> }),
+    supabase.from('student_session_notes').select('session_id, student_id, note, updated_at').eq('class_id', cls.id).order('updated_at', { ascending: false }) as unknown as Promise<{ data: Array<{ session_id: string; student_id: string; note: string; updated_at: string }> | null }>,
+    supabase.from('teachers').select('subscription_status, is_developer, promo_expires_at').eq('id', cls.teacher_id).maybeSingle() as unknown as Promise<{ data: { subscription_status: string | null; is_developer: boolean | null; promo_expires_at: string | null } | null }>,
+  ]);
+  const isPro = teacherRow?.is_developer === true
+    || teacherRow?.subscription_status === 'active'
+    || teacherRow?.subscription_status === 'trial'
+    || (teacherRow?.promo_expires_at != null && new Date(teacherRow.promo_expires_at) > new Date());
+  const summaries: Record<string, StudentSummary> = {};
+  for (const st of students ?? []) {
+    const attended = Array.from(new Set((attendanceRows ?? []).filter((a) => a.student_id === st.id).map((a) => a.session_id)))
+      .sort((a, b) => startedOf(b).localeCompare(startedOf(a)));
+    const mine = (classScores as Array<ClassLogbookScoreRow & { student_id?: string | null }>).filter((sc) => sc.student_id === st.id);
+    const pct = (rows: typeof mine) => { const sc = rows.filter(countsForAccuracy); return sc.length ? Math.round((sc.filter(isCorrectScore).length / sc.length) * 100) : null; };
+    summaries[st.id] = {
+      id: st.id,
+      lessons: attended.length,
+      answered: mine.length,
+      accuracy: pct(mine),
+      recent: attended.slice(0, 5).map((sid) => {
+        const rows = mine.filter((sc) => (sc as { session_id?: string }).session_id === sid);
+        return { sessionId: sid, at: startedOf(sid), title: titleOf(sid), answered: rows.length, accuracy: pct(rows) };
+      }),
+      notes: isPro ? (noteRows ?? []).filter((n) => n.student_id === st.id && n.note.trim()).map((n) => ({ sessionId: n.session_id, at: startedOf(n.session_id) || n.updated_at, title: titleOf(n.session_id), note: n.note.trim() })) : [],
+      lastSessionId: attended[0] ?? null,
+    };
+  }
+
   const classLogbook = buildClassLogbookSummary({
     classId: cls.id,
     className: cls.name,
@@ -193,6 +229,15 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
           />
         </div>
       </div>
+
+      <StudentsSection
+        classId={cls.id}
+        teacherId={cls.teacher_id}
+        students={students ?? []}
+        summaries={summaries}
+        totalLessons={classLogbook.completedFlights}
+        isPro={isPro}
+      />
     </div>
   );
 }

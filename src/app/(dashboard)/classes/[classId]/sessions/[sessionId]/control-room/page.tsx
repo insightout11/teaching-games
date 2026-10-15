@@ -1,8 +1,8 @@
 import { createServerSupabase } from '@/lib/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-import { CalendarDays, Clock, Layers, Trophy } from 'lucide-react';
-import type { Session, Class, Student, Score, LeaderboardEntry, SessionNote, StudentSessionNote, Teacher, Round } from '@/lib/supabase/types';
+import { CalendarDays, Clock, Layers } from 'lucide-react';
+import type { Session, Class, Student, Score, SessionNote, StudentSessionNote, Teacher, Round } from '@/lib/supabase/types';
 import { ClassAccuracyGauge } from '@/components/control-room/class-accuracy-gauge';
 import { ParticipationGrid } from '@/components/control-room/participation-grid';
 import { RoundsBreakdown } from '@/components/control-room/rounds-breakdown';
@@ -10,14 +10,7 @@ import { SessionNotesEditor } from '@/components/control-room/session-notes-edit
 import { Surface } from '@/components/ui/surface';
 import { countsForAccuracy, getScoreModuleKey, isCorrectScore } from '@/lib/scoring-reporting';
 
-const TOP_ACCURACY_THRESHOLD = 80;
 
-function accuracyColor(accuracy: number | null): string {
-  if (accuracy === null) return 'text-lc-text3';
-  if (accuracy >= TOP_ACCURACY_THRESHOLD) return 'text-lc-success';
-  if (accuracy >= 50) return 'text-lc-warn';
-  return 'text-lc-danger';
-}
 
 export default async function ControlRoomPage({
   params,
@@ -50,7 +43,6 @@ export default async function ControlRoomPage({
     { data: students },
     { data: scores },
     { data: rounds },
-    { data: leaderboard },
     { data: teacher },
     { data: notes },
     { data: studentNotes },
@@ -58,7 +50,6 @@ export default async function ControlRoomPage({
     supabase.from('students').select('*').eq('class_id', cls.id).order('name') as Promise<{ data: Student[] | null }>,
     supabase.from('scores').select('*').eq('session_id', session.id).order('created_at') as Promise<{ data: Score[] | null }>,
     supabase.from('rounds').select('game_type, round_number').eq('session_id', session.id) as Promise<{ data: Pick<Round, 'game_type' | 'round_number'>[] | null }>,
-    supabase.from('session_leaderboard').select('*').eq('session_id', session.id).order('total_points', { ascending: false }) as Promise<{ data: LeaderboardEntry[] | null }>,
     supabase.from('teachers').select('subscription_status, is_developer, promo_expires_at').eq('id', user.id).single() as Promise<{ data: Pick<Teacher, 'subscription_status'> & { is_developer: boolean; promo_expires_at: string | null } | null }>,
     supabase.from('session_notes').select('*').eq('session_id', session.id).eq('teacher_id', user.id).maybeSingle() as Promise<{ data: SessionNote | null }>,
     supabase.from('student_session_notes').select('*').eq('session_id', session.id) as Promise<{ data: StudentSessionNote[] | null }>,
@@ -66,7 +57,6 @@ export default async function ControlRoomPage({
 
   const allScores = scores ?? [];
   const allStudents = students ?? [];
-  const allLeaderboard = leaderboard ?? [];
   const allRounds = rounds ?? [];
 
   // Session meta
@@ -137,22 +127,6 @@ export default async function ControlRoomPage({
     })
     .sort((a, b) => a.gameType.localeCompare(b.gameType));
 
-  // Leaderboard with computed accuracy — V2 view provides accuracy_attempts + v2_correct_count
-  const leaderboardWithAccuracy = allLeaderboard.map(entry => {
-    const v2Entry = entry as typeof entry & { accuracy_attempts?: number; v2_correct_count?: number };
-    const accuracyAttempts = v2Entry.accuracy_attempts ?? 0;
-    const v2Correct = v2Entry.v2_correct_count ?? 0;
-    return {
-      ...entry,
-      accuracyAttempts,
-      accuracyCorrect: v2Correct,
-      accuracy: accuracyAttempts > 0
-        ? Math.round((v2Correct / accuracyAttempts) * 100)
-        : entry.total_attempts > 0
-          ? Math.round((entry.correct_count / entry.total_attempts) * 100)
-          : null,
-    };
-  });
 
   // Student notes map: studentId → note body
   const studentNotesMap: Record<string, string> = {};
@@ -174,8 +148,8 @@ export default async function ControlRoomPage({
     <div className="max-w-5xl space-y-6">
       {/* Header */}
       <div>
-        <Link href={`/classes/${params.classId}/control-room`} className="inline-flex items-center gap-1 text-sm text-lc-text3 hover:text-lc-blue transition-colors mb-3">
-          ← Control Room
+        <Link href={`/classes/${params.classId}#students`} className="inline-flex items-center gap-1 text-sm text-lc-text3 hover:text-lc-blue transition-colors mb-3">
+          ← Class and students
         </Link>
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -233,44 +207,6 @@ export default async function ControlRoomPage({
 
           <RoundsBreakdown rows={roundsBreakdownRows} />
 
-          {/* Leaderboard */}
-          <Surface variant="card">
-            <div className="flex items-center gap-2 mb-4">
-              <Trophy className="w-4 h-4 text-lc-text3 shrink-0" />
-              <h2 className="font-semibold text-lc-text">Leaderboard</h2>
-              <span className="ml-auto text-xs text-lc-text3">
-                Top accuracy ≥{TOP_ACCURACY_THRESHOLD}%
-              </span>
-            </div>
-            {leaderboardWithAccuracy.length === 0 ? (
-              <p className="text-lc-text3 text-sm">No scoring data yet</p>
-            ) : (
-              <div className="space-y-1">
-                {leaderboardWithAccuracy.map((entry, i) => (
-                  <div key={entry.student_id} className="flex items-center gap-3 py-2 border-b border-lc-border-subtle last:border-0">
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
-                      i === 0 ? 'bg-yellow-500/20 text-yellow-400' :
-                      i === 1 ? 'bg-slate-400/20 text-slate-300' :
-                      i === 2 ? 'bg-amber-600/20 text-amber-500' : 'bg-lc-surface text-lc-text3'
-                    }`}>
-                      {i + 1}
-                    </span>
-                    <span className="flex-1 text-sm font-medium text-lc-text">{entry.student_name}</span>
-                    <span className="text-xs text-lc-text3 tabular-nums">
-                      {entry.accuracyAttempts > 0 ? `${entry.accuracyCorrect}/${entry.accuracyAttempts}` : '—'}
-                    </span>
-                    <span className={`text-xs font-semibold w-10 text-right tabular-nums ${accuracyColor(entry.accuracy)}`}>
-                      {entry.accuracy !== null ? `${entry.accuracy}%` : '—'}
-                    </span>
-                    {entry.best_streak >= 2 && (
-                      <span className="text-xs text-lc-warn">🔥{entry.best_streak}</span>
-                    )}
-                    <span className="text-sm font-bold text-lc-blue w-16 text-right tabular-nums">{entry.total_points} pts</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </Surface>
         </div>
 
         {/* Right column */}

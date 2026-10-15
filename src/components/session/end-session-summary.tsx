@@ -645,7 +645,7 @@ export function EndSessionSummary({
             href={`/classes/${classId}/sessions/${sessionId}/control-room`}
             className="inline-flex items-center justify-center rounded-xl border border-lc-border bg-lc-surface px-4 py-2 text-sm font-medium text-lc-text2 transition-all hover:bg-lc-card focus:outline-none focus:ring-2 focus:ring-lc-blue-glow"
           >
-            Control Room
+            Lesson details
           </Link>
         </div>
           </motion.div>

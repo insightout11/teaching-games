@@ -315,12 +315,6 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
                 </span>
                 <span className="flex-1 text-sm text-lc-text">{s.name}</span>
                 <button
-                  onClick={() => setReportStudent(s)}
-                  className="text-lc-text3/50 hover:text-lc-blue opacity-0 group-hover:opacity-100 transition-opacity text-xs"
-                >
-                  Progress report
-                </button>
-                <button
                   onClick={() => removeStudent(s.id)}
                   className="text-lc-danger/60 hover:text-lc-danger opacity-0 group-hover:opacity-100 transition-opacity text-xs"
                 >

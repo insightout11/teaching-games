@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
+import { createServiceClient } from '@/lib/supabase/service';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
@@ -43,6 +44,15 @@ export async function POST(request: NextRequest) {
 
   if (!studentId || !classId) {
     return NextResponse.json({ error: 'Missing studentId or classId' }, { status: 400 });
+  }
+
+  // Progress reports are part of Pro (pricing page): checked here, not only hidden in the page.
+  if (process.env.NEXT_PUBLIC_MOCK_MODE !== 'true') {
+    const { data: tier } = await createServiceClient().rpc('get_teacher_credits', { teacher_id: teacher.id });
+    const info = tier?.[0] as { is_pro?: boolean; is_developer?: boolean } | undefined;
+    if (!info?.is_pro && !info?.is_developer) {
+      return NextResponse.json({ error: 'Progress reports are part of Pro.', code: 'PRO_REQUIRED' }, { status: 403 });
+    }
   }
 
   const limited = await checkAndRecordAiUsage(teacher);
