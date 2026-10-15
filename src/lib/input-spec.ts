@@ -364,6 +364,7 @@ export interface ReadAloudQueueEntry {
 
 // Submission handler result from games
 export interface SubmissionResult {
+  skipped?: boolean;
   isCorrect: boolean | null;
   points: number;
   feedback?: string;

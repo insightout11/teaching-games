@@ -341,6 +341,7 @@ export function GameShell({ game, config, preGeneratedContent, timerSeconds, onR
           submission.content,
           { gameKey: game.key, submissionId: submission.id }
         );
+        if (result.skipped) return;
         handlerIsCorrect = result.isCorrect;
         handlerOutcome = result.outcome;
         handlerIsEmpty = result.isEmpty;

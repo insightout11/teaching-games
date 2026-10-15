@@ -78,6 +78,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
   const [currentChallenge, setCurrentChallenge] = useState<Challenge | null>(null);
   const [studentSentence, setStudentSentence] = useState('');
+  const [heldSentences, setHeldSentences] = useState<Array<{ name: string; show: () => void; skip?: () => void }>>([]);
+  const holdingTurnRef = useRef(false);
   const [evaluation, setEvaluation] = useState<EvaluationResult | null>(null);
   const [showExample, setShowExample] = useState(false);
   const [showRule, setShowRule] = useState(true);
@@ -138,8 +140,6 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
   // Race submission handler
   const handleRaceSubmission = useCallback(async (vote: GameRemoteVote) => {
-    if (raceFinishedRef.current) return;
-
     const ch = currentChallengeRef.current;
     if (!ch) return;
 
@@ -204,6 +204,11 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionSettings.difficulty, onScore]);
 
+  const holdRaceSubmission = useCallback((vote: GameRemoteVote) => {
+    if (raceFinishedRef.current || !currentChallengeRef.current || !vote.choice?.trim()) return;
+    setHeldSentences((prev) => [...prev, { name: vote.displayName, show: () => { void handleRaceSubmission(vote); } }]);
+  }, [handleRaceSubmission, raceFinishedRef]);
+
   // Turn-based vote handler
   const handleTurnBasedVote = useCallback((vote: GameRemoteVote) => {
     if (statusRef.current !== GameStatus.CHALLENGE_READY) return;
@@ -214,7 +219,9 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     const studentId = vote.studentId || vote.clientId;
     if (!studentId) return;
 
-    evaluateTurnBased(sentence, studentId, vote.displayName);
+    if (holdingTurnRef.current) return;
+    holdingTurnRef.current = true;
+    setHeldSentences([{ name: vote.displayName, show: () => { void evaluateTurnBased(sentence, studentId, vote.displayName); } }]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -270,12 +277,12 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   // Register remote vote handler
   useEffect(() => {
     if (isSimultaneous) {
-      onRegisterRemoteVoteHandler?.(handleRaceSubmission);
+      onRegisterRemoteVoteHandler?.(holdRaceSubmission);
     } else {
       onRegisterRemoteVoteHandler?.(handleTurnBasedVote);
     }
     return () => onRegisterRemoteVoteHandler?.(null);
-  }, [isSimultaneous, onRegisterRemoteVoteHandler, handleRaceSubmission, handleTurnBasedVote]);
+  }, [isSimultaneous, onRegisterRemoteVoteHandler, holdRaceSubmission, handleTurnBasedVote]);
 
   // Register submission handler (turn-based fallback)
   useEffect(() => {
@@ -286,6 +293,12 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
       handleSubmission: async (content: string) => {
         const ch = currentChallengeRef.current;
         if (!ch) return { isCorrect: false, points: 1, feedback: 'No active challenge' };
+
+        const show = await new Promise<boolean>((resolve) => {
+          holdingTurnRef.current = true;
+          setHeldSentences([{ name: currentStudent?.name || 'student', show: () => resolve(true), skip: () => resolve(false) }]);
+        });
+        if (!show) return { isCorrect: null, points: 0, skipped: true };
 
         try {
           const response = await fetch('/api/grammar-boss/evaluate', {
@@ -315,9 +328,11 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     });
 
     return () => onRegisterSubmissionHandler?.(null);
-  }, [isSimultaneous, sessionSettings.difficulty, onRegisterSubmissionHandler]);
+  }, [isSimultaneous, sessionSettings.difficulty, onRegisterSubmissionHandler, currentStudent?.name]);
 
   const handleGenerate = async () => {
+    holdingTurnRef.current = false;
+    setHeldSentences([]);
     if (!isSimultaneous && !currentStudentId) {
       onPickStudent();
       return;
@@ -371,6 +386,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
   };
 
   const handleSameChallenge = () => {
+    holdingTurnRef.current = false;
+    setHeldSentences([]);
     setStudentSentence('');
     setEvaluation(null);
     setShowExample(false);
@@ -544,6 +561,24 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
     );
   };
 
+  const heldCard = heldSentences[0] && (
+    <div className="glass p-6 rounded-2xl border border-white/10 space-y-3">
+      <p>Sentence from {heldSentences[0].name} received</p>
+      <div className="flex gap-3">
+        <KitButton onClick={() => {
+          const held = heldSentences[0];
+          setHeldSentences((prev) => prev.slice(1));
+          held.show();
+        }}>Show it</KitButton>
+        <KitButton onClick={() => {
+          heldSentences[0].skip?.();
+          if (isSimultaneous) setHeldSentences((prev) => prev.slice(1));
+          else handleSameChallenge();
+        }}>Skip</KitButton>
+      </div>
+    </div>
+  );
+
   // ============ SIMULTANEOUS RACE MODE ============
   if (isSimultaneous) {
     const sortedSolvers = [...raceSolvers].sort((a, b) => b.avgScore - a.avgScore);
@@ -573,6 +608,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
           </div>
         )}
 
+        {heldCard}
         {status === GameStatus.GENERATING && <GenerationLoader label="challenge" />}
         {error && <p className="rounded-xl border border-rose-300/30 bg-rose-400/10 px-4 py-3 text-rose-100">{error}</p>}
 
@@ -699,7 +735,8 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
 
       {error && <div className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl">{error}</div>}
 
-      {status === GameStatus.CHALLENGE_READY && currentChallenge && (
+      {heldCard}
+      {status === GameStatus.CHALLENGE_READY && currentChallenge && heldSentences.length === 0 && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
           {renderChallengeCard()}
           <div className="flex flex-col items-center gap-4 py-6">
@@ -709,7 +746,7 @@ export function GrammarBossGame({ currentStudentId, students, onScore, onPickStu
               <div className="w-3 h-3 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
             </div>
             <p className="text-cyan-400 font-semibold">Waiting for student to type on their device...</p>
-            <p className="text-xs text-slate-500">The student&apos;s response will appear here automatically</p>
+            <p className="text-xs text-slate-500">A received sentence waits for you to show it</p>
           </div>
           <div className="flex justify-between items-center">
             <button onClick={handleGenerate} className="text-sm text-slate-400 hover:text-white transition-colors">Skip Question</button>
