@@ -26,14 +26,14 @@ const ORIGIN_ID = 'madrid';
 const LABELLED = new Set(['london', 'rome', 'cairo', 'moscow', 'dakar', 'lagos', 'new-york', 'dubai', 'nairobi', 'miami', 'delhi']);
 
 const REAL = [
-  { icon: Route, title: 'A real route', body: 'The plane follows the true path between the two cities, at the pace of your lesson.' },
+  { icon: Route, title: 'A real route', body: 'The plane follows the true path between the two cities, at the pace of your lesson, and the class sees what it will pass on the way.' },
   { icon: MapPin, title: 'What is below you', body: 'The room names the place you are flying over right now: “the Massif Central, France”.' },
   { icon: CloudSun, title: 'Today’s weather', body: 'Cloud, rain or snow outside the window is the live weather at that spot.' },
   { icon: Clock3, title: 'The real time and sun', body: 'Local time on the ground, with sunset and night where they truly are.' },
 ];
 
 const BULLETS = [
-  { title: 'A stamp for every city', body: `${WORLD_DESTINATIONS.length} cities, each with its own scene, and its own video and reading lessons if you want them.` },
+  { title: 'A stamp and souvenirs in every city', body: `${WORLD_DESTINATIONS.length} cities, each with its own scene, souvenirs to collect, a postcard home from the class, and its own video and reading lessons.` },
   { title: 'The class chooses the next stop', body: 'At landing the class sees what it improved, gets its stamp, and votes on where the next lesson flies.' },
   { title: 'Stars the class earns together', body: 'One when the class takes part, one for a strong lesson.' },
   { title: 'Expeditions and missions', body: 'Themed routes across cities, and design missions built from what the class discovered.' },

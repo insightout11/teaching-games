@@ -45,7 +45,7 @@ const ROWS: Array<[string, string | boolean, string | boolean]> = [
   ['Use the live room, every game and every flight', true, true],
   ['Start from any topic, video, article or page', true, true],
   ['Have any YouTube video read in full during the lesson, so its activities follow what it says (library videos are ready on every plan)', false, true],
-  ['Fly World Flight: stamps, planes, expeditions', true, true],
+  ['Fly World Flight: stamps, souvenirs, postcards, planes, expeditions', true, true],
   ['Have students join free, with no accounts', true, true],
   ['Build multi-lesson courses', false, true],
   ['Turn your own books into reading courses', false, true],
