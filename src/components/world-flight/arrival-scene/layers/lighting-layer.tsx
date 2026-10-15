@@ -23,31 +23,58 @@ export function SunRays(props: SceneLayerProps) {
   const { palette, idPrefix, ambient, sun } = props;
   const { time, warm, open } = mood(props);
   if (!sun || time === 'night' || open <= 0) return null;
-  const rays = Array.from({ length: 6 }, (_, i) => {
-    const spread = (i - 2.5) * 0.34;
-    const reach = 1500 + (i % 3) * 260;
-    return { x2: sun.x + Math.sin(spread) * reach, y2: sun.y + Math.cos(spread) * reach * 0.62, w: 70 + (i % 3) * 36, dur: 7 + i * 1.7, o: 0.55 + (i % 2) * 0.3 };
+  // Real sunbeams through haze: many narrow shafts of uneven width and strength with uneven gaps, soft-edged, faint
+  // near the glare of the sun itself, strongest a little way out and fading long before their ends; a soft bloom
+  // sits on the sun. Laid out once per scene from its id, so a city always has the same rays.
+  let seed = 2166136261;
+  for (let i = 0; i < idPrefix.length; i++) seed = Math.imul(seed ^ idPrefix.charCodeAt(i), 16777619);
+  const rnd = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+  const rays = Array.from({ length: 15 }, (_, i) => {
+    // Spread across a wide fan pointing down and away from the sun, never evenly spaced.
+    const spread = (i / 14 - 0.5) * 2.5 + (rnd() - 0.5) * 0.16;
+    const reach = 1100 + rnd() * 900;
+    return {
+      x2: sun.x + Math.sin(spread) * reach,
+      y2: sun.y + Math.cos(spread) * reach * 0.7,
+      w: 18 + rnd() * rnd() * 120, // mostly thin, a few broad
+      strength: 0.35 + rnd() * 0.65,
+      dur: 9 + rnd() * 9,
+    };
   });
+  const peak = 0.26 + warm * 0.22;
   return (
-    <g aria-hidden style={{ mixBlendMode: 'screen' }} opacity={open * (0.3 + warm * 0.7)}>
+    <g aria-hidden style={{ mixBlendMode: 'screen' }} opacity={open * (0.45 + warm * 0.55)}>
       <defs>
+        <filter id={`${idPrefix}-raysoft`} x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="9" />
+        </filter>
+        <radialGradient id={`${idPrefix}-sunbloom`} gradientUnits="userSpaceOnUse" cx={sun.x} cy={sun.y} r={360}>
+          <stop offset="0" stopColor={palette.lightColor} stopOpacity={0.42 + warm * 0.2} />
+          <stop offset="0.25" stopColor={palette.lightColor} stopOpacity={0.16 + warm * 0.08} />
+          <stop offset="1" stopColor={palette.lightColor} stopOpacity="0" />
+        </radialGradient>
         {rays.map((r, i) => (
           <linearGradient key={i} id={`${idPrefix}-ray-${i}`} gradientUnits="userSpaceOnUse" x1={sun.x} y1={sun.y} x2={r.x2} y2={r.y2}>
-            <stop offset="0" stopColor={palette.lightColor} stopOpacity={0.22 + warm * 0.2} />
+            <stop offset="0" stopColor={palette.lightColor} stopOpacity="0" />
+            <stop offset="0.12" stopColor={palette.lightColor} stopOpacity={peak * r.strength} />
+            <stop offset="0.55" stopColor={palette.lightColor} stopOpacity={peak * r.strength * 0.45} />
             <stop offset="1" stopColor={palette.lightColor} stopOpacity="0" />
           </linearGradient>
         ))}
       </defs>
-      {rays.map((r, i) => {
-        const poly = <polygon points={`${sun.x - 6},${sun.y} ${sun.x + 6},${sun.y} ${r.x2 + r.w},${r.y2} ${r.x2 - r.w},${r.y2}`} fill={`url(#${idPrefix}-ray-${i})`} />;
-        return ambient ? (
-          <motion.g key={i} animate={{ opacity: [r.o * 0.4, r.o, r.o * 0.4] }} transition={{ duration: r.dur, repeat: Infinity, ease: 'easeInOut' }}>
-            {poly}
-          </motion.g>
-        ) : (
-          <g key={i} opacity={r.o * 0.7}>{poly}</g>
-        );
-      })}
+      <circle cx={sun.x} cy={sun.y} r={360} fill={`url(#${idPrefix}-sunbloom)`} />
+      <g filter={`url(#${idPrefix}-raysoft)`}>
+        {rays.map((r, i) => {
+          const poly = <polygon points={`${sun.x - 2},${sun.y} ${sun.x + 2},${sun.y} ${r.x2 + r.w},${r.y2} ${r.x2 - r.w},${r.y2}`} fill={`url(#${idPrefix}-ray-${i})`} />;
+          return ambient ? (
+            <motion.g key={i} animate={{ opacity: [0.55, 1, 0.55] }} transition={{ duration: r.dur, repeat: Infinity, ease: 'easeInOut', delay: (i % 5) * 0.8 }}>
+              {poly}
+            </motion.g>
+          ) : (
+            <g key={i} opacity={0.85}>{poly}</g>
+          );
+        })}
+      </g>
     </g>
   );
 }
