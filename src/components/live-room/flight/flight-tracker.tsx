@@ -50,6 +50,8 @@ export function FlightTracker({ origin, destination, progress, minutesLeft, belo
   const planeEl = useRef<HTMLDivElement | null>(null);
   const [ready, setReady] = useState(false);
   const t = Math.min(1, Math.max(0, progress));
+  const showPreview = preview.length > 1;
+  const [following, setFollowing] = useState(true);
 
   // Route points, unwrapped across the antimeridian so the line stays continuous.
   const route = useMemo<Coord[]>(() => {
@@ -76,9 +78,17 @@ export function FlightTracker({ origin, destination, progress, minutesLeft, belo
       center: [0, 20],
       zoom: 1,
       attributionControl: false,
-      interactive: false,
+      // Draggable and zoomable in the full view; the corner widget stays a still picture.
+      interactive: !compact,
+      minZoom: 1,
+      maxZoom: 8,
       renderWorldCopies: true,
     });
+    if (!compact) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    // Once the teacher moves the map, it stops re-framing itself on every tick (Re-centre brings that back).
+    const mine = (e: { originalEvent?: unknown }) => { if (e.originalEvent) setFollowing(false); };
+    map.on('dragstart', mine);
+    map.on('zoomstart', mine);
     map.on('load', () => {
       map.addSource('route-rest', { type: 'geojson', data: asData(lineFeature([])) });
       map.addSource('route-done', { type: 'geojson', data: asData(lineFeature([])) });
@@ -109,17 +119,25 @@ export function FlightTracker({ origin, destination, progress, minutesLeft, belo
     const here = route[Math.min(STEPS, cut)];
     const next = route[Math.min(STEPS, cut + 1)] ?? here;
     planeRef.current?.setLngLat(here).setRotation(bearing({ lng: here[0], lat: here[1] }, { lng: next[0], lat: next[1] }));
+    if (!following) return;
     const lngs = route.map((c) => c[0]);
     const lats = route.map((c) => c[1]);
-    map.fitBounds([[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]], { padding: compact ? 24 : 70, duration: 0, maxZoom: 5 });
-  }, [ready, route, t, compact]);
+    // Keep the route (and the plane) clear of the cards: Today's route on the left, the arrival and distances below.
+    const box = map.getContainer().getBoundingClientRect();
+    const card = !compact && showPreview ? Math.min(320, box.width * 0.46) + 30 : 0;
+    const padding = compact ? 24 : { left: Math.max(70, card), right: 70, top: 70, bottom: 110 };
+    map.fitBounds([[Math.min(...lngs), Math.min(...lats)], [Math.max(...lngs), Math.max(...lats)]], { padding, duration: 0, maxZoom: 5 });
+  }, [ready, route, t, compact, showPreview, following]);
 
   const flownKm = Math.round(totalKm * t);
   const leftKm = Math.max(0, Math.round(totalKm - flownKm));
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-2xl">
-      <div ref={box} className="absolute inset-0" />
+      <div ref={box} className="absolute inset-0 [&_.maplibregl-ctrl-top-right]:!top-12" />
+      {!compact && !following && (
+        <button type="button" onClick={() => setFollowing(true)} className="absolute right-3 top-[7.5rem] rounded-lg border border-white/20 bg-slate-950/80 px-2.5 py-1 text-xs text-white/85 backdrop-blur-md hover:text-white">Re-centre</button>
+      )}
       {!compact && preview.length > 1 && (
         <div className="pointer-events-none absolute left-3 top-3 w-[min(320px,46%)] rounded-xl border border-white/15 bg-slate-950/80 px-4 py-3 backdrop-blur-md">
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-amber-300">Today&apos;s route</p>
