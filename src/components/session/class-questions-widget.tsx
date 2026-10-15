@@ -6,9 +6,7 @@ import { isMockMode } from '@/lib/mock/auth';
 import type { StudentSubmission } from '@/lib/supabase/types';
 import { useFocusBus } from '@/stores/focus-bus-store';
 
-// Class Questions widget — teacher-side moderation UI.
-// Pending section: auto-opens when questions arrive; inline ✓/✗ per row + Publish all.
-// Published section: shows questions visible to students, with vote counts, AI draft, and remove.
+// Pending messages are read in the private pop-out.
 
 interface ClassQuestionsContentProps {
   sessionId: string;
@@ -27,14 +25,11 @@ interface DraftResult {
   teacherTip?: string;
 }
 
-const MAX_PUBLISHED = 5;
-
 export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnswer }: ClassQuestionsContentProps) {
   const [pending, setPending] = useState<StudentSubmission[]>([]);
   const makeFocus = useFocusBus((s) => s.makeFocus);
   const [published, setPublished] = useState<PublishedQuestion[]>([]);
-  const [pendingOpen, setPendingOpen] = useState(false);
-  const [publishingIds, setPublishingIds] = useState<Set<string>>(new Set());
+  const [popupBlocked, setPopupBlocked] = useState(false);
   const [answerOpen, setAnswerOpen] = useState<Record<string, boolean>>({});
   const [answerText, setAnswerText] = useState<Record<string, string>>({});
   const [draftLoading, setDraftLoading] = useState<Record<string, boolean>>({});
@@ -82,11 +77,6 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
 
     return () => window.clearInterval(pollTimer);
   }, [loadQuestions]);
-
-  // Auto-open pending section when questions arrive
-  useEffect(() => {
-    if (pending.length > 0) setPendingOpen(true);
-  }, [pending.length]);
 
   // Realtime subscription
   useEffect(() => {
@@ -138,38 +128,10 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
     return () => { supabase.removeChannel(channel); };
   }, [sessionId, supabase, loadQuestions]);
 
-  const handlePublishOne = async (id: string) => {
-    if (published.length >= MAX_PUBLISHED) return;
-    setPublishingIds((prev) => new Set(prev).add(id));
-    const now = new Date().toISOString();
-    await supabase
-      .from('student_submissions')
-      .update({ published_to_class: true, published_at: now })
-      .eq('id', id);
-    setPublishingIds((prev) => { const n = new Set(prev); n.delete(id); return n; });
-    loadQuestions();
-  };
-
-  const handlePublishAll = async () => {
-    const slots = MAX_PUBLISHED - published.length;
-    if (slots <= 0) return;
-    const toPublish = pending.slice(0, slots).map((s) => s.id);
-    if (toPublish.length === 0) return;
-    const now = new Date().toISOString();
-    await supabase
-      .from('student_submissions')
-      .update({ published_to_class: true, published_at: now })
-      .in('id', toPublish);
-    loadQuestions();
-  };
-
-  const handleReject = async (id: string) => {
-    await supabase
-      .from('student_submissions')
-      .update({ status: 'rejected' })
-      .eq('id', id);
-
-    setPending((prev) => prev.filter((s) => s.id !== id));
+  const openPrivateInbox = () => {
+    const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources?tab=messages#messages`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
+    setPopupBlocked(!popup);
+    popup?.focus();
   };
 
   const handleMarkAnswered = async (id: string) => {
@@ -237,124 +199,15 @@ export function ClassQuestionsContent({ sessionId, topic, difficulty, onShowAnsw
     }
   };
 
-  const atLimit = published.length >= MAX_PUBLISHED;
-
   return (
     <div className="p-3 space-y-3 text-sm">
 
-      {/* ── PENDING SECTION ── */}
-      <div>
-        <div className="flex items-center justify-between py-1">
-          <button
-            onClick={() => setPendingOpen((o) => !o)}
-            className="flex items-center gap-1.5 text-xs font-semibold text-lc-text2 uppercase tracking-wider hover:text-lc-text transition-colors"
-          >
-            <svg className={`w-3 h-3 transition-transform ${pendingOpen ? '' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
-            <span>Pending ({pending.length})</span>
-          </button>
-
-          {pending.length > 1 && !atLimit && (
-            <button
-              onClick={handlePublishAll}
-              className="text-xs font-medium text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 hover:border-emerald-400/50 hover:bg-emerald-500/10 px-2 py-0.5 rounded transition-colors"
-            >
-              Publish all
-            </button>
-          )}
-        </div>
-
-        {pendingOpen && (
-          <div className="mt-2 space-y-2">
-            {pending.length === 0 ? (
-              <p className="text-lc-text3 text-xs py-2 text-center">No pending questions</p>
-            ) : (
-              pending.map((sub) => (
-                <div
-                  key={sub.id}
-                  className="p-2 rounded-lg border bg-lc-surface border-lc-border space-y-2"
-                >
-                  <div className="flex items-start gap-2">
-                    <span className="flex-1 text-lc-text leading-snug break-words">{sub.content}</span>
-                    <div className="flex-shrink-0 flex gap-1">
-                      {makeFocus && (
-                      <button
-                        onClick={() => makeFocus({ title: sub.content, credit: sub.display_name ?? undefined })}
-                        title="Make this the class topic (Live Room)"
-                        className="text-xs px-1.5 py-0.5 rounded border text-amber-300 border-amber-400/30 hover:bg-amber-400/10 transition-colors"
-                      >
-                        Topic
-                      </button>
-                    )}
-                      <button
-                        onClick={() => setAnswerOpen((o) => ({ ...o, [sub.id]: !o[sub.id] }))}
-                        title="Answer privately"
-                        className={`w-7 h-7 flex items-center justify-center rounded-lg border transition-colors ${
-                          answerOpen[sub.id]
-                            ? 'text-cyan-300 border-cyan-400/40 bg-cyan-500/15'
-                            : 'text-cyan-400 border-cyan-500/25 hover:bg-cyan-500/15 hover:border-cyan-400/50'
-                        }`}
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 8h10M7 12h6m-6 8l4-4h6a4 4 0 004-4V8a4 4 0 00-4-4H7a4 4 0 00-4 4v4a4 4 0 004 4" />
-                        </svg>
-                      </button>
-                      {/* Approve */}
-                      <button
-                        onClick={() => handlePublishOne(sub.id)}
-                        disabled={atLimit || publishingIds.has(sub.id)}
-                        title="Share with class"
-                        className="w-7 h-7 flex items-center justify-center rounded-lg border text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/15 hover:border-emerald-400/50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                        </svg>
-                      </button>
-                      {/* Reject */}
-                      <button
-                        onClick={() => handleReject(sub.id)}
-                        title="Dismiss"
-                        className="w-7 h-7 flex items-center justify-center rounded-lg border text-red-400 border-red-500/30 hover:bg-red-500/15 hover:border-red-400/50 transition-colors"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                  {answerOpen[sub.id] && (
-                    <div className="space-y-2">
-                      <textarea
-                        value={answerText[sub.id] ?? ''}
-                        onChange={(e) => setAnswerText((t) => ({ ...t, [sub.id]: e.target.value }))}
-                        placeholder="Answer privately to this student..."
-                        rows={3}
-                        className="w-full bg-lc-bg/70 border border-lc-border rounded-lg px-2 py-1.5 text-xs text-lc-text placeholder:text-lc-text3 resize-none focus:outline-none focus:border-cyan-400/50"
-                      />
-                      <div className="flex flex-wrap gap-2">
-                        <button
-                          onClick={() => getAIDraft(sub.id, sub.content)}
-                          disabled={draftLoading[sub.id]}
-                          className="text-xs px-2 py-1 rounded border text-purple-400 border-purple-500/20 hover:border-purple-400/40 hover:bg-purple-500/10 transition-colors disabled:opacity-50"
-                        >
-                          {draftLoading[sub.id] ? 'Drafting...' : 'Draft answer'}
-                        </button>
-                        <button
-                          onClick={() => handleSendPrivateAnswer(sub.id)}
-                          disabled={!answerText[sub.id]?.trim() || privateSending[sub.id]}
-                          className="text-xs px-2 py-1 rounded border text-cyan-300 border-cyan-500/25 hover:border-cyan-400/50 hover:bg-cyan-500/10 transition-colors disabled:opacity-50"
-                        >
-                          {privateSending[sub.id] ? 'Sending...' : 'Send privately'}
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))
-            )}
-          </div>
-        )}
+      <div className="space-y-2">
+        <p>{pending.length} new message{pending.length === 1 ? '' : 's'}</p>
+        <button onClick={openPrivateInbox} className="text-xs px-2 py-1 rounded border border-lc-border">
+          Open private inbox
+        </button>
+        {popupBlocked && <p>Allow pop-ups for LessonCaptain to read messages privately.</p>}
       </div>
 
       {/* ── PUBLISHED SECTION ── */}
