@@ -749,8 +749,8 @@ export function FlightDeck({
     const parts = [chasing ? 'chasing the sun' : null, named ? featureText(named) : region, overText].filter((p): p is string => !!p);
     const overCity = nearest && nearest.km < 30 ? nearest.name : null;
     // Each part of the line as something the class can learn about (tap it to make it the topic).
-    const items: Array<{ text: string; topic: string | null }> = [
-      ...(chasing ? [{ text: 'chasing the sun', topic: null }] : []),
+    const items: Array<{ text: string; topic: string | null; about?: string }> = [
+      ...(chasing ? [{ text: 'chasing the sun', topic: 'Chasing the sun', about: CHASING_THE_SUN }] : []),
       ...(named ? [{ text: featureText(named), topic: named.name }] : region ? [{ text: region, topic: region }] : []),
       ...(overText && nearest ? [{ text: overText, topic: nearest.name }] : []),
     ];
@@ -764,7 +764,7 @@ export function FlightDeck({
     lastCountry.current = countryNow; // null over sea, so reaching a coast later is not "crossing" anything
   }, [countryNow]);
   const crossingNow = crossing && now < crossing.until ? crossing : null;
-  const belowItems: Array<{ text: string; topic: string | null }> = [
+  const belowItems: Array<{ text: string; topic: string | null; about?: string }> = [
     ...(crossingNow ? [{ text: `crossing into ${crossingNow.name}`, topic: crossingNow.name }] : []),
     ...place.items,
     ...(!crossingNow && place.country ? [{ text: place.country, topic: place.country }] : []),
@@ -1875,7 +1875,7 @@ export function FlightDeck({
                 <span key={`${it.text}-${i}`}>
                   {i > 0 && ' · '}
                   {it.topic ? (
-                    <button type="button" onClick={() => { makeFocus({ title: it.topic! }); flash(`New topic: ${it.topic}`); }} title={`Make ${it.topic} the topic`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{it.text}</button>
+                    <button type="button" onClick={() => { makeFocus({ title: it.topic!, ...(it.about ? { text: it.about } : {}) }); flash(`New topic: ${it.topic}`); }} title={`Make ${it.topic} the topic`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{it.text}</button>
                   ) : it.text}
                 </span>
               ))}
@@ -2677,6 +2677,8 @@ const FLIGHT_WIDGET = 'flight-tracker';
 const QR_WIDGET = 'boarding-qr';
 const DECK_WIDGET_IDS = [...WIDGET_REGISTRY.map((w) => w.id), FLIGHT_WIDGET, QR_WIDGET];
 const ROOM_PINS_KEY = 'room-pins';
+// What "chasing the sun" means, so the topic's summary explains the real thing (not a song or a film of that name).
+const CHASING_THE_SUN = 'Chasing the sun: the plane is flying west at about the same speed as the sun seems to move across the sky. The Earth turns from west to east, so places further west reach sunset later. Flying west fast enough, a plane keeps up with the sunset, and the sun seems to stay at the same height for a long time: the class is flying through a long sunset (or a long morning). Jets flying west across oceans often do this.';
 const stopTopic = (text: string) => text.replace(/^(Cross into|Over|Pass near|Near|Land in)\s+/i, '');
 const PIN_PROMPTS = ['Where are you right now?', 'A place you would love to visit', 'Where were you born?'];
 const PIN_COLORS = ['#fb7185', '#f59e0b', '#34d399', '#60a5fa', '#a78bfa', '#f472b6', '#22d3ee', '#facc15'];
