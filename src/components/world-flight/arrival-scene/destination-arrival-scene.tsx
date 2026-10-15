@@ -199,6 +199,10 @@ export function DestinationArrivalScene({
       role="img"
       aria-label={`Arrival scene for ${destinationId}`}
     >
+      {/* Landing overscan: the landing camera tilts, zooms and pans after the plane, and on a wide window the
+          canvas already fills the width, so the moves pulled the canvas edge into view (a bare strip at the side).
+          A slight extra zoom keeps scene beyond every edge. */}
+      <g transform={mode === 'arrival' ? `translate(${VIEWBOX.w / 2} ${VIEWBOX.h * 0.62}) scale(1.09) translate(${-VIEWBOX.w / 2} ${-VIEWBOX.h * 0.62})` : undefined}>
       <g transform={cameraTransform} data-cinematic-camera>
       {/* Full-canvas: sky (tier 1) */}
       {!transparentSky && <AtmosphereLayer {...propsFor('atmosphere')} />}
@@ -243,6 +247,7 @@ export function DestinationArrivalScene({
       <g transform={focal}><PlaneLayer {...propsFor('plane')} planeKey={planeKey} /></g>
       {/* Weather: precipitation + lightning, full-canvas, in front of the scene */}
       <WeatherLayer {...propsFor('weather')} />
+      </g>
       </g>
       <CinematicOverlay {...propsFor('cinematic-overlay')} />
     </svg>
