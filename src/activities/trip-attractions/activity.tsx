@@ -279,7 +279,11 @@ export function TripAttractionsActivity({
             boardKey={BOARD_KEY}
             presetKey={PRESET_KEY}
             zonesOverride={attractionZones}
-            includePending
+            pendingControls={(count, showAll) => (
+              <button type="button" onClick={showAll} disabled={count === 0} className="rounded-xl border border-cyan-300/30 px-4 py-2 text-sm text-cyan-200 disabled:opacity-40">
+                Show new notes ({count})
+              </button>
+            )}
           />
         </div>
       ) : (

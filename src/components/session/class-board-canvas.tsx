@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Plus, Check, X, EyeOff, Zap, CircleDot, Sparkles, Wand2, Shapes, Crosshair, Archive } from 'lucide-react';
 import { useFocusBus } from '@/stores/focus-bus-store';
@@ -41,6 +41,7 @@ interface ClassBoardCanvasProps {
    * swallow the notes, so the canvas renders pending items as normal cards.
    */
   includePending?: boolean;
+  pendingControls?: (count: number, showAll: () => void) => ReactNode;
 }
 
 interface BoardItem {
@@ -89,7 +90,7 @@ function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   }
 }
 
-export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false, zonesOverride, includePending = false }: ClassBoardCanvasProps) {
+export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false, zonesOverride, includePending = false, pendingControls }: ClassBoardCanvasProps) {
   const templateLocked = Boolean(presetKey);
   const [selectedPresetKey, setSelectedPresetKey] = useState(presetKey ?? DEFAULT_CLASS_BOARD_PRESET_KEY);
   // AI: a board designed for the current topic (fresh board) and theme sections (same board).
@@ -751,6 +752,12 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
           ))}
         </div>
       )}
+
+      {pendingControls?.(items.filter((item) => item.visibility === 'pending').length, () => {
+        items.filter((item) => item.visibility === 'pending').forEach((item) => {
+          void patchItem(item.id, { visibility: 'visible' });
+        });
+      })}
 
       {/* Board modes */}
       <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
