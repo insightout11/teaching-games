@@ -746,16 +746,15 @@ export function FlightDeck({
       ? `${nearest.name} is ${nearest.km} km ${sideOf(nearest) === 'ahead' ? 'ahead' : `off to the ${sideOf(nearest)}`}`
       : null;
     // Parts of "Below us: …", most specific first; the country follows (or a border crossing), then a distant city.
-    const parts = [chasing ? 'chasing the sun' : null, named ? featureText(named) : region, overText].filter((p): p is string => !!p);
+    const parts = [named ? featureText(named) : region, overText].filter((p): p is string => !!p);
     const overCity = nearest && nearest.km < 30 ? nearest.name : null;
     // Each part of the line as something the class can learn about (tap it to make it the topic).
     const items: Array<{ text: string; topic: string | null; about?: string }> = [
-      ...(chasing ? [{ text: 'chasing the sun', topic: 'Chasing the sun', about: CHASING_THE_SUN }] : []),
       ...(named ? [{ text: featureText(named), topic: named.name }] : region ? [{ text: region, topic: region }] : []),
       ...(overText && nearest ? [{ text: overText, topic: nearest.name }] : []),
     ];
     return { parts, items, offText, offTopic: offText && nearest ? nearest.name : null, country: countryNow, fallback: below.name, overCity, overTown: !overCity && below.terrain === 'farmland' ? townNear(below.point) : null };
-  }, [around, countryNow, below, chasing]);
+  }, [around, countryNow, below]);
   // Crossing a border shows in the same line for a little while: no pop-up, no interruption.
   const lastCountry = useRef<string | null>(null);
   const [crossing, setCrossing] = useState<{ name: string; until: number } | null>(null);
@@ -1879,6 +1878,12 @@ export function FlightDeck({
                   ) : it.text}
                 </span>
               ))}
+              {chasing && (
+                <>
+                  {' · '}
+                  <button type="button" onClick={() => { makeFocus({ title: 'Chasing the sun', text: CHASING_THE_SUN }); flash('New topic: Chasing the sun'); }} title="What does chasing the sun mean?" className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">We&apos;re chasing the sun</button>
+                </>
+              )}
               {nextStop && (
                 <>
                   {' · Next: '}
