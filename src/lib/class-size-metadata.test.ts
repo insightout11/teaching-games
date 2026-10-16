@@ -20,7 +20,8 @@ describe('class-size metadata', () => {
     // Oct 2026: Picture Quiz and Picture Stories (Junior) added.
     // Oct 2026: Team Debate retired into Tag-team Debate.
     // Oct 2026: Grammar Clarify retired into Grammar Spotlight.
-    expect(registryKeys).toHaveLength(78);
+    // Oct 2026: Contribution Break retired (Final Answer covers written contributions).
+    expect(registryKeys).toHaveLength(77);
     expect(registryKeys.filter((key) => !getClassSizeMetadata(key))).toEqual([]);
     expect(FLIGHT_PLAN_ITEMS).toHaveLength(50);
     expect(FLIGHT_PLAN_ITEMS.filter((item) => !item.idealClassSizes || !item.minStudents)).toEqual([]);
