@@ -684,14 +684,25 @@ export function FlightDeck({
   const sceneZoom = zoomLayout && windWidth > 0 ? Math.min(1.6, Math.max(1, Math.min(windWidth / 1050, windHeight > 0 ? windHeight / 720 : 9))) : 1;
   // Browser full screen: no tabs, address bar or taskbar.
   const [fullScreen, setFullScreen] = useState(false);
+  // Opening the Sources window always ends page full screen (the browser does it). Offer the way back.
+  const [fullScreenLost, setFullScreenLost] = useState(false);
+  const leftOnPurpose = useRef(false);
+  const popupOpened = useRef(false);
   useEffect(() => {
-    const on = () => setFullScreen(!!document.fullscreenElement);
+    const on = () => {
+      const now = !!document.fullscreenElement;
+      setFullScreen(now);
+      if (now) setFullScreenLost(false);
+      else if (popupOpened.current) setFullScreenLost(true);
+      leftOnPurpose.current = false;
+      popupOpened.current = false;
+    };
     document.addEventListener('fullscreenchange', on);
     return () => document.removeEventListener('fullscreenchange', on);
   }, []);
   const toggleFullScreen = () => {
     try {
-      if (document.fullscreenElement) void document.exitFullscreen();
+      if (document.fullscreenElement) { leftOnPurpose.current = true; void document.exitFullscreen(); }
       else void document.documentElement.requestFullscreen();
     } catch { /* not allowed here */ }
   };
@@ -1057,6 +1068,7 @@ export function FlightDeck({
   }, [sessionId, present, addItem, makeFocus]);
 
   const openPopout = () => {
+    popupOpened.current = !!document.fullscreenElement;
     const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
     if (popup) popup.focus();
     else setPanel('sources');
@@ -1066,10 +1078,12 @@ export function FlightDeck({
   // the private window on its Board tab (for the teacher).
   const openBoardApprovals = (x: number, y: number) => {
     openTool('class-board', x, y);
+    popupOpened.current = !!document.fullscreenElement;
     const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources?tab=board#board`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
     popup?.focus();
   };
   const openMessages = (x: number, y: number) => {
+    popupOpened.current = !!document.fullscreenElement;
     const popup = window.open(`/sessions/${encodeURIComponent(sessionId)}/sources?tab=messages#messages`, `lc-sources-${sessionId}`, 'popup,width=480,height=860');
     if (popup) popup.focus();
     else openTool('class-questions', x, y);
@@ -2251,9 +2265,16 @@ export function FlightDeck({
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
-        <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave)" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+        <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave). Tip: F11 stays full screen even when the Sources window opens." className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           {fullScreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />} {fullScreen ? 'Exit full screen' : 'Full screen'}
         </button>
+        {fullScreenLost && !fullScreen && (
+          <div className="fixed bottom-24 left-1/2 z-[75] flex -translate-x-1/2 items-center gap-2 rounded-full border border-sky-300/50 bg-slate-950/90 py-1.5 pl-4 pr-1.5 text-sm text-sky-50 shadow-xl backdrop-blur-md">
+            Full screen ended when another window opened.
+            <button type="button" onClick={toggleFullScreen} className="flex items-center gap-1.5 rounded-full bg-sky-300 px-3 py-1 text-xs font-semibold text-slate-950"><Expand className="h-3.5 w-3.5" /> Back to full screen</button>
+            <button type="button" onClick={() => setFullScreenLost(false)} aria-label="Dismiss" className="px-1 text-white/60 hover:text-white"><X className="h-4 w-4" /></button>
+          </div>
+        )}
         {flightStage === 'gate' && stayHome && (
           <button
             type="button"
