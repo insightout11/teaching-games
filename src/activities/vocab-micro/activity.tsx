@@ -6,6 +6,8 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Radio } from 'lucide-react';
+import { useSessionStore } from '@/stores/session-store';
+import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 import type { ActivityProps, VocabMicroContent } from '../types';
 
 type Phase = 'idle' | 'voting' | 'reveal';
@@ -13,6 +15,7 @@ type VocabVote = { clientId: string; studentId: string | null; displayName: stri
 
 export function VocabMicroActivity({
   generatedContent,
+  students,
   onPhaseChange,
   onSetInputSpec,
   onRegisterRemoteVoteHandler,
@@ -21,10 +24,12 @@ export function VocabMicroActivity({
   const content = generatedContent as VocabMicroContent;
   const options = useMemo(() => content?.options ?? [], [content]);
   const correct = options[content?.correctIndex ?? 0];
+  const recordFeature = useSessionStore((s) => s.recordFeature);
 
   const [phase, setPhase] = useState<Phase>('idle');
   const [votes, setVotes] = useState<VocabVote[]>([]);
   const [scored, setScored] = useState(false);
+  const [speakerDone, setSpeakerDone] = useState(false);
 
   useEffect(() => {
     if (phase === 'voting') {
@@ -58,8 +63,8 @@ export function VocabMicroActivity({
 
   const countFor = useCallback((opt: string) => votes.filter((v) => v.choice === opt).length, [votes]);
 
-  const startVoting = useCallback(() => { setVotes([]); setPhase('voting'); onPhaseChange?.('voting'); }, [onPhaseChange]);
-  const endVoting = useCallback(() => { setPhase('reveal'); onPhaseChange?.('reveal'); }, [onPhaseChange]);
+  const startVoting = useCallback(() => { setVotes([]); setScored(false); setSpeakerDone(false); setPhase('voting'); onPhaseChange?.('voting'); }, [onPhaseChange]);
+  const endVoting = useCallback(() => { setSpeakerDone(false); setPhase('reveal'); onPhaseChange?.('reveal'); }, [onPhaseChange]);
 
   const done = useCallback(async () => {
     if (!scored && onScore) {
@@ -139,19 +144,31 @@ export function VocabMicroActivity({
               >
                 REVEAL ANSWER
               </button>
-            ) : (
+            ) : speakerDone ? (
               <button
                 onClick={done}
                 className="rounded-xl bg-gradient-to-r from-sky-500 to-cyan-600 px-10 py-4 font-game text-lg text-white shadow-lg transition-all hover:scale-105 active:scale-95"
               >
                 DONE
               </button>
-            )}
+            ) : null}
           </div>
         </motion.div>
       )}
 
-      {phase === 'reveal' && (content?.explanation || content?.example) && (
+      {phase === 'reveal' && !speakerDone && (
+        <NextSpeakerStep
+          task={`Say your own sentence with \u201c${content.word}\u201d`}
+          students={students}
+          onSpoke={(student) => {
+            recordFeature(student.id);
+            void onScore?.({ studentId: student.id, clientId: null, displayName: student.name, promptIndex: 2, points: 2, isCorrect: null });
+          }}
+          onDone={() => setSpeakerDone(true)}
+        />
+      )}
+
+      {phase === 'reveal' && speakerDone && (content?.explanation || content?.example) && (
         <div className="glass space-y-1 rounded-2xl border border-amber-400/30 p-5">
           <p className="text-xs uppercase tracking-widest opacity-50">{content.word}</p>
           {content.explanation && <p className="text-sm">{content.explanation}</p>}
