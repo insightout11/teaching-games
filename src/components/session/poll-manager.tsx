@@ -28,6 +28,12 @@ const BAR_COLORS = ['#67e8f9', '#c4b5fd', '#6ee7b7', '#fcd34d', '#fda4af', '#93c
 
 export function PollContent({ sessionId }: PollContentProps) {
   const [activePoll, setActivePoll] = useState<Poll | null>(null);
+  // A live poll asks phones for an answer: the shared screen says so.
+  const setPhoneAsk = useFocusBus((s) => s.setPhoneAsk);
+  useEffect(() => {
+    setPhoneAsk('poll', !!activePoll);
+    return () => setPhoneAsk('poll', false);
+  }, [activePoll, setPhoneAsk]);
   const [isCreating, setIsCreating] = useState(false);
   const [question, setQuestion] = useState('');
   const [type, setType] = useState<(typeof TYPES)[number]['key']>('yesno');

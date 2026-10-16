@@ -27,6 +27,9 @@ interface FocusBusState {
   flyTo: ((city: string) => void) | null;
   /** Big idea or Deep dive: the teacher's choice for how far into the topic itself the class goes. */
   depth: 'big' | 'deep';
+  /** Tools that ask phones for something outside the input spec (a live poll), for the "On your phones" banner. */
+  phoneAsks: string[];
+  setPhoneAsk: (key: string, on: boolean) => void;
   setDepth: (depth: 'big' | 'deep') => void;
   setFlyTo: (fn: ((city: string) => void) | null) => void;
 }
@@ -40,6 +43,12 @@ export const useFocusBus = create<FocusBusState>((set) => ({
   setContext: (context) => set({ context }),
   flyTo: null,
   depth: 'big',
+  phoneAsks: [],
+  setPhoneAsk: (key, on) => set((st) => {
+    const has = st.phoneAsks.includes(key);
+    if (on === has) return st;
+    return { phoneAsks: on ? [...st.phoneAsks, key] : st.phoneAsks.filter((k) => k !== key) };
+  }),
   setDepth: (depth) => set({ depth }),
   setFlyTo: (flyTo) => set({ flyTo }),
 }));

@@ -1877,7 +1877,6 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (!mounted) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
-      <PhonesNowBanner />
         <SkyBackground intensity="subtle" />
         <div className="relative z-10 flex items-center justify-center pt-24">
           <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />
@@ -2224,6 +2223,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   return (
     <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+      <PhonesNowBanner />
       {roomActive && roomModuleEl && (
         <div className="fixed inset-0 z-40 bg-lc-bg">
           <FlightDeck
