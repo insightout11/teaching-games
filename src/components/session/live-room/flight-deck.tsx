@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { Expand, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -679,7 +679,22 @@ export function FlightDeck({
   const [railPinned, setRailPinned] = useState(false);
   const railTimer = useRef<number | null>(null);
   const windWidth = useSnapZones((st) => st.windRect?.width ?? 0);
-  const sceneZoom = zoomLayout && windWidth > 0 ? Math.min(1.6, Math.max(1, windWidth / 1050)) : 1;
+  const windHeight = useSnapZones((st) => st.windRect?.height ?? 0);
+  // Grow with the windscreen, but never taller than it (a wide, short screen cut the boarding card off).
+  const sceneZoom = zoomLayout && windWidth > 0 ? Math.min(1.6, Math.max(1, Math.min(windWidth / 1050, windHeight > 0 ? windHeight / 720 : 9))) : 1;
+  // Browser full screen: no tabs, address bar or taskbar.
+  const [fullScreen, setFullScreen] = useState(false);
+  useEffect(() => {
+    const on = () => setFullScreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', on);
+    return () => document.removeEventListener('fullscreenchange', on);
+  }, []);
+  const toggleFullScreen = () => {
+    try {
+      if (document.fullscreenElement) void document.exitFullscreen();
+      else void document.documentElement.requestFullscreen();
+    } catch { /* not allowed here */ }
+  };
   const openRail = (which: 'cargo' | 'cabin') => {
     if (railTimer.current) window.clearTimeout(railTimer.current);
     setRailOpen(which);
@@ -1408,7 +1423,7 @@ export function FlightDeck({
   let scene: ReactNode;
   if (view === 'boarding') {
     scene = (
-      <div className="flex flex-wrap items-center justify-center gap-8 rounded-3xl border border-white/15 bg-slate-950/60 px-8 py-7 backdrop-blur-md">
+      <div className="flex max-h-full flex-wrap items-center justify-center gap-8 overflow-y-auto rounded-3xl border border-white/15 bg-slate-950/60 px-8 py-7 backdrop-blur-md">
         <span className="relative rounded-2xl bg-white p-3">
           <QRCodeSVG value={joinUrl} size={176} level="M" includeMargin={false} />
           {!presenting && (
@@ -2235,6 +2250,9 @@ export function FlightDeck({
         )}
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
+        </button>
+        <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave)" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+          {fullScreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />} {fullScreen ? 'Exit full screen' : 'Full screen'}
         </button>
         {flightStage === 'gate' && stayHome && (
           <button
