@@ -7,7 +7,46 @@ import type { SentenceEvaluationResult } from '@/games/grid-rush/types';
 
 export const maxDuration = 60;
 
-const WORD_COUNT_CAP_THRESHOLD = 8;  // sentences under this word count are capped at 2
+// A complete sentence has a subject and a verb, at any length.
+const COMMON_VERBS = [
+  'am', 'is', 'are', 'was', 'were', 'been', 'being', 'be',
+  'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
+  'can', 'could', 'should', 'may', 'might', 'must', 'shall',
+  'go', 'goes', 'went', 'gone', 'come', 'comes', 'came',
+  'see', 'sees', 'saw', 'seen', 'like', 'likes', 'liked',
+  'love', 'loves', 'loved', 'play', 'plays', 'played',
+  'run', 'runs', 'ran', 'walk', 'walks', 'walked',
+  'eat', 'eats', 'ate', 'eaten', 'make', 'makes', 'made',
+  'take', 'takes', 'took', 'taken', 'get', 'gets', 'got',
+  'give', 'gives', 'gave', 'know', 'knows', 'knew', 'known',
+  'think', 'thinks', 'thought', 'feel', 'feels', 'felt',
+  'say', 'says', 'said', 'live', 'lives', 'lived',
+  'work', 'works', 'worked', 'study', 'studies', 'studied',
+  'learn', 'learns', 'learned', 'teach', 'teaches', 'taught',
+  'speak', 'speaks', 'spoke', 'spoken', 'write', 'writes', 'wrote', 'written',
+  'read', 'reads', 'use', 'uses', 'used', 'try', 'tries', 'tried',
+];
+
+function isCompleteSentence(sentence: string): boolean {
+  const trimmed = (sentence || '').trim();
+  if (!trimmed) return false;
+  const last = trimmed.charAt(trimmed.length - 1);
+  if (last !== '.' && last !== '!' && last !== '?') return false;
+  const words = trimmed.split(/\s+/).filter(Boolean);
+  if (words.length < 2) return false;
+  const first = words[0].charAt(0);
+  if (first !== first.toUpperCase() || first.toLowerCase() === first.toUpperCase()) {
+    // First token must start with an uppercase letter.
+    if (!(first >= 'A' && first <= 'Z')) return false;
+  }
+  for (let i = 0; i < words.length; i++) {
+    const clean = words[i].toLowerCase().replace(/[^a-z]/g, '');
+    if (!clean) continue;
+    if (COMMON_VERBS.indexOf(clean) !== -1) return true;
+    if (clean.length > 3 && (clean.slice(-2) === 'ed' || clean.slice(-3) === 'ing')) return true;
+  }
+  return false;
+}
 
 const difficultyLabels: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1)',
@@ -57,9 +96,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 2. Word count check — cap score at 2 if sentence is too short
-    const wordCount = trimmed.split(/\s+/).filter(Boolean).length;
-    const isTooShort = wordCount < WORD_COUNT_CAP_THRESHOLD;
+    // 2. Complete-sentence check — a subject and a verb, at any length.
+    const complete = isCompleteSentence(trimmed);
 
     // Past the cheap checks — this will hit the AI. Enforce the free-tier weekly cap.
     const limited = await checkAndRecordAiUsage(teacher);
@@ -72,15 +110,17 @@ Student's Round 1 words (they must use 2+): ${studentWords.join(', ')}
 Words found in sentence: ${wordsFound.join(', ')}
 Sentence: "${trimmed}"
 
+The sentence must be a complete sentence: it needs a subject and a verb that uses the word. Accept any length — a short complete sentence beats a long fragment.
 Score the sentence from 1 to 5 using these strict criteria:
-- 5: Grammatically correct, coherent, natural phrasing, words used meaningfully in context, relevant to topic
-- 4: Mostly correct with minor errors, words used appropriately
-- 3: Understandable but noticeable grammar issues or slightly unnatural phrasing
-- 2: Significant grammar problems or words used incorrectly/awkwardly
+- 5: Complete sentence, grammatically correct, coherent, natural phrasing, words used meaningfully in context, relevant to topic
+- 4: Complete sentence, mostly correct with minor errors, words used appropriately
+- 3: Complete sentence but understandable with noticeable grammar issues or slightly unnatural phrasing
+- 2: Not a complete sentence, or significant grammar problems, or words used incorrectly/awkwardly
 - 1: Barely coherent, words crammed in without meaningful context
 
 IMPORTANT RULES:
-- A score of 5 requires genuine grammatical correctness AND natural expression. Do NOT give 5 for anything with errors.
+- A score of 5 requires a complete sentence AND genuine grammatical correctness AND natural expression. Do NOT give 5 for anything with errors or without a subject and a verb.
+- A fragment without a subject and a verb scores at most 2, however long it is.
 - Penalise sentences that are nonsense filler or that merely list words without forming a real thought.
 - Be appropriately lenient for the difficulty level (${difficultyLabels[difficulty]}).
 - Provide encouraging but honest feedback (max 20 words).`;
@@ -94,8 +134,8 @@ IMPORTANT RULES:
     // Clamp score to 1-5
     let score = Math.max(1, Math.min(5, Math.round(result.score)));
 
-    // Apply soft minimum length cap
-    if (isTooShort && score > 2) {
+    // A fragment without a subject and a verb scores at most 2, at any length.
+    if (!complete && score > 2) {
       score = 2;
     }
 
