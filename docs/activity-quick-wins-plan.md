@@ -5,10 +5,8 @@ Written 16 October 2026 by Claude, from `docs/activity-quality-audit-report.md` 
 ## How the owner teaches (read first; the audit missed the second point)
 
 - One shared window (the lesson screen) on Zoom or a projector. Everything on it is seen by the class. Never show answers or private information there.
-- **There is no pair work. Ever.** No "say it to a partner", no pairs, no breakout rooms. Speaking happens in one of three ways only:
-  1. **The teacher calls on a student**: the screen names who speaks (a random pick from the students who are present, or the student who answered).
-  2. **Turns**: each student in order.
-  3. **On phones**: the phone shows "Say it out loud, then tap" with one button, **I said it**. No typing.
+- **There is no pair work. Ever.** No "say it to a partner", no pairs, no breakout rooms. Speaking happens one student at a time, out loud, with the class listening: the screen names who speaks next.
+- **No "I said it" buttons.** A tap that only claims a student spoke is pointless (the teacher hears them). The phone is not used for speaking steps.
 - The teacher does not use a phone during lessons. Each change adds at most one tap for the teacher.
 - Lucide icons only, never emoji. Short plain wording. Junior classes (`useSessionStore((s) => s.junior)`) are never ranked.
 
@@ -19,29 +17,30 @@ Written 16 October 2026 by Claude, from `docs/activity-quality-audit-report.md` 
 - Before each commit: `npx tsc --noEmit -p .` (only allowed error: `src/lib/sources/extractor.ts` missing `@mozilla/readability`), `pnpm next lint --file <each changed file>`, `pnpm test` (only allowed failing file: `src/__tests__/sources/source-extractor.test.ts`). ES5 target: no `/u` regex, no iterating a `Set`/`Map` directly.
 - If a step below does not fit the code as you find it, do the closest small version and say so in the report. Do not redesign.
 
-## The shared "Say it" step (build first, use in items 2–7)
+## The shared "Next speaker" step (build first, use in items 2–7)
 
-One small shared piece, so every activity's speaking step looks and works the same:
+One small shared piece, so every activity's speaking moment looks and works the same:
 
-- `src/components/session/say-it-step.tsx`: shows on the lesson screen a short instruction ("Use “harbour” in a sentence about your town"), the names of students who have tapped **I said it** (as small chips, no order, no counts compared), an optional **Pick a student** button (random pick from present students, shows the name large), and **Next**. Present students come from the activity's existing `students`/participants.
-- The phone side: set the input spec to the existing `confirm` type with the instruction as the prompt and the confirm button labelled `I said it` (the spec already has the field `buttonLabel` for this). Collect taps with the activity's existing remote vote handler. Clear the spec on Next.
+- `src/components/session/next-speaker-step.tsx`, on the lesson screen: the speaking task in large type ("Use “harbour” in a sentence about your town"), **one student's name, large**, and two buttons: **Next speaker** (another name, same task) and **Done** (back to the activity).
+- Who is named: a student who is present and has not been named yet in this lesson; when everyone has been named, start again. Students named least recently come first, so quiet students are not skipped. An activity can pass a preferred first name (for example the student who solved a group).
+- Each name shown counts as that student taking part (feed the existing participation/score path the activities already use for spoken turns, so the Everyone Aboard star sees it). No typing, no phone step: clear any phone input while the step is showing.
 - Never shows anything a student typed.
 
 ## The changes
 
-1. **The Say it step** (above), with a short unit test for any pure helper you add (for example the random pick never returning a student who is absent).
+1. **The Next speaker step** (above), with a unit test for the picking helper: never an absent student, nobody twice before everyone has had a turn, least recent first.
 
-2. **Connections** (`src/games/connections/`): when a group is solved, before showing the next round, show the Say it step: "Why do these four belong together?" with the solver's name as the one called. Teacher taps Next.
+2. **Connections** (`src/games/connections/`): when a group is solved, before showing the next round, show the Next speaker step: "Why do these four belong together?" with the solver as the first speaker.
 
-3. **Sentence Scramble** (`src/games/sentence-scramble/`): after the correct order is shown, the Say it step: "Change one detail so it's true for you, and say it." Phones get **I said it**; the teacher can Pick a student to say theirs aloud.
+3. **Sentence Scramble** (`src/games/sentence-scramble/`): after the correct order is shown, the Next speaker step: "Change one detail so it's true for you, and say it."
 
-4. **VocabSprint** (`src/games/vocab-sprint/`): after each item's answer is revealed, the Say it step: "Use “{word}” in a sentence." The student(s) who chose that word are named; the teacher calls one.
+4. **VocabSprint** (`src/games/vocab-sprint/`): after each item's answer is revealed, the Next speaker step: "Use “{word}” in a sentence." A student who chose that word speaks first.
 
-5. **Static** (`src/activities/static/`): after the wrong word is revealed, the Say it step: "Read the corrected message aloud." The teacher picks one student to read it.
+5. **Static** (`src/activities/static/`): after the wrong word is revealed, the Next speaker step: "Read the corrected message aloud."
 
-6. **Comms Check** (`src/activities/vocab-micro/`, key `vocab-micro`): do not show the example sentence at first. Show the Say it step ("Say your own sentence with “{word}”") first; the example appears only after Next.
+6. **Comms Check** (`src/activities/vocab-micro/`, key `vocab-micro`): do not show the example sentence at first. Show the Next speaker step ("Say your own sentence with “{word}”") first; the example appears only after Done.
 
-7. **Situation Check** (`src/activities/speak-check/`, key `speak-check`): before the four replies appear, a 10-second Say it step: "What would you say? Say it out loud." Then the existing choice appears as now.
+7. **Situation Check** (`src/activities/speak-check/`, key `speak-check`): before the four replies appear, the Next speaker step: "What would you say?" One or two students answer out loud; then the existing choice appears on phones as now.
 
 8. **GridRush** (`src/games/grid-rush/`): in the sentence phase, replace the fixed minimum-length target with "a complete sentence": accept any sentence with a subject and a verb that uses the word, at any length. Keep everything else, including the Junior result screen.
 
