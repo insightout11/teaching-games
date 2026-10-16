@@ -24,7 +24,7 @@ Written 16 October 2026 by Claude, from `docs/activity-quality-audit-report.md` 
 One small shared piece, so every activity's speaking step looks and works the same:
 
 - `src/components/session/say-it-step.tsx`: shows on the lesson screen a short instruction ("Use “harbour” in a sentence about your town"), the names of students who have tapped **I said it** (as small chips, no order, no counts compared), an optional **Pick a student** button (random pick from present students, shows the name large), and **Next**. Present students come from the activity's existing `students`/participants.
-- The phone side: set the input spec to the existing `confirm` type with the instruction as the prompt and the confirm button labelled `I said it` (the spec already has a confirm-button label field; use it). Collect taps with the activity's existing remote vote handler. Clear the spec on Next.
+- The phone side: set the input spec to the existing `confirm` type with the instruction as the prompt and the confirm button labelled `I said it` (the spec already has the field `buttonLabel` for this). Collect taps with the activity's existing remote vote handler. Clear the spec on Next.
 - Never shows anything a student typed.
 
 ## The changes
