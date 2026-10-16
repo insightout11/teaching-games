@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Eye, Flame, Headphones, RotateCcw, Snail, Volume2, Zap } from 'lucide-react';
 import type { ActivityProps, StaticContent } from '../types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 import { speak, warmUpSpeech } from '@/lib/speech';
 import { useSessionStore } from '@/stores/session-store';
 
@@ -31,7 +32,7 @@ function Sentence({ text, target, swap, revealed }: { text: string; target: stri
   );
 }
 
-export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange, isMicroEvent }: ActivityProps) {
+export function StaticActivity({ generatedContent, students, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange, isMicroEvent }: ActivityProps) {
   const content = generatedContent as StaticContent;
   const all = content.rounds ?? [];
   const rounds = isMicroEvent ? all.slice(0, 3) : all;
@@ -45,6 +46,8 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
   const [streaks, setStreaks] = useState<Record<string, { name: string; now: number; best: number }>>({});
   const scoredRef = useRef<Set<number>>(new Set());
   const recordStruggle = useSessionStore((s) => s.recordStruggle);
+  const recordFeature = useSessionStore((s) => s.recordFeature);
+  const [speakerDone, setSpeakerDone] = useState(false);
   const token = useRef(0);
 
   const round = rounds[idx];
@@ -88,6 +91,7 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
     setIdx(i);
     setBallots([]);
     setPlays(0);
+    setSpeakerDone(false);
     setPhase('round');
     onPhaseChange?.('round');
     // Straight in: the voice starts a beat after the sentence appears.
@@ -211,6 +215,18 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
         </p>
       )}
 
+      {revealed && !speakerDone && (
+        <NextSpeakerStep
+          task="Read the corrected message aloud."
+          students={students}
+          onSpoke={(student) => {
+            recordFeature(student.id);
+            void onScore?.({ studentId: student.id, clientId: null, displayName: student.name, promptIndex: idx + 1, points: 2, isCorrect: null });
+          }}
+          onDone={() => setSpeakerDone(true)}
+        />
+      )}
+
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap gap-2">
           <KitButton tone="rose" onClick={() => (playing ? stop() : play(round.spoken))} icon={<RotateCcw className="h-3.5 w-3.5" />}>{playing ? 'Stop' : revealed ? 'Hear it again' : 'Play again'}</KitButton>
@@ -219,7 +235,9 @@ export function StaticActivity({ generatedContent, onSetInputSpec, onRegisterRem
           {plays > 0 && <span className="self-center font-mono text-xs uppercase tracking-[0.12em] text-white/45">played {plays}×</span>}
         </div>
         {revealed
-          ? <KitButton tone="rose" solid onClick={next} className="!px-5 !py-2 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{idx + 1 < rounds.length ? 'Next' : 'Finish'}</KitButton>
+          ? (speakerDone
+            ? <KitButton tone="rose" solid onClick={next} className="!px-5 !py-2 !text-sm" icon={<ArrowRight className="h-4 w-4" />}>{idx + 1 < rounds.length ? 'Next' : 'Finish'}</KitButton>
+            : null)
           : <KitButton tone="emerald" solid onClick={reveal} className="!px-5 !py-2 !text-sm" icon={<Eye className="h-4 w-4" />}>Reveal</KitButton>}
       </div>
     </div>
