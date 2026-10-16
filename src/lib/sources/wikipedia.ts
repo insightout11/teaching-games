@@ -18,7 +18,7 @@ export interface WikiReference {
 
 const API = 'https://en.wikipedia.org/w/api.php';
 const HEADERS = { 'User-Agent': 'LessonCaptain/1.0 (https://lessoncaptain.com; matt@lessoncaptain.com)' };
-const MAX_TEXT = 3500;
+const MAX_TEXT = 6000;
 
 const norm = (s: string) => s.toLowerCase().replace(/\([^)]*\)/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 
@@ -41,10 +41,14 @@ export function kindFromDescription(desc: string): ReferenceKind {
 
 /** Splits a plain-text Wikipedia extract into its lead and `== Section ==` parts. */
 export function splitSections(extract: string): { lead: string; sections: Array<{ name: string; body: string }> } {
-  const parts = extract.split(/\n={2,}\s*([^=\n]+?)\s*={2,}\n/);
+  // Top-level sections only: a sub-section (=== 2021–2022: Sour ===) stays inside its parent (Career).
+  const parts = extract.split(/\n==(?!=)\s*([^=\n]+?)\s*==(?!=)\n/);
   const lead = (parts[0] ?? '').trim();
   const sections: Array<{ name: string; body: string }> = [];
-  for (let i = 1; i < parts.length; i += 2) sections.push({ name: parts[i].trim(), body: (parts[i + 1] ?? '').trim() });
+  for (let i = 1; i < parts.length; i += 2) {
+    const body = (parts[i + 1] ?? '').replace(/\n={3,}\s*([^=\n]+?)\s*={3,}\n/g, '\n$1:\n').trim();
+    sections.push({ name: parts[i].trim(), body });
+  }
   return { lead, sections };
 }
 
@@ -102,6 +106,14 @@ export async function lookupWikipedia(topic: string): Promise<WikiReference | nu
         const held = holdBackEnding(body);
         body = held.story;
         ending = held.ending;
+      } else if (body.length > 1200) {
+        // A long section in parts (Career: 2015–2019, 2020–2022: Sour, ...): the start of every part, so the
+        // recent years are not cut off by the early ones.
+        body = body.split(/\n(?=[^\n]{3,90}:\n)/).map((chunk) => {
+          if (chunk.length <= 500) return chunk.trim();
+          const cut = chunk.slice(0, 500);
+          return cut.slice(0, Math.max(cut.lastIndexOf('. ') + 1, 200)).trim();
+        }).join('\n');
       }
       parts.push(`${s.name}:\n${body}`);
     }
