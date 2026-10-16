@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useDragControls, useReducedMotion } from 'framer-motion';
 import { BookOpen, Hand, LogOut, MessageCircle, X } from 'lucide-react';
 
@@ -41,13 +41,16 @@ export function buzz(pattern: number | readonly number[]) {
 /** Buzz when the phone starts wanting something, or confirms it got it. */
 export function useStatusBuzz(status: PhoneStatus) {
   const prev = useRef<PhoneStatus | null>(null);
+  // iPhones cannot vibrate, so the whole screen flashes too.
+  const [flash, setFlash] = useState(0);
   useEffect(() => {
     const was = prev.current;
     prev.current = status;
     if (was === null || was === status) return;
-    if (status === 'your-turn' || status === 'vote') buzz(BUZZ.yourTurn);
+    if (status === 'your-turn' || status === 'vote') { buzz(BUZZ.yourTurn); setFlash((n) => n + 1); }
     else if (status === 'sent') buzz(BUZZ.sent);
   }, [status]);
+  return flash;
 }
 
 export function BoardingHeader({
@@ -70,8 +73,21 @@ export function BoardingHeader({
 }) {
   const s = STATUS[status];
   const reduce = useReducedMotion();
-  useStatusBuzz(status);
+  const flash = useStatusBuzz(status);
   return (
+    <>
+    <AnimatePresence>
+      {flash > 0 && !reduce && (
+        <motion.div
+          key={flash}
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-[60] border-[10px] border-amber-300 bg-amber-300/25"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0.3, 1, 0] }}
+          transition={{ duration: 1.4, times: [0, 0.15, 0.4, 0.6, 1] }}
+        />
+      )}
+    </AnimatePresence>
     <header className="sticky top-0 z-30 -mx-3 -mt-3 mb-3 border-b-2 border-dashed border-lc-border bg-lc-card px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] backdrop-blur sm:-mx-4 sm:-mt-4">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
@@ -110,6 +126,7 @@ export function BoardingHeader({
         </p>
       )}
     </header>
+    </>
   );
 }
 

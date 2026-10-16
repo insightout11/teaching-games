@@ -50,7 +50,7 @@ export function ReadAloudActivity({
 }: ActivityProps) {
   const content = generatedContent as ReadAloudContent;
   const {
-    sourceText = '',
+    sourceText: rawSourceText = '',
     sourceTitle = 'Text',
     readingTurnWords,
     sourceCitations = [],
@@ -63,6 +63,15 @@ export function ReadAloudActivity({
     passages,
   } = content;
   const hasQuestions = comprehensionQuestions.length > 0;
+  // Topic notes carry "Question: ..." lines. They are asked after reading, never read aloud.
+  const { sourceText, afterQuestions } = useMemo(() => {
+    const lines = rawSourceText.split(/\r?\n/);
+    const isQ = (l: string) => /^\s*(question|discussion question|q)\s*\d*\s*[:.)-]/i.test(l);
+    return {
+      sourceText: lines.filter((l) => !isQ(l)).join('\n').trim(),
+      afterQuestions: lines.filter(isQ).map((l) => l.replace(/^\s*[^:.)-]*[:.)-]\s*/, '').trim()).filter(Boolean),
+    };
+  }, [rawSourceText]);
 
   // Class version (level-adapted) + safety check, prepared once.
   const [classVersion, setClassVersion] = useState<{ text: string; safe: boolean; note: string } | null>(null);
@@ -376,6 +385,14 @@ export function ReadAloudActivity({
           <KitButton tone="emerald" solid className="w-full py-3 text-sm" icon={<ListChecks className="h-4 w-4" />} onClick={() => setPhase('quiz')}>
             Comprehension questions ({comprehensionQuestions.length})
           </KitButton>
+        )}
+        {afterQuestions.length > 0 && (
+          <div className="space-y-2 rounded-2xl border border-white/12 bg-black/20 p-4 text-left">
+            <KitLabel tone="cyan">Talk about it</KitLabel>
+            <ol className="list-decimal space-y-1.5 pl-5 text-lg text-white/85">
+              {afterQuestions.map((q) => <li key={q}>{q}</li>)}
+            </ol>
+          </div>
         )}
         {discussionPrompt && !hasQuestions && <p className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80">Talk about it: {discussionPrompt}</p>}
         <PredictionReveal results={predictionResults} />

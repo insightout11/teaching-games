@@ -702,9 +702,8 @@ export async function GET(request: NextRequest) {
           .or(personalScoreFilter),
         supabase
           .from('session_leaderboard')
-          .select('total_points')
-          .eq('session_id', sessionId)
-          .order('total_points', { ascending: false }),
+          .select('student_name, total_points')
+          .eq('session_id', sessionId),
         supabase
           .from('student_session_prefs')
           .select('score_visible')
@@ -733,7 +732,14 @@ export async function GET(request: NextRequest) {
       const bestStreak = rows.length > 0 ? Math.max(...rows.map((r) => r.streak_count ?? 0)) : 0;
 
       const scoreVisible = pref?.score_visible !== false;
-      const lbRows = lb ?? [];
+      // One student can score under both their student id and their phone's client id,
+      // which the view returns as two rows. Merge by name so 2 students never read "of 4".
+      const byName = new Map<string, number>();
+      for (const r of (lb ?? []) as Array<{ student_name: string | null; total_points: number }>) {
+        const k = (r.student_name ?? '').trim().toLowerCase() || Math.random().toString();
+        byName.set(k, (byName.get(k) ?? 0) + (r.total_points ?? 0));
+      }
+      const lbRows = Array.from(byName.values()).map((total_points) => ({ total_points }));
       const rank = scoreVisible && lbRows.length > 0
         ? lbRows.filter((e) => e.total_points > leaderboardTotal).length + 1
         : null;

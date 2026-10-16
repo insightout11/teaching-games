@@ -1,5 +1,7 @@
 'use client';
 
+import { PhonesNowBanner } from './phones-now-banner';
+
 import { useEffect, useRef, useState, useCallback, useMemo, type ReactNode } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
@@ -1875,6 +1877,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   if (!mounted) {
     return (
       <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+      <PhonesNowBanner />
         <SkyBackground intensity="subtle" />
         <div className="relative z-10 flex items-center justify-center pt-24">
           <div className="w-12 h-12 border-4 border-cyan-500/10 border-t-cyan-500 rounded-full animate-spin" />

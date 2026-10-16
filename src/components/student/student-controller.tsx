@@ -299,6 +299,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // refreshed student returns to the same standby card instead of a fresh random tip.
   const [tipIndex, setTipIndex] = useState(() => readStoredTipIndex(sessionId));
   const [sessionTopic, setSessionTopic] = useState<string | null>(null);
+  // Every topic this lesson visited, for the arrival card.
+  const [topicsSeen, setTopicsSeen] = useState<string[]>([]);
+  useEffect(() => {
+    if (sessionTopic) setTopicsSeen((prev) => (prev.includes(sessionTopic) ? prev : [...prev, sessionTopic]));
+  }, [sessionTopic]);
   // Default to the most restrictive level until the real difficulty arrives from the
   // session poll. Defaulting to Intermediate briefly admitted idioms/abstract-noun tips
   // into Beginner sessions before the first poll resolved.
@@ -1433,6 +1438,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}
             avatarSeed={studentSession.avatarSeed ?? null}
             topic={sessionTopic}
+            topics={topicsSeen}
             results={personalResults}
             words={(referenceVocab ?? []).map((item) => ({ item, state: phraseState(phraseProgress, phraseHistory, item.word, sessionId) }))}
             debriefUrl={debriefUrl}
