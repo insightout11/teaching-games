@@ -217,6 +217,15 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
         <Plane className="mx-auto h-10 w-10 rotate-45 text-amber-300" />
         <p className="font-display text-5xl">Mystery Flight.</p>
         <p className="mx-auto max-w-xl text-lg text-white/70">We&apos;re flying somewhere secret. Clues arrive as we fly: the weather, the food, a photo, the culture… Talk it through, then pin the city on your phone. Pin early and close for bonus points!</p>
+        <div className="mx-auto max-w-xl rounded-2xl border border-white/12 bg-black/25 p-4 text-left">
+          <KitLabel tone="amber">How to score</KitLabel>
+          <ul className="mt-2 space-y-1.5 text-base text-white/85">
+            <li><b className="text-amber-200">One pin each.</b> Pin once, when you&apos;re ready. You can&apos;t change it.</li>
+            <li><b className="text-amber-200">Close = points.</b> Within {easy ? '300' : '150'} km: 5 · within {easy ? '1,500' : '1,000'} km: 3 · within {easy ? '4,000' : '3,000'} km: 1</li>
+            <li><b className="text-amber-200">Early = bonus.</b> +1 for every clue you didn&apos;t need (up to 5), but only if you pinned within {easy ? '1,500' : '1,000'} km. A wild early guess gets no bonus.</li>
+            <li><b className="text-amber-200">Closest in the class:</b> +2.</li>
+          </ul>
+        </div>
         <div className="flex flex-wrap items-center justify-center gap-2">
           <KitLabel>Who gives clues</KitLabel>
           {([['clues', 'The flight deck'], ['traveller', 'A classmate describes it']] as const).map(([k, label]) => (
