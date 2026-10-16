@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MessageCircle, Check } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
+import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 import type { ActivityProps } from '../types';
 import { bankSituationFor, fallbackSpeakSituation, validSpeakSituation, type SpeakAnswer } from '@/lib/speak-check';
 
@@ -12,20 +13,22 @@ import { bankSituationFor, fallbackSpeakSituation, validSpeakSituation, type Spe
 
 type Phase = 'idle' | 'check' | 'done';
 
-export function SpeakCheckActivity({ generatedContent, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange }: ActivityProps) {
+export function SpeakCheckActivity({ generatedContent, students, onSetInputSpec, onRegisterRemoteVoteHandler, onScore, onPhaseChange }: ActivityProps) {
   const raw = generatedContent as { situation?: unknown; topicContext?: string } | null;
   const [situation] = useState(() => validSpeakSituation(raw) ?? bankSituationFor(raw?.topicContext ?? '') ?? fallbackSpeakSituation(raw?.topicContext ?? ''));
   const setSpeakCheck = useSessionStore((s) => s.setSpeakCheck);
   const recordSpeakAnswer = useSessionStore((s) => s.recordSpeakAnswer);
+  const recordFeature = useSessionStore((s) => s.recordFeature);
   const answered = useSessionStore((s) => Object.keys(s.lessonThread.speakCheck?.before ?? {}).length);
   const [phase, setPhase] = useState<Phase>('idle');
+  const [speakerDone, setSpeakerDone] = useState(false);
   const phaseRef = useRef(phase); phaseRef.current = phase;
   const scored = useRef<Set<string>>(new Set());
 
   useEffect(() => { setSpeakCheck(situation); }, [situation, setSpeakCheck]);
 
   useEffect(() => {
-    if (phase !== 'check') { onSetInputSpec?.(null); return; }
+    if (phase !== 'check' || !speakerDone) { onSetInputSpec?.(null); return; }
     onSetInputSpec?.({
       type: 'confirm',
       gameKey: 'speak-check',
@@ -33,7 +36,7 @@ export function SpeakCheckActivity({ generatedContent, onSetInputSpec, onRegiste
       perStudentData: { __speakcheck: { situation: situation.situation, replies: situation.before.replies, canDo: situation.canDo } },
       stableInput: true,
     });
-  }, [phase, situation, onSetInputSpec]);
+  }, [phase, speakerDone, situation, onSetInputSpec]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   useEffect(() => {
@@ -84,6 +87,18 @@ export function SpeakCheckActivity({ generatedContent, onSetInputSpec, onRegiste
         <p className="text-xs font-bold uppercase tracking-[0.24em] text-cyan-300/70">Speak · Situation check</p>
         <span className="text-sm text-slate-400">{answered} answered</span>
       </div>
+      {!speakerDone && (
+        <NextSpeakerStep
+          task="What would you say?"
+          students={students}
+          onSpoke={(student) => {
+            recordFeature(student.id);
+            void onScore?.({ studentId: student.id, clientId: null, displayName: student.name, promptIndex: 2, points: 2, isCorrect: null });
+          }}
+          onDone={() => setSpeakerDone(true)}
+        />
+      )}
+      {speakerDone && (
       <div className="rounded-2xl border-2 border-cyan-500/30 bg-cyan-500/[0.08] p-6 text-center">
         {situation.pictures?.length ? (
           <div className="flex justify-center gap-3">
@@ -96,9 +111,12 @@ export function SpeakCheckActivity({ generatedContent, onSetInputSpec, onRegiste
         <p className="text-2xl font-game text-white">{situation.situation}</p>
         <p className="mt-3 text-sm text-slate-300">On your phone: which reply would you use, and how confident would you feel?</p>
       </div>
+      )}
+      {speakerDone && (
       <div className="flex justify-end">
         <button onClick={finish} className="rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-game text-sm text-white transition hover:scale-[1.02]">DONE</button>
       </div>
+      )}
     </div>
   );
 }
