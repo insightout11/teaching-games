@@ -11,6 +11,7 @@ import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit
 import { ArrowRight, HeartCrack, Puzzle, Trophy } from 'lucide-react';
 
 import { levelLabel } from '@/lib/difficulty';
+import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 const MAX_LIVES = 4;
 
 function getPositionPoints(position: number): number {
@@ -52,6 +53,7 @@ interface RacePlayer {
 export function ConnectionsGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const lessonKit = useSessionStore((s) => s.lessonKit);
+  const recordFeature = useSessionStore((s) => s.recordFeature);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [challenge, setChallenge] = useState<ConnectionsChallenge | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
@@ -62,6 +64,12 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [shakeWords, setShakeWords] = useState<string[]>([]);
+
+  // Next speaker step: after a group is solved, before the next round.
+  const [speakerOpen, setSpeakerOpen] = useState(false);
+  const [speakerSolverId, setSpeakerSolverId] = useState<string | null>(null);
+  const [pendingWon, setPendingWon] = useState(false);
+  const [raceSpeakerDone, setRaceSpeakerDone] = useState(false);
 
   // Revealed categories in results (click-to-reveal)
   const [revealedCategories, setRevealedCategories] = useState<Set<string>>(new Set());
@@ -103,6 +111,11 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
 
   // Register input spec for student controller
   useEffect(() => {
+    // No typing, no phone step while the Next speaker step is showing.
+    if (speakerOpen) {
+      onSetInputSpec?.(null);
+      return;
+    }
     if (isSimultaneous) {
       // In race mode, broadcast the full puzzle to all students
       if (status === GameStatus.PLAYING && challenge) {
@@ -139,7 +152,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, status, challenge, remainingWords, racePlayers, onSetInputSpec]);
+  }, [isSimultaneous, status, challenge, remainingWords, racePlayers, onSetInputSpec, speakerOpen]);
 
   // Process remote submission (turn-based)
   const processRemoteSubmission = useCallback(async (selectedWords: string[]) => {
@@ -172,7 +185,6 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         if (foundGroups.length + 1 === 4) {
           const finalScore = newScore + 5;
           setScore(finalScore);
-          setStatus(GameStatus.WON);
 
           if (currentStudentId) {
             onScore(currentStudentId, {
@@ -181,7 +193,14 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
               responseData: { groupsFound: 4, livesRemaining: lives, mistakes }
             });
           }
+          setPendingWon(true);
+          setSpeakerSolverId(currentStudentId ?? null);
+          setSpeakerOpen(true);
+          setStatus(GameStatus.PLAYING);
         } else {
+          setSpeakerSolverId(currentStudentId ?? null);
+          setPendingWon(false);
+          setSpeakerOpen(true);
           setStatus(GameStatus.PLAYING);
         }
       } else {
@@ -311,6 +330,10 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     setRacePlayers([]);
     setRaceFinishCount(0);
     setRaceComplete(false);
+    setSpeakerOpen(false);
+    setSpeakerSolverId(null);
+    setPendingWon(false);
+    setRaceSpeakerDone(false);
 
     try {
       const response = await fetch('/api/connections/generate', {
@@ -373,7 +396,6 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
         if (foundGroups.length + 1 === 4) {
           const finalScore = newScore + 5;
           setScore(finalScore);
-          setStatus(GameStatus.WON);
           if (currentStudentId) {
             onScore(currentStudentId, {
               isCorrect: true,
@@ -381,7 +403,14 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
               responseData: { groupsFound: 4, livesRemaining: lives, mistakes }
             });
           }
+          setPendingWon(true);
+          setSpeakerSolverId(currentStudentId ?? null);
+          setSpeakerOpen(true);
+          setStatus(GameStatus.PLAYING);
         } else {
+          setSpeakerSolverId(currentStudentId ?? null);
+          setPendingWon(false);
+          setSpeakerOpen(true);
           setStatus(GameStatus.PLAYING);
         }
       } else {
@@ -429,6 +458,10 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     setFeedback(null);
     setRacePlayers([]);
     setRaceComplete(false);
+    setSpeakerOpen(false);
+    setSpeakerSolverId(null);
+    setPendingWon(false);
+    setRaceSpeakerDone(false);
     setRevealedCategories(new Set());
     setStatus(GameStatus.IDLE);
     if (!isSimultaneous) onPickStudent();
@@ -438,6 +471,19 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
     setRaceComplete(true);
     setStatus(GameStatus.WON); // Reuse WON state for race results
   };
+
+  const handleSpoke = useCallback((student: { id: string }) => {
+    recordFeature(student.id);
+    onScore(student.id, { isCorrect: null, points: 2 });
+  }, [recordFeature, onScore]);
+
+  const handleSpeakerDone = useCallback(() => {
+    setSpeakerOpen(false);
+    if (pendingWon) {
+      setPendingWon(false);
+      setStatus(GameStatus.WON);
+    }
+  }, [pendingWon]);
 
   // Everyone is done (finished or out of lives): end without waiting.
   useEffect(() => {
@@ -547,7 +593,25 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
           </div>
         )}
 
-        {(status === GameStatus.WON || raceComplete) && challenge && (
+        {(status === GameStatus.WON || raceComplete) && challenge && !raceSpeakerDone && (
+          <NextSpeakerStep
+            task="Why do these four belong together?"
+            students={students}
+            preferredStudentId={(() => {
+              const first = sortedPlayers.length > 0 ? sortedPlayers[0] : null;
+              if (!first) return null;
+              for (let i = 0; i < students.length; i++) {
+                if (students[i].id === first.studentId) return students[i].id;
+                if (students[i].name === first.displayName) return students[i].id;
+              }
+              return null;
+            })()}
+            onSpoke={handleSpoke}
+            onDone={() => setRaceSpeakerDone(true)}
+          />
+        )}
+
+        {((status === GameStatus.WON || raceComplete) && challenge && raceSpeakerDone) && (
           <div className="space-y-4">
             <div className="text-center">
               <KitLabel tone="emerald">Race over</KitLabel>
@@ -648,7 +712,7 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
       )}
 
       {/* PLAYING State */}
-      {(status === GameStatus.PLAYING || status === GameStatus.EVALUATING) && challenge && (
+      {(status === GameStatus.PLAYING || status === GameStatus.EVALUATING) && challenge && !speakerOpen && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -753,6 +817,16 @@ export function ConnectionsGame({ currentStudentId, students, onScore, onPickStu
             {selected.length}/4 words selected
           </div>
         </motion.div>
+      )}
+
+      {speakerOpen && !isSimultaneous && (
+        <NextSpeakerStep
+          task="Why do these four belong together?"
+          students={students}
+          preferredStudentId={speakerSolverId}
+          onSpoke={handleSpoke}
+          onDone={handleSpeakerDone}
+        />
       )}
 
       {/* WON State */}
