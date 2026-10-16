@@ -9,6 +9,7 @@ import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/se
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 import { ArrowRight, BookOpen, Check, Clock, Lightbulb, Sparkles, Trophy } from 'lucide-react';
 
 import { levelLabel } from '@/lib/difficulty';
@@ -29,6 +30,7 @@ interface RaceSolver {
 export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, config, isMicroEvent }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const lessonKit = useSessionStore((s) => s.lessonKit);
+  const recordFeature = useSessionStore((s) => s.recordFeature);
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
   const [timeLeft, setTimeLeft] = useState<number>(sessionSettings.timerSeconds);
 
@@ -70,6 +72,8 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const [wordBank, setWordBank] = useState<Array<{ weak: string; words: string[] }>>([]);
   const [showBank, setShowBank] = useState(false);
   const bankedRoundRef = useRef(0);
+  // Next speaker step after each item's answer is revealed.
+  const [speakerDone, setSpeakerDone] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -352,6 +356,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setRaceHint(false);
     setExtraSeconds(0);
     setShowBank(false);
+    setSpeakerDone(false);
     setRoundNo((n) => n + 1);
 
     if (sentenceQueue.length > 0) {
@@ -412,6 +417,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
     setTimeLeft(sessionSettings.timerSeconds);
     setReplacementInput('');
     setEvaluation(null);
+    setSpeakerDone(false);
     setStatus(GameStatus.RUNNING);
   };
 
@@ -558,6 +564,11 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
   const topic = getDisplayTopic(sessionSettings, sourceMaterial);
   const total = (sessionSettings.timerSeconds + extraSeconds) || 1;
 
+  const handleSpoke = useCallback((student: { id: string }) => {
+    recordFeature(student.id);
+    onScore(student.id, { isCorrect: null, points: 2 });
+  }, [recordFeature, onScore]);
+
   const NextButton = ({ label = 'Next sentence' }: { label?: string }) => (isMicroEvent ? (
     <KitReadout>Round complete · advance the flight to continue</KitReadout>
   ) : (
@@ -694,10 +705,27 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
             )}
 
             <div className="flex flex-wrap items-center justify-center gap-2">
-              {sorted.length > 0 && (
+              {sorted.length > 0 && speakerDone && (
                 <KitButton tone="amber" onClick={() => { setReviewIndex(0); setReviewShowSuggestions(false); }}>Review one by one</KitButton>
               )}
-              <NextButton />
+              {!speakerDone && currentSentence && (
+                <NextSpeakerStep
+                  task={`Use \u201c${best?.replacement ?? sorted[0]?.replacement ?? currentSentence.weakWord}\u201d in a sentence.`}
+                  students={students}
+                  preferredStudentId={(() => {
+                    const chooser = best ?? sorted[0] ?? null;
+                    if (!chooser) return null;
+                    for (let i = 0; i < students.length; i++) {
+                      if (students[i].id === chooser.studentId) return students[i].id;
+                      if (students[i].name === chooser.displayName) return students[i].id;
+                    }
+                    return null;
+                  })()}
+                  onSpoke={handleSpoke}
+                  onDone={() => setSpeakerDone(true)}
+                />
+              )}
+              {speakerDone && <NextButton />}
             </div>
           </motion.div>
         )}
@@ -959,6 +987,15 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
               </div>
 
               {/* Action Buttons */}
+              {!speakerDone && currentSentence && (
+                <NextSpeakerStep
+                  task={`Use \u201c${replacementInput.trim() || currentSentence.weakWord}\u201d in a sentence.`}
+                  students={students}
+                  preferredStudentId={currentStudentId}
+                  onSpoke={handleSpoke}
+                  onDone={() => setSpeakerDone(true)}
+                />
+              )}
               <div className="flex gap-3 w-full">
                 <button
                   onClick={tryAgain}
@@ -971,25 +1008,27 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
                     <p className="text-sm text-emerald-400 font-bold">Round complete</p>
                     <p className="text-xs opacity-50 mt-1">Advance the flight to continue.</p>
                   </div>
-                ) : (
+                ) : speakerDone ? (
                   <button
                     onClick={startSprint}
                     className="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl font-game text-xs shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
                   >
                     NEXT SENTENCE
                   </button>
-                )}
-                <button
-                  onClick={() => {
-                    setStatus(GameStatus.IDLE);
-                    setCurrentSentence(null);
-                    setEvaluation(null);
-                    onPickStudent();
-                  }}
+                ) : null}
+                {speakerDone && (
+                  <button
+                    onClick={() => {
+                      setStatus(GameStatus.IDLE);
+                      setCurrentSentence(null);
+                      setEvaluation(null);
+                      onPickStudent();
+                    }}
                   className="flex-1 py-3 bg-white text-slate-900 rounded-xl font-game text-xs shadow-lg hover:scale-[1.02] active:scale-95 transition-all"
                 >
                   PICK NEXT
                 </button>
+                )}
               </div>
             </motion.div>
           )}
