@@ -19,7 +19,8 @@ describe('class-size metadata', () => {
     // Sep 2026: 10 retired, Hot Seat + Mystery Flight added; (src/lib/retired-plugins.ts) no longer count as browsable.
     // Oct 2026: Picture Quiz and Picture Stories (Junior) added.
     // Oct 2026: Team Debate retired into Tag-team Debate.
-    expect(registryKeys).toHaveLength(79);
+    // Oct 2026: Grammar Clarify retired into Grammar Spotlight.
+    expect(registryKeys).toHaveLength(78);
     expect(registryKeys.filter((key) => !getClassSizeMetadata(key))).toEqual([]);
     expect(FLIGHT_PLAN_ITEMS).toHaveLength(50);
     expect(FLIGHT_PLAN_ITEMS.filter((item) => !item.idealClassSizes || !item.minStudents)).toEqual([]);

@@ -529,7 +529,6 @@ export const FLIGHT_PLAN_PRESETS: FlightPlanPreset[] = [
       stageByKey: {
         'grammar-check-in': 'icebreaker',
         'grammar-spotlight': 'clarify',
-        'grammar-clarify': 'clarify',
         'fix-the-captain': 'notice',
         'error-hunter': 'notice',
         'sentence-scramble': 'build',

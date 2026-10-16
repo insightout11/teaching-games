@@ -94,6 +94,16 @@ export function GrammarSpotlightActivity({ sessionId, generatedContent, onSetInp
       <div className="mx-auto max-w-4xl space-y-6 py-4 text-center text-white">
         <Lightbulb className="mx-auto h-10 w-10 text-amber-300" />
         {header}
+        <div className="rounded-3xl border border-amber-300/40 bg-amber-300/[0.06] px-8 py-6">
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-amber-300/80">How it&apos;s built</p>
+          <p className="mt-2 font-display text-4xl">{rule.form}</p>
+        </div>
+        {rule.examples.length > 0 && (
+          <div className="space-y-1.5 rounded-2xl border border-white/10 bg-slate-950/50 px-5 py-4 text-left">
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">Examples</p>
+            {rule.examples.map((e) => <p key={e} className="text-lg">&ldquo;{e}&rdquo;</p>)}
+          </div>
+        )}
         <p className="font-display text-5xl">How shall we meet it?</p>
         <div className="grid gap-3 sm:grid-cols-3">
           {modes.map(({ k, label, icon: Icon, note, ok }) => (

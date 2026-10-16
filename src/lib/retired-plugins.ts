@@ -29,6 +29,7 @@ export const RETIRED_PLUGIN_KEYS: ReadonlySet<string> = new Set([
   'problem-solvers', // into Decision Council
   'listening-gap-fill', // listening now = Radio Check / Static / Black Box
   'team-debate', // into Tag-team Debate (a turn for everyone)
+  'grammar-clarify', // rule card now part of Grammar Spotlight
 ]);
 
 export const isRetired = (key: string) => RETIRED_PLUGIN_KEYS.has(key);

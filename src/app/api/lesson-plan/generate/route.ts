@@ -4128,7 +4128,21 @@ async function generateLessonContent(request: NextRequest) {
             generators.push(generateAnswerFirst(customTopic, diff, sceneFromKit, kitSourceCtx).then((r) => { content[activityKey] = r; }));
             break;
           case 'grammar-spotlight':
-            generators.push(generateGrammarSpotlight(customTopic, diff, grammarTarget ?? undefined, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
+            generators.push(
+              generateGrammarClarify(customTopic, diff, grammarTarget ?? 'past simple', kitSourceCtx, skipCache).then((clarify) =>
+                generateGrammarSpotlight(customTopic, diff, grammarTarget ?? undefined, !!sourceMaterial, kitSourceCtx).then((spot) => {
+                  content[activityKey] = {
+                    ...spot,
+                    rule: {
+                      form: clarify.form,
+                      whenToUse: clarify.whenToUse,
+                      pitfall: clarify.pitfall,
+                      examples: clarify.examples.slice(0, 3),
+                    },
+                  };
+                }),
+              ),
+            );
             break;
           case 'flight-question':
             generators.push(generateFlightQuestion(customTopic, diff, !!sourceMaterial, kitSourceCtx).then((r) => { content[activityKey] = r; }));
