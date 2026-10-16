@@ -4,7 +4,7 @@
  * They stay launchable from saved plans; this only keeps them out of the menus.
  */
 export const JUNIOR_HIDDEN_KEYS: ReadonlySet<string> = new Set([
-  'team-debate', 'tag-team-debate', 'evidence-cards', 'hot-take-arena', 'motion-pulse', 'opinion-shift', 'flight-verdict',
+  'tag-team-debate', 'evidence-cards', 'hot-take-arena', 'motion-pulse', 'opinion-shift', 'flight-verdict',
   'decision-council', 'scenario-simulator', 'grammar-boss', 'grammar-clarify', 'grammar-proof', 'grammar-spotlight',
   'grammar-check-in', 'tense-time-machine', 'error-hunter', 'fix-the-captain', 'accuracy-micro', 'synonym-showdown',
   'tone-transformer', 'story-sprint', 'two-truths-and-a-lie', 'bluff-definition', 'interview-lab', 'compare-it',
