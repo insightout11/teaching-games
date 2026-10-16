@@ -339,8 +339,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     };
 
     const frame = (now: number) => {
-      // A video is playing (or something is full screen): the scenery holds still so the video gets the whole machine.
-      if (live.current.paused || document.fullscreenElement) {
+      // A video is playing (or a video is full screen; the whole room in full screen keeps moving): the scenery holds still so the video gets the whole machine.
+      if (live.current.paused || (document.fullscreenElement && document.fullscreenElement !== document.documentElement)) {
         last = now;
         raf = requestAnimationFrame(frame);
         return;

@@ -93,7 +93,7 @@ export function SpeakCheckActivity({ generatedContent, students, onSetInputSpec,
           students={students}
           onSpoke={(student) => {
             recordFeature(student.id);
-            void onScore?.({ studentId: student.id, clientId: null, displayName: student.name, promptIndex: 2, points: 2, isCorrect: null });
+            void onScore?.({ studentId: student.id, clientId: null, displayName: student.name, promptIndex: 2, points: 0, isCorrect: null });
           }}
           onDone={() => setSpeakerDone(true)}
         />

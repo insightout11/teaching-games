@@ -7,46 +7,6 @@ import type { SentenceEvaluationResult } from '@/games/grid-rush/types';
 
 export const maxDuration = 60;
 
-// A complete sentence has a subject and a verb, at any length.
-const COMMON_VERBS = [
-  'am', 'is', 'are', 'was', 'were', 'been', 'being', 'be',
-  'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
-  'can', 'could', 'should', 'may', 'might', 'must', 'shall',
-  'go', 'goes', 'went', 'gone', 'come', 'comes', 'came',
-  'see', 'sees', 'saw', 'seen', 'like', 'likes', 'liked',
-  'love', 'loves', 'loved', 'play', 'plays', 'played',
-  'run', 'runs', 'ran', 'walk', 'walks', 'walked',
-  'eat', 'eats', 'ate', 'eaten', 'make', 'makes', 'made',
-  'take', 'takes', 'took', 'taken', 'get', 'gets', 'got',
-  'give', 'gives', 'gave', 'know', 'knows', 'knew', 'known',
-  'think', 'thinks', 'thought', 'feel', 'feels', 'felt',
-  'say', 'says', 'said', 'live', 'lives', 'lived',
-  'work', 'works', 'worked', 'study', 'studies', 'studied',
-  'learn', 'learns', 'learned', 'teach', 'teaches', 'taught',
-  'speak', 'speaks', 'spoke', 'spoken', 'write', 'writes', 'wrote', 'written',
-  'read', 'reads', 'use', 'uses', 'used', 'try', 'tries', 'tried',
-];
-
-function isCompleteSentence(sentence: string): boolean {
-  const trimmed = (sentence || '').trim();
-  if (!trimmed) return false;
-  const last = trimmed.charAt(trimmed.length - 1);
-  if (last !== '.' && last !== '!' && last !== '?') return false;
-  const words = trimmed.split(/\s+/).filter(Boolean);
-  if (words.length < 2) return false;
-  const first = words[0].charAt(0);
-  if (first !== first.toUpperCase() || first.toLowerCase() === first.toUpperCase()) {
-    // First token must start with an uppercase letter.
-    if (!(first >= 'A' && first <= 'Z')) return false;
-  }
-  for (let i = 0; i < words.length; i++) {
-    const clean = words[i].toLowerCase().replace(/[^a-z]/g, '');
-    if (!clean) continue;
-    if (COMMON_VERBS.indexOf(clean) !== -1) return true;
-    if (clean.length > 3 && (clean.slice(-2) === 'ed' || clean.slice(-3) === 'ing')) return true;
-  }
-  return false;
-}
 
 const difficultyLabels: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1)',
@@ -96,9 +56,6 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 2. Complete-sentence check — a subject and a verb, at any length.
-    const complete = isCompleteSentence(trimmed);
-
     // Past the cheap checks — this will hit the AI. Enforce the free-tier weekly cap.
     const limited = await checkAndRecordAiUsage(teacher);
     if (limited) return limited;
@@ -132,12 +89,10 @@ IMPORTANT RULES:
     );
 
     // Clamp score to 1-5
-    let score = Math.max(1, Math.min(5, Math.round(result.score)));
+    const score = Math.max(1, Math.min(5, Math.round(result.score)));
 
-    // A fragment without a subject and a verb scores at most 2, at any length.
-    if (!complete && score > 2) {
-      score = 2;
-    }
+    // Whether it is a complete sentence is the AI's call (see the prompt): a code check misjudged children's
+    // typing (no capital letter, no full stop, a verb not on a short list).
 
     return NextResponse.json<SentenceEvaluationResult>({
       score,

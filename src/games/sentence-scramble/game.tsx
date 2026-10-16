@@ -378,7 +378,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   const handleSpoke = useCallback((student: { id: string }) => {
     recordFeature(student.id);
-    onScore(student.id, { isCorrect: null, points: 2 });
+    onScore(student.id, { isCorrect: null, points: 0 });
   }, [recordFeature, onScore]);
 
   // --- Simultaneous mode handlers ---

@@ -16,6 +16,8 @@ import {
 } from '@/lib/reference-materials';
 import { findTopicBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
 import { stickerLabel } from '@/lib/stickers';
+import { lookupWikipedia, type WikiReference } from '@/lib/sources/wikipedia';
+import { depthPromptNote, type TopicDepth } from '@/lib/topic-depth';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -61,6 +63,7 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const body = await request.json().catch(() => null);
   const title = clean(body?.title, 200);
   const text = clean(body?.text, 4000);
+  const depth: TopicDepth = body?.depth === 'deep' ? 'deep' : 'big';
   if (!title) return NextResponse.json({ error: 'title is required' }, { status: 400 });
 
   const { teacher, error: authError } = await requireAuth();
@@ -83,14 +86,18 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
     if (limited) return limited;
   }
 
+  // A named film, book, singer, famous person...: real facts from Wikipedia, so the class talks about the real thing.
+  const reference: WikiReference | null = bankedLevel || text.length >= 400 ? null : await lookupWikipedia(title);
+  const material = reference ? `${text ? `${text}\n\n` : ''}From Wikipedia (${reference.title}):\n${reference.text}` : text;
+
   const prompt = `LANGUAGE RULE: write everything in simple, natural English for ${difficulty} learners (${level}).
 
 A live English class (kids or teens) is now talking about: "${title}"
-${text ? `Material the class is looking at:\n"""${text}"""\n` : ''}
+${material ? `Material the class is looking at:\n"""${material}"""\n` : ''}${reference?.ending ? 'This is a story: never give away its ending.\n' : ''}${depthPromptNote(depth)}
 Prepare the teacher and students:
 - "briefing": 3-4 sentences a teacher could read out that give the class real substance on this (facts, not fluff). If material is given, summarise it.
 - "facts": 4 short, interesting, accurate facts about it.
-- "angles": 3 open questions or opinions the class could argue about.
+- "angles": 3 open questions or opinions the class could argue about${depth === 'deep' ? ', about the subject itself (its works, people and events by name)' : ''}.
 - "vocab": exactly 7 words or short phrases students need to talk about THIS.
 ${PHRASEBOOK_FIELDS_PROMPT}
 - "expressions": exactly 6 useful sentence stems for discussing it, each with a short example about this topic.`;
@@ -130,5 +137,6 @@ ${PHRASEBOOK_FIELDS_PROMPT}
     facts: strings(brief.facts, 5, 240),
     angles: strings(brief.angles, 4, 240),
     vocab,
+    ...(reference ? { reference } : {}),
   });
 }

@@ -1,5 +1,7 @@
 'use client';
 
+import { PhonesNowBanner } from './phones-now-banner';
+
 import { useEffect, useRef, useState, useCallback, useMemo, type ReactNode } from 'react';
 import { useSessionStore, getEffectiveTopic, goalToScoringMode } from '@/stores/session-store';
 import type { Difficulty, Tone, ScoringMode } from '@/stores/session-store';
@@ -2221,6 +2223,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   return (
     <div className="relative min-h-screen -m-6 lg:-m-8 p-6 lg:p-8 theme-Midnight hud-bg">
+      <PhonesNowBanner />
       {roomActive && roomModuleEl && (
         <div className="fixed inset-0 z-40 bg-lc-bg">
           <FlightDeck

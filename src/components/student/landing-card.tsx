@@ -40,6 +40,7 @@ export function LandingCard({
   seat,
   avatarSeed,
   topic,
+  topics = [],
   results,
   words,
   debriefUrl,
@@ -51,6 +52,8 @@ export function LandingCard({
   seat: string | null;
   avatarSeed: string | null;
   topic: string | null;
+  /** Every topic the lesson visited, in order. */
+  topics?: string[];
   results: LandingResults | null;
   words: Array<{ item: ReferenceVocabItem; state: PhraseState }>;
   debriefUrl: string | null;
@@ -81,7 +84,8 @@ export function LandingCard({
             <CrewAvatar seed={avatarSeed} name={name} size={52} />
             <div className="min-w-0 flex-1">
               <p className={`${MONO} text-[10px]`} style={{ color: INK_FAINT }}>Arrival card · LC International</p>
-              <p className="truncate font-display text-[26px] leading-tight">{topic || 'Today’s flight'}</p>
+              <p className="truncate font-display text-[26px] leading-tight">{topics.length > 1 ? 'Today’s flight' : topic || 'Today’s flight'}</p>
+              {topics.length > 1 && <p className="mt-0.5 line-clamp-2 text-[13px] leading-snug" style={{ color: INK_FAINT }}>{topics.join(' · ')}</p>}
             </div>
           </div>
 

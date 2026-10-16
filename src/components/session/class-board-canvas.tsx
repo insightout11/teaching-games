@@ -124,6 +124,7 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const [anonymous, setAnonymous] = useState(false);
   const [autoShow, setAutoShow] = useState(false);
   const [dotsRevealed, setDotsRevealed] = useState(false);
+  const totalDots = items.reduce((n, i) => n + (i.voteCount ?? 0), 0);
   const [spotlightId, setSpotlightId] = useState<string | null>(null);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [editItemText, setEditItemText] = useState('');
@@ -222,8 +223,16 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
         { event: '*', schema: 'public', table: 'class_board_items', filter: `session_id=eq.${sessionId}` },
         () => void loadItems(),
       )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'class_board_votes', filter: `session_id=eq.${sessionId}` },
+        () => void loadItems(),
+      )
       .subscribe();
+    // Dots also arrive by a light poll, in case vote changes are not broadcast.
+    const poll = setInterval(() => void loadItems(), 5000);
     return () => {
+      clearInterval(poll);
       supabase.removeChannel(channel);
     };
   }, [loadItems, activeBoardKey, sessionId]);
@@ -764,7 +773,7 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
         <ModeToggle on={anonymous} onClick={() => setAnonymous((v) => !v)} icon={<EyeOff className="h-3 w-3" />} label="Anonymous" title="Hide names on the cards" />
         <ModeToggle on={autoShow} onClick={() => setAutoShow((v) => !v)} icon={<Zap className="h-3 w-3" />} label="Auto-show" title="Student cards appear without approval" />
         {!questionWall && (
-          <ModeToggle on={dotsRevealed} onClick={() => setDotsRevealed((v) => !v)} icon={<CircleDot className="h-3 w-3" />} label={dotsRevealed ? 'Dots shown' : 'Reveal dots'} title="Students vote with 3 dots each; reveal to show and sort by them" />
+          <ModeToggle on={dotsRevealed} onClick={() => setDotsRevealed((v) => !v)} icon={<CircleDot className="h-3 w-3" />} label={dotsRevealed ? 'Dots shown' : `Reveal dots${totalDots ? ` (${totalDots})` : ''}`} title="Students vote with 3 dots each; reveal to show and sort by them" />
         )}
         <span className="ml-auto text-slate-500">Drag cards between sections · double-click to edit · click to spotlight</span>
       </div>

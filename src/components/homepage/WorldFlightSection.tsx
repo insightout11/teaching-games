@@ -5,7 +5,15 @@
 // the product's own data (destinations, plane ranges), so they cannot drift from the app.
 
 import Image from 'next/image';
-import { CloudSun, Clock3, MapPin, Route } from 'lucide-react';
+import { Car, CloudSun, Clock3, CookingPot, MapPin, Route, Train, Triangle } from 'lucide-react';
+
+// Real souvenirs from the city packs (src/data/world-flight/city-packs.json).
+const SOUVENIRS = [
+  { icon: Car, name: 'Tuk-tuk model', city: 'Bangkok' },
+  { icon: CookingPot, name: 'Irish stew bowl', city: 'Dublin' },
+  { icon: Train, name: 'Train pass case', city: 'Tokyo' },
+  { icon: Triangle, name: 'Pyramid model', city: 'Cairo', rare: true },
+];
 import { WorldFlightHero } from '@/components/discovery/world-flight-hero/world-flight-hero';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { distanceKm } from '@/lib/world-flight/geo';
@@ -119,6 +127,18 @@ export function WorldFlightSection() {
                   <Image src={f.plane.png} alt={f.plane.name} width={220} height={110} className="h-[70px] w-full object-contain" />
                   <span className="text-[15px] font-semibold text-lc-text">{f.label}</span>
                   <span className="text-[15px] text-lc-text2">{f.rangeKm.toLocaleString('en-US')} km</span>
+                </li>
+              ))}
+            </ul>
+
+            <h3 className="mt-8 font-game text-2xl text-lc-text sm:text-3xl">Souvenirs in every city.</h3>
+            <p className="mt-2 text-[17px] text-lc-text2">Five in every city. Some only come on a return visit, or with a postcard home from the class.</p>
+            <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {SOUVENIRS.map((sv) => (
+                <li key={sv.name} className="flex flex-col items-center gap-1.5 rounded-2xl border border-[#263a58] bg-[#101d31] p-3 text-center">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-amber-200/50 bg-amber-300/10"><sv.icon className="h-5 w-5 text-amber-200" aria-hidden /></span>
+                  <span className="text-[15px] font-semibold leading-tight text-lc-text">{sv.name}</span>
+                  <span className="text-[13px] text-lc-text2">{sv.city}{sv.rare ? ' · rare' : ''}</span>
                 </li>
               ))}
             </ul>
