@@ -25,6 +25,9 @@ interface FocusBusState {
   setContext: (context: string) => void;
   /** Set the next destination by city name (the class's "where next?" poll). */
   flyTo: ((city: string) => void) | null;
+  /** Big idea or Deep dive: the teacher's choice for how far into the topic itself the class goes. */
+  depth: 'big' | 'deep';
+  setDepth: (depth: 'big' | 'deep') => void;
   setFlyTo: (fn: ((city: string) => void) | null) => void;
 }
 
@@ -36,5 +39,7 @@ export const useFocusBus = create<FocusBusState>((set) => ({
   context: '',
   setContext: (context) => set({ context }),
   flyTo: null,
+  depth: 'big',
+  setDepth: (depth) => set({ depth }),
   setFlyTo: (flyTo) => set({ flyTo }),
 }));

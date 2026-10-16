@@ -1,5 +1,6 @@
 'use client';
 
+import { useFocusBus } from '@/stores/focus-bus-store';
 import { reportContentIssues } from '@/lib/content-health-client';
 import { FLIGHT_BEFORE_KEY, saveSessionRecord } from '@/lib/flight-result';
 import { anonymiseThread, planKeyOf, restorableThread, threadHasContent } from '@/lib/thread-backup';
@@ -367,6 +368,7 @@ export function useLessonSession(
       ...(kitStruggles?.length ? { struggles: kitStruggles } : {}),
       ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
       ...(useSessionStore.getState().junior ? { junior: true } : {}),
+      ...(useFocusBus.getState().depth === 'deep' ? { depth: 'deep' } : {}),
     };
     const body = isLanding
       ? { activityKey: key, topic: effectiveTopic, difficulty: settings.difficulty, ...(sourceMaterial ? { sourceKey: sourceMaterial.sourceKey ?? sourceMaterial.title } : {}), ...(missionContext.length > 0 ? { missionContext } : {}) }
@@ -407,7 +409,7 @@ export function useLessonSession(
   const roomPrefetchRef = useRef<Record<string, { sourceKey: string; promise: Promise<ActivityGeneratedContent | null> }>>({});
   const prefetchForRoom = useCallback((activity: ActivityPlugin, source: SourceMaterial) => {
     if (lessonPlanContent || LANDING_ACTIVITY_KEYS.has(activity.key) || SELF_SEEDED_ACTIVITIES.has(activity.key) || activity.key === 'cabin-mystery') return;
-    const sourceKey = source.sourceKey ?? source.title;
+    const sourceKey = `${source.sourceKey ?? source.title}:${useFocusBus.getState().depth}`;
     if (roomPrefetchRef.current[activity.key]?.sourceKey === sourceKey) return;
     const promise = fetch('/api/lesson-plan/generate', {
       method: 'POST',
@@ -418,6 +420,7 @@ export function useLessonSession(
         activities: [activity.key],
         studentCount,
         sessionId,
+        ...(useFocusBus.getState().depth === 'deep' ? { depth: 'deep' } : {}),
         ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
         sourceMaterial: source,
       }),
@@ -455,7 +458,7 @@ export function useLessonSession(
     if (!plan) {
       const prepared = roomPrefetchRef.current[activity.key];
       const current = useSessionStore.getState().sourceMaterial;
-      if (prepared && current && prepared.sourceKey === (current.sourceKey ?? current.title)) {
+      if (prepared && current && prepared.sourceKey === `${current.sourceKey ?? current.title}:${useFocusBus.getState().depth}`) {
         const content = await prepared.promise;
         if (content) return content;
       }
@@ -506,6 +509,7 @@ export function useLessonSession(
             activities: [activity.key],
             studentCount,
             sessionId,
+            ...(useFocusBus.getState().depth === 'deep' ? { depth: 'deep' } : {}),
             ...(missionContext.length > 0 ? { missionContext } : {}),
             ...(settings.grammarTarget ? { grammarTarget: settings.grammarTarget } : {}),
             ...(sourceMaterial ? { sourceMaterial } : {}),

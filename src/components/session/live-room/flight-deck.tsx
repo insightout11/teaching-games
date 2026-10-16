@@ -884,6 +884,10 @@ export function FlightDeck({
   // cargo item, so it grounds activities exactly like found material does.
   const updateItem = useLiveRoomStore((s) => s.update);
   const [briefs, setBriefs] = useState<Record<string, FocusBrief | 'loading' | 'failed'>>({});
+  // Big idea or Deep dive: always the teacher's choice. Changing it re-briefs the topic.
+  const depth = useFocusBus((s) => s.depth);
+  const setDepth = useFocusBus((s) => s.setDepth);
+  const [endingAdded, setEndingAdded] = useState<Record<string, boolean>>({});
   const [focusTrail, setFocusTrail] = useState<string[]>([]);
   const makeFocus = useCallback((req: FocusRequest) => {
     const raw = req.title.replace(/\s+/g, ' ').trim();
@@ -964,7 +968,7 @@ export function FlightDeck({
       .then((transcript) => fetch(`/api/session/${encodeURIComponent(sessionId)}/focus`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '' }),
+        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '', depth }),
       }))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: FocusBrief | null) => {
@@ -975,15 +979,18 @@ export function FlightDeck({
         setBriefs((b) => ({ ...b, [item.id]: d }));
         if (item.kind === 'note' && !item.text) {
           updateItem(sessionId, item.id, {
-            text: [d.briefing, ...d.facts.map((f) => `- ${f}`), ...d.angles.map((a) => `Question: ${a}`)].join('\n'),
+            text: [d.briefing, ...d.facts.map((f) => `- ${f}`), ...(d.reference ? ['', d.reference.text, ''] : []), ...d.angles.map((a) => `Question: ${a}`)].join('\n'),
             aiNotes: true,
           });
+        } else if (d.reference && !item.text && item.kind !== 'video') {
+          // A web result with only a one-line snippet: the real facts become its material.
+          updateItem(sessionId, item.id, { text: [item.description ?? '', d.reference.text].filter(Boolean).join('\n\n') });
         }
       })
       .catch(() => setBriefs((b) => ({ ...b, [item.id]: 'failed' })));
-    // Only when the Focus changes.
+    // Only when the Focus (or the depth) changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [focused?.id]);
+  }, [focused?.id, depth]);
   const focusBrief = focused ? briefs[focused.id] : undefined;
   useEffect(() => { setAboutOpen(false); }, [focused?.id]);
   const brief = typeof focusBrief === 'object' ? focusBrief : null;
@@ -1856,8 +1863,44 @@ export function FlightDeck({
                   {brief.facts.length > 0 && (
                     <ul className="mt-2 list-disc space-y-1 pl-5 text-white/80">{brief.facts.slice(0, 4).map((f) => <li key={f}>{f}</li>)}</ul>
                   )}
+                  {brief.reference && (
+                    <p className="mt-2 text-xs text-white/55">Facts from Wikipedia: {brief.reference.title}{brief.reference.ending && !endingAdded[focused.id] ? ' · the ending is kept back' : ''}</p>
+                  )}
                 </>
               )}
+              <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-white/10 pt-3">
+                <span className="text-xs text-white/60">How deep?</span>
+                {([['big', 'Big idea', 'Broad questions anyone can answer'], ['deep', 'Deep dive', 'Into the subject itself: its works, people and events']] as const).map(([d, label, hint]) => (
+                  <button
+                    key={d}
+                    type="button"
+                    title={hint}
+                    disabled={focusBrief === 'loading'}
+                    onClick={() => {
+                      if (d === depth) return;
+                      setBriefs((b) => { const n = { ...b }; delete n[focused.id]; return n; });
+                      setDepth(d);
+                      flash(d === 'deep' ? 'Deep dive: activities go into the subject itself' : 'Big idea: broad questions anyone can answer');
+                    }}
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${d === depth ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-white/20 text-white/80 hover:border-white/40'}`}
+                  >
+                    {label}
+                  </button>
+                ))}
+                {brief?.reference?.ending && !endingAdded[focused.id] && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateItem(sessionId, focused.id, { text: `${focused.text ?? brief.reference!.text}\n\nHow it ends:\n${brief.reference!.ending}` });
+                      setEndingAdded((e) => ({ ...e, [focused.id]: true }));
+                      flash('The ending is now part of the material');
+                    }}
+                    className="ml-auto rounded-full border border-white/20 px-3 py-1 text-xs text-white/80 hover:border-white/40"
+                  >
+                    Add the ending
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -2625,6 +2668,8 @@ interface FocusBrief {
   facts: string[];
   angles: string[];
   vocab?: Array<{ word: string; definition: string }>;
+  /** Facts from Wikipedia for a named film, book, singer, famous person... (ending kept back). */
+  reference?: { title: string; url: string; kind: string; text: string; ending: string | null };
 }
 
 /** The glareshield topic bar: type anything to make it the class's topic; recent topics one tap away. */

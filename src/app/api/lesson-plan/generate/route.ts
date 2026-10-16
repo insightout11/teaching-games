@@ -1,4 +1,5 @@
 import { findTopicBriefing } from '@/lib/topic-briefings';
+import { depthPromptNote } from '@/lib/topic-depth';
 import { bookLevelFor, fallbackPassages, mergeCast, validPrevious, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
 import { bankMotionFor, fallbackMotion, validMotion, type DebateMotion } from '@/lib/debate-motion';
 import { earlierBookLessons, getLibraryEntry, listLibraryEntriesWithListeningPack } from '@/lib/library-source-material';
@@ -3677,6 +3678,7 @@ async function generateLessonContent(request: NextRequest) {
   try {
     const body = (await request.json()) as LessonPlanGenerateRequest & {
       grammarTarget?: string;
+      depth?: 'big' | 'deep';
       standardTopicId?: string;
       sessionId?: string;
       taskRoleplay?: boolean;
@@ -3711,7 +3713,8 @@ async function generateLessonContent(request: NextRequest) {
     // Fetch real transcript from DB — used by ALL generators, not just checkpoints
     const sourceRawTranscript = await fetchSourceTranscript(sourceMaterial);
 
-    const sourceCtx = `${buildSourceContext(sourceMaterial, sourceRawTranscript)}${buildCourseContinuityPrompt(courseContext)}`;
+    // Deep dive (the teacher's choice in the room): every stage goes into the subject itself.
+    const sourceCtx = `${depthPromptNote(body.depth === 'deep' ? 'deep' : 'big')}${buildSourceContext(sourceMaterial, sourceRawTranscript)}${buildCourseContinuityPrompt(courseContext)}`;
     // Grammar drills key their cache on grammarTarget and skip the cache when a source is
     // attached (they don't reuse across sources). Everything else variant-keys on the actual
     // grounding (source text + mission), so grounded lessons get their own cache namespace
