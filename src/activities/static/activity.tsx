@@ -221,7 +221,7 @@ export function StaticActivity({ generatedContent, students, onSetInputSpec, onR
           students={students}
           onSpoke={(student) => {
             recordFeature(student.id);
-            void onScore?.({ studentId: student.id, clientId: null, displayName: student.name, promptIndex: idx + 1, points: 2, isCorrect: null });
+            void onScore?.({ studentId: student.id, clientId: null, displayName: student.name, promptIndex: idx + 1, points: 0, isCorrect: null });
           }}
           onDone={() => setSpeakerDone(true)}
         />

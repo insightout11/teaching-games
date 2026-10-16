@@ -566,7 +566,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
 
   const handleSpoke = useCallback((student: { id: string }) => {
     recordFeature(student.id);
-    onScore(student.id, { isCorrect: null, points: 2 });
+    onScore(student.id, { isCorrect: null, points: 0 });
   }, [recordFeature, onScore]);
 
   const NextButton = ({ label = 'Next sentence' }: { label?: string }) => (isMicroEvent ? (
