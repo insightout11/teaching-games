@@ -2,6 +2,7 @@ import type { DebateEvidence, DebateMotion } from '@/lib/debate-motion';
 import type { SpeakAnswer, SpeakSituation } from '@/lib/speak-check';
 import type { TravellerCard } from '@/lib/world-flight/traveller-cards';
 import { create } from 'zustand';
+import { pickRandomStudent, type StudentPickerHistory } from '@/lib/student-picker';
 import type { Student, Score } from '@/lib/supabase/types';
 import {
   getActivityInstanceIdentity,
@@ -185,6 +186,7 @@ interface SessionState {
   scores: Score[];
   streaks: Record<string, number>;
   pickerMode: PickerMode;
+  randomPickerHistory: StudentPickerHistory;
   gameMode: GameMode;
   callCounts: Record<string, number>;
   currentStudentId: string | null;
@@ -381,6 +383,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   scores: [],
   streaks: {},
   pickerMode: 'fair',
+  randomPickerHistory: { pickedIds: [], lastPickedId: null },
   gameMode: 'normal',
   callCounts: {},
   currentStudentId: null,
@@ -424,6 +427,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       scores: [],
       streaks,
       callCounts,
+      randomPickerHistory: { pickedIds: [], lastPickedId: null },
       currentStudentId: null,
       roundNumber: 1,
       settings: getInitialSettings(),
@@ -545,16 +549,20 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   pickStudent: () => {
-    const { students, pickerMode, callCounts } = get();
+    const { students, pickerMode, callCounts, currentStudentId } = get();
     if (students.length === 0) return null;
 
     let picked: Student;
 
     if (pickerMode === 'random') {
-      picked = students[Math.floor(Math.random() * students.length)];
+      const result = pickRandomStudent(students.map(s => s.id), get().randomPickerHistory);
+      picked = students.find(s => s.id === result.studentId)!;
+      set({ randomPickerHistory: result.history });
     } else {
-      const minCalls = Math.min(...Object.values(callCounts));
-      const candidates = students.filter((s) => (callCounts[s.id] ?? 0) === minCalls);
+      const minCalls = Math.min(...students.map(s => callCounts[s.id] ?? 0));
+      let candidates = students.filter((s) => (callCounts[s.id] ?? 0) === minCalls);
+      const alternatives = candidates.filter(s => s.id !== currentStudentId);
+      if (alternatives.length > 0) candidates = alternatives;
       picked = candidates[Math.floor(Math.random() * candidates.length)];
     }
 
@@ -792,6 +800,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       scores: [],
       streaks: {},
       pickerMode: 'fair',
+      randomPickerHistory: { pickedIds: [], lastPickedId: null },
       gameMode: 'normal',
       callCounts: {},
       currentStudentId: null,

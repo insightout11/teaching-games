@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Student } from '@/lib/supabase/types';
+import { pickRandomStudent, type StudentPickerHistory } from '@/lib/student-picker';
 
 interface RandomPickerContentProps {
   students: Student[];
@@ -26,6 +27,14 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
   const [spinning, setSpinning] = useState(false);
   const [pickedStudent, setPickedStudent] = useState<Student | null>(null);
   const [displayStudent, setDisplayStudent] = useState<Student | null>(null);
+  const historyRef = useRef<StudentPickerHistory>({ pickedIds: [], lastPickedId: null });
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const studentsRef = useRef(students);
+  studentsRef.current = students;
+
+  useEffect(() => () => {
+    if (intervalRef.current !== null) clearInterval(intervalRef.current);
+  }, []);
 
   // Pick N state
   const [pickCount, setPickCount] = useState(2);
@@ -36,17 +45,21 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
   const [groups, setGroups] = useState<Student[][]>([]);
 
   const handlePickOne = useCallback(() => {
-    if (students.length === 0) return;
+    if (students.length === 0 || intervalRef.current !== null) return;
     setSpinning(true);
     setPickedStudent(null);
 
     let count = 0;
-    const interval = setInterval(() => {
-      setDisplayStudent(students[Math.floor(Math.random() * students.length)]);
+    intervalRef.current = setInterval(() => {
+      const roster = studentsRef.current;
+      setDisplayStudent(roster[Math.floor(Math.random() * roster.length)] ?? null);
       count++;
       if (count > 15) {
-        clearInterval(interval);
-        const picked = students[Math.floor(Math.random() * students.length)];
+        clearInterval(intervalRef.current!);
+        intervalRef.current = null;
+        const result = pickRandomStudent(roster.map(s => s.id), historyRef.current);
+        historyRef.current = result.history;
+        const picked = roster.find(s => s.id === result.studentId) ?? null;
         setDisplayStudent(picked);
         setPickedStudent(picked);
         setSpinning(false);
