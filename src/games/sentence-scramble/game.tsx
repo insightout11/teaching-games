@@ -7,6 +7,7 @@ import { useRaceMode } from '@/hooks/use-race-mode';
 import { useSessionStore, getEffectiveTopic } from '@/stores/session-store';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 import { ArrowRight, Check, Clock, Lightbulb, Shuffle, Trophy } from 'lucide-react';
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -54,6 +55,7 @@ interface RaceSolver {
 export function SentenceScrambleGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, isMicroEvent }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const lessonKit = useSessionStore((s) => s.lessonKit);
+  const recordFeature = useSessionStore((s) => s.recordFeature);
   const [sentences, setSentences] = useState<string[]>(FALLBACK_SENTENCES);
   const [sentenceAlternatives, setSentenceAlternatives] = useState<Record<string, string[]>>({});
   const [loadingSentences, setLoadingSentences] = useState(true);
@@ -114,6 +116,8 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
   const [attempts, setAttempts] = useState<Record<string, { tries: number; last: string }>>({});
   const [hintShown, setHintShown] = useState(false);
   const [roundNo, setRoundNo] = useState(1);
+  // Next speaker step after the correct order is shown.
+  const [speakerDone, setSpeakerDone] = useState(false);
 
   const original = sentences[sentenceIndex % sentences.length];
   const words = useMemo(() => tokenize(original), [original]);
@@ -148,6 +152,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
     setRaceSolvers([]);
     setAttempts({});
     setHintShown(false);
+    setSpeakerDone(false);
   }, [sentenceIndex, words, resetRace]);
 
   // Per-phone feedback: solved (#position, points) or "try again".
@@ -162,6 +167,17 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   // Register input spec for student controller
   useEffect(() => {
+    // No typing, no phone step while the Next speaker step is showing.
+    if (isSimultaneous && raceFinished && !speakerDone) {
+      raceStartedAtRef.current = 0;
+      onSetInputSpec?.(null);
+      return;
+    }
+    if (!isSimultaneous && submitted && (feedback === 'correct' || revealed) && !speakerDone) {
+      raceStartedAtRef.current = 0;
+      onSetInputSpec?.(null);
+      return;
+    }
     if (isSimultaneous) {
       // In simultaneous mode, broadcast when race is active
       if (raceActive && !raceFinished && availableWords.length > 0) {
@@ -204,7 +220,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
         onSetInputSpec?.(null);
       }
     }
-  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec, sessionSettings.timerSeconds, extraSeconds, perStudentData]);
+  }, [isSimultaneous, raceActive, raceFinished, submitted, availableWords, onSetInputSpec, sessionSettings.timerSeconds, extraSeconds, perStudentData, speakerDone, feedback, revealed]);
 
   // Handle remote submissions in simultaneous race mode
   const handleRaceSubmission = useCallback((vote: GameRemoteVote) => {
@@ -360,11 +376,17 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
 
   const handleReveal = () => setRevealed(true);
 
+  const handleSpoke = useCallback((student: { id: string }) => {
+    recordFeature(student.id);
+    onScore(student.id, { isCorrect: null, points: 2 });
+  }, [recordFeature, onScore]);
+
   // --- Simultaneous mode handlers ---
   const handleStartRace = () => {
     setExtraSeconds(0);
     startRace();
     setRaceSolvers([]);
+    setSpeakerDone(false);
   };
 
   const handleEndRace = () => {
@@ -459,7 +481,25 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
           </>
         )}
 
-        {raceFinished && (
+        {raceFinished && !speakerDone && (
+          <NextSpeakerStep
+            task="Change one detail so it's true for you, and say it."
+            students={students}
+            preferredStudentId={(() => {
+              const first = raceSolvers.length > 0 ? raceSolvers[0] : null;
+              if (!first) return currentStudentId ?? null;
+              for (let i = 0; i < students.length; i++) {
+                if (students[i].id === first.studentId) return students[i].id;
+                if (students[i].name === first.displayName) return students[i].id;
+              }
+              return currentStudentId ?? null;
+            })()}
+            onSpoke={handleSpoke}
+            onDone={() => setSpeakerDone(true)}
+          />
+        )}
+
+        {raceFinished && speakerDone && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="space-y-4">
             {commonSlip && (
               <div className="rounded-2xl border border-rose-300/30 bg-slate-950/45 p-4">
@@ -593,6 +633,16 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
         </motion.div>
       )}
 
+      {submitted && (feedback === 'correct' || revealed) && !speakerDone && (
+        <NextSpeakerStep
+          task="Change one detail so it's true for you, and say it."
+          students={students}
+          preferredStudentId={currentStudentId}
+          onSpoke={handleSpoke}
+          onDone={() => setSpeakerDone(true)}
+        />
+      )}
+
       {/* Controls */}
       <div className="flex justify-center gap-3">
         {!currentStudentId && (
@@ -629,7 +679,7 @@ export function SentenceScrambleGame({ currentStudentId, students, onScore, onPi
             REVEAL
           </button>
         )}
-        {submitted && (
+        {submitted && ((feedback === 'correct' || revealed) ? speakerDone : true) && (
           isMicroEvent ? (
             <div className="glass p-4 rounded-xl text-center">
               <p className="text-sm text-emerald-400 font-bold">Round complete</p>
