@@ -32,7 +32,7 @@ function Points({ items }: { items: Array<[string, string]> }) {
 
 const DETOURS = [
   { id: 'jobs', chip: 'Dream jobs', topic: 'Dream jobs', note: 'The plan for today', kind: 'Would you rather', q: 'Have a job you love with low pay, or a boring job with high pay?' },
-  { id: 'volcano', chip: 'Diego asks: volcanoes?', topic: 'Volcanoes', note: 'Detour · asked by Diego', kind: 'Fact detective', q: 'Three facts about volcanoes. One is false. Which one?' },
+  { id: 'volcano', chip: 'Diego: “My uncle is a volcano scientist!”', topic: 'Volcanoes', note: 'Detour · from Diego', kind: 'Would you rather', q: 'Would you rather study a live volcano or an ice glacier?' },
   { id: 'word', chip: 'A new word: “freelance”', topic: 'The word “freelance”', note: 'Detour · a new word', kind: 'Quick fire', q: 'Would you like to work freelance? Why, or why not?' },
 ];
 
@@ -44,8 +44,8 @@ export function ChangeCourseSection() {
       <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2">
         <div>
           <p className={EYEBROW}>Change course mid-flight</p>
-          <h2 className={H2}>A student asks about volcanoes. Go there. Then come back.</h2>
-          <p className={LEDE}>The best moments in a lesson are the ones you did not plan. Anything can change the course, and the room follows with fresh activities in seconds. Your original topic waits one tap away.</p>
+          <h2 className={H2}>Diego’s uncle studies volcanoes. Go there. Then come back.</h2>
+          <p className={LEDE}>The best moments in a lesson are the ones you did not plan. You are talking about dream jobs, Diego mentions his uncle, and suddenly the whole class wants to know about volcanoes. Follow it: the room has fresh activities in seconds, and your original topic waits one tap away.</p>
           <Points items={[
             ['From anything', 'A question a student sends in, a photo, a link, a word nobody knew, or a topic you type.'],
             ['Nothing is lost', 'The room keeps a trail of where the lesson has been, and returns to any point on it.'],
@@ -94,7 +94,7 @@ export function PhonesSection() {
           <h2 className={H2}>They tap. Then they talk.</h2>
           <p className={LEDE}>Phones are for choosing, voting and buzzing in. The English happens out loud, with you.</p>
           <Points items={[
-            ['No typing, no accounts', 'A first name and a seat. That is all a student gives.'],
+            ['No accounts, nothing to install', 'A first name and a seat. That is all a student gives.'],
             ['Everyone answers, not just the fast ones', 'The quiet student votes too, and you can see who has not spoken yet.'],
             ['No phones in your school?', 'Teach from your screen alone: you choose who speaks and mark answers yourself.'],
             ['Young learners', 'Junior mode uses pictures and a read-aloud voice, and never ranks children.'],
@@ -175,7 +175,8 @@ export function TeacherSection() {
     <section className="border-t border-lc-border px-5 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <p className={EYEBROW}>Who made this</p>
-        <h2 className={H2}>Built by a teacher, between classes.</h2>
+        <h2 className={H2}>Built by an English teacher, for real lessons.</h2>
+        <p className={LEDE}>LessonCaptain is made by an English teacher who teaches online. It started because the tools at hand kept students quiet: quizzes to click through, slides to sit through. Everything in it is tried in real lessons first.</p>
         <div className="mt-8 grid gap-x-8 gap-y-6 md:grid-cols-3">
           {[
             ['Made to be projected', 'Answers stay hidden until you reveal them, and your private notes never appear on the shared screen.'],
