@@ -1,4 +1,8 @@
-# Design direction notes: evaluation and plan (Oct 2026, v2)
+# Design direction notes: evaluation and plan (Oct 2026, v3)
+
+_v3 (Oct 17): section 6 rewritten for online classes, the main audience. Students can't share a phone over Zoom, so
+mixed classes now use team answers, voice seats and Zoom chat, and the plan designs for students who watch Zoom
+and answer on the same phone. Review brief for Astra: `docs/design-direction-review-brief.md`._
 
 _Written Oct 17 2026. Evaluates the owner's "LessonCaptain — Design Direction Notes" against the code and the
 roadmap (`docs/roadmap-oct-2026.md`), then turns the ideas worth doing into a build plan. v2 goes deeper: every
@@ -50,6 +54,7 @@ scheduling and class formation are a different business** and should wait (secti
 | Per-class settings | `classes` table has `default_difficulty`, `student_device_mode`, `junior`, `next_lesson`; edited in `src/components/class/class-defaults-card.tsx` | No modes, no saved tool list |
 | One switch that reshapes the class | Junior mode: `JUNIOR_HIDDEN_KEYS` in `src/lib/junior.ts`, applied in **one place**, `src/components/session/session-view.tsx:842-843` | Only hides tools; can't choose them |
 | Device level | `student_device_mode: 'devices' \| 'shared-screen'` (migration 051); shown as warnings in Explore and the launch drawer | No "light" level; doesn't filter the room |
+| Online students on one phone | Live Room **Zoom layout** enlarges the shared screen for students watching Zoom on a phone; "Phones now!" chime and phone flash | Nobody knows which students are on one phone, a second window, or no screen |
 | Tools tagged by phone need | Every game/activity has `deviceFree: boolean`, `minStudents`, `idealStudents` | No "light vs full" difference |
 | Teacher-scored students without phones | Device-free games score roster students via `onScore(studentId)` | Only in device-free games, not in phone steps |
 | Teacher profile | 5-tap onboarding (`src/lib/teacher-profile.ts`): class size, focus, level, age, online/in person | No device or structure question; profile only ranks a home rail |
@@ -101,7 +106,7 @@ that teach.
   view), Talk-view votes, Rank It for the top formats, 5-minute "taste tests" of real activities. The owner learns
   what works in the format before anything is built.
 - **v1 (weeks 3–4, built):** a new activity, **Class Design**, that shows the cards, takes a 3-way vote on phones or
-  by hand count, runs the remix step and saves the result to the class (section 5).
+  by Zoom reactions and chat counts, runs the remix step and saves the result to the class (section 5).
 
 ### Lesson script (60 minutes; a 45-minute cut is marked ✂)
 
@@ -113,7 +118,13 @@ that teach.
 | 27–37 ✂ | **Taste test** | Play the top 1–2 cards for 5 minutes each. Students react to doing it, not to a description of it. | (whatever the activity practises) |
 | 37–47 | **Remix** | Teams take one card and change one rule ("Quiz battle, but the losing team picks the next video"). 30-second pitch each; class votes. | *What if we… / Instead of…, we could… / The best thing about our idea is…* |
 | 47–53 | **Phones and the window** | Two quick votes: "How much should phones be part of this class?" (not at all / sometimes / a lot) and "What should happen outside the window?" (calm / landmarks / storms and surprises). | — |
-| 53–60 | **Your class plan** | The screen shows the class's top 3 formats, its end-of-class game, phone level and window choice. Teacher confirms. Saved to the class. | *We decided… / Most of us…* |
+| 53–60 | **Your class plan** | The screen shows the class's top 3 formats, its end-of-class game, how they answer and the window choice. Teacher confirms. Saved to the class. | *We decided… / Most of us…* |
+
+**Online (the main case):** votes go on phones or second windows; students with no second screen use Zoom
+reactions or type 1/2/3 in the chat, and the teacher adds their counts. The remix step runs in breakout rooms
+(3 minutes), then each team pitches in the main room. The taste test works as normal. The observation sheet also
+records **how many students were on each setup** (two devices, one computer, one phone, no screen). That is the
+first real data on section 6.
 
 **Age versions:**
 - **Junior (5–9):** 5 picture cards, thumbs up/down instead of 3 options, no remix step, a "which game at the end?"
@@ -177,7 +188,7 @@ teachers if at least two different classes put it in their top 3.
 ### What the teacher sees
 **Class page → Setup** (replaces the current Settings card; about 60 seconds, prefilled):
 1. **Level** (as now).
-2. **Phones:** None · Sometimes · Always (section 6).
+2. **How students answer:** Out loud · Quick taps · Full (section 6).
 3. **Junior class** switch (as now). Junior stays a separate switch, not a mode: it changes how the AI writes, not only
    which tools show. *(This corrects v1 of this plan.)*
 4. **This class's modes:** choose 1–5 cards from the list below, in order.
@@ -204,7 +215,7 @@ an **All tools** tab one tap away. Saved lesson plans and courses still launch a
 | **Party games** | Imposter, Taboo Sprint, Hot Seat, Bluff Definition, Cargo Hold, Two Truths and a Lie, Twenty Questions | — | Competitive |
 | **Relaxed chat** | Quick Pulse, Wonder Board, Prediction Round, Conversation Rounds, Rank It, Talk-view votes | — | No leaderboard |
 
-Modes are filtered again by the class's phone level (section 6) and by Junior. A "Phones: None" Quiz battle class
+Modes are filtered again by how the class answers (section 6) and by Junior. An "Out loud" Quiz battle class
 still gets Vocab Sprint, Synonym Showdown, Connections and Sentence Scramble, which all run without phones.
 
 ### Data model
@@ -266,56 +277,113 @@ export function shortlistFor(profile: ClassProfile, mode: ClassModeId, deviceMod
 
 ---
 
-## 6. Workstream C: phones, mixed classes and fair scoring
+## 6. Workstream C: answering devices, mixed classes and fair scoring (online first)
 
-### Three phone levels
-| Level | Meaning | Tools offered |
+LessonCaptain's main audience is **live online classes** (`docs/product-direction-lock.md`). Online, nobody can
+share a phone, so "devices" means something different: **does each student have a second screen to answer on,
+next to Zoom?** (v2 of this plan proposed students sharing a phone. That only works in a room, so it's now an
+in-person extra; see the end of this section.)
+
+### The four online setups
+Every online class is a mix of these. The product has to work for all four in the same lesson.
+
+| Setup | What it looks like | How well answering works today | What it needs |
+|---|---|---|---|
+| **A. Two devices** | Zoom on a laptop, LessonCaptain on a phone | Best case; what the product is built for | Nothing new |
+| **B. One computer** | Zoom and the LessonCaptain join page in two windows side by side | Works, if the student knows to do it | A "put this window next to Zoom" tip on the join page; a narrow, side-panel layout for the student screen |
+| **C. One phone** | Zoom and LessonCaptain on the same phone, switching apps | Works for quick taps; typing is slow; while answering they can't see the shared screen | Every phone step must carry the question itself; the existing "Phones now!" chime and flash; a "back to Zoom" cue; extra time |
+| **D. No second screen** | A child on a parent's tablet, bad data, a student who won't switch | Only in device-free tools | Answer out loud or in Zoom chat; the teacher marks |
+
+The code already knows setup C exists: the Live Room's **Zoom layout** enlarges the shared screen "so it reads on a
+phone in Zoom", and phones flash because iPhones can't vibrate. What's missing is **knowing who is on which setup**.
+
+### Knowing each student's setup (per lesson, not stored as a profile)
+- On the join page, one question after the name: **"Where are you watching the class?"**
+  *On another screen* (A) · *In another window on this computer* (B) · *On this phone too* (C).
+  Screen width and touch support give a sensible default, so most students just tap OK.
+- The teacher's cabin view shows a small icon per student (two screens / one screen / one phone / voice) so the
+  teacher knows who to wait for.
+- Setup D students don't join; the teacher adds them as **voice seats** (below).
+- Kept only for that lesson, never as a lasting profile of a child. Counts go to analytics (section 10) so we learn
+  how common each setup is.
+
+### The class setting: how students answer
+The class setting (shown in Setup) asks how answering usually works in this class:
+
+| Level | Meaning online | Tools offered |
 |---|---|---|
-| **None** (`shared-screen`) | One screen; students answer out loud; teacher marks | `deviceFree` tools only, plus phone-free versions (below) |
-| **Sometimes** (`light`) | Phones for quick taps: votes, choices, a pin | Device-free + tap-only tools |
-| **Always** (`devices`) | Phones throughout: typing, secret cards, private answers | Everything |
+| **Out loud** (`shared-screen`) | Students only watch Zoom; they answer by voice or Zoom chat; the teacher marks | `deviceFree` tools, plus no-screen versions (below) |
+| **Quick taps** (`light`) | Students answer on their phone or a second window, but only taps: votes, choices, a map pin | Device-free + tap-only tools. **The right default for classes with many one-phone students (C).** |
+| **Full** (`devices`) | Most students have a second screen; typing, secret cards, private answers | Everything |
 
-To make "Sometimes" work, each tool needs a `deviceUse: 'none' | 'light' | 'full'` tag next to `deviceFree`.
+To make "Quick taps" work, each tool needs a `deviceUse: 'none' | 'light' | 'full'` tag next to `deviceFree`:
 - `none` = `deviceFree: true`.
-- `light` = phone input is only a tap (votes, multiple choice, a map pin): Flash Quiz, Mystery Flight, Rank It,
+- `light` = the phone input is only a tap (votes, multiple choice, a map pin): Flash Quiz, Mystery Flight, Rank It,
   Quick Pulse, Prediction Round, Picture Quiz, Sector Strike.
 - `full` = typing or secret cards: Imposter, Hot Seat, Taboo Sprint, Wonder Board, Story Sprint, Decision Council.
 
-The full list is a short audit of each tool's input spec. A script can propose the tags and the owner checks them
-(good Codex task).
+A script can propose the tags from each tool's input spec, and the owner checks them (good Codex task).
 
-### Mixed classes: two ways in, cheapest first
-1. **Co-pilots (share a phone).** On the join screen: "+ Add a co-pilot". Two names on one phone; answers and points
-   go to both. This covers most mixed classes and needs no new teacher screens. It also makes students talk to each
-   other before answering, which is good for language learning.
-2. **Seats without phones.** At boarding the teacher taps roster names: "Here, no phone". They get a seat on the plane
-   (seat labels carry on from the phones), an avatar, a team. On phone steps, their tiles appear in the teacher's
-   panel with one-tap marks (*right · tried · not yet*). On votes, the teacher taps their choice or types a hand count.
+### Mixed online classes: three ways to take part
+1. **Team answers (the online version of sharing a phone).** In any team game, each team has a **captain** who
+   answers on their screen. The captain changes every round, so everyone gets a turn. Teammates discuss out loud
+   in the main room or a breakout room, and the whole team gets the points. One-phone (C) and no-screen (D)
+   students take part fully. And the team has to talk in English before anyone taps, which is good for the lesson.
+   A no-screen student can still be captain: they say the answer and the teacher taps it.
+2. **Voice seats.** At boarding the teacher taps roster names: "Here, answering out loud". They get a seat on the
+   plane (seat labels continue after the joined students), an avatar and a team. On every screen step their tiles
+   appear in the teacher's panel with one-tap marks (*right · tried · not yet*). For votes, the teacher taps their
+   choice.
+3. **Zoom chat answers.** For quick checks: "Type A, B, C or D in the chat now." The teacher reads the chat and taps
+   who was right (voice seats), or types the vote counts. No Zoom integration needed.
 
-### Fairness rules (write them into the scoring code, not just the docs)
-- Points for **taking part** and **being right**, never for being fastest to tap, whenever a class has phoneless
-  students. Speed bonuses (Rapid fire, Mystery Flight's early bonus) count for team totals only in mixed classes.
-- A teacher mark is worth the same as a phone answer of the same outcome (the shared 0/1/3/5 outcome scale).
-- **Fix the progression gap:** "Everyone Aboard" = students who took part ÷ (phones + seats without phones), counting
-  teacher marks. Change in `calculateWorldFlightReward` (`src/lib/world-flight/progression.ts`), with tests for: all
-  phones, no phones, 8 phones + 4 without.
-- What phone users get that others don't: private answers and richer input. Not more points.
+### Fairness rules (put them in the scoring code, not just the docs)
+- **Online, speed is unfair even with phones.** A one-phone student has to leave Zoom, open the browser and tap, so
+  they are always slower than a two-device student. So:
+  - In online classes, speed bonuses (Rapid fire, Mystery Flight's early bonus) count **for team totals only**, or
+    are off.
+  - When any one-phone student is in the lesson, timed phone steps get **+10 seconds**, and the step stays open
+    until the teacher closes it, never closing the instant the timer ends.
+- Points for **taking part** and **being right**. A teacher mark is worth the same as a screen answer with the same
+  outcome (the shared 0/1/3/5 outcome scale).
+- **Fix the progression gap:** "Everyone Aboard" = students who took part ÷ (joined students + voice seats),
+  counting teacher marks. Change it in `calculateWorldFlightReward` (`src/lib/world-flight/progression.ts`), with
+  tests for: all joined, nobody joined, 8 joined + 4 voice seats, and team answers (does the whole team count?).
+- What a second screen gives a student: private answers and richer input, not more points.
 
-### Phone-free versions of the most-used phone steps
-Pick the five from the new launch data (section 10). Likely candidates, with the playground version of each:
-- **Talk votes and Would You Rather:** hands up; the teacher types the two counts.
-- **Flash Quiz:** teams hold up A/B/C/D (fingers or paper); the teacher taps each team's answer.
-- **Mystery Flight:** each team tells the teacher where to pin; pins go on the shared map.
-- **Imposter:** heads down. The word shows on the big screen for 5 seconds while the imposter keeps their eyes
-  closed. That's how the game is played without phones, and students already know it.
-- **Rank It:** teams order printed or on-screen cards; the teacher drags the team order.
+### Phone steps that work for a one-phone student (setup C)
+A step works on one phone only if the student never needs to see the shared screen while answering:
+- The question, options and any picture are **on the phone**, not only on the shared screen.
+- One action per step where possible; typing kept short (a word or a sentence, not a paragraph).
+- After submitting: "Done. Go back to Zoom" with the class code still visible.
+- **Audit item:** check each `light` and `full` tool for steps that say "look at the screen" or show only "Answer
+  now" with the question only on the shared screen. Those fail for setup C. (Good review task for Astra.)
+
+### No-screen versions of the most-used steps (online)
+Pick the five from the new launch data (section 10). Likely candidates, with how teachers already play them on Zoom:
+- **Talk votes and Would You Rather:** Zoom reactions (thumbs up for A, heart for B) or "type 1 or 2 in the chat";
+  the teacher types the two counts.
+- **Flash Quiz:** team answers (captain taps), or "everyone type your letter in the chat on 3"; the teacher taps
+  who was right.
+- **Imposter:** the teacher sends the secret word to everyone except the imposter by **Zoom private chat**. That's
+  how teachers already play it online. LessonCaptain picks the imposter, shows the teacher the word, and runs the
+  clue rounds and the vote.
+- **Mystery Flight:** each team says its city; the teacher drops the team's pin on the shared map.
+- **Rank It:** each team says its order; the teacher drags the cards on the shared screen.
+
+### In-person classes (the smaller audience)
+Everything above works in a room too, plus one in-person extra: **co-pilots**. Two students share one phone, and
+the join screen gets a "+ Add a co-pilot" button so answers and points go to both. In a room, voice seats use hands
+up instead of Zoom reactions, and Imposter uses "heads down" while the word shows on the projector.
 
 ---
 
 ## 7. Workstream D: teacher onboarding v2 (7 taps)
 
 Keep it short. Add two questions to the five in `src/lib/teacher-profile.ts`:
-- **"How much do your students use phones in class?"** None · Sometimes · Always → prefills the first class's phone level.
+- **"How do your students answer in class?"** Most have a second screen next to Zoom · Most use one device (often a
+  phone) · They answer out loud · Not sure yet → prefills the first class's answering level (Full · Quick taps ·
+  Out loud · Quick taps). "Not sure" defaults to Quick taps because it works for every setup.
 - **"What does a great lesson feel like?"** Lively and competitive · Talkative and relaxed · Structured and clear ·
   Creative and playful → picks 3 starter modes for the first class.
 
@@ -443,7 +511,7 @@ Example questions:
 | The Explorer | Videos, the real world, curiosity | Video & listening, Travel |
 
 **Result page:** the style name and picture, your 5 sliders, strengths, a watch-out ("Game Captains sometimes leave
-quiet students behind: try co-pilots"), 3 class formats that suit you, and a button: **"Try a [mode] class free"**,
+quiet students behind: try team answers"), 3 class formats that suit you, and a button: **"Try a [mode] class free"**,
 which opens sign-up with that mode set up. A share card (image) for teacher groups and social posts.
 No email gate. That fits the owner's no-email-capture rule; an optional "email me my result" is the most it gets.
 
@@ -465,7 +533,9 @@ New PostHog events (`trackEvent` in `src/lib/analytics/posthog.ts`):
 | `class_mode_chosen` | `mode`, `modes_count` | Which modes are real |
 | `class_setup_saved` | `device_mode`, `modes`, `prefilled_from` | Setup completion |
 | `design_lesson_completed` | `cards`, `top3`, `phones`, `window` | Research totals |
-| `phoneless_seat_added` / `copilot_added` | `class_id` | How common mixed classes are |
+| `student_joined_session` (existing; add a property) | `setup: 'two-devices' \| 'side-by-side' \| 'one-phone'` | How common each online setup is |
+| `voice_seat_added` / `team_answer_round` / `copilot_added` (in person) | `class_id`, `online` | How common mixed classes are, and which fix teachers use |
+| `phone_step_closed` | `key`, `answered`, `joined`, `one_phone_count`, `seconds_open` | Do one-phone students get answers in on time? |
 | `route_moment_shown` / `route_moment_opened` | `route`, `moment`, `view` | Do moments get attention? |
 | `teaching_quiz_started` / `_completed` / `_shared` / `_cta_clicked` | `result` | The funnel |
 
@@ -474,6 +544,7 @@ Derived measures and targets (set real targets after 2 weeks of baseline):
 - **Share of launches from a shortlist:** at least 70% after 4 weeks with modes.
 - **Lessons finished in phone-free and mixed classes:** up, compared with before.
 - **Everyone Aboard rate in mixed classes:** the same as in all-phone classes.
+- **Answer rate of one-phone students** on phone steps: within 10 points of two-device students.
 - **Quiz:** at least 60% finish; at least 15% click the trial button.
 - **Owner rating of Design your class as a lesson:** at least 4/5 in at least 4 classes.
 
@@ -502,7 +573,7 @@ classes, group classes only.
 | 0 | Launch analytics (section 10). Card deck as slides. Observation sheet. | Pick 8 cards per class |
 | 1–2 | Concept doc for class setup and phones, with mockups. `deviceUse` audit (Codex). Progression fix and tests. | Run **v0 Design your class** in every class; fill sheets. ◆ Review concept doc |
 | 3–4 | Migration 066. `class-profile.ts`. Setup card. Mode filter at `session-view.tsx:842`. Mode chips on Home. **Class Design** activity v1. | ◆ Approve modes using Phase A results |
-| 5–6 | Co-pilots on the join screen. Seats without phones. Fairness rules in scoring. 3 phone-free versions. 7-tap onboarding. | Test one mixed class and one phone-free class |
+| 5–6 | "Where are you watching?" on the join page; setup icons in the cabin. Team answers. Voice seats. Fairness rules and the +10 s grace in scoring. One-phone fixes from the audit. 3 no-screen versions. 7-tap onboarding. | Test one online class with one-phone students and one out-loud class |
 | 7–8 | Fixes from testing. "Learns over time" prompts. | Run **v1** in all classes; invite 3 outside teachers (beta) |
 | 9–10 | Teaching-style quiz page, results, share card. Landing story section. | ◆ Approve result names and copy |
 | 11–12 | Missing features in `named-features.ts` (Codex). Scenic "off to the side" line. Moment engine and "Look outside" chip. First 4 signature routes. | Try routes in class; does anyone look? |
@@ -510,7 +581,7 @@ classes, group classes only.
 
 **How this fits the roadmap:** weeks 0–2 are Phase 0 testing. Weeks 3–8 come before the Home page rebuild
 (roadmap #3), because Home should open on *your classes and their modes*. Weeks 9–10 join the landing page (#7). Weeks 11–14
-join Phase 3 (#12–17). Pricing (#1): modes, phone levels and phone-free play are free, because they are what makes the
+join Phase 3 (#12–17). Pricing (#1): modes, answering levels and no-screen play are free, because they are what makes the
 product usable. Eventful flights and unlocked routes are a possible Pro extra.
 
 **Who does what:**
@@ -534,6 +605,8 @@ product usable. Eventful flights and unlocked routes are a possible Pro extra.
 | Privacy (minors) | Store class totals only; no per-student preferences; the remix text is anonymous |
 | Scope creep toward a marketplace | Section 11's triggers decide, not enthusiasm |
 | Mixed-class scoring feels unfair | Fairness rules in code, with tests; speed bonuses count for teams only |
+| One-phone students fall behind online (they leave Zoom to answer) | Questions on the phone itself; +10 s grace; "Quick taps" default; team answers; measure their answer rate |
+| Team captains dominate | The captain changes every round; the teacher can see who has captained |
 
 ---
 
@@ -543,8 +616,9 @@ product usable. Eventful flights and unlocked routes are a possible Pro extra.
 2. **Mode list:** start with the 9 above, or cut to 6 (drop Reading & stories, Relaxed chat, Grammar workout until
    asked for)? *Recommend all 9; teachers pick 3–5 anyway.*
 3. **Junior as a mode or a switch?** *Switch* (it changes the AI's language, not only the tools).
-4. **Co-pilots first, seats without phones second?** *Yes.* Co-pilots are cheaper and good for talk.
-5. **Speed bonuses in mixed classes:** off, or team-only? *Team-only.*
+4. **Mixed online classes: team answers first, voice seats second?** *Yes.* Team answers cover one-phone and
+   no-screen students at once and make teams talk. Co-pilots (sharing one phone) are an in-person extra only.
+5. **Speed bonuses online:** off, or team-only? *Team-only*, plus +10 s when one-phone students are present.
 6. **Signature routes:** the 12 above, or a different first 4? *Start with Paris→Rome, London→Cairo, Mumbai→Beijing,
    Toronto→New York.*
 7. **Bend limit for scenic routes:** 300 km silent, larger announced? *Yes.*
@@ -561,8 +635,9 @@ product usable. Eventful flights and unlocked routes are a possible Pro extra.
 | One configuration or several modes? | 3–5 modes per class; today's mode in one tap. |
 | How do preferences change over time? | Usage reorders modes; prompts add tools; a redesign lesson each term. |
 | Teacher override? | Always. Votes prefill; they never lock. |
-| Scoring in mixed classes? | Taking part plus being right; teacher marks equal phone answers; speed counts for teams only. |
-| What do phone users get extra? | Private answers and richer input, not more points. |
+| Scoring in mixed classes? | Taking part plus being right; teacher marks equal screen answers; speed counts for teams only; +10 s for one-phone students. |
+| What do device users get extra? | Private answers and richer input, not more points. |
+| How do students share online? | They don't share a phone; teams share an answer (a rotating captain), and the others answer by voice or Zoom chat. |
 | How does calm mode choose scenery? | Nearest notable feature within 300 km, shown as "on the left/right". |
 | Literal route or approximate? | Great circle by default; signature routes bend through waypoints (≤300 km silently). |
 | How many routes first? | 4, then 12. |
