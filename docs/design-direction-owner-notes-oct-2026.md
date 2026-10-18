@@ -215,7 +215,46 @@ Wikimedia could be the free picture source everywhere: Flash Quiz questions, voc
 
 ---
 
-## 10. Still to discuss
-1. Teacher sign-up and the free quiz.
+## 10. Teacher sign-up and onboarding (owner: "so important, not to lose the teachers")
+
+**Today:** Google sign-in, then a skippable 5-question box about the *teacher* (class size, focus, level, age,
+online or in person) that mainly ranks Home's recommendations. There's also a hidden Demo Class with pretend students
+for test flights. Problem: everything now works per *class*, and one teacher can have very different classes.
+
+**New flow:**
+1. Sign in with Google.
+2. **"Set up your first class"** replaces the 5 teacher questions: a class name, who it's for (age, level, Junior), the class type cards, how students answer, and where they teach. 1-on-1 follows from one student or a quick question. Later classes take the same questions, with the previous class's answers filled in.
+3. **Class list:** optional but encouraged ("Add names now so everyone gets a seat and avatar; paste a list, or add later").
+4. **The room opens set up for that class**, starting a **guided test flight** with pretend students: offered first, skippable, and replayable from help.
+5. **A short first-lesson checklist on Home**, gone once done: share the join code, try the picker, run one activity, land the plane.
+
+**Guided test flight per class type** (in the real cockpit; one control and one sentence per step; waits until the teacher tries it; at most 5 steps):
+- Free talk: set a topic, see "Where next?", show a picture from the private window, spin the picker (one pretend student has no device), "Go deeper" in Talk, land.
+- Game time: set the lesson to 20 minutes, launch a game from the shelf, see what phones show, scores and podium, land.
+- Conversation + games: where-next vote, spin the picker, "Your turn: pick a place", cast a Scene Igniter scene, land.
+- Structured class: choose a flight plan, move through its stages, next stage, land.
+
+**Screen setup tips by setting:**
+- Online: share this tab in Zoom, turn on Zoom layout, open the private window on a second monitor.
+- Classroom: full screen on the projector, high contrast for bright rooms.
+- 1-on-1: share your screen; the student answers out loud.
+
+**Tips at the right moment:** a small tip the first time a teacher meets something new (e.g. the first student without a device: "Tap their seat to mark an answer"). At most one per lesson, each can be dismissed, and all can be turned off.
+
+**Help in the cockpit:** a "?" opens a one-page guide for the class's type. Later, a 30-second video per type (overlaps with the marketing videos, roadmap #11).
+
+**Measure where teachers drop off** (teacher-side only):
+- signed up
+- class set up
+- test flight started and finished
+- first real lesson
+- second lesson within two weeks
+
+Later: one helpful email for teachers who set up a class but never taught.
+
+---
+
+## 11. Still to discuss
+1. The free teacher quiz: agreed for later; the owner's teaching story goes on the landing page now.
 2. The bigger ideas: matching teachers and students, scheduling.
 3. Later: the Flash Quiz gameplay redesign; a light way to collect student feedback.
