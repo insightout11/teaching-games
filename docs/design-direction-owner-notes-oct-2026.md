@@ -254,7 +254,35 @@ Later: one helpful email for teachers who set up a class but never taught.
 
 ---
 
-## 11. Still to discuss
+## 11. Bigger ideas: finding students, matching, scheduling
+
+**Owner decisions:**
+- **LessonCaptain charges teachers only**, starting in 2027 as already set up. No student payments inside LessonCaptain.
+- **Next: find students for the owner's own new test classes.** Students pay the owner directly, outside LessonCaptain. Even if LessonCaptain doesn't take off, this becomes a personal income stream without going through a company.
+- **Later, if demand grows:** add other teachers to the board and take a cut. Only then are booking payments and payouts (Stripe Connect or similar) worth building.
+- The teacher beta sign-up (application page, Founding Crew incentives) already exists. New teachers can come in at the same time as the owner's test classes.
+
+**The ladder (each step tests the next):**
+1. **The owner's classes on a public board.** Upcoming group classes with day and time in the visitor's own time zone, level, age, class type, spots left and a free trial. Families request a spot; the owner confirms and arranges payment himself.
+2. **"Tell us what you want."** A request form (level, age, interests, class type, available times), plus a simple view grouping requests ("4 students want B1 teens on Saturdays at 10:00 Beijing time") so a new class opens when enough people fit. This is student discovery and matching, done by hand.
+3. **Trusted teachers** list classes the same way.
+4. **Automatic help:** suggested matches, overlapping times found automatically, payments and the owner's cut. Only with real volume (dozens of requests a week).
+5. **Open marketplace:** far off.
+
+**Connections to the rest of the design:**
+- Class types are the shared language of listings ("Free talk · advanced teens · Fridays").
+- A class's journey (cities, stamps, souvenirs) is proof no other platform has; the public journey page already exists.
+
+**Care points:**
+- The request form collects children's details, so parents fill it in, with as little data as possible and a short privacy note. The kids' privacy review asked for a lawyer's check before the board; that's simpler when it's the owner's own tutoring intake, but still worth a check.
+- Every time is shown in the viewer's local time.
+
+**Sequencing (suggested):**
+- Start finding students for 1–2 test classes now, since classes take weeks to fill.
+- Invite the first small batch of beta teachers (3–5) once the class setup, guided test flight and seats exist. Their first impression is the onboarding, so it should be ready first.
+
+---
+
+## 12. Still to discuss
 1. The free teacher quiz: agreed for later; the owner's teaching story goes on the landing page now.
-2. The bigger ideas: matching teachers and students, scheduling.
-3. Later: the Flash Quiz gameplay redesign; a light way to collect student feedback.
+2. Later: the Flash Quiz gameplay redesign; a light way to collect student feedback.
