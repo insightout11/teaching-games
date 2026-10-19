@@ -1,5 +1,6 @@
 'use client';
 
+import { flightClock } from '@/lib/live-room/flight-clock';
 import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -93,6 +94,7 @@ type RouteCity = FlightCity & LatLng;
 const HOME: RouteCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BASE_SCENE, ...LC_INTERNATIONAL_COORD };
 /** Class lengths offered at boarding; the flight lands ~5 minutes before the end. */
 const CLASS_MINUTES = [30, 45, 60, 90];
+const CLASS_MINUTES_KEY = 'lc-class-minutes-last';
 const SCENE_CITIES = WORLD_DESTINATIONS.filter((d) => d.scene);
 const toRouteCity = (d: (typeof SCENE_CITIES)[number]): RouteCity => ({ id: d.id, city: d.city, scene: d.scene!, lat: d.lat, lng: d.lng });
 function hashOf(text: string) {
@@ -244,6 +246,9 @@ export function FlightDeck({
   // After landing the room stays open as the arrivals hall until the teacher ends class.
   const [hall, setHall] = useState(false);
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
+  // The class clock starts when the room opens (kept across reloads); every flight lands 5 minutes before the end.
+  const [classStartAt, setClassStartAt] = useState(() => Date.now());
+  const [classMinutes, setClassMinutes] = useState(60);
   // The class journey is World Flight's: depart from the class's current city,
   // within the plane's range (LC International before its first flight).
   const [position, setPosition] = useState<{ currentDestinationId: string | null; rangeKm: number; planeKey?: string | null; nextDestinationId?: string | null; journey?: Array<{ from: string | null; to: string }> } | null>(null);
@@ -291,7 +296,14 @@ export function FlightDeck({
   const flightKey = `lc-room-flight-${sessionId}`;
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string } | null;
+      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string; classStartAt?: number; classMinutes?: number } | null;
+      if (saved?.classStartAt) setClassStartAt(Math.min(saved.classStartAt, saved.takeoffAt ?? saved.classStartAt));
+      if (saved?.classMinutes) setClassMinutes(saved.classMinutes);
+      else {
+        // A new lesson starts from the length this teacher used last time.
+        const last = Number(localStorage.getItem(CLASS_MINUTES_KEY));
+        if (last >= 15 && last <= 240) setClassMinutes(last);
+      }
       if (saved?.chosenId) setChosenId(saved.chosenId);
       if (saved?.lockedId) setLockedId((cur) => cur ?? saved.lockedId ?? null);
       if (saved?.stayHome) setStayHome(saved.stayHome);
@@ -299,8 +311,11 @@ export function FlightDeck({
     } catch { /* storage blocked */ }
   }, [flightKey]);
   useEffect(() => {
-    try { localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome })); } catch { /* storage blocked */ }
-  }, [flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome]);
+    try {
+      localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes }));
+      localStorage.setItem(CLASS_MINUTES_KEY, String(classMinutes));
+    } catch { /* storage blocked */ }
+  }, [flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes]);
   const destination = useMemo<RouteCity>(
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
@@ -730,13 +745,15 @@ export function FlightDeck({
   const [roulette, setRoulette] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
-  const [classMinutes, setClassMinutes] = useState(60);
-  const flightMs = Math.max(15, classMinutes - 5) * 60_000;
-  const elapsedMs = takeoffAt ? Math.max(0, now - takeoffAt) : 0;
-  const routeT = takeoffAt ? Math.min(1, elapsedMs / flightMs) : 0;
-  // Class ran over: the plane circles near the destination until you land.
-  const holding = flightStage === 'flying' && takeoffAt !== null && elapsedMs >= flightMs;
-  const minutesLeft = takeoffAt ? Math.max(0, (flightMs - elapsedMs) / 60_000) : null;
+  const clock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
+  const { flightMs, routeT, minutesLeft } = clock;
+  // Arrived (5 minutes before the end of class): the plane circles near the destination until you land.
+  const holding = flightStage === 'flying' && clock.holding;
+  const endsAtLabel = new Date(clock.endAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const nudgeClass = (delta: number) => {
+    setClassMinutes((m) => Math.min(240, Math.max(15, m + delta)));
+    flash(`Class now ends at ${new Date(clock.endAt + delta * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`);
+  };
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
   // Country and nearby big city under the plane (outlines load lazily).
   const [countries, setCountries] = useState<CountryShape[] | null>(null);
@@ -756,7 +773,7 @@ export function FlightDeck({
   const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
   // Today's route, shown to the class on the route map before and during the flight.
   const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
-  const minutesFlown = takeoffAt ? elapsedMs / 60_000 : null;
+  const minutesFlown = clock.minutesFlown;
   // The next thing on Today's route (never a border into the country the plane is already over).
   const nextStop = minutesFlown == null ? null : preview.find((s) => s.at > minutesFlown && !s.text.startsWith('Land in') && !(countryNow && s.text === `Cross into ${countryNow}`)) ?? null;
   const place = useMemo(() => {
@@ -1476,8 +1493,13 @@ export function FlightDeck({
                 onChange={(e) => setClassMinutes(Number(e.target.value))}
                 className="rounded-lg border border-white/20 bg-slate-900/80 px-2 py-1 text-white"
               >
-                {CLASS_MINUTES.map((m) => <option key={m} value={m}>{m} min</option>)}
+                {(CLASS_MINUTES.includes(classMinutes) ? CLASS_MINUTES : [...CLASS_MINUTES, classMinutes].sort((a, b) => a - b)).map((m) => <option key={m} value={m}>{m} min</option>)}
               </select>
+              <span className="flex items-center gap-1 text-white/55" title="The clock started when you opened the room. Opened it early? Move the end time.">
+                ends {endsAtLabel}
+                <button type="button" onClick={() => nudgeClass(-5)} aria-label="Class ends 5 minutes earlier" className="rounded border border-white/15 px-1.5 hover:text-white">−5</button>
+                <button type="button" onClick={() => nudgeClass(5)} aria-label="Class ends 5 minutes later" className="rounded border border-white/15 px-1.5 hover:text-white">+5</button>
+              </span>
             </label>
           )}
           {flightStage === 'gate' && canChooseStart && !lockedId && (
@@ -2272,7 +2294,7 @@ export function FlightDeck({
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
-        <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave). Tip: F11 stays full screen even when the Sources window opens." className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+        <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave). Tip: F11 stays full screen even when the Sources window opens." className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           {fullScreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />} {fullScreen ? 'Exit full screen' : 'Full screen'}
         </button>
         {fullScreenLost && !fullScreen && (
@@ -2291,6 +2313,13 @@ export function FlightDeck({
           >
             <ListChecks className="h-3.5 w-3.5" /> {landArmed ? 'Tap again to finish' : 'Finish lesson'}
           </button>
+        )}
+        {flightStage === 'flying' && (
+          <span className="flex shrink-0 items-center whitespace-nowrap rounded-lg border border-[#2A3854] text-xs text-white/75" title="When the class ends. The plane arrives 5 minutes before.">
+            <button type="button" onClick={() => nudgeClass(-5)} aria-label="Class ends 5 minutes earlier" className="px-2 py-1.5 hover:text-white">−5</button>
+            <span className="px-1 font-mono text-[11px]">ends {endsAtLabel}</span>
+            <button type="button" onClick={() => nudgeClass(5)} aria-label="Class ends 5 minutes later" className="px-2 py-1.5 hover:text-white">+5</button>
+          </span>
         )}
         {flightStage === 'flying' && (
           <button
