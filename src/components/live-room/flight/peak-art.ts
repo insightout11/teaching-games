@@ -4,6 +4,11 @@ type RGB = [number, number, number];
 
 export type PeakKind = 'snow' | 'forest' | 'bare';
 
+/** Which peak drawing to use (the dev gallery compares the old and new). */
+let PEAK_STYLE: 'old' | 'new' = 'old'; // the room keeps the old peaks until the owner approves the new ones
+export function setPeakStyle(s: 'old' | 'new') { PEAK_STYLE = s; }
+export const peakStyle = () => PEAK_STYLE;
+
 export interface PeakStyle {
   /** Bare rock colour for this part of the world (grey in the north, red-brown in the desert belt). */
   rock: RGB;
@@ -26,6 +31,7 @@ export function drawPeak(
   ctx: CanvasRenderingContext2D, kind: PeakKind, roll: number, tone: number, style: PeakStyle,
   cx: number, baseY: number, topY: number, half: number, fog: number, haze: RGB, alpha: number,
 ) {
+  if (PEAK_STYLE === 'new') { drawPeakV2(ctx, kind, roll, tone, style, cx, baseY, topY, half, fog, haze, alpha); return; }
   const H = baseY - topY;
   const X = (nx: number) => cx + nx * half;
   const Y = (ny: number) => baseY - ny * H;
@@ -116,5 +122,129 @@ export function drawPeak(
   skirt.addColorStop(1, `rgba(${haze[0]},${haze[1]},${haze[2]},${0.25 + fog * 0.4})`);
   ctx.fillStyle = skirt;
   ctx.fillRect(X(-1.1), baseY - H * 0.28, half * 2.2, H * 0.28 + 1);
+  ctx.restore();
+}
+
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+
+// ── Mountains with depth (Oct 2026) ───────────────────────────────────────────────────────────────────────────────
+// Each mountain is a small picture made once and reused (drawn scaled), shaded pixel by pixel like a relief map:
+// a broad, irregular massif with shoulders; slopes facing the light are bright and the others in shadow; vertical
+// spurs and gullies; darker and hazier towards the foot; snow above an uneven line that runs further down the ridges;
+// forest speckle low down; banded rock in dry ranges. Night uses the same shapes in moonlight.
+
+const TW = 288, TH = 144;          // template size (pixels); drawn scaled to each peak
+const TEMPLATES = 24;              // different mountain shapes per kind (and each can be mirrored)
+const FOG_LEVELS = [0, 0.2, 0.4, 0.6, 0.8, 0.95];
+const templateCache = new Map<string, HTMLCanvasElement>();
+
+/** 1-D smooth noise from a seed (sum of a few sines with seeded phases: cheap and repeatable). */
+function noise1(seed: number) {
+  const ph = [0, 1, 2, 3, 4, 5].map((i) => pr(seed, i) * Math.PI * 2);
+  return (x: number, f = 1) => (
+    Math.sin(x * 2.1 * f + ph[0]) * 0.5 + Math.sin(x * 4.7 * f + ph[1]) * 0.25 + Math.sin(x * 9.3 * f + ph[2]) * 0.14
+    + Math.sin(x * 19.1 * f + ph[3]) * 0.07 + Math.sin(x * 37.7 * f + ph[4]) * 0.04
+  ) * 0.5 + 0.5;
+}
+
+function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: number, haze: RGB): HTMLCanvasElement {
+  const c = document.createElement('canvas');
+  c.width = TW; c.height = TH;
+  const g = c.getContext('2d');
+  if (!g) return c;
+  const img = g.createImageData(TW, TH);
+  const n1 = noise1(seed * 1.7 + 1), n2 = noise1(seed * 3.1 + 7), n3 = noise1(seed * 5.3 + 13);
+  // the skyline: a summit off-centre, one or two shoulders, noise that is stronger mid-slope
+  const apex = 0.36 + pr(seed, 40) * 0.28;
+  const bumps = [0, 1, 2].map((k) => ({ x: apex + (pr(seed, 41 + k) < 0.5 ? -1 : 1) * (0.14 + pr(seed, 43 + k) * 0.3), h: 0.35 + pr(seed, 45 + k) * 0.4, w: 0.06 + pr(seed, 47 + k) * 0.1 }));
+  const sharp = 0.75 + pr(seed, 49) * 0.45;
+  const hAt = (u: number) => {
+    const d = u < apex ? (apex - u) / apex : (u - apex) / (1 - apex);
+    let h = Math.pow(clamp01(1 - d), sharp);
+    for (const b of bumps) h = Math.max(h, b.h * Math.exp(-((u - b.x) ** 2) / (2 * b.w * b.w)) * (1 - d * 0.4));
+    h *= 0.74 + 0.26 * n1(u * 4);
+    h += (n2(u * 9) - 0.5) * 0.07 * Math.sin(Math.PI * clamp01(1 - d));
+    return clamp01(h);
+  };
+  const H = new Float32Array(TW + 2);
+  for (let x = -1; x <= TW; x++) H[x + 1] = hAt((x + 0.5) / TW);
+  const peakH = Math.max(...Array.from(H));
+  for (let x = 0; x < H.length; x++) H[x] /= peakH || 1; // the summit touches the top
+
+  const rock = kind === 'forest' ? mixRgb(style.rock, style.leaf, 0.55) : mixRgb(style.rock, style.warm ? [150, 96, 70] : [128, 124, 116], 0.25);
+  const lit: RGB = style.night ? mixRgb(rock, [76, 90, 128], 0.6) : mixRgb(rock, style.warm ? [246, 200, 156] : [238, 228, 212], 0.42);
+  const shade: RGB = style.night ? mixRgb(rock, [8, 12, 24], 0.78) : mixRgb(rock, [26, 30, 48], 0.55);
+  const snowLit: RGB = style.night ? [178, 192, 224] : style.snow;
+  const snowShade: RGB = style.night ? [88, 102, 140] : mixRgb(style.snow, [138, 160, 204], 0.45);
+  const tree: RGB = style.night ? [10, 20, 20] : mixRgb(style.leaf, [18, 46, 28], 0.6);
+  const snowLine = kind === 'snow' ? 0.4 + pr(seed, 50) * 0.22 : kind === 'forest' ? 0.86 : 2;
+
+  for (let x = 0; x < TW; x++) {
+    const h = H[x + 1];
+    if (h <= 0.002) continue;
+    const top = (1 - h) * TH;
+    const slope = (H[x + 2] - H[x]) * TW * 0.08;   // + rising to the right: a face turned to the light (from the left)
+    const u = x / TW;
+    for (let y = Math.max(0, Math.floor(top)); y < TH; y++) {
+      const ph = 1 - y / TH;                          // height of this point (0 foot, 1 summit)
+      const depth = (y - top) / Math.max(1, TH - top); // 0 at the skyline, 1 at the foot
+      // ridges and gullies fan out from the summit: a pattern in the angle from the summit
+      const spread = 0.12 + (1 - ph) * 1.3;
+      const a0 = (u - apex) / spread, a1 = (u + 1 / TW - apex) / spread;
+      const rf = (a: number) => 0.6 * n3(a * 3) + 0.4 * n2(a * 6.3 + 2.1);
+      const ridge = rf(a0), across = (rf(a1) - ridge) * TW * 0.35; // + the light side of a ridge
+      const spur = Math.abs(ridge - 0.5) * 2;           // 0 on a crest, 1 in a gully
+      const patch = n2(u * 5 + ph * 6) - 0.5;           // broad patchy variation
+      let light = clamp01(0.5 + slope * 1.5 * (1 - depth * 0.5) + across * (kind === 'bare' ? 0.4 : 0.6) + patch * 0.3);
+      light = clamp01(light - depth * 0.22);
+      let col = mixRgb(shade, lit, light);
+      // snow: above an uneven line, further down along the crests, thinner in the gullies
+      const line = snowLine + (n1(u * 23 + ph * 3) - 0.5) * 0.12 + (spur - 0.5) * 0.14;
+      if (ph > line) col = mixRgb(snowShade, snowLit, clamp01(light * 1.15));
+      else if (kind === 'forest' && ph < 0.55) {
+        // trees: random dots, clumped by a broad noise, thinning towards the tree line
+        const hash = Math.sin(x * 12.9898 + y * 78.233 + seed * 3.7) * 43758.5453;
+        const dot = hash - Math.floor(hash);
+        if (dot < (0.55 - ph) * 1.4 * (0.4 + n2(u * 4 + ph * 3))) col = mixRgb(col, tree, 0.75);
+      } else if (kind === 'bare' && style.warm) {
+        // rock layers: soft horizontal bands, gently warped
+        const band = Math.sin((ph + (n1(u * 2) - 0.5) * 0.06) * 30);
+        col = mixRgb(col, band > 0.5 ? [228, 160, 108] : band < -0.6 ? [96, 46, 34] : col, 0.12);
+      }
+      col = mixRgb(col, haze, clamp01(fog + depth * 0.22 * (1 - fog)));
+      // soft skyline, and the foot fades into the valley haze
+      const edge = (y === Math.floor(top) ? 1 - (top - Math.floor(top)) : 1) * clamp01((1 - depth) / 0.28);
+      const i = (y * TW + x) * 4;
+      img.data[i] = col[0]; img.data[i + 1] = col[1]; img.data[i + 2] = col[2]; img.data[i + 3] = Math.round(255 * edge);
+    }
+  }
+  g.putImageData(img, 0, 0);
+  return c;
+}
+
+function drawPeakV2(
+  ctx: CanvasRenderingContext2D, kind: PeakKind, roll: number, _tone: number, style: PeakStyle,
+  cx: number, baseY: number, topY: number, half: number, fog: number, haze: RGB, alpha: number,
+) {
+  const h = baseY - topY;
+  if (h < 1 || half < 1) return;
+  const t = Math.floor(roll * TEMPLATES) % TEMPLATES;
+  const fl = FOG_LEVELS.reduce((best, f) => (Math.abs(f - fog) < Math.abs(best - fog) ? f : best), 0);
+  const hz = haze.map((v) => Math.round(v / 8) * 8) as RGB;
+  const key = `${kind}|${t}|${fl}|${style.night ? 1 : 0}|${style.warm ? 1 : 0}|${style.rock.join(',')}|${style.snow.join(',')}|${style.leaf.join(',')}|${hz.join(',')}`;
+  let tpl = templateCache.get(key);
+  if (!tpl) {
+    tpl = makeTemplate(kind, t + 1, style, fl, hz);
+    templateCache.set(key, tpl);
+    if (templateCache.size > 600) { const k = templateCache.keys().next().value; if (k) templateCache.delete(k); }
+  }
+  // broad massifs: a mountain is about three times as wide as it is tall
+  const w = half * 2.4;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  if (pr(roll, 99) > 0.5) { ctx.translate(cx, 0); ctx.scale(-1, 1); ctx.drawImage(tpl, -w / 2, topY, w, h); }
+  else ctx.drawImage(tpl, cx - w / 2, topY, w, h);
   ctx.restore();
 }
