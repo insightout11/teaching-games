@@ -11,23 +11,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Users } from 'lucide-react';
 import { ProgressReportModal } from './progress-report-modal';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { CrewBuilder } from '@/components/student/crew-builder';
 
-const AVATAR_COLORS = [
-  'bg-blue-500/20 text-blue-300',
-  'bg-violet-500/20 text-violet-300',
-  'bg-emerald-500/20 text-emerald-300',
-  'bg-amber-500/20 text-amber-300',
-  'bg-rose-500/20 text-rose-300',
-  'bg-cyan-500/20 text-cyan-300',
-  'bg-pink-500/20 text-pink-300',
-  'bg-indigo-500/20 text-indigo-300',
-];
+let avatarSaveTimer: number | null = null;
 
-function avatarColor(name: string): string {
-  let h = 0;
-  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
-  return AVATAR_COLORS[h % AVATAR_COLORS.length];
-}
 
 const isMockMode = () => process.env.NEXT_PUBLIC_MOCK_MODE === 'true';
 
@@ -230,6 +218,19 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
     }
   };
 
+  // The teacher sets a student's crew avatar (their seat in the room); a student who joins on a phone can still change it.
+  const [editingAvatar, setEditingAvatar] = useState<string | null>(null);
+  const setAvatar = (id: string, seed: string) => {
+    updateStudents(students.map((s) => (s.id === id ? { ...s, avatar_seed: seed } : s)));
+    if (isMockMode()) return;
+    if (avatarSaveTimer) window.clearTimeout(avatarSaveTimer);
+    avatarSaveTimer = window.setTimeout(() => {
+      void supabase.from('students').update({ avatar_seed: seed }).eq('id', id).then(({ error }: { error: unknown }) => {
+        if (error) { setFeedback('Could not save the avatar'); setTimeout(() => setFeedback(null), 3000); }
+      });
+    }, 500);
+  };
+
   const removeStudent = async (id: string) => {
     if (isMockMode()) {
       updateStudents(students.filter((s) => s.id !== id));
@@ -309,10 +310,11 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
         <>
           <ul className="space-y-1">
             {students.map((s) => (
-              <li key={s.id} className="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-lc-surface group">
-                <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${avatarColor(s.name)}`}>
-                  {s.name.charAt(0).toUpperCase()}
-                </span>
+              <li key={s.id} className="rounded-lg px-2 py-1.5 hover:bg-lc-surface group">
+                <div className="flex items-center gap-3">
+                <button type="button" onClick={() => setEditingAvatar((e) => (e === s.id ? null : s.id))} title="Choose an avatar for their seat" aria-label={`Choose an avatar for ${s.name}`} className="shrink-0 rounded-full ring-amber-300/60 hover:ring-2">
+                  <CrewAvatar seed={s.avatar_seed ?? s.name} name={s.name} size={30} />
+                </button>
                 <span className="flex-1 text-sm text-lc-text">{s.name}</span>
                 <button
                   onClick={() => removeStudent(s.id)}
@@ -320,6 +322,13 @@ export function RosterEditor({ classId, initialStudents }: { classId: string; in
                 >
                   Remove
                 </button>
+                </div>
+                {editingAvatar === s.id && (
+                  <div className="mt-2 rounded-xl border border-white/10 bg-black/20 p-3">
+                    <CrewBuilder seed={s.avatar_seed ?? s.name} name={s.name} onChange={(seed) => setAvatar(s.id, seed)} />
+                    <button type="button" onClick={() => setEditingAvatar(null)} className="mt-2 text-xs text-lc-text3 hover:text-lc-text">Done</button>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
