@@ -6,6 +6,7 @@ import { CheckCircle, Circle, Stamp, Plus } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { ActivityProps } from '../types';
 import type { DecisionCouncilContent } from '../types';
+import { councilChallengePhoneSpec } from './phone-spec';
 import type {
   CouncilPhase,
   Proposal,
@@ -281,20 +282,7 @@ export function DecisionCouncilActivity({
         options: proposals.map((p, i) => `${LABELS[i] ?? String.fromCharCode(65 + i)}: ${p.text}`),
       });
     } else if (phase === 'challenge') {
-      const options = selectedProposalCards.flatMap(({ label }) => {
-        return [`support:${label}`, `challenge:${label}`, `evidence:${label}`];
-      });
-      const optionLabels = selectedProposalCards.flatMap(({ label }) => {
-        return [`Support ${label}`, `Challenge ${label}`, `Need evidence ${label}`];
-      });
-      onSetInputSpec?.({
-        type: 'choice',
-        gameKey: 'decision-council',
-        prompt: 'Tap where the discussion should go next',
-        options,
-        optionLabels,
-        instruction: 'Choose one discussion signal',
-      });
+      onSetInputSpec?.(councilChallengePhoneSpec(content.councilQuestion, selectedProposalCards));
     } else if (phase === 'voting' && selectedProposals.length > 0) {
       onSetInputSpec?.({
         type: 'choice',
