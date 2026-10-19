@@ -51,6 +51,17 @@ At most three landmark moments per flight (as "Look outside" today), spread thro
 - Students can see the album photos afterwards (the same way they see the logbook), and a photo can be sent to phones
   as a postcard at the end of the lesson.
 
+## Window selfies (owner idea, 20 Oct 2026)
+
+Each student's phone gets a **Window seat** view: the landmark from their own passenger window (sideways, lower and
+closer than the cockpit, the angle shifting with their seat row), in the same light and weather. Their avatar leans
+into the frame and they tap to take a selfie. Avatar only, never a camera or a real face; nothing on the shared
+screen; never ranked. Recommended: the window opens for about a minute when the teacher takes the class photo, so the
+class stays together (owner to confirm). Selfies go to the student's own collection beside the souvenirs and can be
+the end-of-lesson postcard. Students without a device still have the class photo. Needs: a side-window renderer on
+the phone (test on a real phone early) and a private per-student table (the student and their teacher only), in the
+same migration as the album.
+
 ## What is drawn
 
 The quest needs good landmarks in the scenery. About 80 landmarks can come up on routes (30 famous sights, 15
@@ -85,9 +96,10 @@ goes into the gallery as stills for the owner's approval before it reaches the r
 2. **Landmarks in the room:** the route's landmarks stand in the scenery (no photo yet). Owner tries a real flight.
 3. **Photo mode:** the Take photo button, the camera moment and the print on the shared screen.
 4. **The album:** the migration, saving photos, the album page, empty frames with hints, the lobby strip.
-5. **Rare conditions:** the badges and the conditions that make them.
-6. **Drawing, part 2:** the remaining hand-made landmarks and shared shapes, in batches, each approved in the gallery.
-7. **Talk about it:** the optional speaking moment on a photo.
+5. **Window selfies** on the students' phones (after the album, sharing its migration).
+6. **Rare conditions:** the badges and the conditions that make them.
+7. **Drawing, part 2:** the remaining hand-made landmarks and shared shapes, in batches, each approved in the gallery.
+8. **Talk about it:** the optional speaking moment on a photo.
 
 Steps 1 and 2 are useful on their own (the flight looks better); the quest itself starts at step 3.
 
