@@ -152,3 +152,48 @@ describe('World Flight stars without phones', () => {
     expect(reward.snapshot.everyoneAboardEarned).toBe(false);
   });
 });
+
+describe('World Flight stars in a mixed class (seats)', () => {
+  const marked = (studentId: string) => ({ studentId, outcome: 'on-task', countsForLeaderboard: true });
+  const phoneScore = (clientId: string) => ({ clientId, outcome: 'on-task', countsForLeaderboard: true });
+
+  it('counts students without a device: 1 phone took part, 3 deviceless did nothing → no star', () => {
+    const r = calculateWorldFlightReward([{ clientId: 'p1', studentId: 's1' }], [phoneScore('p1')], 4, ['s1', 's2', 's3', 's4']);
+    expect(r.snapshot.participantCount).toBe(4);
+    expect(r.snapshot.everyoneAboardEarned).toBe(false);
+  });
+
+  it('earns the star when the teacher marked the students without devices too', () => {
+    const r = calculateWorldFlightReward(
+      [{ clientId: 'p1', studentId: 's1' }],
+      [phoneScore('p1'), marked('s2'), marked('s3')],
+      4,
+      ['s1', 's2', 's3', 's4'],
+    );
+    expect(r.snapshot.meaningfulParticipantCount).toBe(3);
+    expect(r.snapshot.everyoneAboardEarned).toBe(true);
+  });
+
+  it('one student on two devices counts once', () => {
+    const r = calculateWorldFlightReward(
+      [{ clientId: 'p1', studentId: 's1' }, { clientId: 'p2', studentId: 's1' }, { clientId: 'p3', studentId: 's2' }],
+      [phoneScore('p1'), phoneScore('p2')],
+      2,
+      ['s1', 's2'],
+    );
+    expect(r.snapshot.participantCount).toBe(2);
+    expect(r.snapshot.meaningfulParticipantCount).toBe(1);
+  });
+
+  it('absent students are not counted', () => {
+    const r = calculateWorldFlightReward([], [marked('s1'), marked('s2')], 4, ['s1', 's2']);
+    expect(r.snapshot.participantCount).toBe(2);
+    expect(r.snapshot.everyoneAboardEarned).toBe(true);
+  });
+
+  it('a phone student who typed a new name still counts', () => {
+    const r = calculateWorldFlightReward([{ clientId: 'guest', studentId: null }], [phoneScore('guest')], 1, ['s1']);
+    expect(r.snapshot.participantCount).toBe(2);
+    expect(r.snapshot.meaningfulParticipantCount).toBe(1);
+  });
+});

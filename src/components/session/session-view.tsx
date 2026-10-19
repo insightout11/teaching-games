@@ -677,6 +677,27 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   contentOverridesRef.current = contentOverrides;
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
+  // Lessons run in the Live Room have seats: everyone on the class list is there unless marked absent, so the
+  // participation star counts students without a device too (sent with "end lesson").
+  const roomAttendance = (): { absentStudentIds?: string[] } => {
+    try {
+      if (!localStorage.getItem(`lc-room-flight-${session.id}`)) return {};
+      const a = JSON.parse(localStorage.getItem(`lc-room-absent-${session.id}`) ?? '[]');
+      return { absentStudentIds: Array.isArray(a) ? a.filter((x: unknown): x is string => typeof x === 'string') : [] };
+    } catch { return {}; }
+  };
+  // A trial student or someone unexpected: added to the class list from an empty seat in the room.
+  const handleAddRosterStudent = async (name: string): Promise<boolean> => {
+    if (isMockMode()) {
+      setStudents((prev) => [...prev, { id: `student-${Date.now()}`, class_id: cls.id, name, avatar_seed: `seed-${Date.now()}`, created_at: new Date().toISOString() } as Student]);
+      return true;
+    }
+    const { data, error } = await createClient().from('students').insert({ class_id: cls.id, name }).select().single();
+    if (error || !data) return false;
+    setStudents((prev) => (prev.some((x) => x.id === (data as Student).id) ? prev : [...prev, data as Student]));
+    return true;
+  };
+
   const [sessionParticipants, setSessionParticipants] = useState<SessionParticipant[]>(initialParticipants);
   const [removeConfirm, setRemoveConfirm] = useState<string | null>(null);
   const [removeError, setRemoveError] = useState<string | null>(null);
@@ -1315,7 +1336,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       const response = await fetch('/api/session/end', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: session.id, completed, ...(tripSummary ? { tripSummary } : {}) }),
+        body: JSON.stringify({ sessionId: session.id, completed, ...(tripSummary ? { tripSummary } : {}), ...roomAttendance() }),
       });
 
       const result = await response.json().catch(() => ({ error: 'Failed to end session' })) as {
@@ -2230,6 +2251,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             sessionId={session.id}
             className={cls.name}
             classId={cls.id}
+            roster={students.map((st) => ({ id: st.id, name: st.name, avatar_seed: st.avatar_seed ?? null }))}
+            onAddStudent={handleAddRosterStudent}
             joinUrl={joinUrl}
             participants={sessionParticipants}
             onRemoveParticipant={removeParticipant}

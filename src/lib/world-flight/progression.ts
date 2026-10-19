@@ -148,24 +148,37 @@ export function calculateWorldFlightReward(
   scores: WorldFlightRewardScore[],
   /** Students on the class list. Only used when no phone joined: then the teacher's marks decide Everyone Aboard. */
   rosterCount = 0,
+  /**
+   * Class-list students who were in the lesson (the room's seats, minus anyone marked absent). When given, students
+   * without a device count as present, so a mixed class is measured on everyone there, not only the phones.
+   */
+  presentRosterIds?: string[],
 ): WorldFlightFlightReward {
-  const studentToClient = new Map(
+  // One identity per student: a class-list student is the same person on one phone, two phones or no phone.
+  const clientToStudent = new Map(
     participants
       .filter((participant) => participant.studentId)
-      .map((participant) => [participant.studentId!, `client:${participant.clientId}`]),
+      .map((participant) => [participant.clientId, participant.studentId!]),
+  );
+  const participantIdentity = (participant: WorldFlightRewardParticipant) => (
+    participant.studentId ? `student:${participant.studentId}` : `client:${participant.clientId}`
   );
   const scoreIdentity = (score: WorldFlightRewardScore) => {
-    if (score.clientId) return `client:${score.clientId}`;
-    if (score.studentId) return studentToClient.get(score.studentId) ?? `student:${score.studentId}`;
+    if (score.studentId) return `student:${score.studentId}`;
+    if (score.clientId) {
+      const studentId = clientToStudent.get(score.clientId);
+      return studentId ? `student:${studentId}` : `client:${score.clientId}`;
+    }
     return null;
   };
   const meaningfulScores = scores.filter((score) => (
     score.responseType === 'remote_vote'
     || (score.countsForLeaderboard !== false && score.outcome !== 'invalid')
   ));
-  const connectedParticipantIds = new Set(
-    participants.map((participant) => `client:${participant.clientId}`),
-  );
+  const connectedParticipantIds = new Set([
+    ...participants.map(participantIdentity),
+    ...(presentRosterIds ?? []).map((id) => `student:${id}`),
+  ]);
 
   const meaningfulParticipantIds = new Set(
     meaningfulScores.map(scoreIdentity).filter((identity): identity is string => Boolean(identity)),
