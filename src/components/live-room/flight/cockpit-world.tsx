@@ -96,6 +96,8 @@ const Z_FAR = 60000;
 const Z_NEAR = 900;
 const CRUISE_SPEED = 4200;   // world units per second at speed 1
 const TILE_WORLD = 14;       // one texture pixel covers this many world units
+/** World size of one tile of the relief pattern (hills a few kilometres across). */
+const RELIEF_WORLD = 30000;
 const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the ground's, so no repeat lines up
 const SHORE = 4200;          // world units over which one terrain blends into the next
 
@@ -140,7 +142,7 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
     p.w = p.h * (4.5 + Math.random() * 3.5);
   } else {
     p.h = peakStyle() === 'new' ? 600 + Math.random() * 1100 : 900 + Math.random() * 1800; // always well below the camera (3200): we fly over them
-    p.w = p.h * (1.6 + Math.random() * 1.2);
+    p.w = p.h * (peakStyle() === 'new' ? 2.3 + Math.random() * 1.6 : 1.6 + Math.random() * 1.2);
   }
   p.tone = Math.random();
   p.roll = Math.random();
@@ -263,7 +265,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     if (!same) {
       if (terrain === 'mountains' || terrain === 'hills') {
         const hill = terrain === 'hills';
-        for (let i = 0; i < (hill ? 190 : 160); i++) {
+        for (let i = 0; i < (hill ? 190 : peakStyle() === 'new' ? 230 : 160); i++) {
           const pk: Peak = { x: 0, z: 0, h: 0, w: 0, tone: 0, roll: 0, hill };
           spawnPeak(pk, cam.current, false);
           // A terrain we're flying into only has peaks beyond its edge.
@@ -338,14 +340,24 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       ctx.globalAlpha = alpha;
       ctx.fillStyle = lv.pat;
       ctx.fillRect(0, y, w, rowH);
-      const mac = groundRelief() && layer.terrain !== 'ocean' ? relief : macro;
-      if (mac && withMacro) {
+      if (macro && withMacro) {
         const m = (F / z) * MACRO_WORLD;
         mtx.a = m; mtx.d = m; mtx.e = w / 2 + 3100 * (F / z); mtx.f = y - (((camZ + z) / MACRO_WORLD) % 256) * m;
-        mac.setTransform(mtx);
+        macro.setTransform(mtx);
         ctx.globalCompositeOperation = 'overlay';
-        ctx.globalAlpha = alpha * layer.macroAlpha * (mac === relief ? 1.6 : 1);
-        ctx.fillStyle = mac;
+        ctx.globalAlpha = alpha * layer.macroAlpha;
+        ctx.fillStyle = macro;
+        ctx.fillRect(0, y, w, rowH);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+      // Relief: hills and valleys lit from the sun's side, laid over all land (not open sea), shrinking with distance.
+      if (relief && withMacro && groundRelief() && layer.terrain !== 'ocean') {
+        const m = (F / z) * RELIEF_WORLD;
+        mtx.a = m; mtx.d = m; mtx.e = w / 2 + 1700 * (F / z); mtx.f = y - (((camZ + z) / RELIEF_WORLD) % 512) * m;
+        relief.setTransform(mtx);
+        ctx.globalCompositeOperation = 'overlay';
+        ctx.globalAlpha = alpha * (layer.terrain === 'mountains' ? 0.9 : layer.terrain === 'ice' ? 0.5 : 0.8) * (1 - Math.min(0.6, z / (Z_FAR * 1.2)));
+        ctx.fillStyle = relief;
         ctx.fillRect(0, y, w, rowH);
         ctx.globalCompositeOperation = 'source-over';
       }
