@@ -677,13 +677,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   contentOverridesRef.current = contentOverrides;
   const [ended, setEnded] = useState(session.status === 'ended');
   const [students, setStudents] = useState(serverStudents);
-  // Lessons run in the Live Room have seats: everyone on the class list is there unless marked absent, so the
-  // participation star counts students without a device too (sent with "end lesson").
-  const roomAttendance = (): { absentStudentIds?: string[] } => {
+  // Lessons run in the Live Room have seats: students without a device whom the teacher boarded were in the lesson,
+  // so the participation star counts them too (sent with "end lesson"). Phones count by joining.
+  const roomAttendance = (): { boardedStudentIds?: string[] } => {
     try {
       if (!localStorage.getItem(`lc-room-flight-${session.id}`)) return {};
-      const a = JSON.parse(localStorage.getItem(`lc-room-absent-${session.id}`) ?? '[]');
-      return { absentStudentIds: Array.isArray(a) ? a.filter((x: unknown): x is string => typeof x === 'string') : [] };
+      const b = JSON.parse(localStorage.getItem(`lc-room-boarded-${session.id}`) ?? '{}');
+      return { boardedStudentIds: b && typeof b === 'object' && !Array.isArray(b) ? Object.keys(b) : [] };
     } catch { return {}; }
   };
   // A trial student or someone unexpected: added to the class list from an empty seat in the room.

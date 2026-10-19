@@ -751,32 +751,39 @@ export function FlightDeck({
   };
   const [panel, setPanel] = useState<'catalogue' | 'sources' | 'menu' | 'logbook' | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
-  // ── seats: everyone on the class list, plus anyone who joined under a new name ──
-  // Students without a device are present unless the teacher marks them absent (kept for this lesson).
-  const absentKey = `lc-room-absent-${sessionId}`;
-  const [absent, setAbsent] = useState<string[]>([]);
+  // ── seats: nobody starts on the plane. Phones board as they join; the teacher boards students without a device. ──
+  // boarded: class-list student id → when the teacher boarded them (kept for this lesson).
+  const boardedKey = `lc-room-boarded-${sessionId}`;
+  const [boarded, setBoarded] = useState<Record<string, number>>({});
   useEffect(() => {
-    try { const a = JSON.parse(localStorage.getItem(absentKey) ?? '[]'); if (Array.isArray(a)) setAbsent(a.filter((x) => typeof x === 'string')); } catch { /* storage blocked */ }
-  }, [absentKey]);
-  const toggleAbsent = (studentId: string) => setAbsent((prev) => {
-    const next = prev.includes(studentId) ? prev.filter((x) => x !== studentId) : [...prev, studentId];
-    try { localStorage.setItem(absentKey, JSON.stringify(next)); } catch { /* storage blocked */ }
+    try {
+      const b = JSON.parse(localStorage.getItem(boardedKey) ?? '{}');
+      if (b && typeof b === 'object' && !Array.isArray(b)) setBoarded(Object.fromEntries(Object.entries(b).filter(([, v]) => typeof v === 'number')) as Record<string, number>);
+    } catch { /* storage blocked */ }
+  }, [boardedKey]);
+  const saveBoarded = (next: Record<string, number>) => {
+    try { localStorage.setItem(boardedKey, JSON.stringify(next)); } catch { /* storage blocked */ }
     return next;
-  });
+  };
+  const boardStudent = (studentId: string) => setBoarded((prev) => (prev[studentId] ? prev : saveBoarded({ ...prev, [studentId]: Date.now() })));
+  const unboardStudent = (studentId: string) => setBoarded((prev) => { const next = { ...prev }; delete next[studentId]; return saveBoarded(next); });
   const allSeats = useMemo<DeckParticipant[]>(() => {
     // One seat per student: a phone (or a second device) for a class-list student uses that student's seat.
     const byStudent = new Map<string, DeckParticipant>();
     participants.forEach((p) => { if (p.student_id && !byStudent.has(p.student_id)) byStudent.set(p.student_id, p); });
-    const onList = new Set(roster.map((r) => r.id));
-    const listed = roster.map((r) => byStudent.get(r.id) ?? {
-      id: `roster:${r.id}`, student_id: r.id, client_id: `roster:${r.id}`, display_name: r.name, avatar_seed: r.avatar_seed, joined_at: '', deviceless: true,
-    });
-    const extras = participants
-      .filter((p) => !p.student_id || !onList.has(p.student_id))
-      .sort((a, b) => a.joined_at.localeCompare(b.joined_at));
-    return [...listed, ...extras];
-  }, [participants, roster]);
-  const isAbsent = (p: DeckParticipant) => !!p.deviceless && !!p.student_id && absent.includes(p.student_id);
+    const phones = Array.from(byStudent.values()).concat(participants.filter((p) => !p.student_id));
+    const onPhone = new Set(Array.from(byStudent.keys()));
+    const noDevice: DeckParticipant[] = roster
+      .filter((r) => boarded[r.id] && !onPhone.has(r.id))
+      .map((r) => ({
+        id: `roster:${r.id}`, student_id: r.id, client_id: `roster:${r.id}`, display_name: r.name, avatar_seed: r.avatar_seed,
+        joined_at: new Date(boarded[r.id]).toISOString(), deviceless: true,
+      }));
+    // Seats fill in the order students boarded.
+    return [...phones, ...noDevice].sort((a, b) => a.joined_at.localeCompare(b.joined_at));
+  }, [participants, roster, boarded]);
+  // Class-list students not on the plane yet (the + seat offers them).
+  const notAboard = useMemo(() => roster.filter((r) => !allSeats.some((p) => p.student_id === r.id)), [roster, allSeats]);
   const [spotlight, setSpotlightId] = useState<string | null>(null);
   // Spotlight doubles as the game's "up next" student (the shell sidebar that
   // used to pick it is hidden in the room).
@@ -1170,8 +1177,8 @@ export function FlightDeck({
   };
 
   // ── cabin ────────────────────────────────────────────────────────────────
-  // Everyone present: phones, plus class-list students without a device who are not marked absent.
-  const seated = useMemo(() => allSeats.filter((p) => !(p.deviceless && p.student_id && absent.includes(p.student_id))), [allSeats, absent]);
+  // Everyone aboard: phones, plus students without a device whom the teacher boarded.
+  const seated = allSeats;
   const newest = useMemo(() => [...participants].sort((a, b) => a.joined_at.localeCompare(b.joined_at)).pop() ?? null, [participants]);
   const answered = useMemo(() => {
     if (!runningKey) return new Set<string>();
@@ -1188,7 +1195,7 @@ export function FlightDeck({
   const [walkingIds, setWalkingIds] = useState<Set<string>>(new Set());
   const arrivals = useMemo<Boarder[]>(
     () => seated
-      .filter((p) => !p.deviceless && new Date(p.joined_at).getTime() >= roomOpenedAt.current)
+      .filter((p) => new Date(p.joined_at).getTime() >= roomOpenedAt.current)
       .map((p) => ({ id: p.id, name: p.display_name, seed: p.avatar_seed ?? null, late: flightStage !== 'gate' })),
     // flightStage only matters at the moment someone arrives
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1282,13 +1289,22 @@ export function FlightDeck({
     if (!r?.ok) flash('Could not save that vote');
   };
   const [adding, setAdding] = useState(false);
+  // A new student boards as soon as the class list has them.
+  const [boardNext, setBoardNext] = useState<string | null>(null);
+  useEffect(() => {
+    if (!boardNext) return;
+    const st = roster.find((r) => r.name.toLowerCase() === boardNext);
+    if (st) { boardStudent(st.id); setBoardNext(null); }
+    // boardStudent is stable in effect (a state setter wrapper)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boardNext, roster]);
   const [newName, setNewName] = useState('');
   const addStudent = async () => {
     const name = newName.trim().slice(0, 40);
     if (!name || !onAddStudent) return;
     if (allSeats.some((p) => p.display_name.toLowerCase() === name.toLowerCase())) { flash(`${name} already has a seat`); return; }
     const ok = await onAddStudent(name);
-    if (ok) { setNewName(''); setAdding(false); flash(`${name} added to the class`); } else flash('Could not add the student');
+    if (ok) { setNewName(''); setAdding(false); setBoardNext(name.toLowerCase()); flash(`${name} added to the class and boarding`); } else flash('Could not add the student');
   };
 
   const nextSpeaker = () => {
@@ -2666,11 +2682,25 @@ export function FlightDeck({
           </div>
         )}
         {adding && (
-          <form onSubmit={(e) => { e.preventDefault(); void addStudent(); }} className="flex items-center gap-1.5 rounded-xl border border-amber-300/40 bg-amber-300/[0.07] p-2">
-            <input autoFocus value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="New student's name" aria-label="New student's name" className="min-w-0 flex-1 rounded-lg border border-white/15 bg-slate-950/70 px-2 py-1 text-xs text-white placeholder:text-white/35" />
+          <div className="space-y-2 rounded-xl border border-amber-300/40 bg-amber-300/[0.07] p-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-semibold text-amber-100">Board a student (no device)</span>
+            <button type="button" onClick={() => { setAdding(false); setNewName(''); }} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-3.5 w-3.5" /></button>
+          </div>
+          {notAboard.length > 0 && (
+            <div className="flex max-h-28 flex-wrap gap-1 overflow-y-auto">
+              {notAboard.map((r) => (
+                <button key={r.id} type="button" onClick={() => { boardStudent(r.id); flash(`${r.name} is boarding`); }} className="flex items-center gap-1 rounded-full border border-white/20 py-0.5 pl-0.5 pr-2 text-[11px] text-white/85 hover:border-amber-300/60">
+                  <CrewAvatar seed={r.avatar_seed ?? r.name} name={r.name} size={18} className="rounded-full" />{r.name}
+                </button>
+              ))}
+            </div>
+          )}
+          <form onSubmit={(e) => { e.preventDefault(); void addStudent(); }} className="flex items-center gap-1.5">
+            <input autoFocus value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Someone new? Their name" aria-label="New student's name" className="min-w-0 flex-1 rounded-lg border border-white/15 bg-slate-950/70 px-2 py-1 text-xs text-white placeholder:text-white/35" />
             <button type="submit" disabled={!newName.trim()} className="rounded-lg bg-amber-300 px-2 py-1 text-[11px] font-semibold text-[#1a1204] disabled:opacity-40">Add</button>
-            <button type="button" onClick={() => { setAdding(false); setNewName(''); }} aria-label="Cancel" className="text-white/50 hover:text-white"><X className="h-3.5 w-3.5" /></button>
           </form>
+          </div>
         )}
         {seatMenuP && (
           <div className="space-y-2 rounded-xl border border-sky-300/40 bg-sky-300/[0.06] p-2 text-xs">
@@ -2678,14 +2708,11 @@ export function FlightDeck({
               <span className="truncate font-semibold text-white">{seatMenuP.display_name} <span className="font-normal text-white/50">· no device</span></span>
               <button type="button" onClick={() => setSeatMenu(null)} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-3.5 w-3.5" /></button>
             </div>
-            {isAbsent(seatMenuP) ? (
-              <button type="button" onClick={() => { toggleAbsent(seatMenuP.student_id!); flash(`${seatMenuP.display_name} is here`); }} className="w-full rounded-lg bg-emerald-300 px-2 py-1 font-semibold text-slate-950">Here today</button>
-            ) : (
-              <>
+            <>
                 <div className="flex flex-wrap gap-1">
                   <button type="button" onClick={() => { setSpotlight(seatMenuP.id); flash(`${seatMenuP.display_name}, you're up!`); setSeatMenu(null); }} className="rounded-lg bg-amber-300 px-2 py-1 font-semibold text-[#1a1204]">Your turn</button>
                   <button type="button" onClick={() => raiseHandFor(seatMenuP)} className="rounded-lg border border-white/20 px-2 py-1 text-white/85 hover:border-white/40">{hands[seatMenuP.client_id] ? 'Hand down' : 'Hand up'}</button>
-                  <button type="button" onClick={() => { toggleAbsent(seatMenuP.student_id!); setSeatMenu(null); flash(`${seatMenuP.display_name} marked absent`); }} className="rounded-lg border border-white/20 px-2 py-1 text-white/60 hover:border-white/40">Absent</button>
+                  <button type="button" onClick={() => { unboardStudent(seatMenuP.student_id!); setSeatMenu(null); flash(`${seatMenuP.display_name} left the plane`); }} className="rounded-lg border border-white/20 px-2 py-1 text-white/60 hover:border-white/40">Leave the plane</button>
                 </div>
                 {runningKey && (
                   <div className="flex flex-wrap items-center gap-1">
@@ -2704,7 +2731,6 @@ export function FlightDeck({
                   </div>
                 )}
               </>
-            )}
           </div>
         )}
         <div className="relative flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto rounded-[80px_80px_22px_22px] border border-[#2A3854] bg-gradient-to-b from-[#141e32] to-[#0d1524] px-3 pb-3 pt-7">
@@ -2745,7 +2771,7 @@ export function FlightDeck({
                         className="touch-none"
                         title={`${p.display_name} · Seat ${cabinSeatLabel(r * 4 + c)}`}
                       >
-                        <span className={isAbsent(p) ? 'block opacity-30 grayscale' : 'block'}><CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={40} /></span>
+                        <span className="block"><CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={40} /></span>
                       </motion.button>
                     ) : onAddStudent && r * 4 + c === allSeats.length ? (
                       <button type="button" onClick={() => setAdding(true)} title="Add a student (a trial student, someone new)" aria-label="Add a student" className="grid h-full w-full place-items-center rounded-[9px_9px_5px_5px] text-white/40 hover:bg-white/5 hover:text-amber-200">
@@ -2754,7 +2780,7 @@ export function FlightDeck({
                     ) : (
                       <span className="h-2.5 w-2.5 rounded-full border border-dashed border-[#2b3855]" />
                     )}
-                    {p?.deviceless && !isAbsent(p) && (
+                    {p?.deviceless && (
                       <span className="absolute -left-1.5 -top-1.5 grid h-4 w-4 place-items-center rounded-full border border-white/25 bg-slate-900 text-white/70" title="No device: tap the seat to answer or vote for them">
                         <PhoneOff className="h-2.5 w-2.5" />
                       </span>

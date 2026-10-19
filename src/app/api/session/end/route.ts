@@ -57,8 +57,8 @@ async function advanceActiveExpedition(classId: string, sessionId: string) {
 async function awardWorldFlightProgression(
   classId: string,
   sessionId: string,
-  /** Class-list students the teacher marked absent in the room (null: the room did not say). */
-  absentStudentIds: string[] | null = null,
+  /** Class-list students without a device whom the teacher boarded in the room (null: the room did not say). */
+  boardedStudentIds: string[] | null = null,
 ): Promise<WorldFlightProgressionRewardResult | null> {
   const service = createServiceClient();
   const [{ data: leg }, { data: participants }, { data: scores }] = await Promise.all([
@@ -83,8 +83,8 @@ async function awardWorldFlightProgression(
   const { data: rosterRows } = await service.from('students').select('id').eq('class_id', classId);
   const rosterIds = (rosterRows ?? []).map((r) => r.id as string);
   const rosterCount = rosterIds.length;
-  // Seats: everyone on the class list who was not marked absent was in the lesson, with or without a device.
-  const presentRosterIds = absentStudentIds ? rosterIds.filter((id) => !absentStudentIds.includes(id)) : undefined;
+  // Seats: students without a device count once the teacher boarded them (phones count by joining).
+  const presentRosterIds = boardedStudentIds ? rosterIds.filter((id) => boardedStudentIds.includes(id)) : undefined;
   const reward = calculateWorldFlightReward(
     (participants ?? []).map((participant) => ({
       clientId: participant.client_id,
@@ -226,8 +226,8 @@ async function getCompletedCourseContext(sessionId: string) {
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
-  const absentStudentIds: string[] | null = Array.isArray(body?.absentStudentIds)
-    ? (body.absentStudentIds as unknown[]).filter((x): x is string => typeof x === 'string').slice(0, 200)
+  const boardedStudentIds: string[] | null = Array.isArray(body?.boardedStudentIds)
+    ? (body.boardedStudentIds as unknown[]).filter((x): x is string => typeof x === 'string').slice(0, 200)
     : null;
   const sessionId = body?.sessionId;
   const completed = body?.completed;
@@ -296,7 +296,7 @@ export async function POST(request: Request) {
       }
     }
     try {
-      progressionReward = await awardWorldFlightProgression(ownership.session.class_id, sessionId, absentStudentIds);
+      progressionReward = await awardWorldFlightProgression(ownership.session.class_id, sessionId, boardedStudentIds);
     } catch (progressionError) {
       console.error('[api/session/end] World Flight collaborative progression error:', progressionError);
     }
