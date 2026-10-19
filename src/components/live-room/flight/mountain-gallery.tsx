@@ -15,7 +15,6 @@ const RANGES: Array<{ region: string; label: string }> = [
   { region: 'Asia', label: 'Asia: mixed snow and forest' },
   { region: 'Africa', label: 'Arid (Africa): bare rock' },
 ];
-if (typeof window !== 'undefined' && window.location.search.includes('bench')) window.requestAnimationFrame = ((cb: FrameRequestCallback) => window.setTimeout(() => cb(performance.now()), 16)) as typeof window.requestAnimationFrame; // DEBUG-TIMING
 const TIMES: TimeOfDay[] = ['day', 'dusk', 'night'];
 
 function Cell({ region, tod, moving, terrain = 'mountains' }: { region: string; tod: TimeOfDay; moving: boolean; terrain?: Terrain }) {
@@ -60,7 +59,7 @@ export function MountainGallery() {
     const s = q.get('style') === 'old' ? 'old' : 'new';
     setStyle(s);
     setPeakStyle(s);
-    setGroundRelief(s === 'new' && !q.has('norelief')); // DEBUG-TIMING
+    setGroundRelief(s === 'new');
     const region = q.get('one');
     if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);

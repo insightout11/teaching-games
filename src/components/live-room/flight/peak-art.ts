@@ -141,7 +141,6 @@ const templateCache = new Map<string, HTMLCanvasElement>();
 const hazeCache = new WeakMap<HTMLCanvasElement, HTMLCanvasElement>();
 const pending = new Map<string, () => void>();
 let buildScheduled = false;
-if (typeof window !== "undefined") (window as unknown as { __pk?: unknown }).__pk = { pending, templateCache: () => templateCache }; // DEBUG-TIMING
 /** Builds waiting pictures while the browser is idle (a few milliseconds each), so the flight never stutters. */
 function scheduleBuilds() {
   if (buildScheduled) return;

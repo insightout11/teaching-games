@@ -353,7 +353,6 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     };
 
     const frame = (now: number) => {
-      const __t0 = performance.now(); // DEBUG-TIMING
       camH += (CAM_HEIGHT * Math.max(0.2, Math.min(1, live.current.altitude)) - camH) * 0.01;
       // A video is playing (or a video is full screen; the whole room in full screen keeps moving): the scenery holds still so the video gets the whole machine.
       if (live.current.paused || (document.fullscreenElement && document.fullscreenElement !== document.documentElement)) {
@@ -558,7 +557,6 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       band.addColorStop(1, `rgba(${haze[0]},${haze[1]},${haze[2]},0)`);
       ctx.fillStyle = band;
       ctx.fillRect(0, horizonY - 6, w, h * 0.06 + 6);
-      { const W = window as unknown as { __ms?: number[] }; (W.__ms ??= []).push(performance.now() - __t0); } // DEBUG-TIMING
 
       raf = requestAnimationFrame(frame);
     };
