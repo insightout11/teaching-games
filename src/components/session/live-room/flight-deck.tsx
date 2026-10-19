@@ -1,5 +1,7 @@
 'use client';
 
+import { RoomGuide } from './room-guide';
+import { markFirst, trackFunnel } from '@/lib/teacher-firsts';
 import { TestFlightCoach } from './test-flight-coach';
 import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType, type SecondScreens } from '@/lib/class-profile';
 import { classFitMarks, withFallback } from '@/lib/class-fit';
@@ -10,7 +12,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -442,6 +444,8 @@ export function FlightDeck({
   };
   // The teacher lands the plane: from the button in the top bar (two taps, so it cannot happen by accident) or the menu.
   const landNow = () => {
+    markFirst('landed');
+    trackFunnel('lesson_landed', { classType: todayType ?? null });
     setPanel(null);
     setLandArmed(false);
     if (flightPlan) flightPlan.onEnd();
@@ -809,6 +813,22 @@ export function FlightDeck({
     if (!offerTestFlight) return;
     try { if (localStorage.getItem(TEST_FLIGHT_DONE_KEY) !== '1') setTestFlightOffer(true); } catch { setTestFlightOffer(true); }
   }, [offerTestFlight]);
+  const [guideOpen, setGuideOpen] = useState(false);
+  // Tips at the right moment: at most one per lesson, each shown once, all can be turned off.
+  const [tipsOn, setTipsOn] = useState(true);
+  const [tip, setTip] = useState<{ id: string; text: string } | null>(null);
+  useEffect(() => { try { setTipsOn(localStorage.getItem('lc-tips-off') !== '1'); } catch { /* storage blocked */ } }, []);
+  const setTipsPref = (on: boolean) => { setTipsOn(on); if (!on) setTip(null); try { if (on) localStorage.removeItem('lc-tips-off'); else localStorage.setItem('lc-tips-off', '1'); } catch { /* storage blocked */ } };
+  const offerTip = useCallback((id: string, text: string) => {
+    if (!tipsOn) return;
+    try {
+      const seen = JSON.parse(localStorage.getItem('lc-tips-seen') ?? '[]') as string[];
+      if (seen.includes(id) || localStorage.getItem(`lc-tip-lesson-${sessionId}`)) return;
+      localStorage.setItem('lc-tips-seen', JSON.stringify([...seen, id]));
+      localStorage.setItem(`lc-tip-lesson-${sessionId}`, id);
+    } catch { return; }
+    setTip({ id, text });
+  }, [tipsOn, sessionId]);
   const rosterAll = useMemo(() => (testFlight ? [...roster, ...PRETEND_STUDENTS] : roster), [roster, testFlight]);
   // ── seats: nobody starts on the plane. Phones board as they join; the teacher boards students without a device. ──
   // boarded: class-list student id → when the teacher boarded them (kept for this lesson).
@@ -1390,6 +1410,13 @@ export function FlightDeck({
     if (ok) { setNewName(''); setAdding(false); setBoardNext(name.toLowerCase()); flash(`${name} added to the class and boarding`); } else flash('Could not add the student');
   };
 
+  useEffect(() => { if (participants.length > 0) markFirst('shared'); }, [participants.length]);
+  useEffect(() => { if (runningKey && !testFlight) markFirst('ran'); }, [runningKey, testFlight]);
+  useEffect(() => {
+    if (testFlight) return;
+    if (allSeats.some((p) => p.deviceless)) offerTip('seat', 'Students without a device: tap their seat to give them a turn, mark an answer or vote for them.');
+  }, [allSeats, testFlight, offerTip]);
+
   // Test flight: what the teacher has tried since it started.
   const [tf, setTf] = useState({ spins: 0, whereNext: false, launched: false, finished: false, startFocus: null as string | null, startShown: null as string | null });
   useEffect(() => {
@@ -1404,12 +1431,14 @@ export function FlightDeck({
     setTestFlight(true);
     setTf({ spins: 0, whereNext: false, launched: false, finished: false, startFocus: focused?.id ?? null, startShown: shown?.id ?? null });
     setAdding(false);
+    setGuideOpen(false);
+    trackFunnel('guided_test_flight_started', { classType: todayType ?? null });
   };
   const endTestFlight = (finished: boolean) => {
     setTestFlight(false);
     PRETEND_STUDENTS.forEach((s) => unboardStudent(s.id));
     try { localStorage.setItem(TEST_FLIGHT_DONE_KEY, '1'); } catch { /* storage blocked */ }
-    if (finished) flash('Test flight complete');
+    if (finished) { flash('Test flight complete'); trackFunnel('guided_test_flight_finished', { classType: todayType ?? null }); }
   };
 
   const nextSpeaker = () => {
@@ -1426,6 +1455,7 @@ export function FlightDeck({
   const spinRoulette = () => {
     if (roulette || seated.length === 0) return;
     setTf((t) => ({ ...t, spins: t.spins + 1 }));
+    if (!testFlight) markFirst('picked');
     const pick = fairPick(seated.map((p) => p.id), fairRef.current.picked, fairRef.current.last);
     fairRef.current = { picked: pick.picked, last: pick.id };
     const target = Math.max(0, seated.findIndex((p) => p.id === pick.id));
@@ -2571,6 +2601,9 @@ export function FlightDeck({
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Maximize2 className="h-3.5 w-3.5" /> Present
         </button>
+        <button type="button" onClick={() => setGuideOpen((o) => !o)} aria-label="Guide" title="Guide for this kind of class" className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg border ${guideOpen ? 'border-amber-300/60 text-amber-200' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+          <HelpCircle className="h-4 w-4" />
+        </button>
         <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave). Tip: F11 stays full screen even when the Sources window opens." className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           {fullScreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />} {fullScreen ? 'Exit full screen' : 'Full screen'}
         </button>
@@ -3053,6 +3086,24 @@ export function FlightDeck({
         </div>
       </section>
 
+      {guideOpen && (
+        <RoomGuide
+          type={todayType}
+          place={classProfile?.place}
+          oneOnOne={rosterCount === 1}
+          tipsOn={tipsOn}
+          onTips={setTipsPref}
+          onReplay={startTestFlight}
+          onClose={() => setGuideOpen(false)}
+        />
+      )}
+      {tip && !testFlight && (
+        <div className="fixed right-4 top-20 z-[71] flex max-w-sm items-start gap-2 rounded-xl border border-sky-300/40 bg-slate-950/95 p-3 text-sm text-sky-50 shadow-xl backdrop-blur-md">
+          <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-sky-300" />
+          <span className="flex-1">{tip.text}</span>
+          <button type="button" onClick={() => setTip(null)} aria-label="Dismiss tip" className="text-white/50 hover:text-white"><X className="h-3.5 w-3.5" /></button>
+        </div>
+      )}
       {testFlight && (
         <TestFlightCoach
           type={todayType}

@@ -5,6 +5,7 @@ import { Compass, Gamepad2, Map, MessagesSquare, type LucideIcon } from 'lucide-
 import { Modal } from '@/components/ui/modal';
 import { CLASS_TYPES, defaultMinutes, type AgeGroup, type ClassType, type SecondScreens, type TeachPlace } from '@/lib/class-profile';
 import { DIFFICULTIES, levelLabel, type Difficulty } from '@/lib/difficulty';
+import { trackFunnel } from '@/lib/teacher-firsts';
 
 const ICONS: Record<ClassType, LucideIcon> = { structured: Map, 'game-time': Gamepad2, conversation: MessagesSquare, 'free-talk': Compass };
 
@@ -52,6 +53,7 @@ export function FirstClassSetup({ open, onClose, onCreated }: { open: boolean; o
     }).catch(() => null);
     const d = res?.ok ? await res.json().catch(() => null) as { classId?: string } | null : null;
     if (!d?.classId) { setSaving(false); setError('Could not create the class. Please try again.'); return; }
+    trackFunnel('class_set_up', { classType: type ?? null, students: students.length });
     onCreated(d.classId);
   };
 

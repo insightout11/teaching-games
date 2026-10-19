@@ -19,6 +19,7 @@ import { ReadyToTeachLane } from './ReadyToTeachLane';
 import { SpecialFeaturesLane } from './SpecialFeaturesLane';
 import { WorldFlightHero } from './world-flight-hero/world-flight-hero';
 import { FirstClassSetup } from './FirstClassSetup';
+import { FirstLessonChecklist } from './FirstLessonChecklist';
 import { DiscoveryShelf } from './DiscoveryShelf';
 import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
 
@@ -228,6 +229,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
               )}
             </div>
           </div>
+          <div className="mb-4"><FirstLessonChecklist /></div>
 
           {/* HERO — dominates the first viewport; heading is a deliberate gate-board label */}
           <section className="flex min-h-[74vh] flex-col justify-center py-6">
