@@ -285,34 +285,40 @@ function drawKilimanjaro(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: n
 // ── The shared volcano: a cone with a crater and (for the active ones) a wisp of steam ───────────────────────────────
 
 function drawVolcano(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: number, Z: number, proj: Projector, fog: number, haze: RGB, alpha: number) {
-  const P = palette(look, true);
+  const P = palette(look);
   const { h, w } = LANDMARK_SIZE.volcano;
   const rim = 0.1;
+  const lava: RGB = look.night ? [10, 12, 22] : [44, 40, 46];
   drawMesh(ctx, {
-    h, R: w / 2, segs: 30, jag: 0.1, seed: 13,
-    radius: (hf, a) => (rim + (1 - rim) * (1 - Math.pow(hf, 1 / 1.25))) * (1 + 0.07 * Math.sin(a * 5 + hf * 3)),
-    color: (hf, a, lam, _st, seg) => {
-      // dark lava rock, old flows as darker streaks, green lower slopes, a little snow on top
-      let col = mix(P.rockShade, P.rockLit, Math.pow(lam, 1.2));
-      if (Math.sin(a * 6 + 0.7) > 0.7) col = mix(col, P.rockShade, 0.35);
-      col = withForest(col, hf, 0.3, lam, P);
-      return withSnow(col, hf, 0.8 + (hash(seg * 2.9) - 0.5) * 0.08, lam, P);
+    h, R: w / 2, segs: 44, jag: 0.03, seed: 13,
+    radius: (hf, a) => (rim + (1 - rim) * (1 - Math.pow(hf, 1 / 1.25))) * (1 + 0.05 * Math.sin(a * 5 + hf * 3)),
+    color: (hf, a, lam) => {
+      // dark volcanic rock; old lava flows as long dark streaks from the top; green lower slopes melting into the
+      // fields; a little snow on the very top
+      let col = mix(P.rockShade, P.rockLit, Math.pow(lam, 1.1));
+      const flow = 0.5 + 0.5 * Math.sin(a * 7 + Math.sin(a * 3) * 1.6 + hf * 2);
+      col = mix(col, lava, smooth(clamp01((flow - 0.6) * 2.5)) * 0.55);
+      col = withForest(col, hf, 0.32, lam, P);
+      if (hf < 0.1) col = mix(col, mix(P.forest, look.leaf, 0.5), (0.1 - hf) * 6);
+      return withSnow(col, hf, 0.84, lam, P);
     },
   }, X, Z, proj, fog * 0.8, haze, alpha);
-  crater(ctx, X, Z, h, rim * (w / 2), proj, mix(P.rockShade, haze, fog * 0.8), alpha);
-  // steam drifting downwind from the crater
-  const t0 = proj(X, Z, h), t1 = proj(X + w * 0.5, Z + w * 0.2, h * 1.18);
+  crater(ctx, X, Z, h, rim * (w / 2), proj, mix(lava, haze, Math.max(fog * 0.8, 0.2)), alpha);
+  // steam drifting downwind from the crater: soft puffs, growing and thinning
+  const t0 = proj(X, Z, h), t1 = proj(X + w * 0.55, Z + w * 0.2, h * 1.22);
   const len = Math.hypot(t1[0] - t0[0], t1[1] - t0[1]);
   if (len > 6) {
     ctx.save();
-    ctx.globalAlpha = alpha * (1 - fog * 0.6) * 0.75;
-    const g = ctx.createLinearGradient(t0[0], t0[1], t1[0], t1[1]);
-    const steam = look.night ? [150, 156, 180] as RGB : [236, 236, 236] as RGB;
-    g.addColorStop(0, css(steam, 0.8)); g.addColorStop(1, css(steam, 0));
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.ellipse((t0[0] + t1[0]) / 2, (t0[1] + t1[1]) / 2, len * 0.55, len * 0.14, Math.atan2(t1[1] - t0[1], t1[0] - t0[0]), 0, Math.PI * 2);
-    ctx.fill();
+    const steam = mix(look.night ? [150, 156, 180] : [240, 240, 240], haze, Math.max(fog, 0.2));
+    for (let k = 0; k < 8; k++) {
+      const t = k / 7, x = t0[0] + (t1[0] - t0[0]) * t, y = t0[1] + (t1[1] - t0[1]) * t - Math.sin(t * Math.PI) * len * 0.08;
+      const r = len * (0.06 + t * 0.12);
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, css(steam, 0.45 * (1 - t * 0.75))); g.addColorStop(1, css(steam, 0));
+      ctx.globalAlpha = alpha * (1 - fog * 0.6);
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
     ctx.restore();
   }
 }
