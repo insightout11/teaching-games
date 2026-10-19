@@ -282,8 +282,15 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const canvas = ref.current;
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
-    const macro = ctx.createPattern(macroTexture(), 'repeat');
-    const relief = ctx.createPattern(reliefTexture(), 'repeat');
+    // Light and shade over the ground (the soft light/dark blotches and the hills) are large and soft: they are painted
+    // on a small canvas a quarter of the size, in strips four rows tall, then laid over the ground in one go. Painting
+    // them full size, row by row, was most of the cost of a frame.
+    const shade = document.createElement('canvas');
+    const sctx = shade.getContext('2d');
+    if (!sctx) return;
+    const SHADE = 4;
+    const macro = sctx.createPattern(macroTexture(), 'repeat');
+    const relief = sctx.createPattern(reliefTexture(), 'repeat');
 
     let w = 0, h = 0, rowH = 2;
     // Camera height: eases toward the cruise height times `altitude` (the descent brings it down slowly).
@@ -304,6 +311,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       hazeKey = '';
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      shade.width = Math.max(1, Math.ceil((w * dpr) / SHADE)); shade.height = Math.max(1, Math.ceil((h * dpr) / SHADE));
+      sctx.setTransform(dpr / SHADE, 0, 0, dpr / SHADE, 0, 0);
     };
     fit();
     const ro = new ResizeObserver(fit);
@@ -340,28 +349,28 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       ctx.globalAlpha = alpha;
       ctx.fillStyle = lv.pat;
       ctx.fillRect(0, y, w, rowH);
-      if (macro && withMacro) {
+      ctx.globalAlpha = 1;
+      // light and shade: every fourth row, on the small canvas, four rows tall
+      if (!withMacro || Math.round(y / rowH) % SHADE !== 0) return;
+      const sh = rowH * SHADE;
+      if (macro) {
         const m = (F / z) * MACRO_WORLD;
         mtx.a = m; mtx.d = m; mtx.e = w / 2 + 3100 * (F / z); mtx.f = y - (((camZ + z) / MACRO_WORLD) % 256) * m;
         macro.setTransform(mtx);
-        ctx.globalCompositeOperation = 'overlay';
-        ctx.globalAlpha = alpha * layer.macroAlpha;
-        ctx.fillStyle = macro;
-        ctx.fillRect(0, y, w, rowH);
-        ctx.globalCompositeOperation = 'source-over';
+        sctx.globalAlpha = alpha * layer.macroAlpha;
+        sctx.fillStyle = macro;
+        sctx.fillRect(0, y, w, sh);
       }
       // Relief: hills and valleys lit from the sun's side, laid over all land (not open sea), shrinking with distance.
-      if (relief && withMacro && groundRelief() && layer.terrain !== 'ocean') {
+      if (relief && groundRelief() && layer.terrain !== 'ocean') {
         const m = (F / z) * RELIEF_WORLD;
         mtx.a = m; mtx.d = m; mtx.e = w / 2 + 1700 * (F / z); mtx.f = y - (((camZ + z) / RELIEF_WORLD) % 512) * m;
         relief.setTransform(mtx);
-        ctx.globalCompositeOperation = 'overlay';
-        ctx.globalAlpha = alpha * (layer.terrain === 'mountains' ? 0.9 : layer.terrain === 'ice' ? 0.5 : 0.8) * (1 - Math.min(0.6, z / (Z_FAR * 1.2)));
-        ctx.fillStyle = relief;
-        ctx.fillRect(0, y, w, rowH);
-        ctx.globalCompositeOperation = 'source-over';
+        sctx.globalAlpha = alpha * (layer.terrain === 'mountains' ? 0.75 : layer.terrain === 'ice' ? 0.4 : 0.65) * (1 - Math.min(0.6, z / (Z_FAR * 1.2)));
+        sctx.fillStyle = relief;
+        sctx.fillRect(0, y, w, sh);
       }
-      ctx.globalAlpha = 1;
+      sctx.globalAlpha = 1;
     };
 
     const frame = (now: number) => {
@@ -388,6 +397,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
 
       // ── Ground, row by row at its true depth ───────────────────────────
       if (L.length) {
+        // mid-grey is "no change" when laid on with 'overlay'
+        sctx.globalAlpha = 1;
+        sctx.fillStyle = '#808080';
+        sctx.fillRect(0, 0, w, h);
         const y0 = (Math.ceil((horizonY + 1) / rowH)) * rowH;
         for (let y = y0; y < h; y += rowH) {
           const z = (camH * F) / (y - horizonY);   // world depth of this row
@@ -403,6 +416,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             paintRow(L[i], y, z, F, camZ, 1);
           }
         }
+        ctx.globalCompositeOperation = 'overlay';
+        ctx.imageSmoothingEnabled = true;
+        // the ground only (laid on the empty sky it would turn grey)
+        const sy0 = (y0 / h) * shade.height;
+        ctx.drawImage(shade, 0, sy0, shade.width, shade.height - sy0, 0, y0, w, h - y0);
+        ctx.globalCompositeOperation = 'source-over';
         // Aerial perspective, in one pass. At night the air is dark: lights shine through further.
         let under = L.length - 1;
         while (under > 0 && L[under].startZ > camZ) under--;
