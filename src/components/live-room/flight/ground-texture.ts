@@ -919,7 +919,7 @@ export function naturalTexture(kind: NaturalGround, palette: ScenePalette, night
 }
 
 /** Whether the ground gets relief shading (the room keeps it off until the owner approves; the gallery turns it on). */
-let GROUND_RELIEF = false;
+let GROUND_RELIEF = true; // approved by the owner 19 Oct 2026
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
 export const groundRelief = () => GROUND_RELIEF;
 

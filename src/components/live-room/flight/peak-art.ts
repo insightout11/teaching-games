@@ -5,7 +5,7 @@ type RGB = [number, number, number];
 export type PeakKind = 'snow' | 'forest' | 'bare';
 
 /** Which peak drawing to use (the dev gallery compares the old and new). */
-let PEAK_STYLE: 'old' | 'new' = 'old'; // the room keeps the old peaks until the owner approves the new ones
+let PEAK_STYLE: 'old' | 'new' = 'new'; // approved by the owner 19 Oct 2026 ('old' kept for the gallery comparison)
 export function setPeakStyle(s: 'old' | 'new') { PEAK_STYLE = s; }
 export const peakStyle = () => PEAK_STYLE;
 
