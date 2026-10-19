@@ -716,6 +716,8 @@ export function rangeFor(region: string | null | undefined): RangeMix {
   const r = region ?? '';
   if (/Africa|Madagascar/.test(r)) return { floor: 'arid', snow: 0, green: 0.05 };
   if (/Australia/.test(r)) return { floor: 'arid', snow: 0.02, green: 0.12 };
+  // in the tropics only the very highest peaks hold snow (Indonesia, the Andes near the equator, New Guinea)
+  if (/tropics/.test(r)) return { floor: 'green', snow: 0.03, green: 0.8 };
   if (/Oceania|Pacific|New Zealand|Fiji/.test(r)) return { floor: 'green', snow: 0.2, green: 0.55 };
   if (/Japan|Taiwan|Hainan|Philippines|Borneo|Sumatra|Java|Sulawesi|Sri Lanka/.test(r)) return { floor: 'green', snow: 0.05, green: 0.75 };
   if (/Asia/.test(r)) return { floor: 'green', snow: 0.35, green: 0.35 };

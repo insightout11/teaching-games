@@ -2297,7 +2297,7 @@ export function FlightDeck({
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
         terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}
-        region={place.overCity ? `city:${place.overCity}|${regionOf(below.point) ?? ''}` : place.overTown ? `town:${place.overTown}|${regionOf(below.point) ?? ''}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : null}
+        region={place.overCity ? `city:${place.overCity}|${regionOf(below.point) ?? ''}` : place.overTown ? `town:${place.overTown}|${regionOf(below.point) ?? ''}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : below.terrain === 'mountains' ? `${regionOf(below.point) ?? ''}${Math.abs(below.point.lat) < 23.5 ? '|tropics' : ''}` : null}
         calm={view !== 'boarding' && view !== 'talk'}
         turbulence={shaking}
         paused={runningKey === 'video-player'}
