@@ -19,7 +19,7 @@ export const LANDMARK_SIZE: Record<WorldLandmarkKind, { h: number; w: number; cl
   fuji: { h: 2200, w: 2200 * 2.6, clear: 11000 }, // a lone volcano, steeper than life so it reads from above; stays below the plane
   pyramids: { h: 1500, w: 2400, clear: 12000 },   // the three on the desert edge (about ten times life size, to read from cruise height)
   // Landmarks stay below the plane (cruise 3200): the tallest are about 2200.
-  everest: { h: 2200, w: 2200 * 1.7, clear: 5000 },     // with Lhotse and Nuptse; the rest of the Himalaya around it
+  everest: { h: 2850, w: 2850 * 1.9, clear: 9000 },     // the giant: towers over the Himalaya around it (still below the plane at 3200)
   matterhorn: { h: 2100, w: 2100 * 1.7, clear: 4500 }, // the steep four-sided horn, among the Alps
   kilimanjaro: { h: 2000, w: 2000 * 3.4, clear: 12000 }, // broad and flat-topped, alone on the savanna
   volcano: { h: 1700, w: 1700 * 2.8, clear: 9000 },     // the shared volcano (Etna, Vesuvius, Teide...)
@@ -88,7 +88,7 @@ function drawMesh(ctx: CanvasRenderingContext2D, m: MeshMountain, X: number, Z: 
       const nl = Math.hypot(nx, ny, nz) || 1;
       nx /= nl; ny /= nl; nz /= nl;
       const lam = clamp01((nx * LIGHT.x + ny * LIGHT.y + nz * LIGHT.z) / LN);
-      const col = mix(m.color((h0 + h1) / 2, am, lam, 1 - ny, i), haze, fog);
+      const col = mix(m.color((h0 + h1) / 2, am, lam, 1 - ny, i), haze, Math.max(fog, 0.32)); // the scene's light (gold at dusk) on every face
       const pts = [p00, p10, p11, p01].map((q) => proj(q[0], q[1], q[2]));
       faces.push({ pts, depth: (p00[1] + p10[1] + p11[1] + p01[1]) / 4, col, a: clamp01(0.25 + ((h0 + h1) / 2) * 7) });
     }
@@ -129,7 +129,7 @@ function drawMesh(ctx: CanvasRenderingContext2D, m: MeshMountain, X: number, Z: 
       // the side of the ridge towards the light is bright, the other in shade
       const litSide = Math.cos(ra) < 0;
       ctx.globalAlpha = alpha;
-      ctx.fillStyle = css(mix(litSide ? rs.lit : rs.shade, haze, fog));
+      ctx.fillStyle = css(mix(litSide ? rs.lit : rs.shade, haze, Math.max(fog, 0.18)));
       ctx.beginPath();
       [...left, ...right.reverse()].forEach((pt, n) => (n ? ctx.lineTo(pt[0], pt[1]) : ctx.moveTo(pt[0], pt[1])));
       ctx.closePath();
@@ -221,18 +221,19 @@ function drawEverest(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
   const tail = proj(X + w * 0.9, Z + w * 0.15, h * 0.97);
   const len = Math.hypot(tail[0] - top[0], tail[1] - top[1]);
   if (len > 6) {
+    // soft puffs along a curve, thinning downwind (one filled shape looked like a box)
     ctx.save();
-    ctx.globalAlpha = alpha * (1 - fog * 0.6);
-    const g = ctx.createLinearGradient(top[0], top[1], tail[0], tail[1]);
-    const white = look.night ? [190, 200, 230] as RGB : [250, 250, 252] as RGB;
-    g.addColorStop(0, css(white, 0.85)); g.addColorStop(0.5, css(white, 0.35)); g.addColorStop(1, css(white, 0));
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.moveTo(top[0], top[1] - len * 0.02);
-    ctx.quadraticCurveTo(top[0] + len * 0.5, top[1] - len * 0.09, tail[0], tail[1] - len * 0.05);
-    ctx.quadraticCurveTo(top[0] + len * 0.55, top[1] + len * 0.05, top[0], top[1] + len * 0.04);
-    ctx.closePath();
-    ctx.fill();
+    const white = mix(look.night ? [190, 200, 230] : [250, 250, 252], haze, Math.max(fog, 0.2));
+    for (let k = 0; k < 9; k++) {
+      const t = k / 8;
+      const x = top[0] + (tail[0] - top[0]) * t, y = top[1] + (tail[1] - top[1]) * t - Math.sin(t * Math.PI) * len * 0.06;
+      const r = len * (0.05 + t * 0.09);
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, css(white, 0.5 * (1 - t * 0.8))); g.addColorStop(1, css(white, 0));
+      ctx.globalAlpha = alpha * (1 - fog * 0.6);
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
     ctx.restore();
   }
 }
