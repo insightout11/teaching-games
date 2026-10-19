@@ -7,6 +7,8 @@ import { composeTimedPalette } from '@/components/world-flight/arrival-scene/pal
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { setPeakStyle } from '@/components/live-room/flight/peak-art';
+import { setGroundRelief } from '@/components/live-room/flight/ground-texture';
+import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
 const RANGES: Array<{ region: string; label: string }> = [
   { region: 'Europe', label: 'Alpine (Europe): snowy' },
@@ -15,13 +17,13 @@ const RANGES: Array<{ region: string; label: string }> = [
 ];
 const TIMES: TimeOfDay[] = ['day', 'dusk', 'night'];
 
-function Cell({ region, tod, moving }: { region: string; tod: TimeOfDay; moving: boolean }) {
+function Cell({ region, tod, moving, terrain = 'mountains' }: { region: string; tod: TimeOfDay; moving: boolean; terrain?: Terrain }) {
   const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
   const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
   return (
     <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
       <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
-      <CockpitWorld terrain="mountains" region={region} palette={palette} night={tod === 'night'} speed={moving ? 0.55 : 0.0001} />
+      <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={moving ? 0.55 : 0.0001} />
     </div>
   );
 }
@@ -31,20 +33,21 @@ export function MountainGallery() {
   const [style, setStyle] = useState<'old' | 'new'>('new');
   const [moving, setMoving] = useState(true);
   // ?one=Asia&tod=dusk shows a single view, large.
-  const [one, setOne] = useState<{ region: string; tod: TimeOfDay } | null>(null);
+  const [one, setOne] = useState<{ region: string; tod: TimeOfDay; terrain: Terrain } | null>(null);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = q.get('style') === 'old' ? 'old' : 'new';
     setStyle(s);
     setPeakStyle(s);
+    setGroundRelief(s === 'new');
     const region = q.get('one');
-    if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay });
+    if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);
   if (one) {
     return (
       <div className="min-h-screen bg-[#070b14] p-4">
-        <Cell key={style} region={one.region} tod={one.tod} moving={moving} />
-        <p className="mt-2 font-mono text-xs text-white/60">{style} peaks · {one.region} · {one.tod}</p>
+        <Cell key={style} region={one.region} tod={one.tod} moving={moving} terrain={one.terrain} />
+        <p className="mt-2 font-mono text-xs text-white/60">{style} · {one.terrain} · {one.region} · {one.tod}</p>
       </div>
     );
   }
@@ -56,6 +59,17 @@ export function MountainGallery() {
         <a href={style === 'old' ? '?style=new' : '?style=old'} className="text-sm text-cyan-200 underline">Show the {style === 'old' ? 'new' : 'old'} peaks</a>
         <button type="button" onClick={() => setMoving((m) => !m)} className="rounded-full border border-white/20 px-3 py-1 text-xs">{moving ? 'Pause' : 'Fly'}</button>
       </div>
+      <section>
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">The ground {style === 'new' ? 'with relief' : 'as before (flat)'}: farmland, forest, savanna, desert</p>
+        <div className="grid gap-3 md:grid-cols-4">
+          {([['farmland', 'Europe'], ['forest', 'Europe'], ['savanna', 'Africa'], ['desert', 'Africa']] as Array<[Terrain, string]>).map(([t, rg]) => (
+            <div key={t}>
+              <Cell key={`${style}|${moving}|${t}`} region={rg} tod="day" moving={moving} terrain={t} />
+              <p className="mt-1 text-xs text-white/50">{t} · day</p>
+            </div>
+          ))}
+        </div>
+      </section>
       {RANGES.map((r) => (
         <section key={r.region}>
           <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">{r.label}</p>

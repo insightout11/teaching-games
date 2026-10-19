@@ -6,7 +6,7 @@ import type { ScenePalette } from '@/components/world-flight/arrival-scene/types
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { drawPeak, type PeakKind } from '@/components/live-room/flight/peak-art';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { desertTexture, farmTexture, forestTexture, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, type RangeMix } from '@/components/live-room/flight/ground-texture';
+import { desertTexture, farmTexture, forestTexture, groundRelief, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -96,6 +96,8 @@ const Z_FAR = 60000;
 const Z_NEAR = 900;
 const CRUISE_SPEED = 4200;   // world units per second at speed 1
 const TILE_WORLD = 14;       // one texture pixel covers this many world units
+/** World size of one tile of the relief pattern (hills a few kilometres across). */
+const RELIEF_WORLD = 30000;
 const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the ground's, so no repeat lines up
 const SHORE = 4200;          // world units over which one terrain blends into the next
 
@@ -281,6 +283,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const ctx = canvas?.getContext('2d');
     if (!canvas || !ctx) return;
     const macro = ctx.createPattern(macroTexture(), 'repeat');
+    const relief = ctx.createPattern(reliefTexture(), 'repeat');
 
     let w = 0, h = 0, rowH = 2;
     // Camera height: eases toward the cruise height times `altitude` (the descent brings it down slowly).
@@ -344,6 +347,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         ctx.globalCompositeOperation = 'overlay';
         ctx.globalAlpha = alpha * layer.macroAlpha;
         ctx.fillStyle = macro;
+        ctx.fillRect(0, y, w, rowH);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+      // Relief: hills and valleys lit from the sun's side, laid over all land (not open sea), shrinking with distance.
+      if (relief && withMacro && groundRelief() && layer.terrain !== 'ocean') {
+        const m = (F / z) * RELIEF_WORLD;
+        mtx.a = m; mtx.d = m; mtx.e = w / 2 + 1700 * (F / z); mtx.f = y - (((camZ + z) / RELIEF_WORLD) % 512) * m;
+        relief.setTransform(mtx);
+        ctx.globalCompositeOperation = 'overlay';
+        ctx.globalAlpha = alpha * (layer.terrain === 'mountains' ? 0.35 : layer.terrain === 'ice' ? 0.45 : 0.7) * (1 - Math.min(0.6, z / (Z_FAR * 1.2)));
+        ctx.fillStyle = relief;
         ctx.fillRect(0, y, w, rowH);
         ctx.globalCompositeOperation = 'source-over';
       }

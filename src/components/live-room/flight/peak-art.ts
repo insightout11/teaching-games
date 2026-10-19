@@ -135,8 +135,9 @@ const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 
 const TW = 288, TH = 144;          // template size (pixels); drawn scaled to each peak
 const TEMPLATES = 24;              // different mountain shapes per kind (and each can be mirrored)
-const FOG_LEVELS = [0, 0.2, 0.4, 0.6, 0.8, 0.95];
 const templateCache = new Map<string, HTMLCanvasElement>();
+/** The same silhouette filled with the haze colour: drawn over the mountain at the haze strength (smooth with distance). */
+const hazeCache = new Map<string, HTMLCanvasElement>();
 
 /** 1-D smooth noise from a seed (sum of a few sines with seeded phases: cheap and repeatable). */
 function noise1(seed: number) {
@@ -229,22 +230,31 @@ function drawPeakV2(
   const h = baseY - topY;
   if (h < 1 || half < 1) return;
   const t = Math.floor(roll * TEMPLATES) % TEMPLATES;
-  const fl = FOG_LEVELS.reduce((best, f) => (Math.abs(f - fog) < Math.abs(best - fog) ? f : best), 0);
-  const hz = haze.map((v) => Math.round(v / 8) * 8) as RGB;
-  const key = `${kind}|${t}|${fl}|${style.night ? 1 : 0}|${style.warm ? 1 : 0}|${style.rock.join(',')}|${style.snow.join(',')}|${style.leaf.join(',')}|${hz.join(',')}`;
+  const hz = haze.map((v) => Math.round(v / 16) * 16) as RGB;
+  const key = `${kind}|${t}|${style.night ? 1 : 0}|${style.warm ? 1 : 0}|${style.rock.join(',')}|${style.snow.join(',')}|${style.leaf.join(',')}|${hz.join(',')}`;
   let tpl = templateCache.get(key);
   if (!tpl) {
-    tpl = makeTemplate(kind, t + 1, style, fl, hz);
+    tpl = makeTemplate(kind, t + 1, style, 0, hz);
     templateCache.set(key, tpl);
-    if (templateCache.size > 600) { const k = templateCache.keys().next().value; if (k) templateCache.delete(k); }
+    if (templateCache.size > 300) { const k = templateCache.keys().next().value; if (k) { templateCache.delete(k); hazeCache.delete(k); } }
   }
+  let veil = hazeCache.get(key);
+  if (!veil) {
+    veil = document.createElement('canvas');
+    veil.width = TW; veil.height = TH;
+    const vg = veil.getContext('2d');
+    if (vg) { vg.drawImage(tpl, 0, 0); vg.globalCompositeOperation = 'source-in'; vg.fillStyle = `rgb(${hz[0]},${hz[1]},${hz[2]})`; vg.fillRect(0, 0, TW, TH); }
+    hazeCache.set(key, veil);
+  }
+  const haze01 = clamp01(fog);
   // broad massifs: a mountain is about three times as wide as it is tall
   const w = half * 2.4;
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
-  if (pr(roll, 99) > 0.5) { ctx.translate(cx, 0); ctx.scale(-1, 1); ctx.drawImage(tpl, -w / 2, topY, w, h); }
-  else ctx.drawImage(tpl, cx - w / 2, topY, w, h);
+  const x0 = pr(roll, 99) > 0.5 ? (ctx.translate(cx, 0), ctx.scale(-1, 1), -w / 2) : cx - w / 2;
+  ctx.drawImage(tpl, x0, topY, w, h);
+  if (haze01 > 0.01) { ctx.globalAlpha = alpha * haze01; ctx.drawImage(veil, x0, topY, w, h); }
   ctx.restore();
 }

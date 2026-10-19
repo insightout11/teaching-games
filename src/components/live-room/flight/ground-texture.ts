@@ -917,3 +917,42 @@ export function naturalTexture(kind: NaturalGround, palette: ScenePalette, night
   if (night) { g.fillStyle = 'rgba(8,12,26,0.6)'; g.fillRect(0, 0, S, S); }
   return canvas;
 }
+
+/** Whether the ground gets relief shading (the room keeps it off until the owner approves; the gallery turns it on). */
+let GROUND_RELIEF = false;
+export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
+export const groundRelief = () => GROUND_RELIEF;
+
+let reliefCache: HTMLCanvasElement | null = null;
+/**
+ * Relief for every kind of land: a seamless field of hills and valleys (ridged noise), lit from the sun's side so
+ * slopes facing it are lighter and the far slopes darker; mid-grey on the flat, so it lays light and shadow over the
+ * ground texture without changing its colours.
+ */
+export function reliefTexture(): HTMLCanvasElement {
+  if (reliefCache) return reliefCache;
+  const S = 512;
+  const n4 = tileNoise(4, 901), n8 = tileNoise(8, 907), n16 = tileNoise(16, 911), n32 = tileNoise(32, 919);
+  const height = (u: number, v: number) => {
+    const ridge = (n: number) => { const r = 1 - Math.abs(2 * n - 1); return r * r; };
+    return n4(u, v) * 0.45 + ridge(n8(u, v)) * 0.3 + ridge(n16(u, v)) * 0.17 + n32(u, v) * 0.08;
+  };
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  const img = g.createImageData(S, S);
+  const e = 1 / S;
+  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+    const u = x / S, v = y / S;
+    const dx = height(u + e, v) - height(u - e, v);
+    const dy = height(u, v + e) - height(u, v - e);
+    // light from the left and a little from the far side
+    const shade = 128 + (-dx * 0.85 - dy * 0.35) * S * 3.2;
+    const l = Math.max(30, Math.min(226, shade));
+    const p = (y * S + x) * 4;
+    img.data[p] = l; img.data[p + 1] = l; img.data[p + 2] = l; img.data[p + 3] = 255;
+  }
+  g.putImageData(img, 0, 0);
+  reliefCache = canvas;
+  return canvas;
+}
