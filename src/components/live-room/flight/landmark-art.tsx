@@ -108,7 +108,7 @@ export function SideWindow({ title, sub, side = 'left', ridge = 'alps', motion =
           <stop offset="0" stopColor="#ffffff" stopOpacity="0.95" /><stop offset="1" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
         <clipPath id="lmWindow"><rect x="40" y="30" width="1520" height="840" rx="190" /></clipPath>
-        <style>{'@keyframes lmDrift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}@keyframes lmBelow{from{transform:translateX(0)}to{transform:translateX(-200px)}}'}</style>
+        <style>{'@keyframes lmDrift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}@keyframes lmBelow{from{transform:translateX(0)}to{transform:translateX(-200px)}}@keyframes lmPlume{from{opacity:.75}to{opacity:1}}'}</style>
       </defs>
       <rect width="1600" height="900" fill="#0d1526" />
       <g clipPath="url(#lmWindow)">
@@ -245,31 +245,79 @@ function MatterhornHero({ motion }: { motion: boolean }) {
   );
 }
 
-/** Everest: a broad dark rock pyramid above a snowy massif, with its famous plume of snow blowing off the summit. */
+/**
+ * Everest: the summit pyramid towering over everything, dark rock faces lit warm on one side, snow-filled gullies,
+ * bright snow ridges and the pale Yellow Band; the South Col saddle joins it to Lhotse on the right; Nuptse's wall
+ * stands lower in front; a long plume of snow streams off the summit.
+ */
 function EverestHero({ motion }: { motion: boolean }) {
   const { snow, snowShade } = SIDE;
+  const face = 'M660 200 L622 262 L590 330 L548 420 L500 520 L452 600 L880 600 L846 520 L800 430 L752 340 L706 262Z';
   return (
     <g>
-      <path d="M40 710 C220 600 400 560 600 556 C800 556 980 600 1160 710Z" fill="#a8b8cf" />
-      {/* Nuptse (left) and Lhotse (right), lower and whiter */}
-      <path d="M150 670 L300 460 L350 492 L410 430 L500 540 L560 670Z" fill="#e8eef6" />
-      <path d="M300 460 L350 492 L410 430 L452 486 L410 540 L340 520Z" fill="#c4d1e3" />
-      <path d="M760 670 L880 450 L930 480 L1010 540 L1110 670Z" fill="#dfe7f2" />
-      <path d="M880 450 L930 480 L970 580 L930 620 L840 580Z" fill="#b7c6db" />
-      {/* the summit pyramid: dark rock, broad, with snow bands */}
-      <path d="M650 240 L540 420 L470 580 L860 580 L800 430 L720 320Z" fill="#5a6075" />
-      <path d="M650 240 L720 320 L800 430 L860 580 L660 580 L630 420Z" fill="#3f4558" />
-      <path d="M650 240 L616 300 L632 310 L664 262Z" fill={snow} />
-      <path d="M650 240 L664 262 L690 280 L676 250Z" fill={snow} opacity="0.85" />
-      {/* the Yellow Band and snow ledges */}
-      <path d="M572 400 C640 388 720 390 790 410 L796 424 C724 406 642 404 566 414Z" fill="#c8b58e" opacity="0.8" />
-      {[[530, 480, 150], [560, 530, 200], [610, 340, 80], [700, 360, 70]].map(([x, y, w], k) => <path key={k} d={`M${x} ${y} q${w / 2} -10 ${w} 4`} stroke={snow} strokeWidth="5" fill="none" opacity="0.85" />)}
-      <path d="M470 580 C580 560 760 560 860 580 L900 640 L430 640Z" fill={snowShade} />
-      <path d="M430 640 C580 620 760 620 900 650 L920 680 L410 680Z" fill={snow} />
-      {/* the snow plume streaming off the summit, under the caption */}
-      <g style={motion ? { animation: 'lmDrift 9s ease-in-out infinite alternate' } : undefined}>
-        <path d="M656 240 C780 214 940 226 1120 268 C940 252 800 256 670 270Z" fill="url(#lmPlume)" />
-        <path d="M662 256 C780 244 900 256 1020 290 C890 278 790 280 674 282Z" fill="url(#lmPlume)" opacity="0.7" />
+      <defs>
+        <linearGradient id="evLit" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#8a7f78" /><stop offset="0.5" stopColor="#5d5a66" /><stop offset="1" stopColor="#474a5b" />
+        </linearGradient>
+        <linearGradient id="evShade" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#3e4357" /><stop offset="1" stopColor="#2c3043" />
+        </linearGradient>
+        <linearGradient id="evSnowFace" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffffff" /><stop offset="1" stopColor="#cfdbeb" />
+        </linearGradient>
+        <clipPath id="evFace"><path d={face} /></clipPath>
+        <clipPath id="evPyramid"><path d="M660 200 L622 262 L590 330 L548 420 L500 520 L452 600 L880 600 L846 520 L800 430 L752 340 L706 262Z" /></clipPath>
+        <linearGradient id="evBand" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#d8c79c" stopOpacity="0.75" /><stop offset="1" stopColor="#a8976e" stopOpacity="0.55" />
+        </linearGradient>
+      </defs>
+      {/* the massif's snowy base */}
+      <path d="M0 720 C200 610 420 560 640 552 C880 548 1080 600 1300 720Z" fill="#a9b9d0" />
+      {/* Lhotse and the South Col saddle, right */}
+      <path d="M760 600 L830 470 L880 500 L960 400 L1010 430 L1120 600Z" fill="url(#evSnowFace)" />
+      <path d="M960 400 L1010 430 L1060 520 L1120 600 L990 600 L980 500Z" fill="#b5c4d9" />
+      <path d="M960 400 L980 500 L940 560 L900 520Z" fill="#9fb0c8" opacity="0.7" />
+      {[[930, 470, 30], [990, 520, 40], [1030, 560, 26], [900, 540, 22]].map(([x, y, w], k) => <path key={k} d={`M${x} ${y} l${w} -6 l-8 14 l-${w - 10} 6Z`} fill="#5f6476" opacity="0.6" />)}
+      <path d="M830 470 L880 500 L960 400" stroke="#ffffff" strokeWidth="4" fill="none" opacity="0.9" />
+      {/* the summit pyramid: the lit west face and the shaded face, divided by the bright south-east ridge */}
+      <path d={face} fill="url(#evLit)" />
+      <path d="M660 200 L706 262 L752 340 L800 430 L846 520 L880 600 L700 600 L690 470 L676 330Z" fill="url(#evShade)" />
+      {/* rock texture and snow-filled gullies on the lit face, kept inside the face */}
+      <g clipPath="url(#evFace)">
+        {Array.from({ length: 30 }, (_, k) => {
+          const r = rng(k * 5 + 17);
+          const y = 240 + r() * 360, x = 470 + r() * 360, w = 14 + r() * 40, h = 5 + r() * 12;
+          return <path key={k} d={`M${x} ${y} l${w} ${-h * 0.3} l${-w * 0.2} ${h} l${-w * 0.9} ${h * 0.4}Z`} fill={k % 3 ? '#7b7177' : '#9a8f86'} opacity={0.2 + r() * 0.25} />;
+        })}
+        {[[640, 250, 0.6], [620, 300, 0.8], [596, 360, 1], [566, 430, 1.1], [700, 300, 0.8], [730, 380, 1]].map(([x, y, k], n) => (
+          <path key={n} d={`M${x} ${y} C${x - 8} ${y + 50 * k} ${x - 20} ${y + 100 * k} ${x - 36} ${y + 150 * k} L${x - 14} ${y + 150 * k} C${x - 4} ${y + 100 * k} ${x + 4} ${y + 50 * k} ${x + 10} ${y + 4}Z`} fill="url(#lmGully)" opacity="0.55" />
+        ))}
+      </g>
+      {/* the Yellow Band: a pale stripe across the summit pyramid */}
+      <g clipPath="url(#evPyramid)">
+        <path d="M540 384 C620 366 700 362 760 372 C800 378 830 392 860 404 L860 426 C826 412 796 400 756 394 C696 386 616 390 540 406Z" fill="url(#evBand)" />
+      </g>
+      {/* bright snow ridges: the south-east ridge and the west ridge */}
+      <path d="M660 200 L706 262 L752 340 L800 430 L846 520 L880 600" stroke="#ffffff" strokeWidth="5" fill="none" opacity="0.9" />
+      <path d="M660 200 L622 262 L590 330 L548 420 L500 520 L452 600" stroke="#f1f5fb" strokeWidth="3" fill="none" opacity="0.6" />
+      {/* the summit snow and a warm touch of sun on the very top */}
+      <path d="M660 200 L640 236 L656 240 L672 220 L686 236 L700 238 L682 210Z" fill={snow} />
+      <path d="M660 200 L650 218 L668 214Z" fill="#ffe7cf" />
+      {/* Nuptse's wall, lower, in front on the left, with its own snow */}
+      <path d="M120 680 L250 470 L300 500 L360 440 L420 490 L480 470 L560 600 L600 680Z" fill="url(#evSnowFace)" />
+      <path d="M360 440 L420 490 L480 470 L540 560 L470 600 L400 560Z" fill="#b8c7dc" />
+      <path d="M250 470 L300 500 L320 580 L240 620 L180 640Z" fill="#c9d5e6" />
+      {[[270, 540, 34], [330, 520, 28], [420, 560, 36], [470, 520, 24], [210, 600, 30]].map(([x, y, w], k) => <path key={k} d={`M${x} ${y} l${w} -8 l-10 16 l-${w - 12} 8Z`} fill="#5f6476" opacity="0.55" />)}
+      <path d="M250 470 L300 500 L360 440 L420 490 L480 470" stroke="#ffffff" strokeWidth="4" fill="none" />
+      {/* snowfields at the foot */}
+      <path d="M440 600 C520 588 600 600 680 590 C760 582 840 596 900 606 L940 660 L400 660Z" fill={snowShade} />
+      <path d="M380 660 C470 646 560 656 650 644 C740 636 860 650 960 668 L980 700 L360 700Z" fill={snow} />
+      {Array.from({ length: 14 }, (_, k) => { const r = rng(k + 901); const x = 440 + r() * 480, y = 612 + r() * 70; return <path key={k} d={`M${x} ${y} l${10 + r() * 22} ${r() * 4 - 2}`} stroke="#9fb3cf" strokeWidth="2" opacity="0.7" />; })}
+      {/* the snow plume streaming off the summit: layered, fading into the sky */}
+      <g style={motion ? { animation: 'lmPlume 6s ease-in-out infinite alternate' } : undefined}>
+        <path d="M664 202 C800 176 980 186 1180 230 C980 214 820 218 676 230Z" fill="url(#lmPlume)" />
+        <path d="M674 214 C800 202 940 214 1080 252 C930 238 810 240 686 246Z" fill="url(#lmPlume)" opacity="0.75" />
+        <path d="M680 228 C780 224 880 236 980 266 C870 256 780 256 690 258Z" fill="url(#lmPlume)" opacity="0.5" />
       </g>
     </g>
   );
@@ -489,39 +537,85 @@ function GreatWallScene() {
   );
 }
 
-/** Niagara Falls from above: the river sweeping in, the Horseshoe Falls curving across it, white water and a tall mist plume, the boat in the gorge. */
+/**
+ * Niagara Falls from above: the turquoise river with its rapids, split by wooded Goat Island; the Horseshoe Falls as a
+ * deep curved bowl with a sheet of falling water, foam and a tall mist plume with a faint rainbow; the straight American
+ * Falls beside it; the emerald gorge with the tour boat and the Rainbow Bridge; the Skylon Tower on the Canadian side.
+ */
 function NiagaraScene({ motion }: { motion: boolean }) {
+  // The Horseshoe's brink: a deep U, opening downstream (towards the bottom of the screen).
+  const brink = 'M520 330 C540 470 700 560 840 560 C960 560 1060 480 1080 360';
+  const sheet = 'M520 330 C540 470 700 560 840 560 C960 560 1060 480 1080 360 L1084 420 C1060 560 960 640 840 640 C690 640 530 550 512 400Z';
   return (
     <>
-      <rect x="100" y="60" width="1420" height="800" fill="#5f7d4f" />
-      {/* the upper river sweeping in from the top left, rapids before the brink */}
-      <path d="M100 160 C360 130 620 180 780 260 C880 310 960 330 1080 330 L1120 400 C980 420 820 430 700 420 C540 400 400 320 100 330Z" fill="#3f8aa0" />
-      {Array.from({ length: 22 }, (_, k) => { const r = rng(k + 91); const x = 160 + r() * 820, y = 200 + r() * 170; return <path key={k} d={`M${x} ${y} q30 -6 60 0`} stroke="#bfe3ee" strokeWidth="3" fill="none" opacity="0.6" />; })}
-      {/* the horseshoe brink: a white U across the river, opening toward the camera */}
-      <path d="M640 410 C680 520 980 540 1120 400" stroke="#f4fbff" strokeWidth="6" fill="none" strokeLinecap="round" />
-      {/* falling water below the brink */}
       <defs>
-        <linearGradient id="ngFall" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f4fbff" /><stop offset="1" stopColor="#7fb6c8" />
+        <linearGradient id="ngRiver" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#2f8f98" /><stop offset="1" stopColor="#4fb3ad" />
+        </linearGradient>
+        <linearGradient id="ngSheet" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffffff" /><stop offset="0.6" stopColor="#e2f4f6" /><stop offset="1" stopColor="#bfe4e6" />
+        </linearGradient>
+        <linearGradient id="ngGorge" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#1f7f78" /><stop offset="1" stopColor="#155a57" />
+        </linearGradient>
+        <radialGradient id="ngMist" cx="0.5" cy="0.6" r="0.5">
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.85" /><stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="ngRainbow" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#ff6b6b" /><stop offset="0.25" stopColor="#ffd166" /><stop offset="0.5" stopColor="#7bd389" /><stop offset="0.75" stopColor="#5fa8ff" /><stop offset="1" stopColor="#b388ff" />
         </linearGradient>
       </defs>
-      <path d="M640 410 C680 520 980 540 1120 400 L1124 460 C990 600 690 590 630 470Z" fill="url(#ngFall)" />
-      {/* the gorge, dark water flowing away to the bottom right */}
-      <path d="M630 470 C690 590 990 600 1124 460 C1180 560 1240 700 1300 860 L760 860 C760 700 700 580 630 470Z" fill="#2a5a6c" />
-      {/* the mist plume rising out of the horseshoe */}
-      <g style={motion ? { animation: 'pcMist 6s ease-in-out infinite alternate' } : undefined}>
-        {[[880, 500, 220], [760, 470, 140], [1010, 460, 150], [860, 420, 160], [920, 350, 120], [880, 290, 90]].map(([x, y, r], k) => <ellipse key={k} cx={x} cy={y} rx={r} ry={r * 0.5} fill="#ffffff" opacity={0.55 - k * 0.06} />)}
+      {/* land: Canada on the left, the USA on the right, autumn colours */}
+      <rect x="100" y="60" width="1420" height="800" fill="#6f8f57" />
+      {Array.from({ length: 90 }, (_, k) => { const r = rng(k + 301); return <circle key={k} cx={100 + r() * 1420} cy={60 + r() * 800} r={6 + r() * 9} fill={r() < 0.35 ? '#c9853a' : r() < 0.6 ? '#a8432c' : '#58763f'} opacity="0.7" />; })}
+      {/* the upper river, coming in wide from the top, with rapids above the brink */}
+      <path d="M380 60 L1360 60 C1300 160 1200 240 1140 320 L1080 360 C1060 480 960 560 840 560 C700 560 540 470 520 330 C460 250 420 160 380 60Z" fill="url(#ngRiver)" />
+      {Array.from({ length: 40 }, (_, k) => { const r = rng(k + 401); const x = 480 + r() * 520, y = 100 + r() * (r() < 0.5 ? 220 : 380); return <path key={k} d={`M${x} ${y} q20 -5 40 0 q20 5 40 0`} stroke="#e6fbfb" strokeWidth={2 + r() * 2} fill="none" opacity={0.4 + r() * 0.4} />; })}
+      {/* Goat Island, wooded, between the two falls */}
+      <path d="M1080 360 C1120 300 1200 290 1260 320 C1300 360 1300 430 1260 470 C1200 500 1120 480 1090 440Z" fill="#4f7a3c" />
+      {Array.from({ length: 22 }, (_, k) => { const r = rng(k + 501); return <circle key={k} cx={1110 + r() * 160} cy={320 + r() * 140} r={8 + r() * 8} fill={r() < 0.4 ? '#c47a34' : '#3f6a32'} />; })}
+      {/* the American Falls: a straight white curtain into the gorge */}
+      <path d="M1260 470 L1420 520 L1424 560 L1262 512Z" fill="url(#ngSheet)" />
+      <path d="M1262 512 L1424 560 C1400 600 1300 610 1240 580Z" fill="#e8f6f6" opacity="0.8" />
+      {/* the gorge below the falls: emerald water flowing away to the bottom */}
+      <path d="M512 400 C530 550 690 640 840 640 C960 640 1060 560 1084 420 C1120 520 1200 560 1250 580 C1300 640 1330 740 1360 860 L700 860 C700 760 600 640 512 400Z" fill="url(#ngGorge)" />
+      {Array.from({ length: 16 }, (_, k) => { const r = rng(k + 601); const x = 760 + r() * 460, y = 680 + r() * 170; return <path key={k} d={`M${x} ${y} q30 -8 60 0`} stroke="#5fc3b6" strokeWidth="3" fill="none" opacity="0.5" />; })}
+      {/* the falling sheet of the Horseshoe, with soft vertical streaks */}
+      <path d={sheet} fill="url(#ngSheet)" />
+      {Array.from({ length: 30 }, (_, k) => {
+        const t = k / 29;
+        const x = 520 + t * 560, y = 330 + Math.sin(t * Math.PI) * 230 - (t > 0.9 ? (t - 0.9) * 200 : 0);
+        return <path key={k} d={`M${x} ${y} l${(t - 0.5) * -6} 70`} stroke="#9fd3d8" strokeWidth="2" opacity="0.35" />;
+      })}
+      <path d={brink} stroke="#ffffff" strokeWidth="5" fill="none" />
+      {/* foam in the plunge pool */}
+      {Array.from({ length: 26 }, (_, k) => { const r = rng(k + 701); const t = r(); return <ellipse key={k} cx={540 + t * 520} cy={600 + Math.sin(t * Math.PI) * 60 + r() * 30} rx={16 + r() * 24} ry={7 + r() * 8} fill="#ffffff" opacity={0.55 + r() * 0.35} />; })}
+      {/* the mist plume rising out of the bowl, with a faint rainbow */}
+      <g style={motion ? { animation: 'pcMist 7s ease-in-out infinite alternate' } : undefined}>
+        <ellipse cx="820" cy="560" rx="300" ry="130" fill="url(#ngMist)" />
+        <ellipse cx="800" cy="440" rx="220" ry="140" fill="url(#ngMist)" opacity="0.8" />
+        <ellipse cx="830" cy="320" rx="160" ry="120" fill="url(#ngMist)" opacity="0.6" />
+        <path d="M660 560 C700 440 940 440 980 560" stroke="url(#ngRainbow)" strokeWidth="10" fill="none" opacity="0.35" />
       </g>
-      {/* the boat in the gorge, with its wake */}
-      <path d="M960 720 l-50 44" stroke="#cfe6ee" strokeWidth="4" opacity="0.7" />
-      <ellipse cx="968" cy="714" rx="22" ry="9" fill="#2e6fd1" /><rect x="958" y="706" width="20" height="7" fill="#f4f4f4" />
-      {/* the American Falls: a straight white line on the near bank */}
-      <path d="M560 560 L700 640" stroke="#ffffff" strokeWidth="10" />
-      {/* shores: roads, buildings, autumn trees */}
-      {Array.from({ length: 24 }, (_, k) => { const r = rng(k + 41); const left = k % 2 === 0; return <rect key={k} x={left ? 140 + r() * 360 : 1250 + r() * 240} y={left ? 600 + r() * 220 : 480 + r() * 340} width={20 + r() * 40} height={12 + r() * 26} fill={r() < 0.5 ? '#c9c2b4' : '#a39b8c'} />; })}
-      {Array.from({ length: 50 }, (_, k) => { const r = rng(k + 71); return <circle key={k} cx={k % 2 ? 140 + r() * 400 : 1180 + r() * 320} cy={k % 2 ? 380 + r() * 200 : 420 + r() * 200} r={5 + r() * 6} fill={r() < 0.5 ? '#d08a3a' : '#a8432c'} opacity="0.85" />; })}
-      <path d="M100 560 C300 560 460 590 560 640" stroke="#d9d2c0" strokeWidth="10" fill="none" />
-      <path d="M1520 440 C1380 460 1260 500 1200 560" stroke="#d9d2c0" strokeWidth="10" fill="none" />
+      {/* the tour boat near the falls, with its wake */}
+      <path d="M900 720 C940 750 980 770 1030 790" stroke="#bfeee8" strokeWidth="5" fill="none" opacity="0.6" />
+      <g transform="translate(890 712) rotate(-20)">
+        <rect x="-26" y="-9" width="52" height="18" rx="9" fill="#2e6fd1" />
+        <rect x="-16" y="-6" width="30" height="10" fill="#f4f4f4" />
+      </g>
+      {/* the Rainbow Bridge downstream */}
+      <path d="M1180 820 C1260 760 1380 760 1460 820" stroke="#cfc6b4" strokeWidth="10" fill="none" />
+      <path d="M1160 822 L1480 822" stroke="#e0d8c8" strokeWidth="8" />
+      {/* the Canadian side: a park along the rim, a road, buildings and the Skylon Tower */}
+      <path d="M100 360 C260 380 400 400 500 420 L620 700 L100 700Z" fill="#7f9b62" opacity="0.6" />
+      <path d="M100 420 C260 430 420 460 540 520 C600 580 640 680 660 860" stroke="#d9d2c0" strokeWidth="10" fill="none" />
+      {Array.from({ length: 18 }, (_, k) => { const r = rng(k + 801); return <rect key={k} x={130 + r() * 380} y={560 + r() * 260} width={22 + r() * 40} height={14 + r() * 26} fill={r() < 0.5 ? '#c9c2b4' : '#a39b8c'} />; })}
+      <g transform="translate(360 470)">
+        <path d="M-4 0 L4 0 L5 150 L-5 150Z" fill="#d8d2c4" />
+        <path d="M-60 140 L-4 0 L-4 150Z" fill="#000" opacity="0.15" />
+        <ellipse cx="0" cy="0" rx="26" ry="12" fill="#e8c35c" />
+        <ellipse cx="0" cy="-6" rx="20" ry="8" fill="#f2e6c2" />
+      </g>
     </>
   );
 }
