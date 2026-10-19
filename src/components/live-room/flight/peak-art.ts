@@ -31,7 +31,8 @@ export function drawPeak(
   ctx: CanvasRenderingContext2D, kind: PeakKind, roll: number, tone: number, style: PeakStyle,
   cx: number, baseY: number, topY: number, half: number, fog: number, haze: RGB, alpha: number,
 ) {
-  if (PEAK_STYLE === 'new') { drawPeakV2(ctx, kind, roll, tone, style, cx, baseY, topY, half, fog, haze, alpha); return; }
+  // the new mountains; until their picture is ready (made a few per second, never holding up the flight), the old one
+  if (PEAK_STYLE === 'new' && drawPeakV2(ctx, kind, roll, tone, style, cx, baseY, topY, half, fog, haze, alpha)) return;
   const H = baseY - topY;
   const X = (nx: number) => cx + nx * half;
   const Y = (ny: number) => baseY - ny * H;
@@ -133,11 +134,32 @@ const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 // spurs and gullies; darker and hazier towards the foot; snow above an uneven line that runs further down the ridges;
 // forest speckle low down; banded rock in dry ranges. Night uses the same shapes in moonlight.
 
-const TW = 288, TH = 144;          // template size (pixels); drawn scaled to each peak
-const TEMPLATES = 24;              // different mountain shapes per kind (and each can be mirrored)
+const TW = 192, TH = 96;          // template size (pixels); drawn scaled to each peak
+const TEMPLATES = 10;              // different mountain shapes per kind (and each can be mirrored)
 const templateCache = new Map<string, HTMLCanvasElement>();
 /** The same silhouette filled with the haze colour: drawn over the mountain at the haze strength (smooth with distance). */
-const hazeCache = new Map<string, HTMLCanvasElement>();
+const hazeCache = new WeakMap<HTMLCanvasElement, HTMLCanvasElement>();
+const pending = new Map<string, () => void>();
+let buildScheduled = false;
+if (typeof window !== "undefined") (window as unknown as { __pk?: unknown }).__pk = { pending, templateCache: () => templateCache }; // DEBUG-TIMING
+/** Builds waiting pictures while the browser is idle (a few milliseconds each), so the flight never stutters. */
+function scheduleBuilds() {
+  if (buildScheduled) return;
+  buildScheduled = true;
+  const idle = (cb: (d: { timeRemaining: () => number }) => void) =>
+    (typeof window.requestIdleCallback === 'function' ? window.requestIdleCallback(cb, { timeout: 120 }) : setTimeout(() => cb({ timeRemaining: () => 8 }), 30));
+  const run = (d: { timeRemaining: () => number }) => {
+    const start = performance.now();
+    do {
+      const next = pending.entries().next().value;
+      if (!next) break;
+      pending.delete(next[0]);
+      next[1]();
+    } while (d.timeRemaining() > 6 || performance.now() - start < 6); // a busy page still gets a few every call
+    if (pending.size) idle(run); else buildScheduled = false;
+  };
+  idle(run);
+}
 
 /** 1-D smooth noise from a seed (sum of a few sines with seeded phases: cheap and repeatable). */
 function noise1(seed: number) {
@@ -171,6 +193,9 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
   for (let x = -1; x <= TW; x++) H[x + 1] = hAt((x + 0.5) / TW);
   const peakH = Math.max(...Array.from(H));
   for (let x = 0; x < H.length; x++) H[x] /= peakH || 1; // the summit touches the top
+  // a smoothed skyline for the light: small bumps on the edge must not shine all the way down as vertical lines
+  const HS = new Float32Array(H.length);
+  for (let x = 0; x < H.length; x++) { let sum = 0, n = 0; for (let k = -14; k <= 14; k++) { const v = H[x + k]; if (v !== undefined) { sum += v; n++; } } HS[x] = sum / n; }
 
   const rock = kind === 'forest' ? mixRgb(style.rock, style.leaf, 0.55) : mixRgb(style.rock, style.warm ? [150, 96, 70] : [128, 124, 116], 0.25);
   const lit: RGB = style.night ? mixRgb(rock, [76, 90, 128], 0.6) : mixRgb(rock, style.warm ? [246, 200, 156] : [238, 228, 212], 0.42);
@@ -184,19 +209,20 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
     const h = H[x + 1];
     if (h <= 0.002) continue;
     const top = (1 - h) * TH;
-    const slope = (H[x + 2] - H[x]) * TW * 0.08;   // + rising to the right: a face turned to the light (from the left)
+    const slope = Math.max(-0.5, Math.min(0.5, (HS[Math.min(HS.length - 1, x + 2)] - HS[x]) * TW * 0.08));   // + rising to the right: a face turned to the light (from the left)
     const u = x / TW;
     for (let y = Math.max(0, Math.floor(top)); y < TH; y++) {
       const ph = 1 - y / TH;                          // height of this point (0 foot, 1 summit)
       const depth = (y - top) / Math.max(1, TH - top); // 0 at the skyline, 1 at the foot
       // ridges and gullies fan out from the summit: a pattern in the angle from the summit
-      const spread = 0.12 + (1 - ph) * 1.3;
-      const a0 = (u - apex) / spread, a1 = (u + 1 / TW - apex) / spread;
+      const spread = 0.3 + (1 - ph) * 1.3;
+      const wave = (n1(ph * 4 + u * 2) - 0.5) * 0.35;   // ridges wander instead of running straight down
+      const a0 = (u - apex) / spread + wave, a1 = (u + 1 / TW - apex) / spread + wave;
       const rf = (a: number) => 0.6 * n3(a * 3) + 0.4 * n2(a * 6.3 + 2.1);
-      const ridge = rf(a0), across = (rf(a1) - ridge) * TW * 0.35; // + the light side of a ridge
+      const ridge = rf(a0), across = Math.max(-0.6, Math.min(0.6, (rf(a1) - ridge) * TW * 0.22)); // + the light side of a ridge
       const spur = Math.abs(ridge - 0.5) * 2;           // 0 on a crest, 1 in a gully
       const patch = n2(u * 5 + ph * 6) - 0.5;           // broad patchy variation
-      let light = clamp01(0.5 + slope * 1.5 * (1 - depth * 0.5) + across * (kind === 'bare' ? 0.4 : 0.6) + patch * 0.3);
+      let light = clamp01(0.5 + slope * 1.5 * (1 - depth * 0.5) + across * (kind === 'bare' ? 0.22 : 0.45) + patch * 0.3);
       light = clamp01(light - depth * 0.22);
       let col = mixRgb(shade, lit, light);
       // snow: above an uneven line, further down along the crests, thinner in the gullies
@@ -226,25 +252,33 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
 function drawPeakV2(
   ctx: CanvasRenderingContext2D, kind: PeakKind, roll: number, _tone: number, style: PeakStyle,
   cx: number, baseY: number, topY: number, half: number, fog: number, haze: RGB, alpha: number,
-) {
+): boolean {
   const h = baseY - topY;
-  if (h < 1 || half < 1) return;
+  if (h < 1 || half < 1) return true;
   const t = Math.floor(roll * TEMPLATES) % TEMPLATES;
-  const hz = haze.map((v) => Math.round(v / 16) * 16) as RGB;
-  const key = `${kind}|${t}|${style.night ? 1 : 0}|${style.warm ? 1 : 0}|${style.rock.join(',')}|${style.snow.join(',')}|${style.leaf.join(',')}|${hz.join(',')}`;
+  // Colours rounded, so colours that drift slightly (ranges blending as the plane flies) reuse the same pictures.
+  const q = (c: RGB) => c.map((v) => Math.round(v / 24) * 24) as RGB;
+  const hz = q(haze);
+  const look: PeakStyle = { ...style, rock: q(style.rock), snow: q(style.snow), leaf: q(style.leaf) };
+  const base = `${kind}|${look.night ? 1 : 0}|${look.warm ? 1 : 0}|${look.rock.join(',')}|${look.snow.join(',')}|${look.leaf.join(',')}|${hz.join(',')}`;
+  const key = `${base}|${t}`;
   let tpl = templateCache.get(key);
   if (!tpl) {
-    tpl = makeTemplate(kind, t + 1, style, 0, hz);
-    templateCache.set(key, tpl);
-    if (templateCache.size > 300) { const k = templateCache.keys().next().value; if (k) { templateCache.delete(k); hazeCache.delete(k); } }
+    // Made in the browser's idle moments, never inside a frame; until it exists, borrow one already made (or the old peak).
+    if (!pending.has(key)) {
+      pending.set(key, () => { templateCache.set(key, makeTemplate(kind, t + 1, look, 0, hz)); if (templateCache.size > 400) { const k = templateCache.keys().next().value; if (k) templateCache.delete(k); } });
+      scheduleBuilds();
+    }
+    for (let k = 1; k < TEMPLATES && !tpl; k++) tpl = templateCache.get(`${base}|${(t + k) % TEMPLATES}`);
+    if (!tpl) return false;
   }
-  let veil = hazeCache.get(key);
+  let veil = hazeCache.get(tpl);
   if (!veil) {
     veil = document.createElement('canvas');
     veil.width = TW; veil.height = TH;
     const vg = veil.getContext('2d');
     if (vg) { vg.drawImage(tpl, 0, 0); vg.globalCompositeOperation = 'source-in'; vg.fillStyle = `rgb(${hz[0]},${hz[1]},${hz[2]})`; vg.fillRect(0, 0, TW, TH); }
-    hazeCache.set(key, veil);
+    hazeCache.set(tpl, veil);
   }
   const haze01 = clamp01(fog);
   // broad massifs: a mountain is about three times as wide as it is tall
@@ -252,9 +286,10 @@ function drawPeakV2(
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
+  ctx.imageSmoothingQuality = 'medium';
   const x0 = pr(roll, 99) > 0.5 ? (ctx.translate(cx, 0), ctx.scale(-1, 1), -w / 2) : cx - w / 2;
   ctx.drawImage(tpl, x0, topY, w, h);
-  if (haze01 > 0.01) { ctx.globalAlpha = alpha * haze01; ctx.drawImage(veil, x0, topY, w, h); }
+  if (haze01 > 0.03) { ctx.globalAlpha = alpha * haze01; ctx.drawImage(veil, x0, topY, w, h); }
   ctx.restore();
+  return true;
 }

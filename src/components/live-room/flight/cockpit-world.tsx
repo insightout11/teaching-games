@@ -96,8 +96,6 @@ const Z_FAR = 60000;
 const Z_NEAR = 900;
 const CRUISE_SPEED = 4200;   // world units per second at speed 1
 const TILE_WORLD = 14;       // one texture pixel covers this many world units
-/** World size of one tile of the relief pattern (hills a few kilometres across). */
-const RELIEF_WORLD = 30000;
 const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the ground's, so no repeat lines up
 const SHORE = 4200;          // world units over which one terrain blends into the next
 
@@ -340,24 +338,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       ctx.globalAlpha = alpha;
       ctx.fillStyle = lv.pat;
       ctx.fillRect(0, y, w, rowH);
-      if (macro && withMacro) {
+      const mac = groundRelief() && layer.terrain !== 'ocean' ? relief : macro;
+      if (mac && withMacro) {
         const m = (F / z) * MACRO_WORLD;
         mtx.a = m; mtx.d = m; mtx.e = w / 2 + 3100 * (F / z); mtx.f = y - (((camZ + z) / MACRO_WORLD) % 256) * m;
-        macro.setTransform(mtx);
+        mac.setTransform(mtx);
         ctx.globalCompositeOperation = 'overlay';
-        ctx.globalAlpha = alpha * layer.macroAlpha;
-        ctx.fillStyle = macro;
-        ctx.fillRect(0, y, w, rowH);
-        ctx.globalCompositeOperation = 'source-over';
-      }
-      // Relief: hills and valleys lit from the sun's side, laid over all land (not open sea), shrinking with distance.
-      if (relief && withMacro && groundRelief() && layer.terrain !== 'ocean') {
-        const m = (F / z) * RELIEF_WORLD;
-        mtx.a = m; mtx.d = m; mtx.e = w / 2 + 1700 * (F / z); mtx.f = y - (((camZ + z) / RELIEF_WORLD) % 512) * m;
-        relief.setTransform(mtx);
-        ctx.globalCompositeOperation = 'overlay';
-        ctx.globalAlpha = alpha * (layer.terrain === 'mountains' ? 0.35 : layer.terrain === 'ice' ? 0.45 : 0.7) * (1 - Math.min(0.6, z / (Z_FAR * 1.2)));
-        ctx.fillStyle = relief;
+        ctx.globalAlpha = alpha * layer.macroAlpha * (mac === relief ? 1.6 : 1);
+        ctx.fillStyle = mac;
         ctx.fillRect(0, y, w, rowH);
         ctx.globalCompositeOperation = 'source-over';
       }
@@ -365,6 +353,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     };
 
     const frame = (now: number) => {
+      const __t0 = performance.now(); // DEBUG-TIMING
       camH += (CAM_HEIGHT * Math.max(0.2, Math.min(1, live.current.altitude)) - camH) * 0.01;
       // A video is playing (or a video is full screen; the whole room in full screen keeps moving): the scenery holds still so the video gets the whole machine.
       if (live.current.paused || (document.fullscreenElement && document.fullscreenElement !== document.documentElement)) {
@@ -569,6 +558,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       band.addColorStop(1, `rgba(${haze[0]},${haze[1]},${haze[2]},0)`);
       ctx.fillStyle = band;
       ctx.fillRect(0, horizonY - 6, w, h * 0.06 + 6);
+      { const W = window as unknown as { __ms?: number[] }; (W.__ms ??= []).push(performance.now() - __t0); } // DEBUG-TIMING
 
       raf = requestAnimationFrame(frame);
     };
