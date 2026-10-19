@@ -47,6 +47,7 @@ Status is the initial state; the last column assigns the implementation item.
 | story-predict / reading-flight | Prediction | **fails** | Prediction/options and confidence | Cast and already-shown previous recap | 7 |
 | story-recap / reading-flight | Chapter check | **fails** | Check/options and confidence | Original read passages | 7 |
 | cabin-mystery | Investigation / final theory | **fails** | Role, questions, suspects; evidence labels | Public case/evidence text | 7 |
+| video-player | Generated visual-only question | **fails** | Question/options after a clip | No reliable per-question still image for visual-only facts | Content/media redesign deferred |
 
 ## Passing steps and steps without phone input
 
@@ -140,3 +141,16 @@ Mixed plugins also appear above: each row here refers only to the named steps.
   responsibilities. The fixes add public task context, not new shared-screen secrets/ranks.
 - Final commits, validation, fixes and remaining exceptions are in the completion report
   under `C:/Users/insig/Documents/Codex/_outputs/`.
+
+## Resolution after implementation
+
+Items 2–7 address all context failures above except the explicitly deferred video
+media-authoring case. Design Studio now carries its decision details, but its
+partner-based teaching flow remains deferred. The table retains the initial status
+so a reviewer can see what changed. No claim is made about real-class operation.
+
+Item 8 adds pure-builder, actual publisher-expression and rendered reference tests.
+The publisher tests execute the component's real input-spec object with local
+fixture data, without calling generation services. Browser QA uses six 320-pixel
+reference cards with the actual reference components and sample answer controls;
+it checks reference layout, not authenticated full-session behaviour.
