@@ -23,7 +23,7 @@ export const LANDMARK_SIZE: Record<WorldLandmarkKind, { h: number; w: number; cl
   matterhorn: { h: 2550, w: 2550 * 1.6, clear: 7000 }, // the steep four-sided horn, among the Alps
   kilimanjaro: { h: 2000, w: 2000 * 3.4, clear: 12000 }, // broad and flat-topped, alone on the savanna
   volcano: { h: 1700, w: 1700 * 2.8, clear: 9000 },     // the shared volcano (Etna, Vesuvius, Teide...)
-  niagara: { h: 0, w: 5200, clear: 14000 },             // a river, the falls and their mist (ten times life size)
+  niagara: { h: 0, w: 7200, clear: 16000 },             // a river, the falls and their mist (ten times life size)
 };
 
 /** The cockpit's projection for this frame: world point (sideways x, depth ahead z, height y) to the screen. */
@@ -326,11 +326,16 @@ function drawVolcano(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
 // ── Niagara Falls: the river, Goat Island, the curved Horseshoe Falls, the straight American Falls, and the mist ──────
 
 function drawNiagara(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: number, Z: number, proj: Projector, fog: number, haze: RGB, alpha: number) {
+  // From a plane, Niagara is a river with a white horseshoe and, above all, the column of mist rising out of the gorge:
+  // that mist is what you spot first, from far away. All at ground level (only the falls themselves have height).
   const { w } = LANDMARK_SIZE.niagara;
-  const water: RGB = mix(look.night ? [18, 30, 52] : [52, 104, 128], haze, fog * 0.7);
-  const rapids: RGB = mix(look.night ? [120, 136, 170] : [214, 232, 236], haze, fog * 0.7);
-  const island: RGB = mix(look.night ? [12, 22, 22] : mix(look.leaf, [40, 80, 46], 0.4), haze, fog * 0.7);
-  const drop = w * 0.05;                       // the height of the falls (exaggerated, so the drop shows from above)
+  const f = Math.max(fog * 0.7, 0.15);
+  const water: RGB = mix(look.night ? [16, 26, 46] : [46, 92, 118], haze, f);
+  const waterLight: RGB = mix(look.night ? [60, 74, 110] : [130, 176, 196], haze, f);
+  const foam: RGB = mix(look.night ? [150, 160, 196] : [246, 250, 252], haze, f * 0.7);
+  const bank: RGB = mix(look.night ? [8, 14, 14] : mix(look.leaf, [30, 58, 34], 0.6), haze, f);
+  const cliff: RGB = mix(look.night ? [8, 8, 14] : [58, 52, 50], haze, f);
+  const drop = w * 0.035;
   const poly = (pts: Array<[number, number, number?]>, col: RGB, a = 1) => {
     ctx.fillStyle = css(col, a);
     ctx.beginPath();
@@ -338,50 +343,60 @@ function drawNiagara(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
     ctx.closePath();
     ctx.fill();
   };
+  // a river as a ribbon along a winding centre line, its width wavering
+  const ribbon = (z0: number, z1: number, wid: (t: number) => number, curl: number, col: RGB, a = 1) => {
+    const N = 20, L: Array<[number, number, number]> = [], Rr: Array<[number, number, number]> = [];
+    for (let k = 0; k <= N; k++) {
+      const t = k / N, z = z0 + (z1 - z0) * t;
+      const cx = X + Math.sin(t * 2.2 + 0.4) * curl - Math.sin(0.4) * curl;
+      const ww = wid(t) * (1 + 0.12 * Math.sin(t * 17 + curl));
+      L.push([cx - ww, z, 0]); Rr.push([cx + ww, z, 0]);
+    }
+    poly([...L, ...Rr.reverse()], col, a);
+  };
   ctx.save();
   ctx.globalAlpha = alpha;
-  const half = w * 0.16;                       // half the river's width
-  // the upper river winds away towards the horizon (to Lake Erie), raised by the drop; banks a darker green
-  const bank: RGB = mix(look.night ? [8, 14, 14] : mix(look.leaf, [30, 56, 34], 0.6), haze, fog * 0.7);
-  const river = (z0: number, z1: number, y: number, wid: number, col: RGB, curl: number) => {
-    const N = 14;
-    const left: Array<[number, number, number]> = [], right: Array<[number, number, number]> = [];
-    for (let k = 0; k <= N; k++) {
-      const t = k / N, z = z0 + (z1 - z0) * t, cx = X + Math.sin(t * 2.4) * curl * Math.abs(z1 - z0) * 0.12, ww = wid * (1 + t * 0.35);
-      left.push([cx - ww, z, y]); right.push([cx + ww, z, y]);
-    }
-    poly([...left, ...right.reverse()].map(([x, z, yy]) => [x, z, yy] as [number, number, number]), col);
-  };
-  river(Z, Z + w * 7, drop, half * 1.45, bank, 1);
-  river(Z, Z + w * 7, drop, half * 1.15, water, 1);
-  // below the falls: a deep, narrow gorge with dark cliffs, running back towards the plane
-  river(Z, Z - w * 4, 0, half * 0.95, mix(bank, [20, 24, 26], 0.45), -0.6);
-  river(Z, Z - w * 4, 0, half * 0.55, mix(water, [12, 24, 34], 0.3), -0.6);
-  // rapids above the falls: pale streaks
-  for (let k = 0; k < 9; k++) {
-    const x = X - half + (k + 0.5) * (half * 2 / 9), z0 = Z + w * 0.05, z1 = Z + w * (0.15 + hash(k) * 0.25);
-    poly([[x - half * 0.03, z1, drop], [x + half * 0.03, z1, drop], [x + half * 0.03, z0, drop], [x - half * 0.03, z0, drop]], rapids, 0.6);
+  const half = w * 0.2;
+  // the upper river, wide, winding away to the horizon; a lighter band of sky reflected down the middle
+  ribbon(Z + w * 0.05, Z + w * 8, (t) => half * (1.25 + t * 0.6), w * 0.9, bank);
+  ribbon(Z + w * 0.05, Z + w * 8, (t) => half * (1 + t * 0.6), w * 0.9, water);
+  ribbon(Z + w * 0.4, Z + w * 8, (t) => half * (0.35 + t * 0.3), w * 0.9, waterLight, 0.5);
+  // rapids just above the falls: white streaks running towards the edge
+  for (let k = 0; k < 14; k++) {
+    const x = X - half * 0.9 + (k + 0.5) * (half * 1.8 / 14), z1 = Z + w * (0.08 + hash(k * 3.3) * 0.35);
+    poly([[x - half * 0.025, z1], [x + half * 0.025, z1], [x + half * 0.035, Z + w * 0.06], [x - half * 0.035, Z + w * 0.06]], foam, 0.55);
   }
-  // Goat Island splits the river: the Horseshoe Falls (curved) on the right, the American Falls (straight) on the left
-  poly([[X - half * 0.45, Z + w * 0.4, drop], [X - half * 0.2, Z + w * 0.4, drop], [X - half * 0.15, Z + w * 0.02, drop], [X - half * 0.5, Z + w * 0.02, drop]], island);
+  // the gorge below: narrow, deep, cliffs either side, running back towards the plane
+  ribbon(Z, Z - w * 5, () => half * 0.62, -w * 0.6, bank);
+  ribbon(Z, Z - w * 5, () => half * 0.48, -w * 0.6, cliff);
+  ribbon(Z, Z - w * 5, () => half * 0.26, -w * 0.6, mix(water, [8, 18, 28], 0.35));
+  // Goat Island between the two falls
+  poly([[X - half * 0.55, Z + w * 0.45], [X - half * 0.15, Z + w * 0.45], [X - half * 0.1, Z + w * 0.04], [X - half * 0.6, Z + w * 0.04]], bank);
+  // the Horseshoe Falls: a white curtain round a curve, and foam boiling at its foot
   const curve: Array<[number, number]> = [];
-  for (let k = 0; k <= 16; k++) { const t = k / 16, a = Math.PI * (1 - t); curve.push([X + half * 0.35 + Math.cos(a) * half * 0.65, Z + Math.sin(a) * w * 0.12]); }
-  // the falling water: a white curtain from the lip down to the gorge
+  for (let k = 0; k <= 20; k++) { const a = Math.PI * (1 - k / 20); curve.push([X + half * 0.4 + Math.cos(a) * half * 0.55, Z + w * 0.04 + Math.sin(a) * w * 0.16]); }
   for (let k = 0; k < curve.length - 1; k++) {
     const [x0, z0] = curve[k], [x1, z1] = curve[k + 1];
-    poly([[x0, z0, drop], [x1, z1, drop], [x1, z1 - w * 0.01, 0], [x0, z0 - w * 0.01, 0]], mix(rapids, [255, 255, 255], 0.3), 0.95);
+    poly([[x0, z0, drop], [x1, z1, drop], [x1, z1 - w * 0.012, 0], [x0, z0 - w * 0.012, 0]], foam, 0.95);
   }
-  poly([[X - half * 1.0, Z + w * 0.02, drop], [X - half * 0.5, Z + w * 0.02, drop], [X - half * 0.5, Z, 0], [X - half * 1.0, Z, 0]], mix(rapids, [255, 255, 255], 0.3), 0.95);
-  // the mist rising out of the horseshoe
-  const m0 = proj(X + half * 0.35, Z + w * 0.03, drop * 0.5), m1 = proj(X + half * 0.35, Z + w * 0.03, drop * 9);
-  const rad = Math.max(4, Math.abs(m1[1] - m0[1]));
-  const g = ctx.createRadialGradient(m0[0], m1[1] + rad * 0.4, 0, m0[0], m1[1] + rad * 0.4, rad);
-  const mist = look.night ? [150, 160, 190] as RGB : [250, 252, 255] as RGB;
-  g.addColorStop(0, css(mist, 0.75 * (1 - fog * 0.6))); g.addColorStop(1, css(mist, 0));
-  ctx.fillStyle = g;
-  ctx.beginPath();
-  ctx.ellipse(m0[0], m1[1] + rad * 0.4, rad * 1.1, rad * 0.75, 0, 0, Math.PI * 2);
-  ctx.fill();
+  poly([...curve.map(([x, z]) => [x, z - w * 0.012, 0] as [number, number, number]), ...curve.slice().reverse().map(([x, z]) => [x, z - w * 0.07, 0] as [number, number, number])], foam, 0.6);
+  // the American Falls: a straight white edge on the far side of the island
+  poly([[X - half * 1.0, Z + w * 0.04, drop], [X - half * 0.6, Z + w * 0.04, drop], [X - half * 0.6, Z + w * 0.02, 0], [X - half * 1.0, Z + w * 0.02, 0]], foam, 0.9);
+  // the mist: a tall column of soft white billows rising out of the horseshoe and leaning downwind
+  const mist = look.night ? [150, 160, 196] as RGB : [252, 252, 255] as RGB;
+  const base = [X + half * 0.4, Z + w * 0.08] as const;
+  for (let k = 0; k < 11; k++) {
+    const t = k / 10;
+    const q = proj(base[0] + t * w * 0.3, base[1] + t * w * 0.05, drop + t * w * 0.7);
+    const edge = proj(base[0] + t * w * 0.3 + w * (0.12 + t * 0.2), base[1] + t * w * 0.05, drop + t * w * 0.7);
+    const r = Math.max(3, Math.abs(edge[0] - q[0]));
+    const g = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], r);
+    g.addColorStop(0, css(mix(mist, haze, f * 0.5), 0.8 * (1 - t * 0.6)));
+    g.addColorStop(0.55, css(mix(mist, haze, f * 0.5), 0.35 * (1 - t * 0.6)));
+    g.addColorStop(1, css(mist, 0));
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(q[0], q[1], r, 0, Math.PI * 2); ctx.fill();
+  }
   ctx.restore();
 }
 
