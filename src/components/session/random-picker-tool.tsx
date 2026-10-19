@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { fairPick } from '@/lib/fair-pick';
+import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Student } from '@/lib/supabase/types';
 
@@ -35,6 +36,8 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
   const [groupSize, setGroupSize] = useState(2);
   const [groups, setGroups] = useState<Student[][]>([]);
 
+  // Fair: everyone once before anyone again, never the same student twice in a row.
+  const fairRef = useRef<{ picked: string[]; last: string | null }>({ picked: [], last: null });
   const handlePickOne = useCallback(() => {
     if (students.length === 0) return;
     setSpinning(true);
@@ -46,7 +49,9 @@ export function RandomPickerContent({ students }: RandomPickerContentProps) {
       count++;
       if (count > 15) {
         clearInterval(interval);
-        const picked = students[Math.floor(Math.random() * students.length)];
+        const pick = fairPick(students.map((st) => st.id), fairRef.current.picked, fairRef.current.last);
+        fairRef.current = { picked: pick.picked, last: pick.id };
+        const picked = students.find((st) => st.id === pick.id) ?? students[0];
         setDisplayStudent(picked);
         setPickedStudent(picked);
         setSpinning(false);

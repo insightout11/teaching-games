@@ -1,5 +1,6 @@
 'use client';
 
+import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
@@ -1164,11 +1165,17 @@ export function FlightDeck({
     lowerHand(first.clientId);
   };
 
+  // Fair: everyone once (random order) before anyone again, never the same student twice in a row.
+  const fairRef = useRef<{ picked: string[]; last: string | null }>({ picked: [], last: null });
   const spinRoulette = () => {
     if (roulette || seated.length === 0) return;
-    let i = Math.floor(Math.random() * seated.length);
+    const pick = fairPick(seated.map((p) => p.id), fairRef.current.picked, fairRef.current.last);
+    fairRef.current = { picked: pick.picked, last: pick.id };
+    const target = Math.max(0, seated.findIndex((p) => p.id === pick.id));
     let delay = 60;
     const steps = 14 + Math.floor(Math.random() * seated.length);
+    // Start so the spin lands on the fair pick.
+    let i = (((target - (steps - 1)) % seated.length) + seated.length) % seated.length;
     let n = 0;
     setSpotlight(null);
     const step = () => {
