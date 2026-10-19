@@ -16,7 +16,7 @@ export interface WorldLandmark { id: string; kind: WorldLandmarkKind; ahead: num
 
 /** Size in world units (the cockpit's): height and the radius kept clear of ordinary mountains. */
 export const LANDMARK_SIZE: Record<WorldLandmarkKind, { h: number; w: number; clear: number }> = {
-  fuji: { h: 2900, w: 2900 * 5.4, clear: 11000 }, // a lone, broad volcano: nothing else that tall near it
+  fuji: { h: 2200, w: 2200 * 2.6, clear: 11000 }, // a lone volcano, steeper than life so it reads from above; stays below the plane
   pyramids: { h: 1500, w: 2400, clear: 12000 },   // the three on the desert edge (about ten times life size, to read from cruise height)
 };
 
@@ -31,97 +31,76 @@ const css = (c: RGB, a = 1) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
 const hash = (n: number) => { const s = Math.sin(n * 127.1) * 43758.5453; return s - Math.floor(s); };
 
 // ── Mount Fuji ───────────────────────────────────────────────────────────────────────────────────────────────────────
-// The famous profile: a wide, gently concave cone with a flat top (the crater), snow reaching down the gullies in
-// long fingers, dark forest round the foot. One picture per light and haze colour, made once, drawn scaled.
+// A real cone in the world (as the pyramids), so it turns as the plane passes: rings of faces up a gently concave
+// profile to a flat crater rim, each face lit by how squarely it meets the light. Dark forest round the foot, bare rock,
+// then snow, which runs further down in fingers along the gullies.
 
-const FW = 360, FH = 120;
-const fujiCache = new Map<string, HTMLCanvasElement>();
+const SEGS = 56;                                               // faces round the cone
+const RINGS = [0, 0.08, 0.18, 0.3, 0.42, 0.54, 0.64, 0.74, 0.83, 0.91, 0.97, 1];   // heights of the rings (0 foot, 1 rim)
+const RIM = 0.075;                                             // the crater's radius, as a share of the base radius
+const fujiRadius = (hf: number) => RIM + (1 - RIM) * (1 - Math.pow(hf, 1 / 1.4));  // concave slopes
 
-function fujiPicture(look: LandmarkLook, haze: RGB): HTMLCanvasElement {
-  const q = (c: RGB) => c.map((v) => Math.round(v / 24) * 24) as RGB;
-  const hz = q(haze);
-  const key = `${look.night ? 1 : 0}|${q(look.snow).join(',')}|${q(look.leaf).join(',')}|${hz.join(',')}`;
-  const hit = fujiCache.get(key);
-  if (hit) return hit;
-  const c = document.createElement('canvas');
-  c.width = FW; c.height = FH;
-  const g = c.getContext('2d');
-  if (!g) return c;
-  const img = g.createImageData(FW, FH);
-  // profile: concave slopes (power > 1), a flat crater rim, the left shoulder a touch fuller
-  const prof = (u: number) => {
-    const d = Math.abs(u - 0.5) * 2;
-    const top = 0.075;                                    // half-width of the flat top
-    if (d < top) return 1 - (top - d) * 0.15;             // a shallow dip: the crater
-    const t = clamp01((d - top) / (1 - top));
-    return Math.pow(1 - t, 1.75 + (u < 0.5 ? -0.08 : 0.06));
-  };
-  const H = new Float32Array(FW + 2);
-  for (let x = -1; x <= FW; x++) H[x + 1] = prof((x + 0.5) / FW);
-  const rock: RGB = look.night ? [44, 50, 74] : [104, 92, 96];
-  const lit: RGB = look.night ? [92, 104, 142] : [176, 156, 150];
-  const shade: RGB = look.night ? [16, 20, 36] : [52, 50, 70];
-  const snowLit: RGB = look.night ? [190, 204, 236] : look.snow;
-  const snowShade: RGB = look.night ? [96, 110, 150] : mix(look.snow, [140, 162, 208], 0.5);
-  const forest: RGB = look.night ? [10, 18, 22] : mix(look.leaf, [20, 48, 32], 0.55);
-  for (let x = 0; x < FW; x++) {
-    const h = H[x + 1];
-    const top = (1 - h) * FH;
-    const u = x / FW;
-    for (let y = Math.max(0, Math.floor(top)); y < FH; y++) {
-      const ph = 1 - y / FH;                              // height (0 foot, 1 summit)
-      const depth = (y - top) / Math.max(1, FH - top);
-      // gullies run straight down from the summit: a pattern in the angle from the top centre
-      const ang = (u - 0.5) / (0.06 + (1 - ph) * 0.9);
-      const gully = 0.5 + 0.5 * Math.sin(ang * 21 + Math.sin(ang * 7) * 1.4);
-      // shaded as a round cone: where this point sits across the cone's width at its height (left lit, right in shade)
-      const halfW = 0.075 + (1 - Math.pow(clamp01(ph), 1 / 1.75)) * 0.925;
-      const across = Math.max(-1, Math.min(1, ((u - 0.5) * 2) / Math.max(0.05, halfW)));
-      const light = clamp01(0.52 - across * 0.42 + (gully - 0.5) * 0.2 - depth * 0.12);
-      let col = mix(shade, lit, light);
-      // snow: down to about 60 % of the height, much further down the gully floors in fingers
-      const line = 0.58 + (1 - gully) * 0.16 - Math.pow(gully, 3) * 0.08 + (hash(Math.floor(u * 90)) - 0.5) * 0.03;
-      const sT = clamp01((ph - line) / 0.04 + 0.5);
-      const snow = mix(snowShade, snowLit, clamp01(light * 1.2));
-      if (ph < 0.2) col = mix(col, forest, clamp01((0.2 - ph) / 0.12) * (0.55 + 0.35 * hash(x * 3.1 + y * 7.7)));
-      else col = mix(col, rock, 0.15);
-      col = mix(col, snow, sT * sT * (3 - 2 * sT));
-      col = mix(col, hz, depth * 0.25);
-      const edge = (y === Math.floor(top) ? 1 - (top - Math.floor(top)) : 1) * clamp01((1 - depth) / 0.3) * clamp01(Math.min(u, 1 - u) / 0.06);
-      const i = (y * FW + x) * 4;
-      img.data[i] = col[0]; img.data[i + 1] = col[1]; img.data[i + 2] = col[2]; img.data[i + 3] = Math.round(255 * edge);
+function drawFuji(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: number, Z: number, proj: Projector, airFog: number, haze: RGB, alpha: number) {
+  const { h, w } = LANDMARK_SIZE.fuji;
+  const R0 = w / 2;
+  const fog = airFog * 0.75;
+  const rock: RGB = look.night ? [58, 64, 92] : [118, 104, 106];
+  const rockLit: RGB = look.night ? [104, 116, 156] : [188, 168, 160];
+  const rockShade: RGB = look.night ? [16, 20, 36] : [54, 52, 72];
+  const snowLit: RGB = look.night ? [196, 208, 240] : look.snow;
+  const snowShade: RGB = look.night ? [92, 106, 148] : mix(look.snow, [136, 158, 206], 0.55);
+  const forest: RGB = look.night ? [10, 18, 22] : mix(look.leaf, [22, 50, 34], 0.55);
+  // each face: its corners, how deep it lies (to paint far ones first) and its colour
+  const faces: Array<{ pts: Array<[number, number]>; depth: number; col: RGB; a: number }> = [];
+  for (let i = 0; i < SEGS; i++) {
+    const a0 = (i / SEGS) * Math.PI * 2, a1 = ((i + 1) / SEGS) * Math.PI * 2, am = (a0 + a1) / 2;
+    // snow line for this gully: lower in the gullies, a little uneven
+    const finger = Math.pow(0.5 + 0.5 * Math.sin(am * 9 + Math.sin(am * 4) * 1.3), 3);
+    const snowAt = 0.55 - finger * 0.2 + (hash(i * 3.7) - 0.5) * 0.05;
+    for (let r = 0; r < RINGS.length - 1; r++) {
+      const h0 = RINGS[r], h1 = RINGS[r + 1];
+      const r0 = fujiRadius(h0) * R0, r1 = fujiRadius(h1) * R0;
+      const c = (a: number, rad: number, hf: number): [number, number, number] => [X + Math.cos(a) * rad, Z + Math.sin(a) * rad, hf * h];
+      const p00 = c(a0, r0, h0), p10 = c(a1, r0, h0), p11 = c(a1, r1, h1), p01 = c(a0, r1, h1);
+      // outward, upward normal of this face (from the slope of the profile)
+      const rise = (h1 - h0) * h, run = r0 - r1;
+      const len = Math.hypot(rise, run) || 1;
+      const n = { x: Math.cos(am) * (rise / len), y: run / len, z: Math.sin(am) * (rise / len) };
+      const lam = clamp01((n.x * LIGHT.x + n.y * LIGHT.y + n.z * LIGHT.z) / LN);
+      const hm = (h0 + h1) / 2;
+      let col: RGB = mix(rockShade, rockLit, Math.pow(lam, 1.2));
+      col = mix(col, rock, 0.2);
+      if (hm < 0.25) col = mix(col, mix(forest, col, 0.25 + lam * 0.4), clamp01((0.25 - hm) / 0.15) * 0.8);
+      const sT = clamp01((hm - snowAt) / 0.08 + 0.5);
+      if (sT > 0) col = mix(col, mix(snowShade, snowLit, Math.pow(lam, 0.9)), sT * sT * (3 - 2 * sT));
+      col = mix(col, haze, fog);
+      const pts = [p00, p10, p11, p01].map((q) => proj(q[0], q[1], q[2]));
+      faces.push({ pts, depth: Z + Math.sin(am) * (r0 + r1) / 2, col, a: clamp01(0.25 + hm * 7) }); // the foot melts into the ground
     }
   }
-  g.putImageData(img, 0, 0);
-  fujiCache.set(key, c);
-  if (fujiCache.size > 24) { const k = fujiCache.keys().next().value; if (k) fujiCache.delete(k); }
-  return c;
-}
-
-/** The haze-coloured silhouette laid over a picture at the haze strength (smooth with distance). */
-const veils = new WeakMap<HTMLCanvasElement, HTMLCanvasElement>();
-function veilOf(pic: HTMLCanvasElement, haze: RGB) {
-  let v = veils.get(pic);
-  if (!v) {
-    v = document.createElement('canvas');
-    v.width = pic.width; v.height = pic.height;
-    const g = v.getContext('2d');
-    if (g) { g.drawImage(pic, 0, 0); g.globalCompositeOperation = 'source-in'; g.fillStyle = css(haze); g.fillRect(0, 0, v.width, v.height); }
-    veils.set(pic, v);
-  }
-  return v;
-}
-
-function drawFuji(ctx: CanvasRenderingContext2D, look: LandmarkLook, cx: number, baseY: number, s: number, fog: number, haze: RGB, alpha: number) {
-  const { h, w } = LANDMARK_SIZE.fuji;
-  const pw = w * s, ph = h * s;
-  const pic = fujiPicture(look, haze);
+  faces.sort((a, b) => b.depth - a.depth);
   ctx.save();
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'low';
   ctx.globalAlpha = alpha;
-  ctx.drawImage(pic, cx - pw / 2, baseY - ph, pw, ph);
-  if (fog > 0.03) { ctx.globalAlpha = alpha * fog; ctx.drawImage(veilOf(pic, haze), cx - pw / 2, baseY - ph, pw, ph); }
+  ctx.lineJoin = 'round';
+  for (const f of faces) {
+    const css1 = css(f.col);
+    ctx.globalAlpha = alpha * f.a;
+    ctx.fillStyle = css1;
+    ctx.strokeStyle = css1;          // a hairline of the same colour hides the seams between faces
+    ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    ctx.moveTo(f.pts[0][0], f.pts[0][1]);
+    for (let k = 1; k < f.pts.length; k++) ctx.lineTo(f.pts[k][0], f.pts[k][1]);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+  }
+  ctx.globalAlpha = alpha;
+  // the crater: a snowy rim with a shadowed hollow
+  const rimPts: Array<[number, number]> = [];
+  for (let i = 0; i < 28; i++) { const a = (i / 28) * Math.PI * 2; rimPts.push(proj(X + Math.cos(a) * RIM * R0, Z + Math.sin(a) * RIM * R0, h)); }
+  ctx.fillStyle = css(mix(mix(snowShade, rockShade, 0.35), haze, fog));
+  ctx.beginPath(); rimPts.forEach((q, k) => (k ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]))); ctx.closePath(); ctx.fill();
   ctx.restore();
 }
 
@@ -203,6 +182,6 @@ export function drawWorldLandmark(
   ctx: CanvasRenderingContext2D, kind: WorldLandmarkKind, look: LandmarkLook,
   at: { x: number; z: number; cx: number; baseY: number; s: number }, proj: Projector, fog: number, haze: RGB, alpha: number,
 ) {
-  if (kind === 'fuji') drawFuji(ctx, look, at.cx, at.baseY, at.s, fog, haze, alpha);
+  if (kind === 'fuji') drawFuji(ctx, look, at.x, at.z, proj, fog, haze, alpha);
   else drawPyramids(ctx, look, at.x, at.z, proj, fog, haze, alpha);
 }
