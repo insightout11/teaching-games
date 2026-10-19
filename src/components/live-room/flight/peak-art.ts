@@ -289,7 +289,7 @@ function drawPeakV2(
   ctx.save();
   ctx.globalAlpha = alpha;
   ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'medium';
+  ctx.imageSmoothingQuality = 'low'; // medium/high resample on the CPU in Chrome: hundreds of mountains a frame made the flight crawl
   const x0 = pr(roll, 99) > 0.5 ? (ctx.translate(cx, 0), ctx.scale(-1, 1), -w / 2) : cx - w / 2;
   ctx.drawImage(tpl, x0, topY, w, h);
   if (haze01 > 0.03) { ctx.globalAlpha = alpha * haze01; ctx.drawImage(veil, x0, topY, w, h); }

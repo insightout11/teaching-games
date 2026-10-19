@@ -59,7 +59,7 @@ export function MountainGallery() {
     const s = q.get('style') === 'old' ? 'old' : 'new';
     setStyle(s);
     setPeakStyle(s);
-    setGroundRelief(s === 'new');
+    setGroundRelief(s === 'new' && q.get('hills') !== 'off');
     const region = q.get('one');
     if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);
