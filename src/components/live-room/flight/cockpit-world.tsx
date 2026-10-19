@@ -302,9 +302,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const fit = () => {
       const r = canvas.getBoundingClientRect();
       w = r.width; h = r.height;
-      // The ground is soft, hazy and always moving: it never needs a sharp display's full resolution, and drawing
+      // The ground is soft, hazy and always moving: it never needs a sharp display's full resolution (the new look: at most
+      // 1200 pixels across, since painting the ground strips is nearly all the cost of a frame), and drawing
       // four times the pixels every frame is what made the flight stutter on big or high-density screens.
-      const dpr = Math.max(0.5, Math.min(1.25, window.devicePixelRatio || 1, 1600 / Math.max(1, w)));
+      const dpr = Math.max(0.5, Math.min(1.25, window.devicePixelRatio || 1, (peakStyle() === 'new' ? 1200 : 1600) / Math.max(1, w)));
       // Rows exactly 2 device pixels tall, so neighbouring rows never overlap
       // on half-pixels (overlaps doubled the haze into faint lines).
       rowH = 2 / dpr;
