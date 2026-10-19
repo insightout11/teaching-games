@@ -27,6 +27,8 @@ export interface InputSpec {
   type: InputType;
   gameKey: string;           // Which game/activity this is for
   prompt?: string;           // Instructions shown to student, e.g., "Type your replacement word"
+  /** Public task material already visible to the class; never solutions or answer keys. */
+  context?: InputContextItem[];
   options?: string[];        // For choice/multi-select/sequence/ranking
   maxLength?: number;        // For text inputs
   selectCount?: number;      // For multi-select (e.g., 4 for connections)
@@ -246,7 +248,13 @@ export function getInputRemountKey(spec: InputSpec | null | undefined): string {
   delete rest.publishedAt;
   if (spec.type === 'sequence' || spec.type === 'multi-select') delete rest.perStudentData;
   if (spec.stableInput) { delete rest.perStudentData; delete rest.prompt; }
+  if (spec.stableInput) delete rest.context;
   return getInputSpecRevision(rest);
+}
+
+export interface InputContextItem {
+  text: string;
+  images?: Array<{ url: string; alt: string }>;
 }
 
 /** Grace window between a timed spec's broadcast and answers opening (one synchronized 3-2-1 beat). */

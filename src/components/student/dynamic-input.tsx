@@ -34,6 +34,7 @@ import { SpeakingFramePanel } from './speaking-frame-panel';
 import { HeardItPanel } from './heard-it-panel';
 import { stickerUrlFor } from '@/lib/stickers';
 import { BriefingMissionPanel } from './briefing-mission-panel';
+import { InputContext } from './input-context';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -55,7 +56,11 @@ interface DynamicInputProps {
   initialResponse?: string | null;
 }
 
-export function DynamicInput({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {
+export function DynamicInput(props: DynamicInputProps) {
+  return <><InputContext items={props.spec.context} /><InputControl {...props} /></>;
+}
+
+function InputControl({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {
   if (spec.gameKey === 'synonym-showdown' && spec.perStudentData?.__room) {
     return <SynonymRace spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} submitStatus={submitStatus} waitSeconds={waitSeconds} clientId={clientId} clockOffsetMs={clockOffsetMs} />;
   }
