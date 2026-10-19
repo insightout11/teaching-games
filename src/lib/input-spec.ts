@@ -29,6 +29,8 @@ export interface InputSpec {
   prompt?: string;           // Instructions shown to student, e.g., "Type your replacement word"
   /** Public task material already visible to the class; never solutions or answer keys. */
   context?: InputContextItem[];
+  /** Public Sector Strike board only; no unrevealed bonuses or question data. */
+  sectorBoard?: Array<{ label: string; owner: 'Azure' | 'Ember' | null; selectable: boolean }>;
   options?: string[];        // For choice/multi-select/sequence/ranking
   maxLength?: number;        // For text inputs
   selectCount?: number;      // For multi-select (e.g., 4 for connections)

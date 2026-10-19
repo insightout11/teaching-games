@@ -34,7 +34,7 @@ import { SpeakingFramePanel } from './speaking-frame-panel';
 import { HeardItPanel } from './heard-it-panel';
 import { stickerUrlFor } from '@/lib/stickers';
 import { BriefingMissionPanel } from './briefing-mission-panel';
-import { InputContext } from './input-context';
+import { InputContext, SectorBoard } from './input-context';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -57,7 +57,7 @@ interface DynamicInputProps {
 }
 
 export function DynamicInput(props: DynamicInputProps) {
-  return <><InputContext items={props.spec.context} /><InputControl {...props} /></>;
+  return <><InputContext items={props.spec.context} /><SectorBoard cells={props.spec.sectorBoard} /><InputControl {...props} /></>;
 }
 
 function InputControl({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {
