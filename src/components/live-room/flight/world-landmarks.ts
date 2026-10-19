@@ -268,18 +268,37 @@ function drawKilimanjaro(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: n
   const P = palette(look, true);
   const { h, w } = LANDMARK_SIZE.kilimanjaro;
   const top = 0.2;
+  const heath: RGB = look.night ? [40, 40, 56] : [150, 120, 92];
   drawMesh(ctx, {
-    h, R: w / 2, segs: 30, jag: 0.08, seed: 9,
-    radius: (hf, a) => (top + (1 - top) * (1 - Math.pow(hf, 0.75))) * (1 + 0.05 * Math.sin(a * 3 + 1) + 0.03 * Math.sin(a * 11)),
-    color: (hf, _a, lam, _st, seg) => {
-      // forest belt low down, heath and bare brown rock above, white glacier patches only right at the top
-      let col = mix(P.rockShade, P.rockLit, Math.pow(lam, 1.1));
-      col = withForest(col, hf, 0.35, lam, P);
-      if (hf > 0.86 && hash(seg * 4.7 + hf * 3) > 0.45) col = mix(col, mix(P.snowShade, P.snowLit, lam), 0.9);
+    h, R: w / 2, segs: 44, jag: 0.025, seed: 9,
+    radius: (hf, a) => (top + (1 - top) * (1 - Math.pow(hf, 0.75))) * (1 + 0.04 * Math.sin(a * 3 + 1) + 0.02 * Math.sin(a * 11)),
+    color: (hf, a, lam) => {
+      // rainforest belt low down, brown heath and bare rock above, and the last glaciers: a broken white band round
+      // the rim of the flat summit (long smooth stretches, not squares)
+      let col = mix(mix(P.rockShade, P.rockLit, Math.pow(lam, 1.05)), heath, 0.35);
+      col = withForest(col, hf, 0.4, lam, P);
+      const ice = 0.5 + 0.5 * Math.sin(a * 5 + Math.sin(a * 2) * 1.5);
+      if (hf > 0.84 + (1 - ice) * 0.1) col = mix(col, mix(P.snowShade, P.snowLit, 0.3 + lam * 0.7), 0.95);
       return col;
     },
   }, X, Z, proj, fog * 0.75, haze, alpha);
-  crater(ctx, X, Z, h, top * 0.7 * (w / 2), proj, mix(mix(P.rockShade, P.snowShade, 0.4), haze, fog * 0.75), alpha);
+  crater(ctx, X, Z, h, top * 0.75 * (w / 2), proj, mix(mix(P.rockShade, P.snowShade, 0.5), haze, Math.max(fog * 0.75, 0.2)), alpha);
+  // the collar of cloud that so often wraps its middle: soft puffs on the near side
+  const cloud = mix(look.night ? [120, 128, 160] : [252, 252, 252], haze, Math.max(fog * 0.6, 0.15));
+  ctx.save();
+  for (let k = 0; k < 14; k++) {
+    const a = Math.PI * (1.05 + (k / 13) * 0.9);                       // the half facing the plane
+    const rr = (top + (1 - top) * (1 - Math.pow(0.42, 0.75))) * (w / 2) * 1.08;
+    const q = proj(X + Math.cos(a) * rr, Z + Math.sin(a) * rr, h * 0.42);
+    const e = proj(X + Math.cos(a) * rr + w * 0.07, Z + Math.sin(a) * rr, h * 0.42);
+    const r = Math.max(3, Math.abs(e[0] - q[0])) * (0.8 + hash(k * 2.7) * 0.6);
+    const g = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], r);
+    g.addColorStop(0, css(cloud, 0.75)); g.addColorStop(1, css(cloud, 0));
+    ctx.globalAlpha = alpha * (1 - fog * 0.5);
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.ellipse(q[0], q[1], r * 1.4, r * 0.7, 0, 0, Math.PI * 2); ctx.fill();
+  }
+  ctx.restore();
 }
 
 // ── The shared volcano: a cone with a crater and (for the active ones) a wisp of steam ───────────────────────────────
