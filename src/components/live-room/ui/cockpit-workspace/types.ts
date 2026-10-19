@@ -62,6 +62,10 @@ export interface CatalogueEntry {
   minutes?: number;
   deviceFree?: boolean;
   scored?: boolean;
+  /** Fewest students it works with. */
+  minStudents?: number;
+  /** "Can this class do this?" marks (Needs phones, Group game...): shown, never hidden. */
+  marks?: Array<{ label: string; hint: string }>;
 }
 
 export type WidgetId =

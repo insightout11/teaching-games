@@ -1,6 +1,7 @@
 'use client';
 
-import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType } from '@/lib/class-profile';
+import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType, type SecondScreens } from '@/lib/class-profile';
+import { classFitMarks, withFallback } from '@/lib/class-fit';
 import { flightClock } from '@/lib/live-room/flight-clock';
 import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
@@ -137,6 +138,8 @@ export interface FlightDeckProps {
   classId?: string;
   /** How the class usually runs (class type and settings); the room opens set up for it. */
   classProfile?: ClassProfile;
+  /** How many students have a second screen (class settings, or the older devices setting). */
+  classScreens?: SecondScreens;
   joinUrl: string;
   participants: DeckParticipant[];
   /** The class list: everyone gets a seat, with or without a device. */
@@ -204,6 +207,7 @@ export function FlightDeck({
   className,
   classId,
   classProfile,
+  classScreens,
   joinUrl,
   participants,
   roster = [],
@@ -979,19 +983,25 @@ export function FlightDeck({
   };
 
   // ── catalogue ────────────────────────────────────────────────────────────
+  // "Can this class do this?": aboard now, or the class list before anyone boards.
+  const fitStudents = Math.max(allSeats.length, rosterCount);
+  const fitCtx = useMemo(() => ({ students: fitStudents, screens: classScreens }), [fitStudents, classScreens]);
   const catalogue = useMemo<CatalogueEntry[]>(
     () => [
-      ...games.map((g) => ({ key: g.key, name: g.name, description: g.description, category: g.category, kind: 'game' as const, readiness: 'ready' as const, minutes: g.estimatedMinutes, deviceFree: g.deviceFree, scored: true })),
-      ...activities.map((a) => ({ key: a.key, name: a.name, description: a.description, category: a.category, kind: 'activity' as const, readiness: 'ready' as const, minutes: a.estimatedMinutes, deviceFree: a.deviceFree })),
-    ],
-    [games, activities],
+      ...games.map((g) => ({ key: g.key, name: g.name, description: g.description, category: g.category, kind: 'game' as const, readiness: 'ready' as const, minutes: g.estimatedMinutes, deviceFree: g.deviceFree, scored: true, minStudents: g.minStudents })),
+      ...activities.map((a) => ({ key: a.key, name: a.name, description: a.description, category: a.category, kind: 'activity' as const, readiness: 'ready' as const, minutes: a.estimatedMinutes, deviceFree: a.deviceFree, minStudents: a.minStudents })),
+    ].map((e) => ({ ...e, marks: classFitMarks({ minStudents: e.minStudents ?? 1, deviceFree: !!e.deviceFree }, fitCtx) })),
+    [games, activities, fitCtx],
   );
   const categories = useMemo(() => Array.from(new Set(catalogue.map((c) => c.category))), [catalogue]);
   const stamps = useMemo(() => {
     // Favourites first (the teacher chose them), then this class's recent activities, then the defaults.
     const keys = [...catalogueState.favourites, ...catalogueState.recent, ...(todayType ? TYPE_STAMPS[todayType] : DEFAULT_STAMPS)];
-    return Array.from(new Set(keys)).map((k) => catalogue.find((c) => c.key === k)).filter((c): c is CatalogueEntry => !!c).slice(0, 6);
-  }, [catalogue, catalogueState.recent, catalogueState.favourites, todayType]);
+    const list = Array.from(new Set(keys)).map((k) => catalogue.find((c) => c.key === k)).filter((c): c is CatalogueEntry => !!c);
+    // Fewer than 3 that this class can do (e.g. 1-on-1, or no phones): good fits join the bar, marked ones stay.
+    const asFit = (c: CatalogueEntry) => ({ ...c, minStudents: c.minStudents ?? 1, deviceFree: !!c.deviceFree });
+    return withFallback(list.map(asFit), catalogue.map(asFit), fitCtx);
+  }, [catalogue, catalogueState.recent, catalogueState.favourites, todayType, fitCtx]);
 
   const launch = useCallback((key: string, sourceItem: RoomItem | null) => {
     if (sourceItem) {
@@ -2917,10 +2927,13 @@ export function FlightDeck({
                 data-deck-drag={`stamp:${s.key}`}
                 data-deck-label={s.name}
                 onClick={() => launch(s.key, focused)}
-                title={s.description}
+                title={s.marks?.length ? `${s.description}\n${s.marks.map((m) => m.hint).join(' ')}` : s.description}
                 className={['cursor-grab touch-none select-none rounded-lg border-[1.5px] border-dashed px-3 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.06em] transition-transform hover:-rotate-2 hover:scale-105', STAMP_TONES[i % STAMP_TONES.length]].join(' ')}
               >
                 {s.name}
+                {s.marks?.filter((m) => m.label !== 'Phones').map((m) => (
+                  <span key={m.label} className="ml-1.5 rounded-full border border-amber-300/50 px-1 text-[9px] normal-case tracking-normal text-amber-200">{m.label}</span>
+                ))}
               </button>
             ))}
             {/* Not another activity: a different look (solid, with an icon and an arrow) so it reads as "see the rest". */}

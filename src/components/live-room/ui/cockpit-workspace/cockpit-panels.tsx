@@ -352,6 +352,11 @@ function CatalogueGroup({
                     Scored
                   </Badge>
                 ) : null}
+                {(entry.marks ?? []).map((m) => (
+                  <span key={m.label} title={m.hint} className="rounded-full border border-amber-300/50 px-1.5 text-[10px] text-amber-200">
+                    {m.label}
+                  </span>
+                ))}
 
                 <span className="ml-auto flex gap-1">
                   {/*

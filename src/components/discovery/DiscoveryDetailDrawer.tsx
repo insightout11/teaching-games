@@ -8,6 +8,8 @@
 //   • Add to lesson plan → seedWithModule() (the only path that builds a lesson)
 // Launch flow mirrors ExploreClient so behavior stays consistent across the app.
 
+import { classFitMarks } from '@/lib/class-fit';
+import { readClassProfile } from '@/lib/class-profile';
 import { useEffect, useState } from 'react';
 import { Clock, Users, Plus, ChevronLeft, Plane, Paperclip } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
@@ -39,6 +41,7 @@ interface ClassRow {
   id: string;
   name: string;
   student_device_mode?: 'devices' | 'shared-screen';
+  class_profile?: unknown;
 }
 
 function minStudentsFor(item: DiscoveryItem | null): number {
@@ -67,6 +70,11 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
   const [classes, setClasses] = useState<ClassRow[]>([]);
   const [classesLoading, setClassesLoading] = useState(false);
   const [classStudentCounts, setClassStudentCounts] = useState<Record<string, number>>({});
+  // "Can this class do this?" for a class in the picker (marked, never blocked).
+  const fitFor = (c: { id: string; student_device_mode?: 'devices' | 'shared-screen'; class_profile?: unknown }) => classFitMarks(
+    { minStudents: minStudentsFor(item), deviceFree: !!item?.deviceFree },
+    { students: classStudentCounts[c.id] ?? 0, screens: readClassProfile(c.class_profile).screens ?? (c.student_device_mode === 'shared-screen' ? 'none' : undefined) },
+  );
   const [selectedClassId, setSelectedClassId] = useState('');
   const [topic, setTopic] = useState<Topic | ''>('');
   const [difficulty, setDifficulty] = useState<Difficulty>('Intermediate');
@@ -89,7 +97,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
     const supabase = createClient();
     supabase
       .from('classes')
-      .select('id, name, student_device_mode')
+      .select('*')
       .order('created_at', { ascending: false })
       .then(async ({ data }: { data: ClassRow[] | null }) => {
         const classList = data ?? [];
@@ -387,15 +395,8 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                       inputSize="compact"
                     >
                       {classes.map((c) => {
-                        const count = classStudentCounts[c.id];
-                        const min = minStudentsFor(item);
-                        const tooFew = min > 1 && count !== undefined && count < min;
-                        const needsDevicesClass = c.student_device_mode === 'shared-screen' && !item?.deviceFree;
-                        const suffix = tooFew
-                          ? ` (${count} student${count === 1 ? '' : 's'} — needs ${min}+)`
-                          : needsDevicesClass
-                            ? ' (needs student devices)'
-                            : '';
+                        const marks = fitFor(c);
+                        const suffix = marks.length ? ` (${marks.map((m) => m.label.toLowerCase()).join(', ')})` : '';
                         return (
                           <option key={c.id} value={c.id}>
                             {c.name}{suffix}
@@ -429,25 +430,16 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                     {/* Sticky one-tap launch for the selected (defaults to last-used) class */}
                     {(() => {
                       const selectedClass = classes.find((c) => c.id === selectedClassId);
-                      const selectedCount = classStudentCounts[selectedClassId];
-                      const min = minStudentsFor(item);
-                      const tooFewSelected = min > 1 && selectedCount !== undefined && selectedCount < min;
+                      // Marked, never blocked: the teacher decides.
+                      const selectedMarks = selectedClass ? fitFor(selectedClass) : [];
                       const isSharedScreen = selectedClass?.student_device_mode === 'shared-screen';
-                      const needsDevicesSelected = isSharedScreen && !item?.deviceFree;
-                      const disabled = launching || !selectedClassId || (!!requiresSource && !sourceAttached) || tooFewSelected || needsDevicesSelected;
+                      const disabled = launching || !selectedClassId || (!!requiresSource && !sourceAttached);
                       return (
                         <div className="sticky bottom-0 -mx-6 -mb-6 mt-5 border-t border-lc-border bg-lc-card/95 px-6 py-4 backdrop-blur">
-                          {tooFewSelected && (
-                            <p className="mb-2 text-xs text-lc-amber">
-                              {item?.name} needs {min}+ students — {selectedName} has {selectedCount}.
-                            </p>
-                          )}
-                          {!tooFewSelected && needsDevicesSelected && (
-                            <p className="mb-2 text-xs text-lc-amber">
-                              {selectedName} is set to shared-screen, but {item?.name} needs student devices.
-                            </p>
-                          )}
-                          {!tooFewSelected && !needsDevicesSelected && isSharedScreen && item?.deviceFree && (
+                          {selectedMarks.map((m) => (
+                            <p key={m.label} className="mb-2 text-xs text-lc-amber">{m.hint}</p>
+                          ))}
+                          {selectedMarks.length === 0 && isSharedScreen && item?.deviceFree && (
                             <p className="mb-2 text-xs text-lc-text3">
                               Students answer by voice — you&apos;ll enter answers on your screen.
                             </p>
@@ -462,11 +454,7 @@ export function DiscoveryDetailDrawer({ item, onClose }: { item: DiscoveryItem |
                               ? 'Starting…'
                               : !!requiresSource && !sourceAttached
                                 ? `Add a ${requiresSource === 'video' ? 'video' : 'reading'} to run`
-                                : tooFewSelected
-                                  ? `Needs ${min}+ students`
-                                  : needsDevicesSelected
-                                    ? 'Needs student devices'
-                                    : `Run in ${selectedName}`}
+                                : `Run in ${selectedName}`}
                           </button>
                         </div>
                       );

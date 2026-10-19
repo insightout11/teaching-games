@@ -1,5 +1,7 @@
 'use client';
 
+import { classFitMarks } from '@/lib/class-fit';
+import { readClassProfile } from '@/lib/class-profile';
 import { FLAP_FONT } from '@/components/ui/split-flap';
 import { useState, useEffect, useRef, type ComponentType } from 'react';
 import { useRouter } from 'next/navigation';
@@ -44,6 +46,7 @@ interface Class {
   id: string;
   name: string;
   student_device_mode?: 'devices' | 'shared-screen';
+  class_profile?: unknown;
 }
 
 function minStudentsFor(item: { key: string; type: 'game' | 'activity' } | null): number {
@@ -295,7 +298,7 @@ export function ExploreClient() {
     const supabase = createClient();
     supabase
       .from('classes')
-      .select('id, name, student_device_mode')
+      .select('*')
       .order('created_at', { ascending: false })
       .then(async ({ data, error }: { data: Class[] | null; error: { message?: string } | null }) => {
         if (cancelled) return;
@@ -730,35 +733,22 @@ export function ExploreClient() {
         ) : (
           <div className="space-y-2">
             {classes.map((cls) => {
-              const minStudents = minStudentsFor(launchItem);
+              // "Can this class do this?": marked, never blocked (the teacher decides).
               const count = classStudentCounts[cls.id];
-              const tooFew = minStudents > 1 && count !== undefined && count < minStudents;
-              const isSharedScreen = cls.student_device_mode === 'shared-screen';
-              const isDeviceFree = deviceFreeFor(launchItem);
-              const needsDevicesClass = isSharedScreen && !isDeviceFree;
-              const disabled = tooFew || needsDevicesClass;
+              const screens = readClassProfile(cls.class_profile).screens ?? (cls.student_device_mode === 'shared-screen' ? 'none' : undefined);
+              const marks = classFitMarks({ minStudents: minStudentsFor(launchItem), deviceFree: deviceFreeFor(launchItem) }, { students: count ?? 0, screens });
               return (
                 <button
                   key={cls.id}
-                  onClick={() => !disabled && handleSelectClass(cls.id, cls.name)}
-                  disabled={launching || disabled}
-                  title={
-                    tooFew ? `Needs ${minStudents}+ students — ${cls.name} has ${count}`
-                    : needsDevicesClass ? `${cls.name} is set to shared-screen — this game needs student devices`
-                    : undefined
-                  }
-                  className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors disabled:opacity-50 disabled:hover:border-lc-border disabled:hover:bg-lc-surface"
+                  onClick={() => handleSelectClass(cls.id, cls.name)}
+                  disabled={launching}
+                  title={marks.map((m) => m.hint).join(' ') || undefined}
+                  className="w-full text-left px-4 py-3 rounded-lg border border-lc-border bg-lc-surface text-lc-text text-sm font-medium hover:border-lc-blue/50 hover:bg-lc-blue/5 transition-colors disabled:opacity-50"
                 >
                   {cls.name}
-                  {tooFew && (
-                    <span className="block text-xs text-lc-text3 mt-0.5">Needs {minStudents}+ students ({count} in this class)</span>
-                  )}
-                  {!tooFew && needsDevicesClass && (
-                    <span className="block text-xs text-lc-text3 mt-0.5">Needs student devices — {cls.name} is set to shared-screen</span>
-                  )}
-                  {!tooFew && !needsDevicesClass && isSharedScreen && isDeviceFree && (
-                    <span className="block text-xs text-lc-text3 mt-0.5">Students answer by voice — you&apos;ll enter answers on your screen</span>
-                  )}
+                  {marks.map((m) => (
+                    <span key={m.label} className="block text-xs text-amber-200/80 mt-0.5">{m.hint}</span>
+                  ))}
                 </button>
               );
             })}
