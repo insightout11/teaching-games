@@ -51,22 +51,35 @@ interface MeshMountain {
   color: (hf: number, a: number, lam: number, steep: number, seg: number) => RGB;
   segs?: number;
   rings?: number[];
+  /** How jagged the faces are: each corner pushed in or out by up to this share (0 smooth, 0.25 craggy). */
+  jag?: number;
+  /** A number that makes this mountain's crags its own. */
+  seed?: number;
+  /** Snow streaming down the ridges from the top (angles of the ridges), to a line, in the snow colours. */
+  ridgeSnow?: { ridges: number[]; line: number; width: number; lit: RGB; shade: RGB };
 }
 
 const RINGS = [0, 0.06, 0.14, 0.24, 0.35, 0.46, 0.56, 0.65, 0.73, 0.8, 0.86, 0.91, 0.95, 0.98, 1];
 
 function drawMesh(ctx: CanvasRenderingContext2D, m: MeshMountain, X: number, Z: number, proj: Projector, fog: number, haze: RGB, alpha: number) {
   const segs = m.segs ?? 56, rings = m.rings ?? RINGS;
-  const pos = (a: number, hf: number): [number, number, number] => {
-    const r = m.radius(hf, a) * m.R, [lx, lz] = m.lean ? m.lean(hf) : [0, 0];
-    return [X + lx + Math.cos(a) * r, Z + lz + Math.sin(a) * r, hf * m.h];
+  const jag = m.jag ?? 0, seed = m.seed ?? 0;
+  const pos = (i: number, r: number): [number, number, number] => {
+    const a = ((i % segs) / segs) * Math.PI * 2, hf = rings[r];
+    // crags: corners pushed in or out and up or down; none at the very top or the foot
+    const k = (i % segs) * 131 + r * 17 + seed * 7919;
+    const j = jag * Math.sin(Math.PI * Math.min(1, hf * 1.15));
+    const rr = m.radius(hf, a) * m.R * (1 + j * (hash(k) * 2 - 1));
+    const yy = hf * m.h + (hf > 0 && hf < 1 ? j * m.h * 0.35 * (hash(k + 3) - 0.5) : 0);
+    const [lx, lz] = m.lean ? m.lean(hf) : [0, 0];
+    return [X + lx + Math.cos(a) * rr, Z + lz + Math.sin(a) * rr, yy];
   };
   const faces: Array<{ pts: Array<[number, number]>; depth: number; col: RGB; a: number }> = [];
   for (let i = 0; i < segs; i++) {
-    const a0 = (i / segs) * Math.PI * 2, a1 = ((i + 1) / segs) * Math.PI * 2, am = (a0 + a1) / 2;
+    const am = ((i + 0.5) / segs) * Math.PI * 2;
     for (let r = 0; r < rings.length - 1; r++) {
       const h0 = rings[r], h1 = rings[r + 1];
-      const p00 = pos(a0, h0), p10 = pos(a1, h0), p11 = pos(a1, h1), p01 = pos(a0, h1);
+      const p00 = pos(i, r), p10 = pos(i + 1, r), p11 = pos(i + 1, r + 1), p01 = pos(i, r + 1);
       // the face's normal from its corners (pointing outwards and up)
       const ux = p10[0] - p00[0], uy = p10[2] - p00[2], uz = p10[1] - p00[1];
       const vx = p01[0] - p00[0], vy = p01[2] - p00[2], vz = p01[1] - p00[1];
@@ -96,14 +109,41 @@ function drawMesh(ctx: CanvasRenderingContext2D, m: MeshMountain, X: number, Z: 
     ctx.fill();
     ctx.stroke();
   }
+  // Snow down the ridges: a streak along each ridge that faces the plane, wide at the top and tapering, wavering.
+  const rs = m.ridgeSnow;
+  if (rs) {
+    const at = (a: number, hf: number, out = 1.02): [number, number] => {
+      const r = m.radius(hf, a) * m.R * out, [lx, lz] = m.lean ? m.lean(hf) : [0, 0];
+      return proj(X + lx + Math.cos(a) * r, Z + lz + Math.sin(a) * r, hf * m.h);
+    };
+    rs.ridges.forEach((ra, k) => {
+      if (Math.sin(ra) > 0.35) return;                               // a ridge on the far side: hidden by the mountain
+      const steps = 12;
+      const left: Array<[number, number]> = [], right: Array<[number, number]> = [];
+      for (let q = 0; q <= steps; q++) {
+        const hf = 1 - (q / steps) * (1 - rs.line - hash(k * 9.1) * 0.1);
+        const wob = (hash(k * 31 + q * 7) - 0.5) * rs.width * 0.8;
+        const wid = rs.width * (0.35 + (1 - hf) * 1.2) * (q === steps ? 0.2 : 1);
+        left.push(at(ra - wid + wob, hf)); right.push(at(ra + wid * 0.7 + wob, hf));
+      }
+      // the side of the ridge towards the light is bright, the other in shade
+      const litSide = Math.cos(ra) < 0;
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = css(mix(litSide ? rs.lit : rs.shade, haze, fog));
+      ctx.beginPath();
+      [...left, ...right.reverse()].forEach((pt, n) => (n ? ctx.lineTo(pt[0], pt[1]) : ctx.moveTo(pt[0], pt[1])));
+      ctx.closePath();
+      ctx.fill();
+    });
+  }
   ctx.restore();
 }
 
 /** The colours every mountain shares: rock lit and in shade, snow lit and in shade, forest. */
 function palette(look: LandmarkLook, warm = false) {
   return {
-    rockLit: (look.night ? [104, 116, 156] : warm ? [196, 160, 128] : [186, 170, 160]) as RGB,
-    rockShade: (look.night ? [16, 20, 36] : [52, 50, 70]) as RGB,
+    rockLit: (look.night ? [96, 112, 158] : warm ? [200, 150, 112] : [120, 146, 186]) as RGB,
+    rockShade: (look.night ? [12, 16, 32] : warm ? [70, 44, 40] : [26, 38, 68]) as RGB,
     snowLit: (look.night ? [196, 208, 240] : look.snow) as RGB,
     snowShade: (look.night ? [92, 106, 148] : mix(look.snow, [136, 158, 206], 0.55)) as RGB,
     forest: (look.night ? [10, 18, 22] : mix(look.leaf, [22, 50, 34], 0.55)) as RGB,
@@ -162,13 +202,15 @@ function drawEverest(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
   const { h, w } = LANDMARK_SIZE.everest;
   const himal = (hgt: number, R: number, turn: number, line: number) => ({
     h: hgt, R,
-    radius: (hf: number, a: number) => (1 - Math.pow(hf, 0.85)) * faceted(a, 3, turn) * (1 + 0.05 * Math.sin(a * 7 + hf * 5)),
-    color: (hf: number, a: number, lam: number, steep: number, seg: number) => {
-      // the steepest faces are too steep to hold snow: bare dark rock; snow everywhere it can lie
-      const rock = mix(P.rockShade, P.rockLit, Math.pow(lam, 1.3));
-      const holds = steep < 0.72 || hash(seg * 5.1 + hf * 13) > 0.6;
-      return holds ? withSnow(rock, hf, line + (hash(seg * 2.3) - 0.5) * 0.08, lam, P) : mix(rock, P.rockShade, 0.3);
+    segs: 24, jag: 0.12, seed: Math.round(turn * 10),
+    rings: [0, 0.1, 0.22, 0.34, 0.46, 0.57, 0.67, 0.76, 0.84, 0.91, 0.96, 1],
+    radius: (hf: number, a: number) => (1 - Math.pow(hf, 0.85)) * faceted(a, 3, turn),
+    color: (hf: number, _a: number, lam: number) => {
+      // dark rock with strong light and shade; a snow cap at the very top (the ridges carry the rest)
+      const rock = mix(P.rockShade, P.rockLit, Math.pow(lam, 1.1));
+      return hf > 0.9 ? mix(P.snowShade, P.snowLit, Math.pow(lam, 0.7)) : rock;
     },
+    ridgeSnow: { ridges: [0, 1, 2].map((k) => (k * Math.PI * 2) / 3 - turn), line, width: 0.16, lit: P.snowLit, shade: P.snowShade },
   });
   // far ones first: Nuptse in front-left, Lhotse behind-right, Everest behind
   drawMesh(ctx, himal(h * 0.86, w * 0.42, 0.9, 0.3), X + w * 0.5, Z + w * 0.35, proj, fog * 0.8, haze, alpha); // Lhotse
@@ -201,18 +243,16 @@ function drawMatterhorn(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: nu
   const P = palette(look);
   const { h, w } = LANDMARK_SIZE.matterhorn;
   drawMesh(ctx, {
-    h, R: w / 2, segs: 64,
+    h, R: w / 2, segs: 24, jag: 0.07, seed: 4,
+    ridgeSnow: { ridges: [0, 1, 2, 3].map((k) => (k * Math.PI) / 2 - Math.PI / 4), line: 0.3, width: 0.1, lit: P.snowLit, shade: P.snowShade },
+    rings: [0, 0.1, 0.2, 0.31, 0.42, 0.53, 0.63, 0.72, 0.8, 0.87, 0.93, 0.97, 1],
     radius: (hf, a) => (1 - Math.pow(hf, 0.75)) * faceted(a, 4, Math.PI / 4),
     lean: (hf) => [Math.pow(hf, 3) * w * 0.12, Math.pow(hf, 3) * w * 0.05],   // the hook: the top leans east
-    color: (hf, _a, lam, steep) => {
-      const rock = mix(mix(P.rockShade, [20, 20, 30], 0.3), P.rockLit, Math.pow(lam, 0.9));
-      // snow clings to the ledges, not the sheer faces: patches, more of them higher up and in the shade
-      // (smooth streaks that follow the slope, not a checkerboard)
-      const streak = 0.5 + 0.5 * Math.sin(_a * 13 + hf * 6 + Math.sin(_a * 5) * 2);
-      const cover = clamp01((hf - 0.2) * 1.6) * (steep < 0.8 ? 0.95 : 0.55) * (0.55 + streak * 0.6);
-      const ground = withForest(rock, hf, 0.1, lam, P);
-      // mostly dark rock, the snow in streaks: the faces must read light against shade
-      return mix(ground, mix(P.snowShade, P.snowLit, 0.1 + lam * 0.9), smooth(clamp01(cover * 0.85 - 0.15)) * 0.9);
+    color: (hf, _a, lam) => {
+      // the sunlit face is nearly all snow, bright; the shaded face deep blue rock with snow on its ledges
+      const rock = withForest(mix(P.rockShade, P.rockLit, Math.pow(lam, 1.05)), hf, 0.1, lam, P);
+      if (hf > 0.15 && lam > 0.5) return mix(P.snowShade, P.snowLit, Math.min(1, 0.4 + lam));
+      return rock;
     },
   }, X, Z, proj, fog * 0.8, haze, alpha);
 }
@@ -224,7 +264,7 @@ function drawKilimanjaro(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: n
   const { h, w } = LANDMARK_SIZE.kilimanjaro;
   const top = 0.2;
   drawMesh(ctx, {
-    h, R: w / 2,
+    h, R: w / 2, segs: 30, jag: 0.08, seed: 9,
     radius: (hf, a) => (top + (1 - top) * (1 - Math.pow(hf, 0.75))) * (1 + 0.05 * Math.sin(a * 3 + 1) + 0.03 * Math.sin(a * 11)),
     color: (hf, _a, lam, _st, seg) => {
       // forest belt low down, heath and bare brown rock above, white glacier patches only right at the top
@@ -244,7 +284,7 @@ function drawVolcano(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
   const { h, w } = LANDMARK_SIZE.volcano;
   const rim = 0.1;
   drawMesh(ctx, {
-    h, R: w / 2,
+    h, R: w / 2, segs: 30, jag: 0.1, seed: 13,
     radius: (hf, a) => (rim + (1 - rim) * (1 - Math.pow(hf, 1 / 1.25))) * (1 + 0.07 * Math.sin(a * 5 + hf * 3)),
     color: (hf, a, lam, _st, seg) => {
       // dark lava rock, old flows as darker streaks, green lower slopes, a little snow on top
