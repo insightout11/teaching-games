@@ -1,5 +1,6 @@
 'use client';
 
+import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType } from '@/lib/class-profile';
 import { flightClock } from '@/lib/live-room/flight-clock';
 import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
@@ -103,6 +104,13 @@ function hashOf(text: string) {
   return h;
 }
 const DEFAULT_STAMPS = ['flash-quiz', 'hot-take-arena', 'vocab-sprint', 'fact-detective', 'conversation-rounds'];
+// Each class type's quick bar (after the class's own favourites and recent activities).
+const TYPE_STAMPS: Record<ClassType, string[]> = {
+  structured: ['flash-quiz', 'grammar-spotlight', 'read-aloud', 'radio-check', 'vocab-sprint', 'fact-detective'],
+  'game-time': ['flash-quiz', 'imposter', 'mystery-flight', 'taboo-sprint', 'hot-seat', 'sector-strike'],
+  conversation: ['scene-igniter', 'conversation-rounds', 'mystery-flight', 'pass-the-line', 'taboo-sprint', 'tag-team-debate'],
+  'free-talk': ['conversation-rounds', 'hot-take-arena', 'would-you-rather', 'fact-detective', 'quick-fire', 'two-truths-and-a-lie'],
+};
 
 export interface DeckParticipant {
   id: string;
@@ -127,6 +135,8 @@ export interface FlightDeckProps {
   className: string;
   /** The class, so its quick bar (favourites and recent activities) is remembered between lessons. */
   classId?: string;
+  /** How the class usually runs (class type and settings); the room opens set up for it. */
+  classProfile?: ClassProfile;
   joinUrl: string;
   participants: DeckParticipant[];
   /** The class list: everyone gets a seat, with or without a device. */
@@ -193,6 +203,7 @@ export function FlightDeck({
   sessionId,
   className,
   classId,
+  classProfile,
   joinUrl,
   participants,
   roster = [],
@@ -264,6 +275,20 @@ export function FlightDeck({
   // After landing the room stays open as the arrivals hall until the teacher ends class.
   const [hall, setHall] = useState(false);
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
+  // The class type sets up the room; "change for today" overrides it for this lesson only.
+  const todayTypeKey = `lc-room-type-${sessionId}`;
+  const [todayOverride, setTodayOverride] = useState<ClassType | null>(null);
+  useEffect(() => {
+    try { const t = localStorage.getItem(todayTypeKey); if (t && CLASS_TYPES.some((c) => c.key === t)) setTodayOverride(t as ClassType); } catch { /* storage blocked */ }
+  }, [todayTypeKey]);
+  const todayType: ClassType | undefined = todayOverride ?? classProfile?.type;
+  const changeForToday = (t: ClassType | '') => {
+    const next = t && t !== classProfile?.type ? t : null;
+    setTodayOverride(next);
+    try { if (next) localStorage.setItem(todayTypeKey, next); else localStorage.removeItem(todayTypeKey); } catch { /* storage blocked */ }
+  };
+  // Free talk: nobody is ranked in the room (no Scores view, no top score).
+  const scoresOff = todayType === 'free-talk';
   // The class clock starts when the room opens (kept across reloads); every flight lands 5 minutes before the end.
   const [classStartAt, setClassStartAt] = useState(() => Date.now());
   const [classMinutes, setClassMinutes] = useState(60);
@@ -320,13 +345,17 @@ export function FlightDeck({
       else {
         // A new lesson starts from the length this teacher used last time.
         const last = Number(localStorage.getItem(CLASS_MINUTES_KEY));
-        if (last >= 15 && last <= 240) setClassMinutes(last);
+        // The class's usual length (Game time: its game minutes) wins over the last length used anywhere.
+        if (classProfile?.minutes) setClassMinutes(classProfile.minutes);
+        else if (last >= 15 && last <= 240) setClassMinutes(last);
       }
       if (saved?.chosenId) setChosenId(saved.chosenId);
       if (saved?.lockedId) setLockedId((cur) => cur ?? saved.lockedId ?? null);
       if (saved?.stayHome) setStayHome(saved.stayHome);
       if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
     } catch { /* storage blocked */ }
+    // Restore once per lesson; the class length read here is only a starting value.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flightKey]);
   useEffect(() => {
     try {
@@ -425,6 +454,10 @@ export function FlightDeck({
     setFlightStage('flying');
     setTakeoffAt(Date.now());
     flash(`Flight to ${destination.city}: cleared for take-off`);
+    // The room opens where this kind of class works (boarding always comes first).
+    if (todayType === 'conversation' || todayType === 'free-talk') setView('talk');
+    else if (todayType === 'game-time') setPanel('catalogue');
+    else if (todayType === 'structured' && !flightPlan) setPlanOpen(true);
     if (lockedId) return;
     // Record the leg on the class's World Flight journey.
     void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
@@ -956,9 +989,9 @@ export function FlightDeck({
   const categories = useMemo(() => Array.from(new Set(catalogue.map((c) => c.category))), [catalogue]);
   const stamps = useMemo(() => {
     // Favourites first (the teacher chose them), then this class's recent activities, then the defaults.
-    const keys = [...catalogueState.favourites, ...catalogueState.recent, ...DEFAULT_STAMPS];
+    const keys = [...catalogueState.favourites, ...catalogueState.recent, ...(todayType ? TYPE_STAMPS[todayType] : DEFAULT_STAMPS)];
     return Array.from(new Set(keys)).map((k) => catalogue.find((c) => c.key === k)).filter((c): c is CatalogueEntry => !!c).slice(0, 6);
-  }, [catalogue, catalogueState.recent, catalogueState.favourites]);
+  }, [catalogue, catalogueState.recent, catalogueState.favourites, todayType]);
 
   const launch = useCallback((key: string, sourceItem: RoomItem | null) => {
     if (sourceItem) {
@@ -2422,7 +2455,19 @@ export function FlightDeck({
 
       {/* Glareshield */}
       <header className="col-span-3 row-start-1 flex items-center gap-3 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141d30] to-[#0c1322] px-3">
-        <span className="font-mono text-xs font-semibold tracking-[0.14em] text-white/70">FLIGHT <b className="font-semibold text-amber-300">{className.toUpperCase()}</b></span>
+        <span className="shrink-0 whitespace-nowrap font-mono text-xs font-semibold tracking-[0.14em] text-white/70">FLIGHT <b className="font-semibold text-amber-300">{className.toUpperCase()}</b></span>
+        {classProfile?.type && (
+          <label className="flex shrink-0 items-center gap-1 text-[11px] text-white/60" title="Set up for this kind of class. Change it for today's lesson only.">
+            <select
+              value={todayType ?? ''}
+              onChange={(e) => { changeForToday(e.target.value as ClassType); flash(e.target.value === classProfile.type ? 'Back to this class\'s usual set-up' : `Set up for ${classTypeName(e.target.value as ClassType)} today`); }}
+              aria-label="Class type for today"
+              className={`w-[118px] truncate rounded-md border bg-slate-950/70 px-1.5 py-0.5 text-[11px] ${todayOverride ? 'border-amber-300/60 text-amber-100' : 'border-[#2A3854] text-white/80'}`}
+            >
+              {CLASS_TYPES.map((c) => <option key={c.key} value={c.key}>{c.name}{c.key === classProfile.type ? '' : ' (today)'}</option>)}
+            </select>
+          </label>
+        )}
         <span className="flex min-w-0 items-center gap-2 rounded-full border border-amber-300/45 bg-amber-300/10 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-amber-300" aria-live="polite">
           <i className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-rose-400 shadow-[0_0_10px_#fb7185]" />
           <span className="truncate">On screen: {onScreenLabel}</span>
@@ -2435,7 +2480,7 @@ export function FlightDeck({
           onPick={(id) => setFocusId(id)}
         />
         <nav className="ml-auto flex gap-1" aria-label="Windscreen view">
-          {VIEWS.map((v) => {
+          {VIEWS.filter((v) => !(scoresOff && v.key === 'scores')).map((v) => {
             const on = view === v.key;
             return (
               <button key={v.key} type="button" aria-pressed={on} onClick={() => switchView(v.key)} className="flex flex-col items-center gap-1 rounded-lg px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 aria-pressed:text-white">
@@ -2493,7 +2538,7 @@ export function FlightDeck({
             type="button"
             onClick={() => (landArmed ? landNow() : setLandArmed(true))}
             title={`Begin the descent into ${destination.city} and end the lesson there`}
-            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors ${landArmed ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}
+            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors ${landArmed ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}
           >
             <PlaneLanding className="h-3.5 w-3.5" /> {landArmed ? 'Tap again to land' : zoomLayout ? 'Land' : `Land in ${destination.city}`}
           </button>
@@ -2841,7 +2886,7 @@ export function FlightDeck({
       {/* Instrument panel */}
       <section className={`col-span-3 row-start-3 min-h-0 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141c2d] to-[#0b111d] ${zoomLayout ? 'flex items-center overflow-x-auto px-2.5' : 'grid grid-cols-[auto_minmax(0,1fr)] gap-4 px-3.5 py-3'}`}>
         <div className={zoomLayout ? 'hidden' : 'flex gap-2.5'}>
-          {(Object.keys(INSTRUMENT_LABEL) as Instrument[]).map((k) => {
+          {(Object.keys(INSTRUMENT_LABEL) as Instrument[]).filter((k) => !(scoresOff && k === 'top')).map((k) => {
             const r = readings[k];
             const on = huds.includes(k);
             const dash = Math.round(r.frac * 100);

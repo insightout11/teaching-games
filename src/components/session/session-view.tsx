@@ -1,5 +1,6 @@
 'use client';
 
+import { readClassProfile } from '@/lib/class-profile';
 import { PhonesNowBanner } from './phones-now-banner';
 
 import { useEffect, useRef, useState, useCallback, useMemo, type ReactNode } from 'react';
@@ -2251,6 +2252,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             sessionId={session.id}
             className={cls.name}
             classId={cls.id}
+            classProfile={readClassProfile(cls.class_profile)}
             roster={students.map((st) => ({ id: st.id, name: st.name, avatar_seed: st.avatar_seed ?? null }))}
             onAddStudent={handleAddRosterStudent}
             joinUrl={joinUrl}
