@@ -20,7 +20,7 @@ export const LANDMARK_SIZE: Record<WorldLandmarkKind, { h: number; w: number; cl
   pyramids: { h: 1500, w: 2400, clear: 12000 },   // the three on the desert edge (about ten times life size, to read from cruise height)
   // Landmarks stay below the plane (cruise 3200): the tallest are about 2200.
   everest: { h: 2850, w: 2850 * 1.9, clear: 9000 },     // the giant: towers over the Himalaya around it (still below the plane at 3200)
-  matterhorn: { h: 2100, w: 2100 * 1.7, clear: 4500 }, // the steep four-sided horn, among the Alps
+  matterhorn: { h: 2550, w: 2550 * 1.6, clear: 7000 }, // the steep four-sided horn, among the Alps
   kilimanjaro: { h: 2000, w: 2000 * 3.4, clear: 12000 }, // broad and flat-topped, alone on the savanna
   volcano: { h: 1700, w: 1700 * 2.8, clear: 9000 },     // the shared volcano (Etna, Vesuvius, Teide...)
   niagara: { h: 0, w: 5200, clear: 14000 },             // a river, the falls and their mist (ten times life size)
@@ -245,14 +245,14 @@ function drawMatterhorn(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: nu
   const { h, w } = LANDMARK_SIZE.matterhorn;
   drawMesh(ctx, {
     h, R: w / 2, segs: 24, jag: 0.07, seed: 4,
-    ridgeSnow: { ridges: [0, 1, 2, 3].map((k) => (k * Math.PI) / 2 - Math.PI / 4), line: 0.3, width: 0.1, lit: P.snowLit, shade: P.snowShade },
+    ridgeSnow: { ridges: [0, 1, 2, 3].map((k) => (k * Math.PI) / 2 - Math.PI / 4), line: 0.12, width: 0.2, lit: P.snowLit, shade: P.snowShade },
     rings: [0, 0.1, 0.2, 0.31, 0.42, 0.53, 0.63, 0.72, 0.8, 0.87, 0.93, 0.97, 1],
     radius: (hf, a) => (1 - Math.pow(hf, 0.75)) * faceted(a, 4, Math.PI / 4),
     lean: (hf) => [Math.pow(hf, 3) * w * 0.12, Math.pow(hf, 3) * w * 0.05],   // the hook: the top leans east
     color: (hf, _a, lam) => {
       // the sunlit face is nearly all snow, bright; the shaded face deep blue rock with snow on its ledges
       const rock = withForest(mix(P.rockShade, P.rockLit, Math.pow(lam, 1.05)), hf, 0.1, lam, P);
-      if (hf > 0.15 && lam > 0.5) return mix(P.snowShade, P.snowLit, Math.min(1, 0.4 + lam));
+      if (hf > 0.15 && lam > 0.3) return mix(P.snowShade, P.snowLit, Math.min(1, 0.45 + lam));
       return rock;
     },
   }, X, Z, proj, fog * 0.8, haze, alpha);
