@@ -141,7 +141,7 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
     p.h = 380 + Math.random() * 700;          // low, broad, rounded
     p.w = p.h * (4.5 + Math.random() * 3.5);
   } else {
-    p.h = peakStyle() === 'new' ? 600 + Math.random() * 1100 : 900 + Math.random() * 1800; // always well below the camera (3200): we fly over them
+    p.h = peakStyle() === 'new' ? 750 + Math.random() * 1250 : 900 + Math.random() * 1800; // always well below the camera (3200): we fly over them
     p.w = p.h * (peakStyle() === 'new' ? 2.3 + Math.random() * 1.6 : 1.6 + Math.random() * 1.2);
   }
   p.tone = Math.random();
