@@ -180,10 +180,13 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
   const apex = 0.36 + pr(seed, 40) * 0.28;
   const bumps = [0, 1, 2].map((k) => ({ x: apex + (pr(seed, 41 + k) < 0.5 ? -1 : 1) * (0.14 + pr(seed, 43 + k) * 0.3), h: 0.35 + pr(seed, 45 + k) * 0.4, w: 0.06 + pr(seed, 47 + k) * 0.1 }));
   const sharp = 0.75 + pr(seed, 49) * 0.45;
+  // not every mountain is a spike: about half have rounded or broad, uneven tops
+  const cap = pr(seed, 51) < 0.5 ? 0.62 + pr(seed, 52) * 0.25 : 2;
   const hAt = (u: number) => {
     const d = u < apex ? (apex - u) / apex : (u - apex) / (1 - apex);
     let h = Math.pow(clamp01(1 - d), sharp);
     for (const b of bumps) h = Math.max(h, b.h * Math.exp(-((u - b.x) ** 2) / (2 * b.w * b.w)) * (1 - d * 0.4));
+    if (h > cap) h = cap + (h - cap) * 0.22;
     h *= 0.74 + 0.26 * n1(u * 4);
     h += (n2(u * 9) - 0.5) * 0.07 * Math.sin(Math.PI * clamp01(1 - d));
     return clamp01(h * Math.pow(Math.sin(Math.PI * clamp01(u)), 0.45)); // slopes always reach the ground before the sides
