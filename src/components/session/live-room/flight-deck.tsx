@@ -1,5 +1,6 @@
 'use client';
 
+import { TestFlightCoach } from './test-flight-coach';
 import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType, type SecondScreens } from '@/lib/class-profile';
 import { classFitMarks, withFallback } from '@/lib/class-fit';
 import { flightClock } from '@/lib/live-room/flight-clock';
@@ -9,7 +10,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -97,6 +98,13 @@ const HOME: RouteCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BA
 /** Class lengths offered at boarding; the flight lands ~5 minutes before the end. */
 const CLASS_MINUTES = [30, 45, 60, 90];
 const CLASS_MINUTES_KEY = 'lc-class-minutes-last';
+const TEST_FLIGHT_DONE_KEY = 'lc-test-flight-done';
+// The guided test flight's pretend students: no device, never saved to the class list.
+const PRETEND_STUDENTS = [
+  { id: 'pretend-mia', name: 'Mia', avatar_seed: 'pretend-mia' },
+  { id: 'pretend-leo', name: 'Leo', avatar_seed: 'pretend-leo' },
+  { id: 'pretend-ava', name: 'Ava', avatar_seed: 'pretend-ava' },
+];
 const SCENE_CITIES = WORLD_DESTINATIONS.filter((d) => d.scene);
 const toRouteCity = (d: (typeof SCENE_CITIES)[number]): RouteCity => ({ id: d.id, city: d.city, scene: d.scene!, lat: d.lat, lng: d.lng });
 function hashOf(text: string) {
@@ -140,6 +148,8 @@ export interface FlightDeckProps {
   classProfile?: ClassProfile;
   /** How many students have a second screen (class settings, or the older devices setting). */
   classScreens?: SecondScreens;
+  /** A class's first lesson: offer the guided test flight with pretend students. */
+  offerTestFlight?: boolean;
   joinUrl: string;
   participants: DeckParticipant[];
   /** The class list: everyone gets a seat, with or without a device. */
@@ -208,6 +218,7 @@ export function FlightDeck({
   classId,
   classProfile,
   classScreens,
+  offerTestFlight = false,
   joinUrl,
   participants,
   roster = [],
@@ -788,6 +799,17 @@ export function FlightDeck({
   };
   const [panel, setPanel] = useState<'catalogue' | 'sources' | 'menu' | 'logbook' | null>(null);
   const [focusId, setFocusId] = useState<string | null>(null);
+  // ── guided test flight: three pretend students without devices (in this browser only, never on the class list) ──
+  const [testFlight, setTestFlight] = useState(false);
+  const [testFlightOffer, setTestFlightOffer] = useState(false);
+  useEffect(() => {
+    // ?testflight=1 offers it again (the "?" guide's replay link).
+    const asked = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('testflight') === '1';
+    if (asked) { setTestFlightOffer(true); return; }
+    if (!offerTestFlight) return;
+    try { if (localStorage.getItem(TEST_FLIGHT_DONE_KEY) !== '1') setTestFlightOffer(true); } catch { setTestFlightOffer(true); }
+  }, [offerTestFlight]);
+  const rosterAll = useMemo(() => (testFlight ? [...roster, ...PRETEND_STUDENTS] : roster), [roster, testFlight]);
   // ── seats: nobody starts on the plane. Phones board as they join; the teacher boards students without a device. ──
   // boarded: class-list student id → when the teacher boarded them (kept for this lesson).
   const boardedKey = `lc-room-boarded-${sessionId}`;
@@ -810,7 +832,7 @@ export function FlightDeck({
     participants.forEach((p) => { if (p.student_id && !byStudent.has(p.student_id)) byStudent.set(p.student_id, p); });
     const phones = Array.from(byStudent.values()).concat(participants.filter((p) => !p.student_id));
     const onPhone = new Set(Array.from(byStudent.keys()));
-    const noDevice: DeckParticipant[] = roster
+    const noDevice: DeckParticipant[] = rosterAll
       .filter((r) => boarded[r.id] && !onPhone.has(r.id))
       .map((r) => ({
         id: `roster:${r.id}`, student_id: r.id, client_id: `roster:${r.id}`, display_name: r.name, avatar_seed: r.avatar_seed,
@@ -818,9 +840,9 @@ export function FlightDeck({
       }));
     // Seats fill in the order students boarded.
     return [...phones, ...noDevice].sort((a, b) => a.joined_at.localeCompare(b.joined_at));
-  }, [participants, roster, boarded]);
+  }, [participants, rosterAll, boarded]);
   // Class-list students not on the plane yet (the + seat offers them).
-  const notAboard = useMemo(() => roster.filter((r) => !allSeats.some((p) => p.student_id === r.id)), [roster, allSeats]);
+  const notAboard = useMemo(() => rosterAll.filter((r) => !allSeats.some((p) => p.student_id === r.id)), [rosterAll, allSeats]);
   const [spotlight, setSpotlightId] = useState<string | null>(null);
   // Spotlight doubles as the game's "up next" student (the shell sidebar that
   // used to pick it is hidden in the room).
@@ -1326,7 +1348,7 @@ export function FlightDeck({
     if (!p.student_id) return;
     const points = mark === 'right' ? 10 : mark === 'part' ? 3 : 0;
     flash(mark === 'right' ? `${p.display_name}: right` : mark === 'part' ? `${p.display_name}: took part` : `${p.display_name}: not this time`);
-    if (isMockMode()) return;
+    if (isMockMode() || p.student_id.startsWith('pretend-')) return;
     await fetch('/api/session/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1341,7 +1363,7 @@ export function FlightDeck({
   const voteForSeat = async (p: DeckParticipant, choice: string) => {
     if (!seatPoll || !p.student_id) return;
     flash(`${p.display_name} voted ${choice}`);
-    if (isMockMode()) return;
+    if (isMockMode() || p.student_id.startsWith('pretend-')) return;
     const r = await fetch(`/api/session/${encodeURIComponent(sessionId)}/seat-vote`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1368,6 +1390,28 @@ export function FlightDeck({
     if (ok) { setNewName(''); setAdding(false); setBoardNext(name.toLowerCase()); flash(`${name} added to the class and boarding`); } else flash('Could not add the student');
   };
 
+  // Test flight: what the teacher has tried since it started.
+  const [tf, setTf] = useState({ spins: 0, whereNext: false, launched: false, finished: false, startFocus: null as string | null, startShown: null as string | null });
+  useEffect(() => {
+    if (!testFlight || !runningKey) return;
+    setTf((t) => (t.launched ? t : { ...t, launched: true }));
+  }, [testFlight, runningKey]);
+  useEffect(() => {
+    if (testFlight && !runningKey) setTf((t) => (t.launched && !t.finished ? { ...t, finished: true } : t));
+  }, [testFlight, runningKey]);
+  const startTestFlight = () => {
+    setTestFlightOffer(false);
+    setTestFlight(true);
+    setTf({ spins: 0, whereNext: false, launched: false, finished: false, startFocus: focused?.id ?? null, startShown: shown?.id ?? null });
+    setAdding(false);
+  };
+  const endTestFlight = (finished: boolean) => {
+    setTestFlight(false);
+    PRETEND_STUDENTS.forEach((s) => unboardStudent(s.id));
+    try { localStorage.setItem(TEST_FLIGHT_DONE_KEY, '1'); } catch { /* storage blocked */ }
+    if (finished) flash('Test flight complete');
+  };
+
   const nextSpeaker = () => {
     const first = handQueue[0];
     if (!first) return;
@@ -1381,6 +1425,7 @@ export function FlightDeck({
   const fairRef = useRef<{ picked: string[]; last: string | null }>({ picked: [], last: null });
   const spinRoulette = () => {
     if (roulette || seated.length === 0) return;
+    setTf((t) => ({ ...t, spins: t.spins + 1 }));
     const pick = fairPick(seated.map((p) => p.id), fairRef.current.picked, fairRef.current.last);
     fairRef.current = { picked: pick.picked, last: pick.id };
     const target = Math.max(0, seated.findIndex((p) => p.id === pick.id));
@@ -2102,7 +2147,7 @@ export function FlightDeck({
             <div className="flex max-w-[86%] flex-wrap items-center justify-center gap-1.5 text-[11px]">
               {(brief?.nextTopics?.length ?? 0) > 0 && <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-white/55">Where next?</span>}
               {(brief?.nextTopics ?? []).map((t) => (
-                <button key={t.title} type="button" onClick={() => { makeFocus({ title: t.title }); }} title={`${t.link}: make it the topic`} className="rounded-full border border-white/15 bg-slate-950/55 px-2.5 py-0.5 text-white/85 backdrop-blur-sm hover:border-amber-300/60 hover:text-white">
+                <button key={t.title} type="button" onClick={() => { makeFocus({ title: t.title }); setTf((x) => ({ ...x, whereNext: true })); }} title={`${t.link}: make it the topic`} className="rounded-full border border-white/15 bg-slate-950/55 px-2.5 py-0.5 text-white/85 backdrop-blur-sm hover:border-amber-300/60 hover:text-white">
                   <span className="text-amber-200/80">{t.link}:</span> {t.title}
                 </button>
               ))}
@@ -2365,6 +2410,16 @@ export function FlightDeck({
         );
       })}
 
+      {testFlightOffer && !testFlight && view === 'boarding' && !cinematic && (
+        <div className="absolute inset-x-0 top-3 z-[16] flex justify-center">
+          <div className="flex items-center gap-3 rounded-full border border-sky-300/50 bg-slate-950/90 py-1.5 pl-4 pr-1.5 text-sm text-sky-50 shadow-xl backdrop-blur-md">
+            <GraduationCap className="h-4 w-4 text-sky-300" />
+            First lesson? Try a test flight with pretend students · 3 min
+            <button type="button" onClick={startTestFlight} className="rounded-full bg-sky-300 px-3 py-1 text-xs font-semibold text-slate-950">Start</button>
+            <button type="button" onClick={() => { setTestFlightOffer(false); try { localStorage.setItem(TEST_FLIGHT_DONE_KEY, '1'); } catch { /* storage blocked */ } }} className="px-1 text-xs text-white/55 hover:text-white">No thanks</button>
+          </div>
+        </div>
+      )}
       {/* Boarding walk-up: shows only while someone is walking up the airstairs (any view). */}
       {!cinematic && !landed && walkingIds.size > 0 && (
         <div className="pointer-events-none absolute inset-x-6 bottom-3 z-[15]">
@@ -2998,6 +3053,24 @@ export function FlightDeck({
         </div>
       </section>
 
+      {testFlight && (
+        <TestFlightCoach
+          type={todayType}
+          signals={{
+            boarded: allSeats.some((p) => p.student_id?.startsWith('pretend-')),
+            topic: !!focused && focused.id !== tf.startFocus,
+            whereNext: tf.whereNext,
+            picture: !!shown && shown.kind === 'image' && shown.id !== tf.startShown,
+            picked: tf.spins > 0,
+            tookOff: flightStage === 'flying',
+            launched: tf.launched,
+            finished: tf.finished,
+            planOpened: planOpen,
+            planStarted: !!flightPlan,
+          }}
+          onEnd={endTestFlight}
+        />
+      )}
       {toast && (
         <div role="status" className="fixed left-1/2 top-16 z-[70] -translate-x-1/2 rounded-xl border border-amber-300/50 bg-[#0a101c]/95 px-4 py-2.5 text-sm text-white shadow-2xl">
           {toast}

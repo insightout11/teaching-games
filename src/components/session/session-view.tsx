@@ -2253,6 +2253,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             className={cls.name}
             classId={cls.id}
             classProfile={readClassProfile(cls.class_profile)}
+            offerTestFlight={(priorSessionCount ?? 99) === 0}
             classScreens={readClassProfile(cls.class_profile).screens ?? (cls.student_device_mode === 'shared-screen' ? 'none' : undefined)}
             roster={students.map((st) => ({ id: st.id, name: st.name, avatar_seed: st.avatar_seed ?? null }))}
             onAddStudent={handleAddRosterStudent}
