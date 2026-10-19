@@ -225,7 +225,10 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
       let col = mixRgb(shade, lit, light);
       // snow: above an uneven line, further down along the crests, thinner in the gullies
       const line = snowLine + (n1(u * 23 + ph * 3) - 0.5) * 0.12 + (spur - 0.5) * 0.14;
-      if (ph > line) col = mixRgb(snowShade, snowLit, clamp01(light * 1.15));
+      // a soft snow edge (a hard one turns into stair steps when the picture is drawn large)
+      const snowT = clamp01((ph - line) / 0.04 + 0.5);
+      const snowCol = mixRgb(snowShade, snowLit, clamp01(light * 1.15));
+      if (snowT >= 1) col = snowCol;
       else if (kind === 'forest' && ph < 0.55) {
         // trees: random dots, clumped by a broad noise, thinning towards the tree line
         const hash = Math.sin(x * 12.9898 + y * 78.233 + seed * 3.7) * 43758.5453;
@@ -236,6 +239,7 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
         const band = Math.sin((ph + (n1(u * 2) - 0.5) * 0.06) * 30);
         col = mixRgb(col, band > 0.5 ? [228, 160, 108] : band < -0.6 ? [96, 46, 34] : col, 0.12);
       }
+      if (snowT > 0 && snowT < 1) col = mixRgb(col, snowCol, snowT * snowT * (3 - 2 * snowT));
       col = mixRgb(col, haze, clamp01(fog + depth * 0.22 * (1 - fog)));
       // soft skyline, and the foot fades into the valley haze
       const edge = (y === Math.floor(top) ? 1 - (top - Math.floor(top)) : 1) * clamp01((1 - depth) / 0.28) * clamp01(Math.min(u, 1 - u) / 0.1); // no hard sides
