@@ -2229,6 +2229,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           <FlightDeck
             sessionId={session.id}
             className={cls.name}
+            classId={cls.id}
             joinUrl={joinUrl}
             participants={sessionParticipants}
             onRemoveParticipant={removeParticipant}

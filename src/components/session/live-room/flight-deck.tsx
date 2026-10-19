@@ -116,6 +116,8 @@ export interface DeckParticipant {
 export interface FlightDeckProps {
   sessionId: string;
   className: string;
+  /** The class, so its quick bar (favourites and recent activities) is remembered between lessons. */
+  classId?: string;
   joinUrl: string;
   participants: DeckParticipant[];
   onRemoveParticipant: (id: string) => Promise<void>;
@@ -177,6 +179,7 @@ const TURBULENCE_MS = 4500;
 export function FlightDeck({
   sessionId,
   className,
+  classId,
   joinUrl,
   participants,
   onRemoveParticipant,
@@ -846,6 +849,23 @@ export function FlightDeck({
     return { sun: { ...s, heading }, moon: moonPosition(at, new Date(now)), timeOfDay, clock: solarClock(at.lng, new Date(now)) };
   }, [below.point, destination, flightStage, now]);
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
+  // Each class keeps its favourites and recent activities between lessons (on this computer).
+  const quickBarKey = classId ? `lc-class-quickbar-${classId}` : null;
+  // A state (not a ref): saving waits for the render that already holds the loaded lists.
+  const [quickBarLoaded, setQuickBarLoaded] = useState(false);
+  useEffect(() => {
+    if (!quickBarKey) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem(quickBarKey) ?? 'null') as { favourites?: unknown; recent?: unknown } | null;
+      const list = (v: unknown) => (Array.isArray(v) ? v.filter((k): k is string => typeof k === 'string').slice(0, 12) : []);
+      if (saved) setCatalogueState((c) => ({ ...c, favourites: list(saved.favourites), recent: list(saved.recent).slice(0, 6) }));
+    } catch { /* storage blocked */ }
+    setQuickBarLoaded(true);
+  }, [quickBarKey]);
+  useEffect(() => {
+    if (!quickBarKey || !quickBarLoaded) return;
+    try { localStorage.setItem(quickBarKey, JSON.stringify({ favourites: catalogueState.favourites, recent: catalogueState.recent })); } catch { /* storage blocked */ }
+  }, [quickBarKey, quickBarLoaded, catalogueState.favourites, catalogueState.recent]);
   const launchedAt = useRef<number>(0);
   const lastView = useRef<DeckView>('boarding');
 
@@ -887,7 +907,8 @@ export function FlightDeck({
   );
   const categories = useMemo(() => Array.from(new Set(catalogue.map((c) => c.category))), [catalogue]);
   const stamps = useMemo(() => {
-    const keys = [...catalogueState.recent, ...catalogueState.favourites, ...DEFAULT_STAMPS];
+    // Favourites first (the teacher chose them), then this class's recent activities, then the defaults.
+    const keys = [...catalogueState.favourites, ...catalogueState.recent, ...DEFAULT_STAMPS];
     return Array.from(new Set(keys)).map((k) => catalogue.find((c) => c.key === k)).filter((c): c is CatalogueEntry => !!c).slice(0, 6);
   }, [catalogue, catalogueState.recent, catalogueState.favourites]);
 
