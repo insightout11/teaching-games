@@ -8,6 +8,7 @@ import type { GameProps } from '../types';
 import { GameStatus } from './types';
 import { getEffectiveTopic } from '@/stores/session-store';
 import type { StorySentence, AIScoreResponse, FinalStoryResult } from './types';
+import { storyWritingPhoneSpec } from './phone-spec';
 
 const MAX_SENTENCES = 10;
 
@@ -59,29 +60,11 @@ function StorySprintWriting({ currentStudentId, students, onScore, onPickStudent
   // Register input spec for student controller
   useEffect(() => {
     if (status === GameStatus.WRITING) {
-      const prompt = topic
-        ? (story.length === 0 ? `Start a story about ${topic} with one sentence` : `Continue the story about ${topic} with one sentence`)
-        : (story.length === 0 ? 'Start the story with one sentence' : 'Continue the story with one sentence');
-
-      onSetInputSpec?.({
-        type: 'textarea',
-        gameKey: 'story-sprint',
-        prompt,
-        placeholder: 'Continue the story with one sentence...',
-        maxLength: 300,
-        // Submissions must reach the registered submission handler via
-        // student_submissions. Without this, /api/student/submit routes
-        // textarea+gameKey down the direct remote-vote path, which this game
-        // never listens to — remote sentences were silently dropped.
-        reviewMode: 'approval',
-        // Distinct per turn: the prompt text repeats between turns, and
-        // downstream consumers (incl. the demo crew) dedupe on spec identity.
-        startedAt: Date.now(),
-      });
+      onSetInputSpec?.(storyWritingPhoneSpec(story, topic, Date.now()));
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, story.length, topic, onSetInputSpec]);
+  }, [status, story, topic, onSetInputSpec]);
 
   // --- End Story logic ---
   const handleEndStory = useCallback(async (storySoFar: StorySentence[]) => {
