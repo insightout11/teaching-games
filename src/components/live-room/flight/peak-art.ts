@@ -186,7 +186,7 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
     for (const b of bumps) h = Math.max(h, b.h * Math.exp(-((u - b.x) ** 2) / (2 * b.w * b.w)) * (1 - d * 0.4));
     h *= 0.74 + 0.26 * n1(u * 4);
     h += (n2(u * 9) - 0.5) * 0.07 * Math.sin(Math.PI * clamp01(1 - d));
-    return clamp01(h);
+    return clamp01(h * Math.pow(Math.sin(Math.PI * clamp01(u)), 0.45)); // slopes always reach the ground before the sides
   };
   const H = new Float32Array(TW + 2);
   for (let x = -1; x <= TW; x++) H[x + 1] = hAt((x + 0.5) / TW);
@@ -235,7 +235,7 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
       }
       col = mixRgb(col, haze, clamp01(fog + depth * 0.22 * (1 - fog)));
       // soft skyline, and the foot fades into the valley haze
-      const edge = (y === Math.floor(top) ? 1 - (top - Math.floor(top)) : 1) * clamp01((1 - depth) / 0.28);
+      const edge = (y === Math.floor(top) ? 1 - (top - Math.floor(top)) : 1) * clamp01((1 - depth) / 0.28) * clamp01(Math.min(u, 1 - u) / 0.1); // no hard sides
       const i = (y * TW + x) * 4;
       img.data[i] = col[0]; img.data[i + 1] = col[1]; img.data[i + 2] = col[2]; img.data[i + 3] = Math.round(255 * edge);
     }
