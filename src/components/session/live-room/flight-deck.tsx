@@ -1,5 +1,7 @@
 'use client';
 
+import { momentQuestion, planMoments, type Moment, type NaturalEvent } from '@/lib/live-room/moments';
+import type { FreePicture } from '@/lib/sources/wikimedia-images';
 import { ArrivalCards } from './arrival-cards';
 import { CityVoteBoard, type VoteCityCard } from './city-vote-board';
 import { usePollVotes } from '@/hooks/use-poll-votes';
@@ -985,6 +987,34 @@ export function FlightDeck({
   // Today's route, shown to the class on the route map before and during the flight.
   const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
   const minutesFlown = clock.minutesFlown;
+  // "Look outside" moments (Phase 3.3): at most 3 per flight, each waits for the teacher's tap.
+  const [naturalEvents, setNaturalEvents] = useState<NaturalEvent[]>([]);
+  useEffect(() => {
+    if (flightStage !== 'flying' || isMockMode()) return;
+    let live = true;
+    fetch('/api/live-room/natural-events').then((r) => (r.ok ? r.json() : { events: [] })).then((d: { events?: NaturalEvent[] }) => { if (live) setNaturalEvents(d.events ?? []); }).catch(() => {});
+    return () => { live = false; };
+  }, [flightStage]);
+  const moments = useMemo<Moment[]>(
+    () => (flightStage === 'flying' ? planMoments({ origin, destination, flightMinutes: flightMs / 60_000, stops: preview, events: naturalEvents }) : []),
+    // Planned per flight: the clock's small changes don't move the moments around.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [flightStage, origin.id, destination.id, Math.round(flightMs / 300_000), countries, naturalEvents],
+  );
+  const [momentsShown, setMomentsShown] = useState<string[]>([]);
+  const [momentCard, setMomentCard] = useState<{ moment: Moment; facts: string[]; picture: FreePicture | null; loading: boolean } | null>(null);
+  const momentUpcoming = minutesFlown == null ? null : moments.find((m) => !momentsShown.includes(m.id) && m.at - minutesFlown > 0 && m.at - minutesFlown <= 3) ?? null;
+  const momentDue = minutesFlown == null ? null : moments.find((m) => !momentsShown.includes(m.id) && minutesFlown >= m.at && minutesFlown <= m.at + 8) ?? null;
+  const openMoment = (m: Moment) => {
+    setMomentsShown((x) => [...x, m.id]);
+    setMomentCard({ moment: m, facts: m.fact ? [m.fact] : [], picture: null, loading: true });
+    void fetch('/api/live-room/moment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: m.title, kind: m.kind }) })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { facts?: string[]; picture?: FreePicture | null } | null) => setMomentCard((c) => (c && c.moment.id === m.id
+        ? { ...c, loading: false, picture: d?.picture ?? null, facts: Array.from(new Set([...(m.fact ? [m.fact] : []), ...(d?.facts ?? [])])).slice(0, 3) }
+        : c)))
+      .catch(() => setMomentCard((c) => (c && c.moment.id === m.id ? { ...c, loading: false } : c)));
+  };
   // The next thing on Today's route (never a border into the country the plane is already over).
   const nextStop = minutesFlown == null ? null : preview.find((s) => s.at > minutesFlown && !s.text.startsWith('Land in') && !(countryNow && s.text === `Cross into ${countryNow}`)) ?? null;
   const place = useMemo(() => {
@@ -1498,6 +1528,7 @@ export function FlightDeck({
     if (allSeats.some((p) => p.deviceless)) offerTip('seat', 'Students without a device: tap their seat to give them a turn, mark an answer or vote for them.');
   }, [allSeats, testFlight, offerTip]);
 
+  useEffect(() => { if (runningKey) setMomentCard(null); }, [runningKey]);
   // "Cabin crew, prepare for landing": once per flight, never over an activity (it waits until the activity ends).
   const descentAnnounced = useRef(false);
   useEffect(() => {
@@ -2353,6 +2384,44 @@ export function FlightDeck({
               </div>
             </div>
           )}
+        </div>
+      )}
+      {!runningKey && !cinematic && view !== 'map' && !momentCard && (momentDue || momentUpcoming) && (
+        <div className="absolute bottom-11 left-4 z-[7]">
+          {momentDue ? (
+            <button type="button" onClick={() => openMoment(momentDue)} className="flex items-center gap-1.5 rounded-full border border-amber-300/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/15">
+              <Eye className="h-3.5 w-3.5" /> Look outside: {momentDue.title}
+            </button>
+          ) : momentUpcoming && (
+            <p className="pointer-events-none flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80 backdrop-blur-sm">
+              <Eye className="h-3.5 w-3.5" /> Coming up: {momentUpcoming.title} · in {Math.max(1, Math.ceil(momentUpcoming.at - (minutesFlown ?? 0)))} min
+            </p>
+          )}
+        </div>
+      )}
+      {momentCard && !runningKey && !cinematic && (
+        <div className="absolute inset-0 z-[12] flex items-center justify-center p-6">
+          <div className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md">
+            {momentCard.picture && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={momentCard.picture.imageUrl} alt={momentCard.picture.title} className="max-h-64 w-full object-cover" />
+            )}
+            <div className="space-y-2 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <p className="font-display text-2xl leading-tight">{momentCard.moment.title.replace(/^the /, 'The ')}</p>
+                <button type="button" onClick={() => setMomentCard(null)} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
+              </div>
+              {momentCard.loading && momentCard.facts.length === 0 && <p className="text-sm text-white/60">Looking it up…</p>}
+              <ul className="list-disc space-y-1 pl-5 text-[15px] text-white/85">{momentCard.facts.map((f) => <li key={f}>{f}</li>)}</ul>
+              <p className="rounded-xl bg-amber-300/10 px-3 py-2 text-[15px] text-amber-100">{momentQuestion(momentCard.moment)}</p>
+              <div className="flex items-center justify-between gap-2 pt-1">
+                {momentCard.picture ? <span className="truncate text-[10px] text-white/40">{momentCard.picture.credit}</span> : <span />}
+                <button type="button" onClick={() => { makeFocus({ title: momentCard.moment.title.replace(/^the /, ''), text: momentCard.facts.join(' ') || undefined }); setMomentCard(null); }} className="shrink-0 rounded-full border border-amber-300/50 px-3 py-1 text-xs text-amber-100 hover:bg-amber-300/10">
+                  Make it the topic
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       {descending && !cinematic && view !== 'map' && (
