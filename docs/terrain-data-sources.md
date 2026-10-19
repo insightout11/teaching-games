@@ -60,18 +60,30 @@ pinned image actually has no transparent cells).
 
 ## Named geography and mountain/salt refinements
 
-**Natural Earth vector release v5.1.2**, 1:10 million geography regions polygons,
-marine polygons and reefs. Per-layer revision numbers may differ from the release.
+**Natural Earth vector release v5.1.2**, 1:10 million geography regions polygons
+and geography marine polygons (named reefs only). Per-layer revision numbers may differ from the release.
 Pinned upstream: [Natural Earth v5.1.2](https://github.com/nvkelso/natural-earth-vector/tree/v5.1.2).
 Licence: **public domain**, including commercial use and modification;
 [terms](https://www.naturalearthdata.com/about/terms-of-use/).
 Attribution: **Made with Natural Earth. Free vector and raster map data at naturalearthdata.com.**
 
-Named polygons are simplified, retain holes, and use actual polygon membership,
+Named polygons are simplified at 0.12 degrees, quantised to 0.001 degrees, retain holes, and use actual polygon membership,
 not their bounding rectangles. Very small islands and reefs can disappear during
 simplification; named features are teaching labels rather than surveyed boundaries.
-Volcano/canyon facts and approximate coordinates are a separately maintained,
-original editorial list; their radii are explicit teaching proximity zones.
+Small rings that would collapse retain a triangle. Major islands use Natural
+Earth scale ranks 0 through 4; mountain ranges, deserts, plains, plateaus and
+deltas are included at all ranks. Marine polygons supply named reefs, rather than
+the much larger ocean/sea polygons. Smallest area wins across polygons and circles;
+polygon areas are measured on the sphere before simplification and exclude holes.
+
+The 40 volcano/canyon facts and approximate coordinates are a separately maintained,
+original editorial list in `scripts/terrain-landmarks.ts` (30 volcanoes, 10 canyons),
+dedicated to **CC0**. Each entry includes a factual reference (USGS, NPS, UNESCO,
+GeoNet or a relevant public authority); prose is original, not copied from those
+pages. Attribution: **Teaching landmark selection and original facts: teaching-games
+terrain data, 2026 (CC0).** Their radii are explicit teaching proximity zones,
+not feature boundaries or hazard zones. The canyon selection favours well-documented
+US national parks; the volcano selection spans several continents.
 
 ## Reproduction
 
@@ -81,3 +93,4 @@ SHA-256 provenance manifests are cached outside the repo under
 `--cache <directory>` for another location. A cached rebuild needs no network.
 The scripts verify pinned source hashes and reject malformed inputs. Generated
 TypeScript headers record provenance; only compact derived files are committed.
+Run `npx tsx scripts/build-named-regions.ts` to rebuild named places.

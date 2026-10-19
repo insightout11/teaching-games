@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { LAND_COVER_LEGEND, LAND_COVER_RUNS } from '@/data/world/land-cover';
-import { decodeLandCover, landCoverAt, toSceneTerrain } from '@/lib/live-room/land-cover';
+import { decodeLandCover, decodeRegionGeometry, landCoverAt, namedRegionAt, toSceneTerrain } from '@/lib/live-room/land-cover';
+import { NAMED_REGIONS, TEACHING_LANDMARKS } from '@/data/world/named-regions';
 import { classify, encodeRuns } from '../../../scripts/build-land-cover';
 import { inPolygon, polygonArea } from '@/lib/live-room/terrain-geometry';
 
@@ -71,5 +72,62 @@ describe('terrain geometry', () => {
     expect(inPolygon(0, 0, polygon)).toBe(false);
     expect(polygonArea(polygon)).toBeGreaterThan(49000);
     expect(polygonArea(polygon)).toBeLessThan(50000);
+  });
+});
+
+describe('named terrain regions', () => {
+  it.each([
+    ['Andes', -35, -70, 'mountain-range'],
+    ['Alps', 46.5, 9, 'mountain-range'],
+    ['Sahara', 24, 10, 'desert'],
+    ['Gobi Desert', 41, 104, 'desert'],
+    ['Great Barrier Reef', -18, 147, 'reef'],
+    ['Nile Delta', 31, 31, 'delta'],
+    ['Mount Etna', 37.75, 15, 'volcano'],
+    ['Grand Canyon', 36.1, -112.1, 'canyon'],
+  ] as const)('finds %s', (name, lat, lng, kind) => {
+    expect(namedRegionAt({ lat, lng })).toEqual({ name, kind });
+  });
+
+  it('chooses the smaller mountain range inside a desert', () => {
+    // Tibesti lies inside the broader Sahara polygon.
+    const point = { lat: 20.8, lng: 18 };
+    const matches = NAMED_REGIONS.filter(r => decodeRegionGeometry(r.geometry).some(p => inPolygon(point.lng, point.lat, p)));
+    expect(matches.some(r => r.name === 'Sahara')).toBe(true);
+    expect(matches.some(r => r.kind === 'mountain-range')).toBe(true);
+    const smallest = matches.slice().sort((a, b) => a.areaKm2 - b.areaKm2)[0];
+    expect(namedRegionAt(point)).toEqual({ name: smallest.name, kind: smallest.kind });
+    expect(smallest.kind).toBe('mountain-range');
+  });
+
+  it('uses kilometres for landmark radii, including at high latitudes', () => {
+    expect(namedRegionAt({ lat: 37.8, lng: 15 })?.name).toBe('Mount Etna');
+    expect(namedRegionAt({ lat: 38.1, lng: 15 })?.name).not.toBe('Mount Etna');
+    expect(namedRegionAt({ lat: -77.53, lng: 167.67 })?.name).toBe('Mount Erebus');
+    expect(namedRegionAt({ lat: -77.53, lng: 169 })?.name).not.toBe('Mount Erebus');
+  });
+
+  it('returns null away from named geography and validates coordinates', () => {
+    expect(namedRegionAt({ lat: 0, lng: -30 })).toBeNull();
+    expect(namedRegionAt({ lat: 37.75, lng: 375 })).toEqual(namedRegionAt({ lat: 37.75, lng: 15 }));
+    expect(() => namedRegionAt({ lat: Infinity, lng: 0 })).toThrow(RangeError);
+    expect(() => decodeRegionGeometry('bad')).toThrow();
+  });
+
+  it('ships closed, finite rings and forty referenced teaching landmarks', () => {
+    for (const region of NAMED_REGIONS) {
+      expect(region.areaKm2).toBeGreaterThanOrEqual(0);
+      for (const polygon of decodeRegionGeometry(region.geometry)) for (const ring of polygon) {
+        expect(ring.length).toBeGreaterThanOrEqual(4);
+        expect(ring[0]).toEqual(ring[ring.length - 1]);
+        expect(ring.every(([lng, lat]) => Number.isFinite(lng) && lat >= -90 && lat <= 90)).toBe(true);
+      }
+    }
+    expect(TEACHING_LANDMARKS).toHaveLength(40);
+    for (const place of TEACHING_LANDMARKS) {
+      expect(place.radiusKm).toBeGreaterThan(0);
+      expect(place.fact.length).toBeGreaterThan(20);
+      expect(place.source).toMatch(/^https:\/\//);
+    }
   });
 });
