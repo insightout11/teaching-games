@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BookOpen, ExternalLink, Image as ImageIcon, Library, Link2, MapPin, Newspaper, Plus, Search, Tv, X, Globe } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
 import { readSource, searchSources, sourcesMessage, SourcesError, type Surface } from '@/components/session/live-room/sources-client';
@@ -36,9 +36,11 @@ interface SourcesDrawerProps {
   fill?: boolean;
   /** Shown when the drawer is inline on the shared screen, where the class can see it. */
   visibleWarning?: boolean;
+  /** Run this search now (e.g. "More from Google Images" for the topic). `n` changes for each new request. */
+  searchRequest?: { query: string; surface: Surface; n: number } | null;
 }
 
-export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false, visibleWarning = false }: SourcesDrawerProps) {
+export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false, visibleWarning = false, searchRequest = null }: SourcesDrawerProps) {
   const [mode, setMode] = useState<'web' | 'library'>('web');
   const [surface, setSurface] = useState<Surface>('web');
   const [query, setQuery] = useState('');
@@ -49,8 +51,17 @@ export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false,
   const [reading, setReading] = useState<string | null>(null);
   const [link, setLink] = useState('');
 
-  const run = async (nextSurface: Surface = surface) => {
-    const q = query.trim();
+  useEffect(() => {
+    if (!searchRequest) return;
+    setMode('web');
+    setSurface(searchRequest.surface);
+    setQuery(searchRequest.query);
+    void run(searchRequest.surface, searchRequest.query);
+    // A new request only (n changes); run reads the latest state itself.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchRequest?.n]);
+  const run = async (nextSurface: Surface = surface, queryOverride?: string) => {
+    const q = (queryOverride ?? query).trim();
     if (!q || busy) return;
     setBusy(true);
     setError(null);

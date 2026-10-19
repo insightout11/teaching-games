@@ -1,0 +1,100 @@
+/**
+ * Free pictures for a topic from Wikimedia (Wikipedia's page picture + Wikimedia Commons search). No key, no cost.
+ * Strong for places, nature, history, science, animals and famous people; weak for everyday scenes and trends.
+ * Every picture carries its credit (licences vary). Nothing here is ever shown to the class automatically.
+ */
+
+export interface FreePicture {
+  id: string;
+  /** Small version for the thumbnail row. */
+  thumbUrl: string;
+  /** Bigger version for the big screen. */
+  imageUrl: string;
+  title: string;
+  /** "Photographer · CC BY-SA 4.0" */
+  credit: string;
+  /** The file page on Wikimedia Commons (attribution link). */
+  pageUrl: string;
+}
+
+const HEADERS = { 'User-Agent': 'LessonCaptain/1.0 (https://lessoncaptain.com; matt@lessoncaptain.com)' };
+
+// Words that keep a picture out of a children's class (titles and descriptions are checked).
+const BLOCK = /\b(nude|nudity|naked|topless|erotic|porn|sex|sexual|genital|penis|vagina|breast|nipple|corpse|dead body|gore|wound|injur|blood|autopsy|execution|lynch|hanged|beheading|torture|suicide|massacre|atrocity|nazi rally|swastika|drug use|syringe)/i;
+
+const stripHtml = (s: string) => s.replace(/<[^>]*>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+
+async function getJSON(base: string, params: Record<string, string>): Promise<unknown> {
+  const url = `${base}?${new URLSearchParams({ format: 'json', formatversion: '2', origin: '*', ...params }).toString()}`;
+  const res = await fetch(url, { headers: HEADERS, signal: AbortSignal.timeout(6000), cache: 'no-store' });
+  if (!res.ok) return null;
+  return res.json().catch(() => null);
+}
+
+interface CommonsPage {
+  pageid: number;
+  title: string;
+  imageinfo?: Array<{
+    url: string;
+    thumburl?: string;
+    mime?: string;
+    descriptionurl?: string;
+    extmetadata?: Record<string, { value?: string } | undefined>;
+  }>;
+}
+
+function toPicture(p: CommonsPage): FreePicture | null {
+  const info = p.imageinfo?.[0];
+  if (!info?.url || !/^image\/(jpeg|png|webp)$/.test(info.mime ?? '')) return null;
+  const meta = info.extmetadata ?? {};
+  const name = p.title.replace(/^File:/, '').replace(/\.[a-z0-9]+$/i, '').replace(/_/g, ' ');
+  const description = stripHtml(meta.ImageDescription?.value ?? '');
+  if (BLOCK.test(`${name} ${description} ${stripHtml(meta.Categories?.value ?? '')}`)) return null;
+  const artist = stripHtml(meta.Artist?.value ?? '').slice(0, 60) || 'Unknown author';
+  const licence = stripHtml(meta.LicenseShortName?.value ?? '') || 'see source';
+  return {
+    id: String(p.pageid),
+    thumbUrl: info.thumburl ?? info.url,
+    imageUrl: info.url,
+    title: name.slice(0, 100),
+    credit: `${artist} · ${licence}`,
+    pageUrl: info.descriptionurl ?? `https://commons.wikimedia.org/wiki/${encodeURIComponent(p.title)}`,
+  };
+}
+
+const IMAGE_PROPS = { prop: 'imageinfo', iiprop: 'url|mime|extmetadata', iiurlwidth: '480', iiextmetadatafilter: 'Artist|LicenseShortName|ImageDescription|Categories' };
+
+/** The main picture of the topic's Wikipedia page, when the topic is a named thing. */
+async function wikipediaPicture(query: string): Promise<FreePicture | null> {
+  const page = (await getJSON('https://en.wikipedia.org/w/api.php', {
+    action: 'query', prop: 'pageimages', piprop: 'name', redirects: '1', titles: query,
+  })) as { query?: { pages?: Array<{ pageimage?: string }> } } | null;
+  const file = page?.query?.pages?.[0]?.pageimage;
+  if (!file) return null;
+  const info = (await getJSON('https://commons.wikimedia.org/w/api.php', {
+    action: 'query', titles: `File:${file}`, ...IMAGE_PROPS,
+  })) as { query?: { pages?: CommonsPage[] } } | null;
+  const p = info?.query?.pages?.[0];
+  return p ? toPicture(p) : null;
+}
+
+export async function freePictures(query: string, limit = 8): Promise<FreePicture[]> {
+  const q = query.trim().replace(/[?!.]+$/, '').slice(0, 100);
+  if (q.length < 2) return [];
+  const [lead, search] = await Promise.all([
+    wikipediaPicture(q).catch(() => null),
+    (getJSON('https://commons.wikimedia.org/w/api.php', {
+      action: 'query', generator: 'search', gsrsearch: `${q} filetype:bitmap`, gsrnamespace: '6', gsrlimit: String(limit * 2), ...IMAGE_PROPS,
+    }) as Promise<{ query?: { pages?: CommonsPage[] } } | null>).catch(() => null),
+  ]);
+  const found = (search?.query?.pages ?? [])
+    .sort((a, b) => ((a as { index?: number }).index ?? 0) - ((b as { index?: number }).index ?? 0))
+    .map(toPicture)
+    .filter((p): p is FreePicture => !!p);
+  const out: FreePicture[] = [];
+  for (const p of lead ? [lead, ...found] : found) {
+    if (!out.some((o) => o.id === p.id || o.imageUrl === p.imageUrl)) out.push(p);
+    if (out.length === limit) break;
+  }
+  return out;
+}

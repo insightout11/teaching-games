@@ -43,6 +43,23 @@ async function body(request: Request) {
   }
 }
 
+const SEARCH_CACHE_DAYS = 7;
+
+/** A saved search result (table from migration 066). Any problem, including the table not existing yet, is a miss. */
+async function cachedSearch(cacheKey: string): Promise<unknown | null> {
+  try {
+    const since = new Date(Date.now() - SEARCH_CACHE_DAYS * 86_400_000).toISOString();
+    const { data } = await createServiceClient().from('source_search_cache').select('result').eq('cache_key', cacheKey).gte('created_at', since).maybeSingle();
+    return data?.result ?? null;
+  } catch { return null; }
+}
+
+async function saveSearch(cacheKey: string, result: unknown) {
+  try {
+    await createServiceClient().from('source_search_cache').upsert({ cache_key: cacheKey, result, created_at: new Date().toISOString() }, { onConflict: 'cache_key' });
+  } catch { /* saving is best-effort */ }
+}
+
 export async function reserveSearch(teacherId: string) {
   const cap = Number(process.env.LIVE_ROOM_SEARCH_DAILY_CAP ?? 100);
   assertSource(Number.isSafeInteger(cap) && cap >= 0 && cap <= 100000, 'SEARCH_CONFIGURATION_INVALID', 503);
@@ -70,11 +87,16 @@ export async function sourcesAction(request: Request, sessionId: string, action:
     const query = discoveryRequest(input);
     const key = process.env.SERPER_API_KEY?.trim();
     assertSource(key, 'SEARCH_UNAVAILABLE', 503);
+    // Saved searches: the same search within a week is free (and doesn't count toward the daily cap).
+    const cacheKey = `${query.surface}|${query.page}|${query.query.toLowerCase().replace(/\s+/g, ' ').trim()}`;
+    const cached = await cachedSearch(cacheKey);
+    if (cached) return response(cached);
     await reserveSearch(teacher.id);
-    if (query.surface === 'places' || query.surface === 'videos') {
-      return response(await searchSerperMedia({ ...query, surface: query.surface }, key));
-    }
-    return response(wrapDiscovery(await searchSerper({ query: query.query, page: query.page, tab: query.surface }, key)));
+    const result = query.surface === 'places' || query.surface === 'videos'
+      ? await searchSerperMedia({ ...query, surface: query.surface }, key)
+      : wrapDiscovery(await searchSerper({ query: query.query, page: query.page, tab: query.surface }, key));
+    await saveSearch(cacheKey, result);
+    return response(result);
   } catch (error) {
     return error instanceof SourceError ? response({ error: error.code }, error.status)
       : response({ error: 'SOURCE_SERVICE_UNAVAILABLE' }, 503);

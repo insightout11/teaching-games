@@ -7,6 +7,7 @@ import type { RoomItem } from '@/stores/live-room-store';
 import type { RoomMessage } from '@/components/session/live-room/room-channel';
 import { MessagesInbox } from '@/components/session/live-room/messages-inbox';
 import { BoardInbox } from '@/components/session/live-room/board-inbox';
+import { FreePicturesRow } from '@/components/session/live-room/free-pictures-row';
 
 type Tab = 'messages' | 'board' | 'sources';
 
@@ -14,9 +15,14 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
   const [tab, setTab] = useState<Tab>(initialTab);
   const channelRef = useRef<BroadcastChannel | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  // The class's current topic (the room says when it changes), for the free pictures row.
+  const [topic, setTopic] = useState<string | null>(null);
+  // "More from Google Images": runs the (paid) image search below with the topic typed in.
+  const [googleRequest, setGoogleRequest] = useState<{ query: string; n: number } | null>(null);
 
   useEffect(() => {
-    channelRef.current = openRoomChannel(sessionId);
+    channelRef.current = openRoomChannel(sessionId, (m) => { if (m.type === 'topic') setTopic(m.title || null); });
+    channelRef.current?.postMessage({ type: 'hello' });
     document.title = 'Private window · LessonCaptain';
     return () => channelRef.current?.close();
   }, [sessionId]);
@@ -63,9 +69,18 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
           <BoardInbox sessionId={sessionId} />
         </div>
       )}
+      {tab === 'sources' && (
+        <FreePicturesRow
+          sessionId={sessionId}
+          topic={topic}
+          onShow={(item) => send('show', item)}
+          onGoogle={(query) => setGoogleRequest((g) => ({ query, n: (g?.n ?? 0) + 1 }))}
+        />
+      )}
       <div className={tab === 'sources' ? 'min-h-0 flex-1' : 'hidden'}>
         <SourcesDrawer
           sessionId={sessionId}
+          searchRequest={googleRequest ? { ...googleRequest, surface: 'images' } : null}
           onShow={(item) => send('show', item)}
           onAdd={(item) => send('add', item)}
           onClose={() => window.close()}
