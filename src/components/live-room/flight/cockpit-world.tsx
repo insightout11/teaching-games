@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
-import { drawPeak, type PeakKind } from '@/components/live-room/flight/peak-art';
+import { drawPeak, peakStyle, type PeakKind } from '@/components/live-room/flight/peak-art';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { desertTexture, farmTexture, forestTexture, groundRelief, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
@@ -139,7 +139,7 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
     p.h = 380 + Math.random() * 700;          // low, broad, rounded
     p.w = p.h * (4.5 + Math.random() * 3.5);
   } else {
-    p.h = 900 + Math.random() * 1800;        // always below the camera
+    p.h = peakStyle() === 'new' ? 600 + Math.random() * 1200 : 900 + Math.random() * 1800; // always well below the camera (3200): we fly over them
     p.w = p.h * (1.6 + Math.random() * 1.2);
   }
   p.tone = Math.random();
