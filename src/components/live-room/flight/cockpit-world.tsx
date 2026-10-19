@@ -5,6 +5,7 @@ import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { drawPeak, peakStyle, type PeakKind } from '@/components/live-room/flight/peak-art';
+import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { desertTexture, farmTexture, forestTexture, groundRelief, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
@@ -173,7 +174,7 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
   return c;
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, glint, altitude = 1 }: { /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1 }: { /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed, paused, glint, altitude });
@@ -190,6 +191,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     }
     for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
   }, [cities]);
+  // Landmarks, fixed on the ground once they come into range (as the cities).
+  const landmarkWorld = useRef(new Map<string, { kind: WorldLandmarkKind; z: number; x: number }>());
+  useEffect(() => {
+    const map = landmarkWorld.current;
+    const keep = new Set<string>();
+    for (const l of landmarks ?? []) {
+      keep.add(l.id);
+      if (!map.has(l.id)) map.set(l.id, { kind: l.kind, z: cam.current + l.ahead * CITY_UNITS_PER_KM, x: l.lateral * CITY_UNITS_PER_KM * 0.7 });
+    }
+    for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
+  }, [landmarks]);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
   const look = useRef<{ haze: RGB; night: boolean }>({ haze: [159, 184, 208], night });
@@ -525,7 +537,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       });
 
       // ── Mountains and hills standing on that ground ────────────────────
-      const all: Array<{ p: Peak; layer: Layer }> = [];
+      const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind }> = [];
+      const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
+      // ordinary mountains keep clear of a landmark (Fuji stands alone; the pyramids on open sand)
+      const nearLandmark = (p: Peak) => lms.some((l) => Math.abs(p.z - l.z) < LANDMARK_SIZE[l.kind].clear && Math.abs(p.x - l.x) < LANDMARK_SIZE[l.kind].clear * 1.4);
       L.forEach((layer, li) => {
         const newest = li === L.length - 1;
         for (let k = layer.peaks.length - 1; k >= 0; k--) {
@@ -535,18 +550,36 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             if (newest) spawnPeak(p, camZ, true);
             else { layer.peaks.splice(k, 1); continue; }
           }
-          all.push({ p, layer });
+          if (!nearLandmark(p)) all.push({ p, layer });
         }
       });
+      const under = L[L.length - 1];
+      for (const l of lms) {
+        const sz = LANDMARK_SIZE[l.kind];
+        all.push({ p: { x: l.x, z: l.z, h: sz.h, w: sz.w, tone: 0, roll: 0, hill: false }, layer: under, lm: l.kind });
+      }
       all.sort((a, b) => b.p.z - a.p.z);
-      for (const { p, layer } of all) {
+      const proj = (x: number, z: number, y = 0): [number, number] => {
+        const rz = Math.max(Z_NEAR, z - camZ), s = F / rz;
+        return [w / 2 + x * s, horizonY + (camH - y) * s];
+      };
+      for (const { p, layer, lm } of all) {
         const rz = p.z - camZ;
         if (rz > Z_FAR) continue;
         const s = F / rz;
         const baseY = horizonY + camH * s;
-        const topY = baseY - p.h * s;
+        if (lm) {
+          const lfog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
+          const lfade = Math.min(1, (Z_FAR - rz) / 8000);
+          drawWorldLandmark(ctx, lm, { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, proj, lfog, haze, lfade);
+          continue;
+        }
+        // Always well below the plane: during the descent (the camera comes down to a fifth of its height) mountains and
+        // hills shrink with it, keeping their shape, instead of towering over the cockpit.
+        const shrink = Math.min(1, (camH * 0.7) / p.h);
+        const topY = baseY - p.h * shrink * s;
         const cx = w / 2 + p.x * s;
-        const half = (p.w / 2) * s;
+        const half = (p.w / 2) * shrink * s;
         if (cx + half < 0 || cx - half > w || topY > h) continue;
         const fog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
         const fade = Math.min(1, (Z_FAR - rz) / 8000); // appear gently at the far edge
