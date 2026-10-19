@@ -7,7 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -1081,7 +1081,7 @@ export function FlightDeck({
       .then((transcript) => fetch(`/api/session/${encodeURIComponent(sessionId)}/focus`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '', depth }),
+        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '', depth, covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20) }),
       }))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: FocusBrief | null) => {
@@ -1090,6 +1090,19 @@ export function FlightDeck({
           return;
         }
         setBriefs((b) => ({ ...b, [item.id]: d }));
+        if (!d.nextTopics?.length) {
+          // A ready-bank topic (instant): its "Where next?" follows a moment later.
+          void fetch(`/api/session/${encodeURIComponent(sessionId)}/where-next`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: item.title, covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20) }),
+          })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((n: { nextTopics?: FocusBrief['nextTopics'] } | null) => {
+              if (n?.nextTopics?.length) setBriefs((b) => (typeof b[item.id] === 'object' ? { ...b, [item.id]: { ...(b[item.id] as FocusBrief), nextTopics: n.nextTopics } } : b));
+            })
+            .catch(() => {});
+        }
         if (item.kind === 'note' && !item.text) {
           updateItem(sessionId, item.id, {
             text: [d.briefing, ...d.facts.map((f) => `- ${f}`), ...(d.reference ? ['', d.reference.text, ''] : []), ...d.angles.map((a) => `Question: ${a}`)].join('\n'),
@@ -1105,6 +1118,11 @@ export function FlightDeck({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focused?.id, depth]);
   const focusBrief = focused ? briefs[focused.id] : undefined;
+  // "Back to": the last two earlier topics of this lesson, one tap away.
+  const earlierTopics = useMemo(
+    () => focusTrail.filter((id) => id !== focused?.id).slice(0, 2).map((id) => material.find((m) => m.id === id)).filter((m): m is RoomItem => !!m),
+    [focusTrail, focused?.id, material],
+  );
   useEffect(() => { setAboutOpen(false); }, [focused?.id]);
   const brief = typeof focusBrief === 'object' ? focusBrief : null;
   // The topic's key words feed the Word bank widget.
@@ -2037,6 +2055,21 @@ export function FlightDeck({
           <button type="button" onClick={() => setAboutOpen((o) => !o)} title="What this topic is about" className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md hover:border-amber-300/60">
             <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}
           </button>
+          {!aboutOpen && ((brief?.nextTopics?.length ?? 0) > 0 || earlierTopics.length > 0) && (
+            <div className="flex max-w-[86%] flex-wrap items-center justify-center gap-1.5 text-[11px]">
+              {(brief?.nextTopics?.length ?? 0) > 0 && <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-white/55">Where next?</span>}
+              {(brief?.nextTopics ?? []).map((t) => (
+                <button key={t.title} type="button" onClick={() => { makeFocus({ title: t.title }); }} title={`${t.link}: make it the topic`} className="rounded-full border border-white/15 bg-slate-950/55 px-2.5 py-0.5 text-white/85 backdrop-blur-sm hover:border-amber-300/60 hover:text-white">
+                  <span className="text-amber-200/80">{t.link}:</span> {t.title}
+                </button>
+              ))}
+              {earlierTopics.map((m) => (
+                <button key={m.id} type="button" onClick={() => setFocusId(m.id)} title="Go back to this topic" className="flex items-center gap-1 rounded-full border border-white/10 bg-slate-950/40 px-2.5 py-0.5 text-white/60 backdrop-blur-sm hover:text-white">
+                  <Undo2 className="h-3 w-3" /> {m.title.length > 32 ? `${m.title.slice(0, 31)}…` : m.title}
+                </button>
+              ))}
+            </div>
+          )}
           {aboutOpen && (
             <div className="w-full max-w-xl rounded-2xl border border-white/15 bg-slate-950/90 p-4 text-left text-sm text-white/90 shadow-2xl backdrop-blur-md">
               <div className="mb-2 flex items-center justify-between gap-3">
@@ -2942,6 +2975,8 @@ interface FocusBrief {
   facts: string[];
   angles: string[];
   vocab?: Array<{ word: string; definition: string }>;
+  /** "Where next?": topics that follow from this one, each with how it connects. */
+  nextTopics?: Array<{ link: string; title: string }>;
   /** Facts from Wikipedia for a named film, book, singer, famous person... (ending kept back). */
   reference?: { title: string; url: string; kind: string; text: string; ending: string | null };
 }

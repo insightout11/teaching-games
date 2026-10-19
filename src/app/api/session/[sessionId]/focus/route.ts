@@ -18,9 +18,11 @@ import { findTopicBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
 import { stickerLabel } from '@/lib/stickers';
 import { lookupWikipedia, type WikiReference } from '@/lib/sources/wikipedia';
 import { depthPromptNote, type TopicDepth } from '@/lib/topic-depth';
+import { cleanNextTopics, NEXT_TOPICS_SCHEMA, nextTopicsPrompt } from '@/lib/live-room/where-next';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
+
 
 /**
  * Live Room Focus: whatever the class is talking about right now (a typed
@@ -43,8 +45,9 @@ const schema: AISchema = {
       type: 'array',
       items: { type: 'object', properties: { phrase: { type: 'string' }, example: { type: 'string' } }, required: ['phrase', 'example'] },
     },
+    nextTopics: NEXT_TOPICS_SCHEMA,
   },
-  required: ['briefing', 'facts', 'angles', 'vocab', 'expressions'],
+  required: ['briefing', 'facts', 'angles', 'vocab', 'expressions', 'nextTopics'],
 };
 
 interface FocusBrief {
@@ -53,6 +56,7 @@ interface FocusBrief {
   angles: string[];
   vocab: unknown;
   expressions: unknown;
+  nextTopics?: unknown;
 }
 
 const clean = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
@@ -64,6 +68,8 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const title = clean(body?.title, 200);
   const text = clean(body?.text, 4000);
   const depth: TopicDepth = body?.depth === 'deep' ? 'deep' : 'big';
+  // Topics already covered this lesson, so "Where next?" never sends the class back round in circles.
+  const covered = strings(body?.covered, 20, 120);
   if (!title) return NextResponse.json({ error: 'title is required' }, { status: 400 });
 
   const { teacher, error: authError } = await requireAuth();
@@ -100,11 +106,13 @@ Prepare the teacher and students:
 - "angles": 3 open questions or opinions the class could argue about${depth === 'deep' ? ', about the subject itself (its works, people and events by name)' : ''}.
 - "vocab": exactly 7 words or short phrases students need to talk about THIS.
 ${PHRASEBOOK_FIELDS_PROMPT}
-- "expressions": exactly 6 useful sentence stems for discussing it, each with a short example about this topic.`;
+- "expressions": exactly 6 useful sentence stems for discussing it, each with a short example about this topic.
+${nextTopicsPrompt(title, covered)}`;
 
   let brief: FocusBrief;
   try {
     brief = bankedLevel ? (bankedLevel as FocusBrief) : await generateJSON<FocusBrief>(prompt, schema, { taskClass: 'writing' });
+    // A ready-bank topic stays instant: its "Where next?" comes from /where-next afterwards.
   } catch {
     // The topic still changes (phones show it); the reference panel keeps its previous words.
     await service.from('sessions').update({ custom_topic: title.slice(0, 120) }).eq('id', params.sessionId);
@@ -137,6 +145,7 @@ ${PHRASEBOOK_FIELDS_PROMPT}
     facts: strings(brief.facts, 5, 240),
     angles: strings(brief.angles, 4, 240),
     vocab,
+    nextTopics: cleanNextTopics(brief.nextTopics, [title, ...covered]),
     ...(reference ? { reference } : {}),
   });
 }
