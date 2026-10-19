@@ -33,6 +33,8 @@ export interface Class {
   logbook_share_enabled: boolean;
   is_demo: boolean;
   junior?: boolean;
+  /** How the class usually runs (migration 067); read with readClassProfile. Null until set up. */
+  class_profile?: unknown;
   created_at: string;
   updated_at: string;
 }

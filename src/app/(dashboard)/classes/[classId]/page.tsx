@@ -10,6 +10,8 @@ import { flightNumber, gateFor } from '@/lib/home-board';
 import { FLAP_FONT } from '@/components/ui/split-flap';
 import { ClassJourneyCard } from '@/components/class/class-journey-card';
 import { ClassDefaultsCard } from '@/components/class/class-defaults-card';
+import { ClassProfileSection } from '@/components/class/class-profile-section';
+import { readClassProfile } from '@/lib/class-profile';
 import type { Class, Student, Session } from '@/lib/supabase/types';
 import { countsForAccuracy, isCorrectScore } from '@/lib/scoring-reporting';
 import { buildClassLogbookSummary, type ClassLogbookScoreRow, type ClassLogbookSessionRow } from '@/lib/class-logbook';
@@ -199,6 +201,8 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
     <div className="mx-auto max-w-6xl space-y-5 pb-16">
       <ClassHeader cls={cls} studentCount={students?.length ?? 0} gate={gate} flight={flightNumber(cls.id)} />
 
+      <ClassProfileSection classId={cls.id} initialProfile={cls.class_profile ?? null} studentCount={students?.length ?? 0} />
+
       <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {stats.map((st) => (
           <div key={st.l} className="rounded-xl border border-white/[0.07] bg-[#0a121e]/85 px-4 py-3">
@@ -226,6 +230,7 @@ export default async function ClassDetailPage({ params }: { params: { classId: s
             initialTone={cls.default_tone}
             initialStudentDeviceMode={cls.student_device_mode}
             initialJunior={cls.junior === true}
+            hideDeviceMode={!!readClassProfile(cls.class_profile).type}
           />
         </div>
       </div>
