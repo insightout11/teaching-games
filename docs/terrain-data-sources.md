@@ -32,9 +32,13 @@ is finer than needed and requires many tiles. NEO's former easy CSV service was
 
 IGBP water becomes `ocean` (including inland water); snow/ice becomes `ice`;
 wetlands, croplands/mosaics, urban, savannas and grasslands map to their corresponding
-classes. Evergreen broadleaf forest within 25 degrees of the equator is called
+classes, with latitude refinements for the biome labels below.
+Evergreen broadleaf forest within 25 degrees of the equator is called
 `rainforest`; other broadleaf/mixed forest is `forest`. Needleleaf forest north of
-45 degrees is `boreal-forest`. Shrublands/grassland north of 60 degrees are called
+45 degrees is `boreal-forest`, as is open woodland (IGBP woody savannas) there.
+IGBP savannas north of 60 degrees become tundra; outside 35 degrees of the equator
+and south of 60 degrees north they become grassland.
+Shrublands/grassland north of 60 degrees are called
 `tundra`; other shrubland is `grassland`. These latitude refinements are explicitly
 heuristics, not extra satellite classes. Barren becomes `desert`.
 
@@ -47,9 +51,12 @@ IGBP cannot distinguish rice from other crops: `rice-paddies` is reserved in the
 legend but not generated. Agricultural parts of the Mekong delta remain `farmland`;
 only source-classified wetlands are `wetlands`. Salt flats and mountains use
 generalised cartographic regions, not measured salinity or elevation. No test-point
-patches or manually painted biome boxes are used. Unclassified land or unexpected
-colours cause the build to fail rather than silently inventing a class. Transparent
-GIBS background is water; Antarctic land south of the product coverage is ice.
+patches or manually painted biome boxes are used. GIBS's 2024 browse image has 98
+unclassified cells, all in its westernmost column (the date-line image seam). Those
+alone take the immediately adjacent observed cell to the east. Other unclassified
+land or unexpected colours cause the build to fail. Transparent GIBS background
+is water; Antarctic background south of 60 degrees south is treated as ice (the
+pinned image actually has no transparent cells).
 
 ## Named geography and mountain/salt refinements
 
