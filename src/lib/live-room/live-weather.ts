@@ -13,6 +13,8 @@ export interface LiveWeather {
   label: string;
   /** The place's real time-zone offset from UTC, in seconds (for its clock time). */
   utcOffsetSeconds?: number;
+  /** Air temperature now, in °C. */
+  temperatureC?: number;
 }
 
 /** WMO weather codes (as Open-Meteo reports them) → a condition and a label. */

@@ -160,11 +160,11 @@ function cityDots(id: string) {
   });
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, glint }: { terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, glint, altitude = 1 }: { /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, paused, glint });
-  live.current = { speed, paused, glint };
+  const live = useRef({ speed, paused, glint, altitude });
+  live.current = { speed, paused, glint, altitude };
   const cam = useRef(0);
   // Cities seen in the distance, fixed on the ground once they come into range, so they scroll with it.
   const cityWorld = useRef(new Map<string, { z: number; x: number; r: number; dots: ReturnType<typeof cityDots> }>());
@@ -273,6 +273,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const macro = ctx.createPattern(macroTexture(), 'repeat');
 
     let w = 0, h = 0, rowH = 2;
+    // Camera height: eases toward the cruise height times `altitude` (the descent brings it down slowly).
+    let camH = CAM_HEIGHT * Math.max(0.2, live.current.altitude);
     // One matrix reused for every row (a new one per row, twice, kept the garbage collector busy mid-flight).
     const mtx = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 };
     let hazeKey = '';
@@ -310,7 +312,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       while (li < rip.levels.length - 1 && s * (1 << li) < 0.8) li++;
       const row = rip.levels[li];
       // In depth: this row covers `span` texture rows; use the copy already averaged over about that many.
-      const span = (z * z * rowH) / (CAM_HEIGHT * F * TILE_WORLD);
+      const span = (z * z * rowH) / (camH * F * TILE_WORLD);
       let lj = 0;
       while (lj < row.length - 1 && span > 1.5 * (1 << lj)) lj++;
       const lv = row[lj];
@@ -339,6 +341,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     };
 
     const frame = (now: number) => {
+      camH += (CAM_HEIGHT * Math.max(0.2, Math.min(1, live.current.altitude)) - camH) * 0.01;
       // A video is playing (or a video is full screen; the whole room in full screen keeps moving): the scenery holds still so the video gets the whole machine.
       if (live.current.paused || (document.fullscreenElement && document.fullscreenElement !== document.documentElement)) {
         last = now;
@@ -363,7 +366,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       if (L.length) {
         const y0 = (Math.ceil((horizonY + 1) / rowH)) * rowH;
         for (let y = y0; y < h; y += rowH) {
-          const z = (CAM_HEIGHT * F) / (y - horizonY);   // world depth of this row
+          const z = (camH * F) / (y - horizonY);   // world depth of this row
           const wz = camZ + z;
           let i = L.length - 1;
           while (i > 0 && L[i].startZ > wz) i--;
@@ -390,7 +393,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           for (let k = 0; k <= STOPS; k++) {
             // Stops crowd toward the horizon, where the haze changes fastest.
             const t = Math.pow(k / STOPS, 2.2);
-            const zAt = (CAM_HEIGHT * F) / Math.max(0.5, t * (h - horizonY));
+            const zAt = (camH * F) / Math.max(0.5, t * (h - horizonY));
             const fog = Math.min(1, zAt / Z_FAR);
             hazeFill.addColorStop(t, `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 1.1 : 0.55) * (dark ? 0.5 : 0.92) * hazeScale})`);
           }
@@ -407,8 +410,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const rz = c.z - camZ;
         if (rz < Z_NEAR * 6 || rz > Z_FAR) return;
         const s = F / rz;
-        const cx = w / 2 + c.x * s, cy = horizonY + CAM_HEIGHT * s;
-        const rx = c.r * s, ry = Math.max(1.5, rx * (CAM_HEIGHT / rz) * 1.3);
+        const cx = w / 2 + c.x * s, cy = horizonY + camH * s;
+        const rx = c.r * s, ry = Math.max(1.5, rx * (camH / rz) * 1.3);
         if (cx + rx < 0 || cx - rx > w || cy - ry > h) return;
         const fog = Math.min(1, rz / Z_FAR);
         // Appear gently at the far edge, and melt away as the plane comes right up to it.
@@ -496,7 +499,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const rz = p.z - camZ;
         if (rz > Z_FAR) continue;
         const s = F / rz;
-        const baseY = horizonY + CAM_HEIGHT * s;
+        const baseY = horizonY + camH * s;
         const topY = baseY - p.h * s;
         const cx = w / 2 + p.x * s;
         const half = (p.w / 2) * s;

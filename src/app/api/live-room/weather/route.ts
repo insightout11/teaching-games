@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
   try {
     const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${rlat}&longitude=${rlng}&current=weather_code,cloud_cover,wind_speed_10m,is_day&timezone=auto`,
+      `https://api.open-meteo.com/v1/forecast?latitude=${rlat}&longitude=${rlng}&current=weather_code,cloud_cover,wind_speed_10m,is_day,temperature_2m&timezone=auto`,
       { next: { revalidate: 600 } },
     );
     if (!res.ok) return NextResponse.json({ error: 'Weather unavailable' }, { status: 502 });
@@ -38,6 +38,7 @@ export async function GET(request: Request) {
     const out: LiveWeather = {
       condition, cloudCover, windKph: Math.round(Number(c.wind_speed_10m) || 0), label,
       ...(Number.isFinite(offset) ? { utcOffsetSeconds: offset } : {}),
+      ...(Number.isFinite(Number(c.temperature_2m)) ? { temperatureC: Math.round(Number(c.temperature_2m)) } : {}),
     };
     return NextResponse.json(out, { headers: { 'Cache-Control': 'private, max-age=300' } });
   } catch {

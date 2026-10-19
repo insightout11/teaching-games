@@ -78,9 +78,11 @@ export interface WindscreenFlightProps {
   planeKey?: string | null;
   /** Reports whether the outside camera is showing (a cinematic owns the screen). */
   onCinematic?: (cinematic: boolean) => void;
+  /** 1 = cruise; lower during the descent, so the ground comes closer before touchdown. */
+  altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -230,7 +232,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
         ) : (
           <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
             <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
-            <CockpitWorld terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} glint={seaGlint} />
+            <CockpitWorld altitude={descentAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} glint={seaGlint} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}

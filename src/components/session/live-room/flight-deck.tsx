@@ -1,5 +1,6 @@
 'use client';
 
+import { ArrivalCards } from './arrival-cards';
 import { CityVoteBoard, type VoteCityCard } from './city-vote-board';
 import { usePollVotes } from '@/hooks/use-poll-votes';
 import { RoomGuide } from './room-guide';
@@ -103,6 +104,8 @@ const HOME: RouteCity = { id: HOME_BASE_ID, city: HOME_BASE_NAME, scene: HOME_BA
 const CLASS_MINUTES = [30, 45, 60, 90];
 const CLASS_MINUTES_KEY = 'lc-class-minutes-last';
 const TEST_FLIGHT_DONE_KEY = 'lc-test-flight-done';
+/** The descent starts this many minutes before arrival. */
+const DESCENT_MINUTES = 5;
 // The guided test flight's pretend students: no device, never saved to the class list.
 const PRETEND_STUDENTS = [
   { id: 'pretend-mia', name: 'Mia', avatar_seed: 'pretend-mia' },
@@ -356,6 +359,8 @@ export function FlightDeck({
   // The flight panel opened with a flight already chosen (the city card's Travel button).
   const [planPreset, setPlanPreset] = useState<string | undefined>(undefined);
   const flightKey = `lc-room-flight-${sessionId}`;
+  // Saving waits until the saved flight has been read back (a save on the first render would overwrite it).
+  const [flightRestored, setFlightRestored] = useState(false);
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string; classStartAt?: number; classMinutes?: number } | null;
@@ -373,15 +378,17 @@ export function FlightDeck({
       if (saved?.stayHome) setStayHome(saved.stayHome);
       if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
     } catch { /* storage blocked */ }
+    setFlightRestored(true);
     // Restore once per lesson; the class length read here is only a starting value.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flightKey]);
   useEffect(() => {
+    if (!flightRestored) return;
     try {
       localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes }));
       localStorage.setItem(CLASS_MINUTES_KEY, String(classMinutes));
     } catch { /* storage blocked */ }
-  }, [flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes]);
+  }, [flightRestored, flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes]);
   const destination = useMemo<RouteCity>(
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
@@ -921,6 +928,9 @@ export function FlightDeck({
   // Arrived (5 minutes before the end of class): the plane circles near the destination until you land.
   const holding = flightStage === 'flying' && clock.holding;
   const endsAtLabel = new Date(clock.endAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  // The descent: the last 5 minutes before arrival (so 10 before the end of class). The ground comes closer.
+  const descending = flightStage === 'flying' && takeoffAt !== null && !holding && minutesLeft !== null && minutesLeft <= DESCENT_MINUTES;
+  const descentAltitude = holding ? 0.25 : descending ? 1 - 0.75 * (1 - (minutesLeft ?? 0) / DESCENT_MINUTES) : 1;
   const nudgeClass = (delta: number) => {
     setClassMinutes((m) => Math.min(240, Math.max(15, m + delta)));
     flash(`Class now ends at ${new Date(clock.endAt + delta * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`);
@@ -1487,6 +1497,16 @@ export function FlightDeck({
     if (testFlight) return;
     if (allSeats.some((p) => p.deviceless)) offerTip('seat', 'Students without a device: tap their seat to give them a turn, mark an answer or vote for them.');
   }, [allSeats, testFlight, offerTip]);
+
+  // "Cabin crew, prepare for landing": once per flight, never over an activity (it waits until the activity ends).
+  const descentAnnounced = useRef(false);
+  useEffect(() => {
+    if (flightStage !== 'flying') { descentAnnounced.current = false; return; }
+    if (!(descending || holding) || descentAnnounced.current || runningKey) return;
+    descentAnnounced.current = true;
+    try { play('seatbelt'); } catch { /* sound off */ }
+    flash('Cabin crew, prepare for landing');
+  }, [descending, holding, runningKey, flightStage, flash]);
 
   // Test flight: what the teacher has tried since it started.
   const [tf, setTf] = useState({ spins: 0, whereNext: false, launched: false, finished: false, startFocus: null as string | null, startShown: null as string | null });
@@ -2251,6 +2271,7 @@ export function FlightDeck({
         turbulence={shaking}
         paused={runningKey === 'video-player'}
         planeKey={position?.planeKey ?? null}
+        altitude={descentAltitude}
         onCinematic={setCinematic}
         onLanded={() => { setLanded(true); play('arrivalResolve'); }}
       />
@@ -2333,6 +2354,11 @@ export function FlightDeck({
             </div>
           )}
         </div>
+      )}
+      {descending && !cinematic && view !== 'map' && (
+        <p className="pointer-events-none absolute right-4 top-3 z-[6] flex items-center gap-1.5 rounded-full border border-amber-300/40 bg-slate-950/60 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-amber-100 backdrop-blur-sm">
+          <PlaneLanding className="h-3.5 w-3.5" /> Descending · arrival in {Math.max(1, Math.ceil(minutesLeft ?? 0))} min
+        </p>
       )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="absolute bottom-3 left-4 z-[5] max-w-[88%] truncate rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
@@ -2557,7 +2583,13 @@ export function FlightDeck({
         <div className="absolute inset-x-0 top-10 z-20 flex justify-center">
           <motion.div initial={reduce ? false : { y: -20, rotate: -6, opacity: 0 }} animate={{ y: 0, rotate: -2, opacity: 1 }} className="rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl">
             <p className="font-display text-3xl">Welcome to {destination.city}</p>
-            <p className="mt-1 text-sm">Passport stamped. Thanks for flying with {className}!</p>
+            {/* Local time and the real weather there right now, big enough to read from the back. */}
+            <p className="mt-1 font-mono text-sm text-[#1b2233]/75">
+              {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock} local time
+              {liveWx?.temperatureC !== undefined ? ` · ${liveWx.temperatureC}°C` : ''}{liveWx ? ` · ${liveWx.label}` : ''}
+            </p>
+            <ArrivalCards cityId={destination.id} city={destination.city} onClassVote={(options) => void startPoll(`What shall we explore in ${destination.city}?`, options, { purpose: 'arrival-card' }, 'Vote open on phones: food, sights or local words?')} />
+            <p className="mt-3 text-sm">Passport stamped. Thanks for flying with {className}!</p>
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
             <WorldFlightMap still className="mt-1 h-44 w-[min(420px,70vw)] overflow-hidden rounded-xl" origin={destination} rangeKm={0} visitedIds={visitedList} journey={landingJourney} selectedId={null} souvenirs={mapSouvenirs} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
