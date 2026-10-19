@@ -7,6 +7,7 @@
  */
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { LAND_OUTLINES, WATER_OUTLINES, inRing } from '@/lib/live-room/land-outlines';
+import { landCoverAt, namedRegionAt, type LandCover } from '@/lib/live-room/land-cover';
 
 export interface LatLng { lat: number; lng: number }
 export interface Overflight { terrain: Terrain; name: string | null; point: LatLng }
@@ -128,7 +129,44 @@ function landAt(p: LatLng): string | null {
   return null;
 }
 
+// Real land cover (NASA MODIS) → the cockpit's ground. Small cities in the coarse grid stay farmland (city lights
+// are drawn separately when a real city is near).
+const COVER_TERRAIN: Record<LandCover, Terrain> = {
+  ocean: 'ocean', ice: 'ice', tundra: 'tundra', 'boreal-forest': 'forest', forest: 'forest', rainforest: 'rainforest',
+  savanna: 'savanna', grassland: 'grassland', farmland: 'farmland', 'rice-paddies': 'paddies', desert: 'desert',
+  'salt-flats': 'salt-flats', wetlands: 'wetlands', mountains: 'mountains', city: 'farmland',
+};
+
+/** "Alps" → "the Alps"; islands and "Mount …" keep their own name. */
+export function withArticle(name: string, kind: string): string {
+  if (kind === 'island' || /^(Mount|Mt\.?|Lake|Isla|Île|Ile)\b/.test(name) || /^the /i.test(name)) return name;
+  return `the ${name}`;
+}
+
+/**
+ * What the class is flying over: real land cover and real names (Natural Earth ranges, deserts, plains, deltas, reefs,
+ * and teaching landmarks), with the hand-made regions kept for seas and as a fallback.
+ */
 export function terrainAt(p: LatLng): Overflight {
+  const old = terrainAtOld(p);
+  let cover: LandCover;
+  let named: { name: string; kind: string } | null;
+  try { cover = landCoverAt(p); named = namedRegionAt(p); } catch { return old; }
+  // Sea in the grid but land in the outlines (a coastal city in a coarse cell): trust the outlines.
+  if (cover === 'ocean') {
+    if (old.terrain !== 'ocean') return { ...old, name: named ? withArticle(named.name, named.kind) : old.name };
+    return old;
+  }
+  let terrain = COVER_TERRAIN[cover];
+  // Hills from the hand-made regions still show as hills where the cover is ordinary green land.
+  if (old.terrain === 'hills' && (terrain === 'farmland' || terrain === 'forest' || terrain === 'grassland')) terrain = 'hills';
+  // A named range shows as peaks (snowy ranges too: the peaks carry the snow); deserts keep their dunes.
+  if (named?.kind === 'mountain-range' && terrain !== 'desert') terrain = 'mountains';
+  const name = named ? withArticle(named.name, named.kind) : old.terrain !== 'ocean' ? old.name : regionOf(p);
+  return { terrain, name, point: p };
+}
+
+function terrainAtOld(p: LatLng): Overflight {
   const land = landAt(p);
   for (const [name, terrain, a, b, c, d] of REGIONS) {
     if (!inBox(p, a, b, c, d)) continue;

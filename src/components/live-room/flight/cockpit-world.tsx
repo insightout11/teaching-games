@@ -5,8 +5,8 @@ import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { drawPeak, type PeakKind } from '@/components/live-room/flight/peak-art';
-import { tileFor, type Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { desertTexture, farmTexture, forestTexture, iceTexture, macroTexture, mountainTexture, oceanTexture, rangeFor, type RangeMix } from '@/components/live-room/flight/ground-texture';
+import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
+import { desertTexture, farmTexture, forestTexture, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -160,6 +160,17 @@ function cityDots(id: string) {
   });
 }
 
+/** Rainforest: the forest canopy, deeper and greener (an unbroken, humid green from the air). */
+function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
+  const g = c.getContext('2d');
+  if (!g) return c;
+  g.globalCompositeOperation = 'multiply';
+  g.fillStyle = 'rgb(120,170,110)';
+  g.fillRect(0, 0, c.width, c.height);
+  g.globalCompositeOperation = 'source-over';
+  return c;
+}
+
 export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, glint, altitude = 1 }: { /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
@@ -226,24 +237,23 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     };
     const cached = textureCache.get(key);
     if (cached) apply(cached);
-    else if (terrain === 'farmland' || terrain === 'hills' || terrain === 'desert' || terrain === 'ocean' || terrain === 'mountains' || terrain === 'forest' || terrain === 'ice') {
-      const levels = ripChain(terrain === 'desert' ? desertTexture(palette, night) : terrain === 'ocean' ? oceanTexture(palette, night) : terrain === 'mountains' ? mountainTexture(palette, night, range.floor) : terrain === 'forest' ? forestTexture(palette, night) : terrain === 'ice' ? iceTexture(palette, night) : farmTexture(reg, palette, night));
+    else {
+      // Real land cover: rainforest is a deeper, denser canopy; savanna and rice paddies use the farm patterns made
+      // for them; open ground (steppe, tundra, wetlands, salt flats) has its own texture.
+      const levels = ripChain(
+        terrain === 'desert' ? desertTexture(palette, night)
+          : terrain === 'ocean' ? oceanTexture(palette, night)
+            : terrain === 'mountains' ? mountainTexture(palette, night, range.floor)
+              : terrain === 'forest' ? forestTexture(palette, night)
+                : terrain === 'rainforest' ? deepCanopy(forestTexture({ ...palette, foliage: '#1d5a2c' }, night))
+                  : terrain === 'ice' ? iceTexture(palette, night)
+                    : terrain === 'savanna' ? farmTexture('Africa', palette, night)
+                      : terrain === 'paddies' ? farmTexture('Asia', palette, night)
+                        : terrain === 'grassland' || terrain === 'tundra' || terrain === 'wetlands' || terrain === 'salt-flats' ? naturalTexture(terrain, palette, night)
+                          : farmTexture(reg, palette, night),
+      );
       textureCache.set(key, levels);
       apply(levels);
-    } else {
-      // SVG tiles are rasterised once: an SVG image used as a pattern can be
-      // re-rendered on every fill, which froze the flight near coasts.
-      const img = new Image();
-      img.onload = () => {
-        const size = Math.max(64, img.naturalWidth || 256);
-        const c = document.createElement('canvas');
-        c.width = size; c.height = Math.max(64, img.naturalHeight || size);
-        c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height);
-        const levels = ripChain(c);
-        textureCache.set(key, levels);
-        apply(levels);
-      };
-      img.src = tileFor(terrain, palette, night).replace(/^url\("/, '').replace(/"\)$/, '');
     }
     if (textureCache.size > 24) {
       const oldest = textureCache.keys().next().value;

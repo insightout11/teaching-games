@@ -259,7 +259,7 @@ export function FlightLab() {
             {(['clear', 'overcast', 'rain', 'storm', 'snow', 'aurora'] as WeatherCondition[]).map((w) => <option key={w} value={w}>{w}</option>)}
           </select>
           <select value={terrain} onChange={(e) => setTerrain(e.target.value as Terrain)} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Below us">
-            {(['ocean', 'mountains', 'hills', 'forest', 'desert', 'ice', 'farmland'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
+            {(['ocean', 'mountains', 'hills', 'forest', 'desert', 'ice', 'farmland', 'rainforest', 'savanna', 'grassland', 'tundra', 'wetlands', 'salt-flats', 'paddies'] as Terrain[]).map((t) => <option key={t} value={t}>Below: {t}</option>)}
           </select>
           <select value={region} onChange={(e) => { setRegion(e.target.value); if (/^(city|town):/.test(e.target.value)) setTerrain('farmland'); }} className="rounded-md border border-white/15 bg-slate-900 px-2 py-1" aria-label="Region">
             {['Europe', 'Asia', 'North America', 'South America', 'Africa', 'Australia', 'Oceania', 'town:T1|Europe', 'town:T2|Asia', 'city:Aveiro|Europe', 'city:Dallas|North America', 'city:Lima|South America', 'city:Osaka|Asia', 'city:Kano|Africa', 'city:Perth|Australia'].map((r) => <option key={r} value={r}>{/^(city|town):/.test(r) ? `${r.startsWith('town:') ? 'Small town' : 'Big city'}: ${r.split('|')[1]} style` : r}</option>)}

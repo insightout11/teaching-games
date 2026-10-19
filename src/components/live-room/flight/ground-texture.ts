@@ -848,3 +848,72 @@ export function macroTexture(): HTMLCanvasElement {
 }
 
 
+
+export type NaturalGround = 'grassland' | 'tundra' | 'wetlands' | 'salt-flats';
+
+/**
+ * Open natural ground from the air (real land cover, NASA MODIS): steppe grass with wind streaks, tundra with lichen
+ * and small ponds, wetlands threaded with channels, salt flats with pale polygon cracks. Tiles seamlessly.
+ */
+export function naturalTexture(kind: NaturalGround, palette: ScenePalette, night: boolean): HTMLCanvasElement {
+  const N = 512, S = FARM_TEXTURE_SIZE;
+  const land = hexToRgb(palette.terrainTop);
+  const water = mixRgb(hexToRgb(palette.waterTop), [40, 92, 116], 0.6);
+  const look: Record<NaturalGround, { a: RGB; b: RGB; c: RGB; pond: number }> = {
+    grassland: { a: mixRgb(land, [150, 160, 88], 0.8), b: mixRgb(land, [190, 176, 104], 0.8), c: mixRgb(land, [118, 132, 74], 0.8), pond: 0 },
+    tundra: { a: mixRgb(land, [128, 128, 92], 0.8), b: mixRgb(land, [160, 146, 110], 0.8), c: mixRgb(land, [96, 104, 80], 0.8), pond: 0.16 },
+    wetlands: { a: mixRgb(land, [92, 132, 82], 0.82), b: mixRgb(land, [128, 150, 96], 0.82), c: mixRgb(land, [70, 108, 78], 0.82), pond: 0.34 },
+    'salt-flats': { a: [238, 236, 228], b: [224, 220, 210], c: [206, 200, 190], pond: 0 },
+  };
+  const { a, b, c, pond } = look[kind];
+  const n3 = tileNoise(3, 701), n8 = tileNoise(8, 707), n24 = tileNoise(24, 709), grain = tileNoise(128, 719), ponds = tileNoise(10, 727), warp = tileNoise(4, 733);
+  const small = document.createElement('canvas');
+  small.width = N; small.height = N;
+  const sg = small.getContext('2d')!;
+  const img = sg.createImageData(N, N);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const u = x / N, v = y / N;
+    const w = (warp(u, v) - 0.5) * 0.6;
+    let col = mixRgb(a, b, n3(u + w, v));
+    col = mixRgb(col, c, Math.max(0, n8(u, v + w) - 0.45) * 1.4);
+    if (kind === 'grassland') col = mixRgb(col, b, Math.max(0, Math.sin((u * 3 + v * 9 + w * 4) * Math.PI * 2)) * 0.18);
+    if (kind === 'tundra') col = mixRgb(col, [200, 196, 170], Math.max(0, n24(u, v) - 0.62) * 1.6);
+    if (pond > 0 && ponds(u + w * 0.5, v) > 1 - pond) col = mixRgb(col, water, 0.85);
+    const l = 1 + (grain(u, v) - 0.5) * 0.08;
+    const p = (y * N + x) * 4;
+    img.data[p] = Math.min(255, col[0] * l); img.data[p + 1] = Math.min(255, col[1] * l); img.data[p + 2] = Math.min(255, col[2] * l); img.data[p + 3] = 255;
+  }
+  sg.putImageData(img, 0, 0);
+  const canvas = document.createElement('canvas');
+  canvas.width = S; canvas.height = S;
+  const g = canvas.getContext('2d')!;
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(small, 0, 0, S, S);
+  const R = rng(kind.length * 131);
+  if (kind === 'wetlands') {
+    // Winding channels, wrapped so they cross the tile edge cleanly.
+    g.strokeStyle = css(water, 0.7); g.lineCap = 'round';
+    for (let i = 0; i < 6; i++) {
+      let px = R() * S, py = R() * S, ang = R() * Math.PI * 2;
+      g.lineWidth = 3 + R() * 4;
+      for (let k = 0; k < 40; k++) {
+        ang += (R() - 0.5) * 0.9;
+        const nx = px + Math.cos(ang) * 22, ny = py + Math.sin(ang) * 22;
+        for (const ox of [-S, 0, S]) for (const oy of [-S, 0, S]) { g.beginPath(); g.moveTo(px + ox, py + oy); g.lineTo(nx + ox, ny + oy); g.stroke(); }
+        px = nx; py = ny;
+      }
+    }
+  }
+  if (kind === 'salt-flats') {
+    // Polygon cracks in the salt crust.
+    g.strokeStyle = 'rgba(150,140,128,0.35)'; g.lineWidth = 1.5;
+    const cells = 14, step = S / cells;
+    for (let i = 0; i <= cells; i++) for (let j = 0; j <= cells; j++) {
+      const x0 = i * step + (R() - 0.5) * step * 0.5, y0 = j * step + (R() - 0.5) * step * 0.5;
+      g.beginPath(); g.moveTo(x0, y0); g.lineTo(x0 + step * (0.7 + R() * 0.4), y0 + (R() - 0.5) * step * 0.4);
+      g.moveTo(x0, y0); g.lineTo(x0 + (R() - 0.5) * step * 0.4, y0 + step * (0.7 + R() * 0.4)); g.stroke();
+    }
+  }
+  if (night) { g.fillStyle = 'rgba(8,12,26,0.6)'; g.fillRect(0, 0, S, S); }
+  return canvas;
+}

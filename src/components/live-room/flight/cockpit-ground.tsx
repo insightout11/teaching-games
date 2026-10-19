@@ -12,7 +12,9 @@ import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
  * Mountains add layered ridgelines with snow along the horizon.
  * The real route (later) picks the terrain for each stretch of the flight.
  */
-export type Terrain = 'ocean' | 'mountains' | 'hills' | 'forest' | 'desert' | 'ice' | 'farmland';
+export type Terrain = 'ocean' | 'mountains' | 'hills' | 'forest' | 'desert' | 'ice' | 'farmland'
+  // Real land cover (NASA MODIS, src/lib/live-room/land-cover.ts).
+  | 'rainforest' | 'savanna' | 'grassland' | 'tundra' | 'wetlands' | 'salt-flats' | 'paddies';
 
 type RGB = [number, number, number];
 const hex = (c: RGB) => `#${c.map((v) => v.toString(16).padStart(2, '0')).join('')}`;

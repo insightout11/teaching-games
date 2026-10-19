@@ -15,9 +15,14 @@ describe('route terrain', () => {
   });
 
   it('names what the class flies over', () => {
-    expect(overflightAt(LONDON, TOKYO, 0.5)).toMatchObject({ terrain: 'forest', name: 'the Siberian taiga' });
+    // Real land cover (NASA MODIS) and Natural Earth names.
+    expect(overflightAt(LONDON, TOKYO, 0.5)).toMatchObject({ terrain: 'tundra', name: 'the Central Siberian Plateau' });
     expect(overflightAt(LISBON, RIO, 0.5)).toMatchObject({ terrain: 'ocean', name: 'the Atlantic Ocean' });
-    expect(terrainAt({ lat: 25, lng: 10 })).toMatchObject({ terrain: 'desert', name: 'the Sahara Desert' });
+    expect(terrainAt({ lat: 25, lng: 10 }).terrain).toBe('desert');
+    expect(terrainAt({ lat: 46, lng: 8 })).toMatchObject({ terrain: 'mountains', name: 'the Alps' });
+    expect(terrainAt({ lat: -2.3, lng: 34.8 })).toMatchObject({ terrain: 'grassland', name: 'the Serengeti' });
+    // A coastal city the coarse grid calls sea stays land.
+    expect(terrainAt({ lat: 41.9, lng: 12.5 }).terrain).not.toBe('ocean');
     expect(terrainAt({ lat: 28, lng: 86 })).toMatchObject({ terrain: 'mountains', name: 'the Himalayas' });
     expect(terrainAt({ lat: 72, lng: -40 })).toMatchObject({ terrain: 'ice' });
   });
