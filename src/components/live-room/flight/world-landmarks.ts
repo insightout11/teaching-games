@@ -279,8 +279,9 @@ function drawMatterhorn(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: nu
     color: (hf, _a, lam) => {
       // the sunlit face is nearly all snow, bright; the shaded face deep blue rock with snow on its ledges
       const rock = withForest(mix(P.rockShade, P.rockLit, Math.pow(lam, 1.05)), hf, 0.1, lam, P);
-      if (hf > 0.15 && lam > 0.3) return mix(P.snowShade, P.snowLit, Math.min(1, 0.45 + lam));
-      return rock;
+      // a smooth change from snow to rock as the face turns from the light (a hard cut-off left odd squares)
+      const t = hf > 0.15 ? smooth(clamp01((lam - 0.18) / 0.22)) : 0;
+      return mix(rock, mix(P.snowShade, P.snowLit, Math.min(1, 0.45 + lam)), t);
     },
   }, X, Z, proj, fog * 0.8, haze, alpha);
 }
