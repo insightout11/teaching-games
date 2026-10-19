@@ -3,9 +3,9 @@
 import type { InputContextItem, InputSpec } from '@/lib/input-spec';
 
 /** Original public context, shared by the existing input types. */
-export function InputContext({ items }: { items?: InputContextItem[] }) {
+export function InputContext({ items, collapsible = false }: { items?: InputContextItem[]; collapsible?: boolean }) {
   if (!items?.length) return null;
-  return (
+  const content = (
     <div className="mb-4 space-y-2" aria-label="Question context">
       {items.map((item, index) => (
         <div key={index} className="rounded-xl border border-lc-border bg-lc-card px-3 py-3">
@@ -22,6 +22,7 @@ export function InputContext({ items }: { items?: InputContextItem[] }) {
       ))}
     </div>
   );
+  return collapsible ? <details className="mb-4 rounded-xl border border-lc-border p-3"><summary className="cursor-pointer text-sm font-semibold text-lc-text">Read the passage</summary><div className="mt-3">{content}</div></details> : content;
 }
 
 export function SectorBoard({ cells }: { cells?: InputSpec['sectorBoard'] }) {

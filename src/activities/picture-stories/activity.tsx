@@ -1,5 +1,7 @@
 'use client';
 
+import { pictureStoryPhoneContext } from '@/lib/one-phone-context';
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ChevronLeft, ChevronRight, Volume2 } from 'lucide-react';
 import type { ActivityProps, RemoteVote } from '../types';
@@ -51,6 +53,7 @@ export function PictureStoriesActivity({ customTopic, onSetInputSpec, onRegister
         gameKey: 'picture-stories',
         roundId: `${story.id}:${qIndex}`,
         prompt: question.prompt,
+        context: pictureStoryPhoneContext(story.pages),
         options: question.options,
         optionLabels: question.options.map(stickerLabel),
         pictureOptions: true,

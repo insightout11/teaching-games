@@ -35,6 +35,7 @@ import { HeardItPanel } from './heard-it-panel';
 import { stickerUrlFor } from '@/lib/stickers';
 import { BriefingMissionPanel } from './briefing-mission-panel';
 import { InputContext, SectorBoard } from './input-context';
+import { contextForPhone } from '@/lib/one-phone-context';
 import {
   binaryOptionClassName,
   reconcileBinarySelection,
@@ -57,7 +58,8 @@ interface DynamicInputProps {
 }
 
 export function DynamicInput(props: DynamicInputProps) {
-  return <><InputContext items={props.spec.context} /><SectorBoard cells={props.spec.sectorBoard} /><InputControl {...props} /></>;
+  const context = contextForPhone(props.spec, [props.studentId, props.clientId, props.displayName]);
+  return <><InputContext items={context} collapsible={props.spec.gameKey === 'read-aloud' || props.spec.gameKey === 'story-recap'} /><SectorBoard cells={props.spec.sectorBoard} /><InputControl {...props} /></>;
 }
 
 function InputControl({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds, clientId, displayName, studentId, clockOffsetMs, initialResponse }: DynamicInputProps) {

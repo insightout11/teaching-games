@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ComponentType } from 'react';
 import { ChevronRight, Users, Zap, Check } from 'lucide-react';
@@ -149,6 +151,7 @@ export function PerformedExchange({
         gameKey,
         prompt: `Take 2: ${problem.title}`,
         instruction: problem.goal,
+        context: phoneText(context, problem.serviceOpener),
         buttonLabel: 'Ready',
         keywordGroups: [{ label: 'Useful phrases', phrases: problem.phrases }],
       });
@@ -158,13 +161,14 @@ export function PerformedExchange({
       type: 'confirm',
       gameKey,
       prompt: context,
+      context: phoneText(...script.slice(Math.max(0, lineIndex - 1), lineIndex + 1).map(line => `${line.speaker === 'service' ? serviceRole : travellerRole}: ${line.text}${line.hint ? ' (' + line.hint + ')' : ''}`)),
       buttonLabel: 'Ready',
       keywordGroups: [
         { label: serviceRole, phrases: servicePhrases },
         { label: travellerRole, phrases: travellerPhrases },
       ],
     });
-  }, [onSetInputSpec, gameKey, context, serviceRole, travellerRole, servicePhrases, travellerPhrases, problem, take2]);
+  }, [onSetInputSpec, gameKey, context, serviceRole, travellerRole, servicePhrases, travellerPhrases, problem, take2, script, lineIndex]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   // Keep the current line in view.

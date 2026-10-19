@@ -1,5 +1,7 @@
 'use client';
 
+import { designPhoneContext } from '@/lib/one-phone-context';
+
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { Check, DraftingCompass, Loader2, MapPin, MessagesSquare, Save, ThumbsUp, TriangleAlert } from 'lucide-react';
@@ -123,6 +125,7 @@ export function DesignStudioActivity({
         gameKey: 'design-studio',
         instruction: 'Convince your partner',
         prompt: round.question,
+        context: designPhoneContext(round),
         perStudentData: cards,
       });
     } else if (phase === 'voting' && round) {
@@ -131,8 +134,9 @@ export function DesignStudioActivity({
         gameKey: 'design-studio',
         instruction: `Design decision ${state.decisions.length + 1} of ${maxDecisions}`,
         prompt: round.question,
+        context: designPhoneContext(round),
         options: round.options.map((option) => option.id),
-        // Short labels: the full options are on the class screen, where the talking happens.
+        // Full option details travel in the public context above the choices.
         optionLabels: round.options.map((option) => option.title),
         startedAt: Date.now(),
       });

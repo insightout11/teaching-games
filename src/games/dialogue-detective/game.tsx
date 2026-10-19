@@ -1,5 +1,7 @@
 'use client';
 
+import { dialoguePhoneContext } from '@/lib/one-phone-context';
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
@@ -56,6 +58,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
         onSetInputSpec?.({
           type: 'textarea',
           gameKey: 'dialogue-detective',
+          context: dialoguePhoneContext(challenge),
           prompt: `What did Speaker B say? Goal: ${challenge.goal}`,
           placeholder: "Type B's response...",
           maxLength: 300,
@@ -68,6 +71,7 @@ export function DialogueDetectiveGame({ currentStudentId, students, onScore, onP
         onSetInputSpec?.({
           type: 'textarea',
           gameKey: 'dialogue-detective',
+          context: dialoguePhoneContext(challenge),
           prompt: `What did Speaker B say? Goal: ${challenge.goal}`,
           placeholder: "Type B's response...",
           maxLength: 300,

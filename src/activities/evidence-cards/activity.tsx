@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { FileSearch, ThumbsUp, ThumbsDown, Star, ChevronRight } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
@@ -43,12 +45,12 @@ export function EvidenceCardsActivity({ generatedContent, onSetInputSpec, onRegi
 
   useEffect(() => {
     if (phase === 'card' && card) {
-      onSetInputSpec?.({ type: 'binary', gameKey: 'evidence-cards', prompt: `Does this help FOR or AGAINST? "${card.fact}"`, optionLabels: SIDES });
+      onSetInputSpec?.({ type: 'binary', gameKey: 'evidence-cards', context: phoneText(motion.motion), prompt: `Does this help FOR or AGAINST? "${card.fact}"`, optionLabels: SIDES });
     } else if (phase === 'strongest') {
-      onSetInputSpec?.({ type: 'choice', gameKey: 'evidence-cards', prompt: 'Which card is the strongest reason?', options: cards.map(cardLabel) });
+      onSetInputSpec?.({ type: 'choice', gameKey: 'evidence-cards', context: phoneText(motion.motion), prompt: 'Which card is the strongest reason?', options: cards.map(cardLabel), optionLabels: cards.map((c, i) => `${i + 1}. ${c.fact}`) });
     } else onSetInputSpec?.(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- cardLabel is a pure formatter
-  }, [phase, card, cards, onSetInputSpec]);
+  }, [phase, card, cards, motion.motion, onSetInputSpec]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   useEffect(() => {

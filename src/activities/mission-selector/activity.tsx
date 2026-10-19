@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import type { ActivityProps } from '../types';
 import type { MissionSelectorContent } from '../types';
@@ -113,6 +115,7 @@ export function MissionSelectorActivity({
         type: 'textarea',
         gameKey: 'mission-selector',
         prompt: 'Write your first thought — before the lesson changes your mind.',
+        context: phoneText(winningQuestion),
         placeholder: 'Your opening thought…',
         maxLength: 80,
       });
@@ -120,7 +123,7 @@ export function MissionSelectorActivity({
       onSetInputSpec?.(null);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, questions]);
+  }, [phase, questions, winningQuestion]);
 
   // ── Stance countdown timer ─────────────────────────────────────────────────
   useEffect(() => {

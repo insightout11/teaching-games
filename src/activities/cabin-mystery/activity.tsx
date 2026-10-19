@@ -1,5 +1,7 @@
 'use client';
 
+import { publicEvidenceContext } from '@/lib/one-phone-context';
+
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Plane, Lock, ChevronRight, Users, AlertCircle, MessageSquare } from 'lucide-react';
 import type { ActivityProps } from '../types';
@@ -85,7 +87,8 @@ function buildInvestigationSpec(
   assignments: Record<string, CabinRole>,
   revealedCardCount: number,
   currentRound: 1 | 2,
-  currentQuestion: CabinQuestionRecord | null
+  currentQuestion: CabinQuestionRecord | null,
+  activeCards: CabinEvidence[]
 ): InputSpec {
   const playedByBySuspectId = Object.fromEntries(
     Object.entries(assignments).map(([studentName, role]) => [role.suspectId, studentName])
@@ -128,7 +131,7 @@ function buildInvestigationSpec(
     };
   }
 
-  return { type: 'cabin-question', gameKey: 'cabin-mystery', perStudentData };
+  return { type: 'cabin-question', gameKey: 'cabin-mystery', context: publicEvidenceContext(content.incident, activeCards, revealedCardCount), perStudentData };
 }
 
 function buildVotingSpec(
@@ -146,7 +149,7 @@ function buildVotingSpec(
   for (const studentName of Object.keys(assignments)) {
     perStudentData[studentName] = sharedData;
   }
-  return { type: 'cabin-vote', gameKey: 'cabin-mystery', perStudentData };
+  return { type: 'cabin-vote', gameKey: 'cabin-mystery', context: publicEvidenceContext(content.incident, activeCards, revealedCardCount), perStudentData };
 }
 
 function buildCulpritSideSpec(
@@ -244,7 +247,7 @@ export function CabinMysteryActivity({
       });
     } else if (phase === 'investigation' && questionRoundOpen) {
       onSetInputSpec?.(
-        buildInvestigationSpec(content, assignments, revealedCardCount, currentRound, currentQuestion)
+        buildInvestigationSpec(content, assignments, revealedCardCount, currentRound, currentQuestion, activeCards)
       );
     } else if (phase === 'voting') {
       onSetInputSpec?.(buildVotingSpec(content, assignments, activeCards, revealedCardCount));

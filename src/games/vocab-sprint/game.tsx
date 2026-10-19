@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GameProps, GameRemoteVote } from '../types';
@@ -96,6 +98,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.({
           type: 'text',
           gameKey: 'vocab-sprint',
+          context: phoneText(currentSentence.sentence),
           prompt: currentSentence.level === 'hard'
             ? `What's the precise term for: "${currentSentence.weakWord}"? — race!`
             : `Replace the weak word "${currentSentence.weakWord}" with a stronger word — race!`,
@@ -114,6 +117,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         onSetInputSpec?.({
           type: 'text',
           gameKey: 'vocab-sprint',
+          context: phoneText(currentSentence.sentence),
           prompt: currentSentence.level === 'hard'
             ? `What's the precise term for: "${currentSentence.weakWord}"?`
             : `Replace the weak word "${currentSentence.weakWord}" with a stronger word`,

@@ -14,6 +14,7 @@ type QuizPhase = 'voting' | 'revealed' | 'discussion';
 
 interface ComprehensionQuizProps {
   questions: ComprehensionQuestion[];
+  context?: InputSpec['context'];
   students: Student[];
   gameKey: string;
   /** Optional open-ended speaking prompt shown after the last question. */
@@ -45,6 +46,7 @@ interface VoteRecord {
  */
 export function ComprehensionQuiz({
   questions,
+  context,
   students,
   gameKey,
   discussionPrompt,
@@ -79,11 +81,12 @@ export function ComprehensionQuiz({
       type: 'choice',
       gameKey,
       prompt: question.question,
+      context,
       options: question.options,
     });
     return () => onSetInputSpec?.(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, phase, question]);
+  }, [index, phase, question, context]);
 
   // Register a single vote handler; reads live index/phase via refs.
   useEffect(() => {

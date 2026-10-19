@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TierBadge } from '../shared/tier-badge';
 import { MapPin, Sparkles } from 'lucide-react';
@@ -64,6 +66,7 @@ export function TripAttractionsActivity({
     type: 'choice',
     gameKey: BOARD_KEY,
     prompt: `Vote: where should the class go in ${content.city}?`,
+    context: phoneText(...attractions.map(a => `${a.name}: ${a.whatItIs}${a.price ? ' (' + a.price + ')' : ''}`)),
     options: attractions.map((a) => a.name),
   }), [content.city, attractions]);
 

@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, ChevronRight, Flame, Gavel, Hand, Mic, Scale, Shuffle, Sparkles, Star, Swords, Timer } from 'lucide-react';
@@ -102,21 +104,26 @@ export function HotTakeArenaActivity({
       onSetInputSpec?.({
         type: 'text',
         gameKey: 'hot-take-arena',
+        context: phoneText(statementText),
+        perStudentData: wild ? Object.fromEntries(sideSelections.flatMap(side => {
+          const card = { phoneContext: phoneText(`Your side: ${side.side === 'pro' ? 'DEFEND' : 'ATTACK'}`) };
+          return [[side.studentId, card], [side.studentName, card]];
+        })) : undefined,
         prompt: wild ? 'Raise your hand with your argument for YOUR side (check your side card!).' : 'Raise your hand with your point. Start with "I agree because…" or "I disagree because…"',
         placeholder: wild ? 'Actually, this is a great idea because…' : 'I agree because…',
         maxLength: 80,
       });
     } else if (collectingReasons) {
-      onSetInputSpec?.({ type: 'text', gameKey: 'hot-take-arena', prompt: 'Why? One sentence for your side.', placeholder: 'Because…', maxLength: 120 });
+      onSetInputSpec?.({ type: 'text', gameKey: 'hot-take-arena', context: phoneText(statementText), prompt: 'Why? One sentence for your side.', placeholder: 'Because…', maxLength: 120 });
     } else if (status === ActivityStatus.MIND_CHANGE_VOTE && wild) {
-      onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', prompt: 'Who argued better? Vote for the best arguments, not your side.', optionLabels: VERDICT_LABELS });
+      onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', context: phoneText(statementText), prompt: 'Who argued better? Vote for the best arguments, not your side.', optionLabels: VERDICT_LABELS });
     } else if (status === ActivityStatus.MIND_CHANGE_VOTE) {
-      onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', prompt: 'After the debate: where do you stand now?', optionLabels: PICK_LABELS });
+      onSetInputSpec?.({ type: 'binary', gameKey: 'hot-take-arena', context: phoneText(statementText), prompt: 'After the debate: where do you stand now?', optionLabels: PICK_LABELS });
     } else {
       onSetInputSpec?.(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, collectingReasons, statementText, wild, onSetInputSpec]);
+  }, [status, collectingReasons, statementText, wild, sideSelections, onSetInputSpec]);
 
   // ─── Phone replies ────────────────────────────────────────────────────────
   useEffect(() => {

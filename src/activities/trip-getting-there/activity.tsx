@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TramFront, Clock, Wallet, UserRound } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
@@ -92,7 +94,8 @@ export function TripGettingThereActivity({
     type: 'choice',
     gameKey: 'trip-getting-there',
     prompt: `How will you get into ${content.city}?`,
-    instruction: 'Check your Traveller Card: can you afford it?',
+    instruction: 'Compare the price and journey time.',
+    context: phoneText(...options.map(o => `${o.mode}${o.approxTimeMin != null ? ': about ' + o.approxTimeMin + ' minutes' : ''}${o.note ? '. ' + o.note : ''}`)),
     options: options.map((o) => o.mode),
     optionLabels: options.map((o) => [o.mode, o.price ?? o.approxCost, o.tier].filter(Boolean).join(' · ')),
   }), [content.city, options]);
