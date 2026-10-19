@@ -57,6 +57,8 @@ interface MeshMountain {
   seed?: number;
   /** Snow streaming down the ridges from the top (angles of the ridges), to a line, in the snow colours. */
   ridgeSnow?: { ridges: number[]; line: number; width: number; lit: RGB; shade: RGB };
+  /** A snow cap laid over the faces, its lower edge a smooth line (height at each angle): no stair-steps. */
+  snowCap?: { line: (a: number) => number; lit: RGB; shade: RGB };
 }
 
 const RINGS = [0, 0.06, 0.14, 0.24, 0.35, 0.46, 0.56, 0.65, 0.73, 0.8, 0.86, 0.91, 0.95, 0.98, 1];
@@ -109,6 +111,34 @@ function drawMesh(ctx: CanvasRenderingContext2D, m: MeshMountain, X: number, Z: 
     ctx.fill();
     ctx.stroke();
   }
+  // The snow cap: thin wedges round the side facing the plane, each from the smooth snow line up to the top, shaded
+  // by which way it faces.
+  const cap = m.snowCap;
+  if (cap) {
+    const N = 72, [tx, tz] = m.lean ? m.lean(1) : [0, 0];
+    const at = (a: number, hf: number): [number, number] => {
+      const r = m.radius(hf, a) * m.R * 1.01, [lx, lz] = m.lean ? m.lean(hf) : [0, 0];
+      return proj(X + lx + Math.cos(a) * r, Z + lz + Math.sin(a) * r, hf * m.h);
+    };
+    for (let k = 0; k < N; k++) {
+      const a0 = (k / N) * Math.PI * 2, a1 = ((k + 1) / N) * Math.PI * 2, am = (a0 + a1) / 2;
+      if (Math.sin(am) > 0.25) continue;                       // the far side is hidden behind the mountain
+      const l0 = cap.line(a0), l1 = cap.line(a1);
+      const pts: Array<[number, number]> = [];
+      for (let q = 0; q <= 6; q++) { const hf = l0 + (1 - l0) * (q / 6); pts.push(at(a0, Math.min(0.995, hf))); }
+      pts.push(proj(X + tx, Z + tz, m.h));
+      for (let q = 6; q >= 0; q--) { const hf = l1 + (1 - l1) * (q / 6); pts.push(at(a1, Math.min(0.995, hf))); }
+      const nx = Math.cos(am) * 0.75, nz = Math.sin(am) * 0.75, ny = 0.66;
+      const lam = clamp01((nx * LIGHT.x + ny * LIGHT.y + nz * LIGHT.z) / LN);
+      const c = css(mix(mix(cap.shade, cap.lit, Math.pow(lam, 0.8)), haze, Math.max(fog, 0.25)));
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = c; ctx.strokeStyle = c; ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      pts.forEach((pt, n) => (n ? ctx.lineTo(pt[0], pt[1]) : ctx.moveTo(pt[0], pt[1])));
+      ctx.closePath();
+      ctx.fill(); ctx.stroke();
+    }
+  }
   // Snow down the ridges: a streak along each ridge that faces the plane, wide at the top and tapering, wavering.
   const rs = m.ridgeSnow;
   if (rs) {
@@ -150,11 +180,6 @@ function palette(look: LandmarkLook, warm = false) {
   };
 }
 const smooth = (t: number) => t * t * (3 - 2 * t);
-/** Snow over a colour: soft-edged above a line. */
-const withSnow = (col: RGB, hf: number, line: number, lam: number, P: ReturnType<typeof palette>) => {
-  const t = clamp01((hf - line) / 0.07 + 0.5);
-  return t > 0 ? mix(col, mix(P.snowShade, P.snowLit, Math.pow(lam, 0.9)), smooth(t)) : col;
-};
 /** Forest round the foot, thinning upwards. */
 const withForest = (col: RGB, hf: number, top: number, lam: number, P: ReturnType<typeof palette>) =>
   hf < top ? mix(col, mix(P.forest, col, 0.25 + lam * 0.4), clamp01((top - hf) / (top * 0.6)) * 0.8) : col;
@@ -168,11 +193,9 @@ function drawFuji(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: number, 
   drawMesh(ctx, {
     h, R: w / 2,
     radius: (hf) => RIM + (1 - RIM) * (1 - Math.pow(hf, 1 / 1.4)),
-    color: (hf, a, lam, _st, seg) => {
-      const finger = Math.pow(0.5 + 0.5 * Math.sin(a * 9 + Math.sin(a * 4) * 1.3), 3);
-      const col = withForest(mix(P.rockShade, P.rockLit, Math.pow(lam, 1.2)), hf, 0.25, lam, P);
-      return withSnow(col, hf, 0.55 - finger * 0.2 + (hash(seg * 3.7) - 0.5) * 0.05, lam, P);
-    },
+    color: (hf, _a, lam) => withForest(mix(P.rockShade, P.rockLit, Math.pow(lam, 1.2)), hf, 0.25, lam, P),
+    // snow down to about 55 %, much further down the gullies in long smooth fingers
+    snowCap: { line: (a) => 0.56 - Math.pow(0.5 + 0.5 * Math.sin(a * 11 + Math.sin(a * 4) * 1.3), 4) * 0.24 - 0.03 * Math.sin(a * 29), lit: P.snowLit, shade: P.snowShade },
   }, X, Z, proj, fog * 0.75, haze, alpha);
   crater(ctx, X, Z, h, RIM * (w / 2), proj, mix(mix(P.snowShade, P.rockShade, 0.35), haze, fog * 0.75), alpha);
 }
@@ -319,8 +342,9 @@ function drawVolcano(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
       col = mix(col, lava, smooth(clamp01((flow - 0.6) * 2.5)) * 0.55);
       col = withForest(col, hf, 0.32, lam, P);
       if (hf < 0.1) col = mix(col, mix(P.forest, look.leaf, 0.5), (0.1 - hf) * 6);
-      return withSnow(col, hf, 0.84, lam, P);
+      return col;
     },
+    snowCap: { line: (a) => 0.82 - Math.pow(0.5 + 0.5 * Math.sin(a * 9), 4) * 0.1, lit: P.snowLit, shade: P.snowShade },
   }, X, Z, proj, fog * 0.8, haze, alpha);
   crater(ctx, X, Z, h, rim * (w / 2), proj, mix(lava, haze, Math.max(fog * 0.8, 0.2)), alpha);
   // steam drifting downwind from the crater: soft puffs, growing and thinning
