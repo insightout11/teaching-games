@@ -1,5 +1,7 @@
 'use client';
 
+import { classFitMarks, fitsClass } from '@/lib/class-fit';
+import { keyFitMarks } from '@/lib/plan-fit';
 import { readClassProfile } from '@/lib/class-profile';
 import { PhonesNowBanner } from './phones-now-banner';
 
@@ -716,6 +718,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     } catch { setRemoveError('Could not remove student. Try again.'); }
   };
   const liveParticipantCount = sessionParticipants.length;
+  // "Can this class do this?" for the swap drawer, swap suggestion, bonus vote and the next stage of a plan.
+  const fitCtx = useMemo(() => ({
+    students: Math.max(liveParticipantCount, students.length),
+    screens: readClassProfile(cls.class_profile).screens ?? (cls.student_device_mode === 'shared-screen' ? 'none' as const : undefined),
+  }), [liveParticipantCount, students.length, cls.class_profile, cls.student_device_mode]);
   const liveParticipantCountRef = useRef(liveParticipantCount);
   liveParticipantCountRef.current = liveParticipantCount;
   const [timerOverrides, setTimerOverrides] = useState<Record<string, number>>({});
@@ -1393,7 +1400,10 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   const handleLaunchBonusVote = async () => {
     const lastKey = selectedGame?.key ?? selectedActivity?.key ?? null;
-    const eligibleGames = games.filter((g) => g.key !== lastKey);
+    const others = games.filter((g) => g.key !== lastKey);
+    // Only games this class can play go to the vote (all of them only if fewer than 2 fit).
+    const fittingGames = others.filter((g) => fitsClass(classFitMarks(g, fitCtx)));
+    const eligibleGames = fittingGames.length >= 2 ? fittingGames : others;
     // Pick 3 random candidates
     const shuffled = [...eligibleGames].sort(() => Math.random() - 0.5);
     const candidates = shuffled.slice(0, 3);
@@ -1559,8 +1569,11 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ...activityCandidates.map((p) => ({ type: 'activity' as const, plugin: p as ActivityPlugin | GamePlugin })),
         ...gameCandidates.map((p) => ({ type: 'game' as const, plugin: p as ActivityPlugin | GamePlugin })),
       ];
-      if (all.length > 0) {
-        setSwapSuggestion(all[Math.floor(Math.random() * all.length)]);
+      // Prefer what this class can do; anything else only when nothing fits.
+      const fitting = all.filter((c) => fitsClass(classFitMarks(c.plugin, fitCtx)));
+      const from = fitting.length ? fitting : all;
+      if (from.length > 0) {
+        setSwapSuggestion(from[Math.floor(Math.random() * from.length)]);
       }
     }
   };
@@ -2749,6 +2762,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : viewMode === 'game' && selectedGame ? (
           isCuratedFlight && flightConfig && !roomActive ? (
             <FlightSessionView
+              nextFit={(() => { const next = lesson.lessonSlots[lesson.currentSlotIndex + 1]; const m = next ? keyFitMarks(next.key, fitCtx).filter((x) => x.label !== 'Phones') : []; return m.length ? m.map((x) => x.hint).join(' ') : null; })()}
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
               phase={lesson.phase}
@@ -2857,6 +2871,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
         ) : viewMode === 'activity' && selectedActivity ? (
           isCuratedFlight && flightConfig && !roomActive ? (
             <FlightSessionView
+              nextFit={(() => { const next = lesson.lessonSlots[lesson.currentSlotIndex + 1]; const m = next ? keyFitMarks(next.key, fitCtx).filter((x) => x.label !== 'Phones') : []; return m.length ? m.map((x) => x.hint).join(' ') : null; })()}
               slots={lesson.lessonSlots}
               currentSlotIndex={lesson.currentSlotIndex}
               phase={lesson.phase}
@@ -3320,24 +3335,24 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="space-y-1.5">
                       {catGames.map((game) => {
                         const GameIcon = game.icon;
-                        const compatible = isParticipantCompatible(game, Math.max(1, liveParticipantCount));
+                        // Marked, never blocked: the teacher decides.
+                        const marks = classFitMarks(game, fitCtx);
                         return (
                           <button
                             key={game.key}
                             onClick={() => {
-                              if (!compatible) return;
                               if (selectedActivity) clearActivityRuntimeState(session.id, selectedActivity.key);
                               lesson.insertAndPivotSlot(game.key, 'game', game.name);
                               setShowPivotDrawer(false);
                             }}
-                            disabled={!compatible}
+
                             className="w-full flex items-center gap-3 p-3 bg-lc-surface rounded-lg border border-lc-border hover:border-lc-blue/40 transition-all text-left disabled:cursor-not-allowed disabled:opacity-45"
                           >
                             <GameIcon className="w-5 h-5 text-lc-text3 flex-shrink-0" />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium text-lc-text">{game.name}</p>
                               <p className="text-xs text-lc-text3 truncate">{game.description}</p>
-                              {!compatible && <p className="mt-1 text-xs text-amber-300">{participantRequirementLabel(game)}</p>}
+                              {marks.map((m) => <p key={m.label} className="mt-1 text-xs text-amber-300">{m.hint}</p>)}
                             </div>
                             <span className="text-xs text-lc-text3 flex-shrink-0">~{game.estimatedMinutes}m</span>
                           </button>

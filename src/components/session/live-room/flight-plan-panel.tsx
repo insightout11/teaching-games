@@ -1,5 +1,7 @@
 'use client';
 
+import { planFitNote } from '@/lib/plan-fit';
+import type { ClassFitContext } from '@/lib/class-fit';
 import { cefrLabel, levelLabel } from '@/lib/difficulty';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -30,7 +32,9 @@ export interface CityLessonChoice {
  * the source on screen, the level, the grammar focus). Only what a preset genuinely needs is
  * asked (the grammar point for Grammar). Flies in this session; the room keeps the journey.
  */
-export function FlightPlanPanel({ sessionId, destinationCity, destinationId, minutesLeft, cityLesson, initialPresetId, onLaunch, onClose }: {
+export function FlightPlanPanel({ sessionId, destinationCity, destinationId, minutesLeft, cityLesson, initialPresetId, fitCtx, onLaunch, onClose }: {
+  /** The class, for "can this class do this?" notes on each plan. */
+  fitCtx?: ClassFitContext;
   /** Open with this flight already chosen (the city card's Travel button). */
   initialPresetId?: string;
   /** One of a World Flight city's own lessons (chosen on the room map): the flight is built from it. */
@@ -141,6 +145,7 @@ export function FlightPlanPanel({ sessionId, destinationCity, destinationId, min
             <button key={p.id} type="button" onClick={() => setPresetId(p.id)} className={`rounded-2xl border p-4 text-left transition ${p.id === presetId ? 'border-amber-300 bg-amber-300/10' : 'border-white/10 bg-white/[0.03] hover:border-white/25'}`}>
               <p className="font-display text-xl">{p.name}</p>
               <p className="text-sm text-white/60">{p.tagline ?? p.description}</p>
+              {fitCtx && (() => { const note = planFitNote(p.moduleSequence.map((m) => m.key), fitCtx); return note ? <p className="mt-1 text-xs text-amber-200/90">{note}</p> : null; })()}
             </button>
           ))}
         </div>

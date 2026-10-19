@@ -2348,6 +2348,7 @@ export function FlightDeck({
       )}
       {cityLesson && (
         <FlightPlanPanel
+          fitCtx={fitCtx}
           sessionId={sessionId}
           destinationCity={SCENE_CITIES.find((c) => c.id === cityLesson.cityId)?.city ?? destination.city}
           destinationId={cityLesson.cityId}
@@ -2372,6 +2373,7 @@ export function FlightDeck({
       )}
       {planOpen && (
         <FlightPlanPanel
+          fitCtx={fitCtx}
           sessionId={sessionId}
           destinationCity={destination.city}
           destinationId={destination.id}

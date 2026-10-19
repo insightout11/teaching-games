@@ -29,6 +29,8 @@ export function getStageActionLabel({
 
 interface FlightSessionViewProps {
   slots: LessonSlot[];
+  /** "Can this class do this?" for the next stage (null when it fits). */
+  nextFit?: string | null;
   currentSlotIndex: number;
   phase: LessonPhase;
   currentModuleName: string;
@@ -44,6 +46,7 @@ interface FlightSessionViewProps {
 
 export function FlightSessionView({
   slots,
+  nextFit = null,
   currentSlotIndex,
   phase,
   currentModuleName,
@@ -128,9 +131,11 @@ export function FlightSessionView({
                   // quiet (forward-hint outline) so it doesn't compete.
                   : 'border border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10',
               ].join(' ')}
+              title={nextFit ?? undefined}
             >
               {actionLabel}
             </button>
+            {nextFit && !isFinalSlot && <span className="max-w-[220px] text-[11px] leading-tight text-amber-200/90">Next: {nextFit}</span>}
           </div>
         </div>
       </div>
