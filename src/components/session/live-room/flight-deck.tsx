@@ -1,5 +1,6 @@
 'use client';
 
+import { LandmarkView } from '@/components/live-room/flight/landmark-art';
 import { momentQuestion, planMoments, type Moment, type NaturalEvent } from '@/lib/live-room/moments';
 import type { FreePicture } from '@/lib/sources/wikimedia-images';
 import { ArrivalCards } from './arrival-cards';
@@ -2401,8 +2402,21 @@ export function FlightDeck({
       )}
       {momentCard && !runningKey && !cinematic && (
         <div className="absolute inset-0 z-[12] flex items-center justify-center p-6">
-          <div className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md">
-            {momentCard.picture && (
+          <div className={`w-full ${momentCard.moment.drawn ? 'max-w-3xl' : 'max-w-xl'} max-h-full overflow-y-auto rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md`}>
+            {momentCard.moment.drawn ? (
+              // A drawn landmark: big ones in the side window on the correct side, small ones on the camera; under
+              // cloud (real weather) the side view switches to the camera.
+              <div className="aspect-[16/9] w-full">
+                <LandmarkView
+                  name={momentCard.moment.title}
+                  side={momentCard.moment.lat !== undefined && momentCard.moment.lng !== undefined
+                    ? (((bearingDeg(below.point, { lat: momentCard.moment.lat, lng: momentCard.moment.lng }) - heading + 540) % 360) - 180 >= 0 ? 'right' : 'left')
+                    : 'left'}
+                  cloudy={!!liveWx && (liveWx.condition === 'overcast' || liveWx.condition === 'rain' || liveWx.condition === 'storm' || liveWx.condition === 'snow' || liveWx.cloudCover > 75)}
+                  motion={!reduce}
+                />
+              </div>
+            ) : momentCard.picture && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={momentCard.picture.imageUrl} alt={momentCard.picture.title} className="max-h-64 w-full object-cover" />
             )}
@@ -2415,7 +2429,7 @@ export function FlightDeck({
               <ul className="list-disc space-y-1 pl-5 text-[15px] text-white/85">{momentCard.facts.map((f) => <li key={f}>{f}</li>)}</ul>
               <p className="rounded-xl bg-amber-300/10 px-3 py-2 text-[15px] text-amber-100">{momentQuestion(momentCard.moment)}</p>
               <div className="flex items-center justify-between gap-2 pt-1">
-                {momentCard.picture ? <span className="truncate text-[10px] text-white/40">{momentCard.picture.credit}</span> : <span />}
+                {momentCard.picture && !momentCard.moment.drawn ? <span className="truncate text-[10px] text-white/40">{momentCard.picture.credit}</span> : <span />}
                 <button type="button" onClick={() => { makeFocus({ title: momentCard.moment.title.replace(/^the /, ''), text: momentCard.facts.join(' ') || undefined }); setMomentCard(null); }} className="shrink-0 rounded-full border border-amber-300/50 px-3 py-1 text-xs text-amber-100 hover:bg-amber-300/10">
                   Make it the topic
                 </button>

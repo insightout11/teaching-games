@@ -1,20 +1,28 @@
 'use client';
 
-import { MatterhornSideView, PyramidsCameraView } from '@/components/live-room/flight/landmark-art';
+import { DRAWN_LANDMARKS, LandmarkView } from '@/components/live-room/flight/landmark-art';
 
-// Dev-only: the first two landmark drawings for the owner's approval (Phase 3.4).
+// Dev-only: every drawn landmark (Phase 3.4), plus a right-side window and a cloudy-day camera switch.
 export default function LandmarksPreview() {
   if (process.env.NODE_ENV === 'production') return null;
   return (
-    <div className="min-h-screen space-y-8 bg-[#070b14] p-6 text-white">
-      <section>
-        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-amber-300">Side view · the Matterhorn</p>
-        <div className="aspect-[16/9] w-full max-w-5xl overflow-hidden rounded-2xl"><MatterhornSideView /></div>
-      </section>
-      <section>
-        <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-amber-300">Camera view · the Pyramids of Giza</p>
-        <div className="aspect-[16/9] w-full max-w-5xl overflow-hidden rounded-2xl"><PyramidsCameraView /></div>
-      </section>
+    <div className="min-h-screen bg-[#070b14] p-6 text-white">
+      <div className="grid max-w-[1400px] gap-6 lg:grid-cols-2">
+        {DRAWN_LANDMARKS.map((l) => (
+          <section key={l.name}>
+            <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-amber-300">{l.view} view · {l.name}</p>
+            <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl"><LandmarkView name={l.name} /></div>
+          </section>
+        ))}
+        <section>
+          <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-amber-300">right window · Mount Fuji</p>
+          <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl"><LandmarkView name="Mount Fuji" side="right" /></div>
+        </section>
+        <section>
+          <p className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-amber-300">cloudy day · the Matterhorn</p>
+          <div className="aspect-[16/9] w-full overflow-hidden rounded-2xl"><LandmarkView name="the Matterhorn" cloudy /></div>
+        </section>
+      </div>
     </div>
   );
 }

@@ -20,6 +20,11 @@ export interface Moment {
   title: string;
   /** A one-line fact when we already have one (teaching landmarks, live events). */
   fact?: string;
+  /** Where it is (for "on your left / right"). */
+  lat?: number;
+  lng?: number;
+  /** Drawn as a landmark scene (side window or camera) instead of a photo. */
+  drawn?: boolean;
 }
 
 export interface NaturalEvent { id: string; title: string; category: string; lat: number; lng: number }
@@ -33,6 +38,9 @@ function km(a: LatLng, b: LatLng): number {
 }
 
 const PRIORITY: Record<MomentKind, number> = { landmark: 0, event: 1, place: 2, country: 3 };
+
+/** Landmarks drawn in the storybook style (src/components/live-room/flight/landmark-art.tsx): first pick of all. */
+export const DRAWN_LANDMARK_NAMES = ['the Matterhorn', 'Mount Everest', 'Mount Fuji', 'Mount Kilimanjaro', 'the Pyramids of Giza', 'Stonehenge', 'the Great Wall of China', 'Niagara Falls'];
 
 /** Plan today's moments: candidates near the route, best first, at least a fifth of the flight apart. */
 export function planMoments(o: {
@@ -67,8 +75,9 @@ export function planMoments(o: {
   for (const [name, kind, lat, lng] of NAMED_FEATURES) {
     if (kind === 'island') continue;
     const c = closest({ lat, lng });
-    if (c.d <= 250 && inCruise(minuteOf(c.i))) {
-      found.push({ id: `nf:${name}`, at: minuteOf(c.i), kind: kind === 'mountain' || kind === 'sight' ? 'landmark' : 'place', title: name.replace(/^the /, 'the ') });
+    const drawn = DRAWN_LANDMARK_NAMES.includes(name);
+    if (c.d <= (drawn ? 300 : 250) && inCruise(minuteOf(c.i))) {
+      found.push({ id: `nf:${name}`, at: minuteOf(c.i), kind: kind === 'mountain' || kind === 'sight' ? 'landmark' : 'place', title: name, lat, lng, ...(drawn ? { drawn: true } : {}) });
     }
   }
   // Named regions the route crosses (deserts, plateaus, ranges, deltas, reefs): the first point inside each.
@@ -92,7 +101,7 @@ export function planMoments(o: {
   // Best first, one per place, then spaced out.
   const seen = new Set<string>();
   const ranked = found
-    .sort((a, b) => PRIORITY[a.kind] - PRIORITY[b.kind] || a.at - b.at)
+    .sort((a, b) => Number(!!b.drawn) - Number(!!a.drawn) || PRIORITY[a.kind] - PRIORITY[b.kind] || a.at - b.at)
     .filter((m) => (seen.has(m.title) ? false : (seen.add(m.title), true)));
   const gap = flightMinutes / 5;
   const chosen: Moment[] = [];
