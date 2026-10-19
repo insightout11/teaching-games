@@ -12,20 +12,25 @@ import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 const SCENES: Array<{ kind: WorldLandmarkKind; label: string; terrain: Terrain; region: string; ahead: number; lateral: number }> = [
   { kind: 'fuji', label: 'Mount Fuji', terrain: 'farmland', region: 'Asia', ahead: 55, lateral: -14 },
   { kind: 'pyramids', label: 'The Pyramids of Giza', terrain: 'desert', region: 'Africa', ahead: 34, lateral: 1.5 },
+  { kind: 'everest', label: 'Mount Everest', terrain: 'mountains', region: 'Asia', ahead: 40, lateral: -6 },
+  { kind: 'matterhorn', label: 'The Matterhorn', terrain: 'mountains', region: 'Europe', ahead: 34, lateral: 5 },
+  { kind: 'kilimanjaro', label: 'Mount Kilimanjaro', terrain: 'savanna', region: 'Africa', ahead: 48, lateral: -10 },
+  { kind: 'volcano', label: 'A volcano (shared shape): Mount Etna', terrain: 'farmland', region: 'Europe', ahead: 40, lateral: 7 },
+  { kind: 'niagara', label: 'Niagara Falls', terrain: 'farmland', region: 'North America', ahead: 30, lateral: 2 },
 ];
 const TIMES: TimeOfDay[] = ['day', 'dusk', 'night'];
 
 function Cell({ scene, tod, moving }: { scene: (typeof SCENES)[number]; tod: TimeOfDay; moving: boolean }) {
   const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
   const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
-  const landmarks = useMemo<WorldLandmark[]>(() => [{ id: scene.kind, kind: scene.kind, ahead: moving ? 140 : scene.ahead, lateral: scene.lateral }], [scene, moving]); // flying: starts at the far edge
+  const landmarks = useMemo<WorldLandmark[]>(() => [{ id: scene.kind, kind: scene.kind, ahead: moving && !(typeof window !== 'undefined' && window.location.search.includes('near')) ? 140 : scene.ahead, lateral: scene.lateral }], [scene, moving]); // flying: starts at the far edge
   // a still: draw for a moment, then stop drawing
   const [hold, setHold] = useState(false);
   useEffect(() => { if (moving) return; const t = setTimeout(() => setHold(true), 1500); return () => clearTimeout(t); }, [moving]);
   return (
     <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
       <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
-      <CockpitWorld terrain={scene.terrain} region={scene.region} palette={palette} night={tod === 'night'} speed={moving ? 0.55 : 0.0001} paused={!moving && hold} landmarks={landmarks} />
+      <CockpitWorld terrain={scene.terrain} region={scene.region} palette={palette} night={tod === 'night'} speed={moving ? (typeof window !== 'undefined' && window.location.search.includes('near') ? 0.06 : 0.55) : 0.0001} paused={!moving && hold} landmarks={landmarks} />
     </div>
   );
 }

@@ -56,8 +56,8 @@ At most three landmark moments per flight (as "Look outside" today), spread thro
 Each student's phone gets a **Window seat** view: the landmark from their own passenger window (sideways, lower and
 closer than the cockpit, the angle shifting with their seat row), in the same light and weather. Their avatar leans
 into the frame and they tap to take a selfie. Avatar only, never a camera or a real face; nothing on the shared
-screen; never ranked. Recommended: the window opens for about a minute when the teacher takes the class photo, so the
-class stays together (owner to confirm). Selfies go to the student's own collection beside the souvenirs and can be
+screen; never ranked. The window opens for about a minute when the teacher takes the class photo, so the class stays together
+(owner confirmed). Selfies go to the student's own collection beside the souvenirs and can be
 the end-of-lesson postcard. Students without a device still have the class photo. Needs: a side-window renderer on
 the phone (test on a real phone early) and a private per-student table (the student and their teacher only), in the
 same migration as the album.
