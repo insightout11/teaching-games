@@ -1,5 +1,7 @@
 'use client';
 
+import { CityVoteBoard, type VoteCityCard } from './city-vote-board';
+import { usePollVotes } from '@/hooks/use-poll-votes';
 import { RoomGuide } from './room-guide';
 import { markFirst, trackFunnel } from '@/lib/teacher-firsts';
 import { TestFlightCoach } from './test-flight-coach';
@@ -36,7 +38,7 @@ import { FlightTracker } from '@/components/live-room/flight/flight-tracker';
 import { DeckMap, type DeckMapPin } from '@/components/live-room/flight/deck-map';
 import { WorldFlightMap } from '@/components/world-flight/world-flight-map';
 import { aroundTheEarth, milestonePassed } from '@/lib/world-flight/milestones';
-import { localWords, mysteryClues, packCityIds } from '@/lib/world-flight/souvenirs';
+import { citySouvenirs, localWords, mysteryClues, packCityIds } from '@/lib/world-flight/souvenirs';
 import { getDestinationById } from '@/data/world-flight/destinations';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
@@ -417,12 +419,42 @@ export function FlightDeck({
     openTool('poll', window.innerWidth / 2, window.innerHeight / 2);
     flash(opened);
   };
+  // The where-next vote at the start: the vote board on the big screen while students board (Phase 3.1).
+  const [cityVote, setCityVote] = useState<{ pollId: string; revealed: boolean } | null>(null);
+  const [cityReasons, setCityReasons] = useState<Array<{ name: string; choice: string; reason: string }>>([]);
+  const { tallies: cityTallies, votes: cityVotes } = usePollVotes(cityVote?.pollId ?? null);
   const startCityPoll = async () => {
     // Every city in range is a choice (nearest first reads naturally as a list).
     const options = Array.from(new Set(reachable.map((c) => c.city)));
     if (options.length < 2) { flash('Only one city is in range right now.'); return; }
-    await startPoll('Where should we fly next, and why?', options, { askWhy: true, purpose: 'next-city' }, 'Vote open on phones: where next, and why?');
+    if (isMockMode()) { setCityVote({ pollId: 'mock-city-vote', revealed: false }); setView('boarding'); return; }
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { data, error } = await supabase.from('polls')
+      .insert({ session_id: sessionId, question: 'Where should we fly next, and why?', options, is_active: true, metadata: { askWhy: true, purpose: 'next-city' } })
+      .select('id').single();
+    if (error || !data) { flash('Could not start the vote.'); return; }
+    setCityVote({ pollId: (data as { id: string }).id, revealed: false });
+    setCityReasons([]);
+    setView('boarding');
+    flash('Vote open on phones: where next, and why?');
   };
+  const closeCityVote = async (reveal: boolean) => {
+    if (!cityVote) return;
+    if (!isMockMode()) {
+      const supabase = createClient();
+      await supabase.from('polls').update({ is_active: false }).eq('id', cityVote.pollId);
+      if (reveal) {
+        const { data } = await supabase.from('student_submissions').select('display_name, content').eq('session_id', sessionId).eq('game_key', `poll-reason:${cityVote.pollId}`).order('created_at', { ascending: true });
+        setCityReasons(((data ?? []) as Array<{ display_name: string | null; content: string }>).flatMap((r) => {
+          try { const v = JSON.parse(r.content) as { choice?: string; reason?: string }; return v.choice && v.reason ? [{ name: r.display_name ?? 'A student', choice: v.choice, reason: v.reason }] : []; } catch { return []; }
+        }));
+      }
+    }
+    setCityVote(reveal ? { ...cityVote, revealed: true } : null);
+  };
+  // Take off to the winner once the destination has switched to it.
+  const [pendingTakeoff, setPendingTakeoff] = useState<string | null>(null);
   // After landing: where to next time? The cities in range of where the class has just landed.
   const nextReachable = useMemo<RouteCity[]>(() => {
     const here = SCENE_CITIES.find((c) => c.id === destination.id);
@@ -485,6 +517,15 @@ export function FlightDeck({
       body: JSON.stringify({ destinationId: destination.id, ...(focusId ? { focusId } : {}), ...(canChooseStart && startId ? { departureDestinationId: startId } : {}) }),
     }).catch(() => {});
   };
+
+  useEffect(() => {
+    if (!pendingTakeoff || destination.id !== pendingTakeoff) return;
+    setPendingTakeoff(null);
+    setCityVote(null);
+    takeOff();
+    // takeOff reads the current destination, which is why this waits for it
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingTakeoff, destination.id]);
 
   // A far city's lesson, taught from where the class is: recorded so it earns its hour, stars and clue (no stamp).
   const teachFromHere = (cityId: string, focusId: string) => {
@@ -901,6 +942,36 @@ export function FlightDeck({
     [flightStage, holding, below.point, origin, destination, routeT, flightMs, now],
   );
   const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
+  const voteCards = useMemo<VoteCityCard[]>(() => {
+    if (!cityVote) return [];
+    const exp = landingRecord?.expedition ?? null;
+    const km = (a: LatLng, b: LatLng) => {
+      const r = Math.PI / 180;
+      const h = Math.sin(((b.lat - a.lat) * r) / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(((b.lng - a.lng) * r) / 2) ** 2;
+      return 12742 * Math.asin(Math.min(1, Math.sqrt(h)));
+    };
+    return reachable.map((c) => {
+      const owned = new Set((landingRecord?.souvenirShelf ?? []).find((x) => x.destinationId === c.id)?.items.filter((i) => i.owned).map((i) => i.id) ?? []);
+      const next = citySouvenirs(c.id).find((sv) => !owned.has(sv.id)) ?? null;
+      let strategy: string | null = null;
+      if (exp && !exp.paused && exp.done < exp.needed) {
+        if (exp.remaining.includes(c.city)) strategy = `Stop ${exp.done + 1} of ${exp.needed} on your expedition`;
+        else {
+          const target = exp.remaining.map((n) => SCENE_CITIES.find((x) => x.city === n)).find((x) => !!x);
+          if (target && km(c, target) < km(origin, target) - 500) strategy = `Gets you closer to ${target.city}`;
+        }
+      }
+      return {
+        id: c.id,
+        city: c.city,
+        onTheWay: routePreview(origin, c, countries, 60).filter((st) => !st.text.startsWith('Land in')).slice(0, 2).map((st) => st.text.replace(/^(Cross into|Over|Fly over) /, '')),
+        newStamp: !visitedIds.has(c.id),
+        souvenir: next?.name ?? null,
+        souvenirRare: next?.earn.type === 'rare',
+        strategy,
+      };
+    });
+  }, [cityVote, reachable, origin, countries, visitedIds, landingRecord]);
   // Today's route, shown to the class on the route map before and during the flight.
   const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
   const minutesFlown = clock.minutesFlown;
@@ -1729,7 +1800,22 @@ export function FlightDeck({
 
   // ── windscreen content ───────────────────────────────────────────────────
   let scene: ReactNode;
-  if (view === 'boarding') {
+  if (view === 'boarding' && cityVote && flightStage === 'gate') {
+    scene = (
+      <CityVoteBoard
+        sessionId={sessionId}
+        joinUrl={joinUrl}
+        cards={voteCards}
+        totalVotes={cityVotes.length}
+        revealed={cityVote.revealed}
+        tallies={cityTallies}
+        reasons={cityReasons}
+        onReveal={() => void closeCityVote(true)}
+        onTakeOff={(id) => { setChosenId(id); setPendingTakeoff(id); }}
+        onCancel={() => void closeCityVote(false)}
+      />
+    );
+  } else if (view === 'boarding') {
     scene = (
       <div className="flex max-h-full flex-wrap items-center justify-center gap-8 overflow-y-auto rounded-3xl border border-white/15 bg-slate-950/60 px-8 py-7 backdrop-blur-md">
         <span className="relative rounded-2xl bg-white p-3">
@@ -1801,7 +1887,7 @@ export function FlightDeck({
                 Choose on the map
               </button>
               <button type="button" onClick={() => void startCityPoll()} className="rounded-lg border border-amber-300/40 px-2 py-1 text-xs text-amber-200 hover:bg-amber-300/10">
-                Let the class vote
+                Start the where-next vote
               </button>
             </label>
           )}
