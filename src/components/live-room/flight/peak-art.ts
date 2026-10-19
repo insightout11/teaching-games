@@ -134,7 +134,7 @@ const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 // spurs and gullies; darker and hazier towards the foot; snow above an uneven line that runs further down the ridges;
 // forest speckle low down; banded rock in dry ranges. Night uses the same shapes in moonlight.
 
-const TW = 192, TH = 96;          // template size (pixels); drawn scaled to each peak
+const TW = 320, TH = 160;          // template size (pixels); drawn scaled to each peak
 const TEMPLATES = 10;              // different mountain shapes per kind (and each can be mirrored)
 const templateCache = new Map<string, HTMLCanvasElement>();
 /** The same silhouette filled with the haze colour: drawn over the mountain at the haze strength (smooth with distance). */
@@ -194,7 +194,7 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
   for (let x = 0; x < H.length; x++) H[x] /= peakH || 1; // the summit touches the top
   // a smoothed skyline for the light: small bumps on the edge must not shine all the way down as vertical lines
   const HS = new Float32Array(H.length);
-  for (let x = 0; x < H.length; x++) { let sum = 0, n = 0; for (let k = -14; k <= 14; k++) { const v = H[x + k]; if (v !== undefined) { sum += v; n++; } } HS[x] = sum / n; }
+  for (let x = 0; x < H.length; x++) { let sum = 0, n = 0; for (let k = -4; k <= 4; k++) { const v = H[x + k]; if (v !== undefined) { sum += v; n++; } } HS[x] = sum / n; }
 
   const rock = kind === 'forest' ? mixRgb(style.rock, style.leaf, 0.55) : mixRgb(style.rock, style.warm ? [150, 96, 70] : [128, 124, 116], 0.25);
   const lit: RGB = style.night ? mixRgb(rock, [76, 90, 128], 0.6) : mixRgb(rock, style.warm ? [246, 200, 156] : [238, 228, 212], 0.42);
@@ -208,20 +208,20 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
     const h = H[x + 1];
     if (h <= 0.002) continue;
     const top = (1 - h) * TH;
-    const slope = Math.max(-0.5, Math.min(0.5, (HS[Math.min(HS.length - 1, x + 2)] - HS[x]) * TW * 0.08));   // + rising to the right: a face turned to the light (from the left)
+    const slope = Math.max(-0.9, Math.min(0.9, (HS[Math.min(HS.length - 1, x + 2)] - HS[x]) * TW * 0.08));   // + rising to the right: a face turned to the light (from the left)
     const u = x / TW;
     for (let y = Math.max(0, Math.floor(top)); y < TH; y++) {
       const ph = 1 - y / TH;                          // height of this point (0 foot, 1 summit)
       const depth = (y - top) / Math.max(1, TH - top); // 0 at the skyline, 1 at the foot
       // ridges and gullies fan out from the summit: a pattern in the angle from the summit
-      const spread = 0.3 + (1 - ph) * 1.3;
+      const spread = 0.18 + (1 - ph) * 1.3;
       const wave = (n1(ph * 4 + u * 2) - 0.5) * 0.35;   // ridges wander instead of running straight down
       const a0 = (u - apex) / spread + wave, a1 = (u + 1 / TW - apex) / spread + wave;
       const rf = (a: number) => 0.6 * n3(a * 3) + 0.4 * n2(a * 6.3 + 2.1);
-      const ridge = rf(a0), across = Math.max(-0.6, Math.min(0.6, (rf(a1) - ridge) * TW * 0.22)); // + the light side of a ridge
+      const ridge = rf(a0), across = Math.max(-0.6, Math.min(0.6, (rf(a1) - ridge) * TW * 0.3)); // + the light side of a ridge
       const spur = Math.abs(ridge - 0.5) * 2;           // 0 on a crest, 1 in a gully
       const patch = n2(u * 5 + ph * 6) - 0.5;           // broad patchy variation
-      let light = clamp01(0.5 + slope * 1.5 * (1 - depth * 0.5) + across * (kind === 'bare' ? 0.22 : 0.45) + patch * 0.3);
+      let light = clamp01(0.5 + slope * 1.5 * (1 - depth * 0.5) + across * (kind === 'bare' ? 0.35 : 0.55) + patch * 0.3);
       light = clamp01(light - depth * 0.22);
       let col = mixRgb(shade, lit, light);
       // snow: above an uneven line, further down along the crests, thinner in the gullies
@@ -239,7 +239,7 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
       }
       col = mixRgb(col, haze, clamp01(fog + depth * 0.22 * (1 - fog)));
       // soft skyline, and the foot fades into the valley haze
-      const edge = (y === Math.floor(top) ? 1 - (top - Math.floor(top)) : 1) * clamp01((1 - depth) / 0.28);
+      const edge = (y === Math.floor(top) ? 1 - (top - Math.floor(top)) : 1) * clamp01((1 - depth) / 0.28) * clamp01(Math.min(u, 1 - u) / 0.07); // no hard sides
       const i = (y * TW + x) * 4;
       img.data[i] = col[0]; img.data[i + 1] = col[1]; img.data[i + 2] = col[2]; img.data[i + 3] = Math.round(255 * edge);
     }
@@ -269,7 +269,8 @@ function drawPeakV2(
       scheduleBuilds();
     }
     for (let k = 1; k < TEMPLATES && !tpl; k++) tpl = templateCache.get(`${base}|${(t + k) % TEMPLATES}`);
-    if (!tpl) return false;
+    // nothing of this look yet: make this one now (once per look), so the new mountains show from the first frame
+    if (!tpl) { pending.delete(key); tpl = makeTemplate(kind, t + 1, look, 0, hz); templateCache.set(key, tpl); }
   }
   let veil = hazeCache.get(tpl);
   if (!veil) {
