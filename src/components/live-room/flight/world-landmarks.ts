@@ -90,7 +90,7 @@ function drawMesh(ctx: CanvasRenderingContext2D, m: MeshMountain, X: number, Z: 
       const lam = clamp01((nx * LIGHT.x + ny * LIGHT.y + nz * LIGHT.z) / LN);
       const col = mix(m.color((h0 + h1) / 2, am, lam, 1 - ny, i), haze, Math.max(fog, 0.32)); // the scene's light (gold at dusk) on every face
       const pts = [p00, p10, p11, p01].map((q) => proj(q[0], q[1], q[2]));
-      faces.push({ pts, depth: (p00[1] + p10[1] + p11[1] + p01[1]) / 4, col, a: clamp01(0.25 + ((h0 + h1) / 2) * 7) });
+      faces.push({ pts, depth: (p00[1] + p10[1] + p11[1] + p01[1]) / 4, col, a: clamp01(0.55 + ((h0 + h1) / 2) * 12) }); // solid; only the very foot softens
     }
   }
   faces.sort((a, b) => b.depth - a.depth);
@@ -208,7 +208,11 @@ function drawEverest(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
     color: (hf: number, _a: number, lam: number) => {
       // dark rock with strong light and shade; a snow cap at the very top (the ridges carry the rest)
       const rock = mix(P.rockShade, P.rockLit, Math.pow(lam, 1.1));
-      return hf > 0.9 ? mix(P.snowShade, P.snowLit, Math.pow(lam, 0.7)) : rock;
+      // the top third snowy (rock showing on the steepest shaded faces), the cap solid white
+      const snow = mix(P.snowShade, P.snowLit, 0.3 + 0.7 * Math.pow(lam, 0.7));
+      if (hf > 0.88) return snow;
+      if (hf > line + 0.2) return snow;
+      return rock;
     },
     ridgeSnow: { ridges: [0, 1, 2].map((k) => (k * Math.PI * 2) / 3 - turn), line, width: 0.16, lit: P.snowLit, shade: P.snowShade },
   });
