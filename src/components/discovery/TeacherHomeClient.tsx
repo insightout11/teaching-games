@@ -18,7 +18,7 @@ import { FullFlightsLane } from './FullFlightsLane';
 import { ReadyToTeachLane } from './ReadyToTeachLane';
 import { SpecialFeaturesLane } from './SpecialFeaturesLane';
 import { WorldFlightHero } from './world-flight-hero/world-flight-hero';
-import { OnboardingFlow } from './OnboardingFlow';
+import { FirstClassSetup } from './FirstClassSetup';
 import { DiscoveryShelf } from './DiscoveryShelf';
 import { DiscoveryDetailDrawer } from './DiscoveryDetailDrawer';
 
@@ -94,9 +94,10 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
     try { localStorage.setItem(ONBOARDING_DISMISSED_KEY, '1'); } catch { /* ignore */ }
     setShowOnboarding(false);
   }
-  function completeOnboarding() {
+  // The first class is set up: open it (its type, settings and class list are ready).
+  function completeOnboarding(classId: string) {
     setShowOnboarding(false);
-    router.refresh(); // re-fetch the profile so Recommended updates
+    router.push(`/classes/${classId}`);
   }
 
   const shelfById = new Map(
@@ -217,7 +218,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
                   className="font-instrument inline-flex items-center gap-1.5 rounded-full border border-cyan-300/30 bg-cyan-400/[0.06] px-3 py-1 text-[11px] uppercase tracking-wider text-cyan-200 transition-colors hover:border-cyan-300/60 hover:bg-cyan-400/10"
                 >
                   <Sparkles className="h-3 w-3" aria-hidden />
-                  Personalize your home
+                  Set up your first class
                 </button>
               )}
               {!isPro && (
@@ -340,7 +341,7 @@ export function TeacherHomeClient({ recentSessions, isPro, credits, isFirstVisit
       <DiscoveryDetailDrawer item={selected} onClose={() => setSelected(null)} />
 
       {/* First-run personalization */}
-      <OnboardingFlow open={showOnboarding} onClose={dismissOnboarding} onCompleted={completeOnboarding} />
+      <FirstClassSetup open={showOnboarding} onClose={dismissOnboarding} onCreated={completeOnboarding} />
     </div>
   );
 }
