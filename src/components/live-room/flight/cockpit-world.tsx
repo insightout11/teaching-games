@@ -10,7 +10,8 @@ import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmar
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
-import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
+import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
+import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -26,7 +27,7 @@ import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, r
  */
 
 type RGB = [number, number, number];
-interface Peak { x: number; z: number; h: number; w: number; tone: number; roll: number; hill: boolean }
+interface Peak { x: number; z: number; h: number; w: number; tone: number; roll: number; hill: boolean; /** From real elevation: its kind, and whether its top holds snow. */ kind?: PeakKind; snowy?: boolean }
 
 interface Layer {
   terrain: Terrain;
@@ -270,7 +271,7 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
   return c;
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast }: { /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround }: { /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed, paused, glint, altitude, cloudCover });
@@ -351,6 +352,11 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     }
     coastWorld.current = { edges, buckets, rings, shores, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95 };
   }, [coast]);
+  // Real high ground: the latest elevation grid, anchored where the plane was when it arrived; mountains and hills
+  // spawned from it stay where they were put (a new grid never moves them).
+  const highGroundRef = useRef<{ g: HighGround; camZ: number } | null>(null);
+  useEffect(() => { if (highGround) highGroundRef.current = { g: highGround, camZ: cam.current }; }, [highGround]);
+  const reliefPeaks = useRef<Peak[]>([]);
   // The sea's texture and the land's (the latest land under the route), for painting both sides of a real coast.
   const seaRip = useRef<Rip | null>(null);
   const landRip = useRef<{ rip: Rip; terrain: Terrain } | null>(null);
@@ -945,9 +951,42 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             if (newest) spawnPeak(p, camZ, true);
             else { layer.peaks.splice(k, 1); continue; }
           }
-          if (!nearLandmark(p)) all.push({ p, layer });
+          if (!nearLandmark(p) && !(realRelief() && highGroundRef.current)) all.push({ p, layer });
         }
       });
+      // Mountains and hills where the real land is high and rugged (and nowhere else), from the elevation grid
+      const hg = realRelief() ? highGroundRef.current : null;
+      if (hg) {
+        const list = reliefPeaks.current;
+        const place = (p: Peak, far: boolean) => {
+          p.z = camZ + (far ? Z_FAR * (0.85 + Math.random() * 0.15) : Z_NEAR * 3 + Math.random() * Z_FAR);
+          const half = ((w / 2) * (p.z - camZ)) / F;
+          p.x = (Math.random() * 2 - 1) * (half * 1.25 + 2000);
+          p.h = 0;
+          const cell = highGroundAt(hg.g, (p.z - hg.camZ) / CITY_UNITS_PER_KM, p.x / (CITY_UNITS_PER_KM * 0.7));
+          if (!cell) return;
+          // how mountainous: rising far above the ground around it, or simply very high
+          const m = Math.max(Math.min(1, Math.max(0, (cell.rugged - 150) / 900)), Math.min(1, Math.max(0, (cell.height - 900) / 2200)) * 0.8);
+          p.roll = Math.random(); p.tone = Math.random();
+          if (Math.random() < m * 0.95) {
+            p.hill = false;
+            p.h = 500 + m * 1300 + Math.random() * 300;
+            p.w = p.h * (2.3 + Math.random() * 1.6);
+            p.snowy = cell.snow;
+            p.kind = cell.snow && Math.random() < 0.75 ? 'snow' : Math.random() < 0.55 ? 'forest' : 'bare';
+          } else if (cell.rugged > 70 && cell.rugged < 450 && Math.random() < 0.4) {
+            p.hill = true; p.kind = undefined; p.snowy = false;
+            p.h = 380 + Math.random() * 600;
+            p.w = p.h * (4.5 + Math.random() * 3.5);
+          }
+        };
+        const filling = list.length === 0;
+        while (list.length < 200) { const p: Peak = { x: 0, z: 0, h: 0, w: 0, tone: 0, roll: 0, hill: false }; place(p, !filling); list.push(p); }
+        for (const p of list) {
+          if (p.z - camZ < Z_NEAR) place(p, true);
+          if (p.h > 0 && !nearLandmark(p)) all.push({ p, layer: L[L.length - 1] });
+        }
+      }
       const under = L[L.length - 1];
       for (const l of lms) {
         const sz = LANDMARK_SIZE[l.kind];
@@ -1032,9 +1071,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           ctx.globalAlpha = 1;
           continue;
         }
-        const kind: PeakKind = p.roll < layer.range.snow ? 'snow' : p.roll < layer.range.snow + layer.range.green ? 'forest' : 'bare';
+        const kind: PeakKind = p.kind ?? (p.roll < layer.range.snow ? 'snow' : p.roll < layer.range.snow + layer.range.green ? 'forest' : 'bare');
         // A peak's kind comes from its own roll; shape detail uses a second, independent one.
-        drawPeak(ctx, kind, (p.roll * 7919) % 1, p.tone, { rock: layer.rock, leaf: layer.night ? mixRgb(layer.leaf, [10, 14, 28], 0.55) : layer.leaf, snow: layer.snow, warm: layer.range.floor === 'arid', night: layer.night, capped: layer.range.snow >= 0.2 }, cx, baseY, topY, half, fog, haze, fade);
+        drawPeak(ctx, kind, (p.roll * 7919) % 1, p.tone, { rock: layer.rock, leaf: layer.night ? mixRgb(layer.leaf, [10, 14, 28], 0.55) : layer.leaf, snow: layer.snow, warm: layer.range.floor === 'arid', night: layer.night, capped: p.snowy ?? layer.range.snow >= 0.2 }, cx, baseY, topY, half, fog, haze, fade);
       }
 
       // Soft band where the land meets the sky

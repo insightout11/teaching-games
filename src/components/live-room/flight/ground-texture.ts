@@ -942,6 +942,11 @@ export const realWaters = () => REAL_WATERS;
 let REAL_COAST = false;
 export function setRealCoast(on: boolean) { REAL_COAST = on; }
 export const realCoast = () => REAL_COAST;
+
+/** Mountains and hills placed from real elevation. Off in the room until the owner approves. */
+let REAL_RELIEF = false;
+export function setRealRelief(on: boolean) { REAL_RELIEF = on; }
+export const realRelief = () => REAL_RELIEF;
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
 export const groundRelief = () => GROUND_RELIEF;
 

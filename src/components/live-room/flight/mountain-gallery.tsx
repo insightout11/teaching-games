@@ -8,7 +8,8 @@ import { composeTimedPalette } from '@/components/world-flight/arrival-scene/pal
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { setPeakStyle } from '@/components/live-room/flight/peak-art';
-import { setGroundRelief, setNightLights, setRealCoast, setRealWaters, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { setGroundRelief, setNightLights, setRealCoast, setRealRelief, setRealWaters, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { watersAhead, type Waters } from '@/lib/live-room/waters-ahead';
 import { setSkyClouds } from '@/components/live-room/flight/sky-clouds';
@@ -71,6 +72,35 @@ const COASTS: Array<{ id: string; label: string; at: { lat: number; lng: number 
   { id: 'capetown', label: 'Cape Town and the Cape', at: { lat: -33.6, lng: 18.75 }, heading: 205, terrain: 'farmland', region: 'Africa' },
   { id: 'keys', label: 'The Florida Keys', at: { lat: 25.6, lng: -80.45 }, heading: 215, terrain: 'farmland', region: 'North America' },
 ];
+const RELIEFS: Array<{ id: string; label: string; at: { lat: number; lng: number }; heading: number; terrain: Terrain; region: string }> = [
+  { id: 'alps', label: 'Into the Alps from Zurich', at: { lat: 47.2, lng: 8.5 }, heading: 165, terrain: 'farmland', region: 'Europe' },
+  { id: 'himalaya', label: 'The Himalaya from Kathmandu', at: { lat: 27.5, lng: 85.3 }, heading: 60, terrain: 'forest', region: 'Asia' },
+  { id: 'andes', label: 'Across the Andes from Santiago', at: { lat: -33.45, lng: -71.2 }, heading: 85, terrain: 'farmland', region: 'South America' },
+  { id: 'rockies', label: 'The Rockies west of Denver', at: { lat: 39.75, lng: -104.6 }, heading: 270, terrain: 'grassland', region: 'North America' },
+  { id: 'tibet', label: 'The Tibetan plateau', at: { lat: 31.5, lng: 87.5 }, heading: 90, terrain: 'tundra', region: 'Asia' },
+  { id: 'netherlands', label: 'The flat Netherlands (no mountains)', at: { lat: 52.2, lng: 4.6 }, heading: 90, terrain: 'farmland', region: 'Europe' },
+];
+function ReliefView({ id, tod }: { id: string; tod: TimeOfDay }) {
+  const place = RELIEFS.find((p) => p.id === id) ?? RELIEFS[0];
+  const [ground, setGround] = useState<HighGround | undefined>(undefined);
+  useEffect(() => { setRealRelief(true); void highGroundAhead(place.at, place.heading).then(setGround); }, [place]);
+  const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
+  const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
+  return (
+    <div className="min-h-screen bg-[#070b14] p-4 text-white">
+      <div className="mb-2 flex flex-wrap items-center gap-3">
+        <a href="?" className="text-sm text-cyan-200 underline">Back to all</a>
+        <Fps />
+        <span className="font-mono text-xs text-white/60">{place.label} · {tod} · {ground ? 'real elevation' : 'loading the map…'} · reload to fly again</span>
+      </div>
+      <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
+        <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
+        {ground && <CockpitWorld terrain={place.terrain} region={place.region} palette={palette} night={tod === 'night'} speed={0.55} highGround={ground} cloudCover={15} />}
+      </div>
+    </div>
+  );
+}
+
 function CoastView({ id, tod }: { id: string; tod: TimeOfDay }) {
   const place = COASTS.find((p) => p.id === id) ?? COASTS[0];
   const [coast, setCoast] = useState<Coast | undefined>(undefined);
@@ -148,6 +178,7 @@ export function MountainGallery() {
   const [waterId, setWaterId] = useState<string | null>(null);
   const [waterTod, setWaterTod] = useState<TimeOfDay>('day');
   const [coastId, setCoastId] = useState<string | null>(null);
+  const [reliefId, setReliefId] = useState<string | null>(null);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = q.get('style') === 'old' ? 'old' : 'new';
@@ -158,6 +189,7 @@ export function MountainGallery() {
     setSkyClouds(q.get('clouds') !== 'off');
     setSkyV2(q.get('sky') !== 'old');
     setCover(Number(q.get('cover') ?? '45') || 45);
+    if (q.get('relief')) { setReliefId(q.get('relief')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('coast')) { setCoastId(q.get('coast')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('water')) { setWaterId(q.get('water')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     const e = q.get('edge')?.split(',');
@@ -165,6 +197,7 @@ export function MountainGallery() {
     const region = q.get('one');
     if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);
+  if (reliefId) return <ReliefView id={reliefId} tod={waterTod} />;
   if (coastId) return <CoastView id={coastId} tod={waterTod} />;
   if (waterId) return <WaterView id={waterId} tod={waterTod} />;
   if (edge) return <EdgeView key={`${edge.from}${edge.to}${edge.soft}`} {...edge} />;
@@ -190,6 +223,12 @@ export function MountainGallery() {
         <span className="text-sm text-white/60">Click any picture to watch it fly, full size.</span>
       </div>
       <section>
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Mountains from real elevation</p>
+        <div className="mb-4 flex flex-wrap gap-2">
+          {RELIEFS.map((p) => (
+            <a key={p.id} href={`?relief=${p.id}`} className="rounded-full border border-white/20 px-3 py-1 text-sm text-white/85 hover:border-amber-300/60">{p.label}</a>
+          ))}
+        </div>
         <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Real coastlines (fly over a real coast)</p>
         <div className="mb-4 flex flex-wrap gap-2">
           {COASTS.map((p) => (
