@@ -229,7 +229,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <AnimatePresence mode="sync">
         {outside ? (
-          <motion.div key={`side-${sideCity.id}-${sideFrame.mode}`} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+          <motion.div key={`side-${sideCity.id}-${sideFrame.mode}`} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: "easeInOut" }}>
             <DestinationArrivalScene
               destinationId={sideCity.id}
               scene={sideCity.scene}
@@ -245,7 +245,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             />
           </motion.div>
         ) : (
-          <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+          <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: "easeInOut" }}>
             <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
             <CockpitWorld altitude={descentAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={landmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} highGround={highGround} events={events} />
             <div
@@ -269,7 +269,13 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
                 transition={{ duration: 7, repeat: Infinity, times: [0, 0.6, 0.62, 0.65, 0.67, 0.72, 0.9, 1] }}
               />
             )}
-            {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && <WindscreenWeather weather={weather} />}
+            {/* rain or snow on the glass thins out as the plane climbs above it (it stopped all at once at the cruise),
+                and thickens on the way down */}
+            {(phase === 'climb' || phase === 'descent') && weather !== 'clear' && (
+              <div className="absolute inset-0" style={{ opacity: phase === 'climb' ? Math.max(0, 1 - progress * 1.15) : Math.min(1, progress * 2) }}>
+                <WindscreenWeather weather={weather} />
+              </div>
+            )}
             {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
             <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={cloudsTint} density={turbulence || diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
           </motion.div>

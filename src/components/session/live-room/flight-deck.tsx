@@ -1171,8 +1171,9 @@ export function FlightDeck({
     const load = () => {
       fetch(`/api/live-room/weather?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`)
         .then((r) => (r.ok ? r.json() : null))
-        .then((d: LiveWeather | null) => { if (!cancelled) setLiveWx(d?.condition ? d : null); })
-        .catch(() => { if (!cancelled) setLiveWx(null); });
+        .then((d: LiveWeather | null) => { if (!cancelled && d?.condition) setLiveWx(d); })
+        // a failed lookup keeps the last real weather (dropping it switched to a made-up one mid-flight)
+        .catch(() => {});
     };
     load();
     const t = window.setInterval(load, 10 * 60 * 1000);
@@ -2443,7 +2444,7 @@ export function FlightDeck({
         coast={routeCoast}
         highGround={routeGround}
         events={stableEvents}
-        weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
+        weather={liveWx?.condition ?? (flightStage === 'gate' || (minutesFlown ?? 0) < 3 ? rollWeather(`${sessionId}:${origin.id}`, origin.scene, skyNow.timeOfDay === 'night') : rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night'))}
         cloudCover={liveWx?.cloudCover}
         terrain={steadyGround.terrain}
         region={steadyGround.region}
