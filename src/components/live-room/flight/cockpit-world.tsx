@@ -935,8 +935,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           }
         } else {
           // By day: the city's own uneven shape (each city's outline is pulled into lobes, never an oval), a patchwork
-          // of streets and blocks on the ground, and small buildings standing up from it, back ones first. All of it
-          // greys into the haze with distance.
+          // of streets and blocks flat on the ground, greying into the haze with distance. No standing buildings: sized
+          // from the city they grew into giant white towers the plane flew through on the way down.
           const mist = 1 - fog * 0.6;
           const pts = [...shaped].sort((p, q) => p.y - q.y);
           const bw0 = Math.max(2, rx * 0.15), bh0 = Math.max(1, ry * 0.2);
@@ -944,20 +944,6 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             const g = mixRgb([150 + pt.b * 28, 144 + pt.b * 24, 134 + pt.warm * 18] as RGB, haze, fog * 0.7);
             ctx.fillStyle = `rgba(${g[0] | 0},${g[1] | 0},${g[2] | 0},${0.3 * mist})`;
             ctx.fillRect(pt.x - bw0 / 2, pt.y - bh0 / 2, bw0 * (0.6 + pt.warm * 0.8), bh0);
-          }
-          const unit = Math.max(0.8, rx * 0.03);
-          for (const pt of pts) {
-            if (pt.b < 0.4) continue;
-            // Taller towards the middle of the city, as real skylines are.
-            const centre = 1 - Math.min(1, Math.hypot((pt.x - cx) / (rx || 1), (pt.y - cy) / (ry || 1)));
-            const tall = unit * (1.2 + pt.b * pt.b * 4 + centre * 5);
-            const wide = Math.max(1, unit * (0.9 + pt.warm * 1.1));
-            const lit = mixRgb([206, 212, 220], haze, fog * 0.75);
-            const side = mixRgb([140, 148, 160], haze, fog * 0.75);
-            ctx.fillStyle = `rgba(${lit[0] | 0},${lit[1] | 0},${lit[2] | 0},${0.85 * mist})`;
-            ctx.fillRect(pt.x - wide / 2, pt.y - tall, wide * 0.6, tall);
-            ctx.fillStyle = `rgba(${side[0] | 0},${side[1] | 0},${side[2] | 0},${0.85 * mist})`;
-            ctx.fillRect(pt.x - wide / 2 + wide * 0.6, pt.y - tall, wide * 0.4, tall);
           }
         }
         ctx.restore();
@@ -1071,7 +1057,11 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         if (lm) {
           const lfog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
           const lfade = Math.min(1, (Z_FAR - rz) / 8000);
-          drawWorldLandmark(ctx, lm, { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, proj, lfog, haze, lfade);
+          // during the descent a landmark shrinks with the camera (as the mountains do), keeping its shape, so it
+          // never towers over the cockpit
+          const k = Math.min(1, (camH * 0.85) / Math.max(1, LANDMARK_SIZE[lm].h));
+          const lproj: typeof proj = k < 1 ? (x, z, y = 0) => proj(p.x + (x - p.x) * k, p.z + (z - p.z) * k, y * k) : proj;
+          drawWorldLandmark(ctx, lm, { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, lproj, lfog, haze, lfade);
           continue;
         }
         // Always well below the plane: during the descent (the camera comes down to a fifth of its height) mountains and

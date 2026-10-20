@@ -967,15 +967,14 @@ export function FlightDeck({
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
   // The land below, for topics taken from the flight (which Blue Mountains: the facts lookup needs the place).
   const flightWhere = regionOf(below.point) ?? undefined;
-  // Landmark Quest step 2 (behind ?landmarks=on until the owner approves): real landmarks the route passes stand in
-  // the scenery at their real distance and side. Cruise only: never in the descent, where they would tower.
-  const [landmarksOn, setLandmarksOn] = useState(false);
-  useEffect(() => { setLandmarksOn(new URLSearchParams(window.location.search).get('landmarks') === 'on'); }, []);
+  // Landmark Quest step 2 (approved by the owner 20 Oct 2026): real landmarks the route passes stand in the scenery at
+  // their real distance and side, in the descent too (they shrink with the camera there: Fuji on the way into Tokyo).
+  // Niagara stays out until its drawing is good enough.
   const sceneryLandmarks = useMemo(() => {
-    if (!landmarksOn || flightStage !== 'flying' || descending || holding) return [];
+    if (flightStage !== 'flying' || holding) return [];
     const heading = bearingDeg(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 0.01)));
-    return landmarksAhead(below.point, heading);
-  }, [landmarksOn, flightStage, descending, holding, below.point, origin, destination, routeT]);
+    return landmarksAhead(below.point, heading).filter((l) => l.kind !== 'niagara');
+  }, [flightStage, holding, below.point, origin, destination, routeT]);
   // Real rivers and lakes under the plane (when switched on): looked up every 20 seconds of flight, cruise only.
   const [routeWaters, setRouteWaters] = useState<Waters | undefined>(undefined);
   const [routeCoast, setRouteCoast] = useState<Coast | undefined>(undefined);
