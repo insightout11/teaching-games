@@ -634,25 +634,32 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             paintRow(L[i], y, z, F, camZ, 1);
           }
         }
-        // The beach: a pale line where the real coast meets the sea
+        // The shore: a band of turquoise shallow water just offshore, then a sandy beach along the coast (both opaque, so
+        // overlapping pieces do not show as blobs, and wide enough to cover the strips' stair-step edge)
         const cwB = realCoast() ? coastWorld.current : null;
         if (cwB) {
+          const seaBase = mixRgb(look.current.water, [40, 120, 150], 0.35);
+          const shallow: RGB = dark ? mixRgb(seaBase, [10, 20, 36], 0.6) : mixRgb(seaBase, [120, 200, 205], 0.28);
+          const sand: RGB = dark ? [70, 74, 90] : [232, 216, 172];
           ctx.save();
-          ctx.lineJoin = 'round';
-          for (const ring of cwB.rings) {
-            // an open coastline: draw it in pieces, breaking where it goes behind the plane or past the horizon
-            if (ring.length < 2) continue;
-            ctx.beginPath();
-            let started = false;
-            for (const [x, zz] of ring) {
-              const rz = zz - camZ;
-              if (rz > Z_FAR || rz < Z_NEAR * 0.6) { started = false; continue; }
-              const sx = w / 2 + x * (F / rz), sy = horizonY + camH * (F / rz);
-              if (!started) { ctx.moveTo(sx, sy); started = true; } else ctx.lineTo(sx, sy);
+          ctx.lineCap = 'round';
+          for (const pass of [0, 1] as const) {
+            for (const ring of cwB.rings) {
+              for (let i = 0; i + 1 < ring.length; i++) {
+                const [xa, za] = ring[i], [xb, zb] = ring[i + 1];
+                const ra = za - camZ, rb = zb - camZ;
+                if (ra < Z_NEAR * 0.6 || rb < Z_NEAR * 0.6 || ra > Z_FAR || rb > Z_FAR) continue;
+                const rz = (ra + rb) / 2, s = F / rz;
+                const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
+                const wide = Math.max(0.6, Math.min(3.5, 80 * s)); // thin: a beach seen from 8 km up
+                ctx.strokeStyle = css(mixRgb(pass === 0 ? shallow : sand, haze, fog * 0.7));
+                ctx.lineWidth = pass === 0 ? wide * 2.4 : wide;
+                ctx.beginPath();
+                ctx.moveTo(w / 2 + xa * (F / ra), horizonY + camH * (F / ra));
+                ctx.lineTo(w / 2 + xb * (F / rb), horizonY + camH * (F / rb));
+                ctx.stroke();
+              }
             }
-            ctx.strokeStyle = dark ? 'rgba(120,130,150,0.25)' : 'rgba(236,226,196,0.5)';
-            ctx.lineWidth = 1.6;
-            ctx.stroke();
           }
           ctx.restore();
         }
