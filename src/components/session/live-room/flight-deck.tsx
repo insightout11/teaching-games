@@ -2456,10 +2456,11 @@ export function FlightDeck({
           <button type="button" onClick={() => setAboutOpen((o) => !o)} title="What this topic is about" className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md hover:border-amber-300/60">
             <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}
           </button>
-          {(brief?.cards?.length ?? 0) > 0 && !factsOpen && (
+          {/* Clear screen keeps only the topic name: no facts button, no next topics */}
+          {(brief?.cards?.length ?? 0) > 0 && !factsOpen && !clearScreen && (
             <button type="button" onClick={() => setFactsOpen(true)} className="rounded-full border border-amber-300/40 bg-slate-950/65 px-3 py-1 text-xs text-amber-100 backdrop-blur-md hover:bg-amber-300/10">Show the facts</button>
           )}
-          {!aboutOpen && ((brief?.nextTopics?.length ?? 0) > 0 || earlierTopics.length > 0) && (
+          {!aboutOpen && !clearScreen && ((brief?.nextTopics?.length ?? 0) > 0 || earlierTopics.length > 0) && (
             <div className="flex max-w-[86%] flex-wrap items-center justify-center gap-1.5 text-[11px]">
               {(brief?.nextTopics?.length ?? 0) > 0 && <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-white/55">Where next?</span>}
               {(brief?.nextTopics ?? []).map((t) => (
