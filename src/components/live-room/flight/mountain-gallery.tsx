@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitSky, cockpitCloudTint, setSkyV2 } from '@/components/live-room/flight/cockpit-sky';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
@@ -91,6 +91,7 @@ export function MountainGallery() {
     setGroundRelief(s === 'new' && q.get('hills') !== 'off');
     setNightLights(q.get('lights') !== 'off');
     setSkyClouds(q.get('clouds') !== 'off');
+    setSkyV2(q.get('sky') !== 'old');
     setCover(Number(q.get('cover') ?? '45') || 45);
     const e = q.get('edge')?.split(',');
     if (e?.length === 2) { const found = EDGES.find(([a, b]) => a === e[0] && b === e[1]); setEdge({ from: e[0] as Terrain, to: e[1] as Terrain, region: found?.[2] ?? 'Europe', soft: !q.has('hard') }); }

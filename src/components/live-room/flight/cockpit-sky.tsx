@@ -56,6 +56,24 @@ export const LIGHT_POS: Record<TimeOfDay, { x: string; y: string; size: number }
   night: { x: '72%', y: '20%', size: 56 },
 };
 
+/** The upgraded sky (sunset glow, high cirrus and vapour trails, the Milky Way). Off in the room until approved. */
+let SKY_V2 = false;
+export function setSkyV2(on: boolean) { SKY_V2 = on; }
+
+/** The Milky Way: thousands of faint specks in a soft diagonal band (made once, a few hundred kB of nothing). */
+function milkyWayDots() {
+  const out: Array<{ x: number; y: number; r: number; o: number }> = [];
+  let seed = 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  for (let i = 0; i < 420; i++) {
+    const t = rnd(), across = (rnd() + rnd() + rnd() - 1.5) * 0.16; // bunched along the band
+    const x = 4 + t * 92, y = 6 + t * 40 + across * 100;
+    if (y < 0 || y > 52) continue;
+    out.push({ x, y, r: rnd() < 0.08 ? 1.1 : 0.55, o: 0.25 + rnd() * 0.45 });
+  }
+  return out;
+}
+
 export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
   palette: ScenePalette;
   timeOfDay: TimeOfDay;
@@ -82,6 +100,13 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
     [],
   );
 
+  const v2 = SKY_V2;
+  const milky = useMemo(() => (v2 ? milkyWayDots() : []), [v2]);
+  // the sun's (or moon's) place across the sky as a number, for the glow and the earth's shadow opposite
+  const sunX = Math.max(0, Math.min(100, parseFloat(String(pos.x)) || 50));
+  const isDusk = timeOfDay === 'dusk';
+  const moonSmall = !pos.phase || pos.phase.illumination < 0.45;
+
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <motion.div
@@ -94,6 +119,39 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
         className="absolute inset-x-0"
         style={{ top: '55%', height: '45%', background: `radial-gradient(ellipse 80% 60% at ${pos.x} 30%, ${palette.horizonGlow} 0%, transparent 70%)`, opacity: timeOfDay === 'day' ? 0.35 : 0.8 }}
       />
+      {v2 && isDusk && (
+        <>
+          {/* sunset or sunrise: a wide burning glow on the horizon under the sun */}
+          <div className="absolute inset-x-0" style={{ top: '30%', height: '34%', background: `radial-gradient(ellipse 55% 70% at ${sunX}% 82%, ${css(light, 0.75)} 0%, ${palette.horizonGlow} 28%, transparent 72%)`, opacity: 0.85, mixBlendMode: 'screen' }} />
+          {/* the earth's shadow on the other side: a pink band over a dusky blue */}
+          <div className="absolute inset-x-0" style={{ top: '40%', height: '20%', background: `radial-gradient(ellipse 60% 55% at ${100 - sunX}% 85%, rgba(226,150,176,0.42) 0%, rgba(150,120,170,0.18) 45%, transparent 75%)` }} />
+        </>
+      )}
+      {v2 && palette.light !== 'moon' && (
+        <>
+          <style>{'@keyframes cirrus-drift{from{transform:translateX(0)}to{transform:translateX(-12%)}}@keyframes contrail-cross{0%{transform:translateX(-30vw);opacity:0}6%{opacity:1}88%{opacity:1}100%{transform:translateX(130vw);opacity:0}}'}</style>
+          {/* high, thin cirrus: faint streaks drifting slowly */}
+          <div className="absolute inset-x-[-10%] top-[6%] h-[32%]" style={{ animation: reduce ? undefined : 'cirrus-drift 240s linear infinite alternate' }}>
+            {[[8, 22, 34, 4, -6], [38, 12, 28, 3, -3], [60, 30, 40, 5, -8], [80, 16, 22, 3, -4]].map(([x, y, w, h, rot], i) => (
+              <div key={i} className="absolute rounded-full" style={{ left: `${x}%`, top: `${y}%`, width: `${w}%`, height: `${h}%`, transform: `rotate(${rot}deg)`, background: `linear-gradient(90deg, transparent, ${isDusk ? 'rgba(255,214,190,0.32)' : 'rgba(255,255,255,0.28)'} 30%, ${isDusk ? 'rgba(255,200,180,0.22)' : 'rgba(255,255,255,0.18)'} 70%, transparent)`, filter: 'blur(5px)' }} />
+            ))}
+          </div>
+          {/* now and then another plane far off, drawing its vapour trail across the sky */}
+          {!reduce && (
+            <div className="absolute left-0 top-[18%] h-px w-[26vw]" style={{ animation: 'contrail-cross 70s linear 8s infinite' }}>
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.55))', height: 2, transform: 'rotate(-4deg)', transformOrigin: '100% 50%' }} />
+              <div className="absolute -right-1 -top-[2px] h-[4px] w-[4px] rounded-full bg-white/90" />
+            </div>
+          )}
+        </>
+      )}
+      {v2 && palette.light === 'moon' && (
+        // the Milky Way: a faint band of star dust, brighter when the moon is small
+        <div className="absolute inset-0" style={{ opacity: moonSmall ? 0.9 : 0.45 }}>
+          <div className="absolute" style={{ left: '-10%', top: '-6%', width: '120%', height: '40%', transform: 'rotate(24deg)', transformOrigin: '50% 50%', background: 'radial-gradient(ellipse 50% 22% at 50% 50%, rgba(190,200,235,0.16) 0%, rgba(150,160,210,0.07) 50%, transparent 80%)', filter: 'blur(6px)' }} />
+          {milky.map((d, i) => <span key={i} className="absolute rounded-full bg-white" style={{ left: `${d.x}%`, top: `${d.y}%`, width: d.r * 2, height: d.r * 2, opacity: d.o }} />)}
+        </div>
+      )}
       {palette.light === 'moon' && (
         <>
           <style>{'@keyframes cockpit-twinkle{0%,100%{opacity:var(--o)}50%{opacity:calc(var(--o) * 0.35)}}'}</style>
