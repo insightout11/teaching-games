@@ -52,9 +52,10 @@ import { WindscreenFlight, type FlightStage, type FlightCity } from '@/component
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
 import { landmarksAhead } from '@/lib/live-room/landmarks-ahead';
-import { watersAhead, type Waters } from '@/lib/live-room/waters-ahead';
+import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
 import { realCoast, realRelief, realWaters } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
+import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { routePreview } from '@/lib/live-room/route-preview';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
@@ -1050,6 +1051,24 @@ export function FlightDeck({
     fetch('/api/live-room/natural-events').then((r) => (r.ok ? r.json() : { events: [] })).then((d: { events?: NaturalEvent[] }) => { if (live) setNaturalEvents(d.events ?? []); }).catch(() => {});
     return () => { live = false; };
   }, [flightStage]);
+  // Real natural events (NASA's list) within sight of the plane: smoke, a volcano's ash, a storm cloud in the scenery
+  // (when switched on). Kept from 150 km ahead until well behind, so one passed is not dropped while still in view.
+  const sceneryEvents = useMemo<SceneEvent[]>(() => {
+    if (!realEvents() || flightStage !== 'flying' || descending || holding || !naturalEvents.length) return [];
+    const heading = bearingDeg(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 0.01)));
+    const out: SceneEvent[] = [];
+    for (const e of naturalEvents) {
+      const kind = eventKind(e.category);
+      if (!kind) continue;
+      const [ahead, lateral] = toFrame(below.point, heading, [e.lng, e.lat]);
+      if (ahead > -40 && ahead < 150 && Math.abs(lateral) < 110) out.push({ id: e.id, kind, ahead, lateral });
+    }
+    return out.slice(0, 6);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watersStep, flightStage, descending, holding, naturalEvents]);
+  const eventKey = sceneryEvents.map((e) => e.id).join(',');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stableEvents = useMemo(() => sceneryEvents, [eventKey]);
   const moments = useMemo<Moment[]>(
     () => (flightStage === 'flying' ? planMoments({ origin, destination, flightMinutes: flightMs / 60_000, stops: preview, events: naturalEvents }) : []),
     // Planned per flight: the clock's small changes don't move the moments around.
@@ -2394,6 +2413,7 @@ export function FlightDeck({
         waters={routeWaters}
         coast={routeCoast}
         highGround={routeGround}
+        events={stableEvents}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
         terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}
