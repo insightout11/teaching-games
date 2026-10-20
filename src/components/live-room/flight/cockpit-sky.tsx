@@ -56,8 +56,8 @@ export const LIGHT_POS: Record<TimeOfDay, { x: string; y: string; size: number }
   night: { x: '72%', y: '20%', size: 56 },
 };
 
-/** The upgraded sky (sunset glow, high cirrus and vapour trails, the Milky Way). Off in the room until approved. */
-let SKY_V2 = false;
+/** The upgraded sky (sunset glow, high cirrus and vapour trails, the Milky Way; approved by the owner 20 Oct 2026). */
+let SKY_V2 = true;
 export function setSkyV2(on: boolean) { SKY_V2 = on; }
 
 /** The Milky Way: thousands of faint specks in a soft diagonal band (made once, a few hundred kB of nothing). */

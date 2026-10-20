@@ -67,6 +67,18 @@ export function cloudLight(night: boolean, glow: RGB, haze: RGB): { lit: RGB; sh
   return { lit, shade };
 }
 
+const shadows = new WeakMap<HTMLCanvasElement, HTMLCanvasElement>();
+/** The cloud's silhouette, dark and soft: its shadow on the ground. */
+function shadowOf(pic: HTMLCanvasElement): HTMLCanvasElement {
+  const hit = shadows.get(pic);
+  if (hit) return hit;
+  const c = document.createElement('canvas');
+  c.width = pic.width; c.height = pic.height;
+  const g = c.getContext('2d');
+  if (g) { g.filter = 'blur(4px)'; g.drawImage(pic, 0, 0); g.filter = 'none'; g.globalCompositeOperation = 'source-in'; g.fillStyle = 'rgb(16,24,36)'; g.fillRect(0, 0, c.width, c.height); }
+  shadows.set(pic, c);
+  return c;
+}
 const veils = new WeakMap<HTMLCanvasElement, { key: string; c: HTMLCanvasElement }>();
 /** The cloud's shape filled with the haze colour (cached per picture). */
 function hazeVeil(pic: HTMLCanvasElement, haze: RGB): HTMLCanvasElement {
@@ -93,18 +105,16 @@ export function drawSkyCloud(
   const [cx, cy] = proj(c.x, c.z, c.y);
   // its shadow on the ground, soft, offset away from the light (from the left)
   ctx.save();
-  // its shadow on the ground (near clouds only: far away it cannot be seen and only costs time)
+  // its shadow on the ground, in the cloud's own shape laid flat (near clouds only: far away it cannot be seen)
+  const pic = cloudPicture(c.seed % KINDS, light.lit, light.shade);
   if (rz < 30000) {
     const [gx, gy] = proj(c.x + c.size * 0.35, c.z, 0);
-    ctx.globalAlpha = alpha * (night ? 0.12 : 0.22) * (1 - fog);
-    ctx.fillStyle = 'rgb(20,28,40)';
-    ctx.beginPath();
-    ctx.ellipse(gx, gy, w * 0.42, w * 0.42 * 0.18 * Math.max(0.3, Math.min(1.4, (3200 * s) / (F * 0.25))), 0, 0, Math.PI * 2);
-    ctx.fill();
+    const flat = Math.max(0.16, Math.min(0.5, (3200 * s) / (F * 0.5)));
+    ctx.globalAlpha = alpha * (night ? 0.16 : 0.3) * (1 - fog);
+    ctx.drawImage(shadowOf(pic), gx - w * 0.5, gy - h * flat * 0.5, w, h * flat);
   }
   // the cloud (one picture per shape and light, reused), then the haze laid over it with distance: remaking the
   // picture for every distance was what made the sky slow
-  const pic = cloudPicture(c.seed % KINDS, light.lit, light.shade);
   ctx.globalAlpha = alpha * (1 - fog * 0.35);
   ctx.drawImage(pic, cx - w / 2, cy - h * 0.6, w, h);
   if (fog > 0.05) {
