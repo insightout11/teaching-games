@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { Ban, Ear, Lock, SkipForward } from 'lucide-react';
 import type { InputSpec } from '@/lib/input-spec';
 import { PHONE_FIELD, PHONE_PRIMARY, PhoneLabel, PhonePrompt } from './phone-kit';
+import type { FreePicture } from '@/lib/sources/wikimedia-images';
+import { FreePictureView } from '@/components/ui/free-picture';
 
 /** What one phone gets. Students not in the map are guessers. */
 export type TabooPhoneCard =
-  | { role: 'describer'; word: string; forbidden: string[] }
+  | { role: 'describer'; word: string; forbidden: string[]; picture?: FreePicture | null }
   | { role: 'bench' };
 
 /**
@@ -31,6 +33,7 @@ export function TabooSprintPanel({ spec, displayName, studentId, clientId, onSub
             <span className="flex items-center gap-1 text-[11px] text-lc-text3"><Lock className="h-3 w-3" /> only you</span>
           </div>
           <p className="font-display text-[40px] leading-none text-lc-text">{card.word}</p>
+          <FreePictureView picture={card.picture} />
           <div className="space-y-2 border-t border-white/10 pt-3">
             <PhoneLabel tone="text-rose-300">Don&apos;t say</PhoneLabel>
             <div className="flex flex-wrap justify-center gap-1.5">

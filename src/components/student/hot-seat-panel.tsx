@@ -3,13 +3,15 @@
 import { Armchair, Ban, Ear, Lock, Mic } from 'lucide-react';
 import type { InputSpec } from '@/lib/input-spec';
 import { PhoneLabel, PhonePrompt } from './phone-kit';
+import type { FreePicture } from '@/lib/sources/wikimedia-images';
+import { FreePictureView } from '@/components/ui/free-picture';
 
 /** Room-wide state (perStudentData.__room). */
 export interface HotSeatRoom { phase: 'ready' | 'turn'; hotSeat: string; clueGiver?: string | null }
 /** Per-student cards (by id / clientId / name). Everyone not in the hot seat gets the word. */
 export type HotSeatCard =
   | { role: 'hot' }
-  | { role: 'clue'; word: string; hint: string; yourTurn: boolean };
+  | { role: 'clue'; word: string; hint: string; yourTurn: boolean; picture?: FreePicture | null };
 
 /**
  * Hot Seat on the phone: the guesser's phone hides the word; every other phone
@@ -49,6 +51,7 @@ export function HotSeatPanel({ spec, displayName, studentId, clientId }: { spec:
           <span className="flex items-center gap-1 text-[11px] text-lc-text3"><Lock className="h-3 w-3" /> hide from {room.hotSeat}</span>
         </div>
         <p className="font-display text-[42px] leading-none text-lc-text">{card.word}</p>
+        <FreePictureView picture={card.picture} />
         {card.hint && <p className="text-[14px] text-lc-text2">{card.hint}</p>}
       </div>
       {card.yourTurn ? (

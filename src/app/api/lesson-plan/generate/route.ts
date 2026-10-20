@@ -3200,7 +3200,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "co
 }
 
 async function generateTabooSprint(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<TabooSprintContent> {
-  const cached = await getCachedContent('taboo-sprint', topic, difficulty, [], variant, 2);
+  const cached = await getCachedContent('taboo-sprint', topic, difficulty, [], variant, 3);
   if (cached) {
     const c = cached.content_json as { rounds: TabooRound[] };
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -3216,12 +3216,13 @@ async function generateTabooSprint(topic: string, difficulty: Difficulty, source
           properties: {
             word: { type: 'string' },
             description: { type: 'string' },
+            picture: { type: 'string' },
             forbiddenWords: {
               type: 'array',
               items: { type: 'string' },
             },
           },
-          required: ['word', 'description', 'forbiddenWords'],
+          required: ['word', 'description', 'forbiddenWords', 'picture'],
         },
       },
     },
@@ -3243,12 +3244,13 @@ Rules:
 Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWords": string[] }] } — exactly 12 rounds, each with exactly 4 forbidden words.`;
 
   try {
-    const data = await generateJSON<{ rounds: TabooRound[] }>(prompt, schema);
+    const data = await generateJSON<{ rounds: TabooRound[] }>(prompt + "\n" + WORD_PICTURE_PROMPT + " The photo is only on the private clue-giver card, never the shared screen during guessing.", schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3).map((r) => ({
       ...r,
+      picture: pictureQuery(r.picture),
       forbiddenWords: Array.isArray(r.forbiddenWords) ? r.forbiddenWords.slice(0, 4) : [],
     })) : [];
-    void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 2, variant);
+    void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 3, variant);
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds, topic };
   } catch {
     const deckRounds = deckTabooRounds(topic, difficulty);

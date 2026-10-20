@@ -8,6 +8,8 @@ import type { TabooSprintContent, TabooRound } from '../types';
 import type { Student } from '@/lib/supabase/types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import type { TabooPhoneCard } from '@/components/student/taboo-sprint-panel';
+import { useFreePicture } from '@/lib/use-free-picture';
+import { tabooDescriberCard } from '@/lib/secret-picture-cards';
 
 // Everyone guesses, or two teams take turns (only the describer's team guesses).
 type Mode = 'everyone' | 'teams';
@@ -40,6 +42,7 @@ const isMatch = (guess: string, word: string) => {
 };
 
 export function TabooSprintActivity({
+  sessionId,
   students,
   generatedContent,
   onPhaseChange,
@@ -67,6 +70,7 @@ export function TabooSprintActivity({
   const guessIdRef = useRef(0);
 
   const card = deck[cardIdx] ?? null;
+  const picture = useFreePicture(sessionId, phase === 'turn' ? card?.picture : '');
   const got = results.filter((r) => r.outcome === 'got').length;
   const describerTeam: Team | null = describer ? (teams.A.some((s) => s.id === describer.id) ? 'A' : teams.B.some((s) => s.id === describer.id) ? 'B' : null) : null;
   const minPlayers = mode === 'teams' ? 4 : 2;
@@ -83,8 +87,11 @@ export function TabooSprintActivity({
   useEffect(() => {
     if (phase !== 'turn' || !describer || !card) { onSetInputSpec?.(null); return; }
     const data: Record<string, TabooPhoneCard> = {};
-    const put = (s: Student, c: TabooPhoneCard) => { data[s.id] = c; data[s.name] = c; };
-    put(describer, { role: 'describer', word: card.word, forbidden: card.forbiddenWords });
+    const put = (s: Student, c: TabooPhoneCard) => {
+      data[s.id] = c;
+      if (students.filter(student => student.name === s.name).length === 1) data[s.name] = c;
+    };
+    put(describer, tabooDescriberCard(card, picture));
     if (mode === 'teams' && describerTeam) {
       teams[describerTeam === 'A' ? 'B' : 'A'].forEach((s) => put(s, { role: 'bench' }));
     }
@@ -94,9 +101,11 @@ export function TabooSprintActivity({
       prompt: 'Guess the word',
       // Many guesses per student: no roundId (the server keeps only the first per round).
       allowMultiple: true,
+      stableInput: true,
+      instruction: `Word ${cardIdx + 1}`,
       perStudentData: data,
     });
-  }, [phase, describer, card, mode, describerTeam, teams, onSetInputSpec]);
+  }, [phase, describer, card, cardIdx, picture, mode, describerTeam, teams, students, onSetInputSpec]);
 
   // ─── Card flow ────────────────────────────────────────────────────────────
   const showFlash = (kind: 'got' | 'taboo' | 'skip', text: string) => {

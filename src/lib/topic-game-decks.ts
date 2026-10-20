@@ -1,6 +1,7 @@
 import decks from '@/data/topic-game-decks.json';
 import type { ImposterRound, TabooRound } from '@/activities/types';
 import { findTopicBriefing } from '@/lib/topic-briefings';
+import { bankedPictureQuery } from '@/data/banked-picture-queries';
 
 /**
  * Ready card decks for the spoken games, one per banked topic (Codex round 31): the games start at once, stay on
@@ -38,14 +39,14 @@ function pick<T extends { level: string }>(cards: T[], difficulty: string | unde
 export function deckTabooRounds(topic: string, difficulty?: string, count = 8): TabooRound[] | null {
   const deck = deckFor(topic);
   if (!deck?.taboo.length) return null;
-  return pick(deck.taboo, difficulty, count).map((card) => ({ word: card.word, description: card.description ?? '', forbiddenWords: card.forbidden.slice(0, 4) }));
+  return pick(deck.taboo, difficulty, count).map((card) => ({ word: card.word, description: card.description ?? '', forbiddenWords: card.forbidden.slice(0, 4), picture: bankedPictureQuery(card.word) }));
 }
 
 /** Hot Seat words for a banked topic (the whole class gives clues, so there are no forbidden words). */
 export function deckHotSeatCards(topic: string, difficulty?: string, count = 8): TabooRound[] | null {
   const deck = deckFor(topic);
   if (!deck?.hotSeat.length) return null;
-  return pick(deck.hotSeat, difficulty, count).map((card) => ({ word: card.word, description: card.description ?? '', forbiddenWords: [] }));
+  return pick(deck.hotSeat, difficulty, count).map((card) => ({ word: card.word, description: card.description ?? '', forbiddenWords: [], picture: bankedPictureQuery(card.word) }));
 }
 
 /** Imposter rounds for a banked topic. Used as the stand-in when the AI cannot write them (never classroom filler). */

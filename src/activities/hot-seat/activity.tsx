@@ -7,6 +7,8 @@ import type { ActivityProps, HotSeatContent, TabooRound } from '../types';
 import type { Student } from '@/lib/supabase/types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 import type { HotSeatCard, HotSeatRoom } from '@/components/student/hot-seat-panel';
+import { useFreePicture } from '@/lib/use-free-picture';
+import { hotSeatClueCard } from '@/lib/secret-picture-cards';
 
 const TURN_SECONDS = 60;
 const POINTS_GUESSER = 3;
@@ -29,7 +31,7 @@ function shuffle<T>(arr: T[]): T[] {
  * phone shows it. Classmates take turns giving one spoken clue each; the teacher
  * taps "Got it" when the hot seat says the word. Everyone speaks, every turn.
  */
-export function HotSeatActivity({ students, generatedContent, onPhaseChange, onSetInputSpec, onScore }: ActivityProps) {
+export function HotSeatActivity({ sessionId, students, generatedContent, onPhaseChange, onSetInputSpec, onScore }: ActivityProps) {
   const content = generatedContent as HotSeatContent;
   const deckAll = useMemo(() => content.cards ?? [], [content.cards]);
 
@@ -46,6 +48,7 @@ export function HotSeatActivity({ students, generatedContent, onPhaseChange, onS
   const promptIndexRef = useRef(1);
 
   const card = deck[cardIdx] ?? null;
+  const picture = useFreePicture(sessionId, phase === 'turn' ? card?.picture : '');
   const cluers = useMemo(() => students.filter((s) => s.id !== hot?.id), [students, hot]);
   const clueGiver = cluers.length ? cluers[clueIdx % cluers.length] : null;
   const turnResults = results.slice(turnStart);
@@ -66,13 +69,16 @@ export function HotSeatActivity({ students, generatedContent, onPhaseChange, onS
     const data: Record<string, unknown> = {
       __room: { phase: phase === 'turn' ? 'turn' : 'ready', hotSeat: hot.name, clueGiver: phase === 'turn' ? clueGiver?.name ?? null : null } satisfies HotSeatRoom,
     };
-    const put = (s: Student, c: HotSeatCard) => { data[s.id] = c; data[s.name] = c; };
+    const put = (s: Student, c: HotSeatCard) => {
+      data[s.id] = c;
+      if (students.filter(student => student.name === s.name).length === 1) data[s.name] = c;
+    };
     put(hot, { role: 'hot' });
     if (phase === 'turn' && card) {
-      cluers.forEach((s) => put(s, { role: 'clue', word: card.word, hint: card.description, yourTurn: s.id === clueGiver?.id }));
+      cluers.forEach((s) => put(s, hotSeatClueCard(card, picture, s.id === clueGiver?.id)));
     }
-    onSetInputSpec?.({ type: 'confirm', gameKey: 'hot-seat', prompt: `${hot.name} is in the hot seat`, perStudentData: data });
-  }, [phase, hot, card, cluers, clueGiver, onSetInputSpec]);
+    onSetInputSpec?.({ type: 'confirm', gameKey: 'hot-seat', prompt: `${hot.name} is in the hot seat`, perStudentData: data, stableInput: true });
+  }, [phase, hot, card, picture, cluers, clueGiver, students, onSetInputSpec]);
 
   // ─── Flow ───
   const pickHot = useCallback((taken: Record<string, number>, exclude?: string) => {

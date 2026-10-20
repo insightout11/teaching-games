@@ -937,6 +937,7 @@ export interface BluffDefinitionContent extends ActivityGeneratedContent {
 
 // Taboo Sprint content
 export interface TabooRound {
+  picture?: string; // Concrete-word photo, private card only during guessing
   word: string;
   description: string;
   forbiddenWords: string[];
