@@ -360,10 +360,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const shores = coast.rings.map((r, ri) => { const k = coast.shores?.[ri] ?? []; const out = [k[0] ?? 1]; for (let i = 0; i < r.length - 1; i++) out.push(k[i] ?? 1, k[i + 1] ?? 1); out.push(k[r.length - 1] ?? 1); return out; });
     const edges: number[] = [];
     const buckets = new Map<number, number[]>();
-    for (const ring of rings) {
-      // coastline lines (not closed shapes), land always on the right walking along them
-      for (let i = 0; i + 1 < ring.length; i++) {
-        const [x1, z1] = ring[i], [x2, z2] = ring[i + 1];
+    // the land as closed outlines: a strip is land between an odd and the next even crossing (counting, never the
+    // lines' direction, which flickered land and sea where pieces of coastline started and ended)
+    const landRings = (coast.land ?? []).map((r) => smoothRing(r.map(toWorld)));
+    for (const ring of landRings) {
+      for (let i = 0; i < ring.length; i++) {
+        const [x1, z1] = ring[i], [x2, z2] = ring[(i + 1) % ring.length];
         if (z1 === z2) continue;
         const k = edges.length / 4;
         edges.push(x1, z1, x2, z2);
@@ -619,54 +621,33 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         sctx.fillStyle = '#808080';
         sctx.fillRect(0, 0, w, h);
         const y0 = (Math.ceil((horizonY + 1) / rowH)) * rowH;
-        let coastRowState: boolean | null = null;
-        // A real coast: strips the coastline does not cross take their land or sea from the nearest strip it does
-        // cross (guessing from the terrain under the plane flipped the whole ground to sea and back: white flashes).
-        // When no strip in view crosses it, the coast is left out and the ordinary ground is painted.
+        // A real coast: land and sea from the closed land outlines (cut to a box wider than the view)
         const cw0 = realCoast() ? coastWorld.current : null;
-        let coastUsable = false;
-        if (cw0) {
-          for (let y = y0; y < h; y += rowH) {
-            const wz = camZ + (camH * F) / (y - horizonY);
-            if (wz < cw0.zMin || wz > cw0.zMax) continue;
-            let best: { x: number; land: boolean } | null = null;
-            for (const k of cw0.buckets.get(Math.floor(wz / COAST_BUCKET)) ?? []) {
-              const x1 = cw0.edges[k * 4], z1 = cw0.edges[k * 4 + 1], x2 = cw0.edges[k * 4 + 2], z2 = cw0.edges[k * 4 + 3];
-              if ((z1 <= wz && wz < z2) || (z2 <= wz && wz < z1)) {
-                const x = x1 + ((wz - z1) * (x2 - x1)) / (z2 - z1);
-                if (!best || x < best.x) best = { x, land: z2 > z1 };
-              }
-            }
-            if (best) { coastRowState = !best.land; coastUsable = true; break; }
-          }
-        }
         for (let y = y0; y < h; y += rowH) {
           const z = (camH * F) / (y - horizonY);   // world depth of this row
           const wz = camZ + z;
           // A real coast in reach: the sea everywhere, then the land where this strip is inside the land outlines
-          const cw = coastUsable ? cw0 : null;
+          const cw = cw0;
           if (cw && seaRip.current && landRip.current && wz >= cw.zMin && wz <= cw.zMax) {
             const top = L[L.length - 1];
             const sea: Layer = { ...top, terrain: 'ocean', rip: seaRip.current, macroAlpha: 0.1 };
             const land: Layer = { ...top, terrain: landRip.current.terrain, rip: landRip.current.rip, macroAlpha: 0.4 };
-            // where this strip crosses the coast, and whether the ground beyond each crossing is land (the line runs
-            // forward there: land on its right) or sea
+            // where this strip crosses the land's outline
             const xs: Array<{ x: number; land: boolean }> = [];
             for (const k of cw.buckets.get(Math.floor(wz / COAST_BUCKET)) ?? []) {
               const x1 = cw.edges[k * 4], z1 = cw.edges[k * 4 + 1], x2 = cw.edges[k * 4 + 2], z2 = cw.edges[k * 4 + 3];
-              if ((z1 <= wz && wz < z2) || (z2 <= wz && wz < z1)) xs.push({ x: x1 + ((wz - z1) * (x2 - x1)) / (z2 - z1), land: z2 > z1 });
+              if ((z1 <= wz && wz < z2) || (z2 <= wz && wz < z1)) xs.push({ x: x1 + ((wz - z1) * (x2 - x1)) / (z2 - z1), land: true });
             }
             xs.sort((a, b) => a.x - b.x);
-            // no crossing on this strip: all one thing, the same as the last strip's left end
-            let state: boolean = xs.length ? !xs[0].land : coastRowState ?? true;
-            if (xs.length) coastRowState = state;
+            // sea to the far left; each crossing of the land's outline switches between sea and land
+            let state = false;
             const sx = F / z;
             paintRow(sea, y, z, F, camZ, 1);
             let from = -1e9;
             for (const c of xs) {
               if (state) paintRow(land, y, z, F, camZ, 1, true, undefined, [w / 2 + from * sx, w / 2 + c.x * sx]);
               from = c.x;
-              state = c.land;
+              state = !state;
             }
             if (state) paintRow(land, y, z, F, camZ, 1, true, undefined, [w / 2 + from * sx, w]);
             continue;

@@ -3,7 +3,7 @@
  * Artificial date-line/polar polygon closures are excluded. Includes inland-sea shores.
  */
 import type { LatLng } from './route-terrain';
-import { clipMapLine, decodeMapLine, mapQueryBox, mapShape, mapShifts, type MapPoint, type MapShape } from './map-data-geometry';
+import { clipMapLine, clipMapRing, decodeMapLine, mapQueryBox, mapShape, mapShifts, type MapPoint, type MapShape } from './map-data-geometry';
 
 let loaded: Promise<MapShape[]> | undefined;
 function loadCoasts() {
@@ -17,4 +17,14 @@ export async function coastNear(p: LatLng, km: number): Promise<MapPoint[][]> {
   const shapes = await loadCoasts();
   return shapes.flatMap(shape => mapShifts(shape, box).flatMap(shift =>
     shape.rings.flatMap(ring => clipMapLine(ring, box, shift, true))));
+}
+
+/** The land itself within the box around `p`: closed outlines (cut to the box, so they stay closed), for telling land
+ * from sea by counting crossings (inside after an odd number). Holes (inland seas) come as their own rings. */
+export async function landNear(p: LatLng, km: number): Promise<MapPoint[][]> {
+  const box = mapQueryBox(p, km);
+  if (!km) return [];
+  const shapes = await loadCoasts();
+  return shapes.flatMap(shape => mapShifts(shape, box).flatMap(shift =>
+    shape.rings.map(ring => clipMapRing(ring, box, shift)).filter(r => r.length > 3)));
 }

@@ -2525,9 +2525,9 @@ export function FlightDeck({
               <Eye className="h-3.5 w-3.5" /> Look outside: {momentDue.title}
             </button>
           ) : momentUpcoming && (
-            <p className="pointer-events-none flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80 backdrop-blur-sm">
+            <button type="button" onClick={() => openMoment(momentUpcoming)} className="flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80 backdrop-blur-sm hover:bg-white/10">
               <Eye className="h-3.5 w-3.5" /> Coming up: {momentUpcoming.title} · in {Math.max(1, Math.ceil(momentUpcoming.at - (minutesFlown ?? 0)))} min
-            </p>
+            </button>
           )}
         </div>
       )}

@@ -13,8 +13,8 @@ describe('look outside moments', () => {
     for (const x of m) { expect(x.at).toBeGreaterThanOrEqual(4); expect(x.at).toBeLessThanOrEqual(44); }
     for (let i = 1; i < m.length; i++) expect(m[i].at - m[i - 1].at).toBeGreaterThanOrEqual(10);
   });
-  it('a famous mountain on the way comes first (London to Cairo passes the Alps: the drawn Matterhorn wins)', () => {
-    expect(planMoments({ origin: LONDON, destination: CAIRO, flightMinutes: 50, stops: [] }).some((x) => x.title === 'the Matterhorn' && x.drawn)).toBe(true);
+  it('only what can be seen from the window (London to Cairo passes far from the Matterhorn: not announced)', () => {
+    expect(planMoments({ origin: LONDON, destination: CAIRO, flightMinutes: 50, stops: [] }).some((x) => x.title === 'the Matterhorn')).toBe(false);
   });
   it('border crossings and live events count', () => {
     const m = planMoments({

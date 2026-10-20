@@ -70,13 +70,14 @@ export function planMoments(o: {
   const found: Moment[] = [];
   for (const l of TEACHING_LANDMARKS) {
     const c = closest(l);
-    if (c.d <= 200 && inCruise(minuteOf(c.i))) found.push({ id: `lm:${l.name}`, at: minuteOf(c.i), kind: 'landmark', title: l.name, fact: l.fact });
+    if (c.d <= 110 && inCruise(minuteOf(c.i))) found.push({ id: `lm:${l.name}`, at: minuteOf(c.i), kind: 'landmark', title: l.name, fact: l.fact });
   }
   for (const [name, kind, lat, lng] of NAMED_FEATURES) {
     if (kind === 'island') continue;
     const c = closest({ lat, lng });
     const drawn = DRAWN_LANDMARK_NAMES.includes(name);
-    if (c.d <= (drawn ? 300 : 250) && inCruise(minuteOf(c.i))) {
+    // only what could really be seen from the window (about 110 km either side; it said Ha Long Bay from 180 km away)
+    if (c.d <= (drawn ? 130 : 110) && inCruise(minuteOf(c.i))) {
       found.push({ id: `nf:${name}`, at: minuteOf(c.i), kind: kind === 'mountain' || kind === 'sight' ? 'landmark' : 'place', title: name, lat, lng, ...(drawn ? { drawn: true } : {}) });
     }
   }
@@ -90,7 +91,7 @@ export function planMoments(o: {
   }
   for (const e of o.events ?? []) {
     const c = closest(e);
-    if (c.d <= 300 && inCruise(minuteOf(c.i))) found.push({ id: `ev:${e.id}`, at: minuteOf(c.i), kind: 'event', title: e.title, fact: `${e.category}, happening now (NASA)` });
+    if (c.d <= 150 && inCruise(minuteOf(c.i))) found.push({ id: `ev:${e.id}`, at: minuteOf(c.i), kind: 'event', title: e.title, fact: `${e.category}, happening now (NASA)` });
   }
   for (const s of o.stops) {
     if (!s.crossing || !inCruise(s.at)) continue;

@@ -4,7 +4,7 @@
  * land and sea at their real places, bays and islands included.
  */
 
-import { coastNear } from '@/lib/live-room/coastlines';
+import { coastNear, landNear } from '@/lib/live-room/coastlines';
 import { elevationAt, loadElevation } from '@/lib/live-room/elevation';
 import { toFrame, type FramePoint } from '@/lib/live-room/waters-ahead';
 import type { LatLng } from '@/lib/live-room/route-terrain';
@@ -12,6 +12,8 @@ import type { LatLng } from '@/lib/live-room/route-terrain';
 export interface Coast {
   /** Coastlines (open lines, land on their right), in the cockpit frame. */
   rings: FramePoint[][];
+  /** The land as closed outlines (cut to a box wider than the view), for telling land from sea robustly. */
+  land: FramePoint[][];
   /** How far the data reaches from the plane (km): beyond it the scenery falls back to its usual ground. */
   reachKm: number;
   /** What each stretch of shore is like, per point of each ring (see ShoreKind). */
@@ -33,7 +35,8 @@ export function shoreKind(lat: number, inlandM: number): ShoreKind {
 
 /** The land outlines within `km` of the plane, in its frame. Empty rings = open sea or deep inland (no coast near). */
 export async function coastAhead(at: LatLng, headingDeg: number, km = 175): Promise<Coast> {
-  const [raw] = await Promise.all([coastNear(at, km).catch(() => [] as Awaited<ReturnType<typeof coastNear>>), loadElevation().catch(() => undefined)]);
+  // the land outlines are cut to a box well beyond the view (its edges never show)
+  const [raw, landRaw] = await Promise.all([coastNear(at, km).catch(() => [] as Awaited<ReturnType<typeof coastNear>>), landNear(at, km * 1.8).catch(() => [] as Awaited<ReturnType<typeof landNear>>), loadElevation().catch(() => undefined)]);
   const rings = raw.filter((r) => r.length > 2);
   const inland = (ring: typeof rings[number], i: number) => {
     // the land lies to the right of the line: a point about 8 km that way
@@ -43,6 +46,7 @@ export async function coastAhead(at: LatLng, headingDeg: number, km = 175): Prom
   };
   return {
     rings: rings.map((ring) => ring.map((p) => toFrame(at, headingDeg, p))),
+    land: rings.length ? landRaw.map((ring) => ring.map((p) => toFrame(at, headingDeg, p))) : [],
     reachKm: km,
     shores: rings.map((ring) => ring.map((p, i) => shoreKind(p[1], inland(ring, i)))),
   };
