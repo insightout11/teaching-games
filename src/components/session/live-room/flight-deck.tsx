@@ -1249,7 +1249,7 @@ export function FlightDeck({
     const q = new URLSearchParams({ lat: here.lat.toFixed(2), lng: here.lng.toFixed(2), country: countryNow ?? '' });
     void fetch(`/api/live-room/nearby?${q.toString()}`).then((r) => (r.ok ? r.json() : null)).then((d: {
       plane: { callsign: string; airline: string | null; km: number; bearing: number; altitudeM: number } | null; kp: number | null;
-      quake: { magnitude: number; place: string; hoursAgo: number; km: number } | null; holiday: { name: string; localName: string; country: string } | null;
+      quake: { magnitude: number; place: string; hoursAgo: number; km: number; big: boolean } | null; holiday: { name: string; localName: string; country: string } | null;
     } | null) => {
       if (!live || !d) return;
       setNearby({ plane: d.plane, kp: d.kp });
@@ -1257,7 +1257,10 @@ export function FlightDeck({
         const side = sideOfSky(d.plane.bearing, skyNow.sun.heading);
         addLive({ id: `plane:${d.plane.callsign}`, title: d.plane.airline ?? 'another plane', where: `flight ${d.plane.callsign}, ${d.plane.km} km away ${side}, ${d.plane.altitudeM.toLocaleString()} m up`, fact: d.plane.airline ? `A real ${d.plane.airline} flight is passing us right now.` : 'A real plane is passing us right now.' }, 3);
       }
-      if (d.quake) addLive({ id: `quake:${d.quake.place}`, title: 'earthquakes', where: `magnitude ${d.quake.magnitude}, ${d.quake.place}, ${d.quake.hoursAgo} hours ago`, fact: 'Scientists around the world measure earthquakes as they happen.' });
+      if (d.quake) {
+        const ago = d.quake.hoursAgo < 48 ? `${d.quake.hoursAgo} hours ago` : `${Math.round(d.quake.hoursAgo / 24)} days ago`;
+        addLive({ id: `quake:${d.quake.place}`, title: 'earthquakes', where: `magnitude ${d.quake.magnitude}, ${d.quake.place}, ${ago}${d.quake.big ? ' (in the news)' : ''}`, fact: d.quake.big ? 'A strong earthquake: scientists, rescue teams and neighbours work together after one like this.' : 'Scientists around the world measure earthquakes as they happen.' }, d.quake.big ? 6 : 4);
+      }
       if (d.holiday) addLive({ id: `holiday:${d.holiday.name}`, title: d.holiday.name, where: `a public holiday in ${d.holiday.country} today${d.holiday.localName !== d.holiday.name ? ` (${d.holiday.localName})` : ''}` }, 6);
     }).catch(() => {});
     return () => { live = false; };

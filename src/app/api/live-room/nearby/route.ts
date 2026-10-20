@@ -62,20 +62,29 @@ async function auroraKp() {
   return Number.isFinite(kp) ? kp : null;
 }
 
+type Quake = { magnitude: number; place: string; hoursAgo: number; km: number; big: boolean };
 async function recentQuake(at: { lat: number; lng: number }) {
-  const d = await get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson', 600) as
-    { features?: Array<{ properties?: { mag?: number; place?: string; time?: number }; geometry?: { coordinates?: number[] } }> } | null;
-  let best: { magnitude: number; place: string; hoursAgo: number; km: number } | null = null;
-  for (const f of d?.features ?? []) {
+  // every earthquake of magnitude 4.5 or more near the route in the last day, and the big, newsworthy ones (USGS
+  // "significant") further away and up to a month back: a calm, factual way into how the Earth works
+  type Feed = { features?: Array<{ properties?: { mag?: number; place?: string; time?: number }; geometry?: { coordinates?: number[] } }> } | null;
+  const [day, big] = await Promise.all([
+    get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson', 600) as Promise<Feed>,
+    get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson', 1800) as Promise<Feed>,
+  ]);
+  let best: Quake | null = null;
+  const consider = (f: NonNullable<NonNullable<Feed>['features']>[number], reach: number, isBig: boolean) => {
     const [lng, lat] = f.geometry?.coordinates ?? [];
     const mag = f.properties?.mag ?? 0;
-    // calm and factual: moderate ones only (a big, damaging one is news, not a talking point from the window)
-    if (!Number.isFinite(lat) || !Number.isFinite(lng) || mag < 4.5 || mag >= 6.5) continue;
+    if (!Number.isFinite(lat) || !Number.isFinite(lng) || mag < 4.5) return;
     const dist = km(at, { lat, lng });
-    if (dist > 350) continue;
-    if (!best || dist < best.km) best = { magnitude: Math.round(mag * 10) / 10, place: (f.properties?.place ?? '').slice(0, 80), hoursAgo: Math.max(1, Math.round((Date.now() - (f.properties?.time ?? Date.now())) / 3600000)), km: Math.round(dist) };
-  }
-  return best;
+    if (dist > reach) return;
+    const q: Quake = { magnitude: Math.round(mag * 10) / 10, place: (f.properties?.place ?? '').slice(0, 80), hoursAgo: Math.max(1, Math.round((Date.now() - (f.properties?.time ?? Date.now())) / 3600000)), km: Math.round(dist), big: isBig || mag >= 6.5 };
+    // the strongest one in reach wins
+    if (!best || q.magnitude > best.magnitude) best = q;
+  };
+  for (const f of day?.features ?? []) consider(f, 400, false);
+  for (const f of big?.features ?? []) consider(f, 1500, true);
+  return best as Quake | null;
 }
 
 async function holidayToday(country: string) {
