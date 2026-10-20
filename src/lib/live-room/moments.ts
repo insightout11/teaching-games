@@ -10,7 +10,7 @@ import { NAMED_FEATURES } from '@/data/world/named-features';
 import { TEACHING_LANDMARKS } from '@/data/world/named-regions';
 import type { RouteStop } from '@/lib/live-room/route-preview';
 
-export type MomentKind = 'landmark' | 'place' | 'country' | 'event';
+export type MomentKind = 'landmark' | 'place' | 'country' | 'event' | 'crossing';
 
 export interface Moment {
   id: string;
@@ -39,7 +39,7 @@ function km(a: LatLng, b: LatLng): number {
   return 12742 * Math.asin(Math.min(1, Math.sqrt(h)));
 }
 
-const PRIORITY: Record<MomentKind, number> = { landmark: 0, event: 1, place: 2, country: 3 };
+const PRIORITY: Record<MomentKind, number> = { landmark: 0, crossing: 1, event: 1, place: 2, country: 3 };
 
 /** Landmarks drawn in the storybook style (src/components/live-room/flight/landmark-art.tsx): first pick of all. */
 export const DRAWN_LANDMARK_NAMES = ['the Matterhorn', 'Mount Everest', 'Mount Fuji', 'Mount Kilimanjaro', 'the Pyramids of Giza', 'Stonehenge', 'the Great Wall of China', 'Niagara Falls'];
@@ -104,6 +104,20 @@ export function planMoments(o: {
     const c = closest(e);
     if (c.d <= 300 && inCruise(minuteOf(c.i))) found.push({ id: `ev:${e.id}`, at: minuteOf(c.i), kind: 'event', title: e.title, fact: `${e.category}, happening now (NASA)`, where: whereFrom(c.i, e, c.d) });
   }
+  // Lines on the globe the route crosses: the Equator, the tropics, the polar circles, the International Date Line
+  const LINES: Array<[string, number, string]> = [
+    ['the Equator', 0, 'the line halfway between the North and South Poles'],
+    ['the Tropic of Cancer', 23.44, 'the furthest line north where the sun can be straight overhead'],
+    ['the Tropic of Capricorn', -23.44, 'the furthest line south where the sun can be straight overhead'],
+    ['the Arctic Circle', 66.56, 'north of it, the sun stays up all day in midsummer'],
+    ['the Antarctic Circle', -66.56, 'south of it, the sun stays up all day in midsummer'],
+  ];
+  for (let i = 1; i <= samples; i++) {
+    const a = route[i - 1], b = route[i];
+    if (!inCruise(minuteOf(i))) continue;
+    for (const [name, lat, fact] of LINES) if ((a.lat - lat) * (b.lat - lat) < 0) found.push({ id: `ln:${name}`, at: minuteOf(i), kind: 'crossing', title: name, fact: `We are crossing it now: ${fact}.`, where: 'right below us' });
+    if (Math.abs(b.lng - a.lng) > 180) found.push({ id: 'ln:dateline', at: minuteOf(i), kind: 'crossing', title: 'the International Date Line', fact: `We are crossing it now: the date changes by a whole day here (${b.lng < a.lng ? 'flying east, back to yesterday' : 'flying west, on to tomorrow'}).`, where: 'right below us' });
+  }
   for (const s of o.stops) {
     if (!s.crossing || !inCruise(s.at)) continue;
     const country = s.text.replace(/^Cross into /, '');
@@ -128,5 +142,6 @@ export function planMoments(o: {
 export function momentQuestion(m: Pick<Moment, 'kind' | 'title'>): string {
   if (m.kind === 'country') return `What do you know about ${m.title}? Would you like to go there?`;
   if (m.kind === 'event') return 'What should people nearby do to stay safe?';
+  if (m.kind === 'crossing') return `Why do you think people drew ${m.title} on maps?`;
   return `Would you like to visit ${m.title}? What would you do there?`;
 }

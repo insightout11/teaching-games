@@ -57,6 +57,7 @@ import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/li
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
+import { activeShower, brightPlanet, METEOR_SHOWERS, moonPhaseName, sideOfSky } from '@/lib/live-room/journey-sky';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { routePreview } from '@/lib/live-room/route-preview';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
@@ -957,6 +958,7 @@ export function FlightDeck({
   // the way into Tokyo) without waiting for the end of class. Time moves on normally from there.
   const [descentTest, setDescentTest] = useState(false);
   const [issTest, setIssTest] = useState(false);
+  const [skyTest, setSkyTest] = useState(false);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     setDescentTest(q.get('descent') === 'on');
@@ -964,6 +966,8 @@ export function FlightDeck({
     if (q.get('coast') === 'on') setRealCoast(true);
     // test switch: ?iss=on sends the space station over shortly after take-off
     setIssTest(q.get('iss') === 'on');
+    // test switch: ?sky=on shows tonight's sky things now (a planet, shooting stars, the northern lights, the moon card)
+    setSkyTest(q.get('sky') === 'on');
   }, []);
   const [descentShift, setDescentShift] = useState(0);
   const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
@@ -1224,6 +1228,89 @@ export function FlightDeck({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issMinute, issTest]);
   const issActive = issPass && now - issPass.start < ISS_PASS_MS ? issPass : null;
+  // Real things happening on the journey (Oct 2026), each a "Look" moment the class can open: another real plane, the
+  // northern or southern lights, a recent earthquake nearby, a holiday in the country below, a clock change below,
+  // sunrise or sunset, tonight's moon, a bright planet, a meteor shower. One label at a time; each only once a flight.
+  type LiveMoment = { id: string; title: string; where: string; fact?: string; until: number };
+  const [liveMoments, setLiveMoments] = useState<LiveMoment[]>([]);
+  const liveSeen = useRef(new Set<string>());
+  const addLive = useCallback((m: Omit<LiveMoment, 'until'>, minutes = 4) => {
+    if (liveSeen.current.has(m.id)) return;
+    liveSeen.current.add(m.id);
+    setLiveMoments((xs) => [...xs, { ...m, until: Date.now() + minutes * 60_000 }]);
+  }, []);
+  const cruising = flightStage === 'flying' && !holding && takeoffAt !== null;
+  const [nearby, setNearby] = useState<{ plane: { callsign: string; airline: string | null; km: number; bearing: number; altitudeM: number } | null; kp: number | null } | null>(null);
+  const nearbyStep = cruising ? Math.floor(now / 180_000) : null;
+  useEffect(() => {
+    if (nearbyStep == null) return;
+    let live = true;
+    const here = below.point;
+    const q = new URLSearchParams({ lat: here.lat.toFixed(2), lng: here.lng.toFixed(2), country: countryNow ?? '' });
+    void fetch(`/api/live-room/nearby?${q.toString()}`).then((r) => (r.ok ? r.json() : null)).then((d: {
+      plane: { callsign: string; airline: string | null; km: number; bearing: number; altitudeM: number } | null; kp: number | null;
+      quake: { magnitude: number; place: string; hoursAgo: number; km: number } | null; holiday: { name: string; localName: string; country: string } | null;
+    } | null) => {
+      if (!live || !d) return;
+      setNearby({ plane: d.plane, kp: d.kp });
+      if (d.plane) {
+        const side = sideOfSky(d.plane.bearing, skyNow.sun.heading);
+        addLive({ id: `plane:${d.plane.callsign}`, title: d.plane.airline ?? 'another plane', where: `flight ${d.plane.callsign}, ${d.plane.km} km away ${side}, ${d.plane.altitudeM.toLocaleString()} m up`, fact: d.plane.airline ? `A real ${d.plane.airline} flight is passing us right now.` : 'A real plane is passing us right now.' }, 3);
+      }
+      if (d.quake) addLive({ id: `quake:${d.quake.place}`, title: 'earthquakes', where: `magnitude ${d.quake.magnitude}, ${d.quake.place}, ${d.quake.hoursAgo} hours ago`, fact: 'Scientists around the world measure earthquakes as they happen.' });
+      if (d.holiday) addLive({ id: `holiday:${d.holiday.name}`, title: d.holiday.name, where: `a public holiday in ${d.holiday.country} today${d.holiday.localName !== d.holiday.name ? ` (${d.holiday.localName})` : ''}` }, 6);
+    }).catch(() => {});
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nearbyStep]);
+  // The night sky, checked every minute: the brightest planet, a meteor shower, the lights near the poles, the moon
+  const skyMinute = cruising ? Math.floor(now / 60_000) : null;
+  const nightSky = useMemo(() => {
+    if (skyMinute == null) return null;
+    const date = new Date(now);
+    const planet = brightPlanet(below.point, date, skyNow.sun.elevation);
+    const shower = skyNow.sun.elevation < -10 ? activeShower(date) : null;
+    // geomagnetic latitude (the pole is near 80.7 N, 72.7 W): the lights reach further from the pole as Kp rises
+    const r = Math.PI / 180, pl = 80.7 * r, pg = -72.7 * r, la = below.point.lat * r, lo = below.point.lng * r;
+    const mag = Math.asin(Math.sin(la) * Math.sin(pl) + Math.cos(la) * Math.cos(pl) * Math.cos(lo - pg)) / r;
+    const kp = nearby?.kp ?? null;
+    const aurora = kp !== null && skyNow.sun.elevation < -10 && Math.abs(mag) >= 66 - 2.6 * kp;
+    if (skyTest) return { planet: planet ?? { name: 'Venus' as const, elevation: 14, azimuth: (skyNow.sun.heading + 335) % 360 }, shower: shower ?? METEOR_SHOWERS[3], aurora: true, north: mag > 0 };
+    return { planet, shower, aurora, north: mag > 0 };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [skyMinute, nearby?.kp, skyTest]);
+  useEffect(() => {
+    if (!nightSky) return;
+    const { planet, shower, aurora, north } = nightSky;
+    if (planet) addLive({ id: `planet:${planet.name}`, title: planet.name, where: `the bright "star" ${sideOfSky(planet.azimuth, skyNow.sun.heading)}`, fact: 'It is a planet, not a star: it shines with reflected sunlight and does not twinkle.' });
+    if (shower) addLive({ id: `meteors:${shower.name}`, title: shower.name, where: `a meteor shower tonight: up to ${shower.perHour} shooting stars an hour`, fact: `The shooting stars are tiny pieces left behind by ${shower.from}.` }, 5);
+    if (aurora) addLive({ id: 'aurora', title: north ? 'the northern lights' : 'the southern lights', where: 'in the sky tonight', fact: 'Particles from the sun light up the air high above the Earth.' }, 6);
+    if (skyNow.timeOfDay === 'night' && skyNow.moon.elevation > 5) {
+      addLive({ id: 'moon', title: 'the Moon', where: `tonight it is ${moonPhaseName(skyNow.moon.illumination, skyNow.moon.waxing)}, ${Math.round(skyNow.moon.illumination * 100)}% lit`, fact: 'The Moon does not make light: we see the part lit by the sun.' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nightSky]);
+  // Sunrise or sunset during the flight, and the clocks changing in the land below
+  const sunUp = skyNow.sun.elevation > -0.8;
+  const lastSunUp = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (!cruising) { lastSunUp.current = null; return; }
+    if (lastSunUp.current !== null && sunUp !== lastSunUp.current) addLive({ id: `sun:${sunUp ? 'rise' : 'set'}:${Math.floor(Date.now() / 3_600_000)}`, title: sunUp ? 'sunrise' : 'sunset', where: sunUp ? 'the sun is coming up below us' : 'the sun is going down below us', fact: 'From a plane you can see it earlier and later than from the ground.' });
+    lastSunUp.current = sunUp;
+  }, [cruising, sunUp, addLive]);
+  const lastOffset = useRef<number | null>(null);
+  useEffect(() => {
+    const off = liveWx?.utcOffsetSeconds;
+    if (off === undefined) return;
+    if (cruising && lastOffset.current !== null && off !== lastOffset.current) {
+      const diff = (off - lastOffset.current) / 3600;
+      addLive({ id: `tz:${off}`, title: 'time zones', where: `the clocks below just changed: it is now ${offsetClock(off, new Date())} there (${diff > 0 ? '+' : ''}${diff} h)` });
+    }
+    lastOffset.current = off;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [liveWx?.utcOffsetSeconds]);
+  const liveNow = liveMoments.find((m) => m.until > now) ?? null;
+  const realPlane = nearby?.plane ? { id: nearby.plane.callsign, side: (sideOfSky(nearby.plane.bearing, skyNow.sun.heading) === 'on our left' ? 'left' : 'right') as 'left' | 'right', near: nearby.plane.km < 40 } : null;
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   // Each class keeps its favourites and recent activities between lessons (on this computer).
   const quickBarKey = classId ? `lc-class-quickbar-${classId}` : null;
@@ -2481,6 +2568,14 @@ export function FlightDeck({
           highGround={routeGround}
           events={stableEvents}
         iss={issActive}
+        sky={{
+          realPlane,
+          livePlanes: nearby !== null,
+          planet: nightSky?.planet ? { rel: ((nightSky.planet.azimuth - skyNow.sun.heading + 540) % 360) - 180, elevation: nightSky.planet.elevation, bright: nightSky.planet.name === 'Venus' || nightSky.planet.name === 'Jupiter' } : null,
+          meteors: !!nightSky?.shower,
+          aurora: !!nightSky?.aurora,
+          test: skyTest,
+        }}
           weather={liveWx?.condition ?? (flightStage === 'gate' || (minutesFlown ?? 0) < 3 ? rollWeather(`${sessionId}:${origin.id}`, origin.scene, skyNow.timeOfDay === 'night') : rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night'))}
           cloudCover={liveWx?.cloudCover}
           terrain={steadyGround.terrain}
@@ -2585,6 +2680,13 @@ export function FlightDeck({
               </div>
             </div>
           )}
+        </div>
+      )}
+      {liveNow && !issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
+        <div className="absolute bottom-20 left-4 z-[7]">
+          <button type="button" onClick={() => { setLiveMoments((xs) => xs.filter((x) => x.id !== liveNow.id)); openMoment({ id: `live:${liveNow.id}`, at: minutesFlown ?? 0, kind: 'event', title: liveNow.title, where: liveNow.where, ...(liveNow.fact ? { fact: liveNow.fact } : {}) }); }} className="flex items-center gap-1.5 rounded-full border border-sky-200/60 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
+            <Eye className="h-3.5 w-3.5" /> Look: {liveNow.title.charAt(0).toUpperCase() + liveNow.title.slice(1)} · {liveNow.where}
+          </button>
         </div>
       )}
       {issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (

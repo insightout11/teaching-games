@@ -1,6 +1,7 @@
 'use client';
 
 import { IssPass } from '@/components/live-room/flight/iss-pass';
+import { MeteorStreaks, PlanetPoint } from '@/components/live-room/flight/sky-extras';
 import type { SceneEvent } from '@/components/live-room/flight/event-art';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
@@ -83,6 +84,9 @@ export interface WindscreenFlightProps {
   events?: SceneEvent[];
   /** The International Space Station passing over (when it is really visible): when it started and from which side. */
   iss?: { start: number; side: 'left' | 'right' } | null;
+  /** Real things in the sky now: a nearby plane (and whether the live feed works), the brightest planet, shooting stars on
+   *  a meteor-shower night, the northern or southern lights. */
+  sky?: { realPlane?: { id: string; side: 'left' | 'right'; near: boolean } | null; livePlanes?: boolean; planet?: { rel: number; elevation: number; bright: boolean } | null; meteors?: boolean; aurora?: boolean; test?: boolean };
   /** Real cloud cover below (0–100), when known. */
   cloudCover?: number;
   /** An activity or text is on screen: the view is dimmed slightly behind it (the weather itself does not change). */
@@ -100,7 +104,7 @@ export interface WindscreenFlightProps {
   altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, waters, coast, highGround, events, iss = null, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, waters, coast, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -249,7 +253,10 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
           </motion.div>
         ) : (
           <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: "easeInOut" }}>
-            <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
+            <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} realPlane={sky?.realPlane ?? null} livePlanes={sky?.livePlanes ?? false} />
+            {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.planet && <PlanetPoint {...sky.planet} />}
+            {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.meteors && <MeteorStreaks />}
+            {phase === 'cruise' && sky?.aurora && weather !== 'aurora' && <WindscreenWeather weather="aurora" />}
             {iss && phase === 'cruise' && <IssPass start={iss.start} side={iss.side} />}
             <CockpitWorld altitude={descentAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={landmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} highGround={highGround} events={events} />
             <div

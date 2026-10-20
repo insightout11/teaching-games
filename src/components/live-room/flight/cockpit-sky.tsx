@@ -74,7 +74,11 @@ function milkyWayDots() {
   return out;
 }
 
-export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
+export function CockpitSky({ palette, timeOfDay, altitude, spot, realPlane = null, livePlanes = false }: {
+  /** A real plane nearby right now (live data): it is the one that crosses the sky. */
+  realPlane?: { id: string; side: 'left' | 'right'; near: boolean } | null;
+  /** The live plane feed is working: no made-up planes then (only real ones cross). */
+  livePlanes?: boolean;
   palette: ScenePalette;
   timeOfDay: TimeOfDay;
   altitude: number;
@@ -103,8 +107,14 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
   const v2 = SKY_V2;
   // A distant plane: rare (every 3 to 8 minutes) and never the same twice: height, angle, direction, speed, size.
   const [pass, setPass] = useState<{ id: number; top: number; angle: number; dir: 1 | -1; secs: number; len: number; size: number } | null>(null);
+  // a real plane nearby crosses on its own side (closer ones bigger and lower)
   useEffect(() => {
-    if (!v2 || reduce || palette.light === 'moon') return;
+    if (!v2 || reduce || !realPlane) return;
+    setPass({ id: Date.now(), top: realPlane.near ? 26 + Math.random() * 10 : 10 + Math.random() * 14, angle: -8 + Math.random() * 12, dir: realPlane.side === 'left' ? -1 : 1, secs: 60 + Math.random() * 30, len: 22 + Math.random() * 14, size: realPlane.near ? 1.1 : 0.75 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [realPlane?.id]);
+  useEffect(() => {
+    if (!v2 || reduce || palette.light === 'moon' || livePlanes) return;
     let t: ReturnType<typeof setTimeout>;
     const next = (first: boolean) => {
       t = setTimeout(() => {
@@ -114,7 +124,7 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
     };
     next(true);
     return () => clearTimeout(t);
-  }, [v2, reduce, palette.light]);
+  }, [v2, reduce, palette.light, livePlanes]);
   const milky = useMemo(() => (v2 ? milkyWayDots() : []), [v2]);
   // the sun's (or moon's) place across the sky as a number, for the glow and the earth's shadow opposite
   const sunX = Math.max(0, Math.min(100, parseFloat(String(pos.x)) || 50));
