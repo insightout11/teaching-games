@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { CockpitSky } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitSky, cockpitCloudTint } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { setPeakStyle } from '@/components/live-room/flight/peak-art';
 import { setGroundRelief, setNightLights, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { setSkyClouds } from '@/components/live-room/flight/sky-clouds';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
 const RANGES: Array<{ region: string; label: string }> = [
@@ -17,7 +19,7 @@ const RANGES: Array<{ region: string; label: string }> = [
 ];
 const TIMES: TimeOfDay[] = ['day', 'dusk', 'night'];
 
-function Cell({ region, tod, moving, terrain = 'mountains' }: { region: string; tod: TimeOfDay; moving: boolean; terrain?: Terrain }) {
+function Cell({ region, tod, moving, terrain = 'mountains', cover }: { region: string; tod: TimeOfDay; moving: boolean; terrain?: Terrain; cover?: number }) {
   const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
   const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
   // a still picture: draw for a moment, then stop drawing (so a page of pictures costs nothing)
@@ -26,7 +28,9 @@ function Cell({ region, tod, moving, terrain = 'mountains' }: { region: string; 
   return (
     <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
       <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
-      <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={moving ? 0.55 : 0.0001} paused={!moving && hold} />
+      <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} cloudCover={cover} speed={moving ? 0.55 : 0.0001} paused={!moving && hold} />
+      {/* the old eye-level clouds too, as the room shows them (the mix classes see) */}
+      {cover !== undefined && <CockpitClouds speed={moving ? 0.55 : 0.0001} tint={cockpitCloudTint(palette, tod)} density={Math.min(1, 0.3 + (cover / 100) * 0.8)} horizon={0.58} paused={!moving && hold} />}
     </div>
   );
 }
@@ -78,6 +82,7 @@ export function MountainGallery() {
   // ?one=Asia&tod=dusk shows a single view, large.
   const [one, setOne] = useState<{ region: string; tod: TimeOfDay; terrain: Terrain } | null>(null);
   const [edge, setEdge] = useState<{ from: Terrain; to: Terrain; region: string; soft: boolean } | null>(null);
+  const [cover, setCover] = useState(45);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = q.get('style') === 'old' ? 'old' : 'new';
@@ -85,6 +90,8 @@ export function MountainGallery() {
     setPeakStyle(s);
     setGroundRelief(s === 'new' && q.get('hills') !== 'off');
     setNightLights(q.get('lights') !== 'off');
+    setSkyClouds(q.get('clouds') !== 'off');
+    setCover(Number(q.get('cover') ?? '45') || 45);
     const e = q.get('edge')?.split(',');
     if (e?.length === 2) { const found = EDGES.find(([a, b]) => a === e[0] && b === e[1]); setEdge({ from: e[0] as Terrain, to: e[1] as Terrain, region: found?.[2] ?? 'Europe', soft: !q.has('hard') }); }
     const region = q.get('one');
@@ -100,7 +107,7 @@ export function MountainGallery() {
           <Fps />
           <span className="font-mono text-xs text-white/60">{style} · {one.terrain} · {one.region} · {one.tod}</span>
         </div>
-        <Cell key={style} region={one.region} tod={one.tod} moving terrain={one.terrain} />
+        <Cell key={style} region={one.region} tod={one.tod} moving terrain={one.terrain} cover={cover} />
       </div>
     );
   }
@@ -112,6 +119,17 @@ export function MountainGallery() {
         <a href={style === 'old' ? '?style=new' : '?style=old'} className="text-sm text-cyan-200 underline">Show the {style === 'old' ? 'new' : 'old'} peaks</a>
         <span className="text-sm text-white/60">Click any picture to watch it fly, full size.</span>
       </div>
+      <section>
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">The sea of clouds (cover 20 / 50 / 85 %; {'?clouds=off'} for none). Click one to fly.</p>
+        <div className="grid gap-3 md:grid-cols-3">
+          {([[20, 'day'], [50, 'dusk'], [85, 'day'], [50, 'night'], [50, 'day'], [85, 'dusk']] as Array<[number, TimeOfDay]>).map(([c, t]) => (
+            <a key={`${c}${t}`} href={`?one=Europe&tod=${t}&ground=farmland&cover=${c}`} className="block">
+              <Cell key={`${style}|${c}|${t}`} region="Europe" tod={t} moving={false} terrain="farmland" cover={c} />
+              <p className="mt-1 text-xs text-white/50">{c}% cloud · {t}</p>
+            </a>
+          ))}
+        </div>
+      </section>
       <section>
         <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Night lights: towns and roads ({'?lights=off'} for the old dark ground). Click one to fly.</p>
         <div className="grid gap-3 md:grid-cols-4">

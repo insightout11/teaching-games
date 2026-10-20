@@ -5,6 +5,7 @@ import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
 import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { drawPeak, peakStyle, type PeakKind } from '@/components/live-room/flight/peak-art';
+import { CLOUD_Y_MAX, CLOUD_Y_MIN, cloudLight, drawSkyCloud, skyClouds, type SkyCloud } from '@/components/live-room/flight/sky-clouds';
 import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -230,11 +231,13 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
   return c;
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1 }: { /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover }: { /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, paused, glint, altitude });
-  live.current = { speed, paused, glint, altitude };
+  const live = useRef({ speed, paused, glint, altitude, cloudCover });
+  live.current = { speed, paused, glint, altitude, cloudCover };
+  // The sea of clouds below: fixed in the world (they pass with the ground), as many as the cloud cover says.
+  const skyCloudList = useRef<SkyCloud[]>([]);
   const cam = useRef(0);
   // Cities seen in the distance, fixed on the ground once they come into range, so they scroll with it.
   const cityWorld = useRef(new Map<string, { z: number; x: number; r: number; dots: ReturnType<typeof cityDots> }>());
@@ -260,14 +263,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [landmarks]);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
-  const look = useRef<{ haze: RGB; night: boolean }>({ haze: [159, 184, 208], night });
+  const look = useRef<{ haze: RGB; night: boolean; glow: RGB }>({ haze: [159, 184, 208], night, glow: [220, 200, 180] });
 
   // ── Build (or restyle) the terrain layer when what's below changes ─────
   useEffect(() => {
     const ctx = ref.current?.getContext('2d');
     if (!ctx) return;
     const reg = region ?? null;
-    look.current = { haze: hexToRgb(palette.skyBottom.startsWith('#') ? palette.skyBottom : '#9fb8d0'), night };
+    look.current = { haze: hexToRgb(palette.skyBottom.startsWith('#') ? palette.skyBottom : '#9fb8d0'), night, glow: hexToRgb(palette.horizonGlow?.startsWith('#') ? palette.horizonGlow : '#dcc8b4') };
     const land = hexToRgb(palette.terrainTop);
     const range = rangeFor(reg);
     const rockBase: RGB = range.floor === 'arid' ? mixRgb(land, [178, 96, 60], 0.88) : mixRgb(land, [92, 90, 98], 0.7);
@@ -676,7 +679,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       });
 
       // ── Mountains and hills standing on that ground ────────────────────
-      const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind }> = [];
+      const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind; cloud?: SkyCloud }> = [];
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
       // ordinary mountains keep clear of a landmark (Fuji stands alone; the pyramids on open sand)
       const nearLandmark = (p: Peak) => lms.some((l) => Math.abs(p.z - l.z) < LANDMARK_SIZE[l.kind].clear && Math.abs(p.x - l.x) < LANDMARK_SIZE[l.kind].clear * 1.4);
@@ -697,16 +700,43 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const sz = LANDMARK_SIZE[l.kind];
         all.push({ p: { x: l.x, z: l.z, h: sz.h, w: sz.w, tone: 0, roll: 0, hill: false }, layer: under, lm: l.kind });
       }
+      // the sea of clouds: keep as many as the cover asks for, spread over the view; passed ones go back to the horizon
+      if (skyClouds() && camH > CAM_HEIGHT * 0.6) {
+        const cover = Math.max(0, Math.min(100, live.current.cloudCover ?? 30));
+        const want = Math.round((cover / 100) * 130);
+        const list = skyCloudList.current;
+        const place = (c: SkyCloud, far: boolean) => {
+          // a few close below the plane, the rest a band towards the horizon; passed ones return to the horizon
+          c.z = camZ + (far ? Z_FAR * (0.85 + Math.random() * 0.15) : Z_NEAR * 4 + Math.random() * Z_FAR);
+          const halfView = ((w / 2) * (c.z - camZ)) / F;
+          c.x = (Math.random() * 2 - 1) * (halfView * 1.3 + 3000);
+          c.y = CLOUD_Y_MIN + Math.random() * (CLOUD_Y_MAX - CLOUD_Y_MIN);
+          c.size = 1800 + Math.random() * Math.random() * 5200;
+          c.seed = Math.floor(Math.random() * 1e6);
+        };
+        // the first ten close below the plane, the rest at the horizon (they come through as the plane flies)
+        while (list.length < want) { const c = { x: 0, z: 0, y: 0, size: 0, seed: 0 }; place(c, list.length > 10); list.push(c); }
+        if (list.length > want) list.length = Math.max(want, list.length - 2); // thin out gently
+        for (const c of list) {
+          if (c.z - camZ < 500) place(c, true); // gone under the nose: back to the horizon
+          all.push({ p: { x: c.x, z: c.z, h: 0, w: 0, tone: 0, roll: 0, hill: false }, layer: L[L.length - 1], cloud: c });
+        }
+      }
       all.sort((a, b) => b.p.z - a.p.z);
+      const skyLight = cloudLight(dark, look.current.glow, haze);
       const proj = (x: number, z: number, y = 0): [number, number] => {
         const rz = Math.max(Z_NEAR, z - camZ), s = F / rz;
         return [w / 2 + x * s, horizonY + (camH - y) * s];
       };
-      for (const { p, layer, lm } of all) {
+      for (const { p, layer, lm, cloud } of all) {
         const rz = p.z - camZ;
         if (rz > Z_FAR) continue;
         const s = F / rz;
         const baseY = horizonY + camH * s;
+        if (cloud) {
+          drawSkyCloud(ctx, cloud, proj, camZ, F, skyLight, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 7000), dark);
+          continue;
+        }
         if (lm) {
           const lfog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
           const lfade = Math.min(1, (Z_FAR - rz) / 8000);
