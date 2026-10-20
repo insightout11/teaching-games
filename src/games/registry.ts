@@ -15,6 +15,7 @@ import { twentyQuestionsPlugin } from './twenty-questions';
 import { gridRushPlugin } from './grid-rush';
 import { BookA, PenLine, Brain, Zap } from 'lucide-react';
 import { flashQuizPlugin } from './flash-quiz';
+import { worldQuizPlugin } from './world-quiz';
 import { brainTeasersPlugin } from './brain-teasers';
 import { defendItPlugin } from './defend-it';
 import { sectorStrikePlugin } from './sector-strike';
@@ -24,6 +25,7 @@ import { mysteryFlightPlugin } from './mystery-flight';
 
 const games: GamePlugin[] = [
   flashQuizPlugin,
+  worldQuizPlugin,
   brainTeasersPlugin,
   vocabSprintPlugin,
   synonymShowdownPlugin,

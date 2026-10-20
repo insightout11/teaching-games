@@ -1,0 +1,241 @@
+'use client';
+
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Flag, Lightbulb, Map as MapIcon, Shuffle, Trophy } from 'lucide-react';
+import type { GameProps, GameRemoteVote } from '../types';
+import { useSessionStore } from '@/stores/session-store';
+import { ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
+import { useSyncedTimer } from '@/hooks/use-synced-timer';
+import { buildQuiz, type WorldQuestion, type WorldQuizMode } from '@/lib/world-quiz/questions';
+import { flagUrl } from '@/lib/world-quiz/countries';
+
+/**
+ * World Quiz (Oct 2026): guess the country, Kahoot-style, from its flag, its shape or a ladder of clues. Questions are
+ * made in the browser (no AI, instant). Phones answer; the fastest right answers score most. Junior classes play as one
+ * class team (never ranked).
+ */
+
+type Phase = 'setup' | 'loading' | 'answering' | 'revealing' | 'end';
+interface Answer { studentId: string; clientId: string; name: string; choice: number; correct: boolean; points: number }
+
+const MODES: Array<{ key: WorldQuizMode; label: string; detail: string; icon: typeof Flag }> = [
+  { key: 'flags', label: 'Flags', detail: 'Whose flag is this?', icon: Flag },
+  { key: 'shapes', label: 'Shapes', detail: 'The country\'s shape, zooming out', icon: MapIcon },
+  { key: 'clues', label: 'Clue ladder', detail: 'Clues from hard to easy: guess early for more points', icon: Lightbulb },
+  { key: 'mix', label: 'Mix', detail: 'Flags, shapes and clues', icon: Shuffle },
+];
+const REVEAL_GRACE_MS = 1200;
+
+export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, onPhaseChange }: GameProps) {
+  const junior = useSessionStore((s) => s.junior);
+  const [phase, setPhase] = useState<Phase>('setup');
+  const [mode, setMode] = useState<WorldQuizMode>('mix');
+  const [count, setCount] = useState(10);
+  const [questions, setQuestions] = useState<WorldQuestion[]>([]);
+  const [index, setIndex] = useState(0);
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [scores, setScores] = useState<Map<string, { name: string; points: number; right: number }>>(() => new Map());
+  const [classRight, setClassRight] = useState(0);
+  const phaseRef = useRef(phase); phaseRef.current = phase;
+  const qRef = useRef(questions); qRef.current = questions;
+  const iRef = useRef(index); iRef.current = index;
+  const answersRef = useRef(answers); answersRef.current = answers;
+  const startRef = useRef(0);
+  const [nonce, setNonce] = useState(0);
+  useEffect(() => { onPhaseChange?.(phase === 'end' ? 'complete' : phase); }, [phase, onPhaseChange]);
+
+  // clue questions take longer (the clues arrive one by one)
+  const q = questions[index];
+  const timer = q?.kind === 'clues' ? 40 : Math.max(15, Math.min(30, sessionSettings.timerSeconds ?? 20));
+  const timerRef = useRef(timer); timerRef.current = timer;
+  const { timeLeft } = useSyncedTimer(timer, phase === 'answering', nonce);
+  const elapsed = timer - timeLeft;
+  const cluesShown = q?.clues ? Math.min(q.clues.length, 1 + Math.floor(elapsed / Math.max(6, timer / (q.clues.length + 0.5)))) : 0;
+
+  const broadcast = useCallback((question: WorldQuestion, perStudentData: Record<string, unknown> = {}) => {
+    onSetInputSpec?.({
+      type: 'choice', gameKey: 'world-quiz',
+      prompt: question.kind === 'flag' ? 'Whose flag is this?' : question.kind === 'shape' ? 'Which country has this shape?' : 'Which country is it?',
+      options: question.options, timerSeconds: timerRef.current, startedAt: startRef.current, perStudentData,
+    } as InputSpec);
+  }, [onSetInputSpec]);
+
+  const level = (sessionSettings.difficulty === 'Beginner' ? 1 : sessionSettings.difficulty === 'Advanced' ? 3 : 2) as 1 | 2 | 3;
+  const start = async () => {
+    setPhase('loading');
+    const qs = await buildQuiz(mode, junior ? 1 : level, count).catch(() => [] as WorldQuestion[]);
+    if (!qs.length) { setPhase('setup'); return; }
+    setQuestions(qs);
+    setScores(new Map());
+    setClassRight(0);
+    open(0, qs);
+  };
+  const open = (i: number, qs = qRef.current) => {
+    setIndex(i);
+    setAnswers([]);
+    const now = Date.now();
+    startRef.current = now;
+    setNonce(now);
+    setPhase('answering');
+    if (qs[i]) broadcast(qs[i]);
+  };
+
+  const onVote = useCallback((vote: GameRemoteVote) => {
+    if (phaseRef.current !== 'answering') return;
+    const studentId = vote.studentId || vote.clientId;
+    const question = qRef.current[iRef.current];
+    const choice = parseInt(vote.choice, 10);
+    if (!studentId || !question || isNaN(choice) || choice < 0 || choice > 3) return;
+    if (answersRef.current.some((a) => a.studentId === studentId)) return;
+    const secs = (Date.now() - startRef.current - ANSWERS_OPEN_GRACE_MS) / 1000;
+    const left = Math.max(0, timerRef.current - secs);
+    const correct = choice === question.correctIndex;
+    const points = correct ? 100 + Math.round((left / timerRef.current) * 50) : 0;
+    const a: Answer = { studentId, clientId: vote.clientId, name: vote.displayName || 'A student', choice, correct, points };
+    setAnswers((prev) => {
+      const next = [...prev, a];
+      const lock: Record<string, unknown> = {};
+      next.forEach((x) => { lock[x.clientId] = { locked: true }; });
+      broadcast(question, lock);
+      return next;
+    });
+  }, [broadcast]);
+  useEffect(() => { onRegisterRemoteVoteHandler?.(onVote); return () => onRegisterRemoteVoteHandler?.(null); }, [onRegisterRemoteVoteHandler, onVote]);
+
+  const reveal = useCallback(() => {
+    if (phaseRef.current !== 'answering') return;
+    setPhase('revealing');
+    const question = qRef.current[iRef.current];
+    const list = answersRef.current;
+    setScores((prev) => {
+      const next = new Map(prev);
+      list.forEach((a) => { const cur = next.get(a.studentId); next.set(a.studentId, { name: a.name, points: (cur?.points ?? 0) + a.points, right: (cur?.right ?? 0) + (a.correct ? 1 : 0) }); });
+      return next;
+    });
+    setClassRight((n) => n + list.filter((a) => a.correct).length);
+    list.forEach((a) => onScore(a.studentId, { isCorrect: a.correct, points: a.correct ? 3 : 1, responseData: { clientId: a.clientId, questionIndex: iRef.current, choiceIndex: a.choice, quizPoints: a.points } }));
+    const res: Record<string, unknown> = {};
+    list.forEach((a) => { res[a.clientId] = { locked: true, result: a.correct ? 'correct' : 'incorrect', pointsEarned: a.points }; });
+    if (question) broadcast(question, res);
+  }, [broadcast, onScore]);
+  useEffect(() => {
+    if (phase !== 'answering' || timeLeft !== 0) return;
+    const t = setTimeout(reveal, REVEAL_GRACE_MS);
+    return () => clearTimeout(t);
+  }, [phase, timeLeft, reveal]);
+  useEffect(() => { if (phase === 'answering' && students.length > 0 && answers.length >= students.length) reveal(); }, [phase, answers.length, students.length, reveal]);
+
+  const next = () => {
+    if (index + 1 < questions.length) open(index + 1);
+    else { onSetInputSpec?.(null); setPhase('end'); }
+  };
+  useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
+
+  // ── screens ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  if (phase === 'setup' || phase === 'loading') {
+    return (
+      <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 p-8 text-white">
+        <p className="font-display text-4xl">World Quiz</p>
+        <p className="text-white/60">Guess the country. Answer on your phones: the faster, the more points.</p>
+        <div className="grid w-full gap-3 sm:grid-cols-2">
+          {MODES.map((m) => (
+            <button key={m.key} type="button" onClick={() => setMode(m.key)} className={`flex items-start gap-3 rounded-2xl border p-4 text-left ${mode === m.key ? 'border-amber-300/70 bg-amber-300/10' : 'border-white/12 bg-white/5 hover:border-white/30'}`}>
+              <m.icon className="mt-0.5 h-6 w-6 text-amber-200" />
+              <span><b className="block text-lg">{m.label}</b><span className="text-sm text-white/60">{m.detail}</span></span>
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 text-sm text-white/70">
+          Questions
+          {[5, 10, 15].map((n) => <button key={n} type="button" onClick={() => setCount(n)} className={`rounded-full border px-3 py-1 ${count === n ? 'border-amber-300/70 text-amber-100' : 'border-white/15'}`}>{n}</button>)}
+        </div>
+        <button type="button" disabled={phase === 'loading'} onClick={() => void start()} className="rounded-full bg-amber-300 px-8 py-3 font-semibold text-[#1b2233] hover:bg-amber-200 disabled:opacity-60">{phase === 'loading' ? 'Getting ready…' : 'Start'}</button>
+      </div>
+    );
+  }
+
+  if (phase === 'end') {
+    const ranked = Array.from(scores.values()).sort((a, b) => b.points - a.points).slice(0, 5);
+    return (
+      <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 p-8 text-white">
+        <Trophy className="h-12 w-12 text-amber-300" />
+        {junior ? (
+          <>
+            <p className="font-display text-4xl">Great flying, class!</p>
+            <p className="text-xl text-white/75">Together you got <b className="text-amber-200">{classRight}</b> right answers</p>
+          </>
+        ) : (
+          <>
+            <p className="font-display text-4xl">World Quiz champions</p>
+            <div className="w-full space-y-2">
+              {ranked.map((s, i) => (
+                <div key={s.name + i} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-lg">
+                  <span><b className="mr-3 text-amber-300">{i + 1}</b>{s.name}</span><span className="text-white/70">{s.points}</span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        <button type="button" onClick={() => setPhase('setup')} className="rounded-full border border-white/20 px-5 py-2 text-sm hover:bg-white/10">Play again</button>
+      </div>
+    );
+  }
+
+  if (!q) return null;
+  const revealing = phase === 'revealing';
+  const rightCount = answers.filter((a) => a.correct).length;
+  return (
+    <div className="mx-auto flex max-w-4xl flex-col items-center gap-3 p-4 text-white">
+      <div className="flex w-full items-center justify-between font-mono text-xs uppercase tracking-[0.16em] text-white/55">
+        <span>Question {index + 1} of {questions.length}</span>
+        <span>{revealing ? `${rightCount} of ${answers.length} right` : `${answers.length} answered · ${timeLeft}s`}</span>
+      </div>
+      <p className="font-display text-3xl">{q.kind === 'flag' ? 'Whose flag is this?' : q.kind === 'shape' ? 'Which country has this shape?' : 'Which country is it?'}</p>
+
+      {/* the picture: a flag, a shape zooming out, or the clue ladder */}
+      <div className="flex min-h-[200px] w-full items-center justify-center">
+        {q.kind === 'flag' && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={flagUrl(q.country)} alt="A country's flag" className="max-h-[170px] rounded-md shadow-[0_10px_40px_rgba(0,0,0,0.5)]" />
+        )}
+        {q.kind === 'shape' && q.shape && (
+          <svg viewBox="0 0 100 100" className="h-[200px] w-[200px] overflow-hidden rounded-2xl bg-white/[0.04]">
+            <motion.g key={index} initial={{ scale: revealing ? 1 : 2.6 }} animate={{ scale: 1 }} transition={{ duration: revealing ? 0.3 : timer * 0.7, ease: 'easeOut' }} style={{ transformOrigin: '50px 50px' }}>
+              <path d={q.shape} fill={revealing ? '#fcd34d' : '#e2e8f0'} stroke="#0b1220" strokeWidth={0.4} fillRule="evenodd" />
+            </motion.g>
+          </svg>
+        )}
+        {q.kind === 'clues' && q.clues && (
+          <ol className="w-full max-w-2xl space-y-2">
+            {q.clues.map((c, i) => (i < (revealing ? q.clues!.length : cluesShown) ? (
+              <motion.li key={c} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-xl">
+                <span className="mr-3 font-mono text-sm text-amber-300">Clue {i + 1}</span>{c}
+              </motion.li>
+            ) : null))}
+          </ol>
+        )}
+      </div>
+
+      {/* the four choices (the phones have the same) */}
+      <div className="grid w-full gap-3 sm:grid-cols-2">
+        {q.options.map((o, i) => {
+          const right = revealing && i === q.correctIndex;
+          return (
+            <div key={o} className={`rounded-2xl border px-4 py-2.5 text-lg ${right ? 'border-emerald-300 bg-emerald-400/20 text-emerald-50' : revealing ? 'border-white/10 bg-white/5 text-white/40' : 'border-white/15 bg-white/8'}`}>
+              <span className="mr-3 font-mono text-sm text-white/50">{'ABCD'[i]}</span>{o}
+            </div>
+          );
+        })}
+      </div>
+
+      {revealing && (
+        <div className="flex w-full flex-col items-center gap-3">
+          {q.fact && <p className="max-w-2xl text-center text-lg text-white/80">{q.fact}</p>}
+          <button type="button" onClick={next} className="rounded-full bg-amber-300 px-8 py-2.5 font-semibold text-[#1b2233] hover:bg-amber-200">{index + 1 < questions.length ? 'Next' : 'See the results'}</button>
+        </div>
+      )}
+      {!revealing && <button type="button" onClick={reveal} className="text-sm text-white/50 hover:text-white">Reveal now</button>}
+    </div>
+  );
+}
