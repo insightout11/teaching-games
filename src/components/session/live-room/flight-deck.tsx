@@ -969,7 +969,8 @@ export function FlightDeck({
   const endsAtLabel = new Date(clock.endAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   // The descent: the last 5 minutes before arrival (so 10 before the end of class). The ground comes closer.
   const descending = flightStage === 'flying' && takeoffAt !== null && !holding && minutesLeft !== null && minutesLeft <= DESCENT_MINUTES;
-  const descentAltitude = holding ? 0.25 : descending ? 1 - 0.75 * (1 - (minutesLeft ?? 0) / DESCENT_MINUTES) : 1;
+  // stays low once landing begins (it went back up to cruise height, climbing into the clouds for the dive)
+  const descentAltitude = holding || flightStage === 'landing' ? 0.25 : descending ? 1 - 0.75 * (1 - (minutesLeft ?? 0) / DESCENT_MINUTES) : 1;
   const nudgeClass = (delta: number) => {
     setClassMinutes((m) => Math.min(240, Math.max(15, m + delta)));
     flash(`Class now ends at ${new Date(clock.endAt + delta * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`);
