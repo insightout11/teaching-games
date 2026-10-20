@@ -2431,31 +2431,34 @@ export function FlightDeck({
       style={{ background: '#0b1a33' }}
     >
       {/* The windscreen is one flight: gate → take-off → cruise → cloud reveal → landing. */}
-      <WindscreenFlight
-        stage={flightStage}
-        origin={origin}
-        destination={destination}
-        timeOfDay={skyNow.timeOfDay}
-        sun={skyNow.sun}
-        moon={skyNow.moon}
-        cities={distantCities}
-        landmarks={stableLandmarks}
-        waters={routeWaters}
-        coast={routeCoast}
-        highGround={routeGround}
-        events={stableEvents}
-        weather={liveWx?.condition ?? (flightStage === 'gate' || (minutesFlown ?? 0) < 3 ? rollWeather(`${sessionId}:${origin.id}`, origin.scene, skyNow.timeOfDay === 'night') : rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night'))}
-        cloudCover={liveWx?.cloudCover}
-        terrain={steadyGround.terrain}
-        region={steadyGround.region}
-        calm={view !== 'boarding' && view !== 'talk'}
-        turbulence={shaking}
-        paused={runningKey === 'video-player'}
-        planeKey={position?.planeKey ?? null}
-        altitude={descentAltitude}
-        onCinematic={setCinematic}
-        onLanded={() => { setLanded(true); play('arrivalResolve'); }}
-      />
+      {/* waits for the class's real starting city (it showed the home city's skyline first, then jumped) */}
+      {position ? (
+        <WindscreenFlight
+          stage={flightStage}
+          origin={origin}
+          destination={destination}
+          timeOfDay={skyNow.timeOfDay}
+          sun={skyNow.sun}
+          moon={skyNow.moon}
+          cities={distantCities}
+          landmarks={stableLandmarks}
+          waters={routeWaters}
+          coast={routeCoast}
+          highGround={routeGround}
+          events={stableEvents}
+          weather={liveWx?.condition ?? (flightStage === 'gate' || (minutesFlown ?? 0) < 3 ? rollWeather(`${sessionId}:${origin.id}`, origin.scene, skyNow.timeOfDay === 'night') : rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night'))}
+          cloudCover={liveWx?.cloudCover}
+          terrain={steadyGround.terrain}
+          region={steadyGround.region}
+          calm={view !== 'boarding' && view !== 'talk'}
+          turbulence={shaking}
+          paused={runningKey === 'video-player'}
+          planeKey={position?.planeKey ?? null}
+          altitude={descentAltitude}
+          onCinematic={setCinematic}
+          onLanded={() => { setLanded(true); play('arrivalResolve'); }}
+        />
+      ) : <div aria-hidden className="absolute inset-0 bg-[#0B1220]" />}
       {factsOpen && focused && brief?.cards?.length && !cinematic && !(landed && !hall) && view !== 'boarding' && view !== 'map' ? (
         <FactsBoard
           title={focused.title}

@@ -300,7 +300,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       keep.add(l.id);
       if (!map.has(l.id)) map.set(l.id, { kind: l.kind, z: cam.current + l.ahead * CITY_UNITS_PER_KM, x: l.lateral * CITY_UNITS_PER_KM * 0.7 });
     }
-    for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
+    // kept until the view has passed it: the scenery moves slower than the real flight, so the route list drops a
+    // landmark (the plane is really over it) while it is still far ahead here (Fuji vanished after Tokyo)
+    for (const [id, l] of Array.from(map.entries())) if (!keep.has(id) && l.z < cam.current) map.delete(id);
   }, [landmarks]);
   // Real natural events, fixed on the ground once they come into range (as the landmarks)
   const eventWorld = useRef(new Map<string, { kind: EventKind; z: number; x: number; seed: number }>());
@@ -311,7 +313,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       keep.add(e.id);
       if (!map.has(e.id)) map.set(e.id, { kind: e.kind, z: cam.current + e.ahead * CITY_UNITS_PER_KM, x: e.lateral * CITY_UNITS_PER_KM * 0.7, seed: (e.id.length * 97 + e.id.charCodeAt(0)) % 1000 });
     }
-    for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
+    for (const [id, e] of Array.from(map.entries())) if (!keep.has(id) && e.z < cam.current) map.delete(id);
   }, [events]);
   // Real rivers and lakes, fixed on the ground once they come into range (as the cities); a river or lake already
   // lying ahead is not added again, a passed one can come back when the route still follows it.
