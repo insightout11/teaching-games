@@ -27,6 +27,8 @@ export interface Moment {
   drawn?: boolean;
   /** Where it is from the plane at its closest, honestly: "40 km to the left", "180 km to the right, beyond the horizon". */
   where?: string;
+  /** Its own question for the class (live moments: the moon, a plane, a holiday...). */
+  question?: string;
 }
 
 export interface NaturalEvent { id: string; title: string; category: string; lat: number; lng: number }
@@ -139,7 +141,8 @@ export function planMoments(o: {
 }
 
 /** One question the class can talk about, by kind of moment. */
-export function momentQuestion(m: Pick<Moment, 'kind' | 'title'>): string {
+export function momentQuestion(m: Pick<Moment, 'kind' | 'title' | 'question'>): string {
+  if (m.question) return m.question;
   if (m.kind === 'country') return `What do you know about ${m.title}? Would you like to go there?`;
   if (m.kind === 'event') return 'What should people nearby do to stay safe?';
   if (m.kind === 'crossing') return `Why do you think people drew ${m.title} on maps?`;

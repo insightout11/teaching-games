@@ -15,6 +15,7 @@ import {
   withPhraseSource,
 } from '@/lib/reference-materials';
 import { findTopicBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
+import { lensById, lensPromptNote } from '@/lib/lens';
 import { stickerLabel } from '@/lib/stickers';
 import { lookupWikipedia, type WikiReference } from '@/lib/sources/wikipedia';
 import { depthPromptNote, type TopicDepth } from '@/lib/topic-depth';
@@ -75,6 +76,8 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const where = clean(body?.where, 80);
   // Topics already covered this lesson, so "Where next?" never sends the class back round in circles.
   const covered = strings(body?.covered, 20, 120);
+  // The class lens (films, music, a kid lens...): every card through that angle; ready-made cards are lens-free
+  const lens = lensById(clean(body?.lens, 40));
   if (!title) return NextResponse.json({ error: 'title is required' }, { status: 400 });
 
   const { teacher, error: authError } = await requireAuth();
@@ -90,7 +93,7 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const junior = (session as { classes?: { junior?: boolean } | null } | null)?.classes?.junior === true;
 
   // A topic from the ready bank (no material attached): instant, no AI call.
-  const banked = text ? null : findTopicBriefing(title);
+  const banked = text || lens ? null : findTopicBriefing(title);
   const bankedLevel = banked ? topicBriefingLevel(banked, difficulty) : null;
 
   if (!bankedLevel) {
@@ -105,7 +108,7 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const prompt = `LANGUAGE RULE: write everything in simple, natural English for ${difficulty} learners (${level}).
 
 A live English class (kids or teens) is now talking about: "${title}"${where ? ` (the one in ${where}: the class is flying over it)` : ''}
-${material ? `Material the class is looking at:\n"""${material}"""\n` : ''}${reference?.ending ? 'This is a story: never give away its ending.\n' : ''}${depthPromptNote(depth)}
+${lensPromptNote(lens)}${material ? `Material the class is looking at:\n"""${material}"""\n` : ''}${reference?.ending ? 'This is a story: never give away its ending.\n' : ''}${depthPromptNote(depth)}
 Prepare the teacher and students:
 - "briefing": 3-4 sentences a teacher could read out that give the class real substance on this (facts, not fluff). If material is given, summarise it.
 - "facts": 4 short, interesting, accurate facts about it.

@@ -57,6 +57,7 @@ import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/li
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
+import { lensById, lensesFor } from '@/lib/lens';
 import { animalsOf, migrationsNear } from '@/lib/animals-below';
 import { activeShower, brightPlanet, METEOR_SHOWERS, moonPhaseName, sideOfSky } from '@/lib/live-room/journey-sky';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
@@ -1232,7 +1233,7 @@ export function FlightDeck({
   // Real things happening on the journey (Oct 2026), each a "Look" moment the class can open: another real plane, the
   // northern or southern lights, a recent earthquake nearby, a holiday in the country below, a clock change below,
   // sunrise or sunset, tonight's moon, a bright planet, a meteor shower. One label at a time; each only once a flight.
-  type LiveMoment = { id: string; title: string; where: string; fact?: string; until: number };
+  type LiveMoment = { id: string; title: string; where: string; fact?: string; question: string; until: number };
   const [liveMoments, setLiveMoments] = useState<LiveMoment[]>([]);
   const liveSeen = useRef(new Set<string>());
   const addLive = useCallback((m: Omit<LiveMoment, 'until'>, minutes = 4) => {
@@ -1250,13 +1251,13 @@ export function FlightDeck({
     // Animals below (Codex's checked data): a migration in season right here first; otherwise, now and then, an animal
     // that lives in the region or country below
     const migration = migrationsNear(here, new Date(), 120)[0];
-    if (migration) addLive({ id: `mig:${migration.id}`, title: migration.animal, where: 'below us right now', fact: migration.below }, 6);
+    if (migration) addLive({ id: `mig:${migration.id}`, title: migration.animal, where: 'below us right now', fact: migration.below, question: 'Why do you think these animals travel so far?' }, 6);
     else if (nearbyStep % 4 === 0) {
       for (const name of [below.name, countryNow]) {
         const list = name ? animalsOf(name) : [];
         if (!list.length) continue;
         const a = list[nearbyStep % list.length];
-        addLive({ id: `res:${name}`, title: a.animal, where: `lives in ${name!.replace(/^the /, '')}`, fact: a.fact }, 5);
+        addLive({ id: `res:${name}`, title: a.animal, where: `lives in ${name!.replace(/^the /, '')}`, fact: a.fact, question: `Would you like to see a ${a.animal.toLowerCase()} in the wild? What would you do?` }, 5);
         break;
       }
     }
@@ -1269,13 +1270,13 @@ export function FlightDeck({
       setNearby({ plane: d.plane, kp: d.kp });
       if (d.plane) {
         const side = sideOfSky(d.plane.bearing, skyNow.sun.heading);
-        addLive({ id: `plane:${d.plane.callsign}`, title: d.plane.airline ?? 'another plane', where: `flight ${d.plane.callsign}, ${d.plane.km} km away ${side}, ${d.plane.altitudeM.toLocaleString()} m up`, fact: d.plane.airline ? `A real ${d.plane.airline} flight is passing us right now.` : 'A real plane is passing us right now.' }, 3);
+        addLive({ id: `plane:${d.plane.callsign}`, title: d.plane.airline ?? 'another plane', where: `flight ${d.plane.callsign}, ${d.plane.km} km away ${side}, ${d.plane.altitudeM.toLocaleString()} m up`, fact: d.plane.airline ? `A real ${d.plane.airline} flight is passing us right now.` : 'A real plane is passing us right now.', question: 'Where do you think that plane is going? Who might be on it?' }, 3);
       }
       if (d.quake) {
         const ago = d.quake.hoursAgo < 48 ? `${d.quake.hoursAgo} hours ago` : `${Math.round(d.quake.hoursAgo / 24)} days ago`;
-        addLive({ id: `quake:${d.quake.place}`, title: 'earthquakes', where: `magnitude ${d.quake.magnitude}, ${d.quake.place}, ${ago}${d.quake.big ? ' (in the news)' : ''}`, fact: d.quake.big ? 'A strong earthquake: scientists, rescue teams and neighbours work together after one like this.' : 'Scientists around the world measure earthquakes as they happen.' }, d.quake.big ? 6 : 4);
+        addLive({ id: `quake:${d.quake.place}`, title: 'earthquakes', where: `magnitude ${d.quake.magnitude}, ${d.quake.place}, ${ago}${d.quake.big ? ' (in the news)' : ''}`, fact: d.quake.big ? 'A strong earthquake: scientists, rescue teams and neighbours work together after one like this.' : 'Scientists around the world measure earthquakes as they happen.', question: d.quake.big ? 'How can people help each other after a big earthquake?' : 'Why do you think some places have more earthquakes than others?' }, d.quake.big ? 6 : 4);
       }
-      if (d.holiday) addLive({ id: `holiday:${d.holiday.name}`, title: d.holiday.name, where: `a public holiday in ${d.holiday.country} today${d.holiday.localName !== d.holiday.name ? ` (${d.holiday.localName})` : ''}` }, 6);
+      if (d.holiday) addLive({ id: `holiday:${d.holiday.name}`, title: d.holiday.name, where: `a public holiday in ${d.holiday.country} today${d.holiday.localName !== d.holiday.name ? ` (${d.holiday.localName})` : ''}`, question: 'What holidays do you celebrate? What do you do on them?' }, 6);
     }).catch(() => {});
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1299,11 +1300,11 @@ export function FlightDeck({
   useEffect(() => {
     if (!nightSky) return;
     const { planet, shower, aurora, north } = nightSky;
-    if (planet) addLive({ id: `planet:${planet.name}`, title: planet.name, where: `the bright "star" ${sideOfSky(planet.azimuth, skyNow.sun.heading)}`, fact: 'It is a planet, not a star: it shines with reflected sunlight and does not twinkle.' });
-    if (shower) addLive({ id: `meteors:${shower.name}`, title: shower.name, where: `a meteor shower tonight: up to ${shower.perHour} shooting stars an hour`, fact: `The shooting stars are tiny pieces left behind by ${shower.from}.` }, 5);
-    if (aurora) addLive({ id: 'aurora', title: north ? 'the northern lights' : 'the southern lights', where: 'in the sky tonight', fact: 'Particles from the sun light up the air high above the Earth.' }, 6);
+    if (planet) addLive({ id: `planet:${planet.name}`, title: planet.name, where: `the bright "star" ${sideOfSky(planet.azimuth, skyNow.sun.heading)}`, fact: 'It is a planet, not a star: it shines with reflected sunlight and does not twinkle.', question: 'Have you ever seen a planet in the night sky? How could you tell it from a star?' });
+    if (shower) addLive({ id: `meteors:${shower.name}`, title: shower.name, where: `a meteor shower tonight: up to ${shower.perHour} shooting stars an hour`, fact: `The shooting stars are tiny pieces left behind by ${shower.from}.`, question: 'Have you ever seen a shooting star? What would you wish for?' }, 5);
+    if (aurora) addLive({ id: 'aurora', title: north ? 'the northern lights' : 'the southern lights', where: 'in the sky tonight', fact: 'Particles from the sun light up the air high above the Earth.', question: 'Would you like to see the lights in real life? Where would you go?' }, 6);
     if (skyNow.timeOfDay === 'night' && skyNow.moon.elevation > 5) {
-      addLive({ id: 'moon', title: 'the Moon', where: `tonight it is ${moonPhaseName(skyNow.moon.illumination, skyNow.moon.waxing)}, ${Math.round(skyNow.moon.illumination * 100)}% lit`, fact: 'The Moon does not make light: we see the part lit by the sun.' });
+      addLive({ id: 'moon', title: 'the Moon', where: `tonight it is ${moonPhaseName(skyNow.moon.illumination, skyNow.moon.waxing)}, ${Math.round(skyNow.moon.illumination * 100)}% lit`, fact: 'The Moon does not make light: we see the part lit by the sun.', question: 'What shape was the Moon the last time you saw it? Where were you?' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nightSky]);
@@ -1312,7 +1313,7 @@ export function FlightDeck({
   const lastSunUp = useRef<boolean | null>(null);
   useEffect(() => {
     if (!cruising) { lastSunUp.current = null; return; }
-    if (lastSunUp.current !== null && sunUp !== lastSunUp.current) addLive({ id: `sun:${sunUp ? 'rise' : 'set'}:${Math.floor(Date.now() / 3_600_000)}`, title: sunUp ? 'sunrise' : 'sunset', where: sunUp ? 'the sun is coming up below us' : 'the sun is going down below us', fact: 'From a plane you can see it earlier and later than from the ground.' });
+    if (lastSunUp.current !== null && sunUp !== lastSunUp.current) addLive({ id: `sun:${sunUp ? 'rise' : 'set'}:${Math.floor(Date.now() / 3_600_000)}`, title: sunUp ? 'sunrise' : 'sunset', where: sunUp ? 'the sun is coming up below us' : 'the sun is going down below us', fact: 'From a plane you can see it earlier and later than from the ground.', question: sunUp ? 'Are you a morning person or a night person? Why?' : 'What do you like to do in the evening?' });
     lastSunUp.current = sunUp;
   }, [cruising, sunUp, addLive]);
   const lastOffset = useRef<number | null>(null);
@@ -1321,7 +1322,7 @@ export function FlightDeck({
     if (off === undefined) return;
     if (cruising && lastOffset.current !== null && off !== lastOffset.current) {
       const diff = (off - lastOffset.current) / 3600;
-      addLive({ id: `tz:${off}`, title: 'time zones', where: `the clocks below just changed: it is now ${offsetClock(off, new Date())} there (${diff > 0 ? '+' : ''}${diff} h)` });
+      addLive({ id: `tz:${off}`, title: 'time zones', where: `the clocks below just changed: it is now ${offsetClock(off, new Date())} there (${diff > 0 ? '+' : ''}${diff} h)`, question: 'What time is it now where your family or friends live? What are they doing?' });
     }
     lastOffset.current = off;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1442,6 +1443,62 @@ export function FlightDeck({
   const [focusTrail, setFocusTrail] = useState<string[]>([]);
   // Where a flight topic is (its place below the plane), kept per topic for the facts lookup.
   const focusWhere = useRef<Record<string, string>>({});
+  // The class lens (docs/class-lens-concept.md): stays for the whole lesson; the class's usual lens is remembered on
+  // this computer, and News/Politics are allowed per class. Students can vote for it.
+  const lensKey = classId ? `lc-class-lens-${classId}` : null;
+  const newsKey = classId ? `lc-class-news-${classId}` : null;
+  const [lens, setLensState] = useState<string | null>(null);
+  const [newsAllowed, setNewsAllowed] = useState(false);
+  const lensRef = useRef<string | null>(null);
+  lensRef.current = lens;
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(`lc-lens-${sessionId}`) ?? (lensKey ? localStorage.getItem(lensKey) : null);
+      if (saved) setLensState(saved === 'none' ? null : saved);
+      if (newsKey) setNewsAllowed(localStorage.getItem(newsKey) === '1');
+    } catch { /* storage unavailable */ }
+  }, [sessionId, lensKey, newsKey]);
+  const junior = useSessionStore((s) => s.junior);
+  const lensChoices = lensesFor(!!junior, newsAllowed);
+  // Choosing a lens re-writes the current topic's facts through it (the topic stays)
+  const setLens = (id: string | null) => {
+    setLensState(id);
+    lensRef.current = id;
+    try {
+      sessionStorage.setItem(`lc-lens-${sessionId}`, id ?? 'none');
+      if (lensKey) localStorage.setItem(lensKey, id ?? 'none');
+    } catch { /* storage unavailable */ }
+    setBriefs((b) => { if (!focusId) return b; const next = { ...b }; delete next[focusId]; return next; });
+    flash(id ? `Lens: ${lensById(id)?.label}` : 'No lens');
+  };
+  const toggleNews = () => {
+    const on = !newsAllowed;
+    setNewsAllowed(on);
+    try { if (newsKey) localStorage.setItem(newsKey, on ? '1' : '0'); } catch { /* storage unavailable */ }
+    flash(on ? 'News and Politics lenses on for this class' : 'News and Politics lenses off for this class');
+  };
+  // The class votes for the lens on their phones; the teacher takes the winner
+  const [lensVote, setLensVote] = useState<string | null>(null);
+  const { tallies: lensTallies } = usePollVotes(lensVote);
+  const startLensVote = async () => {
+    const options = lensChoices.map((l) => l.label);
+    if (isMockMode()) { setLensVote('mock-lens-vote'); return; }
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { data, error } = await supabase.from('polls').insert({ session_id: sessionId, question: 'Which lens for today?', options, is_active: true, metadata: { purpose: 'lens' } }).select('id').single();
+    if (error || !data) { flash('Could not start the vote.'); return; }
+    setLensVote((data as { id: string }).id);
+    flash('Vote open on phones: which lens for today?');
+  };
+  const closeLensVote = async (take: boolean) => {
+    if (lensVote && !isMockMode()) await createClient().from('polls').update({ is_active: false }).eq('id', lensVote);
+    if (take) {
+      const winner = Object.entries(lensTallies).sort((a, b) => b[1] - a[1])[0]?.[0];
+      const l = lensChoices.find((x) => x.label === winner);
+      if (l) setLens(l.id);
+    }
+    setLensVote(null);
+  };
   const makeFocus = useCallback((req: FocusRequest) => {
     const raw = req.title.replace(/\s+/g, ' ').trim();
     if (!raw) return;
@@ -1522,7 +1579,7 @@ export function FlightDeck({
       .then((transcript) => fetch(`/api/session/${encodeURIComponent(sessionId)}/focus`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '', depth, where: focusWhere.current[item.id], covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20) }),
+        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '', depth, where: focusWhere.current[item.id], covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20), ...(lensRef.current ? { lens: lensRef.current } : {}) }),
       }))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: FocusBrief | null) => {
@@ -1536,7 +1593,7 @@ export function FlightDeck({
           void fetch(`/api/session/${encodeURIComponent(sessionId)}/where-next`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: item.title, covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20) }),
+            body: JSON.stringify({ title: item.title, covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20), ...(lensRef.current ? { lens: lensRef.current } : {}) }),
           })
             .then((r) => (r.ok ? r.json() : null))
             .then((n: { nextTopics?: FocusBrief['nextTopics'] } | null) => {
@@ -1557,7 +1614,7 @@ export function FlightDeck({
       .catch(() => setBriefs((b) => ({ ...b, [item.id]: 'failed' })));
     // Only when the Focus (or the depth) changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [focused?.id, depth]);
+  }, [focused?.id, depth, lens]);
   const focusBrief = focused ? briefs[focused.id] : undefined;
   // "Back to": the last two earlier topics of this lesson, one tap away.
   const earlierTopics = useMemo(
@@ -2618,7 +2675,7 @@ export function FlightDeck({
       {focused && !cinematic && !(landed && !hall) && view !== 'boarding' && view !== 'map' && (
         <div className="absolute inset-x-0 top-3 z-10 flex flex-col items-center gap-2 px-4">
           <button type="button" onClick={() => setAboutOpen((o) => !o)} title="What this topic is about" className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md hover:border-amber-300/60">
-            <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}
+            <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}{lens ? <span className="text-sky-200/90"> · through {lensById(lens)?.label}</span> : null}
           </button>
           {/* Clear screen keeps only the topic name: no facts button, no next topics */}
           {(brief?.cards?.length ?? 0) > 0 && !factsOpen && !clearScreen && (
@@ -2701,14 +2758,14 @@ export function FlightDeck({
       )}
       {liveNow && !issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
         <div className="absolute bottom-20 left-4 z-[7]">
-          <button type="button" onClick={() => { setLiveMoments((xs) => xs.filter((x) => x.id !== liveNow.id)); openMoment({ id: `live:${liveNow.id}`, at: minutesFlown ?? 0, kind: 'event', title: liveNow.title, where: liveNow.where, ...(liveNow.fact ? { fact: liveNow.fact } : {}) }); }} className="flex items-center gap-1.5 rounded-full border border-sky-200/60 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
+          <button type="button" onClick={() => { setLiveMoments((xs) => xs.filter((x) => x.id !== liveNow.id)); openMoment({ id: `live:${liveNow.id}`, at: minutesFlown ?? 0, kind: 'event', title: liveNow.title, where: liveNow.where, question: liveNow.question, ...(liveNow.fact ? { fact: liveNow.fact } : {}) }); }} className="flex items-center gap-1.5 rounded-full border border-sky-200/60 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
             <Eye className="h-3.5 w-3.5" /> Look: {liveNow.title.charAt(0).toUpperCase() + liveNow.title.slice(1)} · {liveNow.where}
           </button>
         </div>
       )}
       {issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
         <div className="absolute bottom-20 left-4 z-[7]">
-          <button type="button" onClick={() => openMoment({ id: `iss:${issActive.start}`, at: minutesFlown ?? 0, kind: 'landmark', title: 'the International Space Station', where: issActive.where })} className="flex items-center gap-1.5 rounded-full border border-sky-200/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
+          <button type="button" onClick={() => openMoment({ id: `iss:${issActive.start}`, at: minutesFlown ?? 0, kind: 'landmark', title: 'the International Space Station', where: issActive.where, question: 'Would you like to live on the space station? What would you miss?' })} className="flex items-center gap-1.5 rounded-full border border-sky-200/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
             <Satellite className="h-3.5 w-3.5" /> Look up: the International Space Station · {issActive.where}
           </button>
         </div>
@@ -3081,6 +3138,31 @@ export function FlightDeck({
               {CLASS_TYPES.map((c) => <option key={c.key} value={c.key}>{c.name}{c.key === classProfile.type ? '' : ' (today)'}</option>)}
             </select>
           </label>
+        )}
+        <label className="flex shrink-0 items-center gap-1 text-[11px] text-white/60" title="See every topic through one lens for the whole lesson (films, music, sport…)">
+          <select
+            value={lensVote ? '__vote' : lens ?? ''}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (v === '__vote') void startLensVote();
+              else if (v === '__news') toggleNews();
+              else setLens(v || null);
+            }}
+            aria-label="Lens for this lesson"
+            className={`w-[118px] truncate rounded-md border bg-slate-950/70 px-1.5 py-0.5 text-[11px] ${lens ? 'border-sky-300/60 text-sky-100' : 'border-[#2A3854] text-white/80'}`}
+          >
+            <option value="">No lens</option>
+            {lensChoices.map((l) => <option key={l.id} value={l.id}>Lens: {l.label}</option>)}
+            <option value="__vote">Class vote…</option>
+            {!junior && <option value="__news">{newsAllowed ? 'Turn off News and Politics' : 'Allow News and Politics'}</option>}
+          </select>
+        </label>
+        {lensVote && (
+          <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-sky-300/50 bg-sky-300/10 px-2 py-0.5 text-[11px] text-sky-100">
+            Lens vote: {Object.values(lensTallies).reduce((a, b) => a + b, 0)} voted
+            <button type="button" onClick={() => void closeLensVote(true)} className="rounded border border-sky-300/50 px-1.5 hover:bg-sky-300/15">Use winner</button>
+            <button type="button" onClick={() => void closeLensVote(false)} aria-label="Cancel the lens vote" className="text-white/50 hover:text-white"><X className="h-3 w-3" /></button>
+          </span>
         )}
         <span className="flex min-w-0 items-center gap-2 rounded-full border border-amber-300/45 bg-amber-300/10 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-amber-300" aria-live="polite">
           <i className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-rose-400 shadow-[0_0_10px_#fb7185]" />
