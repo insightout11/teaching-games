@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { Plus, Check, X, EyeOff, Zap, CircleDot, Sparkles, Wand2, Shapes, Crosshair, Archive } from 'lucide-react';
+import { Plus, X, EyeOff, Zap, CircleDot, Sparkles, Wand2, Crosshair, LayoutGrid, Smartphone } from 'lucide-react';
 import { useFocusBus } from '@/stores/focus-bus-store';
 import { useLiveRoomStore } from '@/stores/live-room-store';
 import { createClient } from '@/lib/supabase/client';
@@ -556,281 +556,305 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     );
   };
 
-  const renderZone = (zone: ClassBoardZone, index: number) => {
+  // ── The board (Oct 2026 redesign): the question and the answers are the board; layouts behind one button; one slim
+  // toolbar; Cards or Cloud. ─────────────────────────────────────────────────────────────────────────────────────
+  const studentCount = useSessionStore((state) => state.students.length);
+  const [view, setView] = useState<'cards' | 'cloud'>('cards');
+  useEffect(() => {
+    const on = (e: Event) => { const v = (e as CustomEvent<{ view?: string }>).detail?.view; if (v === 'cloud' || v === 'cards') setView(v); };
+    window.addEventListener('lc-board-view', on);
+    return () => window.removeEventListener('lc-board-view', on);
+  }, []);
+  const [layoutOpen, setLayoutOpen] = useState(false);
+  const [smartOpen, setSmartOpen] = useState(false);
+  const [recentLayouts, setRecentLayouts] = useState<string[]>([]);
+  useEffect(() => {
+    try { const r = JSON.parse(localStorage.getItem('lc-board-recent') ?? '[]') as string[]; if (Array.isArray(r)) setRecentLayouts(r.filter((k) => CLASS_BOARD_PRESETS[k]).slice(0, 3)); } catch { /* storage unavailable */ }
+  }, []);
+  const pickLayout = (key: string) => {
+    setLayoutOpen(false);
+    void selectPreset(key);
+    setRecentLayouts((r) => {
+      const next = [key, ...r.filter((k) => k !== key)].slice(0, 3);
+      try { localStorage.setItem('lc-board-recent', JSON.stringify(next)); } catch { /* storage unavailable */ }
+      return next;
+    });
+  };
+  const answered = new Set(items.filter((i) => i.authorType === 'student' && !i.parentId).map((i) => i.displayName)).size;
+  const single = zones.length === 1 && !questionWall;
+  // The question: a single-section board's (renamed) title, otherwise the layout's own prompt
+  const defaultZoneLabel = baseZones[0]?.label;
+  const question = single && zones[0] && zones[0].label !== defaultZoneLabel
+    ? zones[0].label
+    : single ? (topic && topic !== 'General' ? `What do you think about ${topic}?` : 'What do you think?') : preset.title;
+  const cloudWords = useMemo(() => {
+    if (view !== 'cloud') return [];
+    const STOP = new Set('the a an and or but to of in on at for with is are was were be been it its this that these those i you he she we they my your our their me him her us them so very because would like want try first then than from as by not no yes do does did have has had will can could should just really also there here what why how when where which who'.split(' '));
+    const counts = new Map<string, number>();
+    for (const item of visibleItems) {
+      for (const raw of item.content.toLowerCase().split(/[^a-z']+/)) {
+        const w = raw.replace(/^'+|'+$/g, '');
+        if (w.length < 3 || STOP.has(w)) continue;
+        counts.set(w, (counts.get(w) ?? 0) + 1);
+      }
+    }
+    return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]).slice(0, 36);
+  }, [view, visibleItems]);
+
+  const renderCard = (item: BoardItem, itemIndex: number) => {
+    const student = item.authorType === 'student';
+    const tone = student ? noteColor(item.displayName) : '#67e8f9';
+    const editing = editingItemId === item.id;
+    return (
+      <motion.div
+        key={item.id}
+        layout={!reduce}
+        initial={reduce ? false : { opacity: 0, scale: 0.85, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={reduce ? undefined : { opacity: 0, scale: 0.9 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+        draggable={!questionWall && !editing}
+        onDragStart={(e) => { dragItemId.current = item.id; (e as unknown as DragEvent).dataTransfer?.setData('text/plain', item.id); }}
+        onDragEnd={() => { dragItemId.current = null; setDragOverZone(null); }}
+        onClick={() => { if (!editing) setSpotlightId(item.id); }}
+        onDoubleClick={(e) => { e.stopPropagation(); setEditingItemId(item.id); setEditItemText(item.content); }}
+        className={`mb-3 cursor-pointer break-inside-avoid rounded-xl p-4 shadow-[0_6px_18px_rgba(0,0,0,0.35)] ${student ? 'bg-[#f6f1e4] text-[#1b2233]' : 'border border-cyan-300/30 bg-cyan-300/10 text-cyan-50'}`}
+        style={student && !anonymous ? { borderLeft: `6px solid ${tone}` } : undefined}
+      >
+        <div className="flex items-start gap-2">
+          <div className="min-w-0 flex-1">
+            {rankable && <span className={`mr-2 font-game ${student ? 'text-[#1b2233]/60' : 'text-cyan-300'}`}>{itemIndex + 1}.</span>}
+            {editing ? (
+              <textarea
+                autoFocus
+                value={editItemText}
+                onClick={(e) => e.stopPropagation()}
+                onChange={(e) => setEditItemText(e.target.value.slice(0, 280))}
+                onBlur={() => { setEditingItemId(null); if (editItemText.trim() && editItemText.trim() !== item.content) void patchItem(item.id, { content: editItemText.trim() }); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); (e.target as HTMLTextAreaElement).blur(); }
+                  if (e.key === 'Escape') { setEditItemText(item.content); setEditingItemId(null); }
+                }}
+                rows={2}
+                className="w-full resize-none rounded bg-white/60 px-1 text-lg text-[#1b2233] focus:outline-none"
+              />
+            ) : (
+              <span className="text-lg leading-snug">{item.content}</span>
+            )}
+            {polishOn && fixes[item.id] && !hiddenFixes.has(item.id) && (
+              <span className="mt-1.5 flex items-start gap-1 rounded bg-emerald-100/80 px-1.5 py-0.5 text-[14px] text-emerald-900">
+                <Wand2 className="mt-0.5 h-3 w-3 shrink-0" />
+                <span className="flex-1">{fixes[item.id]}</span>
+                <button type="button" title="Hide this correction" onClick={(e) => { e.stopPropagation(); setHiddenFixes((prev) => new Set(prev).add(item.id)); }} className="shrink-0 text-emerald-900/50 hover:text-emerald-900"><X className="h-3 w-3" /></button>
+              </span>
+            )}
+          </div>
+        </div>
+        <div className="mt-2 flex items-center justify-between text-xs">
+          <span className={student ? 'text-[#1b2233]/55' : 'text-cyan-200/60'}>{student ? (anonymous ? '' : item.displayName) : 'Teacher'}</span>
+          {item.voteCount > 0 && (questionWall || dotsRevealed) && (
+            <span className="flex flex-wrap justify-end gap-0.5" title={`${item.voteCount} dot${item.voteCount === 1 ? '' : 's'}`}>
+              {item.voteCount <= 6
+                ? Array.from({ length: item.voteCount }, (_, k) => <i key={k} className="h-2 w-2 rounded-full bg-amber-500" />)
+                : <b className="rounded-full bg-amber-500 px-1.5 text-[10px] text-white">{item.voteCount}</b>}
+            </span>
+          )}
+        </div>
+        {questionWall && renderQuestionExtras(item)}
+      </motion.div>
+    );
+  };
+
+  const renderAdd = (zoneKey: string) => (addingZoneKey === zoneKey ? (
+    <div className="mb-3 break-inside-avoid rounded-xl border border-cyan-400/40 bg-slate-900/70 p-2">
+      <textarea
+        autoFocus
+        value={addText}
+        onChange={(event) => setAddText(event.target.value.slice(0, 280))}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); void addTeacherItem(zoneKey); }
+          if (event.key === 'Escape') { setAddingZoneKey(null); setAddText(''); }
+        }}
+        rows={2}
+        placeholder="Type here…"
+        className="w-full resize-none rounded-md border border-white/10 bg-slate-950 px-2 py-1.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+      />
+      <div className="mt-1.5 flex items-center justify-end gap-1.5">
+        <button onClick={() => { setAddingZoneKey(null); setAddText(''); }} className="rounded-md px-2 py-1 text-xs text-slate-400 hover:text-slate-200"><X className="h-3.5 w-3.5" /></button>
+        <button onClick={() => void addTeacherItem(zoneKey)} disabled={!addText.trim() || savingZone === zoneKey} className="rounded-md bg-cyan-500 px-3 py-1 text-xs font-semibold text-white disabled:opacity-40">{savingZone === zoneKey ? 'Adding…' : 'Add'}</button>
+      </div>
+    </div>
+  ) : null);
+
+  const renderZone = (zone: ClassBoardZone) => {
     const zoneItems = itemsForZone(zone.key);
-    const isAdding = addingZoneKey === zone.key;
     const isEditing = editingZoneKey === zone.key;
     return (
       <div
         key={zone.key}
         onDragOver={(e) => { if (dragItemId.current) { e.preventDefault(); setDragOverZone(zone.key); } }}
         onDragLeave={() => setDragOverZone((z) => (z === zone.key ? null : z))}
-        onDrop={(e) => {
-          e.preventDefault();
-          const id = dragItemId.current;
-          setDragOverZone(null);
-          if (id) void patchItem(id, { zoneKey: zone.key });
-        }}
-        className={`flex min-h-[140px] flex-col rounded-xl border p-3 transition-colors ${dragOverZone === zone.key ? 'border-amber-300/70 bg-amber-300/10' : 'border-white/10 bg-slate-950/40'}`}
+        onDrop={(e) => { e.preventDefault(); const id = dragItemId.current; setDragOverZone(null); if (id) void patchItem(id, { zoneKey: zone.key }); }}
+        className={`min-h-[120px] rounded-2xl p-2 transition-colors ${dragOverZone === zone.key ? 'bg-amber-300/10 ring-1 ring-amber-300/50' : ''}`}
       >
-        <div className="mb-2 border-b border-white/8 pb-2">
+        <div className="mb-3 flex items-center gap-2 border-b border-white/12 pb-1.5">
           {isEditing && !templateLocked ? (
-            <div className="flex items-center gap-1.5">
-              <input
-                autoFocus
-                value={editText}
-                onChange={(event) => setEditText(event.target.value.slice(0, 60))}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') void saveZoneLabel(zone.key);
-                  if (event.key === 'Escape') setEditingZoneKey(null);
-                }}
-                className="w-full rounded-md border border-cyan-400/40 bg-slate-900 px-2 py-1 text-sm font-bold text-white focus:outline-none"
-              />
-              <button onClick={() => void saveZoneLabel(zone.key)} className="text-emerald-300 hover:text-emerald-200">
-                <Check className="h-4 w-4" />
-              </button>
-            </div>
+            <input
+              autoFocus
+              value={editText}
+              onChange={(event) => setEditText(event.target.value.slice(0, 60))}
+              onBlur={() => void saveZoneLabel(zone.key)}
+              onKeyDown={(event) => { if (event.key === 'Enter') void saveZoneLabel(zone.key); if (event.key === 'Escape') setEditingZoneKey(null); }}
+              className="w-full rounded-md border border-cyan-400/40 bg-slate-900 px-2 py-0.5 font-mono text-xs uppercase tracking-[0.14em] text-white focus:outline-none"
+            />
           ) : (
-            <button
-              type="button"
-              disabled={templateLocked}
-              onClick={() => {
-                setEditingZoneKey(zone.key);
-                setEditText(zone.label);
-              }}
-              className="block w-full text-left disabled:cursor-default"
-            >
-              <span className="text-sm font-bold uppercase tracking-wide text-cyan-100">{zone.label}</span>
-              {zone.description ? <span className="mt-0.5 block text-[11px] text-slate-400">{zone.description}</span> : null}
+            <button type="button" disabled={templateLocked} onClick={() => { setEditingZoneKey(zone.key); setEditText(zone.label); }} className="min-w-0 flex-1 truncate text-left font-mono text-xs uppercase tracking-[0.16em] text-amber-200/80 disabled:cursor-default" title={zone.description}>
+              {zone.label}
             </button>
           )}
+          <button type="button" onClick={() => { setAddingZoneKey(zone.key); setAddText(''); }} title="Add a card" className="text-white/35 hover:text-white"><Plus className="h-3.5 w-3.5" /></button>
         </div>
-
-        {/* One section: notes tile like a wall. Several sections: a column each. */}
-        <div className={zones.length === 1 && !questionWall ? 'grid flex-1 content-start gap-2 [grid-template-columns:repeat(auto-fill,minmax(190px,1fr))]' : 'flex-1 space-y-2'}>
-          <AnimatePresence initial={false}>
-          {zoneItems.map((item, itemIndex) => {
-            const student = item.authorType === 'student';
-            const color = student ? noteColor(item.displayName) : undefined;
-            const editing = editingItemId === item.id;
-            return (
-            <motion.div
-              key={item.id}
-              layout={!reduce}
-              initial={reduce ? false : { opacity: 0, scale: 0.6, x: 60, y: 40, rotate: 6 }}
-              animate={{ opacity: 1, scale: 1, x: 0, y: 0, rotate: student ? ((item.id.charCodeAt(0) % 5) - 2) * 0.6 : 0 }}
-              exit={reduce ? undefined : { opacity: 0, scale: 0.8 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-              draggable={!questionWall && !editing}
-              onDragStart={(e) => { dragItemId.current = item.id; (e as unknown as DragEvent).dataTransfer?.setData('text/plain', item.id); }}
-              onDragEnd={() => { dragItemId.current = null; setDragOverZone(null); }}
-              onClick={() => { if (!editing) setSpotlightId(item.id); }}
-              onDoubleClick={(e) => { e.stopPropagation(); setEditingItemId(item.id); setEditItemText(item.content); }}
-              className={`cursor-pointer rounded-lg px-3 py-2 text-sm leading-snug shadow-[0_4px_12px_rgba(0,0,0,.25)] ${
-                student ? 'text-[#1f2430]' : 'border border-cyan-400/30 bg-cyan-400/10 text-cyan-50'
-              }`}
-              style={student ? { background: color } : undefined}
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0 flex-1">
-                  {rankable && <span className={`mr-2 font-game ${student ? 'text-[#1f2430]/70' : 'text-cyan-300'}`}>{itemIndex + 1}.</span>}
-                  {editing ? (
-                    <textarea
-                      autoFocus
-                      value={editItemText}
-                      onClick={(e) => e.stopPropagation()}
-                      onChange={(e) => setEditItemText(e.target.value.slice(0, 280))}
-                      onBlur={() => { setEditingItemId(null); if (editItemText.trim() && editItemText.trim() !== item.content) void patchItem(item.id, { content: editItemText.trim() }); }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); (e.target as HTMLTextAreaElement).blur(); }
-                        if (e.key === 'Escape') { setEditItemText(item.content); setEditingItemId(null); }
-                      }}
-                      rows={2}
-                      className="w-full resize-none rounded bg-white/60 px-1 text-sm text-[#1f2430] focus:outline-none"
-                    />
-                  ) : (
-                    <span>{item.content}</span>
-                  )}
-                  {polishOn && fixes[item.id] && !hiddenFixes.has(item.id) && (
-                    <span className="mt-1 flex items-start gap-1 rounded bg-white/55 px-1.5 py-0.5 text-[13px] text-emerald-900">
-                      <Wand2 className="mt-0.5 h-3 w-3 shrink-0" />
-                      <span className="flex-1">{fixes[item.id]}</span>
-                      <button
-                        type="button"
-                        title="Hide this correction"
-                        onClick={(e) => { e.stopPropagation(); setHiddenFixes((prev) => new Set(prev).add(item.id)); }}
-                        className="shrink-0 text-emerald-900/50 hover:text-emerald-900"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </span>
-                  )}
-                  {student && !anonymous && (
-                    <span className="mt-1 block text-[10px] font-semibold uppercase tracking-wider text-[#1f2430]/55">{item.displayName}</span>
-                  )}
-                </div>
-                {item.voteCount > 0 && (questionWall || dotsRevealed) && (
-                  <span className="flex shrink-0 flex-wrap justify-end gap-0.5 pt-0.5" title={`${item.voteCount} dot${item.voteCount === 1 ? '' : 's'}`}>
-                    {item.voteCount <= 6
-                      ? Array.from({ length: item.voteCount }, (_, k) => <i key={k} className="h-2 w-2 rounded-full bg-rose-500 shadow-sm" />)
-                      : <b className="rounded-full bg-rose-500 px-1.5 text-[10px] text-white">{item.voteCount}</b>}
-                  </span>
-                )}
-              </div>
-              {questionWall && renderQuestionExtras(item)}
-            </motion.div>
-            );
-          })}
-          </AnimatePresence>
-
-          {isAdding ? (
-            <div className="rounded-lg border border-cyan-400/40 bg-slate-900/70 p-2">
-              <textarea
-                autoFocus
-                value={addText}
-                onChange={(event) => setAddText(event.target.value.slice(0, 280))}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    void addTeacherItem(zone.key);
-                  }
-                  if (event.key === 'Escape') {
-                    setAddingZoneKey(null);
-                    setAddText('');
-                  }
-                }}
-                rows={2}
-                placeholder="Type here…"
-                className="w-full resize-none rounded-md border border-white/10 bg-slate-950 px-2 py-1.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
-              />
-              <div className="mt-1.5 flex items-center justify-end gap-1.5">
-                <button
-                  onClick={() => {
-                    setAddingZoneKey(null);
-                    setAddText('');
-                  }}
-                  className="rounded-md px-2 py-1 text-xs text-slate-400 hover:text-slate-200"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-                <button
-                  onClick={() => void addTeacherItem(zone.key)}
-                  disabled={!addText.trim() || savingZone === zone.key}
-                  className="rounded-md bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-40"
-                >
-                  {savingZone === zone.key ? 'Adding…' : 'Add'}
-                </button>
-              </div>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setAddingZoneKey(zone.key);
-                setAddText('');
-              }}
-              className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-white/15 py-2 text-xs font-semibold text-slate-400 transition hover:border-cyan-400/40 hover:text-cyan-200"
-            >
-              <Plus className="h-3.5 w-3.5" />
-              Add
-            </button>
-          )}
+        <div className="space-y-0">
+          <AnimatePresence initial={false}>{zoneItems.map(renderCard)}</AnimatePresence>
+          {renderAdd(zone.key)}
         </div>
-        {/* index kept for potential future quadrant labels */}
-        <span className="sr-only">Zone {index + 1}</span>
       </div>
     );
   };
 
+  const tool = (on: boolean) => `rounded-lg p-1.5 transition ${on ? 'bg-white/12 text-white' : 'text-white/55 hover:bg-white/8 hover:text-white'}`;
+  const smartItems: Array<{ key: string; label: string; detail: string; run: () => void; show: boolean; busy?: boolean }> = [
+    { key: 'topic', label: 'Board from topic', detail: 'A fresh board designed for the current topic', run: () => void boardFromTopic(), show: !templateLocked, busy: aiBusy === 'zones' },
+    { key: 'themes', label: 'Group into themes', detail: 'Sort the cards into named sections', run: () => void groupThemes(), show: !templateLocked && !questionWall && visibleItems.length > 2, busy: aiBusy === 'themes' },
+    { key: 'polish', label: polishOn ? 'Hide corrections' : 'Spot mistakes (Polish)', detail: 'A gently corrected version under students\' sentences', run: () => void togglePolish(), show: visibleItems.length > 0, busy: aiBusy === 'polish' },
+    { key: 'cloud', label: view === 'cloud' ? 'Back to cards' : 'Show as a word cloud', detail: "The class's own words, the most common biggest", run: () => setView((v) => (v === 'cloud' ? 'cards' : 'cloud')), show: !questionWall && visibleItems.length > 0 },
+    { key: 'dots', label: dotsRevealed ? 'Hide the dots' : `Reveal the class's dots${totalDots ? ` (${totalDots})` : ''}`, detail: 'Students vote with 3 dots each; reveal to sort by them', run: () => setDotsRevealed((v) => !v), show: !questionWall && visibleItems.length > 1 },
+    { key: 'focus', label: 'Make it the topic', detail: 'Talk about (and build activities from) the whole board', run: () => makeFocus?.({ title: question, text: boardAsText(), credit: 'the class board' }), show: !!makeFocus && visibleItems.length > 0 },
+    { key: 'cargo', label: 'Save to cargo', detail: 'Keep this board as material for activities', run: () => { const id = `board-${Date.now().toString(36)}`; addRoomItem(sessionId, { id, kind: 'note', title: `Board: ${question}`, url: `note:${id}`, publisher: 'Class board', text: boardAsText() }); setAiNote('Saved to cargo: drag an activity onto it to build from the board.'); }, show: visibleItems.length > 0 },
+  ];
+
   return (
-    <div className="space-y-3 p-3">
-      {/* Header: title + (unlocked) template switcher + live toggle */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="min-w-0">
-          <p className="text-sm font-bold text-white">{preset.title}</p>
-          <p className="truncate text-xs text-slate-400">{preset.prompt}</p>
-        </div>
+    <div className="relative">
+      {/* slim toolbar */}
+      <div className="flex flex-wrap items-center gap-1.5 border-b border-white/8 px-3 py-2">
+        {!templateLocked && (
+          <>
+            <button type="button" onClick={() => { setLayoutOpen((o) => !o); setSmartOpen(false); }} className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-2.5 py-1.5 text-xs text-white/85 hover:bg-white/10">
+              <LayoutGrid className="h-3.5 w-3.5" /> {aiPreset ? aiPreset.title : preset.title}
+            </button>
+            {recentLayouts.filter((k) => k !== selectedPresetKey).slice(0, 3).map((k) => (
+              <button key={k} type="button" onClick={() => pickLayout(k)} title={CLASS_BOARD_PRESETS[k]?.title} className="rounded-lg border border-white/8 px-2 py-1 text-[11px] text-white/55 hover:bg-white/8 hover:text-white">{CLASS_BOARD_PRESETS[k]?.title}</button>
+            ))}
+            <div className="mx-1 h-5 w-px bg-white/10" />
+          </>
+        )}
+        {!questionWall && (
+          <div className="flex rounded-lg border border-white/12 p-0.5 text-xs">
+            <button type="button" onClick={() => setView('cards')} className={`rounded-md px-2.5 py-1 ${view === 'cards' ? 'bg-white/12 text-white' : 'text-white/55'}`}>Cards</button>
+            <button type="button" onClick={() => setView('cloud')} className={`rounded-md px-2.5 py-1 ${view === 'cloud' ? 'bg-white/12 text-white' : 'text-white/55'}`}>Cloud</button>
+          </div>
+        )}
+        <button type="button" title={anonymous ? 'Names hidden: show names' : 'Hide names on the cards'} onClick={() => setAnonymous((v) => !v)} className={tool(anonymous)}><EyeOff className="h-4 w-4" /></button>
+        <button type="button" title={autoShow ? 'New cards appear at once: turn off' : 'Show new cards without approval'} onClick={() => setAutoShow((v) => !v)} className={tool(autoShow)}><Zap className="h-4 w-4" /></button>
+        {!questionWall && <button type="button" title={dotsRevealed ? 'Hide the dots' : `Reveal the class's dots${totalDots ? ` (${totalDots})` : ''}`} onClick={() => setDotsRevealed((v) => !v)} className={tool(dotsRevealed)}><CircleDot className="h-4 w-4" /></button>}
+        <button type="button" onClick={() => { setSmartOpen((o) => !o); setLayoutOpen(false); }} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 bg-amber-300/10 px-2.5 py-1.5 text-xs text-amber-100 hover:bg-amber-300/20"><Sparkles className="h-3.5 w-3.5" /> Smart</button>
+        {single && <button type="button" title="Add a card" onClick={() => { setAddingZoneKey(zones[0].key); setAddText(''); }} className={tool(false)}><Plus className="h-4 w-4" /></button>}
         {!templateLocked && (
           <button
+            type="button"
             onClick={() => (isLive ? void closeForStudents() : void openForStudents())}
-            className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition ${
-              isLive
-                ? 'bg-emerald-500/18 text-emerald-300 hover:bg-emerald-500/25'
-                : 'bg-cyan-400/12 text-cyan-200 hover:bg-cyan-400/20'
-            }`}
+            title={isLive ? 'Close the board on the phones' : 'Open the board on the students\' phones'}
+            className={`ml-auto flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${isLive ? 'border-emerald-300/50 bg-emerald-300/10 text-emerald-100' : 'border-cyan-300/50 bg-cyan-300/10 text-cyan-100 hover:bg-cyan-300/20'}`}
           >
-            {isLive ? 'Live · Close' : 'Open to students'}
+            <Smartphone className="h-3.5 w-3.5" /> {isLive ? <>On phones · <b>{answered}{studentCount ? ` of ${studentCount}` : ''}</b> answered</> : 'Open to phones'}
           </button>
         )}
       </div>
 
-      {!templateLocked && (
-        <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
-          {Object.values(CLASS_BOARD_PRESETS).map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              onClick={() => void selectPreset(option.key)}
-              className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold transition ${
-                selectedPresetKey === option.key
-                  ? 'border-cyan-300/55 bg-cyan-300/15 text-cyan-100'
-                  : 'border-white/12 text-slate-400 hover:text-white'
-              }`}
-            >
-              {option.title}
+      {pendingControls?.(items.filter((item) => item.visibility === 'pending').length, () => {
+        items.filter((item) => item.visibility === 'pending').forEach((item) => { void patchItem(item.id, { visibility: 'visible' }); });
+      })}
+
+      {/* the question */}
+      <div className="px-5 pb-1 pt-4">
+        {single && editingZoneKey === zones[0].key && !templateLocked ? (
+          <input
+            autoFocus
+            value={editText}
+            onChange={(event) => setEditText(event.target.value.slice(0, 160))}
+            onBlur={() => void saveZoneLabel(zones[0].key)}
+            onKeyDown={(event) => { if (event.key === 'Enter') void saveZoneLabel(zones[0].key); if (event.key === 'Escape') setEditingZoneKey(null); }}
+            className="w-full rounded-lg border border-cyan-400/40 bg-slate-900/80 px-3 py-1 font-display text-3xl text-white focus:outline-none"
+          />
+        ) : (
+          <button type="button" disabled={!single || templateLocked} onClick={() => { setEditingZoneKey(zones[0].key); setEditText(question); }} title={single ? 'Click to change the question' : undefined} className="block w-full text-left font-display text-2xl leading-tight text-white disabled:cursor-default md:text-3xl">
+            {question}
+          </button>
+        )}
+        {aiNote && <button type="button" onClick={() => setAiNote(null)} className="mt-1 text-xs text-amber-200/80 hover:text-amber-100">{aiNote}</button>}
+      </div>
+
+      {/* the board */}
+      <div className="px-5 pb-5 pt-3">
+        {view === 'cloud' && !questionWall ? (
+          <div className="flex min-h-[260px] flex-wrap items-center justify-center gap-x-6 gap-y-3 px-6 py-8">
+            {cloudWords.length === 0 && <p className="text-white/50">The words appear here as answers arrive</p>}
+            {cloudWords.map(([w, n], i) => {
+              const max = cloudWords[0]?.[1] ?? 1;
+              return <span key={w} className="font-display leading-none" style={{ fontSize: 18 + (n / max) * 46, color: NOTE_COLORS[i % NOTE_COLORS.length], opacity: 0.65 + (n / max) * 0.35 }}>{w}</span>;
+            })}
+          </div>
+        ) : visibleItems.length === 0 && isLive && single && addingZoneKey === null ? (
+          <div className="flex min-h-[260px] flex-col items-center justify-center gap-3 text-center">
+            <Smartphone className="h-9 w-9 text-white/40" />
+            <p className="font-display text-3xl text-white/85">Answer on your phones</p>
+            <p className="text-sm text-white/50">Answers appear here as they arrive</p>
+            {studentCount > 0 && <div className="mt-1 flex gap-1.5">{Array.from({ length: studentCount }).map((_, i) => <span key={i} className={`h-2.5 w-2.5 rounded-full ${i < answered ? 'bg-emerald-300' : 'bg-white/15'}`} />)}</div>}
+          </div>
+        ) : single && visibleItems.length === 0 && addingZoneKey === null ? (
+          <p className="py-12 text-center text-white/45">Open it to the phones, or add the first card with +</p>
+        ) : single ? (
+          <div
+            onDragOver={(e) => { if (dragItemId.current) e.preventDefault(); }}
+            // columns by the board's own width (a small board window gets one column, a big one three or four)
+            className="gap-3"
+            style={{ columnWidth: 250 }}
+          >
+            <AnimatePresence initial={false}>{itemsForZone(zones[0].key).map(renderCard)}</AnimatePresence>
+            {renderAdd(zones[0].key)}
+          </div>
+        ) : (
+          <div className={`grid grid-cols-1 gap-4 ${columnsClass(preset.layout, zones.length)}`}>{zones.map(renderZone)}</div>
+        )}
+      </div>
+
+      {/* layout picker: mini diagrams instead of a long row of names */}
+      {layoutOpen && !templateLocked && (
+        <div className="absolute left-3 top-11 z-20 w-[440px] max-w-[calc(100%-1.5rem)] rounded-2xl border border-white/15 bg-[#0d1526] p-3 shadow-2xl backdrop-blur-md">
+          <p className="mb-2 px-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">Layout</p>
+          <div className="grid grid-cols-3 gap-2">
+            {Object.values(CLASS_BOARD_PRESETS).map((option) => (
+              <button key={option.key} type="button" onClick={() => pickLayout(option.key)} className={`rounded-xl border p-2 text-left ${selectedPresetKey === option.key && !aiPreset ? 'border-amber-300/60 bg-amber-300/10' : 'border-white/10 bg-white/5 hover:border-amber-300/40'}`}>
+                <div className="mb-1.5 h-8"><LayoutMini preset={option} /></div>
+                <span className="block truncate text-[11px] text-white/80">{option.title}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* smart menu: what makes sense right now */}
+      {smartOpen && (
+        <div className="absolute right-3 top-11 z-20 w-[360px] max-w-[calc(100%-1.5rem)] rounded-2xl border border-amber-300/25 bg-[#0d1526] p-3 shadow-2xl backdrop-blur-md">
+          <p className="mb-2 flex items-center gap-1.5 px-1 font-mono text-[10px] uppercase tracking-[0.16em] text-amber-200/80"><Sparkles className="h-3 w-3" /> Smart · right now</p>
+          {smartItems.filter((s) => s.show).map((s) => (
+            <button key={s.key} type="button" disabled={s.busy} onClick={() => { s.run(); setSmartOpen(false); }} className="mb-1.5 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left hover:border-amber-300/40 disabled:opacity-60">
+              <p className="text-sm text-white">{s.busy ? 'Working…' : s.label}</p>
+              <p className="text-xs text-white/50">{s.detail}</p>
             </button>
           ))}
         </div>
       )}
-
-      {pendingControls?.(items.filter((item) => item.visibility === 'pending').length, () => {
-        items.filter((item) => item.visibility === 'pending').forEach((item) => {
-          void patchItem(item.id, { visibility: 'visible' });
-        });
-      })}
-
-      {/* Board modes */}
-      <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-        <ModeToggle on={anonymous} onClick={() => setAnonymous((v) => !v)} icon={<EyeOff className="h-3 w-3" />} label="Anonymous" title="Hide names on the cards" />
-        <ModeToggle on={autoShow} onClick={() => setAutoShow((v) => !v)} icon={<Zap className="h-3 w-3" />} label="Auto-show" title="Student cards appear without approval" />
-        {!questionWall && (
-          <ModeToggle on={dotsRevealed} onClick={() => setDotsRevealed((v) => !v)} icon={<CircleDot className="h-3 w-3" />} label={dotsRevealed ? 'Dots shown' : `Reveal dots${totalDots ? ` (${totalDots})` : ''}`} title="Students vote with 3 dots each; reveal to show and sort by them" />
-        )}
-        <span className="ml-auto text-slate-500">Drag cards between sections · double-click to edit · click to spotlight</span>
-      </div>
-
-      {/* AI helpers */}
-      <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-        {!templateLocked && (
-          <AiButton busy={aiBusy === 'zones'} onClick={() => void boardFromTopic()} icon={<Sparkles className="h-3 w-3" />} label="Board from topic" title="A fresh board designed for the current topic" />
-        )}
-        <AiButton on={polishOn} busy={aiBusy === 'polish'} onClick={() => void togglePolish()} icon={<Wand2 className="h-3 w-3" />} label="Polish" title="Show a gently corrected version under students' sentences" />
-        {!templateLocked && !questionWall && (
-          <AiButton busy={aiBusy === 'themes'} onClick={() => void groupThemes()} icon={<Shapes className="h-3 w-3" />} label="Group into themes" title="Sort the cards into named sections" />
-        )}
-        {makeFocus && visibleItems.length > 0 && (
-          <>
-            <AiButton onClick={() => makeFocus({ title: preset.title, text: boardAsText(), credit: 'the class board' })} icon={<Crosshair className="h-3 w-3" />} label="Make it the topic" title="Talk about (and build activities from) the whole board" />
-            <AiButton
-              onClick={() => {
-                const id = `board-${Date.now().toString(36)}`;
-                addRoomItem(sessionId, { id, kind: 'note', title: `Board: ${preset.title}`, url: `note:${id}`, publisher: 'Class board', text: boardAsText() });
-                setAiNote('Saved to cargo: drag an activity onto it to build from the board.');
-              }}
-              icon={<Archive className="h-3 w-3" />}
-              label="Save to cargo"
-              title="Keep this board as material (activities can be built from it)"
-            />
-          </>
-        )}
-        {aiNote && (
-          <button type="button" onClick={() => setAiNote(null)} className="text-amber-200/80 hover:text-amber-100">{aiNote}</button>
-        )}
-      </div>
-
-      <div className={`grid grid-cols-1 gap-3 ${columnsClass(preset.layout, zones.length)}`}>
-        {zones.map(renderZone)}
-      </div>
 
       {/* Spotlight: one card, big, while the class talks about it */}
       <AnimatePresence>
@@ -839,25 +863,16 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
           if (!item) return null;
           const student = item.authorType === 'student';
           return (
-            <motion.div
-              key="spotlight"
-              className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/55 p-8 backdrop-blur-[2px]"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setSpotlightId(null)}
-            >
+            <motion.div key="spotlight" className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/55 p-8 backdrop-blur-[2px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSpotlightId(null)}>
               <motion.div
-                initial={reduce ? false : { scale: 0.7, rotate: -3 }} animate={{ scale: 1, rotate: -1 }}
-                className="max-w-2xl rounded-2xl p-8 shadow-2xl"
-                style={{ background: student ? noteColor(item.displayName) : '#0e3a4a', color: student ? '#1f2430' : '#e0fbff' }}
+                initial={reduce ? false : { scale: 0.8 }} animate={{ scale: 1 }}
+                className="max-w-2xl rounded-2xl bg-[#f6f1e4] p-8 text-[#1b2233] shadow-2xl"
+                style={student && !anonymous ? { borderLeft: `8px solid ${noteColor(item.displayName)}` } : undefined}
               >
                 <p className="font-display text-4xl leading-tight">{item.content}</p>
                 {student && !anonymous && <p className="mt-4 text-sm font-semibold uppercase tracking-wider opacity-60">{item.displayName}</p>}
                 {makeFocus && (
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); makeFocus({ title: item.content, credit: student && !anonymous ? item.displayName : undefined }); setSpotlightId(null); }}
-                    className="mt-5 flex items-center gap-1.5 rounded-lg border border-current/30 px-3 py-1.5 text-sm font-semibold opacity-80 hover:opacity-100"
-                  >
+                  <button type="button" onClick={(e) => { e.stopPropagation(); makeFocus({ title: item.content, credit: student && !anonymous ? item.displayName : undefined }); setSpotlightId(null); }} className="mt-5 flex items-center gap-1.5 rounded-lg border border-[#1b2233]/25 px-3 py-1.5 text-sm font-semibold hover:bg-[#1b2233]/5">
                     <Crosshair className="h-4 w-4" /> Make it the topic
                   </button>
                 )}
@@ -870,29 +885,12 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   );
 }
 
-function AiButton({ on = false, busy = false, onClick, icon, label, title }: { on?: boolean; busy?: boolean; onClick: () => void; icon: React.ReactNode; label: string; title: string }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={busy}
-      title={title}
-      className={`flex items-center gap-1 rounded-full border px-2 py-0.5 font-semibold transition disabled:opacity-60 ${on ? 'border-violet-300/60 bg-violet-300/15 text-violet-100' : 'border-violet-300/25 text-violet-200/80 hover:text-violet-100'}`}
-    >
-      {icon} {busy ? 'Working…' : label}
-    </button>
-  );
-}
-
-function ModeToggle({ on, onClick, icon, label, title }: { on: boolean; onClick: () => void; icon: React.ReactNode; label: string; title: string }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      title={title}
-      className={`flex items-center gap-1 rounded-full border px-2 py-0.5 font-semibold transition ${on ? 'border-amber-300/60 bg-amber-300/15 text-amber-100' : 'border-white/12 text-slate-400 hover:text-white'}`}
-    >
-      {icon} {label}
-    </button>
-  );
+/** A layout as a tiny diagram (its sections), so the picker shows the shape, not just a name. */
+function LayoutMini({ preset }: { preset: ClassBoardPreset }) {
+  const box = 'rounded-[3px] bg-white/25';
+  const n = Math.max(1, preset.zones.length);
+  if (isRankableLayout(preset.layout)) return <div className="flex h-full flex-col gap-1"><div className={`${box} h-1.5 w-full`} /><div className={`${box} h-1.5 w-4/5`} /><div className={`${box} h-1.5 w-3/5`} /></div>;
+  if (n === 1) return <div className="grid h-full grid-cols-3 gap-1"><div className={`${box} h-3`} /><div className={`${box} h-4`} /><div className={`${box} h-3`} /><div className={`${box} h-4`} /><div className={`${box} h-3`} /></div>;
+  if (n === 4) return <div className="grid h-full grid-cols-2 grid-rows-2 gap-1">{Array.from({ length: 4 }).map((_, i) => <div key={i} className={box} />)}</div>;
+  return <div className="grid h-full gap-1" style={{ gridTemplateColumns: `repeat(${Math.min(n, 5)}, minmax(0, 1fr))` }}>{Array.from({ length: Math.min(n, 5) }).map((_, i) => <div key={i} className={box} />)}</div>;
 }

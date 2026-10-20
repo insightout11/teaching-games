@@ -3666,6 +3666,8 @@ export function FlightDeck({
                   type="button"
                   onClick={(e) => (w.id === 'class-questions' ? openMessages(e.clientX, e.clientY)
                     : w.id === 'class-board' && calling ? openBoardApprovals(e.clientX, e.clientY)
+                      // the Word Cloud is now the Class Board's Cloud view (one set of answers, two ways to show them)
+                      : w.id === 'word-cloud' ? (openTool('class-board', e.clientX, e.clientY), window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-view', { detail: { view: 'cloud' } })), 150))
                       : openTool(w.id, e.clientX, e.clientY))}
                   title={calling ? (w.id === 'class-board' ? `${waitingCount} card${waitingCount === 1 ? '' : 's'} waiting for approval` : `${waitingCount} new message${waitingCount === 1 ? '' : 's'} from students`) : undefined}
                   className={[
