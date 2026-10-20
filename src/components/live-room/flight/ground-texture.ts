@@ -933,18 +933,18 @@ let NIGHT_LIGHTS = true;
 export function setNightLights(on: boolean) { NIGHT_LIGHTS = on; }
 export const nightLights = () => NIGHT_LIGHTS;
 
-/** Real rivers and lakes on the ground. Off in the room until the owner approves; the gallery turns it on. */
-let REAL_WATERS = false;
+/** Real rivers and lakes on the ground (approved by the owner 20 Oct 2026). */
+let REAL_WATERS = true;
 export function setRealWaters(on: boolean) { REAL_WATERS = on; }
 export const realWaters = () => REAL_WATERS;
 
-/** Real coastlines (land and sea painted from the real outlines). Off in the room until the owner approves. */
-let REAL_COAST = false;
+/** Real coastlines (land and sea painted from the real outlines; approved 20 Oct 2026). */
+let REAL_COAST = true;
 export function setRealCoast(on: boolean) { REAL_COAST = on; }
 export const realCoast = () => REAL_COAST;
 
-/** Mountains and hills placed from real elevation. Off in the room until the owner approves. */
-let REAL_RELIEF = false;
+/** Mountains and hills placed from real elevation (approved 20 Oct 2026). */
+let REAL_RELIEF = true;
 export function setRealRelief(on: boolean) { REAL_RELIEF = on; }
 export const realRelief = () => REAL_RELIEF;
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }

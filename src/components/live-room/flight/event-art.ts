@@ -10,8 +10,8 @@ export type EventKind = 'fire' | 'volcano' | 'storm';
 /** An event on the ground: how far ahead and to the side when it comes into range (km), as for the cities. */
 export interface SceneEvent { id: string; kind: EventKind; ahead: number; lateral: number }
 
-/** Events in the scenery (the gallery turns them on; the room keeps them off until the owner approves). */
-let REAL_EVENTS = false;
+/** Events in the scenery (approved by the owner 20 Oct 2026). */
+let REAL_EVENTS = true;
 export function setRealEvents(on: boolean) { REAL_EVENTS = on; }
 export const realEvents = () => REAL_EVENTS;
 
