@@ -148,8 +148,10 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
       routeAnim.current = requestAnimationFrame(draw);
     }
     if (still) {
-      // Frame the whole journey (the route lines are unwrapped, so a Pacific crossing frames the short way).
-      const coords = legs.flatMap((l) => {
+      // Frame today's flight into where the class just landed (the whole journey, 37 flights round the world, framed
+      // somewhere in between: Madrid and Africa on landing in Manila). The route line is unwrapped, so a Pacific
+      // crossing frames the short way.
+      const coords = legs.slice(-1).flatMap((l) => {
         const a = l.originDestinationId ? byId.get(l.originDestinationId) : undefined;
         const b = byId.get(l.destinationId);
         return a && b ? (greatCircleLine(a, b).geometry.coordinates as Array<[number, number]>) : b ? [destinationCoord(b)] : [];

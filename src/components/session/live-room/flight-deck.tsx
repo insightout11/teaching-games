@@ -3046,7 +3046,7 @@ export function FlightDeck({
             </p>
             <ArrivalCards cityId={destination.id} city={destination.city} onClassVote={(options) => void startPoll(`What shall we explore in ${destination.city}?`, options, { purpose: 'arrival-card' }, 'Vote open on phones: food, sights or local words?')} />
             <p className="mt-3 text-sm">Passport stamped. Thanks for flying with {className}!</p>
-            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our journey · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'}</p>
+            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Today&apos;s flight · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'} so far</p>
             <WorldFlightMap still className="mt-1 h-44 w-[min(420px,70vw)] overflow-hidden rounded-xl" origin={destination} rangeKm={0} visitedIds={visitedList} journey={landingJourney} selectedId={null} souvenirs={mapSouvenirs} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
             {landingMilestone && <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/30 px-3 py-2 text-sm font-semibold text-[#1b2233]"><Plane className="h-4 w-4" />Milestone: {landingMilestone.text}!</p>}
