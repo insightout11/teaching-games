@@ -157,6 +157,30 @@ function smoothLine(pts: Array<[number, number]>): Array<[number, number]> {
   return out;
 }
 
+/** Chaikin for a closed outline (a lake's shore): every corner rounded, the ring stays closed. */
+function smoothRing(pts: Array<[number, number]>): Array<[number, number]> {
+  const ring = pts.length > 1 && pts[0][0] === pts[pts.length - 1][0] && pts[0][1] === pts[pts.length - 1][1] ? pts.slice(0, -1) : pts;
+  if (ring.length < 3) return pts;
+  const out: Array<[number, number]> = [];
+  for (let i = 0; i < ring.length; i++) {
+    const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
+    out.push([ax * 0.75 + bx * 0.25, az * 0.75 + bz * 0.25], [ax * 0.25 + bx * 0.75, az * 0.25 + bz * 0.75]);
+  }
+  return out;
+}
+
+/** Cut a closed outline where it passes behind the plane (z below `near`), so nothing is squashed onto one line. */
+function clipRingNear(ring: Array<[number, number]>, near: number): Array<[number, number]> {
+  const out: Array<[number, number]> = [];
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length];
+    const ain = a[1] >= near, bin = b[1] >= near;
+    if (ain) out.push(a);
+    if (ain !== bin) { const t = (near - a[1]) / (b[1] - a[1]); out.push([a[0] + (b[0] - a[0]) * t, near]); }
+  }
+  return out;
+}
+
 /** Smooth value noise (0..1) for the patches: the same place always has the same patch. */
 function patchNoise(x: number, z: number): number {
   const h = (i: number, j: number) => { const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
@@ -291,7 +315,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     }
     for (const l of waters.lakes) {
       if (ahead.has(`L:${l.name}`)) continue;
-      list.push({ name: l.name, lake: true, width: 0, rings: l.rings.map((ring) => ring.map(toWorld)) });
+      list.push({ name: l.name, lake: true, width: 0, rings: l.rings.map((ring) => smoothRing(smoothRing(ring.map(toWorld)))) });
     }
     // names added this time count as ahead for the rest of this batch
   }, [waters]);
@@ -557,7 +581,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           for (const wt of waterWorld.current) {
             if (wt.lake) {
               for (const ring of wt.rings) {
-                const pts = ring.map(([x, z]) => at([x, Math.max(camZ + Z_NEAR * 0.6, Math.min(camZ + Z_FAR, z))])).filter((q): q is [number, number] => !!q);
+                // cut where the shore passes behind the plane (squashing it onto one line made straight edges and corners)
+                const pts = clipRingNear(ring, camZ + Z_NEAR * 0.6).map(([x, z]) => at([x, Math.min(camZ + Z_FAR, z)])).filter((q): q is [number, number] => !!q);
                 if (pts.length < 3) continue;
                 const midZ = ring.reduce((t, [, z]) => t + z, 0) / ring.length - camZ;
                 const fog = Math.min(0.85, Math.max(0, midZ / Z_FAR));
