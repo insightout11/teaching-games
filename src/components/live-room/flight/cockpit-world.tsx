@@ -541,7 +541,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         // Real rivers and lakes on the ground: water in the scene's light, a pale shore, greying into the haze far off
         if (realWaters() && waterWorld.current.length) {
           // deep water (the palette's sea colour darkened), and a green strip of fields along the banks
-          const base = mixRgb(look.current.water, [22, 58, 78], 0.55);
+          const base = mixRgb(look.current.water, [30, 56, 64], 0.7); // deep and a little muddy, never bright cyan
           const waterCol = dark ? mixRgb(base, [6, 10, 22], 0.6) : mixRgb(base, look.current.glow, 0.08);
           const bankLeaf = L[L.length - 1]?.leaf ?? ([70, 110, 60] as RGB);
           const shoreCol = dark ? mixRgb(bankLeaf, [6, 10, 18], 0.75) : mixRgb(bankLeaf, [52, 96, 48], 0.45);
@@ -564,11 +564,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 ctx.beginPath();
                 pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
                 ctx.closePath();
-                ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.7));
+                // green shores fading out into the land in small steps (no hard pale edge), then deep water
+                const shoreW = Math.max(2, Math.min(18, (900 * F) / Math.max(Z_NEAR, midZ)));
+                ctx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
+                for (const k of [1, 0.75, 0.5, 0.3]) { ctx.globalAlpha = 0.1; ctx.lineWidth = shoreW * k; ctx.stroke(); }
+                ctx.globalAlpha = 0.9;
+                ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
                 ctx.fill();
-                ctx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.7));
-                ctx.lineWidth = 1.2;
-                ctx.stroke();
+                ctx.globalAlpha = 1;
               }
               continue;
             }
@@ -593,7 +596,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 dx /= len; dy /= len;
                 // the river narrows away at both ends of what is drawn (no square stop)
                 const ends = Math.min(n, pts.length - 1 - n) / Math.max(1, Math.min(14, pts.length * 0.2));
-                const hw = pts[n].half * k * Math.min(1, ends);
+                // natural width: wider and narrower along the way, not a road
+                const wobble = 0.8 + 0.35 * Math.sin(n * 0.7 + pts.length) * Math.sin(n * 0.23);
+                const hw = pts[n].half * k * Math.min(1, ends) * wobble;
                 left.push([pts[n].x - dy * hw, pts[n].y + dx * hw]);
                 right.push([pts[n].x + dy * hw, pts[n].y - dx * hw]);
               }
@@ -606,14 +611,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             for (const r of runs) {
               const fog = r.reduce((t, p) => t + p.fog, 0) / r.length;
               // soft banks: a wide faint green fading into the land, a closer stronger green, then the water
+              // banks fading out in many small steps (two hard bands looked like a road's verges)
               ctx.fillStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
-              ctx.globalAlpha = 0.22;
-              ribbon(r, 5);
-              ctx.globalAlpha = 0.45;
-              ribbon(r, 2.4);
-              ctx.globalAlpha = 0.9;
+              for (const k of [6, 4.8, 3.8, 3, 2.3, 1.7]) { ctx.globalAlpha = 0.09; ribbon(r, k); }
               ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
-              ribbon(r, 1);
+              ctx.globalAlpha = 0.45; ribbon(r, 1.25);
+              ctx.globalAlpha = 0.8; ribbon(r, 0.9);
               ctx.globalAlpha = 1;
             }
           }
