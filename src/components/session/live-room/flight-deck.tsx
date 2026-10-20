@@ -1,5 +1,7 @@
 'use client';
 
+import { FactsBoard } from '@/components/session/live-room/facts-board';
+import type { FactCard } from '@/lib/live-room/fact-cards';
 import { momentQuestion, planMoments, type Moment, type NaturalEvent } from '@/lib/live-room/moments';
 import type { FreePicture } from '@/lib/sources/wikimedia-images';
 import { ArrivalCards } from './arrival-cards';
@@ -786,6 +788,9 @@ export function FlightDeck({
   const [presenting, setPresenting] = useState(false);
   const [clearScreen, setClearScreen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  // The facts board: opens by itself the first time each topic's facts arrive (presenting comes before talking).
+  const [factsOpen, setFactsOpen] = useState(false);
+  const factsSeen = useRef(new Set<string>());
   // Soft music while the class boards; it fades out as soon as the class leaves the boarding screen.
   useEffect(() => {
     if (view === 'boarding') startMusic(LOBBY_BED);
@@ -1321,6 +1326,12 @@ export function FlightDeck({
   );
   useEffect(() => { setAboutOpen(false); }, [focused?.id]);
   const brief = typeof focusBrief === 'object' ? focusBrief : null;
+  useEffect(() => {
+    if (!focused || !brief?.cards?.length || factsSeen.current.has(focused.id)) return;
+    factsSeen.current.add(focused.id);
+    setFactsOpen(true);
+  }, [focused, brief]);
+  useEffect(() => { setFactsOpen(false); }, [focused?.id]);
   // The topic's key words feed the Word bank widget.
   const setBusVocab = useFocusBus((s) => s.setVocab);
   useEffect(() => { setBusVocab(brief?.vocab ?? []); }, [brief, setBusVocab]);
@@ -2306,11 +2317,22 @@ export function FlightDeck({
         onCinematic={setCinematic}
         onLanded={() => { setLanded(true); play('arrivalResolve'); }}
       />
+      {factsOpen && focused && brief?.cards?.length && !cinematic && !(landed && !hall) && view !== 'boarding' && view !== 'map' ? (
+        <FactsBoard
+          title={focused.title}
+          cards={brief.cards}
+          onAsk={(q) => { setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk'); }}
+          onClose={() => setFactsOpen(false)}
+        />
+      ) : null}
       {focused && !cinematic && !(landed && !hall) && view !== 'boarding' && view !== 'map' && (
         <div className="absolute inset-x-0 top-3 z-10 flex flex-col items-center gap-2 px-4">
           <button type="button" onClick={() => setAboutOpen((o) => !o)} title="What this topic is about" className="max-w-[70%] truncate rounded-full border border-white/20 bg-slate-950/65 px-3 py-1 text-xs text-white/90 backdrop-blur-md hover:border-amber-300/60">
             <b className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">Now talking about</b>&nbsp; {focused.title}
           </button>
+          {(brief?.cards?.length ?? 0) > 0 && !factsOpen && (
+            <button type="button" onClick={() => setFactsOpen(true)} className="rounded-full border border-amber-300/40 bg-slate-950/65 px-3 py-1 text-xs text-amber-100 backdrop-blur-md hover:bg-amber-300/10">Show the facts</button>
+          )}
           {!aboutOpen && ((brief?.nextTopics?.length ?? 0) > 0 || earlierTopics.length > 0) && (
             <div className="flex max-w-[86%] flex-wrap items-center justify-center gap-1.5 text-[11px]">
               {(brief?.nextTopics?.length ?? 0) > 0 && <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-white/55">Where next?</span>}
@@ -3350,6 +3372,8 @@ interface FocusBrief {
   nextTopics?: Array<{ link: string; title: string }>;
   /** Facts from Wikipedia for a named film, book, singer, famous person... (ending kept back). */
   reference?: { title: string; url: string; kind: string; text: string; ending: string | null };
+  /** The facts board: the topic presented as fact cards before the class talks. */
+  cards?: FactCard[];
 }
 
 /** The glareshield topic bar: type anything to make it the class's topic; recent topics one tap away. */

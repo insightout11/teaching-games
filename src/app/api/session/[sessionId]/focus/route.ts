@@ -19,6 +19,7 @@ import { stickerLabel } from '@/lib/stickers';
 import { lookupWikipedia, type WikiReference } from '@/lib/sources/wikipedia';
 import { depthPromptNote, type TopicDepth } from '@/lib/topic-depth';
 import { cleanNextTopics, NEXT_TOPICS_SCHEMA, nextTopicsPrompt } from '@/lib/live-room/where-next';
+import { cardsFromFacts, cleanFactCards, FACT_CARDS_SCHEMA, factCardsPrompt } from '@/lib/live-room/fact-cards';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -46,8 +47,9 @@ const schema: AISchema = {
       items: { type: 'object', properties: { phrase: { type: 'string' }, example: { type: 'string' } }, required: ['phrase', 'example'] },
     },
     nextTopics: NEXT_TOPICS_SCHEMA,
+    cards: FACT_CARDS_SCHEMA,
   },
-  required: ['briefing', 'facts', 'angles', 'vocab', 'expressions', 'nextTopics'],
+  required: ['briefing', 'facts', 'angles', 'vocab', 'expressions', 'nextTopics', 'cards'],
 };
 
 interface FocusBrief {
@@ -57,6 +59,7 @@ interface FocusBrief {
   vocab: unknown;
   expressions: unknown;
   nextTopics?: unknown;
+  cards?: unknown;
 }
 
 const clean = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
@@ -82,6 +85,7 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const { data: session } = await service.from('sessions').select('difficulty, classes(junior)').eq('id', params.sessionId).maybeSingle();
   const difficulty = ((session?.difficulty as string | undefined) ?? 'Intermediate') as Difficulty;
   const level = difficultyDescriptions[difficulty] ?? difficultyDescriptions.Intermediate;
+  const junior = (session as { classes?: { junior?: boolean } | null } | null)?.classes?.junior === true;
 
   // A topic from the ready bank (no material attached): instant, no AI call.
   const banked = text ? null : findTopicBriefing(title);
@@ -107,6 +111,7 @@ Prepare the teacher and students:
 - "vocab": exactly 7 words or short phrases students need to talk about THIS.
 ${PHRASEBOOK_FIELDS_PROMPT}
 - "expressions": exactly 6 useful sentence stems for discussing it, each with a short example about this topic.
+${factCardsPrompt(junior)}
 ${nextTopicsPrompt(title, covered)}`;
 
   let brief: FocusBrief;
@@ -120,7 +125,6 @@ ${nextTopicsPrompt(title, covered)}`;
   }
 
   // Junior classes on a banked topic: the phones' words are picture words (Codex round 22), said and pointed at.
-  const junior = (session as { classes?: { junior?: boolean } | null } | null)?.classes?.junior === true;
   const pictureVocab = junior && banked?.pictureWords?.length
     ? banked.pictureWords.map((id) => {
         const word = stickerLabel(id);
@@ -146,6 +150,8 @@ ${nextTopicsPrompt(title, covered)}`;
     angles: strings(brief.angles, 4, 240),
     vocab,
     nextTopics: cleanNextTopics(brief.nextTopics, [title, ...covered]),
+    // The facts board: the model's cards, or (a ready-bank topic) its facts as cards.
+    cards: (() => { const c = cleanFactCards(brief.cards); return c.length >= 3 ? c : cardsFromFacts(strings(brief.facts, 5, 240), strings(brief.angles, 4, 240)); })(),
     ...(reference ? { reference } : {}),
   });
 }
