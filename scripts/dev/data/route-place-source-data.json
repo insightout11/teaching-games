@@ -1,0 +1,4546 @@
+{
+  "sourceNotes": "Explicit editorial cards carry their own Wikipedia reference URLs in route-place-editorial.tsv. This file preserves audit identities and selection only. No capital/latitude/population fields are used to construct teaching facts. Territory outline labels do not assert sovereign recognition.",
+  "places": [
+    {
+      "title": "Asia",
+      "appTitle": "Asia",
+      "aliases": [],
+      "kinds": [
+        "below region",
+        "below fallback"
+      ],
+      "rank": 1,
+      "routes": 552,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Asia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Atlantic Ocean",
+      "appTitle": "Atlantic Ocean",
+      "aliases": [
+        "the Atlantic Ocean"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 2,
+      "routes": 445,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Atlantic_Ocean"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Pacific Ocean",
+      "appTitle": "Pacific Ocean",
+      "aliases": [
+        "the Pacific Ocean"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 3,
+      "routes": 410,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Pacific_Ocean"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Europe",
+      "appTitle": "Europe",
+      "aliases": [],
+      "kinds": [
+        "below region",
+        "below fallback"
+      ],
+      "rank": 4,
+      "routes": 385,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Europe"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Russia",
+      "appTitle": "Russia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 5,
+      "routes": 322,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Russia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "China",
+      "appTitle": "China",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 6,
+      "routes": 308,
+      "sources": [
+        "https://en.wikipedia.org/wiki/China"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "North European Plain",
+      "appTitle": "North European Plain",
+      "aliases": [
+        "the North European Plain"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 7,
+      "routes": 290,
+      "sources": [
+        "https://en.wikipedia.org/wiki/North_European_Plain"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "United States of America",
+      "appTitle": "United States of America",
+      "aliases": [
+        "United States",
+        "USA"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 8,
+      "routes": 277,
+      "sources": [
+        "https://en.wikipedia.org/wiki/United_States"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Indian Ocean",
+      "appTitle": "Indian Ocean",
+      "aliases": [
+        "the Indian Ocean"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 9,
+      "routes": 245,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Indian_Ocean"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Africa",
+      "appTitle": "Africa",
+      "aliases": [],
+      "kinds": [
+        "below region",
+        "below fallback"
+      ],
+      "rank": 10,
+      "routes": 230,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Africa"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "North America",
+      "appTitle": "North America",
+      "aliases": [],
+      "kinds": [
+        "below region",
+        "below fallback"
+      ],
+      "rank": 11,
+      "routes": 228,
+      "sources": [
+        "https://en.wikipedia.org/wiki/North_America"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "India",
+      "appTitle": "India",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 12,
+      "routes": 212,
+      "sources": [
+        "https://en.wikipedia.org/wiki/India"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Canada",
+      "appTitle": "Canada",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 13,
+      "routes": 209,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Canada"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mediterranean Sea",
+      "appTitle": "Mediterranean Sea",
+      "aliases": [
+        "the Mediterranean Sea"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 14,
+      "routes": 197,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mediterranean_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Brazil",
+      "appTitle": "Brazil",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 15,
+      "routes": 168,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Brazil"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Andes",
+      "appTitle": "Andes",
+      "aliases": [
+        "the Andes"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 16,
+      "routes": 160,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Andes"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sahara",
+      "appTitle": "Sahara",
+      "aliases": [
+        "the Sahara"
+      ],
+      "kinds": [
+        "desert",
+        "below region",
+        "moment place"
+      ],
+      "rank": 17,
+      "routes": 157,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sahara"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Siberian taiga",
+      "appTitle": "Siberian taiga",
+      "aliases": [
+        "the Siberian taiga"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 18,
+      "routes": 157,
+      "sources": [
+        "https://en.wikipedia.org/wiki/East_Siberian_taiga"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Kazakhstan",
+      "appTitle": "Kazakhstan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 19,
+      "routes": 154,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kazakhstan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Germany",
+      "appTitle": "Germany",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 20,
+      "routes": 147,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Germany"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "France",
+      "appTitle": "France",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 21,
+      "routes": 146,
+      "sources": [
+        "https://en.wikipedia.org/wiki/France"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "British Isles",
+      "appTitle": "British Isles",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 22,
+      "routes": 144,
+      "sources": [
+        "https://en.wikipedia.org/wiki/British_Isles"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Iberian Peninsula",
+      "appTitle": "Iberian Peninsula",
+      "aliases": [
+        "the Iberian Peninsula"
+      ],
+      "kinds": [
+        "plateau",
+        "below region",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 23,
+      "routes": 139,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Iberian_Peninsula"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "North China Plain",
+      "appTitle": "North China Plain",
+      "aliases": [
+        "the North China Plain"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 24,
+      "routes": 131,
+      "sources": [
+        "https://en.wikipedia.org/wiki/North_China_Plain"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Polynesia",
+      "appTitle": "Polynesia",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below fallback"
+      ],
+      "rank": 25,
+      "routes": 130,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Polynesia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mongolia",
+      "appTitle": "Mongolia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 26,
+      "routes": 128,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mongolia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Indonesia",
+      "appTitle": "Indonesia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 27,
+      "routes": 123,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Indonesia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Central Lowlands",
+      "appTitle": "Central Lowlands",
+      "aliases": [
+        "the Central Lowlands"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place"
+      ],
+      "rank": 28,
+      "routes": 122,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Geography_of_North_America#Interior_Lowlands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Great Britain",
+      "appTitle": "Great Britain",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 29,
+      "routes": 121,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Great_Britain"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "United Kingdom",
+      "appTitle": "United Kingdom",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 30,
+      "routes": 121,
+      "sources": [
+        "https://en.wikipedia.org/wiki/United_Kingdom"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sahel",
+      "appTitle": "Sahel",
+      "aliases": [
+        "the Sahel"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place"
+      ],
+      "rank": 31,
+      "routes": 120,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sahel"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Spain",
+      "appTitle": "Spain",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 32,
+      "routes": 120,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Spain"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Australia",
+      "appTitle": "Australia",
+      "aliases": [],
+      "kinds": [
+        "country",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 33,
+      "routes": 117,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Australia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "South America",
+      "appTitle": "South America",
+      "aliases": [],
+      "kinds": [
+        "below region",
+        "below fallback"
+      ],
+      "rank": 34,
+      "routes": 116,
+      "sources": [
+        "https://en.wikipedia.org/wiki/South_America"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Canadian Shield",
+      "appTitle": "Canadian Shield",
+      "aliases": [
+        "the Canadian Shield"
+      ],
+      "kinds": [
+        "tundra",
+        "below region",
+        "moment place"
+      ],
+      "rank": 35,
+      "routes": 114,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Canadian_Shield"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Gobi Desert",
+      "appTitle": "Gobi Desert",
+      "aliases": [
+        "the Gobi Desert"
+      ],
+      "kinds": [
+        "below region",
+        "desert",
+        "moment place"
+      ],
+      "rank": 36,
+      "routes": 113,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Gobi_Desert"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Italy",
+      "appTitle": "Italy",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 37,
+      "routes": 113,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Italy"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Greater Sunda Islands",
+      "appTitle": "Greater Sunda Islands",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 38,
+      "routes": 112,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Greater_Sunda_Islands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Pakistan",
+      "appTitle": "Pakistan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 39,
+      "routes": 112,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Pakistan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Greenland ice sheet",
+      "appTitle": "Greenland ice sheet",
+      "aliases": [
+        "the Greenland ice sheet"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 40,
+      "routes": 109,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Greenland_ice_sheet"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Pontic-Caspian steppe",
+      "appTitle": "Pontic-Caspian steppe",
+      "aliases": [
+        "the Pontic-Caspian steppe"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 41,
+      "routes": 109,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Pontic%E2%80%93Caspian_steppe"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "South China Sea",
+      "appTitle": "South China Sea",
+      "aliases": [
+        "the South China Sea"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 42,
+      "routes": 109,
+      "sources": [
+        "https://en.wikipedia.org/wiki/South_China_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Tibetan Plateau",
+      "appTitle": "Tibetan Plateau",
+      "aliases": [
+        "the Tibetan Plateau"
+      ],
+      "kinds": [
+        "plateau",
+        "below region",
+        "moment place"
+      ],
+      "rank": 43,
+      "routes": 109,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tibetan_Plateau"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Caribbean Sea",
+      "appTitle": "Caribbean Sea",
+      "aliases": [
+        "the Caribbean Sea"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 44,
+      "routes": 107,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Caribbean_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Appalachian Mountains",
+      "appTitle": "Appalachian Mountains",
+      "aliases": [
+        "the Appalachian Mountains"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 46,
+      "routes": 102,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Appalachian_Mountains"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mongolian Plateau",
+      "appTitle": "Mongolian Plateau",
+      "aliases": [
+        "the Mongolian Plateau"
+      ],
+      "kinds": [
+        "plateau",
+        "below region",
+        "moment place"
+      ],
+      "rank": 47,
+      "routes": 102,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mongolian_Plateau"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "North Sea",
+      "appTitle": "North Sea",
+      "aliases": [
+        "the North Sea"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 48,
+      "routes": 102,
+      "sources": [
+        "https://en.wikipedia.org/wiki/North_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Tian Shan",
+      "appTitle": "Tian Shan",
+      "aliases": [
+        "the Tian Shan",
+        "Tien Shan"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 49,
+      "routes": 101,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tian_Shan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Thailand",
+      "appTitle": "Thailand",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 50,
+      "routes": 99,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Thailand"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Himalayas",
+      "appTitle": "Himalayas",
+      "aliases": [
+        "the Himalayas"
+      ],
+      "kinds": [
+        "below region",
+        "mountain-range",
+        "moment place"
+      ],
+      "rank": 51,
+      "routes": 97,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Himalayas"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Vietnam",
+      "appTitle": "Vietnam",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 52,
+      "routes": 97,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Vietnam"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Iran",
+      "appTitle": "Iran",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 53,
+      "routes": 96,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Iran"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Kazakh Steppe",
+      "appTitle": "Kazakh Steppe",
+      "aliases": [
+        "the Kazakh Steppe"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place"
+      ],
+      "rank": 54,
+      "routes": 96,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kazakh_Steppe"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ural Mountains",
+      "appTitle": "Ural Mountains",
+      "aliases": [
+        "the Ural Mountains"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 55,
+      "routes": 95,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ural_Mountains"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Arabian Desert",
+      "appTitle": "Arabian Desert",
+      "aliases": [
+        "the Arabian Desert"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 56,
+      "routes": 94,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Arabian_Desert"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Arabian Sea",
+      "appTitle": "Arabian Sea",
+      "aliases": [
+        "the Arabian Sea"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 57,
+      "routes": 94,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Arabian_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Rocky Mountains",
+      "appTitle": "Rocky Mountains",
+      "aliases": [
+        "the Rocky Mountains"
+      ],
+      "kinds": [
+        "below region",
+        "mountain-range",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 58,
+      "routes": 92,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Rocky_Mountains"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Turkey",
+      "appTitle": "Turkey",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 59,
+      "routes": 92,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Turkey"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "hills of southern China",
+      "appTitle": "hills of southern China",
+      "aliases": [
+        "the hills of southern China"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 60,
+      "routes": 91,
+      "sources": [
+        "https://en.wikipedia.org/wiki/South_China"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Indo-Gangetic Plain",
+      "appTitle": "Indo-Gangetic Plain",
+      "aliases": [
+        "the Indo-Gangetic Plain"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place"
+      ],
+      "rank": 61,
+      "routes": 91,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Indo-Gangetic_Plain"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bay of Bengal",
+      "appTitle": "Bay of Bengal",
+      "aliases": [
+        "the Bay of Bengal"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 62,
+      "routes": 90,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bay_of_Bengal"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "West Indies",
+      "appTitle": "West Indies",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 63,
+      "routes": 90,
+      "sources": [
+        "https://en.wikipedia.org/wiki/West_Indies"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Egypt",
+      "appTitle": "Egypt",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 64,
+      "routes": 88,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Egypt"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Myanmar",
+      "appTitle": "Myanmar",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 65,
+      "routes": 88,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Myanmar"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Netherlands",
+      "appTitle": "Netherlands",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 66,
+      "routes": 86,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Netherlands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Baltic Sea",
+      "appTitle": "Baltic Sea",
+      "aliases": [
+        "the Baltic Sea"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 67,
+      "routes": 85,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Baltic_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Melanesia",
+      "appTitle": "Melanesia",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below fallback",
+        "below region"
+      ],
+      "rank": 68,
+      "routes": 85,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Melanesia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Poland",
+      "appTitle": "Poland",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 69,
+      "routes": 85,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Poland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sumatra",
+      "appTitle": "Sumatra",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 70,
+      "routes": 85,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sumatra"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Yangtze River",
+      "appTitle": "Yangtze River",
+      "aliases": [
+        "the Yangtze River"
+      ],
+      "kinds": [
+        "moment place",
+        "river"
+      ],
+      "rank": 71,
+      "routes": 85,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Yangtze"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Amsterdam",
+      "appTitle": "Amsterdam",
+      "aliases": [],
+      "kinds": [
+        "nearby city",
+        "destination city"
+      ],
+      "rank": 72,
+      "routes": 83,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Amsterdam"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Brazilian Highlands",
+      "appTitle": "Brazilian Highlands",
+      "aliases": [
+        "the Brazilian Highlands"
+      ],
+      "kinds": [
+        "plateau",
+        "below region",
+        "moment place"
+      ],
+      "rank": 73,
+      "routes": 83,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Brazilian_Highlands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Afghanistan",
+      "appTitle": "Afghanistan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 74,
+      "routes": 82,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Afghanistan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Colombia",
+      "appTitle": "Colombia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 75,
+      "routes": 82,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Colombia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Libyan Desert",
+      "appTitle": "Libyan Desert",
+      "aliases": [
+        "the Libyan Desert"
+      ],
+      "kinds": [
+        "desert",
+        "below region",
+        "moment place"
+      ],
+      "rank": 76,
+      "routes": 82,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Libyan_Desert"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Argentina",
+      "appTitle": "Argentina",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 77,
+      "routes": 81,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Argentina"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Japan",
+      "appTitle": "Japan",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 78,
+      "routes": 81,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Japan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Berlin",
+      "appTitle": "Berlin",
+      "aliases": [],
+      "kinds": [
+        "nearby city",
+        "destination city"
+      ],
+      "rank": 79,
+      "routes": 80,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Berlin"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Great Wall of China",
+      "appTitle": "Great Wall of China",
+      "aliases": [
+        "the Great Wall of China"
+      ],
+      "kinds": [
+        "sight",
+        "landmark"
+      ],
+      "rank": 80,
+      "routes": 80,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Great_Wall_of_China"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Western Ghats",
+      "appTitle": "Western Ghats",
+      "aliases": [
+        "the Western Ghats"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 81,
+      "routes": 79,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Western_Ghats"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Atlantic coastal plain",
+      "appTitle": "Atlantic coastal plain",
+      "aliases": [
+        "the Atlantic coastal plain"
+      ],
+      "kinds": [
+        "plain",
+        "below region",
+        "moment place",
+        "below fallback"
+      ],
+      "rank": 82,
+      "routes": 78,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Atlantic_Plain"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Malaysia",
+      "appTitle": "Malaysia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 83,
+      "routes": 78,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Malaysia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mexico",
+      "appTitle": "Mexico",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 84,
+      "routes": 78,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mexico"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Paris",
+      "appTitle": "Paris",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 85,
+      "routes": 78,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Paris"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Portugal",
+      "appTitle": "Portugal",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 86,
+      "routes": 75,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Portugal"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Alps",
+      "appTitle": "Alps",
+      "aliases": [
+        "the Alps"
+      ],
+      "kinds": [
+        "below region",
+        "mountain-range",
+        "below fallback",
+        "moment place"
+      ],
+      "rank": 87,
+      "routes": 74,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Alps"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Canadian Arctic Archipelago",
+      "appTitle": "Canadian Arctic Archipelago",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 88,
+      "routes": 74,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Arctic_Archipelago"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Philippines",
+      "appTitle": "Philippines",
+      "aliases": [
+        "the Philippines"
+      ],
+      "kinds": [
+        "island",
+        "country",
+        "below region",
+        "below fallback"
+      ],
+      "rank": 89,
+      "routes": 74,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Philippines"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Arctic Ocean",
+      "appTitle": "Arctic Ocean",
+      "aliases": [
+        "the Arctic Ocean"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 90,
+      "routes": 72,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Arctic_Ocean"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Canadian boreal forest",
+      "appTitle": "Canadian boreal forest",
+      "aliases": [
+        "the Canadian boreal forest"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 91,
+      "routes": 72,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Boreal_forest_of_Canada"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ethiopia",
+      "appTitle": "Ethiopia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 92,
+      "routes": 72,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ethiopia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "London",
+      "appTitle": "London",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 93,
+      "routes": 72,
+      "sources": [
+        "https://en.wikipedia.org/wiki/London"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Madrid",
+      "appTitle": "Madrid",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 94,
+      "routes": 72,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Madrid"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Nile",
+      "appTitle": "Nile",
+      "aliases": [
+        "the Nile"
+      ],
+      "kinds": [
+        "river",
+        "moment place"
+      ],
+      "rank": 95,
+      "routes": 72,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Nile"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ethiopian Highlands",
+      "appTitle": "Ethiopian Highlands",
+      "aliases": [
+        "the Ethiopian Highlands"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 96,
+      "routes": 71,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ethiopian_Highlands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Malay Archipelago",
+      "appTitle": "Malay Archipelago",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region"
+      ],
+      "rank": 97,
+      "routes": 71,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Malay_Archipelago"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ireland",
+      "appTitle": "Ireland",
+      "aliases": [],
+      "kinds": [
+        "country",
+        "island"
+      ],
+      "rank": 98,
+      "routes": 70,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ireland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Iranian Plateau",
+      "appTitle": "Iranian Plateau",
+      "aliases": [
+        "the Iranian Plateau"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 99,
+      "routes": 69,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Iranian_plateau"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Moscow",
+      "appTitle": "Moscow",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 100,
+      "routes": 69,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Moscow"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Rome",
+      "appTitle": "Rome",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 101,
+      "routes": 69,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Rome"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sea of Japan",
+      "appTitle": "Sea of Japan",
+      "aliases": [
+        "the Sea of Japan"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 102,
+      "routes": 69,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sea_of_Japan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Algeria",
+      "appTitle": "Algeria",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 103,
+      "routes": 68,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Algeria"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Cordillera Blanca",
+      "appTitle": "Cordillera Blanca",
+      "aliases": [
+        "the Cordillera Blanca"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 104,
+      "routes": 68,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cordillera_Blanca"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Great Dividing Range",
+      "appTitle": "Great Dividing Range",
+      "aliases": [
+        "the Great Dividing Range"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 105,
+      "routes": 68,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Great_Dividing_Range"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "South Korea",
+      "appTitle": "South Korea",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 106,
+      "routes": 67,
+      "sources": [
+        "https://en.wikipedia.org/wiki/South_Korea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ulaanbaatar",
+      "appTitle": "Ulaanbaatar",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 107,
+      "routes": 67,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ulaanbaatar"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Great Rift Valley",
+      "appTitle": "Great Rift Valley",
+      "aliases": [
+        "the Great Rift Valley"
+      ],
+      "kinds": [
+        "valley",
+        "below region",
+        "moment place"
+      ],
+      "rank": 108,
+      "routes": 66,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Great_Rift_Valley"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Java Sea",
+      "appTitle": "Java Sea",
+      "aliases": [
+        "the Java Sea"
+      ],
+      "kinds": [
+        "below fallback"
+      ],
+      "rank": 109,
+      "routes": 66,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Java_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Nigeria",
+      "appTitle": "Nigeria",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 110,
+      "routes": 66,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Nigeria"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ukraine",
+      "appTitle": "Ukraine",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 111,
+      "routes": 66,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ukraine"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Caspian Sea",
+      "appTitle": "Caspian Sea",
+      "aliases": [
+        "the Caspian Sea"
+      ],
+      "kinds": [
+        "below fallback",
+        "lake",
+        "moment place"
+      ],
+      "rank": 112,
+      "routes": 65,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Caspian_Sea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "forests of Scandinavia",
+      "appTitle": "forests of Scandinavia",
+      "aliases": [
+        "the forests of Scandinavia"
+      ],
+      "kinds": [
+        "below region"
+      ],
+      "rank": 113,
+      "routes": 65,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Scandinavian_and_Russian_taiga"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Khentii Mountains",
+      "appTitle": "Khentii Mountains",
+      "aliases": [
+        "the Khentii Mountains",
+        "Hentii Mountains"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 114,
+      "routes": 65,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Khentii_Mountains"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Lisbon",
+      "appTitle": "Lisbon",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 115,
+      "routes": 64,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lisbon"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Peru",
+      "appTitle": "Peru",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 116,
+      "routes": 64,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Peru"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Amazon basin",
+      "appTitle": "Amazon basin",
+      "aliases": [
+        "the Amazon basin"
+      ],
+      "kinds": [
+        "basin",
+        "below region",
+        "moment place"
+      ],
+      "rank": 117,
+      "routes": 63,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Amazon_basin"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Central Siberian Plateau",
+      "appTitle": "Central Siberian Plateau",
+      "aliases": [
+        "the Central Siberian Plateau"
+      ],
+      "kinds": [
+        "plateau",
+        "below region",
+        "moment place"
+      ],
+      "rank": 118,
+      "routes": 63,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Central_Siberian_Plateau"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Chile",
+      "appTitle": "Chile",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 119,
+      "routes": 63,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Chile"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Dublin",
+      "appTitle": "Dublin",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 120,
+      "routes": 63,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dublin"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Hong Kong",
+      "appTitle": "Hong Kong",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 121,
+      "routes": 63,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Hong_Kong"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sweden",
+      "appTitle": "Sweden",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 122,
+      "routes": 63,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sweden"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Appennino Ligure",
+      "appTitle": "Appennino Ligure",
+      "aliases": [
+        "the Appennino Ligure"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 123,
+      "routes": 62,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Apennine_Mountains"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Palm Islands of Dubai",
+      "appTitle": "Palm Islands of Dubai",
+      "aliases": [
+        "the Palm Islands of Dubai"
+      ],
+      "kinds": [
+        "sight",
+        "landmark"
+      ],
+      "rank": 124,
+      "routes": 62,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Palm_Islands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Shanghai",
+      "appTitle": "Shanghai",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 125,
+      "routes": 62,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Shanghai"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Coast Mountains",
+      "appTitle": "Coast Mountains",
+      "aliases": [
+        "the Coast Mountains"
+      ],
+      "kinds": [
+        "mountain-range",
+        "below region",
+        "moment place"
+      ],
+      "rank": 126,
+      "routes": 61,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Coast_Mountains"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Hawaiian Islands",
+      "appTitle": "Hawaiian Islands",
+      "aliases": [],
+      "kinds": [
+        "island"
+      ],
+      "rank": 127,
+      "routes": 61,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Hawaiian_Islands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Istanbul",
+      "appTitle": "Istanbul",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 128,
+      "routes": 61,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Istanbul"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Java",
+      "appTitle": "Java",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below region"
+      ],
+      "rank": 129,
+      "routes": 61,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Java"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Senegal",
+      "appTitle": "Senegal",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 130,
+      "routes": 61,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Senegal"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "United Arab Emirates",
+      "appTitle": "United Arab Emirates",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 131,
+      "routes": 61,
+      "sources": [
+        "https://en.wikipedia.org/wiki/United_Arab_Emirates"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Uzbekistan",
+      "appTitle": "Uzbekistan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 132,
+      "routes": 61,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Uzbekistan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Almaty",
+      "appTitle": "Almaty",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 133,
+      "routes": 60,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Almaty"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Beijing",
+      "appTitle": "Beijing",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 134,
+      "routes": 60,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Beijing"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Dubai",
+      "appTitle": "Dubai",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 135,
+      "routes": 60,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dubai"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Seoul",
+      "appTitle": "Seoul",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 138,
+      "routes": 60,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Seoul"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bangkok",
+      "appTitle": "Bangkok",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 139,
+      "routes": 59,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bangkok"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Delhi",
+      "appTitle": "Delhi",
+      "aliases": [],
+      "kinds": [
+        "nearby city",
+        "destination city"
+      ],
+      "rank": 140,
+      "routes": 59,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Delhi"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Iceland",
+      "appTitle": "Iceland",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country",
+        "below region"
+      ],
+      "rank": 141,
+      "routes": 59,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Iceland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Recife",
+      "appTitle": "Recife",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 142,
+      "routes": 59,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Recife"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Kenya",
+      "appTitle": "Kenya",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 146,
+      "routes": 58,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kenya"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mumbai",
+      "appTitle": "Mumbai",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 147,
+      "routes": 58,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mumbai"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "New York",
+      "appTitle": "New York",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 148,
+      "routes": 58,
+      "sources": [
+        "https://en.wikipedia.org/wiki/New_York_City"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Panama",
+      "appTitle": "Panama",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 149,
+      "routes": 58,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Panama"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sudan",
+      "appTitle": "Sudan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 150,
+      "routes": 58,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sudan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Cairo",
+      "appTitle": "Cairo",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 151,
+      "routes": 57,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cairo"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Greenland",
+      "appTitle": "Greenland",
+      "aliases": [],
+      "kinds": [
+        "country",
+        "island",
+        "below region"
+      ],
+      "rank": 153,
+      "routes": 57,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Greenland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Manila",
+      "appTitle": "Manila",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 155,
+      "routes": 57,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Manila"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Toronto",
+      "appTitle": "Toronto",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 158,
+      "routes": 57,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Toronto"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Belarus",
+      "appTitle": "Belarus",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 160,
+      "routes": 56,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Belarus"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Dakar",
+      "appTitle": "Dakar",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 162,
+      "routes": 56,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dakar"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Libya",
+      "appTitle": "Libya",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 163,
+      "routes": 56,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Libya"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Norway",
+      "appTitle": "Norway",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 164,
+      "routes": 56,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Norway"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Panama City",
+      "appTitle": "Panama City",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 165,
+      "routes": 56,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Panama_City"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Reykjavik",
+      "appTitle": "Reykjavik",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 166,
+      "routes": 56,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Reykjav%C3%ADk"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bogotá",
+      "appTitle": "Bogota",
+      "aliases": [
+        "Bogota"
+      ],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 168,
+      "routes": 55,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bogot%C3%A1"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Jakarta",
+      "appTitle": "Jakarta",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 169,
+      "routes": 55,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Jakarta"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Los Angeles",
+      "appTitle": "Los Angeles",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 171,
+      "routes": 55,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Los_Angeles"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Vancouver",
+      "appTitle": "Vancouver",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 172,
+      "routes": 55,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Vancouver"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Fiji",
+      "appTitle": "Fiji",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country",
+        "below region"
+      ],
+      "rank": 176,
+      "routes": 54,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Fiji"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ho Chi Minh City",
+      "appTitle": "Ho Chi Minh City",
+      "aliases": [],
+      "kinds": [
+        "nearby city",
+        "destination city"
+      ],
+      "rank": 177,
+      "routes": 54,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ho_Chi_Minh_City"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Miami",
+      "appTitle": "Miami",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 179,
+      "routes": 54,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Miami"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Singapore",
+      "appTitle": "Singapore",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 181,
+      "routes": 54,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Singapore"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Buenos Aires",
+      "appTitle": "Buenos Aires",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 183,
+      "routes": 53,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Buenos_Aires"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mauritania",
+      "appTitle": "Mauritania",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 184,
+      "routes": 53,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mauritania"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "New Zealand",
+      "appTitle": "New Zealand",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "below fallback",
+        "country",
+        "below region"
+      ],
+      "rank": 185,
+      "routes": 53,
+      "sources": [
+        "https://en.wikipedia.org/wiki/New_Zealand"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mexico City",
+      "appTitle": "Mexico City",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 188,
+      "routes": 52,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mexico_City"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Niger",
+      "appTitle": "Niger",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 189,
+      "routes": 52,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Niger"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Rio de Janeiro",
+      "appTitle": "Rio de Janeiro",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 190,
+      "routes": 52,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Rio_de_Janeiro"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "South Africa",
+      "appTitle": "South Africa",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 192,
+      "routes": 52,
+      "sources": [
+        "https://en.wikipedia.org/wiki/South_Africa"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sydney",
+      "appTitle": "Sydney",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 193,
+      "routes": 52,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sydney"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Addis Ababa",
+      "appTitle": "Addis Ababa",
+      "aliases": [],
+      "kinds": [
+        "nearby city",
+        "destination city"
+      ],
+      "rank": 195,
+      "routes": 51,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Addis_Ababa"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Kyrgyzstan",
+      "appTitle": "Kyrgyzstan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 196,
+      "routes": 51,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kyrgyzstan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Lima",
+      "appTitle": "Lima",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 197,
+      "routes": 51,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lima"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Tokyo",
+      "appTitle": "Tokyo",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 199,
+      "routes": 51,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tokyo"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Auckland",
+      "appTitle": "Auckland",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 200,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Auckland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Cape Town",
+      "appTitle": "Cape Town",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 201,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cape_Town"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Greece",
+      "appTitle": "Greece",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 204,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Greece"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Lagos",
+      "appTitle": "Lagos",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 207,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lagos"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Nairobi",
+      "appTitle": "Nairobi",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 208,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Nairobi"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Perth",
+      "appTitle": "Perth",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 210,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Perth"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Santiago",
+      "appTitle": "Santiago",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 212,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Santiago"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Saudi Arabia",
+      "appTitle": "Saudi Arabia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 213,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Saudi_Arabia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Suva",
+      "appTitle": "Suva",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 215,
+      "routes": 50,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Suva"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Honolulu",
+      "appTitle": "Honolulu",
+      "aliases": [],
+      "kinds": [
+        "destination city",
+        "nearby city"
+      ],
+      "rank": 218,
+      "routes": 49,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Honolulu"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mali",
+      "appTitle": "Mali",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 220,
+      "routes": 49,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mali"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "North Korea",
+      "appTitle": "North Korea",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 224,
+      "routes": 48,
+      "sources": [
+        "https://en.wikipedia.org/wiki/North_Korea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Turkmenistan",
+      "appTitle": "Turkmenistan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 226,
+      "routes": 48,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Turkmenistan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Laos",
+      "appTitle": "Laos",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 230,
+      "routes": 46,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Laos"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Finland",
+      "appTitle": "Finland",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 236,
+      "routes": 45,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Finland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Iraq",
+      "appTitle": "Iraq",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 237,
+      "routes": 45,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Iraq"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Venezuela",
+      "appTitle": "Venezuela",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 239,
+      "routes": 45,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Venezuela"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Chad",
+      "appTitle": "Chad",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 243,
+      "routes": 44,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Chad"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Cambodia",
+      "appTitle": "Cambodia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 249,
+      "routes": 43,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cambodia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Belgium",
+      "appTitle": "Belgium",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 255,
+      "routes": 41,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Belgium"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Austria",
+      "appTitle": "Austria",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 267,
+      "routes": 39,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Austria"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Morocco",
+      "appTitle": "Morocco",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 273,
+      "routes": 39,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Morocco"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bulgaria",
+      "appTitle": "Bulgaria",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 275,
+      "routes": 38,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bulgaria"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Democratic Republic of the Congo",
+      "appTitle": "Dem. Rep. Congo",
+      "aliases": [
+        "Dem. Rep. Congo",
+        "DR Congo",
+        "DRC"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 276,
+      "routes": 38,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Democratic_Republic_of_the_Congo"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Romania",
+      "appTitle": "Romania",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 280,
+      "routes": 38,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Romania"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Serbia",
+      "appTitle": "Serbia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 290,
+      "routes": 36,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Serbia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Syria",
+      "appTitle": "Syria",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 292,
+      "routes": 35,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Syria"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Croatia",
+      "appTitle": "Croatia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 294,
+      "routes": 34,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Croatia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "South Sudan",
+      "appTitle": "S. Sudan",
+      "aliases": [
+        "S. Sudan"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 298,
+      "routes": 34,
+      "sources": [
+        "https://en.wikipedia.org/wiki/South_Sudan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Oman",
+      "appTitle": "Oman",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 307,
+      "routes": 33,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Oman"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Czechia",
+      "appTitle": "Czechia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 314,
+      "routes": 32,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Czech_Republic"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Latvia",
+      "appTitle": "Latvia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 316,
+      "routes": 32,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Latvia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Nepal",
+      "appTitle": "Nepal",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 321,
+      "routes": 32,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Nepal"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Cuba",
+      "appTitle": "Cuba",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country",
+        "below region"
+      ],
+      "rank": 329,
+      "routes": 31,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cuba"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Denmark",
+      "appTitle": "Denmark",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 330,
+      "routes": 31,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Denmark"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Hungary",
+      "appTitle": "Hungary",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 332,
+      "routes": 31,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Hungary"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Tajikistan",
+      "appTitle": "Tajikistan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 341,
+      "routes": 31,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tajikistan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Somalia",
+      "appTitle": "Somalia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 351,
+      "routes": 30,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Somalia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Antarctica",
+      "appTitle": "Antarctica",
+      "aliases": [],
+      "kinds": [
+        "below region",
+        "country"
+      ],
+      "rank": 352,
+      "routes": 29,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Antarctica"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Azerbaijan",
+      "appTitle": "Azerbaijan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 353,
+      "routes": 29,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Azerbaijan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Cameroon",
+      "appTitle": "Cameroon",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 357,
+      "routes": 29,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cameroon"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Uruguay",
+      "appTitle": "Uruguay",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 365,
+      "routes": 29,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Uruguay"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Angola",
+      "appTitle": "Angola",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 379,
+      "routes": 27,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Angola"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bangladesh",
+      "appTitle": "Bangladesh",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 380,
+      "routes": 27,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bangladesh"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Yemen",
+      "appTitle": "Yemen",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 389,
+      "routes": 27,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Yemen"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Switzerland",
+      "appTitle": "Switzerland",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 407,
+      "routes": 26,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Switzerland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Lithuania",
+      "appTitle": "Lithuania",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 416,
+      "routes": 25,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lithuania"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Benin",
+      "appTitle": "Benin",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 434,
+      "routes": 24,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Benin"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Slovakia",
+      "appTitle": "Slovakia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 446,
+      "routes": 24,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Slovakia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Albania",
+      "appTitle": "Albania",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 452,
+      "routes": 23,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Albania"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bosnia and Herzegovina",
+      "appTitle": "Bosnia and Herz.",
+      "aliases": [
+        "Bosnia and Herz."
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 455,
+      "routes": 23,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bosnia_and_Herzegovina"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Burkina Faso",
+      "appTitle": "Burkina Faso",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 456,
+      "routes": 23,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Burkina_Faso"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Jordan",
+      "appTitle": "Jordan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 457,
+      "routes": 23,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Jordan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Tunisia",
+      "appTitle": "Tunisia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 464,
+      "routes": 23,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tunisia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Central African Republic",
+      "appTitle": "Central African Rep.",
+      "aliases": [
+        "Central African Rep."
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 470,
+      "routes": 22,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Central_African_Republic"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bolivia",
+      "appTitle": "Bolivia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 489,
+      "routes": 21,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bolivia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Estonia",
+      "appTitle": "Estonia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 492,
+      "routes": 21,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Estonia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Namibia",
+      "appTitle": "Namibia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 499,
+      "routes": 21,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Namibia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bahamas",
+      "appTitle": "Bahamas",
+      "aliases": [
+        "the Bahamas"
+      ],
+      "kinds": [
+        "island",
+        "country"
+      ],
+      "rank": 510,
+      "routes": 20,
+      "sources": [
+        "https://en.wikipedia.org/wiki/The_Bahamas"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ghana",
+      "appTitle": "Ghana",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 515,
+      "routes": 20,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ghana"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Eritrea",
+      "appTitle": "Eritrea",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 547,
+      "routes": 19,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Eritrea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Georgia",
+      "appTitle": "Georgia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 548,
+      "routes": 19,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Georgia_(country)"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Republic of the Congo",
+      "appTitle": "Congo",
+      "aliases": [
+        "Congo"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 577,
+      "routes": 18,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Republic_of_the_Congo"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "North Macedonia",
+      "appTitle": "Macedonia",
+      "aliases": [
+        "Macedonia"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 589,
+      "routes": 18,
+      "sources": [
+        "https://en.wikipedia.org/wiki/North_Macedonia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Papua New Guinea",
+      "appTitle": "Papua New Guinea",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 591,
+      "routes": 18,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Papua_New_Guinea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Paraguay",
+      "appTitle": "Paraguay",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 592,
+      "routes": 18,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Paraguay"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Western Sahara",
+      "appTitle": "W. Sahara",
+      "aliases": [
+        "W. Sahara"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 603,
+      "routes": 18,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Western_Sahara"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Israel",
+      "appTitle": "Israel",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 617,
+      "routes": 17,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Israel"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Togo",
+      "appTitle": "Togo",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 631,
+      "routes": 17,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Togo"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Armenia",
+      "appTitle": "Armenia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 641,
+      "routes": 16,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Armenia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Somaliland",
+      "appTitle": "Somaliland",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 665,
+      "routes": 16,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Somaliland"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Uganda",
+      "appTitle": "Uganda",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 670,
+      "routes": 16,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Uganda"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Côte d'Ivoire",
+      "appTitle": "CÃ´te d'Ivoire",
+      "aliases": [
+        "CÃ´te d'Ivoire",
+        "Ivory Coast"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 676,
+      "routes": 15,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ivory_Coast"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Bhutan",
+      "appTitle": "Bhutan",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 708,
+      "routes": 14,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Bhutan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Ecuador",
+      "appTitle": "Ecuador",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 717,
+      "routes": 14,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Ecuador"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Gabon",
+      "appTitle": "Gabon",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 719,
+      "routes": 14,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Gabon"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Guyana",
+      "appTitle": "Guyana",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 722,
+      "routes": 14,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Guyana"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Nicaragua",
+      "appTitle": "Nicaragua",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 732,
+      "routes": 14,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Nicaragua"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Tanzania",
+      "appTitle": "Tanzania",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 740,
+      "routes": 14,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tanzania"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Dominican Republic",
+      "appTitle": "Dominican Rep.",
+      "aliases": [
+        "Dominican Rep."
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 776,
+      "routes": 12,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Dominican_Republic"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Guinea",
+      "appTitle": "Guinea",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 779,
+      "routes": 12,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Guinea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Montenegro",
+      "appTitle": "Montenegro",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 783,
+      "routes": 12,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Montenegro"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Mozambique",
+      "appTitle": "Mozambique",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 785,
+      "routes": 12,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Mozambique"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Zambia",
+      "appTitle": "Zambia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 798,
+      "routes": 12,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Zambia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Haiti",
+      "appTitle": "Haiti",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 812,
+      "routes": 11,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Haiti"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Moldova",
+      "appTitle": "Moldova",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 824,
+      "routes": 11,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Moldova"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Slovenia",
+      "appTitle": "Slovenia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 834,
+      "routes": 11,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Slovenia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sri Lanka",
+      "appTitle": "Sri Lanka",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country"
+      ],
+      "rank": 835,
+      "routes": 11,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sri_Lanka"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Cyprus",
+      "appTitle": "Cyprus",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country"
+      ],
+      "rank": 856,
+      "routes": 10,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Cyprus"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Guatemala",
+      "appTitle": "Guatemala",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 860,
+      "routes": 10,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Guatemala"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Madagascar",
+      "appTitle": "Madagascar",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country",
+        "below region"
+      ],
+      "rank": 865,
+      "routes": 10,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Madagascar"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Suriname",
+      "appTitle": "Suriname",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 882,
+      "routes": 10,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Suriname"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Taiwan",
+      "appTitle": "Taiwan",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country"
+      ],
+      "rank": 883,
+      "routes": 10,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Taiwan"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Botswana",
+      "appTitle": "Botswana",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 893,
+      "routes": 9,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Botswana"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Honduras",
+      "appTitle": "Honduras",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 902,
+      "routes": 9,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Honduras"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Liberia",
+      "appTitle": "Liberia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 911,
+      "routes": 9,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Liberia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Djibouti",
+      "appTitle": "Djibouti",
+      "aliases": [],
+      "kinds": [
+        "nearby city",
+        "country"
+      ],
+      "rank": 943,
+      "routes": 8,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Djibouti"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Gambia",
+      "appTitle": "Gambia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 946,
+      "routes": 8,
+      "sources": [
+        "https://en.wikipedia.org/wiki/The_Gambia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Guinea-Bissau",
+      "appTitle": "Guinea-Bissau",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 948,
+      "routes": 8,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Guinea-Bissau"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Kosovo",
+      "appTitle": "Kosovo",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 954,
+      "routes": 8,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kosovo"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Zimbabwe",
+      "appTitle": "Zimbabwe",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 978,
+      "routes": 8,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Zimbabwe"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Jamaica",
+      "appTitle": "Jamaica",
+      "aliases": [],
+      "kinds": [
+        "country",
+        "island"
+      ],
+      "rank": 995,
+      "routes": 7,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Jamaica"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Costa Rica",
+      "appTitle": "Costa Rica",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1041,
+      "routes": 6,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Costa_Rica"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Kuwait",
+      "appTitle": "Kuwait",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1052,
+      "routes": 6,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Kuwait"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Puerto Rico",
+      "appTitle": "Puerto Rico",
+      "aliases": [],
+      "kinds": [
+        "island",
+        "country"
+      ],
+      "rank": 1069,
+      "routes": 6,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Puerto_Rico"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Qatar",
+      "appTitle": "Qatar",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1070,
+      "routes": 6,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Qatar"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Belize",
+      "appTitle": "Belize",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1085,
+      "routes": 5,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Belize"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Malawi",
+      "appTitle": "Malawi",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1108,
+      "routes": 5,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Malawi"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Palestine",
+      "appTitle": "Palestine",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1119,
+      "routes": 5,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Palestine"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Sierra Leone",
+      "appTitle": "Sierra Leone",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1121,
+      "routes": 5,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Sierra_Leone"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "El Salvador",
+      "appTitle": "El Salvador",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1137,
+      "routes": 4,
+      "sources": [
+        "https://en.wikipedia.org/wiki/El_Salvador"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Lebanon",
+      "appTitle": "Lebanon",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1144,
+      "routes": 4,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lebanon"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Burundi",
+      "appTitle": "Burundi",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1172,
+      "routes": 3,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Burundi"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "New Caledonia",
+      "appTitle": "New Caledonia",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1188,
+      "routes": 3,
+      "sources": [
+        "https://en.wikipedia.org/wiki/New_Caledonia"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Solomon Islands",
+      "appTitle": "Solomon Is.",
+      "aliases": [
+        "Solomon Is."
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1197,
+      "routes": 3,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Solomon_Islands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Timor-Leste",
+      "appTitle": "Timor-Leste",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1202,
+      "routes": 3,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Timor-Leste"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Trinidad and Tobago",
+      "appTitle": "Trinidad and Tobago",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1203,
+      "routes": 3,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Trinidad_and_Tobago"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Brunei",
+      "appTitle": "Brunei",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1207,
+      "routes": 2,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Brunei"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Equatorial Guinea",
+      "appTitle": "Eq. Guinea",
+      "aliases": [
+        "Eq. Guinea"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1210,
+      "routes": 2,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Equatorial_Guinea"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Lesotho",
+      "appTitle": "Lesotho",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1221,
+      "routes": 2,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Lesotho"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Luxembourg",
+      "appTitle": "Luxembourg",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1223,
+      "routes": 2,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Luxembourg"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Northern Cyprus",
+      "appTitle": "N. Cyprus",
+      "aliases": [
+        "N. Cyprus"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1232,
+      "routes": 2,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Northern_Cyprus"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Eswatini",
+      "appTitle": "eSwatini",
+      "aliases": [
+        "eSwatini"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1260,
+      "routes": 1,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Eswatini"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "French Southern and Antarctic Lands",
+      "appTitle": "Fr. S. Antarctic Lands",
+      "aliases": [
+        "Fr. S. Antarctic Lands"
+      ],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1264,
+      "routes": 1,
+      "sources": [
+        "https://en.wikipedia.org/wiki/French_Southern_and_Antarctic_Lands"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Rwanda",
+      "appTitle": "Rwanda",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1286,
+      "routes": 1,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Rwanda"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    },
+    {
+      "title": "Vanuatu",
+      "appTitle": "Vanuatu",
+      "aliases": [],
+      "kinds": [
+        "country"
+      ],
+      "rank": 1293,
+      "routes": 1,
+      "sources": [
+        "https://en.wikipedia.org/wiki/Vanuatu"
+      ],
+      "sourceReviewDate": "2026-10-20"
+    }
+  ]
+}
