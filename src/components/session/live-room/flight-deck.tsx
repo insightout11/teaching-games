@@ -1253,7 +1253,8 @@ export function FlightDeck({
     const migration = migrationsNear(here, new Date(), 120)[0];
     if (migration) addLive({ id: `mig:${migration.id}`, title: migration.animal, where: 'below us right now', fact: migration.below, question: 'Why do you think these animals travel so far?' }, 6);
     else if (nearbyStep % 4 === 0) {
-      for (const name of [below.name, countryNow]) {
+      // over the sea only the sea's own animals (a land animal over open water: a tarsier off the Philippines)
+      for (const name of below.terrain === 'ocean' ? [below.name] : [below.name, countryNow]) {
         const list = name ? animalsOf(name) : [];
         if (!list.length) continue;
         const a = list[nearbyStep % list.length];
@@ -1300,7 +1301,7 @@ export function FlightDeck({
   useEffect(() => {
     if (!nightSky) return;
     const { planet, shower, aurora, north } = nightSky;
-    if (planet) addLive({ id: `planet:${planet.name}`, title: planet.name, where: `the bright "star" ${sideOfSky(planet.azimuth, skyNow.sun.heading)}`, fact: 'It is a planet, not a star: it shines with reflected sunlight and does not twinkle.', question: 'Have you ever seen a planet in the night sky? How could you tell it from a star?' });
+    if (planet) addLive({ id: `planet:${planet.name}`, title: planet.name, where: planet.elevation > 55 ? 'the bright "star" high above us (too high to see from the window)' : `the bright "star" ${sideOfSky(planet.azimuth, skyNow.sun.heading)}${Math.abs(((planet.azimuth - skyNow.sun.heading + 540) % 360) - 180) > 48 ? ' (out of this window)' : ''}`, fact: 'It is a planet, not a star: it shines with reflected sunlight and does not twinkle.', question: 'Have you ever seen a planet in the night sky? How could you tell it from a star?' });
     if (shower) addLive({ id: `meteors:${shower.name}`, title: shower.name, where: `a meteor shower tonight: up to ${shower.perHour} shooting stars an hour`, fact: `The shooting stars are tiny pieces left behind by ${shower.from}.`, question: 'Have you ever seen a shooting star? What would you wish for?' }, 5);
     if (aurora) addLive({ id: 'aurora', title: north ? 'the northern lights' : 'the southern lights', where: 'in the sky tonight', fact: 'Particles from the sun light up the air high above the Earth.', question: 'Would you like to see the lights in real life? Where would you go?' }, 6);
     if (skyNow.timeOfDay === 'night' && skyNow.moon.elevation > 5) {
@@ -2652,7 +2653,7 @@ export function FlightDeck({
         sky={{
           realPlane,
           livePlanes: nearby !== null,
-          planet: nightSky?.planet ? { rel: ((nightSky.planet.azimuth - skyNow.sun.heading + 540) % 360) - 180, elevation: nightSky.planet.elevation, bright: nightSky.planet.name === 'Venus' || nightSky.planet.name === 'Jupiter' } : null,
+          planet: nightSky?.planet ? { rel: ((nightSky.planet.azimuth - skyNow.sun.heading + 540) % 360) - 180, elevation: nightSky.planet.elevation, bright: nightSky.planet.name === 'Venus' || nightSky.planet.name === 'Jupiter', name: nightSky.planet.name, highlight: liveNow?.id === `planet:${nightSky.planet.name}` } : null,
           meteors: !!nightSky?.shower,
           aurora: !!nightSky?.aurora,
           test: skyTest,

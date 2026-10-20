@@ -9,13 +9,23 @@ import { useEffect, useState } from 'react';
  */
 
 /** A planet where it really is: `rel` is degrees from straight ahead (negative: left), `elevation` above the horizon. */
-export function PlanetPoint({ rel, elevation, bright }: { rel: number; elevation: number; bright: boolean }) {
+export function PlanetPoint({ rel, elevation, bright, name, highlight = false }: { rel: number; elevation: number; bright: boolean; name?: string; highlight?: boolean }) {
   if (Math.abs(rel) > 48 || elevation > 60) return null;
   const x = 50 + rel, y = 56 - elevation * 0.9;
-  const size = bright ? 5 : 3.5;
+  const size = bright ? 5 : 4;
   return (
-    <div aria-hidden className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
-      style={{ left: `${x}%`, top: `${y}%`, width: size, height: size, background: bright ? '#fffbe8' : '#ffe9d0', boxShadow: `0 0 ${bright ? 8 : 5}px ${bright ? 3 : 1}px rgba(255,250,225,${bright ? 0.7 : 0.45})` }} />
+    <div aria-hidden className="pointer-events-none absolute" style={{ left: `${x}%`, top: `${y}%` }}>
+      <div className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ width: size, height: size, background: bright ? '#fffbe8' : '#ffe9d0', boxShadow: `0 0 ${bright ? 8 : 6}px ${bright ? 3 : 2}px rgba(255,250,225,${bright ? 0.7 : 0.55})` }} />
+      {/* while its Look label is up: a soft ring and its name, so the class can find it */}
+      {highlight && (
+        <>
+          <style>{'@keyframes planet-ring{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.75}50%{transform:translate(-50%,-50%) scale(1.25);opacity:.35}}'}</style>
+          <div className="absolute h-7 w-7 rounded-full border border-amber-100/80" style={{ animation: 'planet-ring 2.4s ease-in-out infinite', transform: 'translate(-50%,-50%)' }} />
+          {name && <span className="absolute left-4 top-[-7px] whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.14em] text-amber-100/90">{name}</span>}
+        </>
+      )}
+    </div>
   );
 }
 

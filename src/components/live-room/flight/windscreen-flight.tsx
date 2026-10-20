@@ -86,7 +86,7 @@ export interface WindscreenFlightProps {
   iss?: { start: number; side: 'left' | 'right' } | null;
   /** Real things in the sky now: a nearby plane (and whether the live feed works), the brightest planet, shooting stars on
    *  a meteor-shower night, the northern or southern lights. */
-  sky?: { realPlane?: { id: string; side: 'left' | 'right'; near: boolean } | null; livePlanes?: boolean; planet?: { rel: number; elevation: number; bright: boolean } | null; meteors?: boolean; aurora?: boolean; test?: boolean };
+  sky?: { realPlane?: { id: string; side: 'left' | 'right'; near: boolean } | null; livePlanes?: boolean; planet?: { rel: number; elevation: number; bright: boolean; name?: string; highlight?: boolean } | null; meteors?: boolean; aurora?: boolean; test?: boolean };
   /** Real cloud cover below (0–100), when known. */
   cloudCover?: number;
   /** An activity or text is on screen: the view is dimmed slightly behind it (the weather itself does not change). */
