@@ -51,6 +51,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
+import { landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { routePreview } from '@/lib/live-room/route-preview';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
@@ -961,6 +962,18 @@ export function FlightDeck({
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
   // The land below, for topics taken from the flight (which Blue Mountains: the facts lookup needs the place).
   const flightWhere = regionOf(below.point) ?? undefined;
+  // Landmark Quest step 2 (behind ?landmarks=on until the owner approves): real landmarks the route passes stand in
+  // the scenery at their real distance and side. Cruise only: never in the descent, where they would tower.
+  const [landmarksOn, setLandmarksOn] = useState(false);
+  useEffect(() => { setLandmarksOn(new URLSearchParams(window.location.search).get('landmarks') === 'on'); }, []);
+  const sceneryLandmarks = useMemo(() => {
+    if (!landmarksOn || flightStage !== 'flying' || descending || holding) return [];
+    const heading = bearingDeg(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 0.01)));
+    return landmarksAhead(below.point, heading);
+  }, [landmarksOn, flightStage, descending, holding, below.point, origin, destination, routeT]);
+  const landmarkKey = sceneryLandmarks.map((l) => l.id).join(',');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const stableLandmarks = useMemo(() => sceneryLandmarks, [landmarkKey]);
   // Country and nearby big city under the plane (outlines load lazily).
   const [countries, setCountries] = useState<CountryShape[] | null>(null);
   useEffect(() => { void loadCountries().then(setCountries).catch(() => {}); }, []);
@@ -2358,6 +2371,7 @@ export function FlightDeck({
         sun={skyNow.sun}
         moon={skyNow.moon}
         cities={distantCities}
+        landmarks={stableLandmarks}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
         terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}
