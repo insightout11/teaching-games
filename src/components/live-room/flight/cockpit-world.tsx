@@ -1069,9 +1069,13 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         // Always well below the plane: during the descent (the camera comes down to a fifth of its height) mountains and
         // hills shrink with it, keeping their shape, instead of towering over the cockpit.
         const shrink = Math.min(1, (camH * 0.7) / p.h);
-        const topY = baseY - p.h * shrink * s;
+        // low in the descent they also grow broader and fewer: shrunk evenly they read as rows of sharp cones from
+        // close to the ground
+        const low = Math.max(0, 1 - camH / (CAM_HEIGHT * 0.95));
+        if (low > 0 && !p.hill && ((p.roll * 997) % 1) < low * 0.55) continue;
+        const topY = baseY - p.h * shrink * (1 - low * 0.35) * s;
         const cx = w / 2 + p.x * s;
-        const half = (p.w / 2) * shrink * s;
+        const half = (p.w / 2) * Math.sqrt(shrink) * (1 + low * 0.3) * s;
         if (cx + half < 0 || cx - half > w || topY > h) continue;
         const fog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
         const fade = Math.min(1, (Z_FAR - rz) / 8000); // appear gently at the far edge

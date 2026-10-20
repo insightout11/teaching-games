@@ -112,6 +112,9 @@ function ReliefView({ id, tod }: { id: string; tod: TimeOfDay }) {
   const place = RELIEFS.find((p) => p.id === id) ?? RELIEFS[0];
   const [ground, setGround] = useState<HighGround | undefined>(undefined);
   useEffect(() => { setRealRelief(true); void highGroundAhead(place.at, place.heading).then(setGround); }, [place]);
+  // ?alt=0.25 shows the view low in the descent (1 = cruise height)
+  const [alt, setAlt] = useState(1);
+  useEffect(() => { setAlt(Number(new URLSearchParams(window.location.search).get('alt') ?? '1') || 1); }, []);
   const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
   const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
   return (
@@ -123,7 +126,7 @@ function ReliefView({ id, tod }: { id: string; tod: TimeOfDay }) {
       </div>
       <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
         <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
-        {ground && <CockpitWorld terrain={place.terrain} region={place.region} palette={palette} night={tod === 'night'} speed={0.55} highGround={ground} cloudCover={15} />}
+        {ground && <CockpitWorld terrain={place.terrain} region={place.region} palette={palette} night={tod === 'night'} speed={0.55} highGround={ground} cloudCover={15} altitude={alt} />}
       </div>
     </div>
   );
