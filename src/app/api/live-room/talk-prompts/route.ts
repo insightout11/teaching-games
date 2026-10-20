@@ -3,6 +3,7 @@ import { generateJSON, type AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
 import { cleanVoteOptions } from '@/lib/live-room/talk-vote';
+import { lensById, lensPromptNote } from '@/lib/lens';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
   const topic = typeof body?.topic === 'string' && body.topic.trim() ? body.topic.trim().slice(0, 160) : 'everyday life';
   const context = typeof body?.context === 'string' ? body.context.trim().slice(0, 600) : '';
   const difficulty = (typeof body?.difficulty === 'string' ? body.difficulty : 'Intermediate') as Difficulty;
+  const lens = lensById(typeof body?.lens === 'string' ? body.lens : null);
 
   const { teacher, error } = await requireAuth();
   if (error) return error;
@@ -68,7 +70,7 @@ export async function POST(request: Request) {
 You are helping a teacher run a live conversation class for kids and teens.
 Write exactly 3 ${KIND_BRIEF[kind]}.
 Topic: "${topic}".${context ? `\nContext: ${context}` : ''}
-Each item: "prompt" (one question or statement, max 18 words, natural and specific, never generic) and "followUps" (exactly 2 short follow-up questions to keep the talk going).${voteable ? `\nAlso ${OPTIONS_BRIEF[kind]} so the class can vote on phones.` : ''}
+${lensPromptNote(lens)}Each item: "prompt" (one question or statement, max 18 words, natural and specific, never generic) and "followUps" (exactly 2 short follow-up questions to keep the talk going).${voteable ? `\nAlso ${OPTIONS_BRIEF[kind]} so the class can vote on phones.` : ''}
 Keep everything classroom-safe. Return a JSON array of 3 objects.`;
 
   try {

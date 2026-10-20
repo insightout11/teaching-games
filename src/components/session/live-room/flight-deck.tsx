@@ -1107,10 +1107,10 @@ export function FlightDeck({
   const openMoment = (m: Moment) => {
     setMomentsShown((x) => [...x, m.id]);
     setMomentCard({ moment: m, facts: m.fact ? [m.fact] : [], picture: null, loading: true });
-    void fetch('/api/live-room/moment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: m.title, kind: m.kind }) })
+    void fetch('/api/live-room/moment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: m.title, kind: m.kind, ...(lensRef.current ? { lens: lensRef.current, where: m.where } : {}) }) })
       .then((r) => (r.ok ? r.json() : null))
-      .then((d: { facts?: string[]; picture?: FreePicture | null } | null) => setMomentCard((c) => (c && c.moment.id === m.id
-        ? { ...c, loading: false, picture: d?.picture ?? null, facts: Array.from(new Set([...(m.fact ? [m.fact] : []), ...(d?.facts ?? [])])).slice(0, 3) }
+      .then((d: { facts?: string[]; picture?: FreePicture | null; question?: string } | null) => setMomentCard((c) => (c && c.moment.id === m.id
+        ? { ...c, loading: false, picture: d?.picture ?? null, ...(d?.question ? { moment: { ...c.moment, question: d.question } } : {}), facts: Array.from(new Set([...(d?.question || !m.fact ? [] : [m.fact]), ...(d?.facts ?? [])])).slice(0, 3) }
         : c)))
       .catch(() => setMomentCard((c) => (c && c.moment.id === m.id ? { ...c, loading: false } : c)));
   };
@@ -1309,19 +1309,26 @@ export function FlightDeck({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nightSky]);
   // Sunrise or sunset during the flight, and the clocks changing in the land below
-  const sunUp = skyNow.sun.elevation > -0.8;
-  const lastSunUp = useRef<boolean | null>(null);
+  // Only a real, gradual crossing near the horizon counts: a jump in the plane's position (the descent test, the
+  // landing view) once announced a sunset in the middle of the night
+  const sunElev = Math.round(skyNow.sun.elevation * 10) / 10;
+  const lastSunElev = useRef<number | null>(null);
   useEffect(() => {
-    if (!cruising) { lastSunUp.current = null; return; }
-    if (lastSunUp.current !== null && sunUp !== lastSunUp.current) addLive({ id: `sun:${sunUp ? 'rise' : 'set'}:${Math.floor(Date.now() / 3_600_000)}`, title: sunUp ? 'sunrise' : 'sunset', where: sunUp ? 'the sun is coming up below us' : 'the sun is going down below us', fact: 'From a plane you can see it earlier and later than from the ground.', question: sunUp ? 'Are you a morning person or a night person? Why?' : 'What do you like to do in the evening?' });
-    lastSunUp.current = sunUp;
-  }, [cruising, sunUp, addLive]);
+    if (!cruising) { lastSunElev.current = null; return; }
+    const prev = lastSunElev.current;
+    lastSunElev.current = sunElev;
+    if (prev === null || Math.abs(sunElev - prev) > 1.5 || Math.abs(sunElev) > 2.5) return;
+    const was = prev > -0.8, up = sunElev > -0.8;
+    if (was === up) return;
+    addLive({ id: `sun:${up ? 'rise' : 'set'}:${Math.floor(Date.now() / 3_600_000)}`, title: up ? 'sunrise' : 'sunset', where: up ? 'the sun is coming up below us' : 'the sun is going down below us', fact: 'From a plane you can see it earlier and later than from the ground.', question: up ? 'Are you a morning person or a night person? Why?' : 'What do you like to do in the evening?' });
+  }, [cruising, sunElev, addLive]);
   const lastOffset = useRef<number | null>(null);
   useEffect(() => {
     const off = liveWx?.utcOffsetSeconds;
     if (off === undefined) return;
-    if (cruising && lastOffset.current !== null && off !== lastOffset.current) {
-      const diff = (off - lastOffset.current) / 3600;
+    const diffH = lastOffset.current === null ? 0 : (off - lastOffset.current) / 3600;
+    if (cruising && lastOffset.current !== null && off !== lastOffset.current && lastOffset.current !== 0 && off !== 0 && Math.abs(diffH) <= 3) {
+      const diff = diffH;
       addLive({ id: `tz:${off}`, title: 'time zones', where: `the clocks below just changed: it is now ${offsetClock(off, new Date())} there (${diff > 0 ? '+' : ''}${diff} h)`, question: 'What time is it now where your family or friends live? What are they doing?' });
     }
     lastOffset.current = off;
@@ -2151,7 +2158,7 @@ export function FlightDeck({
       const res = await fetch('/api/live-room/talk-prompts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ kind, topic, context, difficulty }),
+        body: JSON.stringify({ kind, topic, context, difficulty, ...(lensRef.current ? { lens: lensRef.current } : {}) }),
       });
       const data = await res.json().catch(() => null);
       if (res.ok && Array.isArray(data?.prompts) && data.prompts.length) setTalkOptions(data.prompts);
@@ -2757,21 +2764,23 @@ export function FlightDeck({
         </div>
       )}
       {liveNow && !issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
-        <div className="absolute bottom-20 left-4 z-[7]">
+        <div className="absolute bottom-20 left-4 z-[7] flex items-center">
           <button type="button" onClick={() => { setLiveMoments((xs) => xs.filter((x) => x.id !== liveNow.id)); openMoment({ id: `live:${liveNow.id}`, at: minutesFlown ?? 0, kind: 'event', title: liveNow.title, where: liveNow.where, question: liveNow.question, ...(liveNow.fact ? { fact: liveNow.fact } : {}) }); }} className="flex items-center gap-1.5 rounded-full border border-sky-200/60 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
             <Eye className="h-3.5 w-3.5" /> Look: {liveNow.title.charAt(0).toUpperCase() + liveNow.title.slice(1)} · {liveNow.where}
           </button>
+          <button type="button" onClick={() => setLiveMoments((xs) => xs.filter((x) => x.id !== liveNow.id))} aria-label="Dismiss" className="ml-1 rounded-full border border-white/20 bg-slate-950/70 p-1 text-white/60 backdrop-blur-sm hover:text-white"><X className="h-3 w-3" /></button>
         </div>
       )}
       {issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
-        <div className="absolute bottom-20 left-4 z-[7]">
+        <div className="absolute bottom-20 left-4 z-[7] flex items-center">
           <button type="button" onClick={() => openMoment({ id: `iss:${issActive.start}`, at: minutesFlown ?? 0, kind: 'landmark', title: 'the International Space Station', where: issActive.where, question: 'Would you like to live on the space station? What would you miss?' })} className="flex items-center gap-1.5 rounded-full border border-sky-200/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
             <Satellite className="h-3.5 w-3.5" /> Look up: the International Space Station · {issActive.where}
           </button>
+          <button type="button" onClick={() => setIssPass((p) => (p ? { ...p, start: p.start - ISS_PASS_MS } : p))} aria-label="Dismiss" className="ml-1 rounded-full border border-white/20 bg-slate-950/70 p-1 text-white/60 backdrop-blur-sm hover:text-white"><X className="h-3 w-3" /></button>
         </div>
       )}
       {!runningKey && !cinematic && view !== 'map' && !momentCard && (momentDue || momentUpcoming) && (
-        <div className="absolute bottom-11 left-4 z-[7]">
+        <div className="absolute bottom-11 left-4 z-[7] flex items-center">
           {momentDue ? (
             <button type="button" onClick={() => openMoment(momentDue)} className="flex items-center gap-1.5 rounded-full border border-amber-300/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/15">
               <Eye className="h-3.5 w-3.5" /> Look outside: {momentDue.title}{momentDue.where ? ` · ${momentDue.where}` : ''}
@@ -2781,6 +2790,7 @@ export function FlightDeck({
               <Eye className="h-3.5 w-3.5" /> Coming up: {momentUpcoming.title}{momentUpcoming.where ? ` · ${momentUpcoming.where}` : ''} · in {Math.max(1, Math.ceil(momentUpcoming.at - (minutesFlown ?? 0)))} min
             </button>
           )}
+          <button type="button" onClick={() => { const m = momentDue ?? momentUpcoming; if (m) setMomentsShown((x) => [...x, m.id]); }} aria-label="Dismiss" className="ml-1 rounded-full border border-white/20 bg-slate-950/70 p-1 text-white/60 backdrop-blur-sm hover:text-white"><X className="h-3 w-3" /></button>
         </div>
       )}
       {momentCard && !runningKey && !cinematic && (
