@@ -675,7 +675,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           const seaBase = mixRgb(look.current.water, [40, 120, 150], 0.35);
           const night = (c: RGB): RGB => mixRgb(c, [10, 16, 30], 0.62);
           const shallowOf = [mixRgb(seaBase, [110, 220, 215], 0.5), mixRgb(seaBase, [120, 200, 205], 0.28), seaBase];
-          const sandOf: RGB[] = [[246, 238, 214], [228, 206, 158], [92, 90, 96]];
+          const sandOf: RGB[] = [[214, 208, 184], [198, 182, 142], [92, 90, 96]];
           ctx.save();
           ctx.lineCap = 'round';
           for (const pass of [0, 1] as const) {
@@ -689,10 +689,11 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 if (ra < Z_NEAR * 0.6 || rb < Z_NEAR * 0.6 || ra > Z_FAR || rb > Z_FAR) continue;
                 const rz = (ra + rb) / 2, s = F / rz;
                 const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
-                const wide = Math.max(0.6, Math.min(3.5, 80 * s)); // thin: a beach seen from 8 km up
+                const wide = Math.max(0.4, Math.min(1.8, 45 * s)); // a hairline: a beach seen from 8 km up, never an outline
                 const col = pass === 0 ? shallowOf[kind] : sandOf[kind];
                 ctx.strokeStyle = css(mixRgb(dark ? night(col) : col, haze, fog * 0.7));
-                ctx.lineWidth = pass === 0 ? wide * (kind === 0 ? 3 : 2.4) : wide * (kind === 2 ? 0.8 : 1);
+                ctx.globalAlpha = (pass === 0 ? 0.3 : 0.45) * (1 - fog * 0.5);
+                ctx.lineWidth = pass === 0 ? wide * (kind === 0 ? 2.2 : 1.8) : wide * (kind === 2 ? 0.8 : 1);
                 ctx.beginPath();
                 ctx.moveTo(w / 2 + xa * (F / ra), horizonY + camH * (F / ra));
                 ctx.lineTo(w / 2 + xb * (F / rb), horizonY + camH * (F / rb));

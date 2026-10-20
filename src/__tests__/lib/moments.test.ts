@@ -13,8 +13,9 @@ describe('look outside moments', () => {
     for (const x of m) { expect(x.at).toBeGreaterThanOrEqual(4); expect(x.at).toBeLessThanOrEqual(44); }
     for (let i = 1; i < m.length; i++) expect(m[i].at - m[i - 1].at).toBeGreaterThanOrEqual(10);
   });
-  it('only what can be seen from the window (London to Cairo passes far from the Matterhorn: not announced)', () => {
-    expect(planMoments({ origin: LONDON, destination: CAIRO, flightMinutes: 50, stops: [] }).some((x) => x.title === 'the Matterhorn')).toBe(false);
+  it('says honestly where a place is (London to Cairo: the Matterhorn, far to one side)', () => {
+    const m = planMoments({ origin: LONDON, destination: CAIRO, flightMinutes: 50, stops: [] }).find((x) => x.title === 'the Matterhorn');
+    expect(m?.where).toMatch(/km to the (left|right)/);
   });
   it('border crossings and live events count', () => {
     const m = planMoments({

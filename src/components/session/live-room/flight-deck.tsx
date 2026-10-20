@@ -2522,11 +2522,11 @@ export function FlightDeck({
         <div className="absolute bottom-11 left-4 z-[7]">
           {momentDue ? (
             <button type="button" onClick={() => openMoment(momentDue)} className="flex items-center gap-1.5 rounded-full border border-amber-300/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/15">
-              <Eye className="h-3.5 w-3.5" /> Look outside: {momentDue.title}
+              <Eye className="h-3.5 w-3.5" /> Look outside: {momentDue.title}{momentDue.where ? ` · ${momentDue.where}` : ''}
             </button>
           ) : momentUpcoming && (
             <button type="button" onClick={() => openMoment(momentUpcoming)} className="flex items-center gap-1.5 rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80 backdrop-blur-sm hover:bg-white/10">
-              <Eye className="h-3.5 w-3.5" /> Coming up: {momentUpcoming.title} · in {Math.max(1, Math.ceil(momentUpcoming.at - (minutesFlown ?? 0)))} min
+              <Eye className="h-3.5 w-3.5" /> Coming up: {momentUpcoming.title}{momentUpcoming.where ? ` · ${momentUpcoming.where}` : ''} · in {Math.max(1, Math.ceil(momentUpcoming.at - (minutesFlown ?? 0)))} min
             </button>
           )}
         </div>
@@ -2536,11 +2536,14 @@ export function FlightDeck({
           <div className={`w-full ${'max-w-xl'} max-h-full overflow-y-auto rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md`}>
             {momentCard.picture && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={momentCard.picture.imageUrl} alt={momentCard.picture.title} className="max-h-64 w-full object-cover" />
+              <img src={momentCard.picture.imageUrl} alt={momentCard.picture.title} className="h-64 w-full bg-black/30 object-contain" />
             )}
             <div className="space-y-2 p-4">
               <div className="flex items-start justify-between gap-3">
-                <p className="font-display text-2xl leading-tight">{momentCard.moment.title.replace(/^the /, 'The ')}</p>
+                <div>
+                  <p className="font-display text-2xl leading-tight">{momentCard.moment.title.replace(/^the /, 'The ')}</p>
+                  {momentCard.moment.where && <p className="mt-0.5 font-mono text-[11px] uppercase tracking-[0.12em] text-amber-200/80">{momentCard.moment.where}</p>}
+                </div>
                 <button type="button" onClick={() => setMomentCard(null)} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
               </div>
               {momentCard.loading && momentCard.facts.length === 0 && <p className="text-sm text-white/60">Looking it up…</p>}

@@ -25,6 +25,8 @@ export interface Moment {
   lng?: number;
   /** Drawn as a landmark scene (side window or camera) instead of a photo. */
   drawn?: boolean;
+  /** Where it is from the plane at its closest, honestly: "40 km to the left", "180 km to the right, beyond the horizon". */
+  where?: string;
 }
 
 export interface NaturalEvent { id: string; title: string; category: string; lat: number; lng: number }
@@ -67,18 +69,27 @@ export function planMoments(o: {
     return best;
   };
 
+  // which side of the plane, and how far: past about 110 km it is beyond what the window shows
+  const whereFrom = (i: number, p: LatLng, d: number) => {
+    const a = route[Math.max(0, i - 1)], b = route[Math.min(samples, i + 1)];
+    const cos = Math.cos((a.lat * Math.PI) / 180);
+    const cross = (b.lng - a.lng) * cos * (p.lat - a.lat) - (b.lat - a.lat) * (p.lng - a.lng) * cos;
+    const side = cross > 0 ? 'left' : 'right';
+    const kmR = Math.max(10, Math.round(d / 10) * 10);
+    if (d < 15) return 'right below us';
+    return d > 110 ? `${kmR} km to the ${side}, beyond the horizon` : `${kmR} km to the ${side}`;
+  };
   const found: Moment[] = [];
   for (const l of TEACHING_LANDMARKS) {
     const c = closest(l);
-    if (c.d <= 110 && inCruise(minuteOf(c.i))) found.push({ id: `lm:${l.name}`, at: minuteOf(c.i), kind: 'landmark', title: l.name, fact: l.fact });
+    if (c.d <= 200 && inCruise(minuteOf(c.i))) found.push({ id: `lm:${l.name}`, at: minuteOf(c.i), kind: 'landmark', title: l.name, fact: l.fact, where: whereFrom(c.i, l, c.d) });
   }
   for (const [name, kind, lat, lng] of NAMED_FEATURES) {
     if (kind === 'island') continue;
     const c = closest({ lat, lng });
     const drawn = DRAWN_LANDMARK_NAMES.includes(name);
-    // only what could really be seen from the window (about 110 km either side; it said Ha Long Bay from 180 km away)
-    if (c.d <= (drawn ? 130 : 110) && inCruise(minuteOf(c.i))) {
-      found.push({ id: `nf:${name}`, at: minuteOf(c.i), kind: kind === 'mountain' || kind === 'sight' ? 'landmark' : 'place', title: name, lat, lng, ...(drawn ? { drawn: true } : {}) });
+    if (c.d <= (drawn ? 300 : 250) && inCruise(minuteOf(c.i))) {
+      found.push({ id: `nf:${name}`, at: minuteOf(c.i), kind: kind === 'mountain' || kind === 'sight' ? 'landmark' : 'place', title: name, lat, lng, where: whereFrom(c.i, { lat, lng }, c.d), ...(drawn ? { drawn: true } : {}) });
     }
   }
   // Named regions the route crosses (deserts, plateaus, ranges, deltas, reefs): the first point inside each.
@@ -91,7 +102,7 @@ export function planMoments(o: {
   }
   for (const e of o.events ?? []) {
     const c = closest(e);
-    if (c.d <= 150 && inCruise(minuteOf(c.i))) found.push({ id: `ev:${e.id}`, at: minuteOf(c.i), kind: 'event', title: e.title, fact: `${e.category}, happening now (NASA)` });
+    if (c.d <= 300 && inCruise(minuteOf(c.i))) found.push({ id: `ev:${e.id}`, at: minuteOf(c.i), kind: 'event', title: e.title, fact: `${e.category}, happening now (NASA)`, where: whereFrom(c.i, e, c.d) });
   }
   for (const s of o.stops) {
     if (!s.crossing || !inCruise(s.at)) continue;
