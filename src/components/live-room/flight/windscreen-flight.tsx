@@ -1,6 +1,7 @@
 'use client';
 
 import { IssPass } from '@/components/live-room/flight/iss-pass';
+import { composeWindscreen } from '@/components/live-room/flight/photo-moment';
 import { MeteorStreaks, PlanetPoint } from '@/components/live-room/flight/sky-extras';
 import type { SceneEvent } from '@/components/live-room/flight/event-art';
 import type { Waters } from '@/lib/live-room/waters-ahead';
@@ -231,9 +232,20 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const whiteout = phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
   const parting = phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
   const tint = cloudTint.join(',');
+  // Photo mode: put the windscreen together into one picture when the room asks
+  const shotRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const take = () => {
+      const root = shotRef.current;
+      const image = root ? composeWindscreen(root, { top: palette.skyTop, mid: palette.skyMid, bottom: palette.skyBottom }) : null;
+      window.dispatchEvent(new CustomEvent('lc-photo-taken', { detail: { image } }));
+    };
+    window.addEventListener('lc-take-photo', take);
+    return () => window.removeEventListener('lc-take-photo', take);
+  }, [palette]);
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div ref={shotRef} aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <AnimatePresence mode="sync">
         {outside ? (
           <motion.div key={`side-${sideCity.id}-${sideFrame.mode}`} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: "easeInOut" }}>

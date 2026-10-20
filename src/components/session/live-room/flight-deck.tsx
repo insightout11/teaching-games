@@ -19,7 +19,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -57,6 +57,8 @@ import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/li
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
+import { PhotoMoment } from '@/components/live-room/flight/photo-moment';
+import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
 import { lensById, lensesFor } from '@/lib/lens';
 import { animalsOf, migrationsNear } from '@/lib/animals-below';
 import { activeShower, brightPlanet, METEOR_SHOWERS, moonPhaseName, sideOfSky } from '@/lib/live-room/journey-sky';
@@ -1198,6 +1200,7 @@ export function FlightDeck({
   }, [wxKey]);
 
   // The sky follows the real sun over the ground below (the destination once landing).
+  const skyNowRef = useRef<{ timeOfDay: string; weather: string }>({ timeOfDay: 'day', weather: 'clear' });
   const skyNow = useMemo(() => {
     const at = flightStage === 'landing' ? destination : below.point;
     const s = sunPosition(at, new Date(now));
@@ -1230,6 +1233,33 @@ export function FlightDeck({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issMinute, issTest]);
   const issActive = issPass && now - issPass.start < ISS_PASS_MS ? issPass : null;
+  // Landmark Quest photo mode (docs/photo-mode-plan.md): the scenery says when a landmark is in good view; the teacher
+  // takes the photo; a camera moment and a print on the shared screen; the photo kept in this lesson's cargo
+  const [photoChance, setPhotoChance] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<{ image: string; caption: string; name: string } | null>(null);
+  const photoName = useRef<string>('');
+  useEffect(() => {
+    const onChance = (e: Event) => setPhotoChance((e as CustomEvent<{ id: string | null }>).detail?.id ?? null);
+    const onTaken = (e: Event) => {
+      const image = (e as CustomEvent<{ image: string | null }>).detail?.image;
+      if (!image) return;
+      const name = photoName.current;
+      const when = new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+      const caption = `${name} · ${when} · ${skyNowRef.current.timeOfDay} · ${skyNowRef.current.weather}`;
+      setPhoto({ image, caption, name });
+      const id = `photo-${Date.now().toString(36)}`;
+      addItem(sessionId, { id, kind: 'image', title: `Our photo: ${caption}`, url: image, imageUrl: image, publisher: 'Our flight' } as Parameters<typeof addItem>[1]);
+    };
+    window.addEventListener('lc-photo-chance', onChance);
+    window.addEventListener('lc-photo-taken', onTaken);
+    return () => { window.removeEventListener('lc-photo-chance', onChance); window.removeEventListener('lc-photo-taken', onTaken); };
+  }, [addItem, sessionId]);
+  const photoLandmark = photoChance ? LANDMARK_CATALOG.find((l) => l.id === photoChance) ?? null : null;
+  const takePhoto = () => {
+    if (!photoLandmark) return;
+    photoName.current = photoLandmark.name;
+    window.dispatchEvent(new Event('lc-take-photo'));
+  };
   // Real things happening on the journey (Oct 2026), each a "Look" moment the class can open: another real plane, the
   // northern or southern lights, a recent earthquake nearby, a holiday in the country below, a clock change below,
   // sunrise or sunset, tonight's moon, a bright planet, a meteor shower. One label at a time; each only once a flight.
@@ -1336,6 +1366,7 @@ export function FlightDeck({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [liveWx?.utcOffsetSeconds]);
   const liveNow = liveMoments.find((m) => m.until > now) ?? null;
+  skyNowRef.current = { timeOfDay: skyNow.timeOfDay, weather: (liveWx?.label ?? 'clear').toLowerCase() };
   const realPlane = nearby?.plane ? { id: nearby.plane.callsign, side: (sideOfSky(nearby.plane.bearing, skyNow.sun.heading) === 'on our left' ? 'left' : 'right') as 'left' | 'right', near: nearby.plane.km < 40 } : null;
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   // Each class keeps its favourites and recent activities between lessons (on this computer).
@@ -2808,6 +2839,15 @@ export function FlightDeck({
           <button type="button" onClick={() => { const m = momentDue ?? momentUpcoming; if (m) setMomentsShown((x) => [...x, m.id]); }} aria-label="Dismiss" className="ml-1 rounded-full border border-white/20 bg-slate-950/70 p-1 text-white/60 backdrop-blur-sm hover:text-white"><X className="h-3 w-3" /></button>
         </div>
       )}
+      {photo && (
+        <PhotoMoment
+          image={photo.image}
+          caption={photo.caption}
+          onTalk={() => { setTalkPrompt(`Describe our photo of ${photo.name}. What can you see?`); setTalkFollowUps(['What is the weather like?', 'Would you like to go there? Why?']); setTalkVote(null); setView('talk'); setPhoto(null); }}
+          onEveryone={() => { everyoneAnswers(`What can you see in our photo of ${photo.name}?`); setPhoto(null); }}
+          onClose={() => setPhoto(null)}
+        />
+      )}
       {momentCard && !runningKey && !cinematic && (
         <div className="absolute inset-0 z-[12] flex items-center justify-center p-6">
           <div className={`w-full ${'max-w-xl'} max-h-full overflow-y-auto rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md`}>
@@ -3222,6 +3262,11 @@ export function FlightDeck({
         <button type="button" onClick={() => setRecordTab('passport')} title="The class's passport, flight log and hangar" className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Stamp className="h-3.5 w-3.5" /> {zoomLayout ? '' : 'Journey'}
         </button>
+        {photoLandmark && flightStage === 'flying' && !photo && (
+          <button type="button" onClick={takePhoto} title="Take the class photo of this landmark (it goes into this lesson's cargo)" className="flex animate-pulse items-center gap-1.5 rounded-lg border border-amber-300/70 bg-amber-300/15 px-2.5 py-1.5 text-xs font-semibold text-amber-100 hover:bg-amber-300/25">
+            <Camera className="h-3.5 w-3.5" /> Take photo: {photoLandmark.name}
+          </button>
+        )}
         {view === 'talk' && (
           <button type="button" onClick={() => setClearScreen((c) => !c)} title="Hide the talking point, so the windscreen is clear for a widget" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${clearScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
             {clearScreen ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />} {clearScreen ? 'Show talking point' : 'Clear screen'}

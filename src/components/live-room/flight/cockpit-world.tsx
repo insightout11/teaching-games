@@ -293,6 +293,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [cities]);
   // Landmarks, fixed on the ground once they come into range (as the cities).
   const landmarkWorld = useRef(new Map<string, { kind: WorldLandmarkKind; z: number; x: number }>());
+  const photoChance = useRef<string | null>(null);
   useEffect(() => {
     const map = landmarkWorld.current;
     const keep = new Set<string>();
@@ -955,6 +956,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // ── Mountains and hills standing on that ground ────────────────────
       const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind; cloud?: SkyCloud; ev?: { kind: EventKind; seed: number } }> = [];
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
+      // Photo mode: the landmark in good view right now (close enough, inside the window), for the Take photo button
+      let chance: string | null = null, chanceZ = Infinity;
+      landmarkWorld.current.forEach((l, id) => {
+        const rz = l.z - camZ;
+        if (rz < Z_NEAR * 4 || rz > 30000 || Math.abs((l.x * F) / rz) > w * 0.42) return;
+        if (rz < chanceZ) { chance = id; chanceZ = rz; }
+      });
+      if (chance !== photoChance.current) {
+        photoChance.current = chance;
+        window.dispatchEvent(new CustomEvent('lc-photo-chance', { detail: { id: chance } }));
+      }
       // ordinary mountains keep clear of a landmark (Fuji stands alone; the pyramids on open sand)
       const nearLandmark = (p: Peak) => lms.some((l) => Math.abs(p.z - l.z) < LANDMARK_SIZE[l.kind].clear && Math.abs(p.x - l.x) < LANDMARK_SIZE[l.kind].clear * 1.4);
       L.forEach((layer, li) => {
