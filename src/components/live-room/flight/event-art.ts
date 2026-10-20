@@ -80,6 +80,7 @@ export function drawSceneEvent(
   ctx: CanvasRenderingContext2D, kind: EventKind, seed: number, x: number, z: number,
   proj: (x: number, z: number, y?: number) => [number, number], scale: (z: number) => number,
   t: number, night: boolean, haze: RGB, fog: number, alpha: number,
+  /** A volcano's summit height (world units): the plume rises from there. */ ventTop = 1700,
 ) {
   ctx.save();
   const sc = scale(z);
@@ -133,35 +134,14 @@ export function drawSceneEvent(
   let ventY = 0;
   const ventX = x;
   if (volcano) {
-    // the mountain itself: a broad cone with a lit side, a dark rocky top and a glowing crater
-    const W = 9000, H = 4200, top = 900;
-    const [lx, ly] = proj(x - W, z, 0), [rx, ry] = proj(x + W, z, 0);
-    const [tlx, tly] = proj(x - top, z, H), [trx] = proj(x + top, z, H);
-    const rock: RGB = night ? [36, 32, 34] : [104, 92, 84], dark: RGB = night ? [20, 18, 22] : [62, 54, 52];
-    const g = ctx.createLinearGradient(lx, 0, rx, 0);
-    g.addColorStop(0, rgba(mix(mix(rock, [180, 170, 160], night ? 0 : 0.3), haze, fog * 0.7), alpha));
-    g.addColorStop(0.55, rgba(mix(rock, haze, fog * 0.7), alpha));
-    g.addColorStop(1, rgba(mix(dark, haze, fog * 0.7), alpha));
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.moveTo(lx, ly);
-    ctx.quadraticCurveTo((lx + tlx) / 2 + (tlx - lx) * 0.15, (ly + tly) / 2 + (ly - tly) * 0.1, tlx, tly);
-    ctx.lineTo(trx, tly);
-    ctx.quadraticCurveTo((rx + trx) / 2 - (rx - trx) * 0.15, (ry + tly) / 2 + (ry - tly) * 0.1, rx, ry);
-    ctx.closePath();
-    ctx.fill();
-    // a darker band near the top (ash and bare rock), fading down the slopes
-    const tg = ctx.createLinearGradient(0, tly, 0, ly);
-    tg.addColorStop(0, rgba(mix(dark, haze, fog * 0.7), 0.7 * alpha)); tg.addColorStop(0.45, rgba(dark, 0));
-    ctx.fillStyle = tg; ctx.fill();
-    // the crater glow, brighter at night
-    const sr = 1400 * sc;
-    const [cx, cy] = proj(x, z, H);
+    // the mountain is the shared volcano landmark, drawn just before this; here only the crater's glow
+    const sr = 700 * sc;
+    const [cx, cy] = proj(x, z, ventTop);
     ctx.globalCompositeOperation = 'lighter';
-    ctx.globalAlpha = alpha * (night ? 0.8 : 0.4) * (1 - fog * 0.5) * (0.85 + 0.15 * Math.sin(t * 1.3 + seed));
+    ctx.globalAlpha = alpha * (night ? 0.8 : 0.35) * (1 - fog * 0.5) * (0.85 + 0.15 * Math.sin(t * 1.3 + seed));
     ctx.drawImage(puff([230, 80, 30]), cx - sr, cy - sr * 0.5, sr * 2, sr);
     ctx.globalCompositeOperation = 'source-over';
-    ventY = H;
+    ventY = ventTop;
   } else {
     // the burnt ground and the fire front: a line of flickering flames along the edge of the burn
     const [bx, by] = proj(x, z + 1500, 0);
@@ -189,13 +169,13 @@ export function drawSceneEvent(
   const base: RGB = volcano ? (night ? [44, 42, 48] : [96, 92, 96]) : (night ? [56, 50, 50] : [120, 104, 90]);
   const top: RGB = volcano ? (night ? [90, 92, 106] : [214, 214, 220]) : (night ? [76, 76, 86] : [200, 192, 180]);
   const n = volcano ? 16 : 14;
-  const height = volcano ? 9000 : 6000;
+  const height = volcano ? 5000 : 6000;
   for (let k = 0; k < n; k++) {
     const f = k / (n - 1);
     const drift = Math.sin(t * 0.08 + seed + k * 0.6) * 440;
-    const along = f * f * (volcano ? 11000 : 14000) + drift;
+    const along = f * f * (volcano ? 6000 : 14000) + drift;
     const y = ventY + 120 + f * height;
-    const r = (volcano ? 1000 : 1400) + f * (volcano ? 3600 : 4000);
+    const r = (volcano ? 450 : 1400) + f * (volcano ? 2000 : 4000);
     const [sx, sy] = proj(ventX + along + (volcano ? 0 : (hash(seed + k * 7) - 0.5) * 6000 * (1 - f)), z + f * 900, y);
     const sr = r * sc;
     ctx.globalAlpha = alpha * (0.95 - f * 0.45) * (1 - fog * 0.3);

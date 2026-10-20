@@ -1041,7 +1041,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const s = F / rz;
         const baseY = horizonY + camH * s;
         if (ev) {
-          drawSceneEvent(ctx, ev.kind, ev.seed, p.x, p.z, proj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000));
+          // a volcano stands as the shared volcano landmark, its plume rising from the summit
+          if (ev.kind === 'volcano') drawWorldLandmark(ctx, 'volcano', { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, proj, Math.pow(Math.min(1, rz / Z_FAR), 0.7), haze, Math.min(1, (Z_FAR - rz) / 8000));
+          drawSceneEvent(ctx, ev.kind, ev.seed, p.x, p.z, proj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000), LANDMARK_SIZE.volcano.h);
           continue;
         }
         if (cloud) {
