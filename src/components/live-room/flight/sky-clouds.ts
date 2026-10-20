@@ -102,6 +102,12 @@ export function drawSkyCloud(
   if (rz <= 400) return;
   const s = F / rz;
   const w = c.size * s, h = w * 0.5;
+  // a cloud passing close under the plane fades away before it fills the window (drawn huge it flashed the whole
+  // screen white, its picture's edge showing as a straight line); never drawn wider than the view
+  const view = ctx.canvas.width / Math.max(1, (ctx.getTransform().a || 1));
+  const near = Math.min(1, Math.max(0, (rz - 1500) / 4500)) * Math.min(1, Math.max(0, (view * 1.1 - w) / (view * 0.5)));
+  if (near <= 0.01) return;
+  alpha *= near * near * (3 - 2 * near);
   const [cx, cy] = proj(c.x, c.z, c.y);
   // its shadow on the ground, soft, offset away from the light (from the left)
   ctx.save();
