@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Eye, MessageCircle, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, Eye, ImageOff, MessageCircle, Sparkles, X } from 'lucide-react';
 import type { FactCard } from '@/lib/live-room/fact-cards';
+import type { FreePicture } from '@/lib/sources/wikimedia-images';
 
 /**
  * The facts board: the topic presented on the shared screen before the class discusses it. Cards are revealed one at
@@ -10,22 +11,27 @@ import type { FactCard } from '@/lib/live-room/fact-cards';
  * two questions; one tap sends a question to Talk. Facts only, never answers to anything, so it is safe on the
  * shared screen.
  */
-export function FactsBoard({ title, cards, onAsk, onClose }: {
+export function FactsBoard({ title, cards, pictures = [], onAsk, onClose }: {
   title: string;
   cards: FactCard[];
+  /** A free Wikimedia photo per card (null while loading or when none fits). */
+  pictures?: Array<FreePicture | null>;
   /** Send a question to Talk (the board closes). */
   onAsk: (question: string) => void;
   onClose: () => void;
 }) {
   const [shown, setShown] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
-  useEffect(() => { setShown(0); setOpen(null); }, [title]);
+  // Pictures come from a free search, so the teacher can take away any that does not fit.
+  const [hidden, setHidden] = useState<Set<number>>(new Set());
+  useEffect(() => { setShown(0); setOpen(null); setHidden(new Set()); }, [title]);
+  const picOf = (i: number) => (hidden.has(i) ? null : pictures[i] ?? null);
   const allShown = shown >= cards.length;
   const card = open !== null ? cards[open] : null;
 
   return (
     // Glass over the cockpit view (like every other activity): the window stays visible round and between the cards.
-    <div className="absolute inset-0 z-20 flex flex-col justify-center gap-4 overflow-hidden px-6 pb-6 pt-14">
+    <div className="absolute inset-0 z-20 flex flex-col gap-3 overflow-y-auto px-6 pb-5 pt-12 [&>*:first-child]:mt-auto [&>*:last-child]:mb-auto">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-3 rounded-2xl border border-white/15 bg-slate-950/55 px-4 py-2.5 shadow-xl backdrop-blur-md">
         <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-300">Facts first</span>
         <h2 className="font-display text-xl text-white md:text-2xl">{title}</h2>
@@ -53,6 +59,16 @@ export function FactsBoard({ title, cards, onAsk, onClose }: {
           <button type="button" onClick={() => setOpen(null)} className="mb-4 flex w-fit items-center gap-1.5 text-sm text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> All the facts
           </button>
+          {picOf(open!) && (
+            <figure className="mb-5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={picOf(open!)!.imageUrl} alt={picOf(open!)!.title} onError={() => setHidden((h) => new Set(h).add(open!))} referrerPolicy="no-referrer" className="max-h-64 w-full rounded-2xl object-cover" />
+              <figcaption className="mt-1 flex items-center justify-between gap-3 text-[11px] text-white/45">
+                <span className="truncate">Wikimedia Commons · {picOf(open!)!.credit}</span>
+                <button type="button" onClick={() => setHidden((h) => new Set(h).add(open!))} className="flex shrink-0 items-center gap-1 hover:text-white"><ImageOff className="h-3 w-3" /> Hide picture</button>
+              </figcaption>
+            </figure>
+          )}
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-amber-300">Fact {open! + 1}</p>
           <p className="mt-2 font-display text-3xl leading-tight text-white md:text-5xl">{card.headline}</p>
           {card.detail && <p className="mt-5 text-lg leading-relaxed text-white/85 md:text-2xl">{card.detail}</p>}
@@ -72,10 +88,14 @@ export function FactsBoard({ title, cards, onAsk, onClose }: {
           {cards.map((c, i) => {
             const revealed = i < shown;
             return revealed ? (
-              <button key={c.headline} type="button" onClick={() => setOpen(i)} className="flex min-h-[8.5rem] flex-col rounded-2xl border border-white/15 bg-slate-950/55 p-4 text-left shadow-xl backdrop-blur-md hover:border-amber-300/60">
+              <button key={c.headline} type="button" onClick={() => setOpen(i)} className="flex min-h-[7.5rem] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950/55 p-4 text-left shadow-xl backdrop-blur-md hover:border-amber-300/60">
+                {picOf(i) && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={picOf(i)!.thumbUrl} alt="" onError={() => setHidden((h) => new Set(h).add(i))} referrerPolicy="no-referrer" className="-mx-4 -mt-4 mb-2 h-20 w-[calc(100%+2rem)] max-w-none rounded-t-2xl object-cover" />
+                )}
                 <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-300">Fact {i + 1}</span>
-                <span className="mt-2 font-display text-lg leading-snug text-white lg:text-2xl">{c.headline}</span>
-                <span className="mt-auto pt-3 text-xs text-white/50">Tap for more</span>
+                <span className="mt-1.5 font-display text-lg leading-snug text-white xl:text-xl">{c.headline}</span>
+                <span className="mt-auto pt-2 text-xs text-white/50">Tap for more</span>
               </button>
             ) : (
               <div key={c.headline} className="flex min-h-[8.5rem] items-center justify-center rounded-2xl border border-dashed border-white/20 bg-slate-950/25 backdrop-blur-sm">

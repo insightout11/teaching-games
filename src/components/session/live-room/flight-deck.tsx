@@ -791,6 +791,8 @@ export function FlightDeck({
   // The facts board: opens by itself the first time each topic's facts arrive (presenting comes before talking).
   const [factsOpen, setFactsOpen] = useState(false);
   const factsSeen = useRef(new Set<string>());
+  // A free Wikimedia photo per fact card (by the card's own picture search), per topic.
+  const [cardPics, setCardPics] = useState<Record<string, Array<FreePicture | null>>>({});
   // Soft music while the class boards; it fades out as soon as the class leaves the boarding screen.
   useEffect(() => {
     if (view === 'boarding') startMusic(LOBBY_BED);
@@ -1337,6 +1339,25 @@ export function FlightDeck({
     setFactsOpen(true);
   }, [focused, brief]);
   useEffect(() => { setFactsOpen(false); }, [focused?.id]);
+  useEffect(() => {
+    const id = focused?.id, cards = brief?.cards;
+    if (!id || !cards?.length || cardPics[id]) return;
+    setCardPics((m) => ({ ...m, [id]: cards.map(() => null) }));
+    const title = focused.title;
+    void Promise.all(cards.map((c, i) => {
+      const query = c.picture || (i === 0 ? title : '');
+      if (!query) return Promise.resolve([] as FreePicture[]);
+      return fetch(`/api/sessions/${encodeURIComponent(sessionId)}/sources/free-pictures`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query }),
+      }).then((r) => (r.ok ? r.json() : { pictures: [] })).then((d: { pictures?: FreePicture[] }) => d.pictures ?? []).catch(() => [] as FreePicture[]);
+    })).then((lists) => {
+      // each card its own picture: never the same photo twice on the board
+      const used = new Set<string>();
+      const pics = lists.map((list) => { const p = list.find((x) => !used.has(x.id)) ?? null; if (p) used.add(p.id); return p; });
+      setCardPics((m) => ({ ...m, [id]: pics }));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused?.id, brief?.cards]);
   // The topic's key words feed the Word bank widget.
   const setBusVocab = useFocusBus((s) => s.setVocab);
   useEffect(() => { setBusVocab(brief?.vocab ?? []); }, [brief, setBusVocab]);
@@ -2326,6 +2347,7 @@ export function FlightDeck({
         <FactsBoard
           title={focused.title}
           cards={brief.cards}
+          pictures={cardPics[focused.id] ?? []}
           onAsk={(q) => { setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk'); }}
           onClose={() => setFactsOpen(false)}
         />
