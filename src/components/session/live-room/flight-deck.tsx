@@ -19,7 +19,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -2179,6 +2179,13 @@ export function FlightDeck({
   };
   // Class vote on the talking point: a real phone poll with "why?" reasons and
   // changeable answers (replaces the separate Would You Rather activity).
+  // "Everyone answers": the question on every phone, the answers gathering on the Class Board (one student speaks at a
+  // time; everyone else still takes part)
+  const everyoneAnswers = (question: string) => {
+    openTool('class-board', window.innerWidth / 2, window.innerHeight * 0.8);
+    window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-question', { detail: { question } })), 150);
+    flash('Everyone answers on their phones: the answers gather on the Class Board');
+  };
   const startTalkVote = async () => {
     const question = talkPrompt.trim();
     const options = talkVote ?? parseWouldYouRather(question) ?? ['Agree', 'Disagree'];
@@ -2365,11 +2372,14 @@ export function FlightDeck({
             <span className="rounded-2xl border border-rose-300/40 bg-slate-950/60 px-4 py-2 font-display text-2xl text-white backdrop-blur-sm">{talkVote[1]}</span>
           </div>
         )}
-        {!presenting && talkPrompt.trim().length > 3 && (
+        {!presenting && talkPrompt.trim().length > 3 && (<div className="flex flex-wrap items-center justify-center gap-2">
           <button type="button" onClick={() => void startTalkVote()} className="flex items-center gap-1.5 rounded-lg border border-rose-300/50 bg-slate-950/60 px-2.5 py-1 text-xs text-rose-100 backdrop-blur-sm hover:bg-rose-300/10">
             <Vote className="h-3.5 w-3.5" /> {talkVote ? 'Class vote on phones' : 'Class vote: agree or disagree'}
           </button>
-        )}
+          <button type="button" onClick={() => everyoneAnswers(talkPrompt.trim())} title="Everyone writes an answer on their phone; the answers gather on the Class Board" className="flex items-center gap-1.5 rounded-lg border border-sky-300/50 bg-slate-950/60 px-2.5 py-1 text-xs text-sky-100 backdrop-blur-sm hover:bg-sky-300/10">
+            <ClipboardList className="h-3.5 w-3.5" /> Everyone answers
+          </button>
+        </div>)}
         {talkFollowUps.length > 0 && (
           <div className="flex flex-wrap justify-center gap-2">
             {talkFollowUps.map((f) => (
@@ -2818,9 +2828,12 @@ export function FlightDeck({
               <p className="rounded-xl bg-amber-300/10 px-3 py-2 text-[15px] text-amber-100">{momentQuestion(momentCard.moment)}</p>
               <div className="flex items-center justify-between gap-2 pt-1">
                 {momentCard.picture ? <span className="truncate text-[10px] text-white/40">{momentCard.picture.credit}</span> : <span />}
-                <button type="button" onClick={() => { makeFocus({ title: momentCard.moment.title.replace(/^the /, ''), text: momentCard.facts.join(' ') || undefined, where: flightWhere }); setMomentCard(null); }} className="shrink-0 rounded-full border border-amber-300/50 px-3 py-1 text-xs text-amber-100 hover:bg-amber-300/10">
-                  Make it the topic
-                </button>
+                <span className="flex shrink-0 gap-2">
+                  <button type="button" onClick={() => { everyoneAnswers(momentQuestion(momentCard.moment)); setMomentCard(null); }} className="rounded-full border border-sky-300/50 px-3 py-1 text-xs text-sky-100 hover:bg-sky-300/10">Everyone answers</button>
+                  <button type="button" onClick={() => { makeFocus({ title: momentCard.moment.title.replace(/^the /, ''), text: momentCard.facts.join(' ') || undefined, where: flightWhere }); setMomentCard(null); }} className="shrink-0 rounded-full border border-amber-300/50 px-3 py-1 text-xs text-amber-100 hover:bg-amber-300/10">
+                    Make it the topic
+                  </button>
+                </span>
               </div>
             </div>
           </div>
