@@ -938,8 +938,8 @@ let REAL_WATERS = true;
 export function setRealWaters(on: boolean) { REAL_WATERS = on; }
 export const realWaters = () => REAL_WATERS;
 
-/** Real coastlines (land and sea painted from the real outlines; approved 20 Oct 2026). */
-let REAL_COAST = true;
+/** Real coastlines (land and sea painted from the real outlines). Off in the room: it flickered between land and sea on real flights (20 Oct 2026); the gallery turns it on. */
+let REAL_COAST = false;
 export function setRealCoast(on: boolean) { REAL_COAST = on; }
 export const realCoast = () => REAL_COAST;
 
