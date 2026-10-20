@@ -1183,19 +1183,19 @@ export interface InYourWordsContent extends ActivityGeneratedContent {
 // Scene Igniter content
 export interface SceneIgniterLine {
   lineIndex: number;   // 1-based, maps to prompt_index in scores
-  character: string;  // 'A' | 'B' | 'C' | 'D'
+  character: string;  // A–H
   text: string;
   direction?: string;  // optional 1–2 word stage direction, e.g. "nervously", "whispering"
 }
 
 export interface SceneIgniterImprovLine {
-  character: string;  // 'A' | 'B' | 'C' | 'D' — same chars as parent scene
+  character: string;  // A–H — same chars as parent scene
   text: string;       // contains ___ blanks for improvised phrases
   hint?: string;      // e.g. "e.g. weird, broken, tiny" — 2–3 example words for the blank
 }
 
 export interface SceneIgniterCastMember {
-  id: string;    // 'A' | 'B' | 'C' | 'D' — matches SceneIgniterLine.character
+  id: string;    // A–H — matches SceneIgniterLine.character
   name: string;  // character name, e.g. "Maya"
   role: string;  // e.g. "a tired airline pilot"
   want: string;  // what they want in this scene
@@ -1206,9 +1206,9 @@ export interface SceneIgniterScene {
   context: string;           // 2–3 sentence scene setup
   genre?: string;            // comedy | mystery | drama | adventure
   cast?: SceneIgniterCastMember[];
-  lines: SceneIgniterLine[]; // Scene 1 has 4 chars (12 lines); Scene 2 has 3 chars (9 lines)
+  lines: SceneIgniterLine[]; // 2–8 characters, each with multiple lines
   improvPrompt: string;      // one-sentence twist
-  improvScript: SceneIgniterImprovLine[];  // 8 lines, 1–2 blanks each
+  improvScript: SceneIgniterImprovLine[];  // Two lines per character, 1–2 blanks each
 }
 
 export interface SceneIgniterContent extends ActivityGeneratedContent {

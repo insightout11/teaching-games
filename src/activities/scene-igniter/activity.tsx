@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Clapperboard, Captions, CaptionsOff, Film, Megaphone, RefreshCw, Shuffle, Sparkles, Star, Users } from 'lucide-react';
-import type { ActivityProps, SceneIgniterContent, SceneIgniterLine, SceneIgniterScene, SceneIgniterCastMember } from '../types';
+import type { ActivityProps, SceneIgniterContent, SceneIgniterScene } from '../types';
+import { assignSceneRoles, audienceJobs, rolesMatchGroup, sceneCastOf, sceneGroups, scenePhoneCards, withCharacterNames } from './casting';
 import type { Student } from '@/lib/supabase/types';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
 
@@ -15,23 +16,8 @@ import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit
 
 type Phase = 'idle' | 'casting' | 'take' | 'notes' | 'improv' | 'wrap';
 
-const NOTES = ['More feeling!', 'Louder!', 'Slow down', 'Big pause for drama', 'Look at your partner', 'Bigger face!'];
+const NOTES = ['More feeling!', 'Louder!', 'Slow down', 'Big pause for drama', 'Look at the other character', 'Bigger face!'];
 const GENRE_TONE: Record<string, string> = { comedy: 'text-amber-300', mystery: 'text-violet-300', drama: 'text-rose-300', adventure: 'text-emerald-300' };
-
-function assignRoles(lines: SceneIgniterLine[], students: Student[]): Map<string, Student> {
-  const result = new Map<string, Student>();
-  if (students.length === 0) return result;
-  const charLineCounts = new Map<string, number>();
-  for (const line of lines) charLineCounts.set(line.character, (charLineCounts.get(line.character) ?? 0) + 1);
-  const sorted = Array.from(charLineCounts.entries()).sort((a, b) => b[1] - a[1]);
-  const load = new Map(students.map((s) => [s.id, 0]));
-  for (const [char] of sorted) {
-    const pick = students.reduce((a, b) => ((load.get(a.id) ?? 0) <= (load.get(b.id) ?? 0) ? a : b));
-    result.set(char, pick);
-    load.set(pick.id, (load.get(pick.id) ?? 0) + (charLineCounts.get(char) ?? 0));
-  }
-  return result;
-}
 
 function shuffled<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -42,30 +28,17 @@ function shuffled<T>(arr: T[]): T[] {
   return a;
 }
 
-function castOf(scene: SceneIgniterScene): SceneIgniterCastMember[] {
-  const ids = Array.from(new Set(scene.lines.map((l) => l.character)));
-  return ids.map((id) => scene.cast?.find((c) => c.id === id) ?? { id, name: `Character ${id}`, role: '', want: '' });
-}
-
-/** Older scripts addressed characters by letter ("A, look!"): swap in the character's name. */
-function withNames(text: string, cast: SceneIgniterCastMember[]): string {
-  return text.replace(/(^|[\s,])([A-D])(?=[!?,.])/g, (m, pre, id) => {
-    const name = cast.find((c) => c.id === id)?.name;
-    return name ? pre + name : m;
-  });
-}
-
 export function SceneIgniterActivity({ students, generatedContent, onPhaseChange, onScore, onSetInputSpec }: ActivityProps) {
   const content = generatedContent as SceneIgniterContent;
-  const scenes = content.scenes ?? [];
+  const scenes = useMemo(() => content.scenes ?? [], [content.scenes]);
 
-  const groups = useMemo(() => [students.slice(0, 4), students.slice(4)] as const, [students]);
+  const groups = useMemo(() => sceneGroups(students, scenes), [students, scenes]);
   const hasSecondCast = groups[1].length >= 2 && !!scenes[1];
 
   const [castNo, setCastNo] = useState<0 | 1>(0);
   const [alt, setAlt] = useState(false);
   const scene: SceneIgniterScene | undefined = scenes[castNo + (alt ? 2 : 0)] ?? scenes[castNo];
-  const cast = useMemo(() => (scene ? castOf(scene) : []), [scene]);
+  const cast = useMemo(() => (scene ? sceneCastOf(scene) : []), [scene]);
   const group = groups[castNo];
 
   const [phase, setPhase] = useState<Phase>('idle');
@@ -83,7 +56,7 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
 
   const castScene = useCallback((shuffle = false) => {
     if (!scene) return;
-    setRoles(assignRoles(scene.lines, shuffle ? shuffled(group) : group));
+    setRoles(assignSceneRoles(scene.lines, shuffle ? shuffled(group) : group));
   }, [scene, group]);
 
   useEffect(() => { if (phase === 'casting') castScene(); }, [phase, castScene]);
@@ -95,36 +68,12 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
 
   // ─── Phones: each actor gets their own script; everyone else is the audience ───
   useEffect(() => {
-    if (!scene || phase === 'idle' || phase === 'wrap') { onSetInputSpec?.(null); return; }
-    const per: Record<string, unknown> = { __room: true };
-    const mode = phase === 'improv' ? 'improv' : 'script';
-    cast.forEach((c) => {
-      const st = roles.get(c.id);
-      if (!st) return;
-      const mine = scene.lines
-        .map((l, i) => ({ l, i }))
-        .filter(({ l }) => l.character === c.id)
-        .map(({ l, i }) => {
-          const before = scene.lines[i - 1];
-          const cueBy = before ? cast.find((x) => x.id === before.character)?.name : null;
-          return { i, text: withNames(l.text, cast), direction: l.direction ?? null, cue: before ? { by: cueBy, text: withNames(before.text, cast) } : null };
-        });
-      const card = {
-        role: 'actor',
-        character: { name: c.name, role: c.role, want: c.want },
-        scene: { title: scene.title, genre: scene.genre ?? null },
-        lines: mine,
-        current: phase === 'take' ? lineIdx : -1,
-        take,
-        mode,
-        note: notes[st.id] ?? null,
-        improv: phase === 'improv' ? { prompt: scene.improvPrompt } : null,
-      };
-      per[st.id] = card;
-      per[st.name] = card;
-    });
+    // On the transition to a second cast, do not publish its script using the
+    // previous cast's assignments while the casting effect is still updating.
+    if (!scene || phase === 'idle' || phase === 'wrap' || (phase === 'casting' && !rolesMatchGroup(roles, group))) { onSetInputSpec?.(null); return; }
+    const per = scenePhoneCards(scene, roles, students, phase, lineIdx, take, notes);
     onSetInputSpec?.({ type: 'confirm', gameKey: 'scene-igniter', prompt: `Scene: ${scene.title}`, perStudentData: per, stableInput: true });
-  }, [scene, cast, roles, phase, lineIdx, take, notes, onSetInputSpec]);
+  }, [scene, roles, group, students, phase, lineIdx, take, notes, onSetInputSpec]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   // ─── Flow ───
@@ -189,7 +138,7 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
           <KitLabel tone="amber">Scene Igniter</KitLabel>
           <p className="mt-2 font-display text-5xl">Lights, camera… English!</p>
         </div>
-        <p className="mx-auto max-w-xl text-lg text-white/70">You&apos;re in a movie. Each actor gets their script on their phone: their lines, and the cue that tells them when to speak. Everyone else is the audience: listen closely!</p>
+        <p className="mx-auto max-w-xl text-lg text-white/70">You&apos;re in a movie. Each actor gets their script on their phone: their lines, and the cue that tells them when to speak. Everyone else gets a director, narrator or critic job on their phone. One speaker at a time!</p>
         <div className="flex justify-center">
           <KitButton tone="amber" solid onClick={() => go('casting')} className="!px-8 !py-3 !text-base" icon={<Users className="h-4 w-4" />}>Cast the scene</KitButton>
         </div>
@@ -213,7 +162,7 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
             </motion.div>
           ))}
         </div>
-        {group.length > cast.length && <p className="text-center text-white/55">Two actors share a part? No problem: they take turns, line by line.</p>}
+        {audienceJobs(students, roles).size > 0 && <p className="text-center text-white/55">Audience jobs are on your phones. The teacher calls one person at a time.</p>}
         <div className="flex flex-wrap justify-center gap-2">
           <KitButton tone="plain" onClick={() => castScene(true)} icon={<Shuffle className="h-3.5 w-3.5" />}>Recast</KitButton>
           {scenes[castNo + 2] && <KitButton tone="plain" onClick={() => setAlt((a) => !a)} icon={<RefreshCw className="h-3.5 w-3.5" />}>Another scene</KitButton>}
@@ -252,7 +201,7 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
 
         {subtitles && prevLine && (
           <p className="mx-auto max-w-3xl rounded-xl bg-black/60 px-5 py-3 text-center text-xl text-white/90">
-            <span className="text-amber-200">{cast.find((c) => c.id === prevLine.character)?.name}:</span> {withNames(prevLine.text, cast)}
+            <span className="text-amber-200">{cast.find((c) => c.id === prevLine.character)?.name}:</span> {withCharacterNames(prevLine.text, cast)}
           </p>
         )}
 

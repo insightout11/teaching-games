@@ -1,3 +1,4 @@
+import { sceneCastSize, sceneCharacterIds, type SceneCastSize } from '@/activities/scene-igniter/casting';
 import { pictureQuery } from '@/lib/free-picture-cache';
 import { WORD_PICTURE_PROMPT } from '@/lib/picture-generation';
 import { findTopicBriefing } from '@/lib/topic-briefings';
@@ -2229,7 +2230,7 @@ ${sourceCtx ? `\nLesson material:\n${sourceCtx.slice(0, 1500)}\n` : ''}`;
 async function generateSingleScene(
   topic: string,
   difficulty: Difficulty,
-  charCount: 2 | 3 | 4,
+  charCount: SceneCastSize,
   sourceContext = '',
 ): Promise<SceneIgniterScene> {
   const schema: AISchema = {
@@ -2276,8 +2277,8 @@ async function generateSingleScene(
     required: ['title', 'context', 'genre', 'cast', 'improvPrompt', 'improvScript', 'lines'],
   };
 
-  const charList = charCount === 4 ? 'A, B, C, D' : charCount === 3 ? 'A, B, C' : 'A, B';
-  const lineCount = charCount === 4 ? 12 : charCount === 3 ? 9 : 8;
+  const charList = sceneCharacterIds(charCount).join(', ');
+  const lineCount = charCount === 2 ? 8 : charCount * 3;
   const linesEach = charCount === 2 ? 4 : 3;
 
   const prompt = `Generate a short dialogue scene with ${charCount} characters (${charList}) for an ESL classroom.
@@ -2300,7 +2301,7 @@ Requirements:
 - In every line and improvScript line, the "character" field is the character's LETTER (${charList}), never the name. Names belong only in "cast" and inside the spoken text.
 - Write it like a short MOVIE scene students will ACT: inside the spoken text characters address each other by NAME (never by letter), each line sounds like something an actor would say, and the scene has a clear little arc (a problem, a turn, an ending or a cliffhanger).
 - An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "The lights go out — what happens next?". Phrase it as "The scene continues…" twist that the actors will play WITHOUT a script, staying in character
-- An "improvScript" field: 8 dialogue lines using the same characters (${charList}).
+- An "improvScript" field: ${charCount * 2} dialogue lines using all the same characters (${charList}).
   Each line's "text" must contain 1–2 blanks written as ___ where students improvise a word or phrase.
   The blanks should replace key nouns, emotions, or topic-specific phrases related to the twist.
   Each line must also have a "hint" field: 2–3 short example words that could fill the blank, formatted as "e.g. word1, word2, word3".
@@ -2320,7 +2321,7 @@ Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: 
     lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }>;
   }>(prompt, schema);
 
-  const expectedChars = charCount === 4 ? ['A', 'B', 'C', 'D'] : charCount === 3 ? ['A', 'B', 'C'] : ['A', 'B'];
+  const expectedChars = sceneCharacterIds(charCount);
   // The model often labels lines with the character's NAME ("Sarah") or "Character A" where the letter is expected.
   // Map those back to the letter: dropping them used to throw away the whole script and leave only placeholder
   // lines ("Something about <topic>." on every line).
@@ -2416,11 +2417,9 @@ Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: 
 }
 
 async function generateSceneIgniter(topic: string, difficulty: Difficulty, sourceContext = '', studentCount?: number): Promise<SceneIgniterContent> {
-  // Size each group's cast to the actual class. The activity splits students into group 1
-  // (up to 4) and group 2 (the rest); mirror that so 2 students get a 2-character scene, not 4.
-  const clampCast = (n: number): 2 | 3 | 4 => (n <= 2 ? 2 : n === 3 ? 3 : 4);
-  const g1Cast = clampCast(studentCount ? Math.min(studentCount, 4) : 4);
-  const g2Cast = studentCount && studentCount > 4 ? clampCast(studentCount - 4) : 3;
+  // Up to eight actors per scene; every other student receives an audience job.
+  const g1Cast = sceneCastSize(studentCount);
+  const g2Cast = studentCount && studentCount > 8 ? sceneCastSize(studentCount - 8) : 3;
   const [scene1, scene2, scene1alt, scene2alt] = await Promise.all([
     generateSingleScene(topic, difficulty, g1Cast, sourceContext),
     generateSingleScene(topic, difficulty, g2Cast, sourceContext),

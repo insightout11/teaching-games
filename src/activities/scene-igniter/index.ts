@@ -16,9 +16,8 @@ export const sceneIgniterPlugin: ActivityPlugin = {
   icon: Theater,
   scoringProfile: { displayMode: 'class', supportsOnTask: true, supportsStandout: false, tracksAccuracy: false, defaultOutcome: 'on-task' },
   minStudents: 1,
-  // One-on-one (student reads all parts) through small-group (roles split across students)
-  // — a full classroom leaves most students without a speaking role in the scene.
-  idealStudents: { min: 1, max: 6 },
+  // Up to eight actors in each scene; larger classes also receive audience jobs.
+  idealStudents: { min: 1, max: null },
   deviceFree: true,
 };
 
