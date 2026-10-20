@@ -86,10 +86,10 @@ const EVENTS: Array<{ kind: EventKind; label: string; terrain: Terrain; region: 
   { kind: 'volcano', label: 'An erupting volcano (ash and steam)', terrain: 'farmland', region: 'Asia' },
   { kind: 'storm', label: 'A storm (a tall storm cloud)', terrain: 'ocean', region: 'Asia' },
 ];
-function EventView({ kind, tod }: { kind: EventKind; tod: TimeOfDay }) {
+function EventView({ kind, tod, far }: { kind: EventKind; tod: TimeOfDay; far?: boolean }) {
   const scene = EVENTS.find((e) => e.kind === kind) ?? EVENTS[0];
   useEffect(() => { setRealEvents(true); }, []);
-  const events = useMemo<SceneEvent[]>(() => [{ id: `demo-${kind}`, kind, ahead: 70, lateral: -18 }], [kind]);
+  const events = useMemo<SceneEvent[]>(() => [{ id: `demo-${kind}`, kind, ahead: far ? 140 : 70, lateral: far ? -55 : -18 }], [kind, far]);
   const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
   const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
   return (
@@ -102,7 +102,7 @@ function EventView({ kind, tod }: { kind: EventKind; tod: TimeOfDay }) {
       </div>
       <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
         <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
-        <CockpitWorld terrain={scene.terrain} region={scene.region} palette={palette} night={tod === 'night'} speed={0.35} events={events} cloudCover={kind === 'storm' ? 55 : 15} />
+        <CockpitWorld terrain={scene.terrain} region={scene.region} palette={palette} night={tod === 'night'} speed={0.35} events={events} cloudCover={kind === 'storm' ? 85 : 15} />
       </div>
     </div>
   );
@@ -208,6 +208,7 @@ export function MountainGallery() {
   const [coastId, setCoastId] = useState<string | null>(null);
   const [reliefId, setReliefId] = useState<string | null>(null);
   const [eventKindQ, setEventKindQ] = useState<EventKind | null>(null);
+  const [eventFar, setEventFar] = useState(false);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = q.get('style') === 'old' ? 'old' : 'new';
@@ -218,7 +219,7 @@ export function MountainGallery() {
     setSkyClouds(q.get('clouds') !== 'off');
     setSkyV2(q.get('sky') !== 'old');
     setCover(Number(q.get('cover') ?? '45') || 45);
-    if (q.get('event')) { setEventKindQ(q.get('event') as EventKind); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
+    if (q.get('event')) { setEventFar(q.get('far') === '1'); setEventKindQ(q.get('event') as EventKind); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('relief')) { setReliefId(q.get('relief')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('coast')) { setCoastId(q.get('coast')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('water')) { setWaterId(q.get('water')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
@@ -227,7 +228,7 @@ export function MountainGallery() {
     const region = q.get('one');
     if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);
-  if (eventKindQ) return <EventView kind={eventKindQ} tod={waterTod} />;
+  if (eventKindQ) return <EventView kind={eventKindQ} tod={waterTod} far={eventFar} />;
   if (reliefId) return <ReliefView id={reliefId} tod={waterTod} />;
   if (coastId) return <CoastView id={coastId} tod={waterTod} />;
   if (waterId) return <WaterView id={waterId} tod={waterTod} />;

@@ -109,9 +109,13 @@ export function drawSceneEvent(
       const anvil = f > 0.8;
       const y = baseY + f * (topY - baseY);
       const spread = anvil ? 1 + (f - 0.8) * 22 : 1 + f * 0.6;
-      const along = (hash(seed + k) - 0.5) * 8000 * spread + (anvil ? (f - 0.8) * 30000 : 0);
+      // the billows turn slowly around the storm's centre (faster low down), the anvil drifts with the wind
+      const orbit = hash(seed + k) * Math.PI * 2 + t * (anvil ? 0.03 : 0.12 - f * 0.06);
+      const rad = (1500 + hash(seed + k * 5) * 2500) * spread;
+      const along = Math.cos(orbit) * rad + (anvil ? (f - 0.8) * 30000 : 0);
+      const deep = Math.sin(orbit) * rad;
       const r = (2600 + hash(seed * 3 + k) * 2000) * (anvil ? 1.2 : 1);
-      const [sx, sy] = proj(x + along, z, y);
+      const [sx, sy] = proj(x + along, z + deep, y);
       const sr = r * sc;
       const col = mix(mix(shade, lit, Math.min(1, f * f * 1.1)), haze, fog * 0.3);
       ctx.globalAlpha = alpha * (1 - fog * 0.3);
@@ -138,8 +142,32 @@ export function drawSceneEvent(
     const sr = 700 * sc;
     const [cx, cy] = proj(x, z, ventTop);
     ctx.globalCompositeOperation = 'lighter';
-    ctx.globalAlpha = alpha * (night ? 0.8 : 0.35) * (1 - fog * 0.5) * (0.85 + 0.15 * Math.sin(t * 1.3 + seed));
+    ctx.globalAlpha = alpha * (night ? 0.9 : 0.6) * (1 - fog * 0.5) * (0.85 + 0.15 * Math.sin(t * 0.6 + seed));
     ctx.drawImage(puff([230, 80, 30]), cx - sr, cy - sr * 0.5, sr * 2, sr);
+    ctx.globalCompositeOperation = 'source-over';
+    // lava: a few glowing streams down the slopes facing the plane, brightest near the crater
+    const R0 = ventTop * 1.4;   // the shared volcano's base radius (w / 2)
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineCap = 'round';
+    for (let k = 0; k < 4; k++) {
+      const a0 = (hash(seed + 90 + k) - 0.5) * 2.2;          // around the front (towards the plane)
+      const reach = 0.35 + hash(seed + 95 + k) * 0.4;         // how far down the slope it has run
+      let prev: [number, number] | null = null;
+      for (let j = 0; j <= 10; j++) {
+        const hf = 1 - (j / 10) * (1 - reach) - 0.02;
+        const a = a0 + Math.sin(j * 0.9 + k * 2) * 0.12;
+        const r = (0.1 + 0.9 * (1 - Math.pow(hf, 1 / 1.25))) * R0 * 1.02;
+        const pt = proj(x + Math.sin(a) * r, z - Math.cos(a) * r, hf * ventTop);
+        if (prev) {
+          const tj = j / 10;
+          ctx.globalAlpha = alpha * (1 - fog * 0.5) * (night ? 0.95 : 0.75) * (1 - tj * 0.7) * (0.85 + 0.15 * Math.sin(t * 0.7 + k + j));
+          ctx.strokeStyle = tj < 0.4 ? 'rgb(255,190,80)' : 'rgb(230,90,30)';
+          ctx.lineWidth = Math.max(1, (110 - tj * 60) * sc);
+          ctx.beginPath(); ctx.moveTo(prev[0], prev[1]); ctx.lineTo(pt[0], pt[1]); ctx.stroke();
+        }
+        prev = pt;
+      }
+    }
     ctx.globalCompositeOperation = 'source-over';
     ventY = ventTop;
   } else {
@@ -149,14 +177,17 @@ export function drawSceneEvent(
     ctx.globalAlpha = alpha * 0.6 * (1 - fog * 0.5);
     ctx.drawImage(puff(night ? [10, 8, 8] : [52, 44, 36]), bx - bw, by - bw * 0.18, bw * 2, bw * 0.36);
     ctx.globalCompositeOperation = 'lighter';
-    const nf = 40;
+    const nf = 46;
     for (let k = 0; k < nf; k++) {
-      const u = k / (nf - 1) - 0.5;
-      const fx = x + u * 12000, fz = z - Math.cos(u * 3) * 600 + (hash(seed + k) - 0.5) * 700;
+      if (hash(seed + k * 3.1) < 0.3) continue;                       // gaps in the front
+      const u = k / (nf - 1) - 0.5 + (hash(seed + k) - 0.5) * 0.03;
+      const fx = x + u * 12000, fz = z - Math.cos(u * 3) * 600 + Math.sin(u * 9 + seed) * 500;
       const [sx, sy] = proj(fx, fz, 0);
-      const h = Math.max(2, (170 + 90 * Math.sin(t * (3 + hash(k) * 3) + k * 1.7)) * sc);
-      ctx.globalAlpha = alpha * (night ? 1 : 0.85) * (1 - fog * 0.5);
-      ctx.drawImage(flame(), sx - h * 0.3, sy - h, h * 0.6, h * 1.05);
+      const big = 0.5 + hash(seed + k * 1.7) * 0.9;                    // some flames bigger than others
+      const flick = 0.82 + 0.18 * Math.sin(t * (0.7 + hash(k) * 0.6) + k * 1.7);
+      const h = Math.max(1.5, 170 * big * flick * sc);
+      ctx.globalAlpha = alpha * (night ? 0.95 : 0.6) * (1 - fog * 0.5);
+      ctx.drawImage(flame(), sx - h * 0.35, sy - h, h * 0.7, h * 1.05);
     }
     // the glow over the front
     const [gx, gy] = proj(x, z, 300);

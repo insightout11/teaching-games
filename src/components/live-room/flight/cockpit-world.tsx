@@ -1035,6 +1035,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const rz = Math.max(Z_NEAR, z - camZ), s = F / rz;
         return [w / 2 + x * s, horizonY + (camH - y) * s];
       };
+      // smoke, ash and storm clouds are drawn after the horizon's haze band (it would cut a line through them)
+      const lateEvents: (readonly [{ kind: EventKind; seed: number }, number, number, number])[] = [];
       for (const { p, layer, lm, cloud, ev } of all) {
         const rz = p.z - camZ;
         if (rz > Z_FAR) continue;
@@ -1043,7 +1045,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         if (ev) {
           // a volcano stands as the shared volcano landmark, its plume rising from the summit
           if (ev.kind === 'volcano') drawWorldLandmark(ctx, 'volcano', { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, proj, Math.pow(Math.min(1, rz / Z_FAR), 0.7), haze, Math.min(1, (Z_FAR - rz) / 8000));
-          drawSceneEvent(ctx, ev.kind, ev.seed, p.x, p.z, proj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000), LANDMARK_SIZE.volcano.h);
+          const evArgs = [ev, p.x, p.z, rz] as const;
+          lateEvents.push(evArgs);
           continue;
         }
         if (cloud) {
@@ -1104,6 +1107,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       band.addColorStop(1, `rgba(${haze[0]},${haze[1]},${haze[2]},0)`);
       ctx.fillStyle = band;
       ctx.fillRect(0, horizonY - 6, w, h * 0.06 + 6);
+      for (const [ev, ex, ez, rz] of lateEvents) {
+        drawSceneEvent(ctx, ev.kind, ev.seed, ex, ez, proj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000), LANDMARK_SIZE.volcano.h);
+      }
 
       raf = requestAnimationFrame(frame);
     };
