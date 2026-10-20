@@ -1,4 +1,6 @@
 import bank from '@/data/topic-briefings.json';
+import places from '@/data/route-place-briefings.json';
+import type { FactCard } from '@/lib/live-room/fact-cards';
 
 /**
  * Live Room Focus: ready briefings for the topics classes bring up most (docs/library-round-18-brief.md). When the
@@ -6,6 +8,7 @@ import bank from '@/data/topic-briefings.json';
  * call: instant, and written with care. Anything else falls back to the AI.
  */
 export interface TopicBriefingLevel {
+  cards?: FactCard[];
   briefing: string;
   facts: string[];
   angles: string[];
@@ -26,6 +29,16 @@ export interface TopicBriefing {
 const LEVEL_ORDER = ['A1', 'A2', 'B1', 'B2'];
 const WANT: Record<string, string> = { Beginner: 'A1', Easy: 'A2', Intermediate: 'B1', Advanced: 'B2', Expert: 'B2' };
 
+/** Place identity is deliberately stricter than ordinary topic spelling/plural cleanup. */
+export function routePlaceKey(title: string): string {
+  return title.trim().replace(/\s+/g, ' ').replace(/^the /i, '').toLowerCase();
+}
+export function findRoutePlaceBriefing(title: string, entries: TopicBriefing[] = places as unknown as TopicBriefing[]): TopicBriefing | null {
+  const key = routePlaceKey(title);
+  if (!key) return null;
+  return entries.find(entry => [entry.title, ...(entry.aliases ?? [])].some(alias => routePlaceKey(alias) === key)) ?? null;
+}
+
 /** Lowercase words, no punctuation, simple plurals folded ("Volcanoes!" -> "volcano"). */
 export function topicKey(text: string): string {
   return text
@@ -44,6 +57,8 @@ function validLevel(l: unknown): l is TopicBriefingLevel {
 
 /** The bank entry for a typed topic: exact match on the title or an alias (after topicKey), else null. */
 export function findTopicBriefing(title: string, entries: TopicBriefing[] = bank as unknown as TopicBriefing[]): TopicBriefing | null {
+  const place = entries === (bank as unknown as TopicBriefing[]) ? findRoutePlaceBriefing(title) : null;
+  if (place) return place;
   const key = topicKey(title);
   if (!key || key.split(' ').length > 5) return null;
   return entries.find((e) => [e.title, ...(e.aliases ?? [])].some((a) => topicKey(a) === key)) ?? null;
@@ -51,6 +66,10 @@ export function findTopicBriefing(title: string, entries: TopicBriefing[] = bank
 
 /** The level for the class's difficulty, or the nearest one the entry has. */
 export function topicBriefingLevel(entry: TopicBriefing, difficulty: string): TopicBriefingLevel | null {
+  if (entry.id.startsWith('route-place-')) {
+    const level = entry.levels[difficulty === 'Beginner' || difficulty === 'A1' ? 'A1' : 'B1'];
+    return validLevel(level) ? level : null;
+  }
   const want = WANT[difficulty] ?? 'B1';
   const have = LEVEL_ORDER.filter((l) => validLevel(entry.levels?.[l]));
   if (!have.length) return null;

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-credits';
 import { lookupWikipedia } from '@/lib/sources/wikipedia';
 import { freePictures } from '@/lib/sources/wikimedia-images';
+import { findRoutePlaceBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,12 @@ export async function POST(request: Request) {
   if (!teacher) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const isEvent = body?.kind === 'event';
+  const ready = isEvent ? null : findRoutePlaceBriefing(title);
+  const cards = ready ? topicBriefingLevel(ready, 'B1')?.cards : null;
+  if (cards?.length) {
+    const pictures = await freePictures(cards[0].picture, 1).catch(() => []);
+    return NextResponse.json({ facts: cards.map(card => card.headline), picture: pictures[0] ?? null }, { headers: { 'Cache-Control': 'private, max-age=3600' } });
+  }
   const lookupTitle = title.replace(/^the /i, '');
   const [ref, pics] = await Promise.all([
     isEvent ? Promise.resolve(null) : lookupWikipedia(lookupTitle).catch(() => null),
