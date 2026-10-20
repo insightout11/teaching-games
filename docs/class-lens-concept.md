@@ -1,6 +1,14 @@
 # Class lens: concept
 
-Written 20 October 2026 by Claude, from the owner's idea. For discussion: nothing is built yet.
+Written 20 October 2026 by Claude, from the owner's idea.
+
+**Decided by the owner (20 Oct):**
+- Students can vote for the lens.
+- News and Politics are turned on per class.
+- A lens stays for the whole lesson by default.
+- Phase 1 lenses: Films and TV, Music, Sport, Food, News (per class), and the kid lenses.
+- Every class type can use a lens, and free-talk classes are offered it first.
+- Codex prepares the content (`docs/lens-content-brief.md`).
 
 ## The idea
 
