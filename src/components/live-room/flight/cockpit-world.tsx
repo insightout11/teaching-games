@@ -7,7 +7,7 @@ import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { drawPeak, peakStyle, type PeakKind } from '@/components/live-room/flight/peak-art';
 import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { desertTexture, farmTexture, forestTexture, groundRelief, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
+import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -105,6 +105,43 @@ const SHORE = 4200;          // world units over which one terrain blends into t
 const SOFT_SHORE = 17000;
 const PATCH_WORLD = 6500;     // size of the patches (world units)
 const PATCH_SEGMENTS = 40;    // pieces per row inside the band
+
+// ── Night lights ─────────────────────────────────────────────────────────────────────────────────────────────────────
+// Towns scattered over the land on a fixed grid (the same stretch always has the same towns), more of them and brighter
+// where the land is busy (farmland, rice paddies; Europe, South and East Asia), almost none over desert, ice or deep
+// forest; faint strings of light along the roads between neighbouring towns.
+const TOWN_CELL = 5200;       // one possible town per cell (world units; about 13 km)
+const BUILT: Partial<Record<string, number>> = {
+  farmland: 1, paddies: 1.15, grassland: 0.45, savanna: 0.35, hills: 0.7, forest: 0.28, wetlands: 0.25, mountains: 0.22,
+  rainforest: 0.08, desert: 0.07, tundra: 0.05, 'salt-flats': 0.02, ice: 0, ocean: 0,
+};
+function regionBusy(region: string | null): number {
+  const r = region ?? '';
+  if (/city:|town:/.test(r)) return 1.3;
+  if (/Europe/.test(r)) return 1.25;
+  if (/Asia|Japan|India|China/.test(r)) return 1.1;
+  if (/North America/.test(r)) return 1;
+  if (/South America/.test(r)) return 0.7;
+  if (/Africa|Madagascar/.test(r)) return 0.5;
+  if (/Australia/.test(r)) return 0.3;
+  return 0.8;
+}
+/** A town's glow, made once and drawn scaled (a gradient per town per frame was the costly part). */
+let glowSprite: HTMLCanvasElement | null = null;
+function townGlow(): HTMLCanvasElement {
+  if (glowSprite) return glowSprite;
+  const c = document.createElement('canvas');
+  c.width = 64; c.height = 64;
+  const g = c.getContext('2d');
+  if (g) {
+    const r = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    r.addColorStop(0, 'rgba(255,190,110,0.9)'); r.addColorStop(0.4, 'rgba(255,170,90,0.35)'); r.addColorStop(1, 'rgba(255,170,90,0)');
+    g.fillStyle = r; g.fillRect(0, 0, 64, 64);
+  }
+  glowSprite = c;
+  return c;
+}
+const cellHash = (i: number, j: number, k: number) => { const s = Math.sin(i * 127.1 + j * 311.7 + k * 74.7) * 43758.5453; return s - Math.floor(s); };
 
 /** Smooth value noise (0..1) for the patches: the same place always has the same patch. */
 function patchNoise(x: number, z: number): number {
@@ -493,6 +530,71 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         ctx.fillRect(0, y0, w, h - y0);
         const gl = live.current.glint;
         if (gl && glintK > 0.02) drawSeaGlint(ctx, gl, glintK, now / 1000, w, h, horizonY);
+      }
+
+      // ── Night lights: towns and roads across the land ────────────────────────────────────────────────────────
+      if (dark && nightLights() && L.length) {
+        const layerAt = (wz: number) => { let i = L.length - 1; while (i > 0 && L[i].startZ > wz) i--; return L[i]; };
+        const z0 = Math.floor((camZ + Z_NEAR * 3) / TOWN_CELL), z1 = Math.floor((camZ + Z_FAR * 0.95) / TOWN_CELL);
+        const town = (ci: number, cj: number) => {
+          const wz = (ci + 0.5) * TOWN_CELL, lyr = layerAt(wz);
+          const p = (BUILT[lyr.terrain] ?? 0.3) * regionBusy(lyr.region) * 0.55;
+          if (cellHash(ci, cj, 1) > p) return null;
+          return {
+            x: (cj + 0.2 + cellHash(ci, cj, 2) * 0.6) * TOWN_CELL, z: (ci + 0.2 + cellHash(ci, cj, 3) * 0.6) * TOWN_CELL,
+            size: 0.4 + cellHash(ci, cj, 4) * cellHash(ci, cj, 5) * 1.8, seed: ci * 7919 + cj * 104729,
+          };
+        };
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        const glowPic = townGlow();
+        // all roads in one dotted stroke per frame
+        const roads = new Path2D();
+        let roadFade = 0;
+        for (let ci = z1; ci >= z0; ci--) {
+          const rz = (ci + 0.5) * TOWN_CELL - camZ;
+          if (rz <= Z_NEAR) continue;
+          const span = Math.ceil(((w / 2) * rz) / F / TOWN_CELL) + 1;
+          const fade = Math.min(1, (Z_FAR - rz) / 9000) * (1 - Math.min(0.75, rz / Z_FAR));
+          for (let cj = -span; cj <= span; cj++) {
+            const t = town(ci, cj);
+            if (!t) continue;
+            const tz = t.z - camZ;
+            if (tz <= Z_NEAR) continue;
+            const s = F / tz, cx = w / 2 + t.x * s, cy = horizonY + camH * s;
+            if (cx < -40 || cx > w + 40 || cy > h + 10) continue;
+            // roads to the town ahead and the town to the right: dotted sodium light
+            for (const [ni, nj] of [[ci + 1, cj], [ci, cj + 1]] as const) {
+              const n = town(ni, nj);
+              if (!n || n.z - camZ <= Z_NEAR) continue;
+              const ns = F / (n.z - camZ);
+              roads.moveTo(cx, cy);
+              roads.lineTo(w / 2 + n.x * ns, horizonY + camH * ns);
+              roadFade = Math.max(roadFade, fade);
+            }
+            // the town: a cluster of warm lights, a brighter centre
+            const r = t.size * 900 * s, dots = 6 + Math.floor(t.size * 14);
+            ctx.globalAlpha = 0.32 * fade;
+            ctx.drawImage(glowPic, cx - r * 1.6, cy - r * 0.9, r * 3.2, r * 1.8);
+            ctx.globalAlpha = 1;
+            for (let k = 0; k < dots; k++) {
+              const a = cellHash(t.seed, k, 6) * Math.PI * 2, d = Math.sqrt(cellHash(t.seed, k, 7));
+              const dx = Math.cos(a) * d * r, dy = Math.sin(a) * d * r * (camH * s) / Math.max(1, F * 0.4) * 0.35;
+              const b = 0.45 + cellHash(t.seed, k, 8) * 0.55;
+              ctx.fillStyle = `rgba(255,${200 + Math.floor(cellHash(t.seed, k, 9) * 40)},${120 + Math.floor(cellHash(t.seed, k, 10) * 60)},${b * fade})`;
+              const sz = Math.max(0.8, Math.min(2.4, s * 160));
+              ctx.fillRect(cx + dx, cy + dy, sz, sz);
+            }
+          }
+        }
+        if (roadFade > 0) {
+          ctx.strokeStyle = 'rgba(255,186,110,0.22)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([1, 3]);
+          ctx.stroke(roads);
+          ctx.setLineDash([]);
+        }
+        ctx.restore();
       }
 
       // ── Cities in the distance: lights by night, streets and small buildings by day. Seen through the air, so they fade with

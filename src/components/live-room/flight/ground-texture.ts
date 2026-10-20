@@ -927,6 +927,11 @@ let GROUND_RELIEF = true; // approved by the owner 19 Oct 2026
 let SOFT_EDGES = true; // approved by the owner 20 Oct 2026
 export function setSoftEdges(on: boolean) { SOFT_EDGES = on; }
 export const softEdges = () => SOFT_EDGES;
+
+/** Night lights across the land (towns and roads). Off in the room until the owner approves; the gallery turns it on. */
+let NIGHT_LIGHTS = false;
+export function setNightLights(on: boolean) { NIGHT_LIGHTS = on; }
+export const nightLights = () => NIGHT_LIGHTS;
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
 export const groundRelief = () => GROUND_RELIEF;
 

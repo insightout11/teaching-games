@@ -7,7 +7,7 @@ import { composeTimedPalette } from '@/components/world-flight/arrival-scene/pal
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { setPeakStyle } from '@/components/live-room/flight/peak-art';
-import { setGroundRelief, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { setGroundRelief, setNightLights, setSoftEdges } from '@/components/live-room/flight/ground-texture';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
 const RANGES: Array<{ region: string; label: string }> = [
@@ -84,6 +84,7 @@ export function MountainGallery() {
     setStyle(s);
     setPeakStyle(s);
     setGroundRelief(s === 'new' && q.get('hills') !== 'off');
+    setNightLights(q.get('lights') !== 'off');
     const e = q.get('edge')?.split(',');
     if (e?.length === 2) { const found = EDGES.find(([a, b]) => a === e[0] && b === e[1]); setEdge({ from: e[0] as Terrain, to: e[1] as Terrain, region: found?.[2] ?? 'Europe', soft: !q.has('hard') }); }
     const region = q.get('one');
@@ -111,6 +112,17 @@ export function MountainGallery() {
         <a href={style === 'old' ? '?style=new' : '?style=old'} className="text-sm text-cyan-200 underline">Show the {style === 'old' ? 'new' : 'old'} peaks</a>
         <span className="text-sm text-white/60">Click any picture to watch it fly, full size.</span>
       </div>
+      <section>
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Night lights: towns and roads ({'?lights=off'} for the old dark ground). Click one to fly.</p>
+        <div className="grid gap-3 md:grid-cols-4">
+          {([['farmland', 'Europe'], ['paddies', 'Asia'], ['farmland', 'North America'], ['desert', 'Africa']] as Array<[Terrain, string]>).map(([t, rg]) => (
+            <a key={`${t}${rg}`} href={`?one=${rg}&tod=night&ground=${t}`} className="block">
+              <Cell key={`${style}|${t}|${rg}`} region={rg} tod="night" moving={false} terrain={t} />
+              <p className="mt-1 text-xs text-white/50">{t} · {rg} · night</p>
+            </a>
+          ))}
+        </div>
+      </section>
       <section>
         <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Watch the ground change (softer edges)</p>
         <div className="flex flex-wrap gap-2">
