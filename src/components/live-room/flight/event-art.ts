@@ -124,17 +124,20 @@ export function drawSceneEvent(
     // lightning: every few seconds one part of the cloud lights up from inside (an uneven patch of billows, flickering
     // once or twice), and now and then a thin bolt drops from the base to the ground
     const slot = Math.floor(t / 2.5), ph = t - slot * 2.5;
-    const strike = hash(seed * 7 + slot) < 0.45;
+    const strike = hash(seed * 7 + slot) < 0.25;
     const flashes = hash(seed * 11 + slot) < 0.5 ? [0, 0.18] : [0];
     const lit2 = flashes.some((d) => ph > d && ph < d + 0.09);
-    if (strike && lit2) {
+    // never when the storm is close (a flash there would light the whole windscreen), and never larger than a small
+    // part of the view
+    const capPx = ctx.canvas.width * 0.06;
+    if (strike && lit2 && 4000 * sc < capPx) {
       const cxw = x + (hash(slot + seed) - 0.5) * 12000, cyw = 4000 + hash(slot + seed + 1) * 6000;
       ctx.globalCompositeOperation = 'lighter';
       const m = 4 + Math.floor(hash(slot + 3) * 4);
       for (let i = 0; i < m; i++) {
         const [sx, sy] = proj(cxw + (hash(slot * 5 + i) - 0.5) * 6000, z, cyw + (hash(slot * 7 + i) - 0.5) * 3000);
-        const rx = (1500 + hash(slot * 9 + i) * 3500) * sc, ry = rx * (0.45 + hash(slot * 13 + i) * 0.4);
-        ctx.globalAlpha = alpha * (0.2 + hash(slot * 17 + i) * 0.35) * (1 - fog * 0.4);
+        const rx = Math.min(capPx, (1500 + hash(slot * 9 + i) * 3500) * sc), ry = rx * (0.45 + hash(slot * 13 + i) * 0.4);
+        ctx.globalAlpha = alpha * (0.12 + hash(slot * 17 + i) * 0.2) * (1 - fog * 0.4);
         ctx.drawImage(puff([190, 200, 255]), sx - rx, sy - ry, rx * 2, ry * 2);
       }
       if (hash(seed * 3 + slot) < 0.35) {
