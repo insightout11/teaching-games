@@ -1138,12 +1138,14 @@ export function FlightDeck({
     const steadyKey = `${steadyGround.terrain}|${steadyGround.region ?? ''}`;
     if (groundKey === steadyKey) return;
     // land to sea (or back) follows sooner: the coast is real and should not lag far behind
-    const hold = groundNow.terrain === 'ocean' || steadyGround.terrain === 'ocean' ? 12_000 : 45_000;
+    // arriving over a city (or holding over the destination) shows it almost at once
+    const intoCity = (groundNow.region ?? '').startsWith('city:') || holding;
+    const hold = intoCity ? 3_000 : groundNow.terrain === 'ocean' || steadyGround.terrain === 'ocean' ? 12_000 : 45_000;
     const wait = Math.max(0, hold - (Date.now() - groundSince.current.at));
     const t = setTimeout(() => { if (groundSince.current.key === groundKey) setSteadyGround(groundNow); }, wait);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [groundKey, steadyGround]);
+  }, [groundKey, steadyGround, holding]);
   const crossingNow = crossing && now < crossing.until ? crossing : null;
   const belowItems: Array<{ text: string; topic: string | null; about?: string }> = [
     ...(crossingNow ? [{ text: `crossing into ${crossingNow.name}`, topic: crossingNow.name }] : []),
