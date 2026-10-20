@@ -7,8 +7,8 @@
 
 type RGB = [number, number, number];
 
-/** Clouds on/off (the gallery turns them on; the room keeps them off until the owner approves). */
-let SKY_CLOUDS = false;
+/** The sea of clouds (approved by the owner 20 Oct 2026). */
+let SKY_CLOUDS = true;
 export function setSkyClouds(on: boolean) { SKY_CLOUDS = on; }
 export const skyClouds = () => SKY_CLOUDS;
 
