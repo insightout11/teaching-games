@@ -88,13 +88,13 @@ export function drawSceneEvent(
   if (kind === 'storm') {
     // a towering storm cell: dark base, rain falling below it, billows climbing high and a wide flat anvil on top
     const lit: RGB = night ? [80, 86, 112] : [244, 246, 250], shade: RGB = night ? [18, 20, 32] : [58, 64, 82];
-    const baseY = 2600, topY = 11500;
+    const baseY = 2400, topY = 16000;
     // rain shafts: soft grey streaks from the dark base to the ground
     for (let k = 0; k < 7; k++) {
-      const off = (hash(seed + 40 + k) - 0.5) * 9000;
+      const off = (hash(seed + 40 + k) - 0.5) * 15000;
       const [ax, ay] = proj(x + off, z, baseY);
       const [bx, by] = proj(x + off - 1400, z, 0);
-      const wpx = (1600 + hash(seed + 60 + k) * 1400) * sc;
+      const wpx = (2600 + hash(seed + 60 + k) * 2200) * sc;
       const g = ctx.createLinearGradient(ax, ay, bx, by);
       const rc = mix(night ? [30, 34, 48] : [100, 108, 126], haze, fog * 0.6);
       g.addColorStop(0, rgba(rc, 0.55 * alpha)); g.addColorStop(1, rgba(rc, 0));
@@ -103,18 +103,18 @@ export function drawSceneEvent(
       ctx.moveTo(ax - wpx / 2, ay); ctx.lineTo(ax + wpx / 2, ay); ctx.lineTo(bx + wpx / 2, by); ctx.lineTo(bx - wpx / 2, by);
       ctx.fill();
     }
-    const n = 44;
+    const n = 60;
     for (let k = 0; k < n; k++) {
       const f = k / (n - 1);
       const anvil = f > 0.8;
       const y = baseY + f * (topY - baseY);
       const spread = anvil ? 1 + (f - 0.8) * 22 : 1 + f * 0.6;
       // the billows turn slowly around the storm's centre (faster low down), the anvil drifts with the wind
-      const orbit = hash(seed + k) * Math.PI * 2 + t * (anvil ? 0.03 : 0.12 - f * 0.06);
-      const rad = (1500 + hash(seed + k * 5) * 2500) * spread;
-      const along = Math.cos(orbit) * rad + (anvil ? (f - 0.8) * 30000 : 0);
+      const orbit = hash(seed + k) * Math.PI * 2 + t * (anvil ? 0.004 : 0.018 - f * 0.008);
+      const rad = (2500 + hash(seed + k * 5) * 4000) * spread;
+      const along = Math.cos(orbit) * rad + (anvil ? (f - 0.8) * 45000 : 0);
       const deep = Math.sin(orbit) * rad;
-      const r = (2600 + hash(seed * 3 + k) * 2000) * (anvil ? 1.2 : 1);
+      const r = (4200 + hash(seed * 3 + k) * 3200) * (anvil ? 1.2 : 1);
       const [sx, sy] = proj(x + along, z + deep, y);
       const sr = r * sc;
       const col = mix(mix(shade, lit, Math.min(1, f * f * 1.1)), haze, fog * 0.3);
@@ -148,25 +148,32 @@ export function drawSceneEvent(
     // lava: a few glowing streams down the slopes facing the plane, brightest near the crater
     const R0 = ventTop * 1.4;   // the shared volcano's base radius (w / 2)
     ctx.globalCompositeOperation = 'lighter';
-    ctx.lineCap = 'round';
-    for (let k = 0; k < 4; k++) {
-      const a0 = (hash(seed + 90 + k) - 0.5) * 2.2;          // around the front (towards the plane)
-      const reach = 0.35 + hash(seed + 95 + k) * 0.4;         // how far down the slope it has run
-      let prev: [number, number] | null = null;
-      for (let j = 0; j <= 10; j++) {
-        const hf = 1 - (j / 10) * (1 - reach) - 0.02;
-        const a = a0 + Math.sin(j * 0.9 + k * 2) * 0.12;
-        const r = (0.1 + 0.9 * (1 - Math.pow(hf, 1 / 1.25))) * R0 * 1.02;
-        const pt = proj(x + Math.sin(a) * r, z - Math.cos(a) * r, hf * ventTop);
-        if (prev) {
-          const tj = j / 10;
-          ctx.globalAlpha = alpha * (1 - fog * 0.5) * (night ? 0.95 : 0.75) * (1 - tj * 0.7) * (0.85 + 0.15 * Math.sin(t * 0.7 + k + j));
-          ctx.strokeStyle = tj < 0.4 ? 'rgb(255,190,80)' : 'rgb(230,90,30)';
-          ctx.lineWidth = Math.max(1, (110 - tj * 60) * sc);
-          ctx.beginPath(); ctx.moveTo(prev[0], prev[1]); ctx.lineTo(pt[0], pt[1]); ctx.stroke();
-        }
-        prev = pt;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (let k = 0; k < 3; k++) {
+      // a continuous river of lava from just under the rim, winding down the slope towards the plane
+      const a0 = (hash(seed + 90 + k) - 0.5) * 1.8;
+      const reach = 0.3 + hash(seed + 95 + k) * 0.35;      // where it stops (share of the height)
+      const pts: Array<[number, number]> = [];
+      for (let j = 0; j <= 16; j++) {
+        const hf = 0.97 - (j / 16) * (0.97 - reach);
+        const a = a0 + Math.sin(j * 0.55 + k * 2.3) * 0.09;
+        const r = (0.1 + 0.9 * (1 - Math.pow(hf, 1 / 1.25))) * R0 * 1.01;
+        pts.push(proj(x + Math.sin(a) * r, z - Math.cos(a) * r, hf * ventTop));
       }
+      const g = ctx.createLinearGradient(pts[0][0], pts[0][1], pts[16][0], pts[16][1]);
+      const pulse = 0.9 + 0.1 * Math.sin(t * 0.5 + k);
+      const trace = () => { ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let j = 1; j < pts.length; j++) ctx.lineTo(pts[j][0], pts[j][1]); };
+      const wpx = Math.max(1, 70 * sc);
+      // a soft glow around it, then the hot core (yellow at the top cooling to deep red at the tip)
+      g.addColorStop(0, 'rgba(255,140,40,0.5)'); g.addColorStop(1, 'rgba(160,30,10,0)');
+      ctx.strokeStyle = g; ctx.lineWidth = wpx * 3.2;
+      ctx.globalAlpha = alpha * (1 - fog * 0.5) * (night ? 0.9 : 0.6) * pulse;
+      trace(); ctx.stroke();
+      const c = ctx.createLinearGradient(pts[0][0], pts[0][1], pts[16][0], pts[16][1]);
+      c.addColorStop(0, 'rgba(255,235,150,1)'); c.addColorStop(0.35, 'rgba(255,150,50,1)'); c.addColorStop(1, 'rgba(170,40,15,0.2)');
+      ctx.strokeStyle = c; ctx.lineWidth = wpx;
+      ctx.globalAlpha = alpha * (1 - fog * 0.5) * (night ? 1 : 0.85) * pulse;
+      trace(); ctx.stroke();
     }
     ctx.globalCompositeOperation = 'source-over';
     ventY = ventTop;
