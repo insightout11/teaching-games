@@ -562,7 +562,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             const tz = t.z - camZ;
             if (tz <= Z_NEAR * 0.5) continue;
             const s = F / tz, cx = w / 2 + t.x * s, cy = horizonY + camH * s;
-            if (cx < -40 || cx > w + 40 || cy > h + 10) continue;
+            // keep the town until its whole glow has left the window (its centre leaves first: the land went dark early)
+            const reach = t.size * 900 * s * 1.6;
+            if (cx + reach < 0 || cx - reach > w || cy - reach * 0.6 > h) continue;
             // roads to the town ahead and the town to the right: dotted sodium light
             for (const [ni, nj] of [[ci + 1, cj], [ci, cj + 1]] as const) {
               const n = town(ni, nj);
@@ -573,8 +575,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
               roadFade = Math.max(roadFade, fade);
             }
             // the town: a cluster of warm lights, a brighter centre
-            // close up a town spreads wide: it gets more lights so it stays a lit town, not a few scattered dots
-            const r = t.size * 900 * s, dots = Math.min(160, Math.max(6 + Math.floor(t.size * 14), Math.floor(r * 0.9)));
+            const r = t.size * 900 * s, dots = 6 + Math.floor(t.size * 14);
             ctx.globalAlpha = 0.32 * fade;
             ctx.drawImage(glowPic, cx - r * 1.6, cy - r * 0.9, r * 3.2, r * 1.8);
             ctx.globalAlpha = 1;
@@ -583,7 +584,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
               const dx = Math.cos(a) * d * r, dy = Math.sin(a) * d * r * (camH * s) / Math.max(1, F * 0.4) * 0.35;
               const b = 0.45 + cellHash(t.seed, k, 8) * 0.55;
               ctx.fillStyle = `rgba(255,${200 + Math.floor(cellHash(t.seed, k, 9) * 40)},${120 + Math.floor(cellHash(t.seed, k, 10) * 60)},${b * fade})`;
-              const sz = Math.max(0.8, Math.min(3.2, s * 160));
+              const sz = Math.max(0.8, Math.min(2.4, s * 160));
               ctx.fillRect(cx + dx, cy + dy, sz, sz);
             }
           }
