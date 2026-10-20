@@ -4,9 +4,11 @@
  */
 import routePlaces from '@/data/route-place-briefings.json';
 import { countriesFor, QUIZ_COUNTRIES, type QuizCountry } from '@/lib/world-quiz/countries';
+import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
+import type { DestinationPack } from '@/lib/world-flight/types';
 
-export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'mix';
-export type QuestionKind = 'flag' | 'shape' | 'clues';
+export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'mix';
+export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard';
 export interface WorldQuestion {
   kind: QuestionKind;
   country: QuizCountry;
@@ -19,6 +21,9 @@ export interface WorldQuestion {
   shape?: string;
   /** Shown after the reveal: one fact about the country. */
   fact?: string;
+  /** Postcard: one of our illustrated city arrival scenes (the city is the answer). */
+  destinationId?: string;
+  scene?: DestinationPack['scene'];
 }
 
 const shuffle = <T,>(xs: T[]): T[] => { const a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -81,14 +86,29 @@ function optionsFor(c: QuizCountry, pool: QuizCountry[]): { options: string[]; c
   return { options, correctIndex: options.indexOf(c.name) };
 }
 
+/** Postcards: our illustrated city scenes; the wrong choices are cities from the same part of the world. */
+function postcards(count: number): WorldQuestion[] {
+  const cities = shuffle(WORLD_DESTINATIONS.filter((d) => d.scene));
+  return cities.slice(0, count).map((d) => {
+    const near = shuffle(WORLD_DESTINATIONS.filter((x) => x.id !== d.id && x.region === d.region)).map((x) => x.city);
+    const far = shuffle(WORLD_DESTINATIONS.filter((x) => x.id !== d.id && x.region !== d.region)).map((x) => x.city);
+    const options = shuffle([d.city, ...Array.from(new Set([...near, ...far])).slice(0, 3)]);
+    const country = QUIZ_COUNTRIES.find((c) => c.name === d.country) ?? { name: d.country, iso2: '', continent: 'Europe' as const, level: 1 as const };
+    return { kind: 'postcard' as const, country, options, correctIndex: options.indexOf(d.city), destinationId: d.id, scene: d.scene, fact: `${d.city} is in ${d.country}.` };
+  });
+}
+
 /** A round of questions for a mode, at a level (1 easiest), `count` long. */
 export async function buildQuiz(mode: WorldQuizMode, level: 1 | 2 | 3, count: number): Promise<WorldQuestion[]> {
+  if (mode === 'postcards') return postcards(count);
+  const cards = mode === 'mix' ? postcards(Math.ceil(count / 4)) : [];
   const pool = countriesFor(level);
   const picked = shuffle(pool).slice(0, Math.min(count * 2, pool.length));
   const kinds: QuestionKind[] = mode === 'mix' ? ['flag', 'shape', 'clues'] : [mode === 'flags' ? 'flag' : mode === 'shapes' ? 'shape' : 'clues'];
+  const target = count - cards.length;
   const out: WorldQuestion[] = [];
   for (const c of picked) {
-    if (out.length >= count) break;
+    if (out.length >= target) break;
     const kind = kinds[out.length % kinds.length];
     const base = { kind, country: c, ...optionsFor(c, pool), fact: cardsFor(c)[0]?.headline };
     if (kind === 'clues') {
@@ -101,5 +121,7 @@ export async function buildQuiz(mode: WorldQuizMode, level: 1 | 2 | 3, count: nu
       out.push({ ...base, shape });
     } else out.push(base);
   }
+  // mix: a postcard every few questions
+  cards.forEach((c, i) => out.splice(Math.min(out.length, 3 + i * 4), 0, c));
   return out;
 }

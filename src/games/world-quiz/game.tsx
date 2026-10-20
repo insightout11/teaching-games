@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Flag, Lightbulb, Map as MapIcon, Shuffle, Trophy } from 'lucide-react';
+import { Flag, Image as ImageIcon, Lightbulb, Map as MapIcon, Shuffle, Trophy } from 'lucide-react';
+import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore } from '@/stores/session-store';
 import { ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
@@ -23,7 +24,8 @@ const MODES: Array<{ key: WorldQuizMode; label: string; detail: string; icon: ty
   { key: 'flags', label: 'Flags', detail: 'Whose flag is this?', icon: Flag },
   { key: 'shapes', label: 'Shapes', detail: 'The country\'s shape, zooming out', icon: MapIcon },
   { key: 'clues', label: 'Clue ladder', detail: 'Clues from hard to easy: guess early for more points', icon: Lightbulb },
-  { key: 'mix', label: 'Mix', detail: 'Flags, shapes and clues', icon: Shuffle },
+  { key: 'postcards', label: 'Postcards', detail: 'Which city is this? Our illustrated cities', icon: ImageIcon },
+  { key: 'mix', label: 'Mix', detail: 'Flags, shapes, clues and postcards', icon: Shuffle },
 ];
 const REVEAL_GRACE_MS = 1200;
 
@@ -56,7 +58,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
   const broadcast = useCallback((question: WorldQuestion, perStudentData: Record<string, unknown> = {}) => {
     onSetInputSpec?.({
       type: 'choice', gameKey: 'world-quiz',
-      prompt: question.kind === 'flag' ? 'Whose flag is this?' : question.kind === 'shape' ? 'Which country has this shape?' : 'Which country is it?',
+      prompt: question.kind === 'flag' ? 'Whose flag is this?' : question.kind === 'shape' ? 'Which country has this shape?' : question.kind === 'postcard' ? 'Which city is this?' : 'Which country is it?',
       options: question.options, timerSeconds: timerRef.current, startedAt: startRef.current, perStudentData,
     } as InputSpec);
   }, [onSetInputSpec]);
@@ -191,7 +193,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
         <span>Question {index + 1} of {questions.length}</span>
         <span>{revealing ? `${rightCount} of ${answers.length} right` : `${answers.length} answered · ${timeLeft}s`}</span>
       </div>
-      <p className="font-display text-3xl">{q.kind === 'flag' ? 'Whose flag is this?' : q.kind === 'shape' ? 'Which country has this shape?' : 'Which country is it?'}</p>
+      <p className="font-display text-3xl">{q.kind === 'flag' ? 'Whose flag is this?' : q.kind === 'shape' ? 'Which country has this shape?' : q.kind === 'postcard' ? 'Which city is this?' : 'Which country is it?'}</p>
 
       {/* the picture: a flag, a shape zooming out, or the clue ladder */}
       <div className="flex min-h-[200px] w-full items-center justify-center">
@@ -205,6 +207,11 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
               <path d={q.shape} fill={revealing ? '#fcd34d' : '#e2e8f0'} stroke="#0b1220" strokeWidth={0.4} fillRule="evenodd" />
             </motion.g>
           </svg>
+        )}
+        {q.kind === 'postcard' && q.scene && q.destinationId && (
+          <div className="relative aspect-[16/7] w-full max-w-lg overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+            <DestinationArrivalScene destinationId={q.destinationId} scene={q.scene} phase="landed" progress={1} mode="arrival" timeOfDay="day" className="absolute inset-0" />
+          </div>
         )}
         {q.kind === 'clues' && q.clues && (
           <ol className="w-full max-w-2xl space-y-2">
