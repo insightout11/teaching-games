@@ -53,7 +53,7 @@ import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type 
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
 import { landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
-import { realCoast, realRelief, realWaters } from '@/components/live-room/flight/ground-texture';
+import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
@@ -955,7 +955,12 @@ export function FlightDeck({
   // Test switch: ?descent=on jumps a flight to just before its descent, to preview the approach to a city (Fuji on
   // the way into Tokyo) without waiting for the end of class. Time moves on normally from there.
   const [descentTest, setDescentTest] = useState(false);
-  useEffect(() => { setDescentTest(new URLSearchParams(window.location.search).get('descent') === 'on'); }, []);
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    setDescentTest(q.get('descent') === 'on');
+    // test switch: ?coast=on draws the real coastlines (off in classes until approved)
+    if (q.get('coast') === 'on') setRealCoast(true);
+  }, []);
   const [descentShift, setDescentShift] = useState(0);
   const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
   useEffect(() => {
