@@ -62,7 +62,7 @@ export function FactsBoard({ title, cards, pictures = [], onAsk, onClose }: {
           {picOf(open!) && (
             <figure className="mb-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={picOf(open!)!.imageUrl} alt={picOf(open!)!.title} onError={() => setHidden((h) => new Set(h).add(open!))} referrerPolicy="no-referrer" className="max-h-64 w-full rounded-2xl object-cover" />
+              <img src={picOf(open!)!.imageUrl} alt={picOf(open!)!.title} onError={() => setHidden((h) => new Set(h).add(open!))} referrerPolicy="no-referrer" className="h-64 w-full rounded-2xl bg-black/30 object-contain" />
               <figcaption className="mt-1 flex items-center justify-between gap-3 text-[11px] text-white/45">
                 <span className="truncate">Wikimedia Commons · {picOf(open!)!.credit}</span>
                 <button type="button" onClick={() => setHidden((h) => new Set(h).add(open!))} className="flex shrink-0 items-center gap-1 hover:text-white"><ImageOff className="h-3 w-3" /> Hide picture</button>
@@ -91,7 +91,7 @@ export function FactsBoard({ title, cards, pictures = [], onAsk, onClose }: {
               <button key={c.headline} type="button" onClick={() => setOpen(i)} className="flex min-h-[7.5rem] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950/55 p-4 text-left shadow-xl backdrop-blur-md hover:border-amber-300/60">
                 {picOf(i) && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={picOf(i)!.thumbUrl} alt="" onError={() => setHidden((h) => new Set(h).add(i))} referrerPolicy="no-referrer" className="-mx-4 -mt-4 mb-2 h-20 w-[calc(100%+2rem)] max-w-none rounded-t-2xl object-cover" />
+                  <img src={picOf(i)!.thumbUrl} alt="" onError={() => setHidden((h) => new Set(h).add(i))} referrerPolicy="no-referrer" className="-mx-4 -mt-4 mb-2 h-20 w-[calc(100%+2rem)] max-w-none rounded-t-2xl object-cover object-[center_25%]" />
                 )}
                 <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-300">Fact {i + 1}</span>
                 <span className="mt-1.5 font-display text-lg leading-snug text-white xl:text-xl">{c.headline}</span>
