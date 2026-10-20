@@ -943,6 +943,8 @@ export function FlightDeck({
     flash(`Class now ends at ${new Date(clock.endAt + delta * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`);
   };
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
+  // The land below, for topics taken from the flight (which Blue Mountains: the facts lookup needs the place).
+  const flightWhere = regionOf(below.point) ?? undefined;
   // Country and nearby big city under the plane (outlines load lazily).
   const [countries, setCountries] = useState<CountryShape[] | null>(null);
   useEffect(() => { void loadCountries().then(setCountries).catch(() => {}); }, []);
@@ -1203,6 +1205,8 @@ export function FlightDeck({
   const setDepth = useFocusBus((s) => s.setDepth);
   const [endingAdded, setEndingAdded] = useState<Record<string, boolean>>({});
   const [focusTrail, setFocusTrail] = useState<string[]>([]);
+  // Where a flight topic is (its place below the plane), kept per topic for the facts lookup.
+  const focusWhere = useRef<Record<string, string>>({});
   const makeFocus = useCallback((req: FocusRequest) => {
     const raw = req.title.replace(/\s+/g, ' ').trim();
     if (!raw) return;
@@ -1212,6 +1216,7 @@ export function FlightDeck({
     const text = req.text ?? (raw.length > 120 ? raw : undefined);
     const id = `note-${Date.now().toString(36)}`;
     addItem(sessionId, { id, kind: 'note', title, url: `note:${id}`, publisher: req.credit ?? 'Class', ...(text ? { text } : {}) });
+    if (req.where) focusWhere.current[id] = req.where;
     setFocusId(id);
     flash(req.credit ? `New topic from ${req.credit}` : 'New topic');
   }, [addItem, sessionId, flash]);
@@ -1282,7 +1287,7 @@ export function FlightDeck({
       .then((transcript) => fetch(`/api/session/${encodeURIComponent(sessionId)}/focus`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '', depth, covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20) }),
+        body: JSON.stringify({ title: item.title, text: transcript ?? item.text ?? item.description ?? '', depth, where: focusWhere.current[item.id], covered: lessonMemory.snapshot.topics.map((t) => t.title).slice(-20) }),
       }))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: FocusBrief | null) => {
@@ -2438,7 +2443,7 @@ export function FlightDeck({
               <p className="rounded-xl bg-amber-300/10 px-3 py-2 text-[15px] text-amber-100">{momentQuestion(momentCard.moment)}</p>
               <div className="flex items-center justify-between gap-2 pt-1">
                 {momentCard.picture ? <span className="truncate text-[10px] text-white/40">{momentCard.picture.credit}</span> : <span />}
-                <button type="button" onClick={() => { makeFocus({ title: momentCard.moment.title.replace(/^the /, ''), text: momentCard.facts.join(' ') || undefined }); setMomentCard(null); }} className="shrink-0 rounded-full border border-amber-300/50 px-3 py-1 text-xs text-amber-100 hover:bg-amber-300/10">
+                <button type="button" onClick={() => { makeFocus({ title: momentCard.moment.title.replace(/^the /, ''), text: momentCard.facts.join(' ') || undefined, where: flightWhere }); setMomentCard(null); }} className="shrink-0 rounded-full border border-amber-300/50 px-3 py-1 text-xs text-amber-100 hover:bg-amber-300/10">
                   Make it the topic
                 </button>
               </div>
@@ -2460,7 +2465,7 @@ export function FlightDeck({
                 <span key={`${it.text}-${i}`}>
                   {i > 0 && ' · '}
                   {it.topic ? (
-                    <button type="button" onClick={() => { makeFocus({ title: it.topic!, ...(it.about ? { text: it.about } : {}) }); flash(`New topic: ${it.topic}`); }} title={`Make ${it.topic} the topic`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{it.text}</button>
+                    <button type="button" onClick={() => { makeFocus({ title: it.topic!, ...(it.about ? { text: it.about } : {}), where: flightWhere }); flash(`New topic: ${it.topic}`); }} title={`Make ${it.topic} the topic`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{it.text}</button>
                   ) : it.text}
                 </span>
               ))}
@@ -2473,7 +2478,7 @@ export function FlightDeck({
               {nextStop && (
                 <>
                   {' · Next: '}
-                  <button type="button" onClick={() => { const topic = stopTopic(nextStop.text); makeFocus({ title: topic }); flash(`New topic: ${topic}`); }} title="Make it the topic" className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{nextStop.text.toLowerCase()}</button>
+                  <button type="button" onClick={() => { const topic = stopTopic(nextStop.text); makeFocus({ title: topic, where: flightWhere }); flash(`New topic: ${topic}`); }} title="Make it the topic" className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{nextStop.text.toLowerCase()}</button>
                   {` in ${Math.max(1, Math.round(nextStop.at - (minutesFlown ?? 0)))} min`}
                 </>
               )}
@@ -2616,7 +2621,7 @@ export function FlightDeck({
             // (Not the map: a CSS zoom puts the map's mouse position out, so dragging and clicking miss.)
             style={sceneZoom !== 1 && view !== 'map' ? { zoom: sceneZoom } : undefined}
           >
-            {!(clearScreen && view === 'talk') && scene}
+            {!(clearScreen && view === 'talk') && !(factsOpen && (brief?.cards?.length ?? 0) > 0) && scene}
           </motion.div>
         </AnimatePresence>
       )}

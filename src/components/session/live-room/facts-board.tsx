@@ -24,10 +24,11 @@ export function FactsBoard({ title, cards, onAsk, onClose }: {
   const card = open !== null ? cards[open] : null;
 
   return (
-    <div className="absolute inset-0 z-20 flex flex-col overflow-hidden bg-slate-950/80 px-5 pb-5 pt-12 backdrop-blur-md">
-      <div className="mb-4 flex flex-wrap items-center gap-3">
+    // Glass over the cockpit view (like every other activity): the window stays visible round and between the cards.
+    <div className="absolute inset-0 z-20 flex flex-col justify-center gap-4 overflow-hidden px-6 pb-6 pt-14">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-3 rounded-2xl border border-white/15 bg-slate-950/55 px-4 py-2.5 shadow-xl backdrop-blur-md">
         <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-300">Facts first</span>
-        <h2 className="font-display text-2xl text-white md:text-3xl">{title}</h2>
+        <h2 className="font-display text-xl text-white md:text-2xl">{title}</h2>
         <div className="ml-auto flex items-center gap-2">
           {!allShown && !card && (
             <>
@@ -48,7 +49,7 @@ export function FactsBoard({ title, cards, onAsk, onClose }: {
 
       {card ? (
         // One card, big: the fact, more about it, and two questions for the class
-        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center">
+        <div className="mx-auto w-full max-w-4xl rounded-3xl border border-white/15 bg-slate-950/65 p-6 shadow-2xl backdrop-blur-md md:p-8">
           <button type="button" onClick={() => setOpen(null)} className="mb-4 flex w-fit items-center gap-1.5 text-sm text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> All the facts
           </button>
@@ -67,18 +68,18 @@ export function FactsBoard({ title, cards, onAsk, onClose }: {
           )}
         </div>
       ) : (
-        <div className={`grid min-h-0 flex-1 auto-rows-fr gap-3 ${cards.length <= 4 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
+        <div className={`mx-auto grid w-full max-w-6xl gap-3 ${cards.length <= 4 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
           {cards.map((c, i) => {
             const revealed = i < shown;
             return revealed ? (
-              <button key={c.headline} type="button" onClick={() => setOpen(i)} className="flex min-h-0 flex-col overflow-hidden rounded-3xl border border-white/15 bg-slate-900/80 p-4 text-left hover:border-amber-300/60">
+              <button key={c.headline} type="button" onClick={() => setOpen(i)} className="flex min-h-[8.5rem] flex-col rounded-2xl border border-white/15 bg-slate-950/55 p-4 text-left shadow-xl backdrop-blur-md hover:border-amber-300/60">
                 <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-300">Fact {i + 1}</span>
                 <span className="mt-2 font-display text-lg leading-snug text-white lg:text-2xl">{c.headline}</span>
                 <span className="mt-auto pt-3 text-xs text-white/50">Tap for more</span>
               </button>
             ) : (
-              <div key={c.headline} className="flex items-center justify-center rounded-3xl border border-dashed border-white/15 bg-slate-900/30">
-                <span className="font-display text-5xl text-white/20">{i + 1}</span>
+              <div key={c.headline} className="flex min-h-[8.5rem] items-center justify-center rounded-2xl border border-dashed border-white/20 bg-slate-950/25 backdrop-blur-sm">
+                <span className="font-display text-4xl text-white/35">{i + 1}</span>
               </div>
             );
           })}

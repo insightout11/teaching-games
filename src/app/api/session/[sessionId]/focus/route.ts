@@ -71,6 +71,8 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const title = clean(body?.title, 200);
   const text = clean(body?.text, 4000);
   const depth: TopicDepth = body?.depth === 'deep' ? 'deep' : 'big';
+  // A topic from the flight (a place below the plane): where it is, so the facts are about the right place.
+  const where = clean(body?.where, 80);
   // Topics already covered this lesson, so "Where next?" never sends the class back round in circles.
   const covered = strings(body?.covered, 20, 120);
   if (!title) return NextResponse.json({ error: 'title is required' }, { status: 400 });
@@ -97,12 +99,12 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   }
 
   // A named film, book, singer, famous person...: real facts from Wikipedia, so the class talks about the real thing.
-  const reference: WikiReference | null = bankedLevel || text.length >= 400 ? null : await lookupWikipedia(title);
+  const reference: WikiReference | null = bankedLevel || text.length >= 400 ? null : await lookupWikipedia(title, where || undefined);
   const material = reference ? `${text ? `${text}\n\n` : ''}From Wikipedia (${reference.title}):\n${reference.text}` : text;
 
   const prompt = `LANGUAGE RULE: write everything in simple, natural English for ${difficulty} learners (${level}).
 
-A live English class (kids or teens) is now talking about: "${title}"
+A live English class (kids or teens) is now talking about: "${title}"${where ? ` (the one in ${where}: the class is flying over it)` : ''}
 ${material ? `Material the class is looking at:\n"""${material}"""\n` : ''}${reference?.ending ? 'This is a story: never give away its ending.\n' : ''}${depthPromptNote(depth)}
 Prepare the teacher and students:
 - "briefing": 3-4 sentences a teacher could read out that give the class real substance on this (facts, not fluff). If material is given, summarise it.

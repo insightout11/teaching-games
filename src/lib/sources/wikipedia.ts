@@ -75,23 +75,41 @@ const WANTED: Record<ReferenceKind, RegExp> = {
 };
 
 /** The best Wikipedia page for a topic title, or null when nothing clearly matches. */
-export async function lookupWikipedia(topic: string): Promise<WikiReference | null> {
+/**
+ * `where` (optional): the place the class is flying over ("Australia"). Many names belong to several places (the Blue
+ * Mountains are in Australia and in Ontario): the search includes it, and a page that never mentions it is refused,
+ * so the class never gets facts about the wrong place.
+ */
+export async function lookupWikipedia(topic: string, where?: string): Promise<WikiReference | null> {
   const q = topic.trim().replace(/[?!.]+$/, '').slice(0, 120);
   if (q.length < 2 || q.split(/\s+/).length > 8) return null;
+  const place = (where ?? '').trim();
   try {
-    const search = (await getJSON({ action: 'query', list: 'search', srsearch: q, srlimit: '3' })) as
+    const search = (await getJSON({ action: 'query', list: 'search', srsearch: place ? `${q} ${place}` : q, srlimit: place ? '6' : '3' })) as
       { query?: { search?: Array<{ title: string }> } } | null;
     const hits = search?.query?.search ?? [];
-    const want = norm(q);
+    const want = norm(q).replace(/^the /, '');
+    const name = (t: string) => norm(t).replace(/^the /, '');
     // Only a page whose name really is the topic (a search can drift to something merely related).
-    const hit = hits.find((h) => norm(h.title) === want) ?? hits.find((h) => norm(h.title).startsWith(want) || want.startsWith(norm(h.title)));
-    if (!hit) return null;
+    const candidates = [
+      ...hits.filter((h) => name(h.title) === want),
+      ...hits.filter((h) => name(h.title) !== want && (name(h.title).startsWith(want) || want.startsWith(name(h.title)))),
+    ].slice(0, place ? 4 : 1);
+    if (!candidates.length) return null;
 
-    const page = (await getJSON({
-      action: 'query', prop: 'extracts|description|pageprops', explaintext: '1', redirects: '1', titles: hit.title,
-    })) as { query?: { pages?: Array<{ title: string; extract?: string; description?: string; pageprops?: { disambiguation?: string } }> } } | null;
-    const p = page?.query?.pages?.[0];
-    if (!p?.extract || p.pageprops?.disambiguation !== undefined) return null;
+    type Page = { title: string; extract?: string; description?: string; pageprops?: { disambiguation?: string } };
+    let p: Page | undefined;
+    for (const hit of candidates) {
+      const page = (await getJSON({
+        action: 'query', prop: 'extracts|description|pageprops', explaintext: '1', redirects: '1', titles: hit.title,
+      })) as { query?: { pages?: Page[] } } | null;
+      const c = page?.query?.pages?.[0];
+      if (!c?.extract || c.pageprops?.disambiguation !== undefined) continue;
+      if (place && !`${c.description ?? ''} ${c.extract.slice(0, 2500)}`.toLowerCase().includes(place.toLowerCase())) continue;
+      p = c;
+      break;
+    }
+    if (!p?.extract) return null;
 
     // The short description ("American singer-songwriter") decides first; the opening line only when it says nothing.
     const fromDesc = kindFromDescription(p.description ?? '');

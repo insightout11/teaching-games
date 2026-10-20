@@ -10,6 +10,8 @@ export interface FocusRequest {
   text?: string;
   /** Who raised it, e.g. a student's name. */
   credit?: string;
+  /** A place on the flight ("Australia"): which Blue Mountains, which Victoria... so the facts are about the right one. */
+  where?: string;
 }
 
 export interface FocusWord { word: string; definition: string }
