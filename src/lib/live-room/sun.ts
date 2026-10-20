@@ -111,6 +111,13 @@ export function sunChase(here: LatLng, ahead: LatLng, at: Date, aheadMs: number)
   const later = new Date(at.getTime() + aheadMs);
   const now = sunPosition(here, at);
   if (now.elevation < -6) return false;
+  // Only flying west keeps pace with the sun. (North-east in the morning, going north lowers the sun as fast as going
+  // east raises it, so the height alone looked like a chase.)
+  let dLng = ahead.lng - here.lng;
+  if (dLng > 180) dLng -= 360;
+  if (dLng < -180) dLng += 360;
+  const westward = -dLng * Math.cos((here.lat * Math.PI) / 180);
+  if (westward <= 0 || westward < Math.abs(ahead.lat - here.lat) * 0.8) return false;
   const stillRate = Math.abs(sunPosition(here, later).elevation - now.elevation); // a stationary observer
   const movingRate = Math.abs(sunPosition(ahead, later).elevation - now.elevation); // the plane, which has moved on
   // The sun is moving for an observer on the ground, but hardly at all for the plane.
