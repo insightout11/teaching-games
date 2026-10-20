@@ -143,6 +143,16 @@ ${nextTopicsPrompt(title, covered)}`;
       ...(expressions.length ? { reference_expressions: expressions } : {}),
     })
     .eq('id', params.sessionId);
+  // The facts board on phones too (students on one device can read the facts while they answer). Public: facts only.
+  const cards = (() => { const c = cleanFactCards(brief.cards); return c.length >= 3 ? c : cardsFromFacts(strings(brief.facts, 5, 240), strings(brief.angles, 4, 240)); })();
+  try {
+    await service.from('session_private_state').upsert(
+      { session_id: params.sessionId, key: 'facts', payload: { title: title.slice(0, 120), cards: cards.map((c) => ({ headline: c.headline, detail: c.detail })) }, updated_at: new Date().toISOString() },
+      { onConflict: 'session_id,key' },
+    );
+  } catch {
+    // phones simply show no facts
+  }
   // Phones fetch the new topic + words now, not on their next minute poll.
   await broadcastInputSpecFromServer(inputSpecChannelName(params.sessionId), SESSION_REFRESH_EVENT, { at: Date.now() }).catch(() => null);
 
@@ -153,7 +163,7 @@ ${nextTopicsPrompt(title, covered)}`;
     vocab,
     nextTopics: cleanNextTopics(brief.nextTopics, [title, ...covered]),
     // The facts board: the model's cards, or (a ready-bank topic) its facts as cards.
-    cards: (() => { const c = cleanFactCards(brief.cards); return c.length >= 3 ? c : cardsFromFacts(strings(brief.facts, 5, 240), strings(brief.angles, 4, 240)); })(),
+    cards,
     ...(reference ? { reference } : {}),
   });
 }

@@ -315,6 +315,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [grammarTarget, setGrammarTarget] = useState<string | null>(null);
   const [referenceVocab, setReferenceVocab] = useState<VocabItem[] | null>(null);
   const [referenceExpressions, setReferenceExpressions] = useState<ExpressionItem[] | null>(null);
+  // The topic's facts (the shared screen's facts board), so a student on one device can read them too.
+  const [topicFacts, setTopicFacts] = useState<{ title: string; cards: Array<{ headline: string; detail: string }> } | null>(null);
   const [openPanel, setOpenPanel] = useState<ReferencePanel>(null);
 
   // Wonder Board follow-up picker state
@@ -610,6 +612,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         setActivePoll(data.activePoll ?? null);
         setSideChannel(data.sideChannel ?? null);
         setSharedTimer(data.sharedTimer ?? null);
+        setTopicFacts(data.topicFacts ?? null);
         setConnectionStatus('connected');
         setCanonicalReady(true);
         const reconciledAt = Date.now();
@@ -665,6 +668,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       }
       setSideChannel(data.sideChannel ?? null);
         setSharedTimer(data.sharedTimer ?? null);
+        setTopicFacts(data.topicFacts ?? null);
       if (!data.inputSpec?.wonderFollowUpMode) {
         setSelectedFollowUpId(null);
         setFollowUpText('');
@@ -2205,12 +2209,25 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
 
       {(() => {
         const grammarEntry = grammarTarget ? grammarReference[grammarTarget as keyof typeof grammarReference] : null;
-        const empty = !referenceVocab && !grammarEntry && !referenceExpressions;
+        const empty = !referenceVocab && !grammarEntry && !referenceExpressions && !topicFacts;
         return (
           <PhoneSheet open={openPanel === 'vocab'} title="Phrasebook" onClose={() => setOpenPanel(null)}>
             <div className="space-y-3">
               {empty && (
                 <p className="py-6 text-center text-sm text-lc-text2">New words from today&apos;s flight land here.</p>
+              )}
+              {topicFacts && (
+                <section aria-label="Facts">
+                  <p className="mb-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-lc-text2">Facts · {topicFacts.title}</p>
+                  <ol className="space-y-2">
+                    {topicFacts.cards.map((c, i) => (
+                      <li key={c.headline} className="rounded-xl border border-lc-border bg-lc-card px-3 py-2.5">
+                        <p className="text-sm font-semibold text-lc-text">{i + 1}. {c.headline}</p>
+                        {c.detail && <p className="mt-1 text-sm leading-relaxed text-lc-text2">{c.detail}</p>}
+                      </li>
+                    ))}
+                  </ol>
+                </section>
               )}
             {referenceVocab && (
               <Phrasebook

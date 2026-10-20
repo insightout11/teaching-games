@@ -82,6 +82,7 @@ interface OfferedCards {
 }
 
 interface SessionPayload {
+  topicFacts?: { title: string; cards: Array<{ headline: string; detail: string }> } | null;
   unchanged?: false;
   isActive: boolean;
   /** Server clock (Unix ms) at response time — students sync countdowns to this, never to Date.now(). */
@@ -120,6 +121,7 @@ interface SessionPayload {
 }
 
 interface SessionLightweightPayload {
+  topicFacts?: { title: string; cards: Array<{ headline: string; detail: string }> } | null;
   inputSpecUnchanged: true;
   isActive: boolean;
   serverNow: number;
@@ -376,15 +378,25 @@ export async function GET(request: NextRequest) {
     // cockpit Timer tool (the timer row carries no private data).
     let sideChannel: SideChannelItem | null = null;
     let sharedTimer: SharedTimerState | null = null;
+    // The topic's facts (the facts board, for students on one device): public facts only.
+    let topicFacts: { title: string; cards: Array<{ headline: string; detail: string }> } | null = null;
     if (isActive) {
       try {
         const { data: stateRows } = await supabase
           .from('session_private_state')
           .select('key, payload')
           .eq('session_id', sessionId)
-          .in('key', [SIDE_CHANNEL_KEY, 'timer']);
+          .in('key', [SIDE_CHANNEL_KEY, 'timer', 'facts']);
         const sideRow = stateRows?.find((r) => r.key === SIDE_CHANNEL_KEY);
         sharedTimer = parseSharedTimer(stateRows?.find((r) => r.key === 'timer')?.payload);
+        const facts = stateRows?.find((r) => r.key === 'facts')?.payload as { title?: unknown; cards?: unknown } | undefined;
+        if (facts && typeof facts.title === 'string' && Array.isArray(facts.cards)) {
+          const cards = facts.cards
+            .map((c) => ({ headline: String((c as { headline?: unknown })?.headline ?? '').slice(0, 200), detail: String((c as { detail?: unknown })?.detail ?? '').slice(0, 800) }))
+            .filter((c) => c.headline)
+            .slice(0, 6);
+          if (cards.length) topicFacts = { title: facts.title.slice(0, 120), cards };
+        }
         const item = (sideRow?.payload as { item?: SideChannelItem | null } | null)?.item;
         if (item && typeof item === 'object' && item.id && item.prompt) {
           sideChannel = getActiveSideChannelItem(item);
@@ -414,6 +426,7 @@ export async function GET(request: NextRequest) {
         activePoll,
         sideChannel,
         sharedTimer,
+        topicFacts,
       };
       return NextResponse.json(lightweightPayload, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
@@ -828,6 +841,7 @@ export async function GET(request: NextRequest) {
       inputSpecRevision,
       sideChannel,
       sharedTimer,
+      topicFacts,
       publishedQuestions,
       wonderQuestions,
       classBoardItems,

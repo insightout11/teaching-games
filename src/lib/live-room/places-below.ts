@@ -15,13 +15,20 @@ export interface CountryShape {
   name: string;
   rings: Ring[];
   box: [number, number, number, number]; // minLng, minLat, maxLng, maxLat
+  /** Crosses the 180° line (Fiji, Russia, the Aleutians): stored and tested in 0..360° longitude. */
+  wrap?: boolean;
 }
 
 export function toShapes(raw: Array<[string, Ring[]]>): CountryShape[] {
-  return raw.map(([name, rings]) => {
-    let a = 180, b = 90, c = -180, d = -90;
+  return raw.map(([name, rawRings]) => {
+    // A country reaching both sides of the 180° line: a plain inside test would see a band right round the world at
+    // its latitudes (Fiji "under" central Australia). Shift its western-hemisphere points by 360° so it is whole.
+    const crosses = rawRings.some((r) => r.some(([x]) => x > 150) && r.some(([x]) => x < -150))
+      || (rawRings.some((r) => r.some(([x]) => x > 150)) && rawRings.some((r) => r.some(([x]) => x < -150)));
+    const rings = crosses ? rawRings.map((r) => r.map(([x, y]) => [x < 0 ? x + 360 : x, y] as [number, number])) : rawRings;
+    let a = 400, b = 90, c = -400, d = -90;
     for (const r of rings) for (const [x, y] of r) { a = Math.min(a, x); b = Math.min(b, y); c = Math.max(c, x); d = Math.max(d, y); }
-    return { name, rings, box: [a, b, c, d] };
+    return { name, rings, box: [a, b, c, d], ...(crosses ? { wrap: true } : {}) };
   });
 }
 
@@ -34,10 +41,11 @@ export function loadCountries(): Promise<CountryShape[]> {
 export function countryAt(shapes: CountryShape[], p: LatLng): string | null {
   for (const s of shapes) {
     const [a, b, c, d] = s.box;
-    if (p.lng < a || p.lng > c || p.lat < b || p.lat > d) continue;
+    const lng = s.wrap && p.lng < 0 ? p.lng + 360 : p.lng;
+    if (lng < a || lng > c || p.lat < b || p.lat > d) continue;
     // Even–odd across all rings, so enclaves (Lesotho in South Africa) come out right.
     let hits = 0;
-    for (const r of s.rings) if (inRing(p.lng, p.lat, r)) hits++;
+    for (const r of s.rings) if (inRing(lng, p.lat, r)) hits++;
     if (hits % 2 === 1) return s.name;
   }
   return null;
