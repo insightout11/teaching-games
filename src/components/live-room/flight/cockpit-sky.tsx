@@ -136,11 +136,19 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
               <div key={i} className="absolute rounded-full" style={{ left: `${x}%`, top: `${y}%`, width: `${w}%`, height: `${h}%`, transform: `rotate(${rot}deg)`, background: `linear-gradient(90deg, transparent, ${isDusk ? 'rgba(255,214,190,0.32)' : 'rgba(255,255,255,0.28)'} 30%, ${isDusk ? 'rgba(255,200,180,0.22)' : 'rgba(255,255,255,0.18)'} 70%, transparent)`, filter: 'blur(5px)' }} />
             ))}
           </div>
-          {/* now and then another plane far off, drawing its vapour trail across the sky */}
+          {/* now and then another plane far off, drawing its vapour trail across the sky: a tiny silhouette catching the
+              light, two thin trails behind it that soften, spread and fade; the whole thing travels along its own line */}
           {!reduce && (
-            <div className="absolute left-0 top-[18%] h-px w-[26vw]" style={{ animation: 'contrail-cross 70s linear 8s infinite' }}>
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.55))', height: 2, transform: 'rotate(-4deg)', transformOrigin: '100% 50%' }} />
-              <div className="absolute -right-1 -top-[2px] h-[4px] w-[4px] rounded-full bg-white/90" />
+            <div className="absolute left-0 top-[16%] w-full" style={{ transform: 'rotate(-5deg)', transformOrigin: '0 50%' }}>
+              <div className="relative h-4 w-[34vw]" style={{ animation: 'contrail-cross 80s linear 8s infinite' }}>
+                <div className="absolute right-3 top-[5px] h-[1.5px] w-full" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.7) 100%)', filter: 'blur(0.6px)' }} />
+                <div className="absolute right-3 top-[8px] h-[1.5px] w-full" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 35%, rgba(255,255,255,0.65) 100%)', filter: 'blur(0.6px)' }} />
+                {/* the older part of the trail, spread out and soft */}
+                <div className="absolute right-[40%] top-[2px] h-[10px] w-[60%]" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12) 60%, transparent)', filter: 'blur(3px)' }} />
+                <svg viewBox="0 0 24 10" className="absolute right-0 top-[2px] h-[10px] w-[16px]" aria-hidden>
+                  <path d="M1 5 L17 4.2 L23 5 L17 5.8 Z M9 4.4 L13 0.8 L14.5 0.8 L12.5 4.4 Z M9 5.6 L13 9.2 L14.5 9.2 L12.5 5.6 Z M2 4.6 L4 2.6 L5 2.6 L4.2 4.6 Z" fill="rgba(245,248,255,0.95)" />
+                </svg>
+              </div>
             </div>
           )}
         </>
