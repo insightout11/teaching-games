@@ -213,7 +213,8 @@ export function WindscreenWeather({ weather }: { weather: WeatherCondition }) {
           transition={{ duration: f.dur, delay: f.delay, repeat: Infinity, repeatDelay: 1.6, ease: 'easeOut' }}
         />
       ))}
-      {p.lightning && <div className="lc-lightning-flash absolute inset-0" />}
+      {/* lightning glows inside the clouds below, never across the whole window */}
+      {p.lightning && <div className="lc-lightning-flash absolute inset-x-0 bottom-0" style={{ top: '55%', background: 'radial-gradient(ellipse 35% 45% at 40% 55%, rgba(214,226,255,0.8), transparent 70%)' }} />}
     </div>
   );
 }

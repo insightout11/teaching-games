@@ -178,9 +178,10 @@ export function FlightLab() {
                   style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${cloudTint.join(',')},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${cloudTint.join(',')},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${cloudTint.join(',')},0.45), transparent 70%)` }}
                 />
                 <CockpitClouds speed={cloudSpeed} tint={cloudsTint} density={diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} />
-                {deckStrength > 0.01 && (
-                  <div className="absolute inset-x-0 bottom-0" style={{ top: '56%', background: `linear-gradient(180deg, rgba(${deck},${deckStrength * 0.55}) 0%, rgba(${deck},${deckStrength * 0.9}) 35%, rgba(${deck},${deckStrength * 0.95}) 100%)` }} />
-                )}
+                {deckStrength > 0.01 && (<>
+                  <div className="absolute inset-x-0 bottom-0" style={{ top: '50%', background: `linear-gradient(180deg, rgba(${deck},0) 0%, rgba(${deck},${deckStrength * 0.35}) 14%, rgba(${deck},${deckStrength * 0.75}) 34%, rgba(${deck},${deckStrength * 0.92}) 60%, rgba(${deck},${deckStrength * 0.95}) 100%)` }} />
+                  <div className="absolute inset-x-0" style={{ top: '49%', height: '16%', background: `linear-gradient(180deg, rgba(232,238,248,0) 0%, rgba(232,238,248,${deckStrength * 0.55}) 50%, rgba(232,238,248,0) 100%)` }} />
+                </>)}
                 {deckStrength > 0.01 && <CloudDeck tint={deck} strength={deckStrength} speed={cloudSpeed} />}
                 {weather === 'storm' && deckStrength > 0.6 && (
                   <motion.div

@@ -24,7 +24,7 @@ export function CloudDeck({ tint, strength, speed = 0.55, paused = false }: { ti
     <div
       aria-hidden
       className="pointer-events-none absolute inset-x-0 bottom-0 overflow-hidden"
-      style={{ top: '56%', opacity: strength, maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%)' }}
+      style={{ top: '52%', opacity: strength, maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 18%, black 48%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.35) 18%, black 48%)' }}
     >
       <div className="absolute inset-x-[-60%] top-0" style={{ bottom: '-70%', transform: 'perspective(420px) rotateX(62deg)', transformOrigin: '50% 0%' }}>
         {/* shaded underside, offset down and across so each billow has a dark lower edge */}
