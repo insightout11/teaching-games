@@ -16,3 +16,14 @@ describe('coastlines in the cockpit frame', () => {
     expect(c.rings.length).toBe(0);
   });
 });
+
+describe('what kind of shore', () => {
+  it('reads the Norwegian fjords as rocky and the Florida Keys as white sand', async () => {
+    const { coastAhead: ca } = await import('@/lib/live-room/coast-ahead');
+    const fjords = await ca({ lat: 61.1, lng: 5.2 }, 270, 60);
+    const keys = await ca({ lat: 24.8, lng: -80.8 }, 220, 40);
+    const share = (c: Awaited<ReturnType<typeof ca>>, k: number) => { const all = c.shores.flat(); return all.filter((x) => x === k).length / Math.max(1, all.length); };
+    expect(share(fjords, 2)).toBeGreaterThan(0.5);
+    expect(share(keys, 0)).toBeGreaterThan(0.5);
+  });
+});

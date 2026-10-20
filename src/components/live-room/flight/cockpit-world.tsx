@@ -323,7 +323,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [waters]);
   // Real coastline: the land outlines fixed on the ground (as the cities), with their edges filed by depth so each
   // strip of ground can find where it crosses the coast. A new set is taken only once the last one has mostly passed.
-  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; zMin: number; zMax: number } | null>(null);
+  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; shores: number[][]; zMin: number; zMax: number } | null>(null);
   useEffect(() => {
     if (!coast) return;
     const camZ = cam.current;
@@ -332,6 +332,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     if (!coast.rings.length) { coastWorld.current = null; return; }
     const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM];
     const rings = coast.rings.map((r) => smoothLine(r.map(toWorld))); // the data's straight runs, rounded off
+    // shore kinds follow the smoothing (it doubles the points: each original point's kind for its two new ones)
+    const shores = coast.rings.map((r, ri) => { const k = coast.shores?.[ri] ?? []; const out = [k[0] ?? 1]; for (let i = 0; i < r.length - 1; i++) out.push(k[i] ?? 1, k[i + 1] ?? 1); out.push(k[r.length - 1] ?? 1); return out; });
     const edges: number[] = [];
     const buckets = new Map<number, number[]>();
     for (const ring of rings) {
@@ -347,7 +349,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         }
       }
     }
-    coastWorld.current = { edges, buckets, rings, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95 };
+    coastWorld.current = { edges, buckets, rings, shores, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95 };
   }, [coast]);
   // The sea's texture and the land's (the latest land under the route), for painting both sides of a real coast.
   const seaRip = useRef<Rip | null>(null);
@@ -638,22 +640,29 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         // overlapping pieces do not show as blobs, and wide enough to cover the strips' stair-step edge)
         const cwB = realCoast() ? coastWorld.current : null;
         if (cwB) {
+          // three kinds of shore: white tropical sand with clear turquoise shallows, golden sand with mild shallows,
+          // dark rock and cliffs (no beach, no shallows)
           const seaBase = mixRgb(look.current.water, [40, 120, 150], 0.35);
-          const shallow: RGB = dark ? mixRgb(seaBase, [10, 20, 36], 0.6) : mixRgb(seaBase, [120, 200, 205], 0.28);
-          const sand: RGB = dark ? [70, 74, 90] : [232, 216, 172];
+          const night = (c: RGB): RGB => mixRgb(c, [10, 16, 30], 0.62);
+          const shallowOf = [mixRgb(seaBase, [110, 220, 215], 0.5), mixRgb(seaBase, [120, 200, 205], 0.28), seaBase];
+          const sandOf: RGB[] = [[246, 238, 214], [228, 206, 158], [92, 90, 96]];
           ctx.save();
           ctx.lineCap = 'round';
           for (const pass of [0, 1] as const) {
-            for (const ring of cwB.rings) {
+            for (let ri = 0; ri < cwB.rings.length; ri++) {
+              const ring = cwB.rings[ri], kinds = cwB.shores[ri] ?? [];
               for (let i = 0; i + 1 < ring.length; i++) {
+                const kind = Math.max(0, Math.min(2, kinds[i] ?? 1));
+                if (pass === 0 && kind === 2) continue; // rocky shores: no shallow band
                 const [xa, za] = ring[i], [xb, zb] = ring[i + 1];
                 const ra = za - camZ, rb = zb - camZ;
                 if (ra < Z_NEAR * 0.6 || rb < Z_NEAR * 0.6 || ra > Z_FAR || rb > Z_FAR) continue;
                 const rz = (ra + rb) / 2, s = F / rz;
                 const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
                 const wide = Math.max(0.6, Math.min(3.5, 80 * s)); // thin: a beach seen from 8 km up
-                ctx.strokeStyle = css(mixRgb(pass === 0 ? shallow : sand, haze, fog * 0.7));
-                ctx.lineWidth = pass === 0 ? wide * 2.4 : wide;
+                const col = pass === 0 ? shallowOf[kind] : sandOf[kind];
+                ctx.strokeStyle = css(mixRgb(dark ? night(col) : col, haze, fog * 0.7));
+                ctx.lineWidth = pass === 0 ? wide * (kind === 0 ? 3 : 2.4) : wide * (kind === 2 ? 0.8 : 1);
                 ctx.beginPath();
                 ctx.moveTo(w / 2 + xa * (F / ra), horizonY + camH * (F / ra));
                 ctx.lineTo(w / 2 + xb * (F / rb), horizonY + camH * (F / rb));
