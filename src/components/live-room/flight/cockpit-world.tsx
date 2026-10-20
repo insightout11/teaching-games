@@ -7,7 +7,7 @@ import { hexToRgb, mixRgb } from '@/components/live-room/flight/cockpit-sky';
 import { drawPeak, peakStyle, type PeakKind } from '@/components/live-room/flight/peak-art';
 import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { desertTexture, farmTexture, forestTexture, groundRelief, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
+import { desertTexture, farmTexture, forestTexture, groundRelief, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -101,6 +101,25 @@ const TILE_WORLD = 14;       // one texture pixel covers this many world units
 const RELIEF_WORLD = 30000;
 const MACRO_WORLD = 14 * 41; // the light/dark layer: a scale unrelated to the ground's, so no repeat lines up
 const SHORE = 4200;          // world units over which one terrain blends into the next
+/** Softer edges between two land types: a band four times as deep, the new ground arriving in patches. */
+const SOFT_SHORE = 17000;
+const PATCH_WORLD = 6500;     // size of the patches (world units)
+const PATCH_SEGMENTS = 40;    // pieces per row inside the band
+
+/** Smooth value noise (0..1) for the patches: the same place always has the same patch. */
+function patchNoise(x: number, z: number): number {
+  const h = (i: number, j: number) => { const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
+  const i = Math.floor(x), j = Math.floor(z), fx = x - i, fz = z - j;
+  const ux = fx * fx * (3 - 2 * fx), uz = fz * fz * (3 - 2 * fz);
+  const a = h(i, j), b = h(i + 1, j), c = h(i, j + 1), d = h(i + 1, j + 1);
+  const n1 = a + (b - a) * ux + (c - a) * uz + (a - b - c + d) * ux * uz;
+  // a second, finer layer so patch edges are ragged, not round
+  const i2 = Math.floor(x * 2.7 + 5), j2 = Math.floor(z * 2.7 + 9), gx = x * 2.7 + 5 - i2, gz = z * 2.7 + 9 - j2;
+  const vx = gx * gx * (3 - 2 * gx), vz = gz * gz * (3 - 2 * gz);
+  const e = h(i2, j2), f = h(i2 + 1, j2), g = h(i2, j2 + 1), k = h(i2 + 1, j2 + 1);
+  const n2 = e + (f - e) * vx + (g - e) * vz + (e - f - g + k) * vx * vz;
+  return n1 * 0.72 + n2 * 0.28;
+}
 
 /**
  * Ground seen at a shallow angle is squashed far more in depth than sideways: one screen row near the horizon covers
@@ -338,7 +357,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     let hazeScale = 1;
     let glintK = 0;
 
-    const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number, withMacro = true) => {
+    const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number, withMacro = true, patch?: { t: number; wz: number }) => {
       const rip = layer.rip;
       if (!rip || !rip.levels.length) return;
       const s = (F / z) * TILE_WORLD;              // screen px per full-detail texel, sideways
@@ -359,9 +378,22 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // Offset sideways so the texture's wrap line (a farm lane) isn't dead ahead.
       mtx.e = w / 2 - 330 * s; mtx.f = y + v * ky;
       lv.pat.setTransform(mtx);
-      ctx.globalAlpha = alpha;
       ctx.fillStyle = lv.pat;
-      ctx.fillRect(0, y, w, rowH);
+      if (patch) {
+        // Inside a soft edge: the row in pieces, each showing the new ground where its patch has "arrived"
+        const seg = w / PATCH_SEGMENTS;
+        for (let k = 0; k < PATCH_SEGMENTS; k++) {
+          const wx = ((k + 0.5) * seg - w / 2) * (z / F);
+          const n = patchNoise(wx / PATCH_WORLD, patch.wz / PATCH_WORLD);
+          const a = Math.max(0, Math.min(1, (patch.t * 1.3 - 0.15 - n) * 5));
+          if (a < 0.02) continue;
+          ctx.globalAlpha = a;
+          ctx.fillRect(k * seg, y, seg + 0.5, rowH);
+        }
+      } else {
+        ctx.globalAlpha = alpha;
+        ctx.fillRect(0, y, w, rowH);
+      }
       ctx.globalAlpha = 1;
       // light and shade: every fourth row, on the small canvas, four rows tall
       if (!withMacro || Math.round(y / rowH) % SHADE !== 0) return;
@@ -401,7 +433,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       cam.current = camZ;
       const L = layers.current;
       // Forget terrains the plane has fully left behind.
-      while (L.length > 1 && L[1].startZ + SHORE < camZ) L.shift();
+      while (L.length > 1 && L[1].startZ + SOFT_SHORE < camZ) L.shift();
 
       const { haze, night: dark } = look.current;
       const horizonY = h * HORIZON;
@@ -420,11 +452,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           const wz = camZ + z;
           let i = L.length - 1;
           while (i > 0 && L[i].startZ > wz) i--;
-          const t = i > 0 ? (wz - L[i].startZ) / SHORE : 1;
+          // Land to land (not the coast): a soft, patchy edge when switched on; the coast keeps its narrow blend.
+          const soft = softEdges() && i > 0 && L[i].terrain !== 'ocean' && L[i - 1].terrain !== 'ocean';
+          const t = i > 0 ? (wz - L[i].startZ) / (soft ? SOFT_SHORE : SHORE) : 1;
           if (t < 1 && i > 0) {
             // Shoreline: the old terrain, the new one fading in, one overlay pass.
             paintRow(L[i - 1], y, z, F, camZ, 1);
-            paintRow(L[i], y, z, F, camZ, t * t * (3 - 2 * t), false);
+            if (soft) paintRow(L[i], y, z, F, camZ, 1, false, { t, wz });
+            else paintRow(L[i], y, z, F, camZ, t * t * (3 - 2 * t), false);
           } else {
             paintRow(L[i], y, z, F, camZ, 1);
           }

@@ -922,6 +922,11 @@ export function naturalTexture(kind: NaturalGround, palette: ScenePalette, night
 
 /** Whether the ground gets relief shading (the room keeps it off until the owner approves; the gallery turns it on). */
 let GROUND_RELIEF = true; // approved by the owner 19 Oct 2026
+
+/** Softer changes between land types (patches over a wider band). Off in the room until the owner approves. */
+let SOFT_EDGES = false;
+export function setSoftEdges(on: boolean) { SOFT_EDGES = on; }
+export const softEdges = () => SOFT_EDGES;
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
 export const groundRelief = () => GROUND_RELIEF;
 
