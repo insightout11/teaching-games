@@ -1,3 +1,6 @@
+import { sceneCastSize, sceneCharacterIds, type SceneCastSize } from '@/activities/scene-igniter/casting';
+import { pictureQuery } from '@/lib/free-picture-cache';
+import { WORD_PICTURE_PROMPT } from '@/lib/picture-generation';
 import { findTopicBriefing } from '@/lib/topic-briefings';
 import { depthPromptNote } from '@/lib/topic-depth';
 import { bookLevelFor, fallbackPassages, mergeCast, validPrevious, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
@@ -873,8 +876,9 @@ async function generateVocabRadar(topic: string, difficulty: Difficulty, sourceC
             word: { type: 'string' },
             partOfSpeech: { type: 'string' },
             definition: { type: 'string' },
+            picture: { type: 'string' },
           },
-          required: ['word', 'partOfSpeech', 'definition'],
+          required: ['word', 'partOfSpeech', 'definition', 'picture'],
         },
       },
     },
@@ -895,12 +899,12 @@ For each word include the part of speech AND a short definition (max 15 words, p
 
 Return JSON with a "words" array of exactly 5 objects, each with "word", "partOfSpeech", and "definition".`;
 
-  const parsed = await generateJSON<{ words: Array<{ word: string; partOfSpeech?: string; definition?: string }> }>(prompt, schema);
+  const parsed = await generateJSON<{ words: Array<{ word: string; partOfSpeech?: string; definition?: string; picture?: string }> }>(prompt + "\n" + WORD_PICTURE_PROMPT, schema);
 
   return {
     activityKey: 'vocab-radar',
     topicContext: topic,
-    words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech, definition: w.definition })),
+    words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech, definition: w.definition, picture: pictureQuery(w.picture) })),
   };
 }
 
@@ -926,8 +930,9 @@ async function generateSourceVocab(topic: string, difficulty: Difficulty, source
             example: { type: 'string' },
             prompt: { type: 'string' },
             sourceContext: { type: 'string' },
+            picture: { type: 'string' },
           },
-          required: ['term', 'meaning', 'example', 'prompt'],
+          required: ['term', 'meaning', 'example', 'prompt', 'picture'],
         },
       },
     },
@@ -951,7 +956,7 @@ For each term provide:
 
 Return JSON with an "items" array of exactly 6 objects.`;
 
-  const parsed = await generateJSON<{ items: Array<{ term?: string; meaning?: string; example?: string; prompt?: string; sourceContext?: string }> }>(aiPrompt, schema);
+  const parsed = await generateJSON<{ items: Array<{ term?: string; meaning?: string; example?: string; prompt?: string; sourceContext?: string; picture?: string }> }>(aiPrompt + "\n" + WORD_PICTURE_PROMPT, schema);
 
   const seen = new Set<string>();
   const normalized: SourceVocabItem[] = [];
@@ -964,7 +969,7 @@ Return JSON with an "items" array of exactly 6 objects.`;
     const key = term.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
-    normalized.push({ term, meaning, example, prompt, ...(raw.sourceContext ? { sourceContext: raw.sourceContext.trim() } : {}) });
+    normalized.push({ term, meaning, example, prompt, picture: pictureQuery(raw.picture), ...(raw.sourceContext ? { sourceContext: raw.sourceContext.trim() } : {}) });
     if (normalized.length >= 8) break;
   }
 
@@ -2225,7 +2230,7 @@ ${sourceCtx ? `\nLesson material:\n${sourceCtx.slice(0, 1500)}\n` : ''}`;
 async function generateSingleScene(
   topic: string,
   difficulty: Difficulty,
-  charCount: 2 | 3 | 4,
+  charCount: SceneCastSize,
   sourceContext = '',
 ): Promise<SceneIgniterScene> {
   const schema: AISchema = {
@@ -2272,8 +2277,8 @@ async function generateSingleScene(
     required: ['title', 'context', 'genre', 'cast', 'improvPrompt', 'improvScript', 'lines'],
   };
 
-  const charList = charCount === 4 ? 'A, B, C, D' : charCount === 3 ? 'A, B, C' : 'A, B';
-  const lineCount = charCount === 4 ? 12 : charCount === 3 ? 9 : 8;
+  const charList = sceneCharacterIds(charCount).join(', ');
+  const lineCount = charCount === 2 ? 8 : charCount * 3;
   const linesEach = charCount === 2 ? 4 : 3;
 
   const prompt = `Generate a short dialogue scene with ${charCount} characters (${charList}) for an ESL classroom.
@@ -2296,7 +2301,7 @@ Requirements:
 - In every line and improvScript line, the "character" field is the character's LETTER (${charList}), never the name. Names belong only in "cast" and inside the spoken text.
 - Write it like a short MOVIE scene students will ACT: inside the spoken text characters address each other by NAME (never by letter), each line sounds like something an actor would say, and the scene has a clear little arc (a problem, a turn, an ending or a cliffhanger).
 - An "improvPrompt" field: one sentence describing a fun twist for students to redo the scene in their own words, e.g. "The lights go out — what happens next?". Phrase it as "The scene continues…" twist that the actors will play WITHOUT a script, staying in character
-- An "improvScript" field: 8 dialogue lines using the same characters (${charList}).
+- An "improvScript" field: ${charCount * 2} dialogue lines using all the same characters (${charList}).
   Each line's "text" must contain 1–2 blanks written as ___ where students improvise a word or phrase.
   The blanks should replace key nouns, emotions, or topic-specific phrases related to the twist.
   Each line must also have a "hint" field: 2–3 short example words that could fill the blank, formatted as "e.g. word1, word2, word3".
@@ -2316,7 +2321,7 @@ Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: 
     lines: Array<{ lineIndex: number; character: string; text: string; direction?: string }>;
   }>(prompt, schema);
 
-  const expectedChars = charCount === 4 ? ['A', 'B', 'C', 'D'] : charCount === 3 ? ['A', 'B', 'C'] : ['A', 'B'];
+  const expectedChars = sceneCharacterIds(charCount);
   // The model often labels lines with the character's NAME ("Sarah") or "Character A" where the letter is expected.
   // Map those back to the letter: dropping them used to throw away the whole script and leave only placeholder
   // lines ("Something about <topic>." on every line).
@@ -2412,11 +2417,9 @@ Return JSON: { title: string, context: string, genre: string, cast: Array<{ id: 
 }
 
 async function generateSceneIgniter(topic: string, difficulty: Difficulty, sourceContext = '', studentCount?: number): Promise<SceneIgniterContent> {
-  // Size each group's cast to the actual class. The activity splits students into group 1
-  // (up to 4) and group 2 (the rest); mirror that so 2 students get a 2-character scene, not 4.
-  const clampCast = (n: number): 2 | 3 | 4 => (n <= 2 ? 2 : n === 3 ? 3 : 4);
-  const g1Cast = clampCast(studentCount ? Math.min(studentCount, 4) : 4);
-  const g2Cast = studentCount && studentCount > 4 ? clampCast(studentCount - 4) : 3;
+  // Up to eight actors per scene; every other student receives an audience job.
+  const g1Cast = sceneCastSize(studentCount);
+  const g2Cast = studentCount && studentCount > 8 ? sceneCastSize(studentCount - 8) : 3;
   const [scene1, scene2, scene1alt, scene2alt] = await Promise.all([
     generateSingleScene(topic, difficulty, g1Cast, sourceContext),
     generateSingleScene(topic, difficulty, g2Cast, sourceContext),
@@ -2445,8 +2448,9 @@ async function generateVocabSprint(topic: string, difficulty: Difficulty, keyVoc
         hint: { type: 'string' },
         level: { type: 'string' },
         targetWord: { type: 'string' },
+        picture: { type: 'string' },
       },
-      required: ['sentence', 'weakWord', 'hint', 'level', 'targetWord'],
+      required: ['sentence', 'weakWord', 'hint', 'level', 'targetWord', 'picture'],
     },
   };
 
@@ -2478,13 +2482,14 @@ Set targetWord to the exact precise term expected.
 
 Return exactly 6 objects as a JSON array ordered: 2 easy, 2 medium, 2 hard.`;
 
-  const sentences = await generateJSON<Array<{ sentence: string; weakWord: string; hint: string; level: string; targetWord: string }>>(prompt, schema);
+  const sentences = await generateJSON<Array<{ sentence: string; weakWord: string; hint: string; level: string; targetWord: string; picture?: string }>>(prompt + "\n" + WORD_PICTURE_PROMPT + " Apply picture only to a concrete hard-round targetWord; easy and medium rounds use picture: empty string. The picture appears after the round ends.", schema);
   return {
     gameKey: 'vocab-sprint',
     sentences: sentences.map(s => ({
       ...s,
       level: (['easy', 'medium', 'hard'].includes(s.level) ? s.level : 'easy') as 'easy' | 'medium' | 'hard',
       targetWord: s.targetWord || undefined,
+      picture: s.level === 'hard' ? pictureQuery(s.picture) : '',
     })),
   };
 }
@@ -3194,7 +3199,7 @@ Return JSON with a "rounds" array of exactly 3 objects, each with "word" and "co
 }
 
 async function generateTabooSprint(topic: string, difficulty: Difficulty, sourceContext = '', variant?: string): Promise<TabooSprintContent> {
-  const cached = await getCachedContent('taboo-sprint', topic, difficulty, [], variant, 2);
+  const cached = await getCachedContent('taboo-sprint', topic, difficulty, [], variant, 3);
   if (cached) {
     const c = cached.content_json as { rounds: TabooRound[] };
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds: c.rounds ?? [], topic };
@@ -3210,12 +3215,13 @@ async function generateTabooSprint(topic: string, difficulty: Difficulty, source
           properties: {
             word: { type: 'string' },
             description: { type: 'string' },
+            picture: { type: 'string' },
             forbiddenWords: {
               type: 'array',
               items: { type: 'string' },
             },
           },
-          required: ['word', 'description', 'forbiddenWords'],
+          required: ['word', 'description', 'forbiddenWords', 'picture'],
         },
       },
     },
@@ -3237,12 +3243,13 @@ Rules:
 Return JSON: { "rounds": [{ "word": string, "description": string, "forbiddenWords": string[] }] } — exactly 12 rounds, each with exactly 4 forbidden words.`;
 
   try {
-    const data = await generateJSON<{ rounds: TabooRound[] }>(prompt, schema);
+    const data = await generateJSON<{ rounds: TabooRound[] }>(prompt + "\n" + WORD_PICTURE_PROMPT + " The photo is only on the private clue-giver card, never the shared screen during guessing.", schema);
     const rounds = Array.isArray(data.rounds) ? data.rounds.slice(0, 3).map((r) => ({
       ...r,
+      picture: pictureQuery(r.picture),
       forbiddenWords: Array.isArray(r.forbiddenWords) ? r.forbiddenWords.slice(0, 4) : [],
     })) : [];
-    void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 2, variant);
+    void storeCachedContent('taboo-sprint', topic, difficulty, { rounds }, 3, variant);
     return { activityKey: 'taboo-sprint', topicContext: topic, rounds, topic };
   } catch {
     const deckRounds = deckTabooRounds(topic, difficulty);
@@ -3443,8 +3450,9 @@ async function generateVocabMicro(topic: string, difficulty: Difficulty, sourceC
       word: { type: 'string' },
       explanation: { type: 'string' },
       example: { type: 'string' },
+      picture: { type: 'string' },
     },
-    required: ['sentence', 'options', 'correctIndex', 'word', 'explanation'],
+    required: ['sentence', 'options', 'correctIndex', 'word', 'explanation', 'picture'],
   };
 
   const prompt = `Create one quick "which word fits?" vocabulary check for an English class at ${difficultyDescriptions[difficulty]}.
@@ -3461,7 +3469,7 @@ Provide:
 - example: one more short example sentence using the word`;
 
   try {
-    const data = await generateJSON<{ sentence: string; options: string[]; correctIndex: number; word: string; explanation: string; example?: string }>(prompt, schema);
+    const data = await generateJSON<{ sentence: string; options: string[]; correctIndex: number; word: string; explanation: string; example?: string; picture?: string }>(prompt + "\n" + WORD_PICTURE_PROMPT + " Describe the target word; the picture is shown only with its meaning after the answer reveal.", schema);
     const options = Array.isArray(data.options) && data.options.length >= 2 ? data.options.slice(0, 4) : ['interesting', 'table', 'quickly', 'blue'];
     const correctIndex = Math.min(Math.max(data.correctIndex ?? 0, 0), options.length - 1);
     return {
@@ -3473,6 +3481,7 @@ Provide:
       word: data.word ?? options[correctIndex],
       explanation: data.explanation ?? '',
       example: data.example,
+      picture: pictureQuery(data.picture),
     };
   } catch {
     return {
@@ -3895,7 +3904,7 @@ async function generateLessonContent(request: NextRequest) {
               content[activityKey] = {
                 activityKey: 'vocab-radar',
                 topicContext: customTopic,
-                words: sourceVocab.slice(0, 6).map((v) => ({ word: v.term, definition: v.meaning })),
+                words: sourceVocab.slice(0, 6).map((v) => ({ word: v.term, definition: v.meaning, picture: pictureQuery(v.picture) })),
               };
               break;
             }

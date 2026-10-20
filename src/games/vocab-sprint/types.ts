@@ -1,4 +1,5 @@
 export interface GameSentence {
+  picture?: string; // Concrete target word, after reveal only
   sentence: string;
   weakWord: string;
   hint: string;

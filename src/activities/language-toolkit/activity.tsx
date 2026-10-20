@@ -5,14 +5,16 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { ActivityProps } from '../types';
 import type { LanguageToolkitContent, SourceVocabItem } from './types';
 import { useSessionStore } from '@/stores/session-store';
+import { FreePictureCard } from '@/components/ui/free-picture';
 
 type Phase = 'idle' | 'presenting' | 'done';
 
-function FocusedCard({ item }: { item: SourceVocabItem }) {
+function FocusedCard({ item, sessionId }: { item: SourceVocabItem; sessionId: string | null }) {
   return (
     <div className="glass p-8 rounded-2xl space-y-4">
       <p className="text-3xl font-bold text-sky-300">{item.term}</p>
       <p className="text-base opacity-80 leading-snug">{item.meaning}</p>
+      <FreePictureCard sessionId={sessionId} query={item.picture} />
       <p className="text-base italic opacity-60 leading-snug">&ldquo;{item.example}&rdquo;</p>
       {item.prompt && (
         <div className="pt-3 border-t border-white/10">
@@ -24,6 +26,7 @@ function FocusedCard({ item }: { item: SourceVocabItem }) {
 }
 
 export function LanguageToolkitActivity({
+  sessionId,
   generatedContent,
   onSetInputSpec,
   onPhaseChange,
@@ -93,7 +96,7 @@ export function LanguageToolkitActivity({
           )}
         </div>
 
-        <FocusedCard item={currentItem} />
+        <FocusedCard item={currentItem} sessionId={sessionId} />
 
         {/* Navigation */}
         <div className="flex items-center justify-between">
@@ -153,6 +156,7 @@ export function LanguageToolkitActivity({
           <div key={item.term} className="glass p-4 rounded-2xl space-y-1.5">
             <p className="text-base font-bold text-sky-300">{item.term}</p>
             <p className="text-xs opacity-60 leading-snug">{item.meaning}</p>
+            <FreePictureCard sessionId={sessionId} query={item.picture} />
           </div>
         ))}
       </div>

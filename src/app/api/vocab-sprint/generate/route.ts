@@ -1,3 +1,5 @@
+import { pictureQuery } from '@/lib/free-picture-cache';
+import { WORD_PICTURE_PROMPT } from '@/lib/picture-generation';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateJSON } from '@/lib/ai';
 import type { AISchema } from '@/lib/ai';
@@ -11,6 +13,7 @@ import type { SourceMaterial } from '@/types/source-material';
 export const maxDuration = 60;
 
 export interface GameSentence {
+  picture?: string;
   sentence: string;
   weakWord: string;
   hint: string;
@@ -19,7 +22,7 @@ export interface GameSentence {
 }
 
 const GAME_KEY = 'vocab-sprint';
-const SCHEMA_VERSION = 4; // 4: sentences are about the topic itself (Oct 2026)
+const SCHEMA_VERSION = 5; // 5: optional concrete-word picture metadata
 
 const difficultyPrompts: Record<Difficulty, string> = {
   'Beginner': 'Beginner (A1) level. Use very short, extremely simple sentences (4-6 words). Focus on basic everyday objects and actions.',
@@ -47,9 +50,10 @@ const schema: AISchema = {
       weakWord: { type: 'string' },
       hint: { type: 'string' },
       level: { type: 'string' },
-      targetWord: { type: 'string' }
+      targetWord: { type: 'string' },
+      picture: { type: 'string' }
     },
-    required: ['sentence', 'weakWord', 'hint', 'level', 'targetWord']
+    required: ['sentence', 'weakWord', 'hint', 'level', 'targetWord', 'picture']
   }
 };
 
@@ -132,13 +136,14 @@ Hint for hard sentences: give a brief clue without giving away the answer (max 1
 
 Return exactly 6 objects as a JSON array ordered: 2 easy, 2 medium, 2 hard.`;
 
-    const sentences = await generateJSON<GameSentence[]>(prompt, schema, { taskClass: 'content-generation' });
+    const sentences = await generateJSON<GameSentence[]>(prompt + '\n' + WORD_PICTURE_PROMPT + ' Apply picture only to a concrete hard-round targetWord; easy and medium rounds use an empty string. It is shown after the round ends.', schema, { taskClass: 'content-generation' });
 
     // Normalise level values and ensure targetWord is present
     const normalised = sentences.map(s => ({
       ...s,
       level: (['easy', 'medium', 'hard'].includes(s.level) ? s.level : 'easy') as GameSentence['level'],
       targetWord: s.targetWord || undefined,
+      ...(s.picture === undefined ? {} : { picture: s.level === 'hard' ? pictureQuery(s.picture) : '' }),
     }));
 
     // Only cache when no vocab words were used and not source-grounded (those results are session-specific)
