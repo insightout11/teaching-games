@@ -149,18 +149,18 @@ export function drawSceneEvent(
     ctx.globalAlpha = alpha * 0.6 * (1 - fog * 0.5);
     ctx.drawImage(puff(night ? [10, 8, 8] : [52, 44, 36]), bx - bw, by - bw * 0.18, bw * 2, bw * 0.36);
     ctx.globalCompositeOperation = 'lighter';
-    const nf = 18;
+    const nf = 40;
     for (let k = 0; k < nf; k++) {
       const u = k / (nf - 1) - 0.5;
       const fx = x + u * 12000, fz = z - Math.cos(u * 3) * 600 + (hash(seed + k) - 0.5) * 700;
       const [sx, sy] = proj(fx, fz, 0);
-      const h = Math.max(12, (1700 + 900 * Math.sin(t * (3 + hash(k) * 3) + k * 1.7)) * sc);
+      const h = Math.max(2, (170 + 90 * Math.sin(t * (3 + hash(k) * 3) + k * 1.7)) * sc);
       ctx.globalAlpha = alpha * (night ? 1 : 0.85) * (1 - fog * 0.5);
       ctx.drawImage(flame(), sx - h * 0.3, sy - h, h * 0.6, h * 1.05);
     }
     // the glow over the front
     const [gx, gy] = proj(x, z, 300);
-    const gr = 8000 * sc;
+    const gr = 3000 * sc;
     ctx.globalAlpha = alpha * (night ? 0.6 : 0.25) * (1 - fog * 0.5);
     ctx.drawImage(puff([240, 120, 40]), gx - gr, gy - gr * 0.3, gr * 2, gr * 0.6);
     ctx.globalCompositeOperation = 'source-over';
