@@ -275,7 +275,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM];
     for (const r of waters.rivers) {
       if (ahead.has(`R:${r.name}`)) continue;
-      list.push({ name: r.name, lake: false, width: r.widthClass === 1 ? 560 : r.widthClass === 2 ? 340 : 210, rings: [r.points.map(toWorld)] });
+      list.push({ name: r.name, lake: false, width: r.widthClass === 1 ? 170 : r.widthClass === 2 ? 110 : 70, rings: [r.points.map(toWorld)] });
     }
     for (const l of waters.lakes) {
       if (ahead.has(`L:${l.name}`)) continue;
@@ -560,21 +560,43 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
               }
               continue;
             }
+            // one continuous ribbon per visible stretch: the green banks first, then the water on top
             const ring = wt.rings[0];
-            for (let i = 0; i < ring.length - 1; i++) {
-              const a = at(ring[i]), b = at(ring[i + 1]);
-              if (!a || !b) continue;
-              const rz = (ring[i][1] + ring[i + 1][1]) / 2 - camZ;
-              const s = F / rz;
-              const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
-              const lw = Math.max(0.8, wt.width * s);
-              // a pale bank under the water line, then the water
-              ctx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.7));
-              ctx.lineWidth = lw * 3.2;
-              ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
-              ctx.strokeStyle = css(mixRgb(waterCol, haze, fog * 0.7));
-              ctx.lineWidth = lw;
-              ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+            const runs: Array<Array<{ x: number; y: number; half: number; fog: number }>> = [];
+            let run: Array<{ x: number; y: number; half: number; fog: number }> = [];
+            for (const pt of ring) {
+              const q = at(pt);
+              if (!q) { if (run.length > 1) runs.push(run); run = []; continue; }
+              const rz = pt[1] - camZ;
+              // thin from cruise height: about a kilometre wide at most, never a road across the window
+              run.push({ x: q[0], y: q[1], half: Math.min(13, Math.max(0.5, (wt.width * F) / rz / 2)), fog: Math.min(0.85, Math.max(0, rz / Z_FAR)) });
+            }
+            if (run.length > 1) runs.push(run);
+            const ribbon = (pts: Array<{ x: number; y: number; half: number }>, k: number) => {
+              const left: Array<[number, number]> = [], right: Array<[number, number]> = [];
+              for (let n = 0; n < pts.length; n++) {
+                const a = pts[Math.max(0, n - 1)], b = pts[Math.min(pts.length - 1, n + 1)];
+                let dx = b.x - a.x, dy = b.y - a.y;
+                const len = Math.hypot(dx, dy) || 1;
+                dx /= len; dy /= len;
+                const hw = pts[n].half * k;
+                left.push([pts[n].x - dy * hw, pts[n].y + dx * hw]);
+                right.push([pts[n].x + dy * hw, pts[n].y - dx * hw]);
+              }
+              ctx.beginPath();
+              left.forEach(([x, y], n) => (n ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+              for (let n = right.length - 1; n >= 0; n--) ctx.lineTo(right[n][0], right[n][1]);
+              ctx.closePath();
+              ctx.fill();
+            };
+            for (const r of runs) {
+              const fog = r.reduce((t, p) => t + p.fog, 0) / r.length;
+              ctx.fillStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
+              ctx.globalAlpha = 0.75;
+              ribbon(r, 2.6);
+              ctx.globalAlpha = 1;
+              ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
+              ribbon(r, 1);
             }
           }
           ctx.restore();
