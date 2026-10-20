@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 /** Free Wikimedia pictures for the current topic, for the private window (no key, no cost, no daily cap). */
 export async function POST(request: Request, { params }: { params: { sessionId: string } }) {
-  const body = await request.json().catch(() => null) as { query?: unknown } | null;
+  const body = await request.json().catch(() => null) as { query?: unknown; strict?: unknown } | null;
   const query = typeof body?.query === 'string' ? body.query.trim().slice(0, 100) : '';
   if (query.length < 2) return NextResponse.json({ pictures: [] });
 
@@ -17,6 +17,6 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   const owned = await verifyTeacherOwnsSession(params.sessionId, teacher.id);
   if (owned.error) return owned.error;
 
-  const pictures = await freePictures(query).catch(() => []);
+  const pictures = await freePictures(query, 8, { strict: body?.strict === true }).catch(() => []);
   return NextResponse.json({ pictures }, { headers: { 'Cache-Control': 'private, max-age=3600' } });
 }

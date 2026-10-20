@@ -37,14 +37,14 @@ export async function POST(request: Request) {
     const facts = (Array.isArray(out?.facts) ? out!.facts : []).filter((f): f is string => typeof f === 'string' && f.trim().length > 0).map((f) => f.trim()).slice(0, 3);
     if (facts.length) {
       const search = typeof out?.picture === 'string' && out.picture.trim() ? out.picture.trim().slice(0, 60) : title;
-      const picture = (await freePictures(search, 1).catch(() => []))[0] ?? null;
+      const picture = (await freePictures(search, 1, { strict: true }).catch(() => []))[0] ?? null;
       return NextResponse.json({ facts, picture, question: typeof out?.question === 'string' ? out.question.trim().slice(0, 200) : undefined }, { headers: { 'Cache-Control': 'private, max-age=3600' } });
     }
   }
   const ready = isEvent ? null : findRoutePlaceBriefing(title);
   const cards = ready ? topicBriefingLevel(ready, 'B1')?.cards : null;
   if (cards?.length) {
-    const pictures = await freePictures(cards[0].picture, 1).catch(() => []);
+    const pictures = await freePictures(cards[0].picture, 1, { strict: true }).catch(() => []);
     return NextResponse.json({ facts: cards.map(card => card.headline), picture: pictures[0] ?? null }, { headers: { 'Cache-Control': 'private, max-age=3600' } });
   }
   const lookupTitle = title.replace(/^the /i, '');

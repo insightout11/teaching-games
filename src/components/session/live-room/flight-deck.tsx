@@ -1646,7 +1646,7 @@ export function FlightDeck({
       const query = c.picture || (i === 0 ? title : '');
       if (!query) return Promise.resolve([] as FreePicture[]);
       return fetch(`/api/sessions/${encodeURIComponent(sessionId)}/sources/free-pictures`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query }),
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query, strict: true }),
       }).then((r) => (r.ok ? r.json() : { pictures: [] })).then((d: { pictures?: FreePicture[] }) => d.pictures ?? []).catch(() => [] as FreePicture[]);
     })).then((lists) => {
       // each card its own picture: never the same photo twice on the board
@@ -2677,6 +2677,10 @@ export function FlightDeck({
           cards={brief.cards}
           pictures={cardPics[focused.id] ?? []}
           onAsk={(q) => { setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk'); }}
+          onDive={(c) => { setFactsOpen(false); makeFocus({ title: c.headline.replace(/[.!]+$/, ''), text: c.detail || undefined }); }}
+          onVote={(q) => { setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk'); void startPoll(q, parseWouldYouRather(q) ?? ['Yes', 'No'], { askWhy: true, purpose: 'talk-vote' }, 'Vote open on phones: pick a side, then say why'); }}
+          onBoard={(q) => { setFactsOpen(false); openTool('class-board', window.innerWidth / 2, window.innerHeight * 0.8); window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-question', { detail: { question: q } })), 150); flash('Everyone answers on their phones: the answers gather on the Class Board'); }}
+          onQuiz={() => { setFactsOpen(false); launch('flash-quiz', focused); }}
           onClose={() => setFactsOpen(false)}
         />
       ) : null}

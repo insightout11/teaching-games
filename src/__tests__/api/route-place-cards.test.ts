@@ -87,7 +87,7 @@ describe('moment route checked places', () => {
     const response = await moment(request({ title: 'THE pArIs', kind: 'city' }));
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ facts: paris.levels.B1.facts, picture: photo });
-    expect(mocks.pictures).toHaveBeenCalledWith(paris.levels.B1.cards![0].picture, 1);
+    expect(mocks.pictures).toHaveBeenCalledWith(paris.levels.B1.cards![0].picture, 1, { strict: true });
     expect(mocks.wiki).not.toHaveBeenCalled();
     expect(mocks.ai).not.toHaveBeenCalled();
     expect(response.headers.get('Cache-Control')).toBe('private, max-age=3600');

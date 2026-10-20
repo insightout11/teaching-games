@@ -78,7 +78,20 @@ async function wikipediaPicture(query: string): Promise<FreePicture | null> {
   return p ? toPicture(p) : null;
 }
 
-export async function freePictures(query: string, limit = 8): Promise<FreePicture[]> {
+const STOP = new Set(['with', 'from', 'that', 'this', 'their', 'there', 'about', 'into', 'over', 'under', 'they', 'what', 'when', 'where', 'which', 'some', 'many', 'very', 'more', 'most', 'other', 'than', 'then', 'have', 'been', 'were', 'will', 'your', 'photo', 'picture', 'image']);
+/** Does a photo's title share a real word with the search? (A free search drifts: "coral nursery" found a flower catalogue.) */
+export function pictureMatches(query: string, title: string): boolean {
+  const t = title.toLowerCase();
+  const words = query.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 4 && !STOP.has(w));
+  if (!words.length) return true;
+  return words.some((w) => t.includes(w.slice(0, Math.min(w.length, 5))));
+}
+
+/**
+ * Free pictures for a search. `strict`: only photos whose title shares a real word with the search (facts boards and
+ * Look cards: no picture rather than a wrong one); the teacher's own image search stays broad.
+ */
+export async function freePictures(query: string, limit = 8, opts: { strict?: boolean } = {}): Promise<FreePicture[]> {
   const q = query.trim().replace(/[?!.]+$/, '').slice(0, 100);
   if (q.length < 2) return [];
   const [lead, search] = await Promise.all([
@@ -90,7 +103,8 @@ export async function freePictures(query: string, limit = 8): Promise<FreePictur
   const found = (search?.query?.pages ?? [])
     .sort((a, b) => ((a as { index?: number }).index ?? 0) - ((b as { index?: number }).index ?? 0))
     .map(toPicture)
-    .filter((p): p is FreePicture => !!p);
+    .filter((p): p is FreePicture => !!p)
+    .filter((p) => !opts.strict || pictureMatches(q, p.title));
   const out: FreePicture[] = [];
   for (const p of lead ? [lead, ...found] : found) {
     if (!out.some((o) => o.id === p.id || o.imageUrl === p.imageUrl)) out.push(p);

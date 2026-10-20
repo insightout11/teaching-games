@@ -432,6 +432,27 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     [buildSpec, baseZones, editText, isLive, preset, setInputSpec, zoneLabels],
   );
 
+  // "Everyone answers" (the facts board, a Look card…): an open board titled with the question, straight to the phones
+  const [boardQuestion, setBoardQuestion] = useState<string | null>(null);
+  useEffect(() => {
+    const on = (e: Event) => {
+      const q = (e as CustomEvent<{ question?: string }>).detail?.question?.trim();
+      if (!q || templateLocked) return;
+      setAiPreset(null);
+      setSelectedPresetKey('open-board');
+      setBoardQuestion(q.slice(0, 160));
+    };
+    window.addEventListener('lc-board-question', on);
+    return () => window.removeEventListener('lc-board-question', on);
+  }, [templateLocked]);
+  useEffect(() => {
+    if (!boardQuestion || preset.key !== 'open-board') return;
+    const labels = { [baseZones[0]?.key ?? 'main']: boardQuestion };
+    setZoneLabels(labels);
+    void setInputSpec(buildSpec(preset, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label }))));
+    setBoardQuestion(null);
+  }, [boardQuestion, preset, baseZones, buildSpec, setInputSpec]);
+
   const answerQuestion = useCallback(
     async (itemId: string, type: 'ai' | 'teacher') => {
       if (busyAnswerId) return;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Eye, ImageOff, MessageCircle, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ClipboardList, Eye, ImageOff, MessageCircle, Sparkles, Telescope, Vote, X, Zap } from 'lucide-react';
 import type { FactCard } from '@/lib/live-room/fact-cards';
 import type { FreePicture } from '@/lib/sources/wikimedia-images';
 
@@ -11,13 +11,18 @@ import type { FreePicture } from '@/lib/sources/wikimedia-images';
  * two questions; one tap sends a question to Talk. Facts only, never answers to anything, so it is safe on the
  * shared screen.
  */
-export function FactsBoard({ title, cards, pictures = [], onAsk, onClose }: {
+export function FactsBoard({ title, cards, pictures = [], onAsk, onClose, onDive, onVote, onBoard, onQuiz }: {
   title: string;
   cards: FactCard[];
   /** A free Wikimedia photo per card (null while loading or when none fits). */
   pictures?: Array<FreePicture | null>;
   /** Send a question to Talk (the board closes). */
   onAsk: (question: string) => void;
+  /** Next steps from an open card: this fact becomes the topic; a phone vote or the Class Board on a question; a quiz. */
+  onDive?: (card: FactCard) => void;
+  onVote?: (question: string) => void;
+  onBoard?: (question: string) => void;
+  onQuiz?: () => void;
   onClose: () => void;
 }) {
   const [shown, setShown] = useState(0);
@@ -82,6 +87,32 @@ export function FactsBoard({ title, cards, pictures = [], onAsk, onClose }: {
               ))}
             </div>
           )}
+          {/* where to go from here: always a next step, never a dead end */}
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            {onDive && (
+              <button type="button" onClick={() => onDive(card)} className="flex items-center gap-1.5 rounded-full border border-amber-300/60 bg-amber-300/10 px-4 py-2 text-sm font-semibold text-amber-100 hover:bg-amber-300/20">
+                <Telescope className="h-4 w-4" /> Dive into this
+              </button>
+            )}
+            {onBoard && card.questions[0] && (
+              <button type="button" onClick={() => onBoard(card.questions[0])} title="Everyone writes an answer on their phone; the answers gather on the Class Board" className="flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-2 text-sm text-white/85 hover:bg-white/10">
+                <ClipboardList className="h-4 w-4" /> Everyone answers
+              </button>
+            )}
+            {onVote && card.questions[0] && (
+              <button type="button" onClick={() => onVote(card.questions[0])} title="A quick vote on the phones, then hear a few reasons" className="flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-2 text-sm text-white/85 hover:bg-white/10">
+                <Vote className="h-4 w-4" /> Class vote
+              </button>
+            )}
+            {onQuiz && (
+              <button type="button" onClick={onQuiz} title="A quick quiz on these facts" className="flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-2 text-sm text-white/85 hover:bg-white/10">
+                <Zap className="h-4 w-4" /> Quiz these facts
+              </button>
+            )}
+            <button type="button" onClick={() => { const n = (open! + 1) % cards.length; setShown((s) => Math.max(s, n + 1)); setOpen(n); }} className="ml-auto flex items-center gap-1.5 rounded-full border border-white/20 px-4 py-2 text-sm text-white/85 hover:bg-white/10">
+              {open! + 1 < cards.length ? 'Next fact' : 'First fact'} <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       ) : (
         <div className={`mx-auto grid w-full max-w-6xl gap-3 ${cards.length <= 4 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
