@@ -315,7 +315,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [events]);
   // Real rivers and lakes, fixed on the ground once they come into range (as the cities); a river or lake already
   // lying ahead is not added again, a passed one can come back when the route still follows it.
-  const waterWorld = useRef<Array<{ name: string; lake: boolean; width: number; rings: Array<Array<[number, number]>> }>>([]);
+  const waterSeen = useRef(false);
+  const waterWorld = useRef<Array<{ name: string; lake: boolean; width: number; rings: Array<Array<[number, number]>>; born: number }>>([]);
   useEffect(() => {
     if (!waters) return;
     const list = waterWorld.current;
@@ -324,13 +325,23 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     for (let i = list.length - 1; i >= 0; i--) if (list[i].rings.every((r) => r.every(([, z]) => z < camZ))) list.splice(i, 1);
     const ahead = new Set(list.map((w) => `${w.lake ? 'L' : 'R'}:${w.name}`));
     const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM];
+    // new water comes in from the distance (never right in front of the plane) and fades in
+    const nearest = camZ + Z_FAR * 0.55;
+    const born = performance.now();
+    const firstFill = list.length === 0 && !waterSeen.current;
+    waterSeen.current = true;
     for (const r of waters.rivers) {
       if (ahead.has(`R:${r.name}`)) continue;
-      list.push({ name: r.name, lake: false, width: r.widthClass === 1 ? 170 : r.widthClass === 2 ? 110 : 70, rings: [smoothLine(smoothLine(r.points.map(toWorld)))] });
+      let pts = smoothLine(smoothLine(r.points.map(toWorld)));
+      if (!firstFill) pts = pts.filter(([, z]) => z >= nearest);
+      if (pts.length < 2) continue;
+      list.push({ name: r.name, lake: false, width: r.widthClass === 1 ? 170 : r.widthClass === 2 ? 110 : 70, rings: [pts], born });
     }
     for (const l of waters.lakes) {
       if (ahead.has(`L:${l.name}`)) continue;
-      list.push({ name: l.name, lake: true, width: 0, rings: l.rings.map((ring) => smoothRing(smoothRing(ring.map(toWorld)))) });
+      const rings = l.rings.map((ring) => smoothRing(smoothRing(ring.map(toWorld))));
+      if (!firstFill && rings.some((ring) => ring.some(([, z]) => z < nearest))) continue;
+      list.push({ name: l.name, lake: true, width: 0, rings, born });
     }
     // names added this time count as ahead for the rest of this batch
   }, [waters]);
@@ -609,11 +620,31 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         sctx.fillRect(0, 0, w, h);
         const y0 = (Math.ceil((horizonY + 1) / rowH)) * rowH;
         let coastRowState: boolean | null = null;
+        // A real coast: strips the coastline does not cross take their land or sea from the nearest strip it does
+        // cross (guessing from the terrain under the plane flipped the whole ground to sea and back: white flashes).
+        // When no strip in view crosses it, the coast is left out and the ordinary ground is painted.
+        const cw0 = realCoast() ? coastWorld.current : null;
+        let coastUsable = false;
+        if (cw0) {
+          for (let y = y0; y < h; y += rowH) {
+            const wz = camZ + (camH * F) / (y - horizonY);
+            if (wz < cw0.zMin || wz > cw0.zMax) continue;
+            let best: { x: number; land: boolean } | null = null;
+            for (const k of cw0.buckets.get(Math.floor(wz / COAST_BUCKET)) ?? []) {
+              const x1 = cw0.edges[k * 4], z1 = cw0.edges[k * 4 + 1], x2 = cw0.edges[k * 4 + 2], z2 = cw0.edges[k * 4 + 3];
+              if ((z1 <= wz && wz < z2) || (z2 <= wz && wz < z1)) {
+                const x = x1 + ((wz - z1) * (x2 - x1)) / (z2 - z1);
+                if (!best || x < best.x) best = { x, land: z2 > z1 };
+              }
+            }
+            if (best) { coastRowState = !best.land; coastUsable = true; break; }
+          }
+        }
         for (let y = y0; y < h; y += rowH) {
           const z = (camH * F) / (y - horizonY);   // world depth of this row
           const wz = camZ + z;
           // A real coast in reach: the sea everywhere, then the land where this strip is inside the land outlines
-          const cw = realCoast() ? coastWorld.current : null;
+          const cw = coastUsable ? cw0 : null;
           if (cw && seaRip.current && landRip.current && wz >= cw.zMin && wz <= cw.zMax) {
             const top = L[L.length - 1];
             const sea: Layer = { ...top, terrain: 'ocean', rip: seaRip.current, macroAlpha: 0.1 };
@@ -627,7 +658,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             }
             xs.sort((a, b) => a.x - b.x);
             // no crossing on this strip: all one thing, the same as the last strip's left end
-            let state: boolean = xs.length ? !xs[0].land : coastRowState ?? top.terrain !== 'ocean';
+            let state: boolean = xs.length ? !xs[0].land : coastRowState ?? true;
             if (xs.length) coastRowState = state;
             const sx = F / z;
             paintRow(sea, y, z, F, camZ, 1);
@@ -706,7 +737,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           ctx.save();
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
+          const nowMs = performance.now();
           for (const wt of waterWorld.current) {
+            const appear = Math.min(1, (nowMs - wt.born) / 4000);
             if (wt.lake) {
               for (const ring of wt.rings) {
                 // cut where the shore passes behind the plane (squashing it onto one line made straight edges and corners)
@@ -720,8 +753,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 // green shores fading out into the land in small steps (no hard pale edge), then deep water
                 const shoreW = Math.max(2, Math.min(18, (900 * F) / Math.max(Z_NEAR, midZ)));
                 ctx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
-                for (const k of [1, 0.75, 0.5, 0.3]) { ctx.globalAlpha = 0.1; ctx.lineWidth = shoreW * k; ctx.stroke(); }
-                ctx.globalAlpha = 0.9;
+                for (const k of [1, 0.75, 0.5, 0.3]) { ctx.globalAlpha = 0.1 * appear; ctx.lineWidth = shoreW * k; ctx.stroke(); }
+                ctx.globalAlpha = 0.9 * appear;
                 ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
                 ctx.fill();
                 ctx.globalAlpha = 1;
@@ -766,10 +799,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
               // soft banks: a wide faint green fading into the land, a closer stronger green, then the water
               // banks fading out in many small steps (two hard bands looked like a road's verges)
               ctx.fillStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
-              for (const k of [6, 4.8, 3.8, 3, 2.3, 1.7]) { ctx.globalAlpha = 0.09; ribbon(r, k); }
+              for (const k of [6, 4.8, 3.8, 3, 2.3, 1.7]) { ctx.globalAlpha = 0.09 * appear; ribbon(r, k); }
               ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
-              ctx.globalAlpha = 0.45; ribbon(r, 1.25);
-              ctx.globalAlpha = 0.8; ribbon(r, 0.9);
+              ctx.globalAlpha = 0.45 * appear; ribbon(r, 1.25);
+              ctx.globalAlpha = 0.8 * appear; ribbon(r, 0.9);
               ctx.globalAlpha = 1;
             }
           }
