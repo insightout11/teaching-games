@@ -1,5 +1,5 @@
 {
-  "sourceNotes": "Original editorial facts use Wikipedia reference pages; geographic/population estimates from Natural Earth v5.1.2 (public domain); capital metadata from World Bank API (CC BY 4.0), retrieved 20 October 2026. Country outline labels do not assert sovereign recognition. Population estimates are dated, not current counts.",
+  "sourceNotes": "Explicit editorial cards carry their own Wikipedia reference URLs in route-place-editorial.tsv. This file preserves audit identities and selection only. No capital/latitude/population fields are used to construct teaching facts. Territory outline labels do not assert sovereign recognition.",
   "places": [
     {
       "title": "Asia",
@@ -11,7 +11,6 @@
       ],
       "rank": 1,
       "routes": 552,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Asia"
       ],
@@ -28,7 +27,6 @@
       ],
       "rank": 2,
       "routes": 445,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Atlantic_Ocean"
       ],
@@ -45,7 +43,6 @@
       ],
       "rank": 3,
       "routes": 410,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Pacific_Ocean"
       ],
@@ -61,7 +58,6 @@
       ],
       "rank": 4,
       "routes": 385,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Europe"
       ],
@@ -76,19 +72,8 @@
       ],
       "rank": 5,
       "routes": 322,
-      "country": {
-        "continent": "Europe and Asia",
-        "subregion": "Eastern Europe",
-        "capital": "Moscow",
-        "capitalLatitude": 56,
-        "capitalNote": null,
-        "population": 144373535,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Russia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/RUS?format=json"
+        "https://en.wikipedia.org/wiki/Russia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -101,19 +86,8 @@
       ],
       "rank": 6,
       "routes": 308,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Eastern Asia",
-        "capital": "Beijing",
-        "capitalLatitude": 40,
-        "capitalNote": null,
-        "population": 1397715000,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/China",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CHN?format=json"
+        "https://en.wikipedia.org/wiki/China"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -131,7 +105,6 @@
       ],
       "rank": 7,
       "routes": 290,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/North_European_Plain"
       ],
@@ -149,19 +122,8 @@
       ],
       "rank": 8,
       "routes": 277,
-      "country": {
-        "continent": "North America",
-        "subregion": "Northern America",
-        "capital": "Washington D.C.",
-        "capitalLatitude": 39,
-        "capitalNote": null,
-        "population": 328239523,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/United_States",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/USA?format=json"
+        "https://en.wikipedia.org/wiki/United_States"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -176,7 +138,6 @@
       ],
       "rank": 9,
       "routes": 245,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Indian_Ocean"
       ],
@@ -192,7 +153,6 @@
       ],
       "rank": 10,
       "routes": 230,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Africa"
       ],
@@ -208,7 +168,6 @@
       ],
       "rank": 11,
       "routes": 228,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/North_America"
       ],
@@ -223,19 +182,8 @@
       ],
       "rank": 12,
       "routes": 212,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "New Delhi",
-        "capitalLatitude": 29,
-        "capitalNote": null,
-        "population": 1366417754,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/India",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/IND?format=json"
+        "https://en.wikipedia.org/wiki/India"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -248,19 +196,8 @@
       ],
       "rank": 13,
       "routes": 209,
-      "country": {
-        "continent": "North America",
-        "subregion": "Northern America",
-        "capital": "Ottawa",
-        "capitalLatitude": 45,
-        "capitalNote": null,
-        "population": 37589262,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Canada",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CAN?format=json"
+        "https://en.wikipedia.org/wiki/Canada"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -275,7 +212,6 @@
       ],
       "rank": 14,
       "routes": 197,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Mediterranean_Sea"
       ],
@@ -290,19 +226,8 @@
       ],
       "rank": 15,
       "routes": 168,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Brasilia",
-        "capitalLatitude": -16,
-        "capitalNote": null,
-        "population": 211049527,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Brazil",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BRA?format=json"
+        "https://en.wikipedia.org/wiki/Brazil"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -320,7 +245,6 @@
       ],
       "rank": 16,
       "routes": 160,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Andes"
       ],
@@ -339,7 +263,6 @@
       ],
       "rank": 17,
       "routes": 157,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Sahara"
       ],
@@ -356,7 +279,6 @@
       ],
       "rank": 18,
       "routes": 157,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/East_Siberian_taiga"
       ],
@@ -371,19 +293,8 @@
       ],
       "rank": 19,
       "routes": 154,
-      "country": {
-        "continent": "Asia and Europe",
-        "subregion": "Central Asia",
-        "capital": "Astana",
-        "capitalLatitude": 51,
-        "capitalNote": null,
-        "population": 18513930,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Kazakhstan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/KAZ?format=json"
+        "https://en.wikipedia.org/wiki/Kazakhstan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -396,19 +307,8 @@
       ],
       "rank": 20,
       "routes": 147,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Western Europe",
-        "capital": "Berlin",
-        "capitalLatitude": 53,
-        "capitalNote": null,
-        "population": 83132799,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Germany",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/DEU?format=json"
+        "https://en.wikipedia.org/wiki/Germany"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -421,19 +321,8 @@
       ],
       "rank": 21,
       "routes": 146,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Western Europe",
-        "capital": "Paris",
-        "capitalLatitude": 49,
-        "capitalNote": null,
-        "population": 67059887,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/France",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/FRA?format=json"
+        "https://en.wikipedia.org/wiki/France"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -448,7 +337,6 @@
       ],
       "rank": 22,
       "routes": 144,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/British_Isles"
       ],
@@ -468,7 +356,6 @@
       ],
       "rank": 23,
       "routes": 139,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Iberian_Peninsula"
       ],
@@ -488,7 +375,6 @@
       ],
       "rank": 24,
       "routes": 131,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/North_China_Plain"
       ],
@@ -504,7 +390,6 @@
       ],
       "rank": 25,
       "routes": 130,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Polynesia"
       ],
@@ -519,19 +404,8 @@
       ],
       "rank": 26,
       "routes": 128,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Eastern Asia",
-        "capital": "Ulaanbaatar",
-        "capitalLatitude": 48,
-        "capitalNote": null,
-        "population": 3225167,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Mongolia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MNG?format=json"
+        "https://en.wikipedia.org/wiki/Mongolia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -544,19 +418,8 @@
       ],
       "rank": 27,
       "routes": 123,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Jakarta",
-        "capitalLatitude": -6,
-        "capitalNote": null,
-        "population": 270625568,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Indonesia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/IDN?format=json"
+        "https://en.wikipedia.org/wiki/Indonesia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -573,7 +436,6 @@
       ],
       "rank": 28,
       "routes": 122,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Geography_of_North_America#Interior_Lowlands"
       ],
@@ -590,7 +452,6 @@
       ],
       "rank": 29,
       "routes": 121,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Great_Britain"
       ],
@@ -605,19 +466,8 @@
       ],
       "rank": 30,
       "routes": 121,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "London",
-        "capitalLatitude": 52,
-        "capitalNote": null,
-        "population": 66834405,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/United_Kingdom",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GBR?format=json"
+        "https://en.wikipedia.org/wiki/United_Kingdom"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -634,7 +484,6 @@
       ],
       "rank": 31,
       "routes": 120,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Sahel"
       ],
@@ -649,19 +498,8 @@
       ],
       "rank": 32,
       "routes": 120,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Madrid",
-        "capitalLatitude": 40,
-        "capitalNote": null,
-        "population": 47076781,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Spain",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ESP?format=json"
+        "https://en.wikipedia.org/wiki/Spain"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -676,19 +514,8 @@
       ],
       "rank": 33,
       "routes": 117,
-      "country": {
-        "continent": "Oceania",
-        "subregion": "Australia and New Zealand",
-        "capital": "Canberra",
-        "capitalLatitude": -35,
-        "capitalNote": null,
-        "population": 25364307,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Australia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/AUS?format=json"
+        "https://en.wikipedia.org/wiki/Australia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -702,7 +529,6 @@
       ],
       "rank": 34,
       "routes": 116,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/South_America"
       ],
@@ -721,7 +547,6 @@
       ],
       "rank": 35,
       "routes": 114,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Canadian_Shield"
       ],
@@ -740,7 +565,6 @@
       ],
       "rank": 36,
       "routes": 113,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Gobi_Desert"
       ],
@@ -755,19 +579,8 @@
       ],
       "rank": 37,
       "routes": 113,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Rome",
-        "capitalLatitude": 42,
-        "capitalNote": null,
-        "population": 60297396,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Italy",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ITA?format=json"
+        "https://en.wikipedia.org/wiki/Italy"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -782,7 +595,6 @@
       ],
       "rank": 38,
       "routes": 112,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Greater_Sunda_Islands"
       ],
@@ -797,19 +609,8 @@
       ],
       "rank": 39,
       "routes": 112,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "Islamabad",
-        "capitalLatitude": 31,
-        "capitalNote": null,
-        "population": 216565318,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Pakistan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PAK?format=json"
+        "https://en.wikipedia.org/wiki/Pakistan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -824,7 +625,6 @@
       ],
       "rank": 40,
       "routes": 109,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Greenland_ice_sheet"
       ],
@@ -844,7 +644,6 @@
       ],
       "rank": 41,
       "routes": 109,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Pontic%E2%80%93Caspian_steppe"
       ],
@@ -861,7 +660,6 @@
       ],
       "rank": 42,
       "routes": 109,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/South_China_Sea"
       ],
@@ -880,7 +678,6 @@
       ],
       "rank": 43,
       "routes": 109,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Tibetan_Plateau"
       ],
@@ -897,7 +694,6 @@
       ],
       "rank": 44,
       "routes": 107,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Caribbean_Sea"
       ],
@@ -917,7 +713,6 @@
       ],
       "rank": 46,
       "routes": 102,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Appalachian_Mountains"
       ],
@@ -936,7 +731,6 @@
       ],
       "rank": 47,
       "routes": 102,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Mongolian_Plateau"
       ],
@@ -953,7 +747,6 @@
       ],
       "rank": 48,
       "routes": 102,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/North_Sea"
       ],
@@ -973,7 +766,6 @@
       ],
       "rank": 49,
       "routes": 101,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Tian_Shan"
       ],
@@ -988,19 +780,8 @@
       ],
       "rank": 50,
       "routes": 99,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Bangkok",
-        "capitalLatitude": 14,
-        "capitalNote": null,
-        "population": 69625582,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Thailand",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/THA?format=json"
+        "https://en.wikipedia.org/wiki/Thailand"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1017,7 +798,6 @@
       ],
       "rank": 51,
       "routes": 97,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Himalayas"
       ],
@@ -1032,19 +812,8 @@
       ],
       "rank": 52,
       "routes": 97,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Hanoi",
-        "capitalLatitude": 21,
-        "capitalNote": null,
-        "population": 96462106,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Vietnam",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/VNM?format=json"
+        "https://en.wikipedia.org/wiki/Vietnam"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1057,19 +826,8 @@
       ],
       "rank": 53,
       "routes": 96,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "Tehran",
-        "capitalLatitude": 36,
-        "capitalNote": null,
-        "population": 82913906,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Iran",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/IRN?format=json"
+        "https://en.wikipedia.org/wiki/Iran"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1086,7 +844,6 @@
       ],
       "rank": 54,
       "routes": 96,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Kazakh_Steppe"
       ],
@@ -1105,7 +862,6 @@
       ],
       "rank": 55,
       "routes": 95,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Ural_Mountains"
       ],
@@ -1122,7 +878,6 @@
       ],
       "rank": 56,
       "routes": 94,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Arabian_Desert"
       ],
@@ -1139,7 +894,6 @@
       ],
       "rank": 57,
       "routes": 94,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Arabian_Sea"
       ],
@@ -1159,7 +913,6 @@
       ],
       "rank": 58,
       "routes": 92,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Rocky_Mountains"
       ],
@@ -1174,19 +927,8 @@
       ],
       "rank": 59,
       "routes": 92,
-      "country": {
-        "continent": "Europe and Asia",
-        "subregion": "Western Asia",
-        "capital": "Ankara",
-        "capitalLatitude": 40,
-        "capitalNote": null,
-        "population": 83429615,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Turkey",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TUR?format=json"
+        "https://en.wikipedia.org/wiki/Turkey"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1201,7 +943,6 @@
       ],
       "rank": 60,
       "routes": 91,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/South_China"
       ],
@@ -1220,7 +961,6 @@
       ],
       "rank": 61,
       "routes": 91,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Indo-Gangetic_Plain"
       ],
@@ -1237,7 +977,6 @@
       ],
       "rank": 62,
       "routes": 90,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Bay_of_Bengal"
       ],
@@ -1254,7 +993,6 @@
       ],
       "rank": 63,
       "routes": 90,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/West_Indies"
       ],
@@ -1269,19 +1007,8 @@
       ],
       "rank": 64,
       "routes": 88,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Northern Africa",
-        "capital": "Cairo",
-        "capitalLatitude": 30,
-        "capitalNote": null,
-        "population": 100388073,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Egypt",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/EGY?format=json"
+        "https://en.wikipedia.org/wiki/Egypt"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1294,19 +1021,8 @@
       ],
       "rank": 65,
       "routes": 88,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Naypyidaw",
-        "capitalLatitude": 22,
-        "capitalNote": null,
-        "population": 54045420,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Myanmar",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MMR?format=json"
+        "https://en.wikipedia.org/wiki/Myanmar"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1319,19 +1035,8 @@
       ],
       "rank": 66,
       "routes": 86,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Western Europe",
-        "capital": "Amsterdam",
-        "capitalLatitude": 52,
-        "capitalNote": "The government sits in The Hague",
-        "population": 17332850,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Netherlands",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NLD?format=json"
+        "https://en.wikipedia.org/wiki/Netherlands"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1346,7 +1051,6 @@
       ],
       "rank": 67,
       "routes": 85,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Baltic_Sea"
       ],
@@ -1363,7 +1067,6 @@
       ],
       "rank": 68,
       "routes": 85,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Melanesia"
       ],
@@ -1378,19 +1081,8 @@
       ],
       "rank": 69,
       "routes": 85,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Warsaw",
-        "capitalLatitude": 52,
-        "capitalNote": null,
-        "population": 37970874,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Poland",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/POL?format=json"
+        "https://en.wikipedia.org/wiki/Poland"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1405,7 +1097,6 @@
       ],
       "rank": 70,
       "routes": 85,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Sumatra"
       ],
@@ -1423,7 +1114,6 @@
       ],
       "rank": 71,
       "routes": 85,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Yangtze"
       ],
@@ -1439,7 +1129,6 @@
       ],
       "rank": 72,
       "routes": 83,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Amsterdam"
       ],
@@ -1458,7 +1147,6 @@
       ],
       "rank": 73,
       "routes": 83,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Brazilian_Highlands"
       ],
@@ -1473,19 +1161,8 @@
       ],
       "rank": 74,
       "routes": 82,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "Kabul",
-        "capitalLatitude": 35,
-        "capitalNote": null,
-        "population": 38041754,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Afghanistan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/AFG?format=json"
+        "https://en.wikipedia.org/wiki/Afghanistan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1498,19 +1175,8 @@
       ],
       "rank": 75,
       "routes": 82,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Bogota",
-        "capitalLatitude": 5,
-        "capitalNote": null,
-        "population": 50339443,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Colombia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/COL?format=json"
+        "https://en.wikipedia.org/wiki/Colombia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1527,7 +1193,6 @@
       ],
       "rank": 76,
       "routes": 82,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Libyan_Desert"
       ],
@@ -1542,19 +1207,8 @@
       ],
       "rank": 77,
       "routes": 81,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Buenos Aires",
-        "capitalLatitude": -35,
-        "capitalNote": null,
-        "population": 44938712,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Argentina",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ARG?format=json"
+        "https://en.wikipedia.org/wiki/Argentina"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1570,19 +1224,8 @@
       ],
       "rank": 78,
       "routes": 81,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Eastern Asia",
-        "capital": "Tokyo",
-        "capitalLatitude": 36,
-        "capitalNote": null,
-        "population": 126264931,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Japan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/JPN?format=json"
+        "https://en.wikipedia.org/wiki/Japan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1596,7 +1239,6 @@
       ],
       "rank": 79,
       "routes": 80,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Berlin"
       ],
@@ -1614,7 +1256,6 @@
       ],
       "rank": 80,
       "routes": 80,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Great_Wall_of_China"
       ],
@@ -1633,7 +1274,6 @@
       ],
       "rank": 81,
       "routes": 79,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Western_Ghats"
       ],
@@ -1653,7 +1293,6 @@
       ],
       "rank": 82,
       "routes": 78,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Atlantic_Plain"
       ],
@@ -1668,19 +1307,8 @@
       ],
       "rank": 83,
       "routes": 78,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Kuala Lumpur",
-        "capitalLatitude": 3,
-        "capitalNote": null,
-        "population": 31949777,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Malaysia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MYS?format=json"
+        "https://en.wikipedia.org/wiki/Malaysia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1693,19 +1321,8 @@
       ],
       "rank": 84,
       "routes": 78,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "Mexico City",
-        "capitalLatitude": 19,
-        "capitalNote": null,
-        "population": 127575529,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Mexico",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MEX?format=json"
+        "https://en.wikipedia.org/wiki/Mexico"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1719,7 +1336,6 @@
       ],
       "rank": 85,
       "routes": 78,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Paris"
       ],
@@ -1734,19 +1350,8 @@
       ],
       "rank": 86,
       "routes": 75,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Lisbon",
-        "capitalLatitude": 39,
-        "capitalNote": null,
-        "population": 10269417,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Portugal",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PRT?format=json"
+        "https://en.wikipedia.org/wiki/Portugal"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1764,7 +1369,6 @@
       ],
       "rank": 87,
       "routes": 74,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Alps"
       ],
@@ -1781,7 +1385,6 @@
       ],
       "rank": 88,
       "routes": 74,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Arctic_Archipelago"
       ],
@@ -1801,19 +1404,8 @@
       ],
       "rank": 89,
       "routes": 74,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Manila",
-        "capitalLatitude": 15,
-        "capitalNote": null,
-        "population": 108116615,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Philippines",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PHL?format=json"
+        "https://en.wikipedia.org/wiki/Philippines"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1828,7 +1420,6 @@
       ],
       "rank": 90,
       "routes": 72,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Arctic_Ocean"
       ],
@@ -1845,7 +1436,6 @@
       ],
       "rank": 91,
       "routes": 72,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Boreal_forest_of_Canada"
       ],
@@ -1860,19 +1450,8 @@
       ],
       "rank": 92,
       "routes": 72,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Addis Ababa",
-        "capitalLatitude": 9,
-        "capitalNote": null,
-        "population": 112078730,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Ethiopia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ETH?format=json"
+        "https://en.wikipedia.org/wiki/Ethiopia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1886,7 +1465,6 @@
       ],
       "rank": 93,
       "routes": 72,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/London"
       ],
@@ -1902,7 +1480,6 @@
       ],
       "rank": 94,
       "routes": 72,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Madrid"
       ],
@@ -1920,7 +1497,6 @@
       ],
       "rank": 95,
       "routes": 72,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Nile"
       ],
@@ -1939,7 +1515,6 @@
       ],
       "rank": 96,
       "routes": 71,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Ethiopian_Highlands"
       ],
@@ -1955,7 +1530,6 @@
       ],
       "rank": 97,
       "routes": 71,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Malay_Archipelago"
       ],
@@ -1971,19 +1545,8 @@
       ],
       "rank": 98,
       "routes": 70,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Dublin",
-        "capitalLatitude": 53,
-        "capitalNote": null,
-        "population": 4941444,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Ireland",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/IRL?format=json"
+        "https://en.wikipedia.org/wiki/Ireland"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -1998,7 +1561,6 @@
       ],
       "rank": 99,
       "routes": 69,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Iranian_plateau"
       ],
@@ -2014,7 +1576,6 @@
       ],
       "rank": 100,
       "routes": 69,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Moscow"
       ],
@@ -2030,7 +1591,6 @@
       ],
       "rank": 101,
       "routes": 69,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Rome"
       ],
@@ -2047,7 +1607,6 @@
       ],
       "rank": 102,
       "routes": 69,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Sea_of_Japan"
       ],
@@ -2062,19 +1621,8 @@
       ],
       "rank": 103,
       "routes": 68,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Northern Africa",
-        "capital": "Algiers",
-        "capitalLatitude": 37,
-        "capitalNote": null,
-        "population": 43053054,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Algeria",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/DZA?format=json"
+        "https://en.wikipedia.org/wiki/Algeria"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2091,7 +1639,6 @@
       ],
       "rank": 104,
       "routes": 68,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Cordillera_Blanca"
       ],
@@ -2110,7 +1657,6 @@
       ],
       "rank": 105,
       "routes": 68,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Great_Dividing_Range"
       ],
@@ -2125,19 +1671,8 @@
       ],
       "rank": 106,
       "routes": 67,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Eastern Asia",
-        "capital": "Seoul",
-        "capitalLatitude": 38,
-        "capitalNote": null,
-        "population": 51709098,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/South_Korea",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/KOR?format=json"
+        "https://en.wikipedia.org/wiki/South_Korea"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2151,7 +1686,6 @@
       ],
       "rank": 107,
       "routes": 67,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Ulaanbaatar"
       ],
@@ -2170,7 +1704,6 @@
       ],
       "rank": 108,
       "routes": 66,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Great_Rift_Valley"
       ],
@@ -2187,7 +1720,6 @@
       ],
       "rank": 109,
       "routes": 66,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Java_Sea"
       ],
@@ -2202,19 +1734,8 @@
       ],
       "rank": 110,
       "routes": 66,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Abuja",
-        "capitalLatitude": 9,
-        "capitalNote": null,
-        "population": 200963599,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Nigeria",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NGA?format=json"
+        "https://en.wikipedia.org/wiki/Nigeria"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2227,19 +1748,8 @@
       ],
       "rank": 111,
       "routes": 66,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Kiev",
-        "capitalLatitude": 50,
-        "capitalNote": null,
-        "population": 44385155,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Ukraine",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/UKR?format=json"
+        "https://en.wikipedia.org/wiki/Ukraine"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2256,7 +1766,6 @@
       ],
       "rank": 112,
       "routes": 65,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Caspian_Sea"
       ],
@@ -2273,7 +1782,6 @@
       ],
       "rank": 113,
       "routes": 65,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Scandinavian_and_Russian_taiga"
       ],
@@ -2293,7 +1801,6 @@
       ],
       "rank": 114,
       "routes": 65,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Khentii_Mountains"
       ],
@@ -2309,7 +1816,6 @@
       ],
       "rank": 115,
       "routes": 64,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Lisbon"
       ],
@@ -2324,19 +1830,8 @@
       ],
       "rank": 116,
       "routes": 64,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Lima",
-        "capitalLatitude": -12,
-        "capitalNote": null,
-        "population": 32510453,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Peru",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PER?format=json"
+        "https://en.wikipedia.org/wiki/Peru"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2353,7 +1848,6 @@
       ],
       "rank": 117,
       "routes": 63,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Amazon_basin"
       ],
@@ -2372,7 +1866,6 @@
       ],
       "rank": 118,
       "routes": 63,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Central_Siberian_Plateau"
       ],
@@ -2387,19 +1880,8 @@
       ],
       "rank": 119,
       "routes": 63,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Santiago",
-        "capitalLatitude": -33,
-        "capitalNote": null,
-        "population": 18952038,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Chile",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CHL?format=json"
+        "https://en.wikipedia.org/wiki/Chile"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2413,7 +1895,6 @@
       ],
       "rank": 120,
       "routes": 63,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Dublin"
       ],
@@ -2429,7 +1910,6 @@
       ],
       "rank": 121,
       "routes": 63,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Hong_Kong"
       ],
@@ -2444,19 +1924,8 @@
       ],
       "rank": 122,
       "routes": 63,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Stockholm",
-        "capitalLatitude": 59,
-        "capitalNote": null,
-        "population": 10285453,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Sweden",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SWE?format=json"
+        "https://en.wikipedia.org/wiki/Sweden"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2473,7 +1942,6 @@
       ],
       "rank": 123,
       "routes": 62,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Apennine_Mountains"
       ],
@@ -2491,7 +1959,6 @@
       ],
       "rank": 124,
       "routes": 62,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Palm_Islands"
       ],
@@ -2507,7 +1974,6 @@
       ],
       "rank": 125,
       "routes": 62,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Shanghai"
       ],
@@ -2526,7 +1992,6 @@
       ],
       "rank": 126,
       "routes": 61,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Coast_Mountains"
       ],
@@ -2541,7 +2006,6 @@
       ],
       "rank": 127,
       "routes": 61,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Hawaiian_Islands"
       ],
@@ -2557,7 +2021,6 @@
       ],
       "rank": 128,
       "routes": 61,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Istanbul"
       ],
@@ -2573,7 +2036,6 @@
       ],
       "rank": 129,
       "routes": 61,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Java"
       ],
@@ -2588,19 +2050,8 @@
       ],
       "rank": 130,
       "routes": 61,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Dakar",
-        "capitalLatitude": 15,
-        "capitalNote": null,
-        "population": 16296364,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Senegal",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SEN?format=json"
+        "https://en.wikipedia.org/wiki/Senegal"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2613,19 +2064,8 @@
       ],
       "rank": 131,
       "routes": 61,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Abu Dhabi",
-        "capitalLatitude": 24,
-        "capitalNote": null,
-        "population": 9770529,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/United_Arab_Emirates",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ARE?format=json"
+        "https://en.wikipedia.org/wiki/United_Arab_Emirates"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2638,19 +2078,8 @@
       ],
       "rank": 132,
       "routes": 61,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Central Asia",
-        "capital": "Tashkent",
-        "capitalLatitude": 41,
-        "capitalNote": null,
-        "population": 33580650,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Uzbekistan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/UZB?format=json"
+        "https://en.wikipedia.org/wiki/Uzbekistan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2664,7 +2093,6 @@
       ],
       "rank": 133,
       "routes": 60,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Almaty"
       ],
@@ -2680,7 +2108,6 @@
       ],
       "rank": 134,
       "routes": 60,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Beijing"
       ],
@@ -2696,7 +2123,6 @@
       ],
       "rank": 135,
       "routes": 60,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Dubai"
       ],
@@ -2712,7 +2138,6 @@
       ],
       "rank": 138,
       "routes": 60,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Seoul"
       ],
@@ -2728,7 +2153,6 @@
       ],
       "rank": 139,
       "routes": 59,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Bangkok"
       ],
@@ -2744,7 +2168,6 @@
       ],
       "rank": 140,
       "routes": 59,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Delhi"
       ],
@@ -2761,19 +2184,8 @@
       ],
       "rank": 141,
       "routes": 59,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Reykjavik",
-        "capitalLatitude": 64,
-        "capitalNote": null,
-        "population": 361313,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Iceland",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ISL?format=json"
+        "https://en.wikipedia.org/wiki/Iceland"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2787,7 +2199,6 @@
       ],
       "rank": 142,
       "routes": 59,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Recife"
       ],
@@ -2802,19 +2213,8 @@
       ],
       "rank": 146,
       "routes": 58,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Nairobi",
-        "capitalLatitude": -1,
-        "capitalNote": null,
-        "population": 52573973,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Kenya",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/KEN?format=json"
+        "https://en.wikipedia.org/wiki/Kenya"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2828,7 +2228,6 @@
       ],
       "rank": 147,
       "routes": 58,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Mumbai"
       ],
@@ -2844,7 +2243,6 @@
       ],
       "rank": 148,
       "routes": 58,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/New_York_City"
       ],
@@ -2859,19 +2257,8 @@
       ],
       "rank": 149,
       "routes": 58,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "Panama City",
-        "capitalLatitude": 9,
-        "capitalNote": null,
-        "population": 4246439,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Panama",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PAN?format=json"
+        "https://en.wikipedia.org/wiki/Panama"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2884,19 +2271,8 @@
       ],
       "rank": 150,
       "routes": 58,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Northern Africa",
-        "capital": "Khartoum",
-        "capitalLatitude": 16,
-        "capitalNote": null,
-        "population": 42813238,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Sudan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SDN?format=json"
+        "https://en.wikipedia.org/wiki/Sudan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2910,7 +2286,6 @@
       ],
       "rank": 151,
       "routes": 57,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Cairo"
       ],
@@ -2927,19 +2302,8 @@
       ],
       "rank": 153,
       "routes": 57,
-      "country": {
-        "continent": "North America",
-        "subregion": "Northern America",
-        "capital": "Nuuk",
-        "capitalLatitude": 64,
-        "capitalNote": null,
-        "population": 56225,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Greenland",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GRL?format=json"
+        "https://en.wikipedia.org/wiki/Greenland"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -2953,7 +2317,6 @@
       ],
       "rank": 155,
       "routes": 57,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Manila"
       ],
@@ -2969,7 +2332,6 @@
       ],
       "rank": 158,
       "routes": 57,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Toronto"
       ],
@@ -2984,19 +2346,8 @@
       ],
       "rank": 160,
       "routes": 56,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Minsk",
-        "capitalLatitude": 54,
-        "capitalNote": null,
-        "population": 9466856,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Belarus",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BLR?format=json"
+        "https://en.wikipedia.org/wiki/Belarus"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3010,7 +2361,6 @@
       ],
       "rank": 162,
       "routes": 56,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Dakar"
       ],
@@ -3025,19 +2375,8 @@
       ],
       "rank": 163,
       "routes": 56,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Northern Africa",
-        "capital": "Tripoli",
-        "capitalLatitude": 33,
-        "capitalNote": null,
-        "population": 6777452,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Libya",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LBY?format=json"
+        "https://en.wikipedia.org/wiki/Libya"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3050,19 +2389,8 @@
       ],
       "rank": 164,
       "routes": 56,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Oslo",
-        "capitalLatitude": 60,
-        "capitalNote": null,
-        "population": 5347896,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Norway",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NOR?format=json"
+        "https://en.wikipedia.org/wiki/Norway"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3076,7 +2404,6 @@
       ],
       "rank": 165,
       "routes": 56,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Panama_City"
       ],
@@ -3092,7 +2419,6 @@
       ],
       "rank": 166,
       "routes": 56,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Reykjav%C3%ADk"
       ],
@@ -3110,7 +2436,6 @@
       ],
       "rank": 168,
       "routes": 55,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Bogot%C3%A1"
       ],
@@ -3126,7 +2451,6 @@
       ],
       "rank": 169,
       "routes": 55,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Jakarta"
       ],
@@ -3142,7 +2466,6 @@
       ],
       "rank": 171,
       "routes": 55,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Los_Angeles"
       ],
@@ -3158,7 +2481,6 @@
       ],
       "rank": 172,
       "routes": 55,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Vancouver"
       ],
@@ -3175,19 +2497,8 @@
       ],
       "rank": 176,
       "routes": 54,
-      "country": {
-        "continent": "Oceania",
-        "subregion": "Melanesia",
-        "capital": "Suva",
-        "capitalLatitude": -18,
-        "capitalNote": null,
-        "population": 889953,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Fiji",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/FJI?format=json"
+        "https://en.wikipedia.org/wiki/Fiji"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3201,7 +2512,6 @@
       ],
       "rank": 177,
       "routes": 54,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Ho_Chi_Minh_City"
       ],
@@ -3217,7 +2527,6 @@
       ],
       "rank": 179,
       "routes": 54,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Miami"
       ],
@@ -3233,7 +2542,6 @@
       ],
       "rank": 181,
       "routes": 54,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Singapore"
       ],
@@ -3249,7 +2557,6 @@
       ],
       "rank": 183,
       "routes": 53,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Buenos_Aires"
       ],
@@ -3264,19 +2571,8 @@
       ],
       "rank": 184,
       "routes": 53,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Nouakchott",
-        "capitalLatitude": 18,
-        "capitalNote": null,
-        "population": 4525696,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Mauritania",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MRT?format=json"
+        "https://en.wikipedia.org/wiki/Mauritania"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3292,19 +2588,8 @@
       ],
       "rank": 185,
       "routes": 53,
-      "country": {
-        "continent": "Oceania",
-        "subregion": "Australia and New Zealand",
-        "capital": "Wellington",
-        "capitalLatitude": -41,
-        "capitalNote": null,
-        "population": 4917000,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/New_Zealand",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NZL?format=json"
+        "https://en.wikipedia.org/wiki/New_Zealand"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3318,7 +2603,6 @@
       ],
       "rank": 188,
       "routes": 52,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Mexico_City"
       ],
@@ -3333,19 +2617,8 @@
       ],
       "rank": 189,
       "routes": 52,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Niamey",
-        "capitalLatitude": 14,
-        "capitalNote": null,
-        "population": 23310715,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Niger",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NER?format=json"
+        "https://en.wikipedia.org/wiki/Niger"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3359,7 +2632,6 @@
       ],
       "rank": 190,
       "routes": 52,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Rio_de_Janeiro"
       ],
@@ -3374,19 +2646,8 @@
       ],
       "rank": 192,
       "routes": 52,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Southern Africa",
-        "capital": "Pretoria",
-        "capitalLatitude": -26,
-        "capitalNote": "Pretoria is the executive capital",
-        "population": 58558270,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/South_Africa",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ZAF?format=json"
+        "https://en.wikipedia.org/wiki/South_Africa"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3400,7 +2661,6 @@
       ],
       "rank": 193,
       "routes": 52,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Sydney"
       ],
@@ -3416,7 +2676,6 @@
       ],
       "rank": 195,
       "routes": 51,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Addis_Ababa"
       ],
@@ -3431,19 +2690,8 @@
       ],
       "rank": 196,
       "routes": 51,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Central Asia",
-        "capital": "Bishkek",
-        "capitalLatitude": 43,
-        "capitalNote": null,
-        "population": 6456900,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Kyrgyzstan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/KGZ?format=json"
+        "https://en.wikipedia.org/wiki/Kyrgyzstan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3457,7 +2705,6 @@
       ],
       "rank": 197,
       "routes": 51,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Lima"
       ],
@@ -3473,7 +2720,6 @@
       ],
       "rank": 199,
       "routes": 51,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Tokyo"
       ],
@@ -3489,7 +2735,6 @@
       ],
       "rank": 200,
       "routes": 50,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Auckland"
       ],
@@ -3505,7 +2750,6 @@
       ],
       "rank": 201,
       "routes": 50,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Cape_Town"
       ],
@@ -3520,19 +2764,8 @@
       ],
       "rank": 204,
       "routes": 50,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Athens",
-        "capitalLatitude": 38,
-        "capitalNote": null,
-        "population": 10716322,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Greece",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GRC?format=json"
+        "https://en.wikipedia.org/wiki/Greece"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3546,7 +2779,6 @@
       ],
       "rank": 207,
       "routes": 50,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Lagos"
       ],
@@ -3562,7 +2794,6 @@
       ],
       "rank": 208,
       "routes": 50,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Nairobi"
       ],
@@ -3578,7 +2809,6 @@
       ],
       "rank": 210,
       "routes": 50,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Perth"
       ],
@@ -3594,7 +2824,6 @@
       ],
       "rank": 212,
       "routes": 50,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Santiago"
       ],
@@ -3609,19 +2838,8 @@
       ],
       "rank": 213,
       "routes": 50,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Riyadh",
-        "capitalLatitude": 25,
-        "capitalNote": null,
-        "population": 34268528,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Saudi_Arabia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SAU?format=json"
+        "https://en.wikipedia.org/wiki/Saudi_Arabia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3635,7 +2853,6 @@
       ],
       "rank": 215,
       "routes": 50,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Suva"
       ],
@@ -3651,7 +2868,6 @@
       ],
       "rank": 218,
       "routes": 49,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Honolulu"
       ],
@@ -3666,19 +2882,8 @@
       ],
       "rank": 220,
       "routes": 49,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Bamako",
-        "capitalLatitude": 14,
-        "capitalNote": null,
-        "population": 19658031,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Mali",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MLI?format=json"
+        "https://en.wikipedia.org/wiki/Mali"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3691,19 +2896,8 @@
       ],
       "rank": 224,
       "routes": 48,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Eastern Asia",
-        "capital": "Pyongyang",
-        "capitalLatitude": 39,
-        "capitalNote": null,
-        "population": 25666161,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/North_Korea",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PRK?format=json"
+        "https://en.wikipedia.org/wiki/North_Korea"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3716,19 +2910,8 @@
       ],
       "rank": 226,
       "routes": 48,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Central Asia",
-        "capital": "Ashgabat",
-        "capitalLatitude": 38,
-        "capitalNote": null,
-        "population": 5942089,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Turkmenistan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TKM?format=json"
+        "https://en.wikipedia.org/wiki/Turkmenistan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3741,19 +2924,8 @@
       ],
       "rank": 230,
       "routes": 46,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Vientiane",
-        "capitalLatitude": 19,
-        "capitalNote": null,
-        "population": 7169455,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Laos",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LAO?format=json"
+        "https://en.wikipedia.org/wiki/Laos"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3766,19 +2938,8 @@
       ],
       "rank": 236,
       "routes": 45,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Helsinki",
-        "capitalLatitude": 60,
-        "capitalNote": null,
-        "population": 5520314,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Finland",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/FIN?format=json"
+        "https://en.wikipedia.org/wiki/Finland"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3791,19 +2952,8 @@
       ],
       "rank": 237,
       "routes": 45,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Baghdad",
-        "capitalLatitude": 33,
-        "capitalNote": null,
-        "population": 39309783,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Iraq",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/IRQ?format=json"
+        "https://en.wikipedia.org/wiki/Iraq"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3816,19 +2966,8 @@
       ],
       "rank": 239,
       "routes": 45,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Caracas",
-        "capitalLatitude": 9,
-        "capitalNote": null,
-        "population": 28515829,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Venezuela",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/VEN?format=json"
+        "https://en.wikipedia.org/wiki/Venezuela"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3841,19 +2980,8 @@
       ],
       "rank": 243,
       "routes": 44,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "N'Djamena",
-        "capitalLatitude": 12,
-        "capitalNote": null,
-        "population": 15946876,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Chad",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TCD?format=json"
+        "https://en.wikipedia.org/wiki/Chad"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3866,19 +2994,8 @@
       ],
       "rank": 249,
       "routes": 43,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Phnom Penh",
-        "capitalLatitude": 12,
-        "capitalNote": null,
-        "population": 16486542,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Cambodia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/KHM?format=json"
+        "https://en.wikipedia.org/wiki/Cambodia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3891,19 +3008,8 @@
       ],
       "rank": 255,
       "routes": 41,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Western Europe",
-        "capital": "Brussels",
-        "capitalLatitude": 51,
-        "capitalNote": null,
-        "population": 11484055,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Belgium",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BEL?format=json"
+        "https://en.wikipedia.org/wiki/Belgium"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3916,19 +3022,8 @@
       ],
       "rank": 267,
       "routes": 39,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Western Europe",
-        "capital": "Vienna",
-        "capitalLatitude": 48,
-        "capitalNote": null,
-        "population": 8877067,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Austria",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/AUT?format=json"
+        "https://en.wikipedia.org/wiki/Austria"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3941,19 +3036,8 @@
       ],
       "rank": 273,
       "routes": 39,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Northern Africa",
-        "capital": "Rabat",
-        "capitalLatitude": 34,
-        "capitalNote": null,
-        "population": 36471769,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Morocco",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MAR?format=json"
+        "https://en.wikipedia.org/wiki/Morocco"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3966,19 +3050,8 @@
       ],
       "rank": 275,
       "routes": 38,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Sofia",
-        "capitalLatitude": 43,
-        "capitalNote": null,
-        "population": 6975761,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Bulgaria",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BGR?format=json"
+        "https://en.wikipedia.org/wiki/Bulgaria"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -3995,19 +3068,8 @@
       ],
       "rank": 276,
       "routes": 38,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "Kinshasa",
-        "capitalLatitude": -4,
-        "capitalNote": null,
-        "population": 86790567,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Democratic_Republic_of_the_Congo",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/COD?format=json"
+        "https://en.wikipedia.org/wiki/Democratic_Republic_of_the_Congo"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4020,19 +3082,8 @@
       ],
       "rank": 280,
       "routes": 38,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Bucharest",
-        "capitalLatitude": 44,
-        "capitalNote": null,
-        "population": 19356544,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Romania",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ROU?format=json"
+        "https://en.wikipedia.org/wiki/Romania"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4045,19 +3096,8 @@
       ],
       "rank": 290,
       "routes": 36,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Belgrade",
-        "capitalLatitude": 45,
-        "capitalNote": null,
-        "population": 6944975,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Serbia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SRB?format=json"
+        "https://en.wikipedia.org/wiki/Serbia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4070,19 +3110,8 @@
       ],
       "rank": 292,
       "routes": 35,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Damascus",
-        "capitalLatitude": 34,
-        "capitalNote": null,
-        "population": 17070135,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Syria",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SYR?format=json"
+        "https://en.wikipedia.org/wiki/Syria"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4095,19 +3124,8 @@
       ],
       "rank": 294,
       "routes": 34,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Zagreb",
-        "capitalLatitude": 46,
-        "capitalNote": null,
-        "population": 4067500,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Croatia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/HRV?format=json"
+        "https://en.wikipedia.org/wiki/Croatia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4122,19 +3140,8 @@
       ],
       "rank": 298,
       "routes": 34,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Juba",
-        "capitalLatitude": 5,
-        "capitalNote": null,
-        "population": 11062113,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/South_Sudan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SSD?format=json"
+        "https://en.wikipedia.org/wiki/South_Sudan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4147,19 +3154,8 @@
       ],
       "rank": 307,
       "routes": 33,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Muscat",
-        "capitalLatitude": 24,
-        "capitalNote": null,
-        "population": 4974986,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Oman",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/OMN?format=json"
+        "https://en.wikipedia.org/wiki/Oman"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4172,19 +3168,8 @@
       ],
       "rank": 314,
       "routes": 32,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Prague",
-        "capitalLatitude": 50,
-        "capitalNote": null,
-        "population": 10669709,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Czech_Republic",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CZE?format=json"
+        "https://en.wikipedia.org/wiki/Czech_Republic"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4197,19 +3182,8 @@
       ],
       "rank": 316,
       "routes": 32,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Riga",
-        "capitalLatitude": 57,
-        "capitalNote": null,
-        "population": 1912789,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Latvia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LVA?format=json"
+        "https://en.wikipedia.org/wiki/Latvia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4222,19 +3196,8 @@
       ],
       "rank": 321,
       "routes": 32,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "Kathmandu",
-        "capitalLatitude": 28,
-        "capitalNote": null,
-        "population": 28608710,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Nepal",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NPL?format=json"
+        "https://en.wikipedia.org/wiki/Nepal"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4249,19 +3212,8 @@
       ],
       "rank": 329,
       "routes": 31,
-      "country": {
-        "continent": "North America",
-        "subregion": "Caribbean",
-        "capital": "Havana",
-        "capitalLatitude": 23,
-        "capitalNote": null,
-        "population": 11333483,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Cuba",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CUB?format=json"
+        "https://en.wikipedia.org/wiki/Cuba"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4274,19 +3226,8 @@
       ],
       "rank": 330,
       "routes": 31,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Copenhagen",
-        "capitalLatitude": 56,
-        "capitalNote": null,
-        "population": 5818553,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Denmark",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/DNK?format=json"
+        "https://en.wikipedia.org/wiki/Denmark"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4299,19 +3240,8 @@
       ],
       "rank": 332,
       "routes": 31,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Budapest",
-        "capitalLatitude": 47,
-        "capitalNote": null,
-        "population": 9769949,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Hungary",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/HUN?format=json"
+        "https://en.wikipedia.org/wiki/Hungary"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4324,19 +3254,8 @@
       ],
       "rank": 341,
       "routes": 31,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Central Asia",
-        "capital": "Dushanbe",
-        "capitalLatitude": 39,
-        "capitalNote": null,
-        "population": 9321018,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Tajikistan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TJK?format=json"
+        "https://en.wikipedia.org/wiki/Tajikistan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4349,19 +3268,8 @@
       ],
       "rank": 351,
       "routes": 30,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Mogadishu",
-        "capitalLatitude": 2,
-        "capitalNote": null,
-        "population": 10192317.3,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Somalia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SOM?format=json"
+        "https://en.wikipedia.org/wiki/Somalia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4375,7 +3283,6 @@
       ],
       "rank": 352,
       "routes": 29,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Antarctica"
       ],
@@ -4390,19 +3297,8 @@
       ],
       "rank": 353,
       "routes": 29,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Baku",
-        "capitalLatitude": 40,
-        "capitalNote": null,
-        "population": 10023318,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Azerbaijan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/AZE?format=json"
+        "https://en.wikipedia.org/wiki/Azerbaijan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4415,19 +3311,8 @@
       ],
       "rank": 357,
       "routes": 29,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "Yaounde",
-        "capitalLatitude": 4,
-        "capitalNote": null,
-        "population": 25876380,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Cameroon",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CMR?format=json"
+        "https://en.wikipedia.org/wiki/Cameroon"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4440,19 +3325,8 @@
       ],
       "rank": 365,
       "routes": 29,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Montevideo",
-        "capitalLatitude": -35,
-        "capitalNote": null,
-        "population": 3461734,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Uruguay",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/URY?format=json"
+        "https://en.wikipedia.org/wiki/Uruguay"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4465,19 +3339,8 @@
       ],
       "rank": 379,
       "routes": 27,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "Luanda",
-        "capitalLatitude": -9,
-        "capitalNote": null,
-        "population": 31825295,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Angola",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/AGO?format=json"
+        "https://en.wikipedia.org/wiki/Angola"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4490,19 +3353,8 @@
       ],
       "rank": 380,
       "routes": 27,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "Dhaka",
-        "capitalLatitude": 24,
-        "capitalNote": null,
-        "population": 163046161,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Bangladesh",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BGD?format=json"
+        "https://en.wikipedia.org/wiki/Bangladesh"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4515,19 +3367,8 @@
       ],
       "rank": 389,
       "routes": 27,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Sana'a",
-        "capitalLatitude": 15,
-        "capitalNote": "The old city of Sana’a has historic tower houses",
-        "population": 29161922,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Yemen",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/YEM?format=json"
+        "https://en.wikipedia.org/wiki/Yemen"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4540,19 +3381,8 @@
       ],
       "rank": 407,
       "routes": 26,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Western Europe",
-        "capital": "Bern",
-        "capitalLatitude": 47,
-        "capitalNote": null,
-        "population": 8574832,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Switzerland",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CHE?format=json"
+        "https://en.wikipedia.org/wiki/Switzerland"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4565,19 +3395,8 @@
       ],
       "rank": 416,
       "routes": 25,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Vilnius",
-        "capitalLatitude": 55,
-        "capitalNote": null,
-        "population": 2786844,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Lithuania",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LTU?format=json"
+        "https://en.wikipedia.org/wiki/Lithuania"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4590,19 +3409,8 @@
       ],
       "rank": 434,
       "routes": 24,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Porto-Novo",
-        "capitalLatitude": 6,
-        "capitalNote": "Many government offices are in Cotonou",
-        "population": 11801151,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Benin",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BEN?format=json"
+        "https://en.wikipedia.org/wiki/Benin"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4615,19 +3423,8 @@
       ],
       "rank": 446,
       "routes": 24,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Bratislava",
-        "capitalLatitude": 48,
-        "capitalNote": null,
-        "population": 5454073,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Slovakia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SVK?format=json"
+        "https://en.wikipedia.org/wiki/Slovakia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4640,19 +3437,8 @@
       ],
       "rank": 452,
       "routes": 23,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Tirane",
-        "capitalLatitude": 41,
-        "capitalNote": null,
-        "population": 2854191,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Albania",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ALB?format=json"
+        "https://en.wikipedia.org/wiki/Albania"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4667,19 +3453,8 @@
       ],
       "rank": 455,
       "routes": 23,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Sarajevo",
-        "capitalLatitude": 44,
-        "capitalNote": null,
-        "population": 3301000,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Bosnia_and_Herzegovina",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BIH?format=json"
+        "https://en.wikipedia.org/wiki/Bosnia_and_Herzegovina"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4692,19 +3467,8 @@
       ],
       "rank": 456,
       "routes": 23,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Ouagadougou",
-        "capitalLatitude": 12,
-        "capitalNote": null,
-        "population": 20321378,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Burkina_Faso",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BFA?format=json"
+        "https://en.wikipedia.org/wiki/Burkina_Faso"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4717,19 +3481,8 @@
       ],
       "rank": 457,
       "routes": 23,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Amman",
-        "capitalLatitude": 32,
-        "capitalNote": null,
-        "population": 10101694,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Jordan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/JOR?format=json"
+        "https://en.wikipedia.org/wiki/Jordan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4742,19 +3495,8 @@
       ],
       "rank": 464,
       "routes": 23,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Northern Africa",
-        "capital": "Tunis",
-        "capitalLatitude": 37,
-        "capitalNote": null,
-        "population": 11694719,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Tunisia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TUN?format=json"
+        "https://en.wikipedia.org/wiki/Tunisia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4769,19 +3511,8 @@
       ],
       "rank": 470,
       "routes": 22,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "Bangui",
-        "capitalLatitude": 6,
-        "capitalNote": null,
-        "population": 4745185,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Central_African_Republic",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CAF?format=json"
+        "https://en.wikipedia.org/wiki/Central_African_Republic"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4794,19 +3525,8 @@
       ],
       "rank": 489,
       "routes": 21,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Sucre",
-        "capitalLatitude": -14,
-        "capitalNote": "La Paz is the seat of government",
-        "population": 11513100,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Bolivia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BOL?format=json"
+        "https://en.wikipedia.org/wiki/Bolivia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4819,19 +3539,8 @@
       ],
       "rank": 492,
       "routes": 21,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Northern Europe",
-        "capital": "Tallinn",
-        "capitalLatitude": 59,
-        "capitalNote": null,
-        "population": 1326590,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Estonia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/EST?format=json"
+        "https://en.wikipedia.org/wiki/Estonia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4844,19 +3553,8 @@
       ],
       "rank": 499,
       "routes": 21,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Southern Africa",
-        "capital": "Windhoek",
-        "capitalLatitude": -23,
-        "capitalNote": null,
-        "population": 2494530,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Namibia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NAM?format=json"
+        "https://en.wikipedia.org/wiki/Namibia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4872,19 +3570,8 @@
       ],
       "rank": 510,
       "routes": 20,
-      "country": {
-        "continent": "North America",
-        "subregion": "Caribbean",
-        "capital": "Nassau",
-        "capitalLatitude": 25,
-        "capitalNote": null,
-        "population": 389482,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/The_Bahamas",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BHS?format=json"
+        "https://en.wikipedia.org/wiki/The_Bahamas"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4897,19 +3584,8 @@
       ],
       "rank": 515,
       "routes": 20,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Accra",
-        "capitalLatitude": 6,
-        "capitalNote": null,
-        "population": 30417856,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Ghana",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GHA?format=json"
+        "https://en.wikipedia.org/wiki/Ghana"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4922,19 +3598,8 @@
       ],
       "rank": 547,
       "routes": 19,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Asmara",
-        "capitalLatitude": 15,
-        "capitalNote": null,
-        "population": 6081196,
-        "populationYear": 2020
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Eritrea",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ERI?format=json"
+        "https://en.wikipedia.org/wiki/Eritrea"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4947,19 +3612,8 @@
       ],
       "rank": 548,
       "routes": 19,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Tbilisi",
-        "capitalLatitude": 42,
-        "capitalNote": null,
-        "population": 3720382,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Georgia_(country)",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GEO?format=json"
+        "https://en.wikipedia.org/wiki/Georgia_(country)"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -4974,19 +3628,8 @@
       ],
       "rank": 577,
       "routes": 18,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "Brazzaville",
-        "capitalLatitude": -4,
-        "capitalNote": null,
-        "population": 5380508,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Republic_of_the_Congo",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/COG?format=json"
+        "https://en.wikipedia.org/wiki/Republic_of_the_Congo"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5001,19 +3644,8 @@
       ],
       "rank": 589,
       "routes": 18,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Skopje",
-        "capitalLatitude": 42,
-        "capitalNote": null,
-        "population": 2083459,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/North_Macedonia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MKD?format=json"
+        "https://en.wikipedia.org/wiki/North_Macedonia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5026,19 +3658,8 @@
       ],
       "rank": 591,
       "routes": 18,
-      "country": {
-        "continent": "Oceania",
-        "subregion": "Melanesia",
-        "capital": "Port Moresby",
-        "capitalLatitude": -9,
-        "capitalNote": null,
-        "population": 8776109,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Papua_New_Guinea",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PNG?format=json"
+        "https://en.wikipedia.org/wiki/Papua_New_Guinea"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5051,19 +3672,8 @@
       ],
       "rank": 592,
       "routes": 18,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Asuncion",
-        "capitalLatitude": -25,
-        "capitalNote": null,
-        "population": 7044636,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Paraguay",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PRY?format=json"
+        "https://en.wikipedia.org/wiki/Paraguay"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5078,7 +3688,6 @@
       ],
       "rank": 603,
       "routes": 18,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Western_Sahara"
       ],
@@ -5093,7 +3702,6 @@
       ],
       "rank": 617,
       "routes": 17,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Israel"
       ],
@@ -5108,19 +3716,8 @@
       ],
       "rank": 631,
       "routes": 17,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Lome",
-        "capitalLatitude": 6,
-        "capitalNote": null,
-        "population": 8082366,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Togo",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TGO?format=json"
+        "https://en.wikipedia.org/wiki/Togo"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5133,19 +3730,8 @@
       ],
       "rank": 641,
       "routes": 16,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Yerevan",
-        "capitalLatitude": 40,
-        "capitalNote": null,
-        "population": 2957731,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Armenia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ARM?format=json"
+        "https://en.wikipedia.org/wiki/Armenia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5158,7 +3744,6 @@
       ],
       "rank": 665,
       "routes": 16,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Somaliland"
       ],
@@ -5173,19 +3758,8 @@
       ],
       "rank": 670,
       "routes": 16,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Kampala",
-        "capitalLatitude": 0,
-        "capitalNote": null,
-        "population": 44269594,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Uganda",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/UGA?format=json"
+        "https://en.wikipedia.org/wiki/Uganda"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5201,19 +3775,8 @@
       ],
       "rank": 676,
       "routes": 15,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Yamoussoukro",
-        "capitalLatitude": 5,
-        "capitalNote": null,
-        "population": 25716544,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Ivory_Coast",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CIV?format=json"
+        "https://en.wikipedia.org/wiki/Ivory_Coast"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5226,19 +3789,8 @@
       ],
       "rank": 708,
       "routes": 14,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "Thimphu",
-        "capitalLatitude": 28,
-        "capitalNote": null,
-        "population": 763092,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Bhutan",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BTN?format=json"
+        "https://en.wikipedia.org/wiki/Bhutan"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5251,19 +3803,8 @@
       ],
       "rank": 717,
       "routes": 14,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Quito",
-        "capitalLatitude": 0,
-        "capitalNote": null,
-        "population": 17373662,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Ecuador",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ECU?format=json"
+        "https://en.wikipedia.org/wiki/Ecuador"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5276,19 +3817,8 @@
       ],
       "rank": 719,
       "routes": 14,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "Libreville",
-        "capitalLatitude": 0,
-        "capitalNote": null,
-        "population": 2172579,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Gabon",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GAB?format=json"
+        "https://en.wikipedia.org/wiki/Gabon"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5301,19 +3831,8 @@
       ],
       "rank": 722,
       "routes": 14,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Georgetown",
-        "capitalLatitude": 7,
-        "capitalNote": null,
-        "population": 782766,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Guyana",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GUY?format=json"
+        "https://en.wikipedia.org/wiki/Guyana"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5326,19 +3845,8 @@
       ],
       "rank": 732,
       "routes": 14,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "Managua",
-        "capitalLatitude": 12,
-        "capitalNote": null,
-        "population": 6545502,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Nicaragua",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NIC?format=json"
+        "https://en.wikipedia.org/wiki/Nicaragua"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5351,19 +3859,8 @@
       ],
       "rank": 740,
       "routes": 14,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Dodoma",
-        "capitalLatitude": -6,
-        "capitalNote": null,
-        "population": 58005463,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Tanzania",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TZA?format=json"
+        "https://en.wikipedia.org/wiki/Tanzania"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5378,19 +3875,8 @@
       ],
       "rank": 776,
       "routes": 12,
-      "country": {
-        "continent": "North America",
-        "subregion": "Caribbean",
-        "capital": "Santo Domingo",
-        "capitalLatitude": 18,
-        "capitalNote": null,
-        "population": 10738958,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Dominican_Republic",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/DOM?format=json"
+        "https://en.wikipedia.org/wiki/Dominican_Republic"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5403,19 +3889,8 @@
       ],
       "rank": 779,
       "routes": 12,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Conakry",
-        "capitalLatitude": 10,
-        "capitalNote": null,
-        "population": 12771246,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Guinea",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GIN?format=json"
+        "https://en.wikipedia.org/wiki/Guinea"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5428,19 +3903,8 @@
       ],
       "rank": 783,
       "routes": 12,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Podgorica",
-        "capitalLatitude": 42,
-        "capitalNote": null,
-        "population": 622137,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Montenegro",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MNE?format=json"
+        "https://en.wikipedia.org/wiki/Montenegro"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5453,19 +3917,8 @@
       ],
       "rank": 785,
       "routes": 12,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Maputo",
-        "capitalLatitude": -26,
-        "capitalNote": null,
-        "population": 30366036,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Mozambique",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MOZ?format=json"
+        "https://en.wikipedia.org/wiki/Mozambique"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5478,19 +3931,8 @@
       ],
       "rank": 798,
       "routes": 12,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Lusaka",
-        "capitalLatitude": -15,
-        "capitalNote": null,
-        "population": 17861030,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Zambia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ZMB?format=json"
+        "https://en.wikipedia.org/wiki/Zambia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5503,19 +3945,8 @@
       ],
       "rank": 812,
       "routes": 11,
-      "country": {
-        "continent": "North America",
-        "subregion": "Caribbean",
-        "capital": "Port-au-Prince",
-        "capitalLatitude": 19,
-        "capitalNote": null,
-        "population": 11263077,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Haiti",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/HTI?format=json"
+        "https://en.wikipedia.org/wiki/Haiti"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5528,19 +3959,8 @@
       ],
       "rank": 824,
       "routes": 11,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Eastern Europe",
-        "capital": "Chisinau",
-        "capitalLatitude": 47,
-        "capitalNote": null,
-        "population": 2657637,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Moldova",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MDA?format=json"
+        "https://en.wikipedia.org/wiki/Moldova"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5553,19 +3973,8 @@
       ],
       "rank": 834,
       "routes": 11,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Southern Europe",
-        "capital": "Ljubljana",
-        "capitalLatitude": 46,
-        "capitalNote": null,
-        "population": 2087946,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Slovenia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SVN?format=json"
+        "https://en.wikipedia.org/wiki/Slovenia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5579,19 +3988,8 @@
       ],
       "rank": 835,
       "routes": 11,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Southern Asia",
-        "capital": "Sri Jayawardenepura Kotte",
-        "capitalLatitude": 7,
-        "capitalNote": "Colombo is an important commercial city",
-        "population": 21803000,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Sri_Lanka",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LKA?format=json"
+        "https://en.wikipedia.org/wiki/Sri_Lanka"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5605,19 +4003,8 @@
       ],
       "rank": 856,
       "routes": 10,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Nicosia",
-        "capitalLatitude": 35,
-        "capitalNote": null,
-        "population": 1198575,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Cyprus",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CYP?format=json"
+        "https://en.wikipedia.org/wiki/Cyprus"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5630,19 +4017,8 @@
       ],
       "rank": 860,
       "routes": 10,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "Guatemala City",
-        "capitalLatitude": 15,
-        "capitalNote": null,
-        "population": 16604026,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Guatemala",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GTM?format=json"
+        "https://en.wikipedia.org/wiki/Guatemala"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5657,19 +4033,8 @@
       ],
       "rank": 865,
       "routes": 10,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Antananarivo",
-        "capitalLatitude": -20,
-        "capitalNote": null,
-        "population": 26969307,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Madagascar",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MDG?format=json"
+        "https://en.wikipedia.org/wiki/Madagascar"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5682,19 +4047,8 @@
       ],
       "rank": 882,
       "routes": 10,
-      "country": {
-        "continent": "South America",
-        "subregion": "South America",
-        "capital": "Paramaribo",
-        "capitalLatitude": 6,
-        "capitalNote": null,
-        "population": 581363,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Suriname",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SUR?format=json"
+        "https://en.wikipedia.org/wiki/Suriname"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5708,7 +4062,6 @@
       ],
       "rank": 883,
       "routes": 10,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Taiwan"
       ],
@@ -5723,19 +4076,8 @@
       ],
       "rank": 893,
       "routes": 9,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Southern Africa",
-        "capital": "Gaborone",
-        "capitalLatitude": -25,
-        "capitalNote": null,
-        "population": 2303697,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Botswana",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BWA?format=json"
+        "https://en.wikipedia.org/wiki/Botswana"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5748,19 +4090,8 @@
       ],
       "rank": 902,
       "routes": 9,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "Tegucigalpa",
-        "capitalLatitude": 15,
-        "capitalNote": null,
-        "population": 9746117,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Honduras",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/HND?format=json"
+        "https://en.wikipedia.org/wiki/Honduras"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5773,19 +4104,8 @@
       ],
       "rank": 911,
       "routes": 9,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Monrovia",
-        "capitalLatitude": 6,
-        "capitalNote": null,
-        "population": 4937374,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Liberia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LBR?format=json"
+        "https://en.wikipedia.org/wiki/Liberia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5799,19 +4119,8 @@
       ],
       "rank": 943,
       "routes": 8,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Djibouti",
-        "capitalLatitude": 12,
-        "capitalNote": null,
-        "population": 973560,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Djibouti",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/DJI?format=json"
+        "https://en.wikipedia.org/wiki/Djibouti"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5824,19 +4133,8 @@
       ],
       "rank": 946,
       "routes": 8,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Banjul",
-        "capitalLatitude": 13,
-        "capitalNote": null,
-        "population": 2347706,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/The_Gambia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GMB?format=json"
+        "https://en.wikipedia.org/wiki/The_Gambia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5849,19 +4147,8 @@
       ],
       "rank": 948,
       "routes": 8,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Bissau",
-        "capitalLatitude": 12,
-        "capitalNote": null,
-        "population": 1920922,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Guinea-Bissau",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GNB?format=json"
+        "https://en.wikipedia.org/wiki/Guinea-Bissau"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5874,7 +4161,6 @@
       ],
       "rank": 954,
       "routes": 8,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Kosovo"
       ],
@@ -5889,19 +4175,8 @@
       ],
       "rank": 978,
       "routes": 8,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Harare",
-        "capitalLatitude": -18,
-        "capitalNote": null,
-        "population": 14645468,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Zimbabwe",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/ZWE?format=json"
+        "https://en.wikipedia.org/wiki/Zimbabwe"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5915,19 +4190,8 @@
       ],
       "rank": 995,
       "routes": 7,
-      "country": {
-        "continent": "North America",
-        "subregion": "Caribbean",
-        "capital": "Kingston",
-        "capitalLatitude": 18,
-        "capitalNote": null,
-        "population": 2948279,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Jamaica",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/JAM?format=json"
+        "https://en.wikipedia.org/wiki/Jamaica"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5940,19 +4204,8 @@
       ],
       "rank": 1041,
       "routes": 6,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "San Jose",
-        "capitalLatitude": 10,
-        "capitalNote": null,
-        "population": 5047561,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Costa_Rica",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/CRI?format=json"
+        "https://en.wikipedia.org/wiki/Costa_Rica"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5965,19 +4218,8 @@
       ],
       "rank": 1052,
       "routes": 6,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Kuwait City",
-        "capitalLatitude": 29,
-        "capitalNote": null,
-        "population": 4207083,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Kuwait",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/KWT?format=json"
+        "https://en.wikipedia.org/wiki/Kuwait"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -5991,19 +4233,8 @@
       ],
       "rank": 1069,
       "routes": 6,
-      "country": {
-        "continent": "North America",
-        "subregion": "Caribbean",
-        "capital": "San Juan",
-        "capitalLatitude": 18,
-        "capitalNote": null,
-        "population": 3193694,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Puerto_Rico",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/PRI?format=json"
+        "https://en.wikipedia.org/wiki/Puerto_Rico"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6016,19 +4247,8 @@
       ],
       "rank": 1070,
       "routes": 6,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Doha",
-        "capitalLatitude": 25,
-        "capitalNote": null,
-        "population": 2832067,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Qatar",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/QAT?format=json"
+        "https://en.wikipedia.org/wiki/Qatar"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6041,19 +4261,8 @@
       ],
       "rank": 1085,
       "routes": 5,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "Belmopan",
-        "capitalLatitude": 17,
-        "capitalNote": null,
-        "population": 390353,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Belize",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BLZ?format=json"
+        "https://en.wikipedia.org/wiki/Belize"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6066,19 +4275,8 @@
       ],
       "rank": 1108,
       "routes": 5,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Lilongwe",
-        "capitalLatitude": -14,
-        "capitalNote": null,
-        "population": 18628747,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Malawi",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/MWI?format=json"
+        "https://en.wikipedia.org/wiki/Malawi"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6091,7 +4289,6 @@
       ],
       "rank": 1119,
       "routes": 5,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Palestine"
       ],
@@ -6106,19 +4303,8 @@
       ],
       "rank": 1121,
       "routes": 5,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Western Africa",
-        "capital": "Freetown",
-        "capitalLatitude": 8,
-        "capitalNote": null,
-        "population": 7813215,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Sierra_Leone",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SLE?format=json"
+        "https://en.wikipedia.org/wiki/Sierra_Leone"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6131,19 +4317,8 @@
       ],
       "rank": 1137,
       "routes": 4,
-      "country": {
-        "continent": "North America",
-        "subregion": "Central America",
-        "capital": "San Salvador",
-        "capitalLatitude": 14,
-        "capitalNote": null,
-        "population": 6453553,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/El_Salvador",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SLV?format=json"
+        "https://en.wikipedia.org/wiki/El_Salvador"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6156,19 +4331,8 @@
       ],
       "rank": 1144,
       "routes": 4,
-      "country": {
-        "continent": "Asia",
-        "subregion": "Western Asia",
-        "capital": "Beirut",
-        "capitalLatitude": 34,
-        "capitalNote": null,
-        "population": 6855713,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Lebanon",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LBN?format=json"
+        "https://en.wikipedia.org/wiki/Lebanon"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6181,19 +4345,8 @@
       ],
       "rank": 1172,
       "routes": 3,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Bujumbura",
-        "capitalLatitude": -3,
-        "capitalNote": null,
-        "population": 11530580,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Burundi",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BDI?format=json"
+        "https://en.wikipedia.org/wiki/Burundi"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6206,19 +4359,8 @@
       ],
       "rank": 1188,
       "routes": 3,
-      "country": {
-        "continent": "Oceania",
-        "subregion": "Melanesia",
-        "capital": "Noum'ea",
-        "capitalLatitude": -22,
-        "capitalNote": null,
-        "population": 287800,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/New_Caledonia",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/NCL?format=json"
+        "https://en.wikipedia.org/wiki/New_Caledonia"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6233,19 +4375,8 @@
       ],
       "rank": 1197,
       "routes": 3,
-      "country": {
-        "continent": "Oceania",
-        "subregion": "Melanesia",
-        "capital": "Honiara",
-        "capitalLatitude": -9,
-        "capitalNote": null,
-        "population": 669823,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Solomon_Islands",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SLB?format=json"
+        "https://en.wikipedia.org/wiki/Solomon_Islands"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6258,19 +4389,8 @@
       ],
       "rank": 1202,
       "routes": 3,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Dili",
-        "capitalLatitude": -9,
-        "capitalNote": null,
-        "population": 1293119,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Timor-Leste",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TLS?format=json"
+        "https://en.wikipedia.org/wiki/Timor-Leste"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6283,19 +4403,8 @@
       ],
       "rank": 1203,
       "routes": 3,
-      "country": {
-        "continent": "North America",
-        "subregion": "Caribbean",
-        "capital": "Port-of-Spain",
-        "capitalLatitude": 11,
-        "capitalNote": null,
-        "population": 1394973,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Trinidad_and_Tobago",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/TTO?format=json"
+        "https://en.wikipedia.org/wiki/Trinidad_and_Tobago"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6308,19 +4417,8 @@
       ],
       "rank": 1207,
       "routes": 2,
-      "country": {
-        "continent": "Asia",
-        "subregion": "South-Eastern Asia",
-        "capital": "Bandar Seri Begawan",
-        "capitalLatitude": 5,
-        "capitalNote": null,
-        "population": 433285,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Brunei",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/BRN?format=json"
+        "https://en.wikipedia.org/wiki/Brunei"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6335,19 +4433,8 @@
       ],
       "rank": 1210,
       "routes": 2,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Middle Africa",
-        "capital": "Malabo",
-        "capitalLatitude": 4,
-        "capitalNote": null,
-        "population": 1355986,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Equatorial_Guinea",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/GNQ?format=json"
+        "https://en.wikipedia.org/wiki/Equatorial_Guinea"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6360,19 +4447,8 @@
       ],
       "rank": 1221,
       "routes": 2,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Southern Africa",
-        "capital": "Maseru",
-        "capitalLatitude": -30,
-        "capitalNote": null,
-        "population": 2125268,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Lesotho",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LSO?format=json"
+        "https://en.wikipedia.org/wiki/Lesotho"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6385,19 +4461,8 @@
       ],
       "rank": 1223,
       "routes": 2,
-      "country": {
-        "continent": "Europe",
-        "subregion": "Western Europe",
-        "capital": "Luxembourg",
-        "capitalLatitude": 50,
-        "capitalNote": null,
-        "population": 619896,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Luxembourg",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/LUX?format=json"
+        "https://en.wikipedia.org/wiki/Luxembourg"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6412,7 +4477,6 @@
       ],
       "rank": 1232,
       "routes": 2,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/Northern_Cyprus"
       ],
@@ -6429,19 +4493,8 @@
       ],
       "rank": 1260,
       "routes": 1,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Southern Africa",
-        "capital": "Mbabane",
-        "capitalLatitude": -27,
-        "capitalNote": null,
-        "population": 1148130,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Eswatini",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/SWZ?format=json"
+        "https://en.wikipedia.org/wiki/Eswatini"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6456,7 +4509,6 @@
       ],
       "rank": 1264,
       "routes": 1,
-      "country": null,
       "sources": [
         "https://en.wikipedia.org/wiki/French_Southern_and_Antarctic_Lands"
       ],
@@ -6471,19 +4523,8 @@
       ],
       "rank": 1286,
       "routes": 1,
-      "country": {
-        "continent": "Africa",
-        "subregion": "Eastern Africa",
-        "capital": "Kigali",
-        "capitalLatitude": -2,
-        "capitalNote": null,
-        "population": 12626950,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Rwanda",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/RWA?format=json"
+        "https://en.wikipedia.org/wiki/Rwanda"
       ],
       "sourceReviewDate": "2026-10-20"
     },
@@ -6496,19 +4537,8 @@
       ],
       "rank": 1293,
       "routes": 1,
-      "country": {
-        "continent": "Oceania",
-        "subregion": "Melanesia",
-        "capital": "Port-Vila",
-        "capitalLatitude": -18,
-        "capitalNote": null,
-        "population": 299882,
-        "populationYear": 2019
-      },
       "sources": [
-        "https://en.wikipedia.org/wiki/Vanuatu",
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_110m_admin_0_countries.geojson",
-        "https://api.worldbank.org/v2/country/VUT?format=json"
+        "https://en.wikipedia.org/wiki/Vanuatu"
       ],
       "sourceReviewDate": "2026-10-20"
     }
