@@ -19,7 +19,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -56,6 +56,7 @@ import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead'
 import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
+import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { routePreview } from '@/lib/live-room/route-preview';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
@@ -955,11 +956,14 @@ export function FlightDeck({
   // Test switch: ?descent=on jumps a flight to just before its descent, to preview the approach to a city (Fuji on
   // the way into Tokyo) without waiting for the end of class. Time moves on normally from there.
   const [descentTest, setDescentTest] = useState(false);
+  const [issTest, setIssTest] = useState(false);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     setDescentTest(q.get('descent') === 'on');
     // test switch: ?coast=on draws the real coastlines (off in classes until approved)
     if (q.get('coast') === 'on') setRealCoast(true);
+    // test switch: ?iss=on sends the space station over shortly after take-off
+    setIssTest(q.get('iss') === 'on');
   }, []);
   const [descentShift, setDescentShift] = useState(0);
   const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
@@ -1195,6 +1199,31 @@ export function FlightDeck({
     const timeOfDay: TimeOfDay = s.elevation < -6 ? 'night' : s.elevation < 8 ? (s.azimuth < 180 ? 'dawn' : 'dusk') : 'day';
     return { sun: { ...s, heading }, moon: moonPosition(at, new Date(now)), timeOfDay, clock: solarClock(at.lng, new Date(now)) };
   }, [below.point, destination, flightStage, now]);
+  // The International Space Station passing over (Oct 2026): checked every minute of the cruise; a pass shows only
+  // when it would really be seen: within about 2,000 km, in sunlight itself, under a dark or twilight sky here.
+  const [issPass, setIssPass] = useState<{ start: number; side: 'left' | 'right'; where: string } | null>(null);
+  const issMinute = flightStage === 'flying' && !descending && !holding ? Math.floor(now / 60_000) : null;
+  useEffect(() => {
+    if (issMinute == null) return;
+    if (issPass && Date.now() - issPass.start < 25 * 60_000) return; // one pass at a time, then a long gap
+    if (issTest && !issPass && takeoffAt !== null && Date.now() - takeoffAt > 20_000) {
+      setIssPass({ start: Date.now(), side: 'left', where: '800 km away, 420 km up' });
+      return;
+    }
+    if (skyNow.timeOfDay === 'day') return;
+    let live = true;
+    const here = below.point;
+    void fetch('/api/live-room/iss').then((r) => (r.ok ? r.json() : null)).then((d: { lat: number; lng: number; altitudeKm: number; sunlit: boolean } | null) => {
+      if (!live || !d || !d.sunlit) return;
+      const km = distanceBetweenCoordsKm(here, d);
+      if (km > 2000) return;
+      const rel = ((bearingDeg(here, d) - skyNow.sun.heading + 540) % 360) - 180;
+      setIssPass({ start: Date.now(), side: rel < 0 ? 'left' : 'right', where: `${Math.round(km / 50) * 50} km away, ${d.altitudeKm} km up` });
+    }).catch(() => {});
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [issMinute, issTest]);
+  const issActive = issPass && now - issPass.start < ISS_PASS_MS ? issPass : null;
   const [catalogueState, setCatalogueState] = useState({ query: '', category: null as string | null, favourites: [] as string[], recent: [] as string[] });
   // Each class keeps its favourites and recent activities between lessons (on this computer).
   const quickBarKey = classId ? `lc-class-quickbar-${classId}` : null;
@@ -2451,6 +2480,7 @@ export function FlightDeck({
           coast={routeCoast}
           highGround={routeGround}
           events={stableEvents}
+        iss={issActive}
           weather={liveWx?.condition ?? (flightStage === 'gate' || (minutesFlown ?? 0) < 3 ? rollWeather(`${sessionId}:${origin.id}`, origin.scene, skyNow.timeOfDay === 'night') : rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night'))}
           cloudCover={liveWx?.cloudCover}
           terrain={steadyGround.terrain}
@@ -2555,6 +2585,13 @@ export function FlightDeck({
               </div>
             </div>
           )}
+        </div>
+      )}
+      {issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
+        <div className="absolute bottom-20 left-4 z-[7]">
+          <button type="button" onClick={() => openMoment({ id: `iss:${issActive.start}`, at: minutesFlown ?? 0, kind: 'landmark', title: 'the International Space Station', where: issActive.where })} className="flex items-center gap-1.5 rounded-full border border-sky-200/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
+            <Satellite className="h-3.5 w-3.5" /> Look up: the International Space Station · {issActive.where}
+          </button>
         </div>
       )}
       {!runningKey && !cinematic && view !== 'map' && !momentCard && (momentDue || momentUpcoming) && (

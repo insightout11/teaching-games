@@ -1,5 +1,6 @@
 'use client';
 
+import { IssPass } from '@/components/live-room/flight/iss-pass';
 import type { SceneEvent } from '@/components/live-room/flight/event-art';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
@@ -80,6 +81,8 @@ export interface WindscreenFlightProps {
   highGround?: HighGround;
   /** Real natural events within sight (NASA's list): smoke, ash, storm clouds. */
   events?: SceneEvent[];
+  /** The International Space Station passing over (when it is really visible): when it started and from which side. */
+  iss?: { start: number; side: 'left' | 'right' } | null;
   /** Real cloud cover below (0–100), when known. */
   cloudCover?: number;
   /** An activity or text is on screen: the view is dimmed slightly behind it (the weather itself does not change). */
@@ -97,7 +100,7 @@ export interface WindscreenFlightProps {
   altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, waters, coast, highGround, events, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, waters, coast, highGround, events, iss = null, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -247,6 +250,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
         ) : (
           <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: "easeInOut" }}>
             <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} />
+            {iss && phase === 'cruise' && <IssPass start={iss.start} side={iss.side} />}
             <CockpitWorld altitude={descentAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={landmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} highGround={highGround} events={events} />
             <div
               className="absolute inset-x-0 bottom-0"
