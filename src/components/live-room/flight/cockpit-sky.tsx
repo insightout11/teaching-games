@@ -146,7 +146,7 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
                 {/* the older part of the trail, spread out and soft */}
                 <div className="absolute right-[40%] top-[2px] h-[10px] w-[60%]" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12) 60%, transparent)', filter: 'blur(3px)' }} />
                 <svg viewBox="0 0 24 10" className="absolute right-0 top-[2px] h-[10px] w-[16px]" aria-hidden>
-                  <path d="M1 5 L17 4.2 L23 5 L17 5.8 Z M9 4.4 L13 0.8 L14.5 0.8 L12.5 4.4 Z M9 5.6 L13 9.2 L14.5 9.2 L12.5 5.6 Z M2 4.6 L4 2.6 L5 2.6 L4.2 4.6 Z" fill="rgba(245,248,255,0.95)" />
+                  <path d="M1 5 L17 4.2 L23 5 L17 5.8 Z M15 4.4 L10.5 0.6 L9 0.6 L11.5 4.4 Z M15 5.6 L10.5 9.4 L9 9.4 L11.5 5.6 Z M5 4.6 L2.4 2.4 L1.4 2.4 L2.6 4.6 Z" fill="rgba(245,248,255,0.95)" />
                 </svg>
               </div>
             </div>
