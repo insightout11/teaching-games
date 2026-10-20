@@ -12,6 +12,10 @@ export type RoomMessage =
   | { type: 'focus'; title: string; credit?: string }
   /** Room → Sources window: the class topic changed (the Library shelf follows it). */
   | { type: 'topic'; title: string }
+  /** Room → Sources window: who has been heard this lesson (private: never on the shared screen). */
+  | { type: 'heard'; students: Array<{ id: string; name: string; heard: boolean }> }
+  /** Sources window → room: the teacher marks a student as heard (or not). */
+  | { type: 'spoke'; id: string; heard: boolean }
   | { type: 'hello' };
 
 const channelName = (sessionId: string) => `lc-live-room:${sessionId}`;

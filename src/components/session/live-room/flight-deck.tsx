@@ -921,6 +921,20 @@ export function FlightDeck({
   // Class-list students not on the plane yet (the + seat offers them).
   const notAboard = useMemo(() => rosterAll.filter((r) => !allSeats.some((p) => p.student_id === r.id)), [rosterAll, allSeats]);
   const [spotlight, setSpotlightId] = useState<string | null>(null);
+  // Who has been heard this lesson (picked, spotlit, marked on their seat, or ticked in the private window). Only
+  // the private window shows it: a list of quiet students never goes on the shared screen.
+  const heardKey = `lc-heard:${sessionId}`;
+  const [heardIds, setHeardIds] = useState<string[]>(() => {
+    try { const v = JSON.parse(sessionStorage.getItem(`lc-heard:${sessionId}`) ?? '[]'); return Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []; } catch { return []; }
+  });
+  const setHeard = useCallback((id: string, heard = true) => {
+    setHeardIds((ids) => {
+      const next = heard ? (ids.includes(id) ? ids : [...ids, id]) : ids.filter((x) => x !== id);
+      try { sessionStorage.setItem(heardKey, JSON.stringify(next)); } catch { /* private browsing */ }
+      return next;
+    });
+  }, [heardKey]);
+  useEffect(() => { if (spotlight) setHeard(spotlight); }, [spotlight, setHeard]);
   // Spotlight doubles as the game's "up next" student (the shell sidebar that
   // used to pick it is hidden in the room).
   const setSpotlight = useCallback((id: string | null) => {
@@ -1398,12 +1412,16 @@ export function FlightDeck({
       if (m.type === 'show') present(m.item);
       else if (m.type === 'add') addItem(sessionId, m.item);
       else if (m.type === 'focus') makeFocus({ title: m.title, credit: m.credit });
-      // A newly opened Sources window asks what the topic is.
-      else if (m.type === 'hello' && focusedTitleRef.current) channel?.postMessage({ type: 'topic', title: focusedTitleRef.current });
+      else if (m.type === 'spoke') setHeard(m.id, m.heard);
+      // A newly opened Sources window asks what the topic is (and who has been heard).
+      else if (m.type === 'hello') {
+        if (focusedTitleRef.current) channel?.postMessage({ type: 'topic', title: focusedTitleRef.current });
+        heardPostRef.current?.();
+      }
     });
     roomChannelRef.current = channel;
     return () => { channel?.close(); roomChannelRef.current = null; };
-  }, [sessionId, present, addItem, makeFocus]);
+  }, [sessionId, present, addItem, makeFocus, setHeard]);
 
   const openPopout = () => {
     popupOpened.current = !!document.fullscreenElement;
@@ -1430,6 +1448,14 @@ export function FlightDeck({
   // ── cabin ────────────────────────────────────────────────────────────────
   // Everyone aboard: phones, plus students without a device whom the teacher boarded.
   const seated = allSeats;
+  // Tell the private window who has been heard (whenever the cabin or the ticks change, and when it opens).
+  const heardPostRef = useRef<(() => void) | null>(null);
+  heardPostRef.current = () => roomChannelRef.current?.postMessage({
+    type: 'heard',
+    students: seated.map((p) => ({ id: p.id, name: p.display_name, heard: heardIds.includes(p.id) })),
+  });
+  const heardSig = `${seated.map((p) => p.id).join(',')}|${heardIds.join(',')}`;
+  useEffect(() => { heardPostRef.current?.(); }, [heardSig]);
   const newest = useMemo(() => [...participants].sort((a, b) => a.joined_at.localeCompare(b.joined_at)).pop() ?? null, [participants]);
   const answered = useMemo(() => {
     if (!runningKey) return new Set<string>();
@@ -1513,6 +1539,7 @@ export function FlightDeck({
     return () => { live = false; };
   }, [seatMenuP?.id, seatMenuP?.deviceless, sessionId]);
   const markSeat = async (p: DeckParticipant, mark: 'right' | 'part' | 'wrong') => {
+    setHeard(p.id);
     if (!p.student_id) return;
     const points = mark === 'right' ? 10 : mark === 'part' ? 3 : 0;
     flash(mark === 'right' ? `${p.display_name}: right` : mark === 'part' ? `${p.display_name}: took part` : `${p.display_name}: not this time`);

@@ -21,11 +21,22 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
   const [googleRequest, setGoogleRequest] = useState<{ query: string; n: number } | null>(null);
 
   useEffect(() => {
-    channelRef.current = openRoomChannel(sessionId, (m) => { if (m.type === 'topic') setTopic(m.title || null); });
+    channelRef.current = openRoomChannel(sessionId, (m) => {
+      if (m.type === 'topic') setTopic(m.title || null);
+      else if (m.type === 'heard') setHeard(m.students);
+    });
     channelRef.current?.postMessage({ type: 'hello' });
     document.title = 'Private window · LessonCaptain';
     return () => channelRef.current?.close();
   }, [sessionId]);
+
+  // Who has not been heard yet this lesson (private: only here).
+  const [heard, setHeard] = useState<Array<{ id: string; name: string; heard: boolean }>>([]);
+  const [showHeard, setShowHeard] = useState(false);
+  const tick = (id: string, isHeard: boolean) => {
+    setHeard((list) => list.map((s) => (s.id === id ? { ...s, heard: isHeard } : s)));
+    channelRef.current?.postMessage({ type: 'spoke', id, heard: isHeard });
+  };
 
   const send = (type: 'show' | 'add', item: RoomItem) => {
     channelRef.current?.postMessage({ type, item });
@@ -51,6 +62,29 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
       <p className="px-1 text-xs text-white/55">
         Private window. Share only the room tab on Zoom; nothing here reaches the class until you choose.
       </p>
+      {heard.length > 0 && (
+        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2.5" aria-label="Not heard yet">
+          <div className="mb-1.5 flex items-center justify-between gap-2">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-300">
+              Not heard yet · {heard.filter((s) => !s.heard).length} of {heard.length}
+            </span>
+            <button type="button" onClick={() => setShowHeard((v) => !v)} className="text-[11px] text-white/50 hover:text-white">{showHeard ? 'Hide heard' : 'Show heard'}</button>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {heard.filter((s) => !s.heard).map((s) => (
+              <button key={s.id} type="button" onClick={() => tick(s.id, true)} title="Tap when they have spoken" className="rounded-full border border-amber-300/40 px-2.5 py-1 text-xs text-amber-50 hover:bg-amber-300/10">{s.name}</button>
+            ))}
+            {heard.every((s) => s.heard) && <span className="text-xs text-emerald-200/80">Everyone has been heard.</span>}
+          </div>
+          {showHeard && heard.some((s) => s.heard) && (
+            <div className="mt-2 flex flex-wrap gap-1.5 border-t border-white/10 pt-2">
+              {heard.filter((s) => s.heard).map((s) => (
+                <button key={s.id} type="button" onClick={() => tick(s.id, false)} title="Undo" className="rounded-full border border-white/15 px-2.5 py-1 text-xs text-white/50 line-through hover:text-white">{s.name}</button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
       <div className="flex gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1">
         {(['messages', 'board', 'sources'] as const).map((t) => (
           <button key={t} type="button" onClick={() => setTab(t)} className={['flex-1 rounded-lg px-3 py-1.5 text-sm capitalize', tab === t ? 'bg-white/10 text-white' : 'text-white/55 hover:text-white'].join(' ')}>
