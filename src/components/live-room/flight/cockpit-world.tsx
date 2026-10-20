@@ -11,6 +11,7 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
+import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
@@ -271,7 +272,7 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
   return c;
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround }: { /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events }: { /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed, paused, glint, altitude, cloudCover });
@@ -301,6 +302,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     }
     for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
   }, [landmarks]);
+  // Real natural events, fixed on the ground once they come into range (as the landmarks)
+  const eventWorld = useRef(new Map<string, { kind: EventKind; z: number; x: number; seed: number }>());
+  useEffect(() => {
+    const map = eventWorld.current;
+    const keep = new Set<string>();
+    for (const e of events ?? []) {
+      keep.add(e.id);
+      if (!map.has(e.id)) map.set(e.id, { kind: e.kind, z: cam.current + e.ahead * CITY_UNITS_PER_KM, x: e.lateral * CITY_UNITS_PER_KM * 0.7, seed: (e.id.length * 97 + e.id.charCodeAt(0)) % 1000 });
+    }
+    for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
+  }, [events]);
   // Real rivers and lakes, fixed on the ground once they come into range (as the cities); a river or lake already
   // lying ahead is not added again, a passed one can come back when the route still follows it.
   const waterWorld = useRef<Array<{ name: string; lake: boolean; width: number; rings: Array<Array<[number, number]>> }>>([]);
@@ -938,7 +950,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       });
 
       // ── Mountains and hills standing on that ground ────────────────────
-      const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind; cloud?: SkyCloud }> = [];
+      const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind; cloud?: SkyCloud; ev?: { kind: EventKind; seed: number } }> = [];
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
       // ordinary mountains keep clear of a landmark (Fuji stands alone; the pyramids on open sand)
       const nearLandmark = (p: Peak) => lms.some((l) => Math.abs(p.z - l.z) < LANDMARK_SIZE[l.kind].clear && Math.abs(p.x - l.x) < LANDMARK_SIZE[l.kind].clear * 1.4);
@@ -1014,17 +1026,24 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           all.push({ p: { x: c.x, z: c.z, h: 0, w: 0, tone: 0, roll: 0, hill: false }, layer: L[L.length - 1], cloud: c });
         }
       }
+      if (realEvents()) eventWorld.current.forEach((e) => {
+        if (e.z - camZ > Z_NEAR * 2 && e.z - camZ < Z_FAR) all.push({ p: { x: e.x, z: e.z, h: 0, w: 0, tone: 0, roll: 0, hill: false }, layer: L[L.length - 1], ev: { kind: e.kind, seed: e.seed } });
+      });
       all.sort((a, b) => b.p.z - a.p.z);
       const skyLight = cloudLight(dark, look.current.glow, haze);
       const proj = (x: number, z: number, y = 0): [number, number] => {
         const rz = Math.max(Z_NEAR, z - camZ), s = F / rz;
         return [w / 2 + x * s, horizonY + (camH - y) * s];
       };
-      for (const { p, layer, lm, cloud } of all) {
+      for (const { p, layer, lm, cloud, ev } of all) {
         const rz = p.z - camZ;
         if (rz > Z_FAR) continue;
         const s = F / rz;
         const baseY = horizonY + camH * s;
+        if (ev) {
+          drawSceneEvent(ctx, ev.kind, ev.seed, p.x, p.z, proj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000));
+          continue;
+        }
         if (cloud) {
           drawSkyCloud(ctx, cloud, proj, camZ, F, skyLight, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 7000), dark);
           continue;

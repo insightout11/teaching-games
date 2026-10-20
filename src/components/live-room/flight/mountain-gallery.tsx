@@ -10,6 +10,7 @@ import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { setPeakStyle } from '@/components/live-room/flight/peak-art';
 import { setGroundRelief, setNightLights, setRealCoast, setRealRelief, setRealWaters, setSoftEdges } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
+import { setRealEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { watersAhead, type Waters } from '@/lib/live-room/waters-ahead';
 import { setSkyClouds } from '@/components/live-room/flight/sky-clouds';
@@ -80,6 +81,33 @@ const RELIEFS: Array<{ id: string; label: string; at: { lat: number; lng: number
   { id: 'tibet', label: 'The Tibetan plateau', at: { lat: 31.5, lng: 87.5 }, heading: 90, terrain: 'tundra', region: 'Asia' },
   { id: 'netherlands', label: 'The flat Netherlands (no mountains)', at: { lat: 52.2, lng: 4.6 }, heading: 90, terrain: 'farmland', region: 'Europe' },
 ];
+const EVENTS: Array<{ kind: EventKind; label: string; terrain: Terrain; region: string }> = [
+  { kind: 'fire', label: 'A wildfire (smoke)', terrain: 'forest', region: 'North America' },
+  { kind: 'volcano', label: 'An erupting volcano (ash and steam)', terrain: 'farmland', region: 'Asia' },
+  { kind: 'storm', label: 'A storm (a tall storm cloud)', terrain: 'ocean', region: 'Asia' },
+];
+function EventView({ kind, tod }: { kind: EventKind; tod: TimeOfDay }) {
+  const scene = EVENTS.find((e) => e.kind === kind) ?? EVENTS[0];
+  useEffect(() => { setRealEvents(true); }, []);
+  const events = useMemo<SceneEvent[]>(() => [{ id: `demo-${kind}`, kind, ahead: 70, lateral: -18 }], [kind]);
+  const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
+  const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
+  return (
+    <div className="min-h-screen bg-[#070b14] p-4 text-white">
+      <div className="mb-2 flex flex-wrap items-center gap-3">
+        <a href="?" className="text-sm text-cyan-200 underline">Back to all</a>
+        {(['day', 'dusk', 'night'] as TimeOfDay[]).map((t) => <a key={t} href={`?event=${kind}&tod=${t}`} className="text-sm text-cyan-200 underline">{t}</a>)}
+        <Fps />
+        <span className="font-mono text-xs text-white/60">{scene.label} · {tod} · reload to fly past again</span>
+      </div>
+      <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
+        <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
+        <CockpitWorld terrain={scene.terrain} region={scene.region} palette={palette} night={tod === 'night'} speed={0.35} events={events} cloudCover={kind === 'storm' ? 55 : 15} />
+      </div>
+    </div>
+  );
+}
+
 function ReliefView({ id, tod }: { id: string; tod: TimeOfDay }) {
   const place = RELIEFS.find((p) => p.id === id) ?? RELIEFS[0];
   const [ground, setGround] = useState<HighGround | undefined>(undefined);
@@ -179,6 +207,7 @@ export function MountainGallery() {
   const [waterTod, setWaterTod] = useState<TimeOfDay>('day');
   const [coastId, setCoastId] = useState<string | null>(null);
   const [reliefId, setReliefId] = useState<string | null>(null);
+  const [eventKindQ, setEventKindQ] = useState<EventKind | null>(null);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = q.get('style') === 'old' ? 'old' : 'new';
@@ -189,6 +218,7 @@ export function MountainGallery() {
     setSkyClouds(q.get('clouds') !== 'off');
     setSkyV2(q.get('sky') !== 'old');
     setCover(Number(q.get('cover') ?? '45') || 45);
+    if (q.get('event')) { setEventKindQ(q.get('event') as EventKind); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('relief')) { setReliefId(q.get('relief')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('coast')) { setCoastId(q.get('coast')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('water')) { setWaterId(q.get('water')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
@@ -197,6 +227,7 @@ export function MountainGallery() {
     const region = q.get('one');
     if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);
+  if (eventKindQ) return <EventView kind={eventKindQ} tod={waterTod} />;
   if (reliefId) return <ReliefView id={reliefId} tod={waterTod} />;
   if (coastId) return <CoastView id={coastId} tod={waterTod} />;
   if (waterId) return <WaterView id={waterId} tod={waterTod} />;
@@ -223,6 +254,12 @@ export function MountainGallery() {
         <span className="text-sm text-white/60">Click any picture to watch it fly, full size.</span>
       </div>
       <section>
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Real natural events (calm visuals)</p>
+        <div className="mb-4 flex flex-wrap gap-2">
+          {EVENTS.map((e) => (
+            <a key={e.kind} href={`?event=${e.kind}`} className="rounded-full border border-white/20 px-3 py-1 text-sm text-white/85 hover:border-amber-300/60">{e.label}</a>
+          ))}
+        </div>
         <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Mountains from real elevation</p>
         <div className="mb-4 flex flex-wrap gap-2">
           {RELIEFS.map((p) => (
