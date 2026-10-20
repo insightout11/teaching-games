@@ -26,18 +26,27 @@ function km(a: LatLng, b: LatLng): number {
   return 2 * 6371 * Math.asin(Math.min(1, Math.sqrt(h)));
 }
 
+/** Every catalogue landmark in view from `at` (drawn or not): for the route report and, later, the album's hints. */
+export function catalogueInView(at: LatLng, headingDeg: number, catalog: readonly Landmark[] = LANDMARK_CATALOG): Array<{ id: string; ahead: number; lateral: number }> {
+  return inView(at, headingDeg, catalog, false).map(({ id, ahead, lateral }) => ({ id, ahead, lateral }));
+}
+
 /** Drawn landmarks in view from `at`, flying on `headingDeg`: how far ahead and to the side (km; right is positive). */
 export function landmarksAhead(at: LatLng, headingDeg: number, catalog: readonly Landmark[] = LANDMARK_CATALOG): WorldLandmark[] {
-  const out: WorldLandmark[] = [];
+  return inView(at, headingDeg, catalog, true) as WorldLandmark[];
+}
+
+function inView(at: LatLng, headingDeg: number, catalog: readonly Landmark[], drawnOnly: boolean): Array<WorldLandmark | { id: string; kind: null; ahead: number; lateral: number }> {
+  const out: Array<WorldLandmark | { id: string; kind: null; ahead: number; lateral: number }> = [];
   for (const l of catalog) {
-    const kind = DRAWN[l.shape];
-    if (!kind) continue;
+    const kind = DRAWN[l.shape] ?? null;
+    if (drawnOnly && !kind) continue;
     const d = km(at, l);
     if (d > AHEAD_MAX_KM * 1.2) continue;
     const rel = ((bearingDeg(at, l) - headingDeg) * Math.PI) / 180;
     const ahead = d * Math.cos(rel), lateral = d * Math.sin(rel);
     if (ahead < AHEAD_MIN_KM || ahead > AHEAD_MAX_KM || Math.abs(lateral) > ahead * SIDE_SHARE + 6) continue;
-    out.push({ id: l.id, kind, ahead, lateral });
+    out.push(kind ? { id: l.id, kind, ahead, lateral } : { id: l.id, kind: null, ahead, lateral });
   }
   return out;
 }
