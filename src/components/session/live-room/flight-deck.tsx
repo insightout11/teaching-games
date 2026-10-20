@@ -53,7 +53,8 @@ import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type 
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
 import { landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { watersAhead, type Waters } from '@/lib/live-room/waters-ahead';
-import { realWaters } from '@/components/live-room/flight/ground-texture';
+import { realCoast, realWaters } from '@/components/live-room/flight/ground-texture';
+import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { routePreview } from '@/lib/live-room/route-preview';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
@@ -975,12 +976,14 @@ export function FlightDeck({
   }, [landmarksOn, flightStage, descending, holding, below.point, origin, destination, routeT]);
   // Real rivers and lakes under the plane (when switched on): looked up every 20 seconds of flight, cruise only.
   const [routeWaters, setRouteWaters] = useState<Waters | undefined>(undefined);
+  const [routeCoast, setRouteCoast] = useState<Coast | undefined>(undefined);
   const watersStep = Math.floor(routeT * 400);
   useEffect(() => {
-    if (!realWaters() || flightStage !== 'flying' || descending || holding) return;
+    if (!(realWaters() || realCoast()) || flightStage !== 'flying' || descending || holding) return;
     let live = true;
     const heading = bearingDeg(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 0.01)));
     void watersAhead(below.point, heading).then((w) => { if (live) setRouteWaters(w); }).catch(() => {});
+    if (realCoast()) void coastAhead(below.point, heading).then((c) => { if (live) setRouteCoast(c); }).catch(() => {});
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watersStep, flightStage, descending, holding]);
@@ -2386,6 +2389,7 @@ export function FlightDeck({
         cities={distantCities}
         landmarks={stableLandmarks}
         waters={routeWaters}
+        coast={routeCoast}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
         terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}
