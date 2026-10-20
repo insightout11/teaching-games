@@ -535,7 +535,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // ── Night lights: towns and roads across the land ────────────────────────────────────────────────────────
       if (dark && nightLights() && L.length) {
         const layerAt = (wz: number) => { let i = L.length - 1; while (i > 0 && L[i].startZ > wz) i--; return L[i]; };
-        const z0 = Math.floor((camZ + Z_NEAR * 3) / TOWN_CELL), z1 = Math.floor((camZ + Z_FAR * 0.95) / TOWN_CELL);
+        // from just under the nose (towns stay lit until they slide off the bottom of the window) to the horizon
+        const z0 = Math.floor((camZ + Z_NEAR * 0.5) / TOWN_CELL) - 1, z1 = Math.floor((camZ + Z_FAR * 0.95) / TOWN_CELL);
         const town = (ci: number, cj: number) => {
           const wz = (ci + 0.5) * TOWN_CELL, lyr = layerAt(wz);
           const p = (BUILT[lyr.terrain] ?? 0.3) * regionBusy(lyr.region) * 0.55;
@@ -552,28 +553,28 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const roads = new Path2D();
         let roadFade = 0;
         for (let ci = z1; ci >= z0; ci--) {
-          const rz = (ci + 0.5) * TOWN_CELL - camZ;
-          if (rz <= Z_NEAR) continue;
+          const rz = Math.max(Z_NEAR * 0.5, (ci + 0.5) * TOWN_CELL - camZ);
           const span = Math.ceil(((w / 2) * rz) / F / TOWN_CELL) + 1;
           const fade = Math.min(1, (Z_FAR - rz) / 9000) * (1 - Math.min(0.75, rz / Z_FAR));
           for (let cj = -span; cj <= span; cj++) {
             const t = town(ci, cj);
             if (!t) continue;
             const tz = t.z - camZ;
-            if (tz <= Z_NEAR) continue;
+            if (tz <= Z_NEAR * 0.5) continue;
             const s = F / tz, cx = w / 2 + t.x * s, cy = horizonY + camH * s;
             if (cx < -40 || cx > w + 40 || cy > h + 10) continue;
             // roads to the town ahead and the town to the right: dotted sodium light
             for (const [ni, nj] of [[ci + 1, cj], [ci, cj + 1]] as const) {
               const n = town(ni, nj);
-              if (!n || n.z - camZ <= Z_NEAR) continue;
+              if (!n || n.z - camZ <= Z_NEAR * 0.5) continue;
               const ns = F / (n.z - camZ);
               roads.moveTo(cx, cy);
               roads.lineTo(w / 2 + n.x * ns, horizonY + camH * ns);
               roadFade = Math.max(roadFade, fade);
             }
             // the town: a cluster of warm lights, a brighter centre
-            const r = t.size * 900 * s, dots = 6 + Math.floor(t.size * 14);
+            // close up a town spreads wide: it gets more lights so it stays a lit town, not a few scattered dots
+            const r = t.size * 900 * s, dots = Math.min(160, Math.max(6 + Math.floor(t.size * 14), Math.floor(r * 0.9)));
             ctx.globalAlpha = 0.32 * fade;
             ctx.drawImage(glowPic, cx - r * 1.6, cy - r * 0.9, r * 3.2, r * 1.8);
             ctx.globalAlpha = 1;
@@ -582,7 +583,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
               const dx = Math.cos(a) * d * r, dy = Math.sin(a) * d * r * (camH * s) / Math.max(1, F * 0.4) * 0.35;
               const b = 0.45 + cellHash(t.seed, k, 8) * 0.55;
               ctx.fillStyle = `rgba(255,${200 + Math.floor(cellHash(t.seed, k, 9) * 40)},${120 + Math.floor(cellHash(t.seed, k, 10) * 60)},${b * fade})`;
-              const sz = Math.max(0.8, Math.min(2.4, s * 160));
+              const sz = Math.max(0.8, Math.min(3.2, s * 160));
               ctx.fillRect(cx + dx, cy + dy, sz, sz);
             }
           }
