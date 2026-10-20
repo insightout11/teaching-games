@@ -1118,6 +1118,23 @@ export function FlightDeck({
     if (countryNow && lastCountry.current && countryNow !== lastCountry.current) setCrossing({ name: countryNow, until: Date.now() + 14_000 });
     lastCountry.current = countryNow; // null over sea, so reaching a coast later is not "crossing" anything
   }, [countryNow]);
+  // The ground under the windscreen changes only once the new kind has held for a while: small towns, patches of
+  // forest and land-cover edges flipped it back and forth every few seconds
+  const groundNow = { terrain: (place.overCity || place.overTown ? 'farmland' : below.terrain) as typeof below.terrain, region: place.overCity ? `city:${place.overCity}|${regionOf(below.point) ?? ''}` : place.overTown ? `town:${place.overTown}|${regionOf(below.point) ?? ''}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : below.terrain === 'mountains' ? `${regionOf(below.point) ?? ''}${Math.abs(below.point.lat) < 23.5 ? '|tropics' : ''}` : null };
+  const groundKey = `${groundNow.terrain}|${groundNow.region ?? ''}`;
+  const [steadyGround, setSteadyGround] = useState(groundNow);
+  const groundSince = useRef<{ key: string; at: number }>({ key: groundKey, at: Date.now() });
+  useEffect(() => {
+    if (groundSince.current.key !== groundKey) groundSince.current = { key: groundKey, at: Date.now() };
+    const steadyKey = `${steadyGround.terrain}|${steadyGround.region ?? ''}`;
+    if (groundKey === steadyKey) return;
+    // land to sea (or back) follows sooner: the coast is real and should not lag far behind
+    const hold = groundNow.terrain === 'ocean' || steadyGround.terrain === 'ocean' ? 12_000 : 45_000;
+    const wait = Math.max(0, hold - (Date.now() - groundSince.current.at));
+    const t = setTimeout(() => { if (groundSince.current.key === groundKey) setSteadyGround(groundNow); }, wait);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groundKey, steadyGround]);
   const crossingNow = crossing && now < crossing.until ? crossing : null;
   const belowItems: Array<{ text: string; topic: string | null; about?: string }> = [
     ...(crossingNow ? [{ text: `crossing into ${crossingNow.name}`, topic: crossingNow.name }] : []),
@@ -2416,8 +2433,8 @@ export function FlightDeck({
         events={stableEvents}
         weather={liveWx?.condition ?? rollWeather(`${sessionId}:${destination.id}`, destination.scene, skyNow.timeOfDay === 'night')}
         cloudCover={liveWx?.cloudCover}
-        terrain={place.overCity || place.overTown ? 'farmland' : below.terrain}
-        region={place.overCity ? `city:${place.overCity}|${regionOf(below.point) ?? ''}` : place.overTown ? `town:${place.overTown}|${regionOf(below.point) ?? ''}` : below.terrain === 'farmland' || below.terrain === 'hills' ? regionOf(below.point) : below.terrain === 'mountains' ? `${regionOf(below.point) ?? ''}${Math.abs(below.point.lat) < 23.5 ? '|tropics' : ''}` : null}
+        terrain={steadyGround.terrain}
+        region={steadyGround.region}
         calm={view !== 'boarding' && view !== 'talk'}
         turbulence={shaking}
         paused={runningKey === 'video-player'}
