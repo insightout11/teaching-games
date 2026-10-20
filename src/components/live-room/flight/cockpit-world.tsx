@@ -8,7 +8,8 @@ import { drawPeak, peakStyle, type PeakKind } from '@/components/live-room/fligh
 import { CLOUD_Y_MAX, CLOUD_Y_MIN, cloudLight, drawSkyCloud, skyClouds, type SkyCloud } from '@/components/live-room/flight/sky-clouds';
 import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
+import type { Waters } from '@/lib/live-room/waters-ahead';
+import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
 
 /**
  * The world below the cockpit, drawn through ONE camera so everything moves
@@ -231,7 +232,7 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
   return c;
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover }: { /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters }: { /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed, paused, glint, altitude, cloudCover });
@@ -261,16 +262,37 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     }
     for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
   }, [landmarks]);
+  // Real rivers and lakes, fixed on the ground once they come into range (as the cities); a river or lake already
+  // lying ahead is not added again, a passed one can come back when the route still follows it.
+  const waterWorld = useRef<Array<{ name: string; lake: boolean; width: number; rings: Array<Array<[number, number]>> }>>([]);
+  useEffect(() => {
+    if (!waters) return;
+    const list = waterWorld.current;
+    const camZ = cam.current;
+    // drop what has fully passed under the plane
+    for (let i = list.length - 1; i >= 0; i--) if (list[i].rings.every((r) => r.every(([, z]) => z < camZ))) list.splice(i, 1);
+    const ahead = new Set(list.map((w) => `${w.lake ? 'L' : 'R'}:${w.name}`));
+    const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM];
+    for (const r of waters.rivers) {
+      if (ahead.has(`R:${r.name}`)) continue;
+      list.push({ name: r.name, lake: false, width: r.widthClass === 1 ? 560 : r.widthClass === 2 ? 340 : 210, rings: [r.points.map(toWorld)] });
+    }
+    for (const l of waters.lakes) {
+      if (ahead.has(`L:${l.name}`)) continue;
+      list.push({ name: l.name, lake: true, width: 0, rings: l.rings.map((ring) => ring.map(toWorld)) });
+    }
+    // names added this time count as ahead for the rest of this batch
+  }, [waters]);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
-  const look = useRef<{ haze: RGB; night: boolean; glow: RGB }>({ haze: [159, 184, 208], night, glow: [220, 200, 180] });
+  const look = useRef<{ haze: RGB; night: boolean; glow: RGB; water: RGB }>({ haze: [159, 184, 208], night, glow: [220, 200, 180], water: [60, 110, 140] });
 
   // ── Build (or restyle) the terrain layer when what's below changes ─────
   useEffect(() => {
     const ctx = ref.current?.getContext('2d');
     if (!ctx) return;
     const reg = region ?? null;
-    look.current = { haze: hexToRgb(palette.skyBottom.startsWith('#') ? palette.skyBottom : '#9fb8d0'), night, glow: hexToRgb(palette.horizonGlow?.startsWith('#') ? palette.horizonGlow : '#dcc8b4') };
+    look.current = { haze: hexToRgb(palette.skyBottom.startsWith('#') ? palette.skyBottom : '#9fb8d0'), night, glow: hexToRgb(palette.horizonGlow?.startsWith('#') ? palette.horizonGlow : '#dcc8b4'), water: hexToRgb(palette.waterTop?.startsWith('#') ? palette.waterTop : '#3c6e8c') };
     const land = hexToRgb(palette.terrainTop);
     const range = rangeFor(reg);
     const rockBase: RGB = range.floor === 'arid' ? mixRgb(land, [178, 96, 60], 0.88) : mixRgb(land, [92, 90, 98], 0.7);
@@ -503,6 +525,59 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           } else {
             paintRow(L[i], y, z, F, camZ, 1);
           }
+        }
+        // Real rivers and lakes on the ground: water in the scene's light, a pale shore, greying into the haze far off
+        if (realWaters() && waterWorld.current.length) {
+          // deep water (the palette's sea colour darkened), and a green strip of fields along the banks
+          const base = mixRgb(look.current.water, [22, 58, 78], 0.55);
+          const waterCol = dark ? mixRgb(base, [6, 10, 22], 0.6) : mixRgb(base, look.current.glow, 0.08);
+          const bankLeaf = L[L.length - 1]?.leaf ?? ([70, 110, 60] as RGB);
+          const shoreCol = dark ? mixRgb(bankLeaf, [6, 10, 18], 0.75) : mixRgb(bankLeaf, [52, 96, 48], 0.45);
+          const at = ([x, z]: [number, number]): [number, number] | null => {
+            const rz = z - camZ;
+            if (rz < Z_NEAR * 0.6 || rz > Z_FAR) return null;
+            const s = F / rz;
+            return [w / 2 + x * s, horizonY + camH * s];
+          };
+          ctx.save();
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          for (const wt of waterWorld.current) {
+            if (wt.lake) {
+              for (const ring of wt.rings) {
+                const pts = ring.map(([x, z]) => at([x, Math.max(camZ + Z_NEAR * 0.6, Math.min(camZ + Z_FAR, z))])).filter((q): q is [number, number] => !!q);
+                if (pts.length < 3) continue;
+                const midZ = ring.reduce((t, [, z]) => t + z, 0) / ring.length - camZ;
+                const fog = Math.min(0.85, Math.max(0, midZ / Z_FAR));
+                ctx.beginPath();
+                pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+                ctx.closePath();
+                ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.7));
+                ctx.fill();
+                ctx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.7));
+                ctx.lineWidth = 1.2;
+                ctx.stroke();
+              }
+              continue;
+            }
+            const ring = wt.rings[0];
+            for (let i = 0; i < ring.length - 1; i++) {
+              const a = at(ring[i]), b = at(ring[i + 1]);
+              if (!a || !b) continue;
+              const rz = (ring[i][1] + ring[i + 1][1]) / 2 - camZ;
+              const s = F / rz;
+              const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
+              const lw = Math.max(0.8, wt.width * s);
+              // a pale bank under the water line, then the water
+              ctx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.7));
+              ctx.lineWidth = lw * 3.2;
+              ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+              ctx.strokeStyle = css(mixRgb(waterCol, haze, fog * 0.7));
+              ctx.lineWidth = lw;
+              ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+            }
+          }
+          ctx.restore();
         }
         ctx.globalCompositeOperation = 'overlay';
         ctx.imageSmoothingEnabled = true;
@@ -781,7 +856,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         }
         const kind: PeakKind = p.roll < layer.range.snow ? 'snow' : p.roll < layer.range.snow + layer.range.green ? 'forest' : 'bare';
         // A peak's kind comes from its own roll; shape detail uses a second, independent one.
-        drawPeak(ctx, kind, (p.roll * 7919) % 1, p.tone, { rock: layer.rock, leaf: layer.night ? mixRgb(layer.leaf, [10, 14, 28], 0.55) : layer.leaf, snow: layer.snow, warm: layer.range.floor === 'arid', night: layer.night }, cx, baseY, topY, half, fog, haze, fade);
+        drawPeak(ctx, kind, (p.roll * 7919) % 1, p.tone, { rock: layer.rock, leaf: layer.night ? mixRgb(layer.leaf, [10, 14, 28], 0.55) : layer.leaf, snow: layer.snow, warm: layer.range.floor === 'arid', night: layer.night, capped: layer.range.snow >= 0.2 }, cx, baseY, topY, half, fog, haze, fade);
       }
 
       // Soft band where the land meets the sky

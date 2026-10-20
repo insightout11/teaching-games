@@ -8,7 +8,8 @@ import { composeTimedPalette } from '@/components/world-flight/arrival-scene/pal
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { setPeakStyle } from '@/components/live-room/flight/peak-art';
-import { setGroundRelief, setNightLights, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { setGroundRelief, setNightLights, setRealWaters, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { watersAhead, type Waters } from '@/lib/live-room/waters-ahead';
 import { setSkyClouds } from '@/components/live-room/flight/sky-clouds';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
@@ -52,6 +53,36 @@ function Fps() {
   return <span className={`rounded-full px-3 py-1 font-mono text-xs ${fps >= 50 ? 'bg-emerald-500/20 text-emerald-200' : fps >= 35 ? 'bg-amber-500/20 text-amber-200' : 'bg-rose-500/20 text-rose-200'}`}>{fps} frames a second</span>;
 }
 
+/** Real rivers and lakes from the cockpit, over real places (Natural Earth data via Codex). */
+const WATERS: Array<{ id: string; label: string; at: { lat: number; lng: number }; heading: number; terrain: Terrain; region: string }> = [
+  { id: 'nile', label: 'The Nile, flying north from Luxor', at: { lat: 25.4, lng: 32.55 }, heading: 340, terrain: 'desert', region: 'Africa' },
+  { id: 'mekong', label: 'The Mekong at Phnom Penh', at: { lat: 11.2, lng: 104.9 }, heading: 0, terrain: 'paddies', region: 'Asia' },
+  { id: 'amazon', label: 'The Amazon near Manaus', at: { lat: -3.2, lng: -60.6 }, heading: 80, terrain: 'rainforest', region: 'South America' },
+  { id: 'ontario', label: 'Lake Ontario from the north', at: { lat: 44.4, lng: -78.6 }, heading: 190, terrain: 'farmland', region: 'North America' },
+  { id: 'danube', label: 'The Danube, Vienna to Budapest', at: { lat: 48.15, lng: 16.6 }, heading: 115, terrain: 'farmland', region: 'Europe' },
+  { id: 'victoria', label: 'Lake Victoria from Kampala', at: { lat: 0.6, lng: 32.6 }, heading: 180, terrain: 'savanna', region: 'Africa' },
+];
+function WaterView({ id, tod }: { id: string; tod: TimeOfDay }) {
+  const place = WATERS.find((p) => p.id === id) ?? WATERS[0];
+  const [waters, setWaters] = useState<Waters | undefined>(undefined);
+  useEffect(() => { setRealWaters(true); void watersAhead(place.at, place.heading).then(setWaters); }, [place]);
+  const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
+  const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
+  return (
+    <div className="min-h-screen bg-[#070b14] p-4 text-white">
+      <div className="mb-2 flex flex-wrap items-center gap-3">
+        <a href="?" className="text-sm text-cyan-200 underline">Back to all</a>
+        <Fps />
+        <span className="font-mono text-xs text-white/60">{place.label} · {tod} · {waters ? `${waters.rivers.length} river parts, ${waters.lakes.length} lakes` : 'loading the map…'} · reload to fly again</span>
+      </div>
+      <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
+        <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
+        {waters && <CockpitWorld terrain={place.terrain} region={place.region} palette={palette} night={tod === 'night'} speed={0.55} waters={waters} cloudCover={15} />}
+      </div>
+    </div>
+  );
+}
+
 /** Watch the ground change from one land type to the next (soft, patchy edges vs the old straight band). */
 const EDGES: Array<[Terrain, Terrain, string]> = [['farmland', 'forest', 'Europe'], ['forest', 'farmland', 'Europe'], ['desert', 'savanna', 'Africa'], ['savanna', 'desert', 'Africa'], ['farmland', 'mountains', 'Europe'], ['grassland', 'farmland', 'Asia']];
 function EdgeView({ from, to, region, soft }: { from: Terrain; to: Terrain; region: string; soft: boolean }) {
@@ -83,6 +114,8 @@ export function MountainGallery() {
   const [one, setOne] = useState<{ region: string; tod: TimeOfDay; terrain: Terrain } | null>(null);
   const [edge, setEdge] = useState<{ from: Terrain; to: Terrain; region: string; soft: boolean } | null>(null);
   const [cover, setCover] = useState(45);
+  const [waterId, setWaterId] = useState<string | null>(null);
+  const [waterTod, setWaterTod] = useState<TimeOfDay>('day');
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = q.get('style') === 'old' ? 'old' : 'new';
@@ -93,11 +126,13 @@ export function MountainGallery() {
     setSkyClouds(q.get('clouds') !== 'off');
     setSkyV2(q.get('sky') !== 'old');
     setCover(Number(q.get('cover') ?? '45') || 45);
+    if (q.get('water')) { setWaterId(q.get('water')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     const e = q.get('edge')?.split(',');
     if (e?.length === 2) { const found = EDGES.find(([a, b]) => a === e[0] && b === e[1]); setEdge({ from: e[0] as Terrain, to: e[1] as Terrain, region: found?.[2] ?? 'Europe', soft: !q.has('hard') }); }
     const region = q.get('one');
     if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);
+  if (waterId) return <WaterView id={waterId} tod={waterTod} />;
   if (edge) return <EdgeView key={`${edge.from}${edge.to}${edge.soft}`} {...edge} />;
   if (one) {
     return (
@@ -120,6 +155,14 @@ export function MountainGallery() {
         <a href={style === 'old' ? '?style=new' : '?style=old'} className="text-sm text-cyan-200 underline">Show the {style === 'old' ? 'new' : 'old'} peaks</a>
         <span className="text-sm text-white/60">Click any picture to watch it fly, full size.</span>
       </div>
+      <section>
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Real rivers and lakes (fly over a real place)</p>
+        <div className="flex flex-wrap gap-2">
+          {WATERS.map((p) => (
+            <a key={p.id} href={`?water=${p.id}`} className="rounded-full border border-white/20 px-3 py-1 text-sm text-white/85 hover:border-amber-300/60">{p.label}</a>
+          ))}
+        </div>
+      </section>
       <section>
         <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">The sea of clouds (cover 20 / 50 / 85 %; {'?clouds=off'} for none). Click one to fly.</p>
         <div className="grid gap-3 md:grid-cols-3">

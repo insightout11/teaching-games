@@ -16,6 +16,8 @@ export interface PeakStyle {
   snow: RGB;
   warm: boolean;
   night: boolean;
+  /** Forested peaks get a snow cap only in ranges that really hold snow (never in the tropics or warm ranges). */
+  capped?: boolean;
 }
 
 const css = (c: RGB) => `rgb(${Math.round(c[0])},${Math.round(c[1])},${Math.round(c[2])})`;
@@ -202,7 +204,7 @@ function makeTemplate(kind: PeakKind, seed: number, style: PeakStyle, fog: numbe
   const snowLit: RGB = style.night ? [178, 192, 224] : style.snow;
   const snowShade: RGB = style.night ? [88, 102, 140] : mixRgb(style.snow, [138, 160, 204], 0.45);
   const tree: RGB = style.night ? [10, 20, 20] : mixRgb(style.leaf, [18, 46, 28], 0.6);
-  const snowLine = kind === 'snow' ? 0.4 + pr(seed, 50) * 0.22 : kind === 'forest' ? 0.86 : 2;
+  const snowLine = kind === 'snow' ? 0.4 + pr(seed, 50) * 0.22 : kind === 'forest' && style.capped ? 0.86 : 2;
 
   for (let x = 0; x < TW; x++) {
     const h = H[x + 1];
@@ -262,7 +264,7 @@ function drawPeakV2(
   const q = (c: RGB) => c.map((v) => Math.round(v / 24) * 24) as RGB;
   const hz = q(haze);
   const look: PeakStyle = { ...style, rock: q(style.rock), snow: q(style.snow), leaf: q(style.leaf) };
-  const base = `${kind}|${look.night ? 1 : 0}|${look.warm ? 1 : 0}|${look.rock.join(',')}|${look.snow.join(',')}|${look.leaf.join(',')}|${hz.join(',')}`;
+  const base = `${kind}|${look.night ? 1 : 0}|${look.warm ? 1 : 0}|${look.capped ? 1 : 0}|${look.rock.join(',')}|${look.snow.join(',')}|${look.leaf.join(',')}|${hz.join(',')}`;
   const key = `${base}|${t}`;
   let tpl = templateCache.get(key);
   if (!tpl) {
