@@ -8,7 +8,8 @@ import { composeTimedPalette } from '@/components/world-flight/arrival-scene/pal
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { setPeakStyle } from '@/components/live-room/flight/peak-art';
-import { setGroundRelief, setNightLights, setRealWaters, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { setGroundRelief, setNightLights, setRealCoast, setRealWaters, setSoftEdges } from '@/components/live-room/flight/ground-texture';
+import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { watersAhead, type Waters } from '@/lib/live-room/waters-ahead';
 import { setSkyClouds } from '@/components/live-room/flight/sky-clouds';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
@@ -62,6 +63,36 @@ const WATERS: Array<{ id: string; label: string; at: { lat: number; lng: number 
   { id: 'danube', label: 'The Danube, Vienna to Budapest', at: { lat: 48.15, lng: 16.6 }, heading: 115, terrain: 'farmland', region: 'Europe' },
   { id: 'victoria', label: 'Lake Victoria from Kampala', at: { lat: 0.6, lng: 32.6 }, heading: 180, terrain: 'savanna', region: 'Africa' },
 ];
+const COASTS: Array<{ id: string; label: string; at: { lat: number; lng: number }; heading: number; terrain: Terrain; region: string }> = [
+  { id: 'sydney', label: 'Sydney, flying out to sea', at: { lat: -33.75, lng: 150.75 }, heading: 95, terrain: 'farmland', region: 'Australia' },
+  { id: 'fjords', label: 'The Norwegian fjords, towards the sea', at: { lat: 61.1, lng: 7.6 }, heading: 265, terrain: 'forest', region: 'Europe' },
+  { id: 'greece', label: 'The Greek islands', at: { lat: 37.95, lng: 23.7 }, heading: 140, terrain: 'farmland', region: 'Europe' },
+  { id: 'hongkong', label: 'Hong Kong and its islands', at: { lat: 22.75, lng: 114.1 }, heading: 185, terrain: 'farmland', region: 'Asia' },
+  { id: 'capetown', label: 'Cape Town and the Cape', at: { lat: -33.6, lng: 18.75 }, heading: 205, terrain: 'farmland', region: 'Africa' },
+  { id: 'keys', label: 'The Florida Keys', at: { lat: 25.6, lng: -80.45 }, heading: 215, terrain: 'farmland', region: 'North America' },
+];
+function CoastView({ id, tod }: { id: string; tod: TimeOfDay }) {
+  const place = COASTS.find((p) => p.id === id) ?? COASTS[0];
+  const [coast, setCoast] = useState<Coast | undefined>(undefined);
+  const [waters, setWaters] = useState<Waters | undefined>(undefined);
+  useEffect(() => { setRealCoast(true); setRealWaters(true); void coastAhead(place.at, place.heading).then(setCoast); void watersAhead(place.at, place.heading).then(setWaters); }, [place]);
+  const dest = WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0];
+  const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
+  return (
+    <div className="min-h-screen bg-[#070b14] p-4 text-white">
+      <div className="mb-2 flex flex-wrap items-center gap-3">
+        <a href="?" className="text-sm text-cyan-200 underline">Back to all</a>
+        <Fps />
+        <span className="font-mono text-xs text-white/60">{place.label} · {tod} · {coast ? `${coast.rings.length} land outlines` : 'loading the map…'} · reload to fly again</span>
+      </div>
+      <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
+        <CockpitSky palette={palette} timeOfDay={tod} altitude={1} />
+        {coast && <CockpitWorld terrain={place.terrain} region={place.region} palette={palette} night={tod === 'night'} speed={0.55} coast={coast} waters={waters} cloudCover={15} />}
+      </div>
+    </div>
+  );
+}
+
 function WaterView({ id, tod }: { id: string; tod: TimeOfDay }) {
   const place = WATERS.find((p) => p.id === id) ?? WATERS[0];
   const [waters, setWaters] = useState<Waters | undefined>(undefined);
@@ -116,6 +147,7 @@ export function MountainGallery() {
   const [cover, setCover] = useState(45);
   const [waterId, setWaterId] = useState<string | null>(null);
   const [waterTod, setWaterTod] = useState<TimeOfDay>('day');
+  const [coastId, setCoastId] = useState<string | null>(null);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     const s = q.get('style') === 'old' ? 'old' : 'new';
@@ -126,12 +158,14 @@ export function MountainGallery() {
     setSkyClouds(q.get('clouds') !== 'off');
     setSkyV2(q.get('sky') !== 'old');
     setCover(Number(q.get('cover') ?? '45') || 45);
+    if (q.get('coast')) { setCoastId(q.get('coast')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     if (q.get('water')) { setWaterId(q.get('water')); setWaterTod((TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay); }
     const e = q.get('edge')?.split(',');
     if (e?.length === 2) { const found = EDGES.find(([a, b]) => a === e[0] && b === e[1]); setEdge({ from: e[0] as Terrain, to: e[1] as Terrain, region: found?.[2] ?? 'Europe', soft: !q.has('hard') }); }
     const region = q.get('one');
     if (region) setOne({ region, tod: (TIMES.includes(q.get('tod') as TimeOfDay) ? q.get('tod') : 'day') as TimeOfDay, terrain: (q.get('ground') ?? 'mountains') as Terrain });
   }, []);
+  if (coastId) return <CoastView id={coastId} tod={waterTod} />;
   if (waterId) return <WaterView id={waterId} tod={waterTod} />;
   if (edge) return <EdgeView key={`${edge.from}${edge.to}${edge.soft}`} {...edge} />;
   if (one) {
@@ -156,6 +190,12 @@ export function MountainGallery() {
         <span className="text-sm text-white/60">Click any picture to watch it fly, full size.</span>
       </div>
       <section>
+        <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Real coastlines (fly over a real coast)</p>
+        <div className="mb-4 flex flex-wrap gap-2">
+          {COASTS.map((p) => (
+            <a key={p.id} href={`?coast=${p.id}`} className="rounded-full border border-white/20 px-3 py-1 text-sm text-white/85 hover:border-amber-300/60">{p.label}</a>
+          ))}
+        </div>
         <p className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-white/60">Real rivers and lakes (fly over a real place)</p>
         <div className="flex flex-wrap gap-2">
           {WATERS.map((p) => (

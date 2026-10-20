@@ -937,6 +937,11 @@ export const nightLights = () => NIGHT_LIGHTS;
 let REAL_WATERS = false;
 export function setRealWaters(on: boolean) { REAL_WATERS = on; }
 export const realWaters = () => REAL_WATERS;
+
+/** Real coastlines (land and sea painted from the real outlines). Off in the room until the owner approves. */
+let REAL_COAST = false;
+export function setRealCoast(on: boolean) { REAL_COAST = on; }
+export const realCoast = () => REAL_COAST;
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
 export const groundRelief = () => GROUND_RELIEF;
 
