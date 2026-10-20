@@ -877,7 +877,19 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
 
   // ─── Lesson session controller ─────────────────────────────────────────
   const lesson = useLessonSession(session.id, settings, students.length, session.lesson_plan_content);
-  const selectedPlaneKey = lesson.lessonPlanContent?.worldFlightContext?.planeKey ?? DEFAULT_PLANE_KEY;
+  // The class's own plane: a planned World Flight names it; otherwise ask the class's journey (Live Room classes fly
+  // without a plan, and the end screen showed the starter plane instead of theirs)
+  const [classPlaneKey, setClassPlaneKey] = useState<string | null>(null);
+  useEffect(() => {
+    if (lesson.lessonPlanContent?.worldFlightContext?.planeKey) return;
+    let live = true;
+    fetch(`/api/session/${encodeURIComponent(session.id)}/room-leg`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { planeKey?: string | null } | null) => { if (live && d?.planeKey) setClassPlaneKey(d.planeKey); })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [session.id, lesson.lessonPlanContent?.worldFlightContext?.planeKey]);
+  const selectedPlaneKey = lesson.lessonPlanContent?.worldFlightContext?.planeKey ?? classPlaneKey ?? DEFAULT_PLANE_KEY;
   const selectedPlane = getPlaneAsset(selectedPlaneKey);
   const selectedPlaneTier = getPlaneTierForKey(selectedPlaneKey);
   const selectedPlaneChoices = selectedPlaneTier.choices;
