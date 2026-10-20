@@ -51,13 +51,14 @@ export async function POST(request: Request) {
   const difficulty = (typeof body?.difficulty === 'string' && body.difficulty in difficultyDescriptions ? body.difficulty : 'Intermediate') as Difficulty;
   const level = difficultyDescriptions[difficulty];
 
-  if (action !== 'zones' && action !== 'polish' && action !== 'themes') {
+  if (!['zones', 'polish', 'themes', 'questions', 'mistakes', 'pick', 'summary'].includes(action)) {
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   }
   const items = readItems(body?.items);
   const topic = clean(body?.topic, 200);
   if (action === 'zones' && !topic) return NextResponse.json({ error: 'topic is required' }, { status: 400 });
-  if (action !== 'zones' && items.length === 0) return NextResponse.json(action === 'polish' ? { fixes: [] } : { themes: [] });
+  if (action === 'questions' && !topic) return NextResponse.json({ error: 'topic is required' }, { status: 400 });
+  if (action !== 'zones' && action !== 'questions' && items.length === 0) return NextResponse.json(action === 'polish' ? { fixes: [] } : action === 'themes' ? { themes: [] } : {});
 
   const limited = await checkAndRecordAiUsage(teacher);
   if (limited) return limited;
@@ -79,6 +80,60 @@ Each zone: a 1–3 word "label" and a short "description".`,
         .slice(0, 4);
       if (zones.length < 2) return NextResponse.json({ error: 'Could not design a board' }, { status: 502 });
       return NextResponse.json({ title: clean(raw.title, 60) || topic, prompt: clean(raw.prompt, 140), zones });
+    }
+
+    // Question ideas for the board, each with the layout that suits it (a comparison: a T-chart; ranking: a ranked board)
+    if (action === 'questions') {
+      const layouts = typeof body?.layouts === 'string' ? body.layouts.slice(0, 800) : '';
+      const context = clean(body?.context, 600);
+      const raw = await generateJSON<Array<{ question: string; layout: string }>>(
+        `LANGUAGE RULE: simple English for ${difficulty} learners (${level}).
+A live English class (kids or teens) is talking about "${topic}".${context ? ` Context: ${context}` : ''}
+Write 3 open questions every student can answer in one or two sentences on their phone (different kinds: an opinion, a comparison or choice, something from their own life). No pair work.
+For each, pick the best board "layout" key from: ${layouts || 'open-board'}.
+Return [{ "question", "layout" }].`,
+        { type: 'array', items: { type: 'object', properties: { question: { type: 'string' }, layout: { type: 'string' } }, required: ['question', 'layout'] } },
+        { taskClass: 'content-generation' },
+      );
+      const ideas = (Array.isArray(raw) ? raw : []).map((q) => ({ question: clean(q?.question, 160), layout: clean(q?.layout, 40) })).filter((q) => q.question).slice(0, 3);
+      return NextResponse.json({ ideas });
+    }
+
+    // A mistake several students made, for a quick whole-class fix (never naming anyone)
+    if (action === 'mistakes') {
+      const raw = await generateJSON<Array<{ wrong: string; right: string; count: number }>>(
+        `These are ${difficulty} English learners' answers on a class board. Find up to 2 mistakes that MORE THAN ONE answer makes (the same pattern). Ignore one-off slips.
+Return [{ "wrong": the typical wrong phrase, "right": the corrected phrase, "count": how many answers have it }]. Return [] if there is no shared mistake.
+${items.map((i) => `[${i.id}] ${i.text}`).join('\n')}`,
+        { type: 'array', items: { type: 'object', properties: { wrong: { type: 'string' }, right: { type: 'string' }, count: { type: 'number' } }, required: ['wrong', 'right', 'count'] } },
+        { taskClass: 'content-generation' },
+      );
+      const mistakes = (Array.isArray(raw) ? raw : []).map((m) => ({ wrong: clean(m?.wrong, 80), right: clean(m?.right, 80), count: Math.max(2, Math.round(Number(m?.count) || 2)) })).filter((m) => m.wrong && m.right && m.wrong !== m.right).slice(0, 2);
+      return NextResponse.json({ mistakes });
+    }
+
+    // Answers worth hearing aloud (interesting, different from the rest): for the teacher's private window only
+    if (action === 'pick') {
+      const raw = await generateJSON<Array<{ id: string; why: string }>>(
+        `A teacher will call on a few students to say their class-board answer aloud. Pick the 3 answers most worth hearing: interesting, different from the others, or a good start for a discussion. Return [{ "id", "why" (max 10 words) }].
+${items.map((i) => `[${i.id}] ${i.text}`).join('\n')}`,
+        { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, why: { type: 'string' } }, required: ['id', 'why'] } },
+        { taskClass: 'content-generation' },
+      );
+      const known = new Set(items.map((i) => i.id));
+      const picks = (Array.isArray(raw) ? raw : []).filter((p) => typeof p?.id === 'string' && known.has(p.id)).map((p) => ({ id: p.id, why: clean(p.why, 80) })).slice(0, 3);
+      return NextResponse.json({ picks });
+    }
+
+    // One line for the class logbook: what the class thought
+    if (action === 'summary') {
+      const raw = await generateJSON<{ summary: string }>(
+        `Summarise in ONE short sentence (max 25 words) what this class thought, from their board answers${topic ? ` about "${topic}"` : ''}. Start with "The class". No names.
+${items.map((i) => `- ${i.text}`).join('\n')}`,
+        { type: 'object', properties: { summary: { type: 'string' } }, required: ['summary'] },
+        { taskClass: 'content-generation' },
+      );
+      return NextResponse.json({ summary: clean(raw?.summary, 220) });
     }
 
     if (action === 'polish') {

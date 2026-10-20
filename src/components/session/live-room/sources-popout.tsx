@@ -100,7 +100,7 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
       )}
       {tab === 'board' && (
         <div className="min-h-0 flex-1">
-          <BoardInbox sessionId={sessionId} />
+          <BoardInbox sessionId={sessionId} roster={heard.map((s) => s.name)} />
         </div>
       )}
       {tab === 'sources' && (

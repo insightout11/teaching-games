@@ -449,6 +449,7 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     if (!boardQuestion || preset.key !== 'open-board') return;
     const labels = { [baseZones[0]?.key ?? 'main']: boardQuestion };
     setZoneLabels(labels);
+    setCustomQuestion(boardQuestion);
     void setInputSpec(buildSpec(preset, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label }))));
     setBoardQuestion(null);
   }, [boardQuestion, preset, baseZones, buildSpec, setInputSpec]);
@@ -568,6 +569,10 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const [layoutOpen, setLayoutOpen] = useState(false);
   const [smartOpen, setSmartOpen] = useState(false);
   const [recentLayouts, setRecentLayouts] = useState<string[]>([]);
+  // Smart: question ideas (each with its layout), and a question set by an idea or typed in (shown big, sent to phones)
+  const [ideas, setIdeas] = useState<Array<{ question: string; layout: string }> | null>(null);
+  const [customQuestion, setCustomQuestion] = useState<string | null>(null);
+  const [pendingIdea, setPendingIdea] = useState<{ question: string; layout: string } | null>(null);
   useEffect(() => {
     try { const r = JSON.parse(localStorage.getItem('lc-board-recent') ?? '[]') as string[]; if (Array.isArray(r)) setRecentLayouts(r.filter((k) => CLASS_BOARD_PRESETS[k]).slice(0, 3)); } catch { /* storage unavailable */ }
   }, []);
@@ -584,9 +589,57 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const single = zones.length === 1 && !questionWall;
   // The question: a single-section board's (renamed) title, otherwise the layout's own prompt
   const defaultZoneLabel = baseZones[0]?.label;
-  const question = single && zones[0] && zones[0].label !== defaultZoneLabel
+  const question = customQuestion ?? (single && zones[0] && zones[0].label !== defaultZoneLabel
     ? zones[0].label
-    : single ? (topic && topic !== 'General' ? `What do you think about ${topic}?` : 'What do you think?') : preset.title;
+    : single ? (topic && topic !== 'General' ? `What do you think about ${topic}?` : 'What do you think?') : preset.title);
+  // Put a question on the board and on the phones (in the layout that suits it)
+  const applyQuestion = (q: string, layout?: string) => {
+    if (layout && CLASS_BOARD_PRESETS[layout] && layout !== selectedPresetKey && !templateLocked) { setPendingIdea({ question: q, layout }); pickLayout(layout); return; }
+    setCustomQuestion(q);
+    const labels = single && zones[0] ? { ...zoneLabels, [zones[0].key]: q } : zoneLabels;
+    setZoneLabels(labels);
+    void setInputSpec(buildSpec({ ...preset, prompt: q }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label }))));
+  };
+  useEffect(() => {
+    if (!pendingIdea || preset.key !== pendingIdea.layout) return;
+    const q = pendingIdea.question;
+    setPendingIdea(null);
+    setCustomQuestion(q);
+    const labels = baseZones.length === 1 ? { [baseZones[0].key]: q } : {};
+    setZoneLabels(labels);
+    void setInputSpec(buildSpec({ ...preset, prompt: q }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key as keyof typeof labels] ?? zone.label }))));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingIdea, preset]);
+  const loadIdeas = async () => {
+    const t = topic && topic !== 'General' ? topic : '';
+    if (!t) { setAiNote('Set a topic first (the topic bar at the top).'); return; }
+    setAiBusy('ideas');
+    try {
+      const layouts = Object.values(CLASS_BOARD_PRESETS).map((p) => `${p.key} (${p.title})`).join(', ');
+      const d = await callAi({ action: 'questions', topic: t, layouts });
+      setIdeas(Array.isArray(d?.ideas) && d.ideas.length ? d.ideas : null);
+      if (!d?.ideas?.length) setAiNote('Could not think of questions right now.');
+    } finally { setAiBusy(null); }
+  };
+  const spotMistakes = async () => {
+    setAiBusy('mistakes');
+    try {
+      const d = await callAi({ action: 'mistakes', items: studentCards.map((i) => ({ id: i.id, text: i.content })) });
+      const m: Array<{ wrong: string; right: string; count: number }> = d?.mistakes ?? [];
+      setAiNote(m.length ? `Common mistake: ${m.map((x) => `"${x.wrong}" → "${x.right}" (${x.count} answers)`).join(' · ')}` : 'No mistake shared by several answers. Nice work!');
+    } finally { setAiBusy(null); }
+  };
+  const saveSummary = async () => {
+    setAiBusy('summary');
+    try {
+      const d = await callAi({ action: 'summary', topic: question, items: visibleItems.map((i) => ({ id: i.id, text: i.content })) });
+      if (!d?.summary) { setAiNote('Could not write a summary right now.'); return; }
+      const id = `board-sum-${Date.now().toString(36)}`;
+      addRoomItem(sessionId, { id, kind: 'note', title: d.summary.slice(0, 90), url: `note:${id}`, publisher: 'Class board', text: `${d.summary}\n\n${boardAsText()}` });
+      setAiNote(`Saved: ${d.summary}`);
+    } finally { setAiBusy(null); }
+  };
+
   const cloudWords = useMemo(() => {
     if (view !== 'cloud') return [];
     const STOP = new Set('the a an and or but to of in on at for with is are was were be been it its this that these those i you he she we they my your our their me him her us them so very because would like want try first then than from as by not no yes do does did have has had will can could should just really also there here what why how when where which who'.split(' '));
@@ -724,6 +777,9 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
 
   const tool = (on: boolean) => `rounded-lg p-1.5 transition ${on ? 'bg-white/12 text-white' : 'text-white/55 hover:bg-white/8 hover:text-white'}`;
   const smartItems: Array<{ key: string; label: string; detail: string; run: () => void; show: boolean; busy?: boolean }> = [
+    { key: 'ideas', label: 'Question ideas', detail: 'Three questions for this topic, each in the layout that suits it', run: () => void loadIdeas(), show: !templateLocked, busy: aiBusy === 'ideas' },
+    { key: 'mistakes', label: 'Spot a common mistake', detail: 'A mistake several answers share, for a quick fix (no names)', run: () => void spotMistakes(), show: studentCards.length > 2, busy: aiBusy === 'mistakes' },
+    { key: 'summary', label: 'Save a summary', detail: 'One line on what the class thought, saved to cargo with the board', run: () => void saveSummary(), show: visibleItems.length > 1, busy: aiBusy === 'summary' },
     { key: 'topic', label: 'Board from topic', detail: 'A fresh board designed for the current topic', run: () => void boardFromTopic(), show: !templateLocked, busy: aiBusy === 'zones' },
     { key: 'themes', label: 'Group into themes', detail: 'Sort the cards into named sections', run: () => void groupThemes(), show: !templateLocked && !questionWall && visibleItems.length > 2, busy: aiBusy === 'themes' },
     { key: 'polish', label: polishOn ? 'Hide corrections' : 'Spot mistakes (Polish)', detail: 'A gently corrected version under students\' sentences', run: () => void togglePolish(), show: visibleItems.length > 0, busy: aiBusy === 'polish' },
@@ -782,8 +838,8 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
             autoFocus
             value={editText}
             onChange={(event) => setEditText(event.target.value.slice(0, 160))}
-            onBlur={() => void saveZoneLabel(zones[0].key)}
-            onKeyDown={(event) => { if (event.key === 'Enter') void saveZoneLabel(zones[0].key); if (event.key === 'Escape') setEditingZoneKey(null); }}
+            onBlur={() => { setEditingZoneKey(null); if (editText.trim()) { setCustomQuestion(editText.trim()); void saveZoneLabel(zones[0].key); } }}
+            onKeyDown={(event) => { if (event.key === 'Enter') (event.target as HTMLInputElement).blur(); if (event.key === 'Escape') setEditingZoneKey(null); }}
             className="w-full rounded-lg border border-cyan-400/40 bg-slate-900/80 px-3 py-1 font-display text-3xl text-white focus:outline-none"
           />
         ) : (
@@ -847,8 +903,19 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
       {smartOpen && (
         <div className="absolute right-3 top-11 z-20 w-[360px] max-w-[calc(100%-1.5rem)] rounded-2xl border border-amber-300/25 bg-[#0d1526] p-3 shadow-2xl backdrop-blur-md">
           <p className="mb-2 flex items-center gap-1.5 px-1 font-mono text-[10px] uppercase tracking-[0.16em] text-amber-200/80"><Sparkles className="h-3 w-3" /> Smart · right now</p>
+          {ideas && (
+            <div className="mb-2 space-y-1.5 rounded-xl border border-amber-300/25 bg-amber-300/5 p-2">
+              <p className="px-1 text-[11px] text-amber-100/80">Tap one: it goes on the board and to the phones</p>
+              {ideas.map((idea) => (
+                <button key={idea.question} type="button" onClick={() => { applyQuestion(idea.question, idea.layout); setIdeas(null); setSmartOpen(false); }} className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-left hover:border-amber-300/40">
+                  <p className="text-sm text-white">{idea.question}</p>
+                  <p className="text-[11px] text-white/45">{CLASS_BOARD_PRESETS[idea.layout]?.title ?? 'Open board'}</p>
+                </button>
+              ))}
+            </div>
+          )}
           {smartItems.filter((s) => s.show).map((s) => (
-            <button key={s.key} type="button" disabled={s.busy} onClick={() => { s.run(); setSmartOpen(false); }} className="mb-1.5 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left hover:border-amber-300/40 disabled:opacity-60">
+            <button key={s.key} type="button" disabled={s.busy} onClick={() => { s.run(); if (s.key !== 'ideas') setSmartOpen(false); }} className="mb-1.5 w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-left hover:border-amber-300/40 disabled:opacity-60">
               <p className="text-sm text-white">{s.busy ? 'Working…' : s.label}</p>
               <p className="text-xs text-white/50">{s.detail}</p>
             </button>
