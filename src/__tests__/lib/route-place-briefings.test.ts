@@ -20,12 +20,16 @@ describe('checked route-place cards', () => {
       for (const card of cards) {
         expect(words(card.headline)).toBeLessThanOrEqual(level === 'A1' ? 8 : 14);
         expect(sentences(card.detail)).toHaveLength(level === 'A1' ? 2 : 3);
-        if (level === 'A1') sentences(card.detail).forEach(s => expect(words(s)).toBeLessThanOrEqual(18));
+        expect(card.detail.toLowerCase().startsWith(card.headline.toLowerCase())).toBe(false);
+        expect(card.headline + ' ' + card.detail).not.toMatch(/is a city here|degrees (north|south)|estimated population|dated estimate|people lived here/i);
+        if (level === 'A1') sentences(card.detail).forEach(s => expect(words(s)).toBeLessThanOrEqual(12));
         expect(card.questions).toHaveLength(2);
         card.questions.forEach(q => { expect(q.length).toBeGreaterThan(5); expect(q).toMatch(/\?$/); });
         expect(words(card.picture)).toBeGreaterThanOrEqual(2);
         expect(words(card.picture)).toBeLessThanOrEqual(5);
+        expect(card.picture).not.toMatch(/\blandscape\b/i);
       }
+      expect(new Set(cards.map(c => c.picture.trim().toLowerCase())).size).toBe(cards.length);
     }
   });
 
@@ -70,9 +74,41 @@ describe('checked route-place cards', () => {
     for (const level of ['Easy', 'Intermediate', 'Advanced', 'Expert', 'B1', 'unknown']) expect(topicBriefingLevel(place, level)).toBe(place.levels.B1);
   });
 
-  it('qualifies ambiguous city and country photo names', () => {
-    expect(findRoutePlaceBriefing('Lagos')?.levels.A1.cards?.[0].picture).toBe('Lagos Nigeria');
-    expect(findRoutePlaceBriefing('Santiago')?.levels.A1.cards?.[0].picture).toBe('Santiago Chile');
-    expect(findRoutePlaceBriefing('Georgia')?.levels.A1.cards?.[0].picture).toBe('Georgia Caucasus landscape');
+  it('limits identical question text to three places, counting both levels together', () => {
+    const used = new Map<string, Set<string>>();
+    for (const place of places) for (const level of ['A1', 'B1'] as const) for (const card of place.levels[level].cards) {
+      for (const text of card.questions) {
+        const key = text.toLowerCase().replace(/[’']/g, '').replace(/[?!.:,;]/g, '').replace(/\s+/g, ' ').trim();
+        const titles = used.get(key) ?? new Set<string>();
+        titles.add(place.title); used.set(key, titles);
+      }
+    }
+    used.forEach((titles, question) => expect(titles.size, question).toBeLessThanOrEqual(3));
+  });
+
+  it('contains no replacement characters in the bank or its editable input', async () => {
+    const { readFileSync } = await import('node:fs');
+    expect(JSON.stringify(places)).not.toContain('\uFFFD');
+    expect(readFileSync('scripts/dev/data/route-place-editorial.tsv', 'utf8')).not.toContain('\uFFFD');
+  });
+
+  it('uses subject searches for cultural and geographic cards', () => {
+    const songkran = findRoutePlaceBriefing('Thailand')!.levels.A1.cards!.find(c => c.headline.includes('Songkran'))!;
+    expect(songkran.picture).toBe('Songkran water festival Thailand');
+    expect(songkran.questions).toContain('How do people celebrate New Year where you live?');
+    const yushan = findRoutePlaceBriefing('Taiwan')!.levels.B1.cards!.find(c => c.headline.includes('Yushan'))!;
+    expect(yushan.picture).toBe('Yushan summit Taiwan');
+  });
+
+  it('qualifies photos when a regional fact is used for a particular country', () => {
+    for (const [place, query] of [
+      ['Pakistan', 'Indus Pakistan floodplain sediment'],
+      ['Greece', 'Crete Mediterranean island coast'],
+      ['Uruguay', 'Montevideo Uruguay tango dancers'],
+      ['Switzerland', 'Matterhorn Zermatt Switzerland summit'],
+      ['Equatorial Guinea', 'Pico Basile Bioko volcano'],
+    ]) {
+      expect(findRoutePlaceBriefing(place)!.levels.B1.cards!.some(card => card.picture === query), place).toBe(true);
+    }
   });
 });

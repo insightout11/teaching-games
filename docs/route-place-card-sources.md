@@ -1,70 +1,75 @@
-# Route-place card sources
+# Route-place card sources and editing
 
-These are original classroom sentences, prepared on 20 October 2026. Each entry in
-`scripts/dev/data/route-place-source-data.json` carries its reference URLs, actual
-app label, aliases and audit rank. The checked runtime file also carries source
-URLs. These URLs are attribution, not runtime downloads.
+The bank contains explicitly authored cards, not position-based questions or
+country metadata converted into prose. Source URLs are editorial references;
+the app does not fetch them to produce ready cards.
 
-## Reproduce
+## Rebuild offline
 
-Using the project's existing dependencies (no installation):
+Using the existing project dependencies:
 
 ```powershell
 pnpm exec tsx --tsconfig tsconfig.json scripts/dev/route-places.ts
 pnpm exec tsx --tsconfig tsconfig.json scripts/dev/build-route-place-cards.ts
 ```
 
-The first command runs the app's geographic helpers against its bundled country
-outlines. It produces the ranked Markdown and machine-readable selection. The
-second is entirely offline: it combines the checked source metadata with the
-original three-part editorial sentences in `scripts/dev/data/route-place-editorial.tsv`.
-Each line is a place, a tab, then cards separated by `~`; within a card, `^`
-separates the headline, short extension and B1 extension. No generative service
-is involved in either command.
+The audit and its selection are unchanged by the content revision. The card
+compiler uses only checked-in files and performs no network or AI calls.
 
-The runtime bank has only A1 and B1. A1 has four two-sentence cards. B1 has five
-three-sentence cards. Country records use location, a named city, a dated
-population estimate and two editorial facts; A1 leaves the population card out.
-Other places have five editorial cards and A1 takes the first four. Short
-questions invite individual students to speak; there is no answer key or pair work.
+## Editable cards
 
-## References and limitations
+`scripts/dev/data/route-place-editorial.tsv` has one row per card. Its ten columns
+are place, card number, A1 headline, B1 headline, A1 detail, B1 detail, A1 questions
+as JSON, B1 questions as JSON, photo search, and reference URLs as JSON. Tabs
+separate columns; do not put tabs or line breaks inside a field. The first four
+cards form A1; all five form B1. Both levels are explicit in the source.
 
-- [Natural Earth 1:110m admin-0 countries, v5.1.2](https://github.com/nvkelso/natural-earth-vector/blob/v5.1.2/geojson/ne_110m_admin_0_countries.geojson)
-  provides continent, subregion, `POP_EST` and `POP_YEAR`. Natural Earth data are
-  [public domain](https://www.naturalearthdata.com/about/terms-of-use/).
-  Population cards explicitly state the estimate's original year, rounded to
-  the nearest 100,000 above one million or nearest 1,000 below it. These are not
-  current population claims. The checked recipe preserves the original values.
-- [World Bank country metadata](https://api.worldbank.org/v2/country?format=json&per_page=400)
-  supplies named cities and approximate latitude, rounded to a whole degree.
-  [World Bank data terms](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets)
-  generally use CC BY 4.0. Its capital field is treated as a city name, not proof
-  of current capital status. Stale capital designations were not copied into cards.
-- Each place's linked Wikipedia article supplies geographic and historical
-  references for the original editorial sentences. No article prose is bundled.
-  The source table is an editorial snapshot, not an automatically refreshed feed.
-  Broad labels use the correct geographic references: the North American Central
-  Lowlands, Ligurian Apennines, southern China, Scandinavian forest, and Dubai's
-  Palm Islands, rather than guessing from similarly named pages.
+Details begin with information beyond the headline. A1 uses two short sentences
+of at most twelve words each;
+B1 uses three. Questions concern that card's fact. They invite discussion without
+pair work or private answers. Photo searches name the particular subject, such as
+Songkran, Yushan, a weaving technique, a river crossing or a named animal.
 
-The outline source includes territories and disputed areas as well as countries.
-Its labels do not establish sovereignty. Cards for disputed areas focus on
-physical geography and cities and make no recognition or capital claims.
+`scripts/dev/data/route-place-source-data.json` preserves the audit identities,
+aliases and ranks. Capital, latitude and population inputs have been removed.
+It no longer supplies facts, city-name substitutions or picture defaults.
 
-The bare labels Cordillera Oriental and Cordillera Occidental identify multiple
-different ranges in the app's own source polygons. They are deliberately omitted
-from this title-only bank; existing context-sensitive lookup remains available.
-All other selected app spellings, including abbreviated or legacy outline names
-and Bogota/Bogotá, are explicit aliases. Runtime matching does not invent aliases
-by dropping punctuation, accents or word endings.
+The builder rejects missing cards, repeated headlines, repeated headline openings,
+wrong sentence counts, headline word-limit violations, long A1 sentences,
+replacement characters, removed filler patterns, repeated photo searches,
+landscape searches, and questions appearing on more than three distinct places.
+Questions are compared across both levels after case, punctuation and whitespace
+normalisation. Reusing the same question at both levels of one place counts once.
+The compiler never repairs invalid editorial content by inventing text.
 
-Photo phrases name the place, qualify destination cities by country, and avoid
-quiz answers. They use the existing free picture lookup and its existing
-child-content filter. Search results and availability can change; these phrases
-are not a curated, permanently guaranteed collection of image files. No image
-is bundled or automatically shown by this change.
+## References
 
-Uncertain capital, population, recognition and ambiguous-range claims omitted
-during preparation are listed in the task's completion report. Card wording
-and the automatic checks have not been tested in a real class.
+Each card's references are preserved in the TSV; the runtime entry combines its
+cards' source URLs. Original sentences paraphrase checkable geographic, historic,
+cultural and natural-history facts. References include Wikipedia articles and
+primary sources such as UNESCO, museums, conservation organisations, FAO and
+JAMSTEC. No article prose or third-party photos are bundled.
+
+Examples of primary references are [UNESCO's royal drumming entry](https://ich.unesco.org/en/RL/ritual-dance-of-the-royal-drum-00989),
+[the Slovene Ethnographic Museum's beehive panel](https://www.etno-muzej.si/en/sem-z-zgodbami-predmetov/painted-beehive-panel),
+[JAMSTEC's Kairei vent observations](https://www.jamstec.go.jp/shinkai6500/25th/history/2002.html)
+and [FAO's Gambian oyster account](https://www.fao.org/fish4acp/where-we-work/gambia/en).
+
+Questions may be shared by up to three places when the very same fact genuinely
+applies to them, such as a shared mountain range or regional craft. Changing a
+place name to disguise a repeated generic question is not an editorial method.
+
+## Scope and limits
+
+The source outline labels include territories and disputed areas; they do not
+establish sovereignty. No current capital or population claims are derived from
+metadata. Cordillera Oriental and Cordillera Occidental remain outside this
+strict title-only bank because each bare name identifies multiple ranges.
+
+Search phrases use the existing free photo service and its existing child-content
+filter. Search results can change or be unavailable. The phrases identify specific
+subjects, but this is not a manually inspected collection of image files.
+No change automatically displays a photo or changes protected room or flight code.
+
+The completion report lists checks, omissions and five full examples at both
+levels. No claim is made about performance in a real class.
