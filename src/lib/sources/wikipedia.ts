@@ -91,10 +91,14 @@ export async function lookupWikipedia(topic: string, where?: string): Promise<Wi
     const want = norm(q).replace(/^the /, '');
     const name = (t: string) => norm(t).replace(/^the /, '');
     // Only a page whose name really is the topic (a search can drift to something merely related).
+    // The page named exactly the topic comes first even when the search ranks it low ("China" searched with the place
+    // below the plane found "China at the Asian Games" first, so the facts were all about sport). A longer title that
+    // merely starts with the topic is never taken: it is about something narrower.
     const candidates = [
-      ...hits.filter((h) => name(h.title) === want),
-      ...hits.filter((h) => name(h.title) !== want && (name(h.title).startsWith(want) || want.startsWith(name(h.title)))),
-    ].slice(0, place ? 4 : 1);
+      { title: q },
+      ...hits.filter((h) => name(h.title) === want && h.title !== q),
+      ...hits.filter((h) => name(h.title) !== want && want.startsWith(name(h.title))),
+    ].slice(0, place ? 5 : 2);
     if (!candidates.length) return null;
 
     type Page = { title: string; extract?: string; description?: string; pageprops?: { disambiguation?: string } };
