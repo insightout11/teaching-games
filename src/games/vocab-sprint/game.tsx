@@ -15,6 +15,8 @@ import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 import { ArrowRight, BookOpen, Check, Clock, Lightbulb, Sparkles, Trophy } from 'lucide-react';
 
 import { levelLabel } from '@/lib/difficulty';
+import { FreePictureCard } from '@/components/ui/free-picture';
+import { revealedPictureQuery } from '@/lib/free-picture-cache';
 const EMPTY_SEEN: string[] = [];
 
 interface RaceSolver {
@@ -29,7 +31,7 @@ interface RaceSolver {
   position: number;
 }
 
-export function VocabSprintGame({ currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, config, isMicroEvent }: GameProps) {
+export function VocabSprintGame({ sessionId, currentStudentId, students, onScore, onPickStudent, sessionSettings, onSetInputSpec, onRegisterSubmissionHandler, onRegisterRemoteVoteHandler, prefsMap, config, isMicroEvent }: GameProps) {
   const sourceMaterial = useSessionStore((s) => s.sourceMaterial);
   const lessonKit = useSessionStore((s) => s.lessonKit);
   const recordFeature = useSessionStore((s) => s.recordFeature);
@@ -687,6 +689,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
         {/* FINISHED: overview */}
         {status === GameStatus.FINISHED && currentSentence && reviewIndex === -1 && !showBank && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
+            <FreePictureCard sessionId={sessionId} query={revealedPictureQuery(currentSentence.picture, true)} />
             <div className="rounded-[1.75rem] border border-white/12 bg-slate-950/45 px-6 py-7">
               <div className="mb-4 text-center">
                 <KitLabel tone={best ? 'emerald' : 'plain'}>{best ? `Best upgrade · ${nameFor(best)}` : raceSolvers.length ? 'Try these upgrades' : 'No answers this time'}</KitLabel>
@@ -950,6 +953,7 @@ export function VocabSprintGame({ currentStudentId, students, onScore, onPickStu
               animate={{ opacity: 1, scale: 1 }}
               className="glass p-6 rounded-[2rem] border-2 border-white/10 shadow-xl flex flex-col items-center gap-4"
             >
+              <FreePictureCard sessionId={sessionId} query={revealedPictureQuery(currentSentence?.picture, true)} />
               <div className="flex items-center gap-6 w-full">
                 <div className={`w-24 h-24 flex flex-col items-center justify-center rounded-2xl font-game shadow-lg shrink-0 ${getScoreColor(evaluation.score)}`}>
                   <span className="text-[10px] -mb-1 opacity-60">SCORE</span>

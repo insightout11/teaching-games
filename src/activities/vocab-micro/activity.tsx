@@ -9,11 +9,14 @@ import { CheckCircle, Radio } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import { NextSpeakerStep } from '@/components/session/next-speaker-step';
 import type { ActivityProps, VocabMicroContent } from '../types';
+import { FreePictureCard } from '@/components/ui/free-picture';
+import { revealedPictureQuery } from '@/lib/free-picture-cache';
 
 type Phase = 'idle' | 'voting' | 'reveal';
 type VocabVote = { clientId: string; studentId: string | null; displayName: string; choice: string };
 
 export function VocabMicroActivity({
+  sessionId,
   generatedContent,
   students,
   onPhaseChange,
@@ -170,6 +173,7 @@ export function VocabMicroActivity({
 
       {phase === 'reveal' && speakerDone && (content?.explanation || content?.example) && (
         <div className="glass space-y-1 rounded-2xl border border-amber-400/30 p-5">
+          <FreePictureCard sessionId={sessionId} query={revealedPictureQuery(content.picture, true)} />
           <p className="text-xs uppercase tracking-widest opacity-50">{content.word}</p>
           {content.explanation && <p className="text-sm">{content.explanation}</p>}
           {content.example && <p className="text-sm italic opacity-70">{content.example}</p>}

@@ -1,0 +1,2 @@
+/** Reused inside existing content calls; never a separate AI request. */
+export const WORD_PICTURE_PROMPT = 'Include picture: a child-friendly 2–5 word Wikimedia search phrase ONLY when the word, in this meaning, is a concrete thing, place, animal or visible action you can photograph. For abstract meanings, grammar words, emotions, idioms or uncertain cases, picture MUST be an empty string. Do not illustrate an abstract word with an unrelated symbolic object. Never put private student information in picture.';

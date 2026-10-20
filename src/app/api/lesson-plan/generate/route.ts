@@ -1,3 +1,5 @@
+import { pictureQuery } from '@/lib/free-picture-cache';
+import { WORD_PICTURE_PROMPT } from '@/lib/picture-generation';
 import { findTopicBriefing } from '@/lib/topic-briefings';
 import { depthPromptNote } from '@/lib/topic-depth';
 import { bookLevelFor, fallbackPassages, mergeCast, validPrevious, validReadingPack, validSimplified, type ReadingPack, type ReadingPreviously } from '@/lib/reading-pack';
@@ -873,8 +875,9 @@ async function generateVocabRadar(topic: string, difficulty: Difficulty, sourceC
             word: { type: 'string' },
             partOfSpeech: { type: 'string' },
             definition: { type: 'string' },
+            picture: { type: 'string' },
           },
-          required: ['word', 'partOfSpeech', 'definition'],
+          required: ['word', 'partOfSpeech', 'definition', 'picture'],
         },
       },
     },
@@ -895,12 +898,12 @@ For each word include the part of speech AND a short definition (max 15 words, p
 
 Return JSON with a "words" array of exactly 5 objects, each with "word", "partOfSpeech", and "definition".`;
 
-  const parsed = await generateJSON<{ words: Array<{ word: string; partOfSpeech?: string; definition?: string }> }>(prompt, schema);
+  const parsed = await generateJSON<{ words: Array<{ word: string; partOfSpeech?: string; definition?: string; picture?: string }> }>(prompt + "\n" + WORD_PICTURE_PROMPT, schema);
 
   return {
     activityKey: 'vocab-radar',
     topicContext: topic,
-    words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech, definition: w.definition })),
+    words: parsed.words.slice(0, 6).map((w) => ({ word: w.word, partOfSpeech: w.partOfSpeech, definition: w.definition, picture: pictureQuery(w.picture) })),
   };
 }
 
@@ -926,8 +929,9 @@ async function generateSourceVocab(topic: string, difficulty: Difficulty, source
             example: { type: 'string' },
             prompt: { type: 'string' },
             sourceContext: { type: 'string' },
+            picture: { type: 'string' },
           },
-          required: ['term', 'meaning', 'example', 'prompt'],
+          required: ['term', 'meaning', 'example', 'prompt', 'picture'],
         },
       },
     },
@@ -951,7 +955,7 @@ For each term provide:
 
 Return JSON with an "items" array of exactly 6 objects.`;
 
-  const parsed = await generateJSON<{ items: Array<{ term?: string; meaning?: string; example?: string; prompt?: string; sourceContext?: string }> }>(aiPrompt, schema);
+  const parsed = await generateJSON<{ items: Array<{ term?: string; meaning?: string; example?: string; prompt?: string; sourceContext?: string; picture?: string }> }>(aiPrompt + "\n" + WORD_PICTURE_PROMPT, schema);
 
   const seen = new Set<string>();
   const normalized: SourceVocabItem[] = [];
@@ -964,7 +968,7 @@ Return JSON with an "items" array of exactly 6 objects.`;
     const key = term.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
-    normalized.push({ term, meaning, example, prompt, ...(raw.sourceContext ? { sourceContext: raw.sourceContext.trim() } : {}) });
+    normalized.push({ term, meaning, example, prompt, picture: pictureQuery(raw.picture), ...(raw.sourceContext ? { sourceContext: raw.sourceContext.trim() } : {}) });
     if (normalized.length >= 8) break;
   }
 
@@ -2445,8 +2449,9 @@ async function generateVocabSprint(topic: string, difficulty: Difficulty, keyVoc
         hint: { type: 'string' },
         level: { type: 'string' },
         targetWord: { type: 'string' },
+        picture: { type: 'string' },
       },
-      required: ['sentence', 'weakWord', 'hint', 'level', 'targetWord'],
+      required: ['sentence', 'weakWord', 'hint', 'level', 'targetWord', 'picture'],
     },
   };
 
@@ -2478,13 +2483,14 @@ Set targetWord to the exact precise term expected.
 
 Return exactly 6 objects as a JSON array ordered: 2 easy, 2 medium, 2 hard.`;
 
-  const sentences = await generateJSON<Array<{ sentence: string; weakWord: string; hint: string; level: string; targetWord: string }>>(prompt, schema);
+  const sentences = await generateJSON<Array<{ sentence: string; weakWord: string; hint: string; level: string; targetWord: string; picture?: string }>>(prompt + "\n" + WORD_PICTURE_PROMPT + " Apply picture only to a concrete hard-round targetWord; easy and medium rounds use picture: empty string. The picture appears after the round ends.", schema);
   return {
     gameKey: 'vocab-sprint',
     sentences: sentences.map(s => ({
       ...s,
       level: (['easy', 'medium', 'hard'].includes(s.level) ? s.level : 'easy') as 'easy' | 'medium' | 'hard',
       targetWord: s.targetWord || undefined,
+      picture: s.level === 'hard' ? pictureQuery(s.picture) : '',
     })),
   };
 }
@@ -3443,8 +3449,9 @@ async function generateVocabMicro(topic: string, difficulty: Difficulty, sourceC
       word: { type: 'string' },
       explanation: { type: 'string' },
       example: { type: 'string' },
+      picture: { type: 'string' },
     },
-    required: ['sentence', 'options', 'correctIndex', 'word', 'explanation'],
+    required: ['sentence', 'options', 'correctIndex', 'word', 'explanation', 'picture'],
   };
 
   const prompt = `Create one quick "which word fits?" vocabulary check for an English class at ${difficultyDescriptions[difficulty]}.
@@ -3461,7 +3468,7 @@ Provide:
 - example: one more short example sentence using the word`;
 
   try {
-    const data = await generateJSON<{ sentence: string; options: string[]; correctIndex: number; word: string; explanation: string; example?: string }>(prompt, schema);
+    const data = await generateJSON<{ sentence: string; options: string[]; correctIndex: number; word: string; explanation: string; example?: string; picture?: string }>(prompt + "\n" + WORD_PICTURE_PROMPT + " Describe the target word; the picture is shown only with its meaning after the answer reveal.", schema);
     const options = Array.isArray(data.options) && data.options.length >= 2 ? data.options.slice(0, 4) : ['interesting', 'table', 'quickly', 'blue'];
     const correctIndex = Math.min(Math.max(data.correctIndex ?? 0, 0), options.length - 1);
     return {
@@ -3473,6 +3480,7 @@ Provide:
       word: data.word ?? options[correctIndex],
       explanation: data.explanation ?? '',
       example: data.example,
+      picture: pictureQuery(data.picture),
     };
   } catch {
     return {
@@ -3895,7 +3903,7 @@ async function generateLessonContent(request: NextRequest) {
               content[activityKey] = {
                 activityKey: 'vocab-radar',
                 topicContext: customTopic,
-                words: sourceVocab.slice(0, 6).map((v) => ({ word: v.term, definition: v.meaning })),
+                words: sourceVocab.slice(0, 6).map((v) => ({ word: v.term, definition: v.meaning, picture: pictureQuery(v.picture) })),
               };
               break;
             }

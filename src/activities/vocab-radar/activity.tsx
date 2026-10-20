@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ActivityProps } from '../types';
 import type { VocabRadarContent, VocabRadarWord } from '../types';
+import { FreePictureCard } from '@/components/ui/free-picture';
 
 type Phase = 'idle' | 'prompting' | 'revealing' | 'summary';
 
@@ -44,10 +45,12 @@ function FamiliarityBar({
 }
 
 function WordChart({
+  sessionId,
   word,
   votes,
   showDefinition = false,
 }: {
+  sessionId: string | null;
   word: VocabRadarWord;
   votes: Record<string, string>;
   showDefinition?: boolean;
@@ -76,6 +79,7 @@ function WordChart({
           {word.definition}
         </p>
       )}
+      {showDefinition && <FreePictureCard sessionId={sessionId} query={word.picture} />}
       <p className="text-xs opacity-40">{total} response{total !== 1 ? 's' : ''}</p>
     </div>
   );
@@ -128,6 +132,7 @@ function FocusList({
 }
 
 export function VocabRadarActivity({
+  sessionId,
   sessionSettings,
   generatedContent,
   onPhaseChange,
@@ -312,7 +317,7 @@ export function VocabRadarActivity({
       {/* REVEALING */}
       {phase === 'revealing' && currentWord && (
         <div className="space-y-6">
-          <WordChart word={currentWord} votes={currentVotes} showDefinition />
+          <WordChart sessionId={sessionId} word={currentWord} votes={currentVotes} showDefinition />
 
           <div className="flex justify-end">
             <button
@@ -331,7 +336,7 @@ export function VocabRadarActivity({
           <p className="text-sm opacity-60">Vocabulary map for this class:</p>
           <div className="grid gap-3">
             {words.map((word, i) => (
-              <WordChart key={i} word={word} votes={votes[i] ?? {}} />
+              <WordChart key={i} sessionId={sessionId} word={word} votes={votes[i] ?? {}} />
             ))}
           </div>
           <FocusList words={words} votes={votes} />

@@ -139,6 +139,7 @@ export interface VocabWord {
 }
 
 export interface SourceVocabItem {
+  picture?: string;      // Explicit concrete-word query; empty for abstract/unknown meanings
   term: string;
   meaning: string;        // ≤15 words, plain English
   example: string;        // Natural sentence using the term
@@ -680,7 +681,7 @@ export interface ReadAloudContent extends ActivityGeneratedContent {
 // Game generated content types for lesson planner
 export interface VocabSprintGeneratedContent {
   gameKey: 'vocab-sprint';
-  sentences: Array<{ sentence: string; weakWord: string; hint: string; level: 'easy' | 'medium' | 'hard'; targetWord?: string }>;
+  sentences: Array<{ sentence: string; weakWord: string; hint: string; level: 'easy' | 'medium' | 'hard'; targetWord?: string; picture?: string }>;
 }
 
 export interface GrammarBossGeneratedContent {
@@ -760,6 +761,7 @@ export interface QuickPulseContent extends ActivityGeneratedContent {
 
 // Vocab Radar content
 export interface VocabRadarWord {
+  picture?: string;
   word: string;
   partOfSpeech?: string;
   definition?: string;  // ≤15 words, student-facing
@@ -810,6 +812,7 @@ export interface AccuracyMicroContent extends ActivityGeneratedContent {
 
 // Vocab Micro content ("Comms Check" — single "which word fits?" gap)
 export interface VocabMicroContent extends ActivityGeneratedContent {
+  picture?: string;     // Target word, shown only after reveal
   activityKey: 'vocab-micro';
   sentence: string;     // one sentence with a single gap shown as "___"
   options: string[];    // 3–4 single-word choices
