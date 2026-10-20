@@ -145,6 +145,18 @@ function townGlow(): HTMLCanvasElement {
 }
 const cellHash = (i: number, j: number, k: number) => { const s = Math.sin(i * 127.1 + j * 311.7 + k * 74.7) * 43758.5453; return s - Math.floor(s); };
 
+/** Chaikin corner cutting: the map's kinks become curves (each pass doubles the points, the ends stay put). */
+function smoothLine(pts: Array<[number, number]>): Array<[number, number]> {
+  if (pts.length < 3) return pts;
+  const out: Array<[number, number]> = [pts[0]];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [ax, az] = pts[i], [bx, bz] = pts[i + 1];
+    out.push([ax * 0.75 + bx * 0.25, az * 0.75 + bz * 0.25], [ax * 0.25 + bx * 0.75, az * 0.25 + bz * 0.75]);
+  }
+  out.push(pts[pts.length - 1]);
+  return out;
+}
+
 /** Smooth value noise (0..1) for the patches: the same place always has the same patch. */
 function patchNoise(x: number, z: number): number {
   const h = (i: number, j: number) => { const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return s - Math.floor(s); };
@@ -275,7 +287,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM];
     for (const r of waters.rivers) {
       if (ahead.has(`R:${r.name}`)) continue;
-      list.push({ name: r.name, lake: false, width: r.widthClass === 1 ? 170 : r.widthClass === 2 ? 110 : 70, rings: [r.points.map(toWorld)] });
+      list.push({ name: r.name, lake: false, width: r.widthClass === 1 ? 170 : r.widthClass === 2 ? 110 : 70, rings: [smoothLine(smoothLine(r.points.map(toWorld)))] });
     }
     for (const l of waters.lakes) {
       if (ahead.has(`L:${l.name}`)) continue;
@@ -579,7 +591,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 let dx = b.x - a.x, dy = b.y - a.y;
                 const len = Math.hypot(dx, dy) || 1;
                 dx /= len; dy /= len;
-                const hw = pts[n].half * k;
+                // the river narrows away at both ends of what is drawn (no square stop)
+                const ends = Math.min(n, pts.length - 1 - n) / Math.max(1, Math.min(14, pts.length * 0.2));
+                const hw = pts[n].half * k * Math.min(1, ends);
                 left.push([pts[n].x - dy * hw, pts[n].y + dx * hw]);
                 right.push([pts[n].x + dy * hw, pts[n].y - dx * hw]);
               }
@@ -591,12 +605,16 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             };
             for (const r of runs) {
               const fog = r.reduce((t, p) => t + p.fog, 0) / r.length;
+              // soft banks: a wide faint green fading into the land, a closer stronger green, then the water
               ctx.fillStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
-              ctx.globalAlpha = 0.75;
-              ribbon(r, 2.6);
-              ctx.globalAlpha = 1;
+              ctx.globalAlpha = 0.22;
+              ribbon(r, 5);
+              ctx.globalAlpha = 0.45;
+              ribbon(r, 2.4);
+              ctx.globalAlpha = 0.9;
               ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
               ribbon(r, 1);
+              ctx.globalAlpha = 1;
             }
           }
           ctx.restore();

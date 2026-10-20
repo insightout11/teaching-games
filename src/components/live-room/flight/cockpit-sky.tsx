@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { moonLitPath } from '@/components/world-flight/arrival-scene/layers/atmosphere-layer';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { ScenePalette, TimeOfDay, WeatherCondition } from '@/components/world-flight/arrival-scene/types';
@@ -101,6 +101,20 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
   );
 
   const v2 = SKY_V2;
+  // A distant plane: rare (every 3 to 8 minutes) and never the same twice: height, angle, direction, speed, size.
+  const [pass, setPass] = useState<{ id: number; top: number; angle: number; dir: 1 | -1; secs: number; len: number; size: number } | null>(null);
+  useEffect(() => {
+    if (!v2 || reduce || palette.light === 'moon') return;
+    let t: ReturnType<typeof setTimeout>;
+    const next = (first: boolean) => {
+      t = setTimeout(() => {
+        setPass({ id: Date.now(), top: 6 + Math.random() * 26, angle: -14 + Math.random() * 22, dir: Math.random() < 0.5 ? 1 : -1, secs: 55 + Math.random() * 45, len: 22 + Math.random() * 18, size: 0.7 + Math.random() * 0.5 });
+        next(false);
+      }, (first ? 40 + Math.random() * 120 : 180 + Math.random() * 300) * 1000);
+    };
+    next(true);
+    return () => clearTimeout(t);
+  }, [v2, reduce, palette.light]);
   const milky = useMemo(() => (v2 ? milkyWayDots() : []), [v2]);
   // the sun's (or moon's) place across the sky as a number, for the glow and the earth's shadow opposite
   const sunX = Math.max(0, Math.min(100, parseFloat(String(pos.x)) || 50));
@@ -136,16 +150,14 @@ export function CockpitSky({ palette, timeOfDay, altitude, spot }: {
               <div key={i} className="absolute rounded-full" style={{ left: `${x}%`, top: `${y}%`, width: `${w}%`, height: `${h}%`, transform: `rotate(${rot}deg)`, background: `linear-gradient(90deg, transparent, ${isDusk ? 'rgba(255,214,190,0.32)' : 'rgba(255,255,255,0.28)'} 30%, ${isDusk ? 'rgba(255,200,180,0.22)' : 'rgba(255,255,255,0.18)'} 70%, transparent)`, filter: 'blur(5px)' }} />
             ))}
           </div>
-          {/* now and then another plane far off, drawing its vapour trail across the sky: a tiny silhouette catching the
-              light, two thin trails behind it that soften, spread and fade; the whole thing travels along its own line */}
-          {!reduce && (
-            <div className="absolute left-0 top-[16%] w-full" style={{ transform: 'rotate(-5deg)', transformOrigin: '0 50%' }}>
-              <div className="relative h-4 w-[34vw]" style={{ animation: 'contrail-cross 80s linear 8s infinite' }}>
+          {/* now and then another plane far off (every few minutes, a different height, angle and direction each time) */}
+          {pass && (
+            <div key={pass.id} className="absolute left-0 w-full" style={{ top: `${pass.top}%`, transform: `rotate(${pass.angle}deg) scaleX(${pass.dir})`, transformOrigin: '50% 50%' }}>
+              <div className="relative h-4" style={{ width: `${pass.len}vw`, animation: `contrail-cross ${pass.secs}s linear 1 forwards` }} onAnimationEnd={() => setPass(null)}>
                 <div className="absolute right-3 top-[5px] h-[1.5px] w-full" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.7) 100%)', filter: 'blur(0.6px)' }} />
                 <div className="absolute right-3 top-[8px] h-[1.5px] w-full" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 35%, rgba(255,255,255,0.65) 100%)', filter: 'blur(0.6px)' }} />
-                {/* the older part of the trail, spread out and soft */}
                 <div className="absolute right-[40%] top-[2px] h-[10px] w-[60%]" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.12) 60%, transparent)', filter: 'blur(3px)' }} />
-                <svg viewBox="0 0 24 10" className="absolute right-0 top-[2px] h-[10px] w-[16px]" aria-hidden>
+                <svg viewBox="0 0 24 10" className="absolute right-0 top-[2px]" style={{ height: 10 * pass.size, width: 16 * pass.size }} aria-hidden>
                   <path d="M1 5 L17 4.2 L23 5 L17 5.8 Z M15 4.4 L10.5 0.6 L9 0.6 L11.5 4.4 Z M15 5.6 L10.5 9.4 L9 9.4 L11.5 5.6 Z M5 4.6 L2.4 2.4 L1.4 2.4 L2.6 4.6 Z" fill="rgba(245,248,255,0.95)" />
                 </svg>
               </div>
