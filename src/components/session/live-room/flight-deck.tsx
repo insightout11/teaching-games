@@ -57,6 +57,7 @@ import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/li
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
+import { animalsOf, migrationsNear } from '@/lib/animals-below';
 import { activeShower, brightPlanet, METEOR_SHOWERS, moonPhaseName, sideOfSky } from '@/lib/live-room/journey-sky';
 import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
 import { routePreview } from '@/lib/live-room/route-preview';
@@ -1246,6 +1247,19 @@ export function FlightDeck({
     if (nearbyStep == null) return;
     let live = true;
     const here = below.point;
+    // Animals below (Codex's checked data): a migration in season right here first; otherwise, now and then, an animal
+    // that lives in the region or country below
+    const migration = migrationsNear(here, new Date(), 120)[0];
+    if (migration) addLive({ id: `mig:${migration.id}`, title: migration.animal, where: 'below us right now', fact: migration.below }, 6);
+    else if (nearbyStep % 4 === 0) {
+      for (const name of [below.name, countryNow]) {
+        const list = name ? animalsOf(name) : [];
+        if (!list.length) continue;
+        const a = list[nearbyStep % list.length];
+        addLive({ id: `res:${name}`, title: a.animal, where: `lives in ${name!.replace(/^the /, '')}`, fact: a.fact }, 5);
+        break;
+      }
+    }
     const q = new URLSearchParams({ lat: here.lat.toFixed(2), lng: here.lng.toFixed(2), country: countryNow ?? '' });
     void fetch(`/api/live-room/nearby?${q.toString()}`).then((r) => (r.ok ? r.json() : null)).then((d: {
       plane: { callsign: string; airline: string | null; km: number; bearing: number; altitudeM: number } | null; kp: number | null;
