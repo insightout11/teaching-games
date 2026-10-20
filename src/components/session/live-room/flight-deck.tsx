@@ -952,7 +952,17 @@ export function FlightDeck({
   const [roulette, setRoulette] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
-  const clock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
+  // Test switch: ?descent=on jumps a flight to just before its descent, to preview the approach to a city (Fuji on
+  // the way into Tokyo) without waiting for the end of class. Time moves on normally from there.
+  const [descentTest, setDescentTest] = useState(false);
+  useEffect(() => { setDescentTest(new URLSearchParams(window.location.search).get('descent') === 'on'); }, []);
+  const [descentShift, setDescentShift] = useState(0);
+  const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
+  useEffect(() => {
+    if (!descentTest || descentShift || flightStage !== 'flying' || takeoffAt === null || rawClock.minutesLeft == null) return;
+    setDescentShift(Math.max(0, (rawClock.minutesLeft - DESCENT_MINUTES - 0.4) * 60_000));
+  }, [descentTest, descentShift, flightStage, takeoffAt, rawClock.minutesLeft]);
+  const clock = descentShift ? flightClock({ classStartAt, classMinutes, takeoffAt, now: now + descentShift }) : rawClock;
   const { flightMs, routeT, minutesLeft } = clock;
   // Arrived (5 minutes before the end of class): the plane circles near the destination until you land.
   const holding = flightStage === 'flying' && clock.holding;
