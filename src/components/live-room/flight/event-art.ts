@@ -121,14 +121,37 @@ export function drawSceneEvent(
       ctx.globalAlpha = alpha * (1 - fog * 0.3);
       ctx.drawImage(puff(col), sx - sr, sy - sr * (anvil ? 0.45 : 0.8), sr * 2, sr * (anvil ? 0.9 : 1.6));
     }
-    // a soft flicker of lightning inside every few seconds
-    const flick = Math.sin(t * 1.1 + seed) > 0.97 || Math.sin(t * 2.7 + seed * 2) > 0.99;
-    if (flick) {
-      const [sx, sy] = proj(x + (hash(Math.floor(t)) - 0.5) * 5000, z, 5000 + hash(Math.floor(t) + 1) * 4000);
-      const sr = 7000 * sc;
+    // lightning: every few seconds one part of the cloud lights up from inside (an uneven patch of billows, flickering
+    // once or twice), and now and then a thin bolt drops from the base to the ground
+    const slot = Math.floor(t / 2.5), ph = t - slot * 2.5;
+    const strike = hash(seed * 7 + slot) < 0.45;
+    const flashes = hash(seed * 11 + slot) < 0.5 ? [0, 0.18] : [0];
+    const lit2 = flashes.some((d) => ph > d && ph < d + 0.09);
+    if (strike && lit2) {
+      const cxw = x + (hash(slot + seed) - 0.5) * 12000, cyw = 4000 + hash(slot + seed + 1) * 6000;
       ctx.globalCompositeOperation = 'lighter';
-      ctx.globalAlpha = alpha * 0.7 * (1 - fog * 0.4);
-      ctx.drawImage(puff([200, 210, 255]), sx - sr, sy - sr, sr * 2, sr * 2);
+      const m = 4 + Math.floor(hash(slot + 3) * 4);
+      for (let i = 0; i < m; i++) {
+        const [sx, sy] = proj(cxw + (hash(slot * 5 + i) - 0.5) * 6000, z, cyw + (hash(slot * 7 + i) - 0.5) * 3000);
+        const rx = (1500 + hash(slot * 9 + i) * 3500) * sc, ry = rx * (0.45 + hash(slot * 13 + i) * 0.4);
+        ctx.globalAlpha = alpha * (0.2 + hash(slot * 17 + i) * 0.35) * (1 - fog * 0.4);
+        ctx.drawImage(puff([190, 200, 255]), sx - rx, sy - ry, rx * 2, ry * 2);
+      }
+      if (hash(seed * 3 + slot) < 0.35) {
+        // a thin, jagged bolt from the cloud base to the ground
+        let bx = cxw, by = baseY;
+        let [px, py] = proj(bx, z, by);
+        ctx.strokeStyle = 'rgba(235,240,255,0.9)';
+        ctx.lineWidth = Math.max(1, 60 * sc);
+        ctx.globalAlpha = alpha * 0.8 * (1 - fog * 0.4);
+        ctx.beginPath(); ctx.moveTo(px, py);
+        for (let j = 1; j <= 8; j++) {
+          bx += (hash(slot * 19 + j) - 0.5) * 900; by = baseY * (1 - j / 8);
+          [px, py] = proj(bx, z, by);
+          ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
       ctx.globalCompositeOperation = 'source-over';
     }
     ctx.restore();
