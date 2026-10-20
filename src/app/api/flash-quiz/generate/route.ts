@@ -9,15 +9,17 @@ import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions } from '@/lib/difficulty';
 import { resolveSourceContext, hasLessonKit, type LessonKit } from '@/lib/source-context';
 import type { SourceMaterial } from '@/types/source-material';
+import { pictureQuery } from '@/lib/free-picture-cache';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 const GAME_KEY = 'flash-quiz';
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 const TIMER_SECONDS = 30;
 
 interface QuizQuestion {
+  picture?: string;
   question: string;
   options: string[]; // exactly 4
   correctIndex: number; // 0–3
@@ -112,8 +114,9 @@ const schema: AISchema = {
           options: { type: 'array', items: { type: 'string' } },
           correctIndex: { type: 'integer' },
           explanation: { type: 'string' },
+          picture: { type: 'string' },
         },
-        required: ['question', 'options', 'correctIndex', 'explanation'],
+        required: ['question', 'options', 'correctIndex', 'explanation', 'picture'],
       },
     },
   },
@@ -269,7 +272,7 @@ Return JSON:
   ]
 }`;
 
-    const data = await generateJSON<{ questions: QuizQuestion[] }>(prompt, schema, {
+    const data = await generateJSON<{ questions: QuizQuestion[] }>(prompt + `\nFor each question include picture: a child-friendly 2–5 word Wikimedia search phrase about the question's subject, NEVER selected from the correct option or explanation. Use an empty string if no useful subject picture exists. Pictures are optional and appear only AFTER the answer reveal. Do not put answers in the search phrase.`, schema, {
       temperature: 1.0,
       taskClass: 'content-generation',
     });
@@ -280,6 +283,7 @@ Return JSON:
     }
 
     for (const q of data.questions) {
+      q.picture = pictureQuery(q.picture);
       if (!Array.isArray(q.options) || q.options.length !== 4) {
         throw new Error('Each question must have exactly 4 options');
       }

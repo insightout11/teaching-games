@@ -14,10 +14,13 @@ import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { SourceMaterial } from '@/types/source-material';
 import { KitButton, KitChip, KitLabel, KitReadout, KitStatus } from '@/components/session/widget-kit';
+import { FreePictureCard } from '@/components/ui/free-picture';
+import { revealedPictureQuery } from '@/lib/free-picture-cache';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface QuizQuestion {
+  picture?: string;
   question: string;
   options: string[]; // exactly 4
   correctIndex: number;
@@ -656,6 +659,7 @@ export function FlashQuizGame({
             Many chose <strong>{OPTION_LABELS[mostPickedWrong.index]}</strong>: worth talking about why.
           </div>
         )}
+        <FreePictureCard sessionId={sessionId} query={revealedPictureQuery(currentQuestion.picture, true)} />
         <p className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-lg text-white/80">{currentQuestion.explanation}</p>
         {hotStreak && (
           <p className="flex items-center justify-center gap-2 text-lg text-amber-100"><Flame className="h-5 w-5 text-orange-400" /><span className="font-semibold">{hotStreak.name}</span> is on fire: {hotStreak.n} in a row!</p>
