@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { UtensilsCrossed, ConciergeBell } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
@@ -65,7 +67,8 @@ export function TripMealActivity({
     type: 'choice',
     gameKey: 'trip-meal',
     prompt: `Pick a dish to try in ${content.city}`,
-    instruction: 'Check your Traveller Card: your budget and what you can eat.',
+    instruction: 'Choose a dish you would like to try.',
+    context: phoneText(...dishes.map(dish => `${dish.name}: ${dish.whatItIs}${dish.note ? ' ' + dish.note : ''}`)),
     options: dishes.map((dish) => dish.name),
     optionLabels: dishes.map((dish) => [dish.name, dish.price, dish.tier].filter(Boolean).join(' · ')),
   }), [content.city, dishes]);

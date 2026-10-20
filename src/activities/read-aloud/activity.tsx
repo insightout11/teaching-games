@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { ActivityProps } from '../types';
@@ -106,6 +108,7 @@ export function ReadAloudActivity({
   const gistIdxRef = useRef(gistIdx); gistIdxRef.current = gistIdx;
   const askedRef = useRef<Set<number>>(new Set());
   const pendingSkipRef = useRef<string | undefined>(undefined);
+  const comprehensionContext = useMemo(() => phoneText(sourceText), [sourceText]);
   const gist = gistIdx != null ? passages?.[gistIdx]?.gist : undefined;
 
   const [phase, setPhase] = useState<Phase>('idle');
@@ -159,7 +162,7 @@ export function ReadAloudActivity({
   useEffect(() => {
     if (phase === 'quiz') return;
     if (phase === 'reading' && gist) {
-      onSetInputSpec?.({ type: 'choice', gameKey: 'read-aloud', prompt: gist.q, options: gist.options });
+      onSetInputSpec?.({ type: 'choice', gameKey: 'read-aloud', prompt: gist.q, context: phoneText(passages?.[gistIdx ?? -1]?.text), options: gist.options });
       return;
     }
     if (phase !== 'reading' || queue.length === 0) {
@@ -177,7 +180,7 @@ export function ReadAloudActivity({
       ...(sessionId ? { readAloudChannel: sessionId } : {}),
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, queue, currentIndex, sourceTitle, onSetInputSpec, gist]);
+  }, [phase, queue, currentIndex, sourceTitle, onSetInputSpec, gist, passages, gistIdx]);
 
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
@@ -337,6 +340,7 @@ export function ReadAloudActivity({
         {simplified && <KitLabel tone="cyan">Simplified</KitLabel>}
         <ComprehensionQuiz
           questions={comprehensionQuestions}
+          context={comprehensionContext}
           students={students}
           gameKey="read-aloud"
           discussionPrompt={discussionPrompt}

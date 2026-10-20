@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import type { ActivityProps } from '../types';
@@ -142,6 +144,7 @@ export function ScenarioSimulatorActivity({
         type: 'choice',
         gameKey: 'scenario-simulator',
         prompt: r.situation,
+        context: phoneText(content.storyContext, lastConsequence, ...r.readLines),
         options: r.choices.map((c) => `${c.label}. ${c.text}`),
       });
     } else if (status === ActivityStatus.FINALE_SUBMIT) {
@@ -149,6 +152,7 @@ export function ScenarioSimulatorActivity({
         type: 'text',
         gameKey: 'scenario-simulator',
         prompt: content.finalePrompt + ' (max 15 words)',
+        context: phoneText(content.storyContext, lastConsequence, ...(r?.readLines ?? [])),
         maxLength: 80,
         placeholder: 'Your final move — 15 words max...',
       });
@@ -157,12 +161,13 @@ export function ScenarioSimulatorActivity({
         type: 'choice',
         gameKey: 'scenario-simulator',
         prompt: 'Choose the best final move:',
+        context: phoneText(content.storyContext, lastConsequence, content.finalePrompt),
         options: top3PicksRef.current.map((p) => `${p.label}. ${p.text}`),
       });
     } else {
       onSetInputSpec?.(null);
     }
-  }, [status, currentRound, top3Picks, content, onSetInputSpec]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [status, currentRound, top3Picks, content, lastConsequence, onSetInputSpec]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Remote vote handler ──────────────────────────────────────────────────────
   useEffect(() => {

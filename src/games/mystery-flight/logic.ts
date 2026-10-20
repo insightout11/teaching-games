@@ -13,6 +13,13 @@ export type MysteryClue =
 export interface PackClue { order: number; kind: string; text: string }
 export interface PhotoOption { url: string; alt: string; credit?: string; spoilerRisk?: 'low' | 'medium' | 'high' }
 
+/** Only released clues, newest first. Source photo captions can contain the answer. */
+export function phoneClues(deck: MysteryClue[], shown: number): import('@/lib/input-spec').InputContextItem[] {
+  return deck.slice(0, Math.max(0, shown)).reverse().map(clue => clue.kind === 'text'
+    ? { text: clue.text }
+    : { text: 'Photo clue', images: [{ url: clue.url, alt: 'Photo clue' }] });
+}
+
 /**
  * Clue order: an optional low-spoiler photo first (mixed / photo-first), then the
  * pack's text clues in order, and the giveaway ("the capital of…") always last.

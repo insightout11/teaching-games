@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Eye, Scale, Sparkles, Trophy } from 'lucide-react';
@@ -42,7 +44,7 @@ export function CompareItActivity({ students, generatedContent, onSetInputSpec, 
         { label: superlative ? 'The …est / the most …' : '…er than / more … than', items: forms },
       ],
     });
-    onSetInputSpec?.({ type: 'confirm', gameKey: 'compare-it', prompt: 'Compare It', perStudentData: per, stableInput: true });
+    onSetInputSpec?.({ type: 'confirm', gameKey: 'compare-it', prompt: 'Compare It', context: phoneText(...round.items.map(item => `${item.name}${item.fact ? ': ' + item.fact : ''}`)), perStudentData: per, stableInput: true });
   }, [phase, round, superlative, students, turns.speakerId, content.bank, onSetInputSpec]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 

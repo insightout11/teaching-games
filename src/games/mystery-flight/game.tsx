@@ -11,7 +11,7 @@ import { getDestinationById } from '@/data/world-flight/destinations';
 import { getMediaForUsage, getPlaceMediaRecordByDestination, getRevealMediaForDestination } from '@/lib/place-media';
 import { WorldLensMap, type WorldLensGuess } from '../world-lens/world-lens-map';
 import { parseWorldLensGuess } from '../world-lens/scoring';
-import { buildClueDeck, distancePoints, earlyBonus, haversineKm, mostDistantPair, pickDestinations, type ClueStyle, type MysteryClue, type PackClue } from './logic';
+import { buildClueDeck, distancePoints, earlyBonus, haversineKm, mostDistantPair, phoneClues, pickDestinations, type ClueStyle, type MysteryClue, type PackClue } from './logic';
 
 type Phase = 'idle' | 'flying' | 'landed' | 'finished';
 interface Pin { key: string; clientId: string; studentId: string | null; name: string; lat: number; lng: number; cluesSeen: number }
@@ -59,6 +59,7 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
   const scoredRef = useRef<Set<number>>(new Set());
+  const instanceRef = useRef(`flight-${Date.now()}-${Math.random().toString(36).slice(2)}`);
 
   const destId = queue[round];
   const dest = destId ? getDestinationById(destId) : undefined;
@@ -68,7 +69,7 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
     const photos = place ? getMediaForUsage(place, 'geo-clue').map((m) => ({ url: (m.url ?? m.thumbnailUrl)!, alt: m.alt, credit: m.creator, spoilerRisk: m.spoilerRisk })) : [];
     return buildClueDeck(PACKS[destId]?.mysteryClues ?? [], photos, style);
   }, [destId, style]);
-  const roundId = destId ? `mystery-${round}-${destId}` : '';
+  const roundId = destId ? `${instanceRef.current}-${round}` : '';
 
   // ─── Phones: one pin each per flight, locked after pinning ───
   useEffect(() => {
@@ -86,13 +87,15 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
       gameKey: 'mystery-flight',
       prompt: mode === 'traveller' ? 'Listen to the traveller. Where are they? Pin it: earlier (and close) = bonus points!' : 'Where are we flying? Pin it when you’re sure: earlier (and close) = bonus points!',
       roundId,
+      stableInput: true,
+      context: mode === 'clues' ? phoneClues(deck, shown) : undefined,
       mapCenter: [10, 18],
       mapZoom: 0.8,
       mapLabels: false,
       allowMultiple: true,
       perStudentData: locked,
     } as InputSpec);
-  }, [phase, roundId, pins, onSetInputSpec, mode, traveller, dest]);
+  }, [phase, roundId, pins, onSetInputSpec, mode, traveller, dest, deck, shown]);
 
   const handleVote = useCallback((vote: GameRemoteVote) => {
     if (phaseRef.current !== 'flying') return;
@@ -112,6 +115,7 @@ export function MysteryFlightGame({ students, onScore, sessionSettings, config, 
 
   // ─── Flow ───
   const start = () => {
+    instanceRef.current = `flight-${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const ids = Object.keys(PACKS).filter((id) => getDestinationById(id) && (PACKS[id].mysteryClues?.length ?? 0) >= 3);
     const picked = pickDestinations(ids, Math.max(1, Math.min(8, roundCount)), readRecent());
     writeRecent([...picked, ...readRecent()]);

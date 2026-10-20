@@ -1,5 +1,7 @@
 'use client';
 
+import { predictionPhoneContext, readingPhoneContext } from '@/lib/one-phone-context';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BookOpen, TrendingUp, Users, ChevronRight } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
@@ -27,14 +29,14 @@ export interface ReadingLessonContent {
 const CONFIDENCE = ['I’m lost', 'Mostly', 'I get it'];
 const CONFIDENCE_Q = 'How well do you understand the story?';
 
-function useMission(key: string, questions: Array<{ q: string; options: string[] }>, active: boolean, onAnswer: (cid: string, i: number, a: number) => void, p: Pick<ActivityProps, 'onSetInputSpec' | 'onRegisterRemoteVoteHandler'>) {
+function useMission(key: string, questions: Array<{ q: string; options: string[] }>, active: boolean, onAnswer: (cid: string, i: number, a: number) => void, p: Pick<ActivityProps, 'onSetInputSpec' | 'onRegisterRemoteVoteHandler'>, context?: import('@/lib/input-spec').InputContextItem[]) {
   const { onSetInputSpec, onRegisterRemoteVoteHandler } = p;
   const answerRef = useRef(onAnswer); answerRef.current = onAnswer;
   const activeRef = useRef(active); activeRef.current = active;
   useEffect(() => {
     if (!active) { onSetInputSpec?.(null); return; }
-    onSetInputSpec?.({ type: 'confirm', gameKey: key, prompt: 'Answer on your phone', perStudentData: { __mission: questions }, stableInput: true });
-  }, [active, key, questions, onSetInputSpec]);
+    onSetInputSpec?.({ type: 'confirm', gameKey: key, prompt: 'Answer on your phone', context, perStudentData: { __mission: questions }, stableInput: true });
+  }, [active, key, questions, context, onSetInputSpec]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
   useEffect(() => {
     onRegisterRemoteVoteHandler?.((vote) => {
@@ -58,7 +60,8 @@ export function StoryPredictActivity({ generatedContent, onSetInputSpec, onRegis
     ...(c?.pack?.predict ? [{ q: c.pack.predict.q, options: c.pack.predict.options }] : []),
     { q: CONFIDENCE_Q, options: CONFIDENCE },
   ], [c]);
-  useMission('story-predict', questions, phase === 'predict', (cid, i, a) => record('before', cid, i, a), { onSetInputSpec, onRegisterRemoteVoteHandler });
+  const predictionContext = useMemo(() => predictionPhoneContext(c?.castSoFar ?? c?.pack?.cast ?? [], c?.previously?.summary, recapShown), [c, recapShown]);
+  useMission('story-predict', questions, phase === 'predict', (cid, i, a) => record('before', cid, i, a), { onSetInputSpec, onRegisterRemoteVoteHandler }, predictionContext);
   const go = (p: 'previously' | 'idle' | 'predict' | 'done') => { setPhase(p); onPhaseChange?.(p === 'done' ? 'finished' : p); };
   const cast = c?.castSoFar?.length ? c.castSoFar : (c?.pack?.cast ?? []);
 
@@ -119,7 +122,8 @@ export function StoryRecapActivity({ students, generatedContent, onSetInputSpec,
   const [turn, setTurn] = useState(0);
   const check = useMemo(() => c?.pack?.check ?? [], [c]);
   const questions = useMemo(() => [...check.map((q) => ({ q: q.q, options: q.options })), { q: CONFIDENCE_Q, options: CONFIDENCE }], [check]);
-  useMission('story-recap', questions, phase === 'check', (cid, i, a) => record('after', cid, i, a), { onSetInputSpec, onRegisterRemoteVoteHandler });
+  const chapterContext = useMemo(() => readingPhoneContext(c?.pack?.passages ?? []), [c]);
+  useMission('story-recap', questions, phase === 'check', (cid, i, a) => record('after', cid, i, a), { onSetInputSpec, onRegisterRemoteVoteHandler }, chapterContext);
 
   const hasPredict = !!c?.pack?.predict;
   const before = rc?.before ?? {};

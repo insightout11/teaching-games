@@ -1,5 +1,7 @@
 'use client';
 
+import { phoneText } from '@/lib/one-phone-context';
+
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Drama, Mic, PenLine, Trophy } from 'lucide-react';
@@ -72,6 +74,7 @@ export function BluffDefinitionActivity({
         type: 'choice',
         gameKey: 'bluff-definition',
         prompt: 'Which one is the REAL definition? (Not your own!)',
+        context: phoneText(`Word: ${currentRound.word}`),
         options: options.map((o) => o.text),
       });
     } else {

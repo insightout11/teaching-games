@@ -12,6 +12,7 @@ import type { GameProps, GameRemoteVote } from '../types';
 import type { InputSpec } from '@/lib/input-spec';
 import { useSessionStore, getEffectiveTopic, getDisplayTopic } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
+import { sectorPhoneSpec } from './phone-spec';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -270,6 +271,15 @@ export function SectorStrikeGame({
   const reportedCount = Object.keys(roundVotes).length;
   const threat = (phase === 'picking' || phase === 'answering') ? threatTeam(cells) : null;
 
+  useEffect(() => {
+    if (phase === 'picking' || phase === 'bonus-pick') {
+      onSetInputSpec?.(sectorPhoneSpec(cells, currentTeam, currentPicker?.name ?? 'Picker', phase === 'bonus-pick' ? bonusPickTargets : undefined));
+    } else if (phase === 'answering' && currentCell?.qType === 'speaking') {
+      onSetInputSpec?.(sectorPhoneSpec(cells, currentTeam, currentPicker?.name ?? 'Speaker', [], currentCell.question ?? 'Answer out loud when called.'));
+    }
+  }, [phase, cells, currentTeam, currentPicker, bonusPickTargets, currentCell, onSetInputSpec]);
+  useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
+
   // ── Cleanup on unmount ────────────────────────────────────────────────────
   useEffect(() => {
     return () => {
@@ -327,7 +337,7 @@ export function SectorStrikeGame({
     } catch {
       return null;
     }
-  }, [topic, difficulty, sourceMaterial]);
+  }, [topic, difficulty, sourceMaterial, lessonKit]);
 
   // Handle timeout when timeLeft hits 0
   useEffect(() => {
@@ -634,7 +644,7 @@ export function SectorStrikeGame({
       setCells((prev) => prev.map((c) => (c.index === cellIdx ? filledCell : c)));
       setPhase('answering');
     }
-  }, [topic, displayTopic, difficulty, sourceMaterial, applyAutoBonus, onSetInputSpec, buildQuestionSpec]);
+  }, [topic, displayTopic, difficulty, sourceMaterial, lessonKit, applyAutoBonus, onSetInputSpec, buildQuestionSpec]);
 
   // ── Written answer vote handler — collect votes from the active team ──────
   const handleVote = useCallback((vote: GameRemoteVote) => {

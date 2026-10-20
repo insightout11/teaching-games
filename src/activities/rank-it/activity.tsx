@@ -7,6 +7,7 @@ import type { ActivityProps } from '../types';
 import { ActivityStatus, type RankItContent, type RankItChallenge } from './types';
 import { useSessionStore } from '@/stores/session-store';
 import { KitButton, KitLabel, KitReadout } from '@/components/session/widget-kit';
+import { rankItPhoneSpec } from './phone-spec';
 
 /**
  * Combine every student's submitted order into one class ranking by mean position
@@ -72,7 +73,7 @@ export function RankItActivity({ generatedContent, onPhaseChange, onSetInputSpec
   // ─── Phones ───
   useEffect(() => {
     if (collecting && challenge) {
-      onSetInputSpec?.({ type: 'ranking', gameKey: 'rank-it', prompt: status === ActivityStatus.RE_RANKING ? `New evidence! Rank again: ${challenge.prompt}` : challenge.prompt, options: challenge.items.map((i) => i.name) });
+      onSetInputSpec?.(rankItPhoneSpec(challenge, status === ActivityStatus.RE_RANKING));
     } else onSetInputSpec?.(null);
   }, [collecting, status, challenge, onSetInputSpec]);
 
