@@ -159,7 +159,7 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     "id": "animal-emu",
     "iso2": "au",
     "level": 1,
-    "prompt": "Where does this animal live in the wild?",
+    "prompt": "Where is this animal native?",
     "options": [
       "Papua New Guinea",
       "Fiji",
