@@ -26,7 +26,7 @@ export function CoastStripGallery() {
   const [minutes, setMinutes] = useState(3); // how long the fast-forward flight takes
   useEffect(() => { setStrip(null); void coastStrip(route.from, route.to).then(setStrip); }, [route]);
   const [clock, setClock] = useState<RouteClock>({ at: Date.now(), t, perMs: 0 });
-  useEffect(() => { setClock({ at: Date.now(), t, perMs: playing ? 1 / (minutes * 60_000) : 0 }); }, [t, playing, minutes]);
+  useEffect(() => { setClock({ at: Date.now(), t, perMs: playing ? 1 / (minutes * 60_000) : 0, km: strip?.routeKm }); }, [t, playing, minutes, strip]);
   // keep the slider in step while playing
   useEffect(() => {
     if (!playing) return;

@@ -308,12 +308,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   const live = useRef({ speed, paused, glint, altitude, cloudCover, routeClock });
   live.current = { speed, paused, glint, altitude, cloudCover, routeClock };
   /** The plane's real place on the route, in world units along the coast strip (moves smoothly between updates). */
-  const routeUnits = (cw: { route: boolean; routeKm: number } | null): number => {
-    const rc = live.current.routeClock;
-    if (!cw?.route || !rc) return 0;
-    const t = Math.max(0, Math.min(1, rc.t + (Date.now() - rc.at) * rc.perMs));
-    return t * cw.routeKm * CITY_UNITS_PER_KM;
-  };
+  const routeBase = useRef<number | null>(null);
+  const routeNowU = useRef(0);
+  const holdDrift = useRef(0);
+  const routeUnits = (cw: { route: boolean; routeKm: number } | null): number => (cw?.route && live.current.routeClock?.km ? routeNowU.current : 0);
   // The sea of clouds below: fixed in the world (they pass with the ground), as many as the cloud cover says.
   const skyCloudList = useRef<SkyCloud[]>([]);
   const cam = useRef(0);
@@ -678,7 +676,23 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       drawnSpeed += (live.current.speed - drawnSpeed) * Math.min(1, dt * 1.2);
-      const camZ = cam.current + drawnSpeed * CRUISE_SPEED * dt * (reduce ? 0.1 : 1);
+      // ONE clock for everything (21 Oct 2026): in a flight the camera is the real plane's place on the route, so the
+      // ground, mountains, hills, coast and landmarks move together at real speed (the scenery used to run five times
+      // faster than the coast and landmarks, and mountains floated across islands). Before take-off, and in the
+      // galleries, it moves at its own speed as before; while holding near the destination it drifts slowly.
+      const rcNow = live.current.routeClock;
+      let camZ: number;
+      if (rcNow?.km) {
+        const realU = Math.max(0, Math.min(1, rcNow.t + (Date.now() - rcNow.at) * rcNow.perMs)) * rcNow.km * CITY_UNITS_PER_KM;
+        if (rcNow.perMs === 0) holdDrift.current += drawnSpeed * CRUISE_SPEED * dt * 0.12;
+        // continuity: the route clock starts from wherever the scenery already was (no jump at take-off)
+        if (routeBase.current === null) routeBase.current = cam.current - realU - holdDrift.current;
+        routeNowU.current = realU + holdDrift.current;
+        camZ = routeBase.current + routeNowU.current;
+      } else {
+        routeBase.current = null;
+        camZ = cam.current + drawnSpeed * CRUISE_SPEED * dt * (reduce ? 0.1 : 1);
+      }
       cam.current = camZ;
       const L = layers.current;
       // Forget terrains the plane has fully left behind.
@@ -705,7 +719,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           // A real coast in reach: the sea everywhere, then the land where this strip is inside the land outlines
           const cw = cw0;
           // the route strip is read at the plane's real place on the route; the older coast at the scenery's own depth
-          const cz = cw?.route ? routeU + z : wz;
+          const cz = cw?.route ? routeU + z : wz; // (camZ = route base + routeU: the same clock)
           if (cw && seaRip.current && landRip.current && cz >= cw.zMin && cz <= cw.zMax) {
             const top = L[L.length - 1];
             const sea: Layer = { ...top, terrain: 'ocean', rip: seaRip.current, macroAlpha: 0.1 };
