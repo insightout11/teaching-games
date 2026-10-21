@@ -939,7 +939,9 @@ export function setRealWaters(on: boolean) { REAL_WATERS = on; }
 export const realWaters = () => REAL_WATERS;
 
 /** Real coastlines (land and sea from closed land outlines; back on in the room, owner OK 20 Oct 2026). */
-let REAL_COAST = true;
+// Off again 21 Oct 2026: the coast data is fetched for the real position but placed in slower scenery, so each
+// refresh jumped (land appearing and vanishing). Rebuild planned: one coast strip for the whole route. ?coast=on tests it.
+let REAL_COAST = false;
 export function setRealCoast(on: boolean) { REAL_COAST = on; }
 export const realCoast = () => REAL_COAST;
 
