@@ -19,7 +19,8 @@ const ROUTES = [
 export function CoastStripGallery() {
   useEffect(() => {
     const previous = realCoast();
-    setRealCoast(true);
+    // Repeatable baseline for this preview only; the class default remains off.
+    setRealCoast(new URLSearchParams(window.location.search).get('coast') !== 'off');
     return () => setRealCoast(previous);
   }, []);
   const [ri, setRi] = useState(0);
