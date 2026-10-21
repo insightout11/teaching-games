@@ -10,7 +10,7 @@ import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmar
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
-import type { CoastStrip } from '@/lib/live-room/coast-strip';
+import { groundAt, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -252,6 +252,21 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
 
 const css = (c: RGB) => `rgb(${c[0]},${c[1]},${c[2]})`;
 
+/** The ground texture for a terrain (real land cover: rainforest is a deeper, denser canopy; savanna and rice paddies
+ *  use the farm patterns made for them; open ground has its own texture). */
+function terrainCanvas(terrain: Terrain, reg: string | null, palette: ScenePalette, night: boolean, floor: RangeMix['floor']): HTMLCanvasElement {
+  return terrain === 'desert' ? desertTexture(palette, night)
+    : terrain === 'ocean' ? oceanTexture(palette, night)
+      : terrain === 'mountains' ? mountainTexture(palette, night, floor)
+        : terrain === 'forest' ? forestTexture(palette, night)
+          : terrain === 'rainforest' ? deepCanopy(forestTexture({ ...palette, foliage: '#1d5a2c' }, night))
+            : terrain === 'ice' ? iceTexture(palette, night)
+              : terrain === 'savanna' ? farmTexture('Africa', palette, night)
+                : terrain === 'paddies' ? farmTexture('Asia', palette, night)
+                  : terrain === 'grassland' || terrain === 'tundra' || terrain === 'wetlands' || terrain === 'salt-flats' ? naturalTexture(terrain, palette, night)
+                    : farmTexture(reg, palette, night);
+}
+
 /** The average colour of a (small) canvas: the ground texture's overall colour. */
 function averageColour(c: HTMLCanvasElement): RGB | null {
   try {
@@ -306,6 +321,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
   const live = useRef({ speed, paused, glint, altitude, cloudCover, routeClock });
+  const coastStripRef = useRef(coastStrip);
+  coastStripRef.current = coastStrip;
   live.current = { speed, paused, glint, altitude, cloudCover, routeClock };
   /** The plane's real place on the route, in world units along the coast strip (moves smoothly between updates). */
   const routeBase = useRef<number | null>(null);
@@ -448,6 +465,22 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   // The sea's texture and the land's (the latest land under the route), for painting both sides of a real coast.
   const seaRip = useRef<Rip | null>(null);
   const landRip = useRef<{ rip: Rip; terrain: Terrain } | null>(null);
+  // The coast's land painted as what is really there (it all borrowed the last land crossed: desert as far as Italy):
+  // one texture per kind of land along the route, made when the route's coast strip arrives
+  const stripRips = useRef(new Map<string, Rip>());
+  useEffect(() => {
+    stripRips.current = new Map();
+    const ctx = ref.current?.getContext('2d');
+    if (!coastStrip || !ctx) return;
+    const kinds = new Map<string, { terrain: Terrain; region: string | null }>();
+    for (const row of coastStrip.ground) for (const c of row) if (c) kinds.set(`${c.terrain}|${c.region}`, c);
+    kinds.forEach((c, k) => {
+      const key = `${c.terrain}|${c.region}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
+      const levels = textureCache.get(key) ?? ripChain(terrainCanvas(c.terrain, c.region, palette, night, rangeFor(c.region).floor));
+      textureCache.set(key, levels);
+      stripRips.current.set(k, { w: levels.w, h: levels.h, levels: levels.levels.map((row) => row.flatMap((cv) => { const pat = ctx.createPattern(cv, 'repeat'); return pat ? [{ pat, w: cv.width, h: cv.height }] : []; })) });
+    });
+  }, [coastStrip, palette, night]);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
   const look = useRef<{ haze: RGB; night: boolean; glow: RGB; water: RGB }>({ haze: [159, 184, 208], night, glow: [220, 200, 180], water: [60, 110, 140] });
@@ -517,18 +550,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     else {
       // Real land cover: rainforest is a deeper, denser canopy; savanna and rice paddies use the farm patterns made
       // for them; open ground (steppe, tundra, wetlands, salt flats) has its own texture.
-      const levels = ripChain(
-        terrain === 'desert' ? desertTexture(palette, night)
-          : terrain === 'ocean' ? oceanTexture(palette, night)
-            : terrain === 'mountains' ? mountainTexture(palette, night, range.floor)
-              : terrain === 'forest' ? forestTexture(palette, night)
-                : terrain === 'rainforest' ? deepCanopy(forestTexture({ ...palette, foliage: '#1d5a2c' }, night))
-                  : terrain === 'ice' ? iceTexture(palette, night)
-                    : terrain === 'savanna' ? farmTexture('Africa', palette, night)
-                      : terrain === 'paddies' ? farmTexture('Asia', palette, night)
-                        : terrain === 'grassland' || terrain === 'tundra' || terrain === 'wetlands' || terrain === 'salt-flats' ? naturalTexture(terrain, palette, night)
-                          : farmTexture(reg, palette, night),
-      );
+      const levels = ripChain(terrainCanvas(terrain, reg, palette, night, range.floor));
       textureCache.set(key, levels);
       apply(levels);
     }
@@ -739,12 +761,19 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             const farLand = Math.max(0.25, Math.min(1, 1 - (z / Z_FAR - 0.6) / 0.4 * 0.75));
             paintRow(sea, y, z, F, camZ, 1);
             let from = -1e9;
+            // the land's real kind at this span (from the route strip), else the last land crossed
+            const landFor = (x0: number, x1: number): Layer => {
+              if (!cw.route || !coastStripRef.current) return land;
+              const g = groundAt(coastStripRef.current, cz / CITY_UNITS_PER_KM, ((x0 + x1) / 2) / (CITY_UNITS_PER_KM * 0.7));
+              const rip = g ? stripRips.current.get(`${g.terrain}|${g.region}`) : undefined;
+              return rip && g ? { ...land, terrain: g.terrain, rip } : land;
+            };
             for (const c of xs) {
-              if (state) paintRow(land, y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w / 2 + c.x * sx]);
+              if (state) paintRow(landFor(from, c.x), y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w / 2 + c.x * sx]);
               from = c.x;
               state = !state;
             }
-            if (state) paintRow(land, y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w]);
+            if (state) paintRow(landFor(from, from + 4000), y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w]);
             continue;
           }
           let i = L.length - 1;
@@ -1062,7 +1091,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       let chance: string | null = null, chanceZ = Infinity;
       landmarkWorld.current.forEach((l, id) => {
         const rz = l.z - camZ;
-        if (rz < Z_NEAR * 4 || rz > 30000 || Math.abs((l.x * F) / rz) > w * 0.42) return;
+        if (rz < Z_NEAR * 4 || rz > 44000 || Math.abs((l.x * F) / rz) > w * 0.42) return;
         if (rz < chanceZ) { chance = id; chanceZ = rz; }
       });
       if (chance !== photoChance.current) {

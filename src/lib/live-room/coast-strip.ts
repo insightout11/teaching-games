@@ -7,7 +7,8 @@
 
 import { coastNear, landNear } from '@/lib/live-room/coastlines';
 import { shoreKind, type ShoreKind } from '@/lib/live-room/coast-ahead';
-import { greatCirclePoint, type LatLng } from '@/lib/live-room/route-terrain';
+import { greatCirclePoint, regionOf, terrainAt, type LatLng } from '@/lib/live-room/route-terrain';
+import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
 export type StripPoint = [along: number, side: number];
 
@@ -20,7 +21,14 @@ export interface CoastStrip {
   shores: ShoreKind[][];
   /** The route's length (km). */
   routeKm: number;
+  /** What the land is like along the route (farmland, forest, desert...), on a grid: rows every GROUND_STEP_KM along
+   *  (from -BAND_KM), columns every GROUND_SIDE_KM across (from -BAND_KM). Null where it is sea. So each piece of coast
+   *  is painted as what is really there (it all borrowed the last land crossed: Egyptian desert as far as Italy). */
+  ground: Array<Array<{ terrain: Terrain; region: string | null } | null>>;
 }
+
+export const GROUND_STEP_KM = 30;
+export const GROUND_SIDE_KM = 70;
 
 const R = 6371;
 const rad = (d: number) => (d * Math.PI) / 180;
@@ -47,6 +55,29 @@ export function toRoute(a: LatLng, course: number, p: LatLng): StripPoint {
   const xt = Math.asin(Math.max(-1, Math.min(1, Math.sin(d13) * Math.sin(diff))));
   const at = Math.acos(Math.max(-1, Math.min(1, Math.cos(d13) / Math.cos(xt))));
   return [(Math.cos(diff) >= 0 ? at : -at) * R, xt * R];
+}
+
+/** The point `km` from `p` on bearing `brg` (radians). */
+function offsetKm(p: LatLng, brg: number, km: number): LatLng {
+  if (!km) return p;
+  const d = km / R, la = rad(p.lat), lo = rad(p.lng);
+  const la2 = Math.asin(Math.sin(la) * Math.cos(d) + Math.cos(la) * Math.sin(d) * Math.cos(brg));
+  const lo2 = lo + Math.atan2(Math.sin(brg) * Math.sin(d) * Math.cos(la), Math.cos(d) - Math.sin(la) * Math.sin(la2));
+  return { lat: (la2 * 180) / Math.PI, lng: ((((lo2 * 180) / Math.PI) + 540) % 360) - 180 };
+}
+
+/** What the land is at a place in route coordinates (km along, km to the right), from the strip's grid. */
+export function groundAt(strip: CoastStrip, along: number, side: number): { terrain: Terrain; region: string | null } | null {
+  const i = Math.round((along + BAND_KM) / GROUND_STEP_KM), j = Math.round((side + BAND_KM) / GROUND_SIDE_KM);
+  const row = strip.ground[Math.max(0, Math.min(strip.ground.length - 1, i))];
+  if (!row) return null;
+  // the nearest land cell in the row (a coast cell may sample the sea)
+  for (let k = 0; k < row.length; k++) {
+    const a = row[j - k], b = row[j + k];
+    if (a) return a;
+    if (b) return b;
+  }
+  return null;
 }
 
 /** Side band kept around the route (km): wide enough for the window's view at any height. */
@@ -95,5 +126,23 @@ export async function coastStrip(origin: LatLng, destination: LatLng): Promise<C
     });
     flush();
   }
-  return { land, lines, shores, routeKm };
+  // the land along the route, sampled on a grid (a point at km along, km to the side)
+  const ground: CoastStrip['ground'] = [];
+  for (let along = -BAND_KM; along <= routeKm + BAND_KM; along += GROUND_STEP_KM) {
+    const row: CoastStrip['ground'][number] = [];
+    const t = Math.max(0, Math.min(1, along / Math.max(1, routeKm)));
+    const onRoute = greatCirclePoint(origin, destination, t);
+    const ahead = greatCirclePoint(origin, destination, Math.min(1, t + 0.001));
+    const back = greatCirclePoint(origin, destination, Math.max(0, t - 0.001));
+    const heading = bearingRad(back, ahead);
+    const extra = along < 0 ? along : along > routeKm ? along - routeKm : 0; // before the origin or past the end
+    for (let side = -BAND_KM; side <= BAND_KM; side += GROUND_SIDE_KM) {
+      const p = offsetKm(offsetKm(onRoute, heading, extra), heading + Math.PI / 2, side);
+      let cell: { terrain: Terrain; region: string | null } | null = null;
+      try { const o = terrainAt(p); if (o.terrain !== 'ocean') cell = { terrain: o.terrain, region: regionOf(p) }; } catch { cell = null; }
+      row.push(cell);
+    }
+    ground.push(row);
+  }
+  return { land, lines, shores, routeKm, ground };
 }
