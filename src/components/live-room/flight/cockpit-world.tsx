@@ -10,6 +10,7 @@ import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmar
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
+import type { CoastStrip } from '@/lib/live-room/coast-strip';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -284,11 +285,21 @@ function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: numb
   return n % 2 === 1;
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events }: { /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+/** Where the plane really is along its route: `t` (0-1) at time `at`, advancing `perMs` per millisecond. */
+export interface RouteClock { at: number; t: number; perMs: number }
+
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events, coastStrip = null, routeClock = null }: { /** The whole route's coast, worked out once at take-off (preferred over `coast`). */ coastStrip?: CoastStrip | null; /** Where the plane really is on the route: `t` (0-1) at time `at`, moving `perMs` each millisecond. */ routeClock?: RouteClock | null; /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, paused, glint, altitude, cloudCover });
-  live.current = { speed, paused, glint, altitude, cloudCover };
+  const live = useRef({ speed, paused, glint, altitude, cloudCover, routeClock });
+  live.current = { speed, paused, glint, altitude, cloudCover, routeClock };
+  /** The plane's real place on the route, in world units along the coast strip (moves smoothly between updates). */
+  const routeUnits = (cw: { route: boolean; routeKm: number } | null): number => {
+    const rc = live.current.routeClock;
+    if (!cw?.route || !rc) return 0;
+    const t = Math.max(0, Math.min(1, rc.t + (Date.now() - rc.at) * rc.perMs));
+    return t * cw.routeKm * CITY_UNITS_PER_KM;
+  };
   // The sea of clouds below: fixed in the world (they pass with the ground), as many as the cloud cover says.
   const skyCloudList = useRef<SkyCloud[]>([]);
   const cam = useRef(0);
@@ -362,22 +373,18 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [waters]);
   // Real coastline: the land outlines fixed on the ground (as the cities), with their edges filed by depth so each
   // strip of ground can find where it crosses the coast. A new set is taken only once the last one has mostly passed.
-  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number } | null>(null);
-  useEffect(() => {
-    if (!coast) return;
-    const camZ = cam.current;
-    const cur = coastWorld.current;
-    if (cur && cur.zMax - camZ > Z_FAR * 0.55) return; // the current stretch still fills the view
-    if (!coast.rings.length) { coastWorld.current = null; return; }
-    const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM];
-    const rings = coast.rings.map((r) => smoothLine(r.map(toWorld))); // the data's straight runs, rounded off
+  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number; route: boolean; routeKm: number } | null>(null);
+  /** Build the land edges (filed by depth), the beach lines and which beach pieces are real, from points already in
+   *  the world frame (x across, z along). */
+  const buildCoast = (lineRings: Array<Array<[number, number]>>, lineShores: number[][], landPts: Array<Array<[number, number]>>) => {
+    const rings = lineRings.map((r) => smoothLine(r)); // the data's straight runs, rounded off
     // shore kinds follow the smoothing (it doubles the points: each original point's kind for its two new ones)
-    const shores = coast.rings.map((r, ri) => { const k = coast.shores?.[ri] ?? []; const out = [k[0] ?? 1]; for (let i = 0; i < r.length - 1; i++) out.push(k[i] ?? 1, k[i + 1] ?? 1); out.push(k[r.length - 1] ?? 1); return out; });
+    const shores = lineRings.map((r, ri) => { const k = lineShores[ri] ?? []; const out = [k[0] ?? 1]; for (let i = 0; i < r.length - 1; i++) out.push(k[i] ?? 1, k[i + 1] ?? 1); out.push(k[r.length - 1] ?? 1); return out; });
     const edges: number[] = [];
     const buckets = new Map<number, number[]>();
     // the land as closed outlines: a strip is land between an odd and the next even crossing (counting, never the
     // lines' direction, which flickered land and sea where pieces of coastline started and ended)
-    const landRings = (coast.land ?? []).map((r) => smoothRing(r.map(toWorld)));
+    const landRings = landPts.map((r) => smoothRing(r));
     for (const ring of landRings) {
       for (let i = 0; i < ring.length; i++) {
         const [x1, z1] = ring[i], [x2, z2] = ring[(i + 1) % ring.length];
@@ -400,8 +407,27 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const nx = (-dz / len) * d, nz = (dx / len) * d;
       return landAt(probe, mx + nx, mz + nz) !== landAt(probe, mx - nx, mz - nz);
     }));
-    coastWorld.current = { edges, buckets, rings, shores, real, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95 };
-  }, [coast]);
+    return { edges, buckets, rings, shores, real };
+  };
+  // The whole route's coast (worked out once at take-off): placed by km along the route, read at the plane's real place
+  useEffect(() => {
+    if (!coastStrip) return;
+    const toWorld = ([along, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, along * CITY_UNITS_PER_KM];
+    if (!coastStrip.land.length && !coastStrip.lines.length) { coastWorld.current = null; return; }
+    const built = buildCoast(coastStrip.lines.map((r) => r.map(toWorld)), coastStrip.shores, coastStrip.land.map((r) => r.map(toWorld)));
+    coastWorld.current = { ...built, zMin: -400 * CITY_UNITS_PER_KM, zMax: (coastStrip.routeKm + 400) * CITY_UNITS_PER_KM, route: true, routeKm: coastStrip.routeKm };
+  }, [coastStrip]);
+  useEffect(() => {
+    if (!coast || coastStrip) return;
+    const camZ = cam.current;
+    const cur = coastWorld.current;
+    if (cur && cur.zMax - camZ > Z_FAR * 0.55) return; // the current stretch still fills the view
+    if (!coast.rings.length) { coastWorld.current = null; return; }
+    const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM];
+    const built = buildCoast(coast.rings.map((r) => r.map(toWorld)), coast.shores ?? [], (coast.land ?? []).map((r) => r.map(toWorld)));
+    coastWorld.current = { ...built, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95, route: false, routeKm: 0 };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coast, coastStrip]);
   // Real high ground: the latest elevation grid, anchored where the plane was when it arrived; mountains and hills
   // spawned from it stay where they were put (a new grid never moves them).
   const highGroundRef = useRef<{ g: HighGround; camZ: number } | null>(null);
@@ -648,20 +674,23 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const y0 = (Math.ceil((horizonY + 1) / rowH)) * rowH;
         // A real coast: land and sea from the closed land outlines (cut to a box wider than the view)
         const cw0 = realCoast() ? coastWorld.current : null;
+        const routeU = routeUnits(cw0);
         for (let y = y0; y < h; y += rowH) {
           const z = (camH * F) / (y - horizonY);   // world depth of this row
           const wz = camZ + z;
           // A real coast in reach: the sea everywhere, then the land where this strip is inside the land outlines
           const cw = cw0;
-          if (cw && seaRip.current && landRip.current && wz >= cw.zMin && wz <= cw.zMax) {
+          // the route strip is read at the plane's real place on the route; the older coast at the scenery's own depth
+          const cz = cw?.route ? routeU + z : wz;
+          if (cw && seaRip.current && landRip.current && cz >= cw.zMin && cz <= cw.zMax) {
             const top = L[L.length - 1];
             const sea: Layer = { ...top, terrain: 'ocean', rip: seaRip.current, macroAlpha: 0.1 };
             const land: Layer = { ...top, terrain: landRip.current.terrain, rip: landRip.current.rip, macroAlpha: 0.4 };
             // where this strip crosses the land's outline
             const xs: Array<{ x: number; land: boolean }> = [];
-            for (const k of cw.buckets.get(Math.floor(wz / COAST_BUCKET)) ?? []) {
+            for (const k of cw.buckets.get(Math.floor(cz / COAST_BUCKET)) ?? []) {
               const x1 = cw.edges[k * 4], z1 = cw.edges[k * 4 + 1], x2 = cw.edges[k * 4 + 2], z2 = cw.edges[k * 4 + 3];
-              if ((z1 <= wz && wz < z2) || (z2 <= wz && wz < z1)) xs.push({ x: x1 + ((wz - z1) * (x2 - x1)) / (z2 - z1), land: true });
+              if ((z1 <= cz && cz < z2) || (z2 <= cz && cz < z1)) xs.push({ x: x1 + ((cz - z1) * (x2 - x1)) / (z2 - z1), land: true });
             }
             xs.sort((a, b) => a.x - b.x);
             // sea to the far left; each crossing of the land's outline switches between sea and land
@@ -711,7 +740,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 if (pass === 0 && kind === 2) continue; // rocky shores: no shallow band
                 if (!cwB.real[ri]?.[i]) continue; // not on the land's real edge
                 const [xa, za] = ring[i], [xb, zb] = ring[i + 1];
-                const ra = za - camZ, rb = zb - camZ;
+                const base = cwB.route ? routeUnits(cwB) : camZ;
+                const ra = za - base, rb = zb - base;
                 if (ra < Z_NEAR * 0.6 || rb < Z_NEAR * 0.6 || ra > Z_FAR || rb > Z_FAR) continue;
                 const rz = (ra + rb) / 2, s = F / rz;
                 const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
@@ -1103,7 +1133,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           continue;
         }
         // On a real coast, mountains and hills stand only on the land (they stood in the open sea)
-        if (coastHere && coastHere.zMin <= p.z && p.z <= coastHere.zMax && !landAt(coastHere, p.x, p.z)) continue;
+        const pz = coastHere?.route ? p.z - camZ + routeUnits(coastHere) : p.z;
+        if (coastHere && coastHere.zMin <= pz && pz <= coastHere.zMax && !landAt(coastHere, p.x, pz)) continue;
         // Always well below the plane: during the descent (the camera comes down to a fifth of its height) mountains and
         // hills shrink with it, keeping their shape, instead of towering over the cockpit.
         const shrink = Math.min(1, (camH * 0.7) / p.h);

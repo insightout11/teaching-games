@@ -25,7 +25,8 @@ import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
 import { CockpitSky, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
-import { CockpitWorld, type DistantCity, type SeaGlint } from '@/components/live-room/flight/cockpit-world';
+import type { CoastStrip } from '@/lib/live-room/coast-strip';
+import { CockpitWorld, type DistantCity, type SeaGlint, type RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
 
 /**
@@ -88,6 +89,9 @@ export interface WindscreenFlightProps {
   waters?: Waters;
   /** Real coastlines around the plane. */
   coast?: Coast;
+  /** The whole route's coast (worked out once at take-off) and where the plane really is on the route. */
+  coastStrip?: CoastStrip | null;
+  routeClock?: RouteClock | null;
   /** Real high ground around the plane. */
   highGround?: HighGround;
   /** Real natural events within sight (NASA's list): smoke, ash, storm clouds. */
@@ -114,7 +118,7 @@ export interface WindscreenFlightProps {
   altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, arrivalScenic = null, waters, coast, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, arrivalScenic = null, waters, coast, coastStrip = null, routeClock = null, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -322,7 +326,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.meteors && <MeteorStreaks />}
             {phase === 'cruise' && sky?.aurora && weather !== 'aurora' && <WindscreenWeather weather="aurora" />}
             {iss && phase === 'cruise' && <IssPass start={iss.start} side={iss.side} />}
-            <CockpitWorld altitude={groundAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={allLandmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} highGround={highGround} events={events} />
+            <CockpitWorld altitude={groundAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={allLandmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} coastStrip={coastStrip} routeClock={routeClock} highGround={highGround} events={events} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}

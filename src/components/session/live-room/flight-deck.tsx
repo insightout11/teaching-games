@@ -51,6 +51,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
+import { coastStrip, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { drawnKindOf, drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { openWindowViewChannel, WINDOW_VIEW_HEARTBEAT_MS, type WindowView } from '@/lib/live-room/window-view';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
@@ -64,7 +65,7 @@ import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
 import { lensById, lensesFor } from '@/lib/lens';
 import { animalsOf, migrationsNear } from '@/lib/animals-below';
 import { activeShower, brightPlanet, METEOR_SHOWERS, moonPhaseName, sideOfSky } from '@/lib/live-room/journey-sky';
-import { coastAhead, type Coast } from '@/lib/live-room/coast-ahead';
+import type { Coast } from '@/lib/live-room/coast-ahead';
 import { routePreview } from '@/lib/live-room/route-preview';
 import { citiesAround, countryAt, featureNear, featureText, loadCountries, sideOf, townNear, type CountryShape } from '@/lib/live-room/places-below';
 import type { LiveWeather } from '@/lib/live-room/live-weather';
@@ -1032,7 +1033,19 @@ export function FlightDeck({
   }, [flightStage, holding, below.point, origin, destination, routeT]);
   // Real rivers and lakes under the plane (when switched on): looked up every 20 seconds of flight, cruise only.
   const [routeWaters, setRouteWaters] = useState<Waters | undefined>(undefined);
-  const [routeCoast, setRouteCoast] = useState<Coast | undefined>(undefined);
+  const [routeCoast] = useState<Coast | undefined>(undefined);
+  // The whole route's coast, worked out once per flight from the permanent land map (re-placing a piece every 20
+  // seconds made land appear and vanish); the scenery reads it at the plane's real place on the route
+  const [coastStripData, setCoastStripData] = useState<CoastStrip | null>(null);
+  useEffect(() => {
+    setCoastStripData(null);
+    if (!realCoast() || flightStage === 'gate' || origin.id === destination.id) return;
+    let live = true;
+    void coastStrip(origin, destination).then((c) => { if (live) setCoastStripData(c); }).catch(() => {});
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [origin.id, destination.id, flightStage === 'gate']);
+  const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : 1 / Math.max(1, flightMs) } : null), [flightStage, routeT, flightMs, holding]);
   const [routeGround, setRouteGround] = useState<HighGround | undefined>(undefined);
   const watersStep = Math.floor(routeT * 400);
   useEffect(() => {
@@ -1040,7 +1053,7 @@ export function FlightDeck({
     let live = true;
     const heading = bearingDeg(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 0.01)));
     void watersAhead(below.point, heading).then((w) => { if (live) setRouteWaters(w); }).catch(() => {});
-    if (realCoast()) void coastAhead(below.point, heading).then((c) => { if (live) setRouteCoast(c); }).catch(() => {});
+    // (the route strip replaces the per-position coast; kept only as a fallback if the strip could not be made)
     if (realRelief()) void highGroundAhead(below.point, heading).then((g) => { if (live) setRouteGround(g); }).catch(() => {});
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -2844,6 +2857,8 @@ export function FlightDeck({
           arrivalScenic={descending ? arrivalLandmark : null}
           waters={routeWaters}
           coast={routeCoast}
+          coastStrip={coastStripData}
+          routeClock={routeClock}
           highGround={routeGround}
           events={stableEvents}
         iss={issActive}
