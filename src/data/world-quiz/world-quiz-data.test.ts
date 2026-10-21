@@ -152,6 +152,29 @@ describe('World Quiz static picture banks', () => {
     });
   });
 
+  it.each(questions)('$id pairs an optional exact Commons photo with an allowed licence', question => {
+    if (question.pictureFile === undefined) {
+      expect(question.pictureLicense).toBeUndefined();
+      return;
+    }
+    expect(question.pictureFile).toBe(question.pictureFile.trim());
+    expect(question.pictureFile.startsWith('File:')).toBe(true);
+    expect(question.pictureFile).toMatch(/\.(?:jpg|jpeg|png)$/i);
+    expect(question.pictureFile).not.toMatch(/[\r\n]/);
+    expect(question.pictureLicense).toMatch(/^(?:CC0|Public domain|CC BY(?:-SA)? (?:1\.0|2\.0|2\.5|3\.0|4\.0)(?: [a-z]{2})?)$/);
+  });
+
+  it('never reuses an exact photo across any picture bank', () => {
+    const files = questions.flatMap(question => question.pictureFile === undefined ? [] : [
+      question.pictureFile.normalize('NFC').replace(/_/g, ' ').replace(/\s+/g, ' ').toLowerCase(),
+    ]);
+    expect(new Set(files).size).toBe(files.length);
+  });
+
+  it.each(banks)('$name includes reviewed exact photos without fixing the coverage count', bank => {
+    expect(bank.questions.some(question => question.pictureFile !== undefined)).toBe(true);
+  });
+
   it.each([
     ['animal-proboscis-monkey', ['id', 'my', 'bn']],
     ['animal-bornean-orangutan', ['id', 'my']],
