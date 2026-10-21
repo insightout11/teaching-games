@@ -1258,7 +1258,7 @@ export const HELLO_QUESTIONS = [
     ],
     "correctIndex": 0,
     "language": "Indonesian",
-    "pronunciation": "HAH-loh"
+    "pronunciation": "HAHT-loh"
   },
   {
     "id": "hello-ph",
@@ -2516,7 +2516,7 @@ export const HELLO_QUESTIONS = [
     ],
     "correctIndex": 3,
     "language": "Dutch",
-    "pronunciation": "HAH-loh"
+    "pronunciation": "HAHT-loh"
   },
   {
     "id": "hello-ch",
@@ -2822,7 +2822,7 @@ export const HELLO_QUESTIONS = [
     ],
     "correctIndex": 2,
     "language": "Dutch",
-    "pronunciation": "HAH-loh"
+    "pronunciation": "HAHT-loh"
   },
   {
     "id": "hello-ua",
@@ -2890,7 +2890,7 @@ export const HELLO_QUESTIONS = [
     ],
     "correctIndex": 0,
     "language": "Icelandic",
-    "pronunciation": "HAH-loh"
+    "pronunciation": "HAHT-loh"
   },
   {
     "id": "hello-cz",

@@ -2718,7 +2718,7 @@ export const COUNTRY_FACTS: Readonly<Record<string, CountryFacts>> = {
     "hello": {
       "language": "Indonesian",
       "text": "Halo",
-      "pronunciation": "HAH-loh",
+      "pronunciation": "HAHT-loh",
       "sourceUrl": "https://en.wiktionary.org/wiki/halo"
     },
     "currency": {
@@ -5381,7 +5381,7 @@ export const COUNTRY_FACTS: Readonly<Record<string, CountryFacts>> = {
     "hello": {
       "language": "Dutch",
       "text": "Hallo",
-      "pronunciation": "HAH-loh",
+      "pronunciation": "HAHT-loh",
       "sourceUrl": "https://en.wiktionary.org/wiki/hallo"
     },
     "currency": {
@@ -6023,7 +6023,7 @@ export const COUNTRY_FACTS: Readonly<Record<string, CountryFacts>> = {
     "hello": {
       "language": "Dutch",
       "text": "Hallo",
-      "pronunciation": "HAH-loh",
+      "pronunciation": "HAHT-loh",
       "sourceUrl": "https://en.wiktionary.org/wiki/hallo"
     },
     "currency": {
@@ -6169,7 +6169,7 @@ export const COUNTRY_FACTS: Readonly<Record<string, CountryFacts>> = {
     "hello": {
       "language": "Icelandic",
       "text": "Halló",
-      "pronunciation": "HAH-loh",
+      "pronunciation": "HAHT-loh",
       "sourceUrl": "https://en.wiktionary.org/wiki/hall%C3%B3"
     },
     "currency": {
