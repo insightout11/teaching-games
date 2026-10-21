@@ -43,7 +43,12 @@ export interface FlightCity {
   scene: DestinationScene;
 }
 
-const CLIMB_MS = 4200;
+const CLIMB_MS = 14000; // the climb: the ground drops away, into the clouds, then out on top into the sun
+const CLIMB_IN = 0.3, CLIMB_THICK = 0.47, CLIMB_OUT = 0.64; // where in the climb the cloud starts, is thickest, has parted
+/** A landmark by the departure city: shown ahead once above the clouds, with the plane slowed so the class can look. */
+const SCENIC_MS = 70000;
+const SCENIC_AHEAD_KM = 80;
+const SCENIC_SPEED = 0.15;
 const DESCENT_MS = 9000;
 const ARRIVAL_MS = 5200;
 const APPROACH_SPLIT = 0.45;
@@ -75,6 +80,8 @@ export interface WindscreenFlightProps {
   cities?: DistantCity[];
   /** Real landmarks standing in the scenery ahead (Landmark Quest). */
   landmarks?: WorldLandmark[];
+  /** A drawn landmark close to the departure city (Giza from Cairo, Fuji from Tokyo): shown after the climb, slowly. */
+  scenicLandmark?: { id: string; kind: WorldLandmark['kind']; name: string; side: 'left' | 'right' } | null;
   /** Real rivers and lakes around the plane. */
   waters?: Waters;
   /** Real coastlines around the plane. */
@@ -105,7 +112,7 @@ export interface WindscreenFlightProps {
   altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, waters, coast, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, waters, coast, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -178,6 +185,32 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   }, [phase]);
   useEffect(() => () => { approachRef.current?.(); }, []);
 
+  // The scenic landmark: starts when the climb ends, runs for SCENIC_MS
+  const [scenicAt, setScenicAt] = useState<number | null>(null);
+  const prevPhase = useRef(phase);
+  useEffect(() => {
+    if (prevPhase.current === 'climb' && phase === 'cruise' && scenicLandmark) setScenicAt(Date.now());
+    if (phase === 'gate') setScenicAt(null);
+    prevPhase.current = phase;
+  }, [phase, scenicLandmark]);
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    if (scenicAt == null) return;
+    const id = setInterval(() => { if (Date.now() - scenicAt > SCENIC_MS) setScenicAt(null); setTick((n) => n + 1); }, 1000);
+    return () => clearInterval(id);
+  }, [scenicAt]);
+  const scenicOn = scenicAt != null && scenicLandmark != null;
+  const scenicSince = scenicAt != null ? Date.now() - scenicAt : 0;
+  const allLandmarks = useMemo(() => {
+    if (!scenicOn || !scenicLandmark) return landmarks;
+    const own = { id: scenicLandmark.id, kind: scenicLandmark.kind, ahead: SCENIC_AHEAD_KM, lateral: scenicLandmark.side === 'left' ? -9 : 9 };
+    return [...(landmarks ?? []).filter((l) => l.id !== own.id), own];
+  }, [scenicOn, scenicLandmark, landmarks]);
+  // The climb through the clouds: how deep in cloud the plane is (0 clear, 1 thick), and when it breaks out on top
+  const climbing = phase === 'climb';
+  const inCloud = !climbing ? 0 : progress < CLIMB_IN ? 0 : progress < CLIMB_THICK ? (progress - CLIMB_IN) / (CLIMB_THICK - CLIMB_IN) : progress < CLIMB_OUT ? 1 : 0;
+  const climbParting = climbing && progress >= CLIMB_THICK && progress < CLIMB_OUT ? (progress - CLIMB_THICK) / (CLIMB_OUT - CLIMB_THICK) : 0;
+  const breakout = climbing && progress >= CLIMB_OUT ? Math.max(0, 1 - (progress - CLIMB_OUT) / 0.3) : 0;
   const diving = phase === 'descent' && progress < DIVE;
   const outside = phase !== 'climb' && phase !== 'cruise' && !diving;
   useEffect(() => onCinematic?.(outside && phase !== 'gate'), [outside, phase, onCinematic]);
@@ -205,11 +238,12 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     [groundSun, sun ? sun.azimuth < 180 : null, destination, sun ? null : palette],
   );
   const cover = cloudCover ?? (weather === 'clear' || weather === 'aurora' ? 25 : 85);
-  const cloudDensity = diving ? 1 : Math.min(1, 0.3 + (cover / 100) * 0.8);
+  const cloudDensity = diving ? 1 : scenicOn ? 0.18 : Math.min(1, 0.3 + (cover / 100) * 0.8);
   // The weather outside is the same whatever is on the windscreen (Boarding, Talk, Show, Game, Scores, Map): a cloudy
   // sky used to clear the moment an activity or the map opened. `calm` only dims the view behind content.
   // Weather arrives gradually: see useEased.
-  const undercastTarget = phase === 'cruise' ? weatherUndercast(weather, cover) : 0;
+  // held back while a scenic landmark is in view (the overcast would hide the pyramids)
+  const undercastTarget = phase === 'cruise' && !scenicOn ? weatherUndercast(weather, cover) : 0;
   const deckStrength = useEased(undercastTarget, { seconds: 26, delay: 8 }, { seconds: 14 });
   const easedDensity = useEased(cloudDensity, { seconds: 12 }, { seconds: 12 });
   const deckRgb = useEasedVector(weatherDeckTint(cloudTint, weather), 255, { seconds: 20 });
@@ -228,9 +262,11 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spot?.x, spot?.visible, sun?.elevation, moon?.elevation, moon?.illumination, palette.light, palette.lightColor]);
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
-  const cloudSpeed = phase === 'climb' ? 1.4 : diving ? 1.2 + progress * 3 : 0.55;
-  const whiteout = phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
-  const parting = phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
+  // the ground: close under the plane early in the climb, falling away to cruise height
+  const groundAltitude = climbing ? Math.min(descentAltitude, 0.3 + 0.7 * Math.min(1, progress / CLIMB_OUT)) : descentAltitude;
+  const cloudSpeed = phase === 'climb' ? (inCloud > 0 ? 1.9 : 1.1) : scenicOn ? SCENIC_SPEED : diving ? 1.2 + progress * 3 : 0.55;
+  const whiteout = climbing ? (progress < CLIMB_THICK ? Math.pow(inCloud, 1.4) * 0.96 : inCloud * 0.96 * (1 - climbParting)) : phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
+  const parting = climbing ? climbParting : phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
   const tint = cloudTint.join(',');
   // Photo mode: put the windscreen together into one picture when the room asks
   const shotRef = useRef<HTMLDivElement>(null);
@@ -270,7 +306,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.meteors && <MeteorStreaks />}
             {phase === 'cruise' && sky?.aurora && weather !== 'aurora' && <WindscreenWeather weather="aurora" />}
             {iss && phase === 'cruise' && <IssPass start={iss.start} side={iss.side} />}
-            <CockpitWorld altitude={descentAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={landmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} highGround={highGround} events={events} />
+            <CockpitWorld altitude={groundAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={allLandmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} highGround={highGround} events={events} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}
@@ -300,7 +336,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
               </div>
             )}
             {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
-            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={cloudsTint} density={turbulence || diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving} paused={paused} />
+            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={cloudsTint} density={turbulence || diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving || (climbing && inCloud > 0.2 && climbParting < 0.5)} paused={paused} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -310,6 +346,11 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
           <div className="absolute inset-y-[-20%] right-[-10%] w-[70%]" style={{ transform: `translateX(${parting * 70}%)`, background: `radial-gradient(ellipse 70% 60% at 40% 50%, rgb(${tint}) 0%, rgba(${tint},0.9) 45%, rgba(${tint},0) 80%)`, filter: 'blur(18px)' }} />
           <div className="absolute inset-0" style={{ background: `rgba(${tint},${0.85 * (1 - parting)})` }} />
         </div>
+      )}
+      {/* breaking out on top of the clouds: a warm burst of sunlight that fades */}
+      {breakout > 0.001 && <div className="pointer-events-none absolute inset-0" style={{ opacity: breakout, background: `radial-gradient(ellipse 70% 55% at ${spot?.x ?? '70%'} 18%, rgba(255,244,214,0.75), rgba(255,236,200,0.18) 45%, transparent 75%)` }} />}
+      {scenicOn && scenicLandmark && scenicSince < 9000 && (
+        <p className="pointer-events-none absolute left-1/2 top-[14%] -translate-x-1/2 rounded-full bg-slate-950/75 px-4 py-2 text-sm text-white backdrop-blur">Captain: {scenicLandmark.name} coming up on the {scenicLandmark.side}. Get ready for a photo!</p>
       )}
       {calm && !outside && <div className="absolute inset-0 bg-slate-950/25" />}
     </div>

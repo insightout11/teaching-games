@@ -26,6 +26,22 @@ function km(a: LatLng, b: LatLng): number {
   return 2 * 6371 * Math.asin(Math.min(1, Math.sqrt(h)));
 }
 
+/** The nearest drawn landmark within `maxKm` of a city (Giza from Cairo, Fuji from Tokyo), and which side of the plane
+ * it is on when flying `headingDeg`: for the scenic look after take-off. */
+export function drawnLandmarkNear(at: LatLng, headingDeg: number, maxKm = 150, catalog: readonly Landmark[] = LANDMARK_CATALOG): { id: string; kind: WorldLandmarkKind; name: string; side: 'left' | 'right' } | null {
+  let best: { id: string; kind: WorldLandmarkKind; name: string; side: 'left' | 'right' } | null = null, bestKm = maxKm;
+  for (const l of catalog) {
+    const kind = DRAWN[l.shape];
+    if (!kind || kind === 'niagara') continue;
+    const d = km(at, l);
+    if (d > bestKm) continue;
+    const rel = (((bearingDeg(at, l) - headingDeg) % 360) + 360) % 360;
+    best = { id: l.id, kind, name: l.name, side: rel < 180 ? 'right' : 'left' };
+    bestKm = d;
+  }
+  return best;
+}
+
 /** Every catalogue landmark in view from `at` (drawn or not): for the route report and, later, the album's hints. */
 export function catalogueInView(at: LatLng, headingDeg: number, catalog: readonly Landmark[] = LANDMARK_CATALOG): Array<{ id: string; ahead: number; lateral: number }> {
   return inView(at, headingDeg, catalog, false).map(({ id, ahead, lateral }) => ({ id, ahead, lateral }));

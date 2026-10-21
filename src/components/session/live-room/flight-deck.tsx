@@ -51,7 +51,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
-import { landmarksAhead } from '@/lib/live-room/landmarks-ahead';
+import { drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
 import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
@@ -966,8 +966,11 @@ export function FlightDeck({
   const [descentTest, setDescentTest] = useState(false);
   const [issTest, setIssTest] = useState(false);
   const [skyTest, setSkyTest] = useState(false);
+  // test switch: ?scenic=on shows the pyramids after the climb on any flight (the look for a landmark by the departure city)
+  const [scenicTest, setScenicTest] = useState(false);
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
+    setScenicTest(q.get('scenic') === 'on');
     setDescentTest(q.get('descent') === 'on');
     // test switch: ?coast=on draws the real coastlines (off in classes until approved)
     if (q.get('coast') === 'on') setRealCoast(true);
@@ -1021,6 +1024,8 @@ export function FlightDeck({
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watersStep, flightStage, descending, holding]);
+  // A landmark right by the departure city (Giza from Cairo): the windscreen shows it after the climb, slowly
+  const scenicLandmark = useMemo(() => (origin.id === destination.id ? null : drawnLandmarkNear(origin, bearingDeg(origin, destination)) ?? (scenicTest ? { id: 'pyramids', kind: 'pyramids' as const, name: 'the Pyramids of Giza', side: 'right' as const } : null)), [origin, destination, scenicTest]);
   const landmarkKey = sceneryLandmarks.map((l) => l.id).join(',');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const stableLandmarks = useMemo(() => sceneryLandmarks, [landmarkKey]);
@@ -2718,6 +2723,7 @@ export function FlightDeck({
           moon={skyNow.moon}
           cities={distantCities}
           landmarks={stableLandmarks}
+          scenicLandmark={scenicLandmark}
           waters={routeWaters}
           coast={routeCoast}
           highGround={routeGround}
