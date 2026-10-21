@@ -2309,6 +2309,34 @@ export function FlightDeck({
     flash('Vote open on phones: pick a side, then say why');
   };
 
+  // For this topic: the library's best match (a video first, else a reading) offered on the top bar, one tap to play
+  type TopicPick = { key: string; title: string; video: boolean };
+  const [topicPick, setTopicPick] = useState<TopicPick | null>(null);
+  const [pickBusy, setPickBusy] = useState(false);
+  const pickTopic = focused?.title ?? '';
+  useEffect(() => {
+    setTopicPick(null);
+    if (!pickTopic || isMockMode()) return;
+    let live = true;
+    void fetch(`/api/live-room/library?${new URLSearchParams({ sessionId, topic: pickTopic })}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { shelf?: Array<{ key: string; title: string; youtubeId?: string | null }> } | null) => {
+        const shelf = d?.shelf ?? [];
+        const best = shelf.find((e) => e.youtubeId) ?? shelf[0];
+        if (live && best) setTopicPick({ key: best.key, title: best.title, video: !!best.youtubeId });
+      }).catch(() => {});
+    return () => { live = false; };
+  }, [pickTopic, sessionId]);
+  const playTopicPick = async () => {
+    if (!topicPick) return;
+    setPickBusy(true);
+    try {
+      const r = await fetch(`/api/live-room/library?key=${encodeURIComponent(topicPick.key)}`, { cache: 'no-store' });
+      const item = r.ok ? ((await r.json()).item as Parameters<typeof present>[0]) : null;
+      if (item) { present(item); setTopicPick(null); } else flash('Could not open that one');
+    } finally { setPickBusy(false); }
+  };
+
   // Ask the class: fetch the answer key and send it to the private window only
   const fetchAnswer = (question: string, card?: { headline: string; detail?: string }) => {
     const pending: TalkAnswer = { question, answer: null, revealed: false };
@@ -3398,6 +3426,15 @@ export function FlightDeck({
           <button type="button" onClick={takePhoto} title="Take the class photo of this landmark (it goes into this lesson's cargo)" className="flex animate-pulse items-center gap-1.5 rounded-lg border border-amber-300/70 bg-amber-300/15 px-2.5 py-1.5 text-xs font-semibold text-amber-100 hover:bg-amber-300/25">
             <Camera className="h-3.5 w-3.5" /> Take photo: {photoLandmark.name}
           </button>
+        )}
+        {topicPick && !presenting && (
+          <span className="flex max-w-[22rem] shrink items-center gap-1 rounded-lg border border-cyan-300/40 bg-cyan-300/[0.06] py-1 pl-2.5 pr-1 text-xs text-cyan-50">
+            <button type="button" disabled={pickBusy} onClick={() => void playTopicPick()} title="From our library, for today's topic" className="flex min-w-0 items-center gap-1.5 hover:text-white disabled:opacity-60">
+              {topicPick.video ? <Video className="h-3.5 w-3.5 shrink-0" /> : <BookOpen className="h-3.5 w-3.5 shrink-0" />}
+              <span className="truncate">{pickBusy ? 'Opening…' : `${topicPick.video ? 'Watch' : 'Read'}: ${topicPick.title}`}</span>
+            </button>
+            <button type="button" onClick={() => setTopicPick(null)} aria-label="Hide the suggestion" className="rounded p-0.5 text-cyan-100/60 hover:text-white"><X className="h-3.5 w-3.5" /></button>
+          </span>
         )}
         {view === 'talk' && (
           <button type="button" onClick={() => setClearScreen((c) => !c)} title="Hide the talking point, so the windscreen is clear for a widget" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${clearScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>

@@ -2,7 +2,7 @@
 
 import { cefrLabel } from '@/lib/difficulty';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { BookOpen, Clock, FileText, Film, MessagesSquare, Plus, Search, Sparkles, SpellCheck, Zap } from 'lucide-react';
+import { BookOpen, Clock, FileText, Film, MessagesSquare, Plus, Search, Sparkles, SpellCheck, Zap, SlidersHorizontal, Play, Eye } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
 import { openRoomChannel } from '@/components/session/live-room/room-channel';
 import type { LibraryEntry, LibraryKind, LibraryLength } from '@/lib/live-room/library-search';
@@ -46,6 +46,8 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
   const [age, setAge] = useState<string | null>(null);
   const [kind, setKind] = useState<LibraryKind | null>(null);
   const [length, setLength] = useState<LibraryLength | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const filterCount = levels.length + (age ? 1 : 0) + (length ? 1 : 0);
   const [data, setData] = useState<{ topic: string | null; shelf: LibraryEntry[]; results: LibraryEntry[] } | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -120,7 +122,8 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
     const len = lengthLabel(e);
     return (
       <div className={['rounded-lg border p-2', open ? 'border-white/15 bg-white/[0.04]' : 'border-transparent'].join(' ')}>
-        <button type="button" onClick={() => setOpenKey(open ? null : e.key)} className="grid w-full grid-cols-[72px_1fr] gap-2.5 text-left">
+        <div className="flex items-center gap-2">
+        <button type="button" onClick={() => setOpenKey(open ? null : e.key)} title="More about this" className="grid min-w-0 flex-1 grid-cols-[72px_1fr] gap-2.5 text-left">
           <span className="relative flex h-[46px] w-[72px] items-center justify-center overflow-hidden rounded-md bg-slate-800">
             {e.youtubeId ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -138,6 +141,11 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
             </span>
           </span>
         </button>
+        {/* play it straight away: the button is on the card, no need to open it first */}
+        <button type="button" disabled={working !== null} onClick={() => void act(e, onShow)} className="flex shrink-0 items-center gap-1 rounded-lg bg-cyan-400 px-2.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-cyan-300 disabled:opacity-50">
+          {e.youtubeId ? <Play className="h-3.5 w-3.5" aria-hidden /> : <Eye className="h-3.5 w-3.5" aria-hidden />}{working === e.key ? '…' : e.youtubeId ? 'Play' : 'Show'}
+        </button>
+        </div>
         {open && (
           <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-2">
             {e.blurb && <p className="line-clamp-4 text-xs text-white/70">{e.blurb}</p>}
@@ -157,28 +165,37 @@ export function LibraryPanel({ sessionId, onShow, onAdd }: { sessionId: string; 
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-2.5">
-      <form onSubmit={(ev) => { ev.preventDefault(); void load(q.trim()); }} className="flex items-center gap-2 rounded-xl border border-white/15 bg-slate-900 px-3 focus-within:border-cyan-400/60">
-        <Search className="h-4 w-4 shrink-0 text-white/50" aria-hidden />
-        <input value={q} onChange={(ev) => setQ(ev.target.value)} placeholder="Search our library…" maxLength={120} className="min-h-11 w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none" aria-label="Search the library" />
-      </form>
+      {/* search, with the level / age / length filters folded behind one button so the results get the room */}
+      <div className="flex items-center gap-2">
+        <form onSubmit={(ev) => { ev.preventDefault(); void load(q.trim()); }} className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/15 bg-slate-900 px-3 focus-within:border-cyan-400/60">
+          <Search className="h-4 w-4 shrink-0 text-white/50" aria-hidden />
+          <input value={q} onChange={(ev) => setQ(ev.target.value)} placeholder="Search our library…" maxLength={120} className="min-h-10 w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none" aria-label="Search the library" />
+        </form>
+        <button type="button" onClick={() => setFiltersOpen((o) => !o)} aria-expanded={filtersOpen} className={`flex shrink-0 items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold ${filtersOpen || filterCount ? 'border-cyan-400/60 bg-cyan-400/10 text-white' : 'border-white/15 text-white/70 hover:text-white'}`}>
+          <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden /> Filters{filterCount ? ` · ${filterCount}` : ''}
+        </button>
+      </div>
 
-      <div className="flex flex-wrap gap-1">
+      <div className="-mx-1 flex gap-1 overflow-x-auto px-1 pb-0.5 [scrollbar-width:none]">
         {KINDS.map(({ key, label, icon: Icon }) => (
-          <button key={key} type="button" onClick={() => setKind(kind === key ? null : key)} className={`flex items-center gap-1 ${chip(kind === key)}`}>
+          <button key={key} type="button" onClick={() => setKind(kind === key ? null : key)} className={`flex shrink-0 items-center gap-1 whitespace-nowrap ${chip(kind === key)}`}>
             <Icon className="h-3 w-3" aria-hidden />{label}
           </button>
         ))}
       </div>
-      <div className="flex flex-wrap items-center gap-1">
-        {LEVELS.map((l) => (
-          <button key={l} type="button" onClick={() => setLevels(levels.includes(l) ? levels.filter((x) => x !== l) : [...levels, l])} className={`font-mono ${chip(levels.includes(l))}`}>{l}</button>
-        ))}
-        <span className="mx-1 h-4 w-px bg-white/15" aria-hidden />
-        {AGES.map((a) => <button key={a.key} type="button" onClick={() => setAge(age === a.key ? null : a.key)} className={chip(age === a.key)}>{a.label}</button>)}
-        <span className="mx-1 h-4 w-px bg-white/15" aria-hidden />
-        <Clock className="h-3 w-3 text-white/40" aria-hidden />
-        {LENGTHS.map((l) => <button key={l.key} type="button" onClick={() => setLength(length === l.key ? null : l.key)} className={chip(length === l.key)}>{l.label}</button>)}
-      </div>
+      {filtersOpen && (
+        <div className="flex flex-wrap items-center gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-2">
+          {LEVELS.map((l) => (
+            <button key={l} type="button" onClick={() => setLevels(levels.includes(l) ? levels.filter((x) => x !== l) : [...levels, l])} className={`font-mono ${chip(levels.includes(l))}`}>{l}</button>
+          ))}
+          <span className="mx-1 h-4 w-px bg-white/15" aria-hidden />
+          {AGES.map((a) => <button key={a.key} type="button" onClick={() => setAge(age === a.key ? null : a.key)} className={chip(age === a.key)}>{a.label}</button>)}
+          <span className="mx-1 h-4 w-px bg-white/15" aria-hidden />
+          <Clock className="h-3 w-3 text-white/40" aria-hidden />
+          {LENGTHS.map((l) => <button key={l.key} type="button" onClick={() => setLength(length === l.key ? null : l.key)} className={chip(length === l.key)}>{l.label}</button>)}
+          {filterCount > 0 && <button type="button" onClick={() => { setLevels([]); setAge(null); setLength(null); }} className="ml-auto text-[11px] text-white/50 hover:text-white">Clear</button>}
+        </div>
+      )}
 
       {error && <p className="rounded-lg border border-amber-300/30 bg-amber-300/10 px-3 py-2 text-sm text-amber-100">{error}</p>}
 
