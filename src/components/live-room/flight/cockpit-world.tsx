@@ -272,6 +272,18 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
   return c;
 }
 
+/** Is this point inside the real land outlines? (Counts the outline crossings to its left: odd is land.) */
+function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: number, z: number): boolean {
+  let n = 0;
+  for (const k of cw.buckets.get(Math.floor(z / COAST_BUCKET)) ?? []) {
+    const x1 = cw.edges[k * 4], z1 = cw.edges[k * 4 + 1], x2 = cw.edges[k * 4 + 2], z2 = cw.edges[k * 4 + 3];
+    if ((z1 <= z && z < z2) || (z2 <= z && z < z1)) {
+      if (x1 + ((z - z1) * (x2 - x1)) / (z2 - z1) < x) n++;
+    }
+  }
+  return n % 2 === 1;
+}
+
 export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events }: { /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
@@ -350,7 +362,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [waters]);
   // Real coastline: the land outlines fixed on the ground (as the cities), with their edges filed by depth so each
   // strip of ground can find where it crosses the coast. A new set is taken only once the last one has mostly passed.
-  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; shores: number[][]; zMin: number; zMax: number } | null>(null);
+  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number } | null>(null);
   useEffect(() => {
     if (!coast) return;
     const camZ = cam.current;
@@ -378,7 +390,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         }
       }
     }
-    coastWorld.current = { edges, buckets, rings, shores, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95 };
+    // A beach line is drawn only where the land fill really meets the sea: the coastline lines and the land outlines
+    // come from different data, and where they disagree a beach floated in the open sea
+    const probe = { edges, buckets };
+    const real = rings.map((ring) => ring.slice(0, -1).map(([xa, za], i) => {
+      const [xb, zb] = ring[i + 1];
+      const mx = (xa + xb) / 2, mz = (za + zb) / 2, dx = xb - xa, dz = zb - za, len = Math.hypot(dx, dz) || 1;
+      const d = 600; // a little way to each side of the line
+      const nx = (-dz / len) * d, nz = (dx / len) * d;
+      return landAt(probe, mx + nx, mz + nz) !== landAt(probe, mx - nx, mz - nz);
+    }));
+    coastWorld.current = { edges, buckets, rings, shores, real, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95 };
   }, [coast]);
   // Real high ground: the latest elevation grid, anchored where the plane was when it arrived; mountains and hills
   // spawned from it stay where they were put (a new grid never moves them).
@@ -687,6 +709,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
               for (let i = 0; i + 1 < ring.length; i++) {
                 const kind = Math.max(0, Math.min(2, kinds[i] ?? 1));
                 if (pass === 0 && kind === 2) continue; // rocky shores: no shallow band
+                if (!cwB.real[ri]?.[i]) continue; // not on the land's real edge
                 const [xa, za] = ring[i], [xb, zb] = ring[i + 1];
                 const ra = za - camZ, rb = zb - camZ;
                 if (ra < Z_NEAR * 0.6 || rb < Z_NEAR * 0.6 || ra > Z_FAR || rb > Z_FAR) continue;
@@ -954,6 +977,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       });
 
       // ── Mountains and hills standing on that ground ────────────────────
+      const coastHere = realCoast() ? coastWorld.current : null;
       const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind; cloud?: SkyCloud; ev?: { kind: EventKind; seed: number } }> = [];
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
       // Photo mode: the landmark in good view right now (close enough, inside the window), for the Take photo button
@@ -1078,6 +1102,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           drawWorldLandmark(ctx, lm, { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, lproj, lfog, haze, lfade);
           continue;
         }
+        // On a real coast, mountains and hills stand only on the land (they stood in the open sea)
+        if (coastHere && coastHere.zMin <= p.z && p.z <= coastHere.zMax && !landAt(coastHere, p.x, p.z)) continue;
         // Always well below the plane: during the descent (the camera comes down to a fifth of its height) mountains and
         // hills shrink with it, keeping their shape, instead of towering over the cockpit.
         const shrink = Math.min(1, (camH * 0.7) / p.h);
