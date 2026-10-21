@@ -82,7 +82,7 @@ export function FreePicturesRow({ sessionId, topic, onShow, onGoogle }: {
               <figure key={p.id} title={p.credit} className="group relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-black/30">
                 <button type="button" onClick={() => show(p)} title={`Show on the big screen: ${p.title} (${p.credit})`} className="block h-full w-full">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.thumbUrl} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                  <img src={p.thumbUrl} alt="" loading="lazy" referrerPolicy="no-referrer" onError={(e) => { const img = e.currentTarget; if (p.imageUrl && img.src !== p.imageUrl) img.src = p.imageUrl; }} className="h-full w-full object-cover transition-transform group-hover:scale-105" />
                 </button>
                 <button
                   type="button"

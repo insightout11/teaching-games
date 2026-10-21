@@ -62,7 +62,7 @@ function toPicture(p: CommonsPage): FreePicture | null {
   };
 }
 
-const IMAGE_PROPS = { prop: 'imageinfo', iiprop: 'url|mime|extmetadata', iiurlwidth: '480', iiextmetadatafilter: 'Artist|LicenseShortName|ImageDescription|Categories' };
+const IMAGE_PROPS = { prop: 'imageinfo', iiprop: 'url|mime|extmetadata', iiurlwidth: '500', iiextmetadatafilter: 'Artist|LicenseShortName|ImageDescription|Categories' };
 
 /** The main picture of the topic's Wikipedia page, when the topic is a named thing. */
 async function wikipediaPicture(query: string): Promise<FreePicture | null> {
