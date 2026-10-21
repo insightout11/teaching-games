@@ -117,3 +117,29 @@ laksa and injera. Generic kimchi does not have a unique modern South Korean orig
 Quiche Lorraine and gazpacho were replaced after reviewing historical/shared regional origins; the report gives the full
 omission list. Brussels waffles were replaced with the more visually specific stroopwafel. Short facts describe typical
 ingredients without claiming every recipe is identical. The modules never fetch these references or food pictures.
+
+## Picture animals (21 October 2026)
+
+`animals.ts` exports `ANIMAL_QUESTIONS`: 60 static questions about living wild animals. Species and subspecies names
+are used where a broad label would be ambiguous: red kangaroo, ring-tailed lemur, Cape mountain zebra, Sumatran orangutan
+and Bornean orangutan. The queries identify the animal itself; for ambiguous common names the scientific name is used,
+such as `Trachelophorus giraffa` for Madagascar's giraffe weevil. A photograph from a zoo can identify a species but is
+not evidence that the species lives wild in the photograph's country.
+
+Every entry has a species reference and `rangeIso2`: reviewed countries/territories excluded from wrong answers, including
+native range and known introduced populations or visitors where relevant. It is a conservative exclusion list, not a
+complete, timeless range atlas. The answer must be in the list, and none of the other options may be in it. All four
+options follow the answer's quiz continent. Territories outside the playable roster can occur only as range metadata.
+No exclusive-country claim is made merely because the list has one entry.
+
+Shared-range guards include Indonesia/Malaysia for Bornean orangutans; Indonesia/Malaysia/Brunei for proboscis monkeys;
+Rwanda/Uganda/DR Congo for mountain gorillas; and South Africa/Namibia plus reviewed visitors for African penguins.
+Introduced radiated tortoises on Réunion/Mauritius and Japanese macaques in Texas are conservatively excluded too.
+References include each species article and these cross-checks:
+[proboscis monkey range](https://primate.wisc.edu/primate-info-net/pin-factsheets/pin-factsheet-proboscis-monkey/),
+[radiated tortoise](https://museum.wa.gov.au/explore/articles/meet-radiated-tortoise),
+[kiwi](https://www.doc.govt.nz/kiwi), and [koala](https://australian.museum/learn/animals/mammals/koala/).
+
+Extinct animals, generic multi-country families and uncertain wild-range candidates were omitted or narrowed; see the
+handoff report. No changing population numbers, danger levels or promised sightings are added. The static provenance
+and search phrases add no runtime network requests, and no game integration is included.
