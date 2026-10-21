@@ -42,6 +42,12 @@ export function drawnLandmarkNear(at: LatLng, headingDeg: number, maxKm = 150, c
   return best;
 }
 
+/** The drawing a catalogue landmark uses in the scenery, or null when it has none. */
+export function drawnKindOf(id: string, catalog: readonly Landmark[] = LANDMARK_CATALOG): WorldLandmarkKind | null {
+  const l = catalog.find((x) => x.id === id);
+  return (l && DRAWN[l.shape]) || null;
+}
+
 /** Every drawn landmark within `maxKm` of a city, nearest first: the album's "still to find" frames. */
 export function drawnLandmarksNear(at: LatLng, maxKm = 150, catalog: readonly Landmark[] = LANDMARK_CATALOG): Array<{ id: string; name: string; km: number }> {
   return catalog

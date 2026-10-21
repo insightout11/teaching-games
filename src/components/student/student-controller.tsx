@@ -1,5 +1,6 @@
 'use client';
 
+import { WindowSelfiePhone } from '@/components/student/window-selfie-phone';
 import { GrammarHuntStrip } from './grammar-hunt-strip';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, useAnimationControls, useReducedMotion } from 'framer-motion';
@@ -1484,6 +1485,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         aside={studentSession.captain ? <CrewAvatar seed={studentSession.avatarSeed} name={studentSession.displayName} captain size={32} /> : undefined}
         onLeave={onLeave}
       />
+
+      <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} />
 
       {grammarTarget
         ? <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} target={grammarTarget} />

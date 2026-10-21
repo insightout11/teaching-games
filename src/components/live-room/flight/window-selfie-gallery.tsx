@@ -5,6 +5,7 @@ import { Camera } from 'lucide-react';
 import { CockpitSky } from '@/components/live-room/flight/cockpit-sky';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { WindowSelfieCard } from '@/components/live-room/flight/window-selfie';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
@@ -93,6 +94,7 @@ export function WindowSelfieGallery() {
       <div className="flex flex-wrap gap-8">
         <div><p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-white/55">A · in my seat, a print</p><SelfieA tod={tod} /></div>
         <div><p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-white/55">B · leaning into the window</p><SelfieB tod={tod} /></div>
+        <div><p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-white/55">Built (what phones show)</p><WindowSelfieCard kind="fuji" terrain="farmland" region="Asia" timeOfDay={tod} seed="ken-demo" name="Ken" title="Over Mount Fuji" caption="Tokyo to Shanghai · 21 Oct · seat 3C" /></div>
       </div>
     </div>
   );

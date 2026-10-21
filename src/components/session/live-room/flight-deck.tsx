@@ -51,7 +51,8 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
-import { drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
+import { drawnKindOf, drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
+import { openWindowViewChannel, WINDOW_VIEW_HEARTBEAT_MS, type WindowView } from '@/lib/live-room/window-view';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
 import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
@@ -1291,6 +1292,27 @@ export function FlightDeck({
     photoId.current = photoLandmark.id;
     window.dispatchEvent(new Event('lc-take-photo'));
   };
+  // Window selfies (Oct 2026): while a landmark is in good view, the phones are told, so each student can take one
+  const windowChannel = useRef<ReturnType<typeof openWindowViewChannel> | null>(null);
+  useEffect(() => {
+    if (isMockMode()) return;
+    windowChannel.current = openWindowViewChannel(sessionId);
+    return () => { windowChannel.current?.close(); windowChannel.current = null; };
+  }, [sessionId]);
+  const windowView = useMemo<WindowView | null>(() => {
+    const kind = photoLandmark ? drawnKindOf(photoLandmark.id) : null;
+    if (!photoLandmark || !kind) return null;
+    return { landmarkId: photoLandmark.id, name: photoLandmark.name, kind, terrain: steadyGround.terrain, region: steadyGround.region ?? null, timeOfDay: skyNow.timeOfDay, from: origin.city, to: destination.city };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [photoLandmark?.id]);
+  useEffect(() => {
+    const ch = windowChannel.current;
+    if (!ch) return;
+    ch.send(windowView);
+    if (!windowView) return;
+    const beat = setInterval(() => ch.send(windowView), WINDOW_VIEW_HEARTBEAT_MS);
+    return () => clearInterval(beat);
+  }, [windowView]);
   // Real things happening on the journey (Oct 2026), each a "Look" moment the class can open: another real plane, the
   // northern or southern lights, a recent earthquake nearby, a holiday in the country below, a clock change below,
   // sunrise or sunset, tonight's moon, a bright planet, a meteor shower. One label at a time; each only once a flight.
