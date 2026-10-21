@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ImageIcon, Search, SkipForward, Star } from 'lucide-react';
+import { ChevronDown, ChevronUp, ImageIcon, Search, SkipForward, Star } from 'lucide-react';
 import type { RoomItem } from '@/stores/live-room-store';
 import type { FreePicture } from '@/lib/sources/wikimedia-images';
 
@@ -18,6 +18,10 @@ export function FreePicturesRow({ sessionId, topic, onShow, onGoogle }: {
   /** Search Google Images (paid) for the topic, in the search below. */
   onGoogle: (query: string) => void;
 }) {
+  // fold the pictures away (remembered in this browser): the library below gets the room
+  const [folded, setFoldedState] = useState(false);
+  useEffect(() => { try { setFoldedState(localStorage.getItem('lc-pictures-folded') === '1'); } catch { /* storage blocked */ } }, []);
+  const setFolded = (v: boolean) => { setFoldedState(v); try { localStorage.setItem('lc-pictures-folded', v ? '1' : '0'); } catch { /* storage blocked */ } };
   const [pictures, setPictures] = useState<FreePicture[] | null>(null);
   const [queue, setQueue] = useState<FreePicture[]>([]);
   const [next, setNext] = useState(0);
@@ -54,29 +58,31 @@ export function FreePicturesRow({ sessionId, topic, onShow, onGoogle }: {
   return (
     <section className="space-y-2 rounded-xl border border-white/10 bg-white/[0.03] p-2.5">
       <div className="flex items-center justify-between gap-2">
-        <p className="flex min-w-0 items-center gap-1.5 text-xs text-white/70">
+        <button type="button" onClick={() => setFolded(!folded)} aria-expanded={!folded} title={folded ? 'Show the pictures' : 'Fold the pictures away (more room for the library)'} className="flex min-w-0 items-center gap-1.5 text-xs text-white/70 hover:text-white">
           <ImageIcon className="h-3.5 w-3.5 shrink-0 text-cyan-300" />
-          <span className="truncate">Free pictures: <b className="font-semibold text-white">{topic}</b></span>
-        </p>
+          <span className="truncate">Free pictures: <b className="font-semibold text-white">{topic}</b>{folded && pictures?.length ? ` · ${pictures.length}` : ''}</span>
+          {folded ? <ChevronDown className="h-3.5 w-3.5 shrink-0" /> : <ChevronUp className="h-3.5 w-3.5 shrink-0" />}
+        </button>
         {queue.length > 0 && (
           <button type="button" onClick={showNext} className="flex shrink-0 items-center gap-1 rounded-lg bg-amber-300 px-2 py-1 text-[11px] font-semibold text-[#1a1204]" title="Show the next starred picture on the big screen">
             <SkipForward className="h-3 w-3" /> Show next ({(next % queue.length) + 1}/{queue.length})
           </button>
         )}
       </div>
-      {pictures === null ? (
+      {folded ? null : pictures === null ? (
         <p className="text-xs text-white/45">Finding pictures…</p>
       ) : pictures.length === 0 ? (
         <p className="text-xs text-white/45">No free pictures for this one. Try Google Images below.</p>
       ) : (
-        <div className="grid grid-cols-4 gap-1.5">
+        // one scrolling row of small pictures (two rows of big ones squeezed the library below)
+        <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
           {pictures.map((p) => {
             const starred = queue.some((x) => x.id === p.id);
             return (
-              <figure key={p.id} className="group relative overflow-hidden rounded-lg border border-white/10 bg-black/30">
-                <button type="button" onClick={() => show(p)} title={`Show on the big screen: ${p.title}`} className="block w-full">
+              <figure key={p.id} title={p.credit} className="group relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-white/10 bg-black/30">
+                <button type="button" onClick={() => show(p)} title={`Show on the big screen: ${p.title} (${p.credit})`} className="block h-full w-full">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.thumbUrl} alt={p.title} loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform group-hover:scale-105" />
+                  <img src={p.thumbUrl} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform group-hover:scale-105" />
                 </button>
                 <button
                   type="button"
@@ -87,15 +93,14 @@ export function FreePicturesRow({ sessionId, topic, onShow, onGoogle }: {
                 >
                   <Star className="h-3 w-3" fill={starred ? 'currentColor' : 'none'} />
                 </button>
-                <figcaption className="truncate px-1 py-0.5 text-[9px] text-white/45" title={p.credit}>{p.credit}</figcaption>
               </figure>
             );
           })}
         </div>
       )}
-      <button type="button" onClick={() => onGoogle(topic)} className="flex items-center gap-1 text-[11px] text-cyan-200/80 hover:text-cyan-100">
+      {!folded && <button type="button" onClick={() => onGoogle(topic)} className="flex items-center gap-1 text-[11px] text-cyan-200/80 hover:text-cyan-100">
         <Search className="h-3 w-3" /> More from Google Images
-      </button>
+      </button>}
     </section>
   );
 }
