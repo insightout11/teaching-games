@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 /** Free Wikimedia pictures for the current topic, for the private window (no key, no cost, no daily cap). */
 export async function POST(request: Request, { params }: { params: { sessionId: string } }) {
   const body = await request.json().catch(() => null) as { query?: unknown; strict?: unknown } | null;
-  const query = typeof body?.query === 'string' ? body.query.trim().slice(0, 200) : '';
+  const query = typeof body?.query === 'string' ? body.query.trim().slice(0, 255) : '';
   if (query.length < 2) return NextResponse.json({ pictures: [] });
 
   const { teacher, error } = await requireAuth();

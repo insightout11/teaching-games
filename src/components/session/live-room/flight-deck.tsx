@@ -1748,7 +1748,7 @@ export function FlightDeck({
     setCardPics((m) => ({ ...m, [id]: cards.map(() => null) }));
     const title = focused.title;
     void Promise.all(cards.map((c, i) => {
-      const query = c.picture || (i === 0 ? title : '');
+      const query = c.pictureFile || c.picture || (i === 0 ? title : '');
       if (!query) return Promise.resolve([] as FreePicture[]);
       return fetch(`/api/sessions/${encodeURIComponent(sessionId)}/sources/free-pictures`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query, strict: true }),

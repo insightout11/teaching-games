@@ -15,6 +15,8 @@ export interface FactCard {
   questions: string[];
   /** A short search for a free photo of exactly what this card shows ("Three Sisters Blue Mountains"); '' if none. */
   picture: string;
+  /** The exact photo, chosen and checked ahead of time (route-place cards: a Commons file name); preferred over the search. */
+  pictureFile?: string;
 }
 
 export const FACT_CARDS_SCHEMA: AISchema = {
@@ -51,7 +53,8 @@ export function cleanFactCards(raw: unknown): FactCard[] {
     if (headline.length < 6 || seen.has(headline.toLowerCase())) continue;
     seen.add(headline.toLowerCase());
     const questions = (Array.isArray(o.questions) ? o.questions : []).map((q) => str(q, 200)).filter((q) => q.length > 5).slice(0, 2);
-    cards.push({ headline, detail: str(o.detail, 700), questions, picture: str(o.picture, 60) });
+    const file = str(o.pictureFile, 255);
+    cards.push({ headline, detail: str(o.detail, 700), questions, picture: str(o.picture, 60), ...(/^File:.+\.(jpe?g|png)$/i.test(file) ? { pictureFile: file } : {}) });
     if (cards.length === 6) break;
   }
   return cards;

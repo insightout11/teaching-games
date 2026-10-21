@@ -21,7 +21,7 @@ describe('checked route-place cards', () => {
       expect(cards).toHaveLength(level === 'A1' ? 4 : 5);
       // Room integration handles the new static photo fields separately. The
       // existing cleaner must still preserve all authored prose and searches.
-      expect(cleanFactCards(cards)).toEqual(cards.map(({ headline, detail, questions, picture }) => ({ headline, detail, questions, picture })));
+      expect(cleanFactCards(cards)).toEqual(cards.map(({ headline, detail, questions, picture, pictureFile }) => ({ headline, detail, questions, picture, ...(pictureFile ? { pictureFile } : {}) })));
       for (const card of cards) {
         expect(words(card.headline)).toBeLessThanOrEqual(level === 'A1' ? 8 : 14);
         if (level === 'A1') expect(sentences(card.detail)).toHaveLength(2);
