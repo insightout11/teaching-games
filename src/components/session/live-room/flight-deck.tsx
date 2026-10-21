@@ -1356,7 +1356,7 @@ export function FlightDeck({
   // Real things happening on the journey (Oct 2026), each a "Look" moment the class can open: another real plane, the
   // northern or southern lights, a recent earthquake nearby, a holiday in the country below, a clock change below,
   // sunrise or sunset, tonight's moon, a bright planet, a meteor shower. One label at a time; each only once a flight.
-  type LiveMoment = { id: string; title: string; where: string; fact?: string; question: string; until: number };
+  type LiveMoment = { id: string; title: string; where: string; fact?: string; question: string; until: number; /** An animal of a sea or country: only while the plane is over it. */ region?: string };
   const [liveMoments, setLiveMoments] = useState<LiveMoment[]>([]);
   const liveSeen = useRef(new Set<string>());
   const addLive = useCallback((m: Omit<LiveMoment, 'until'>, minutes = 4) => {
@@ -1365,6 +1365,12 @@ export function FlightDeck({
     setLiveMoments((xs) => [...xs, { ...m, until: Date.now() + minutes * 60_000 }]);
   }, []);
   const cruising = flightStage === 'flying' && !holding && takeoffAt !== null;
+  // an animal card leaves once the plane has left its sea or country (a killer whale card from the Atlantic stayed up
+  // over the Mediterranean)
+  useEffect(() => {
+    setLiveMoments((xs) => (xs.some((m) => m.region && m.region !== below.name && m.region !== countryNow) ? xs.filter((m) => !m.region || m.region === below.name || m.region === countryNow) : xs));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [below.name, countryNow]);
   const [nearby, setNearby] = useState<{ plane: { callsign: string; airline: string | null; km: number; bearing: number; altitudeM: number } | null; kp: number | null } | null>(null);
   const nearbyStep = cruising ? Math.floor(now / 180_000) : null;
   useEffect(() => {
@@ -1381,7 +1387,7 @@ export function FlightDeck({
         const list = name ? animalsOf(name) : [];
         if (!list.length) continue;
         const a = list[nearbyStep % list.length];
-        addLive({ id: `res:${name}`, title: a.animal, where: `lives in ${name!.replace(/^the /, '')}`, fact: a.fact, question: `Would you like to see a ${a.animal.toLowerCase()} in the wild? What would you do?` }, 5);
+        addLive({ id: `res:${name}`, title: a.animal, where: `lives in ${name!.replace(/^the /, '')}`, fact: a.fact, question: `Would you like to see a ${a.animal.toLowerCase()} in the wild? What would you do?`, region: name! }, 5);
         break;
       }
     }
