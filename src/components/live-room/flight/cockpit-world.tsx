@@ -46,6 +46,8 @@ interface Layer {
   leaf: RGB;
   range: RangeMix;
   night: boolean;
+  /** The ground texture's real average colour: mountains and hills are blended toward it, so they belong to the land. */
+  ground?: RGB;
 }
 
 /** A big city within about 150 km of the plane, in kilometres: ahead of it, to its side (negative left, positive right), and its radius. */
@@ -249,6 +251,18 @@ function spawnPeak(p: Peak, camZ: number, far: boolean) {
 }
 
 const css = (c: RGB) => `rgb(${c[0]},${c[1]},${c[2]})`;
+
+/** The average colour of a (small) canvas: the ground texture's overall colour. */
+function averageColour(c: HTMLCanvasElement): RGB | null {
+  try {
+    const g = c.getContext('2d');
+    if (!g || !c.width || !c.height) return null;
+    const d = g.getImageData(0, 0, c.width, c.height).data;
+    let r = 0, gr = 0, b = 0, n = 0;
+    for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 8) continue; r += d[i]; gr += d[i + 1]; b += d[i + 2]; n++; }
+    return n ? [Math.round(r / n), Math.round(gr / n), Math.round(b / n)] : null;
+  } catch { return null; }
+}
 
 /** A city's lights, laid out once: a cluster thick in the middle and thinning to the edge, the same every time. */
 function cityDots(id: string) {
@@ -474,6 +488,16 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     // Texture: generated farmland/city, or the terrain's SVG tile; cached.
     const key = `${terrain}|${reg}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
     const apply = (rc: RipCanvases) => {
+      // the ground's real colour (its smallest copy, averaged): mountains and hills take some of it, so a blue-grey
+      // peak no longer stands on brown desert
+      const tiny = rc.levels[rc.levels.length - 1]?.[rc.levels[rc.levels.length - 1].length - 1];
+      const ground = tiny ? averageColour(tiny) : null;
+      if (ground) {
+        layer.ground = ground;
+        const share = range.floor === 'arid' ? 0.5 : terrain === 'ice' ? 0.25 : 0.38;
+        layer.rock = mixRgb(style.rock, ground, share);
+        layer.leaf = mixRgb(style.leaf, ground, 0.3);
+      }
       layer.rip = {
         w: rc.w,
         h: rc.h,
@@ -1160,7 +1184,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           // it was always grassy teal, pasted onto brown desert), darkened at night like the mountains, with a few soft
           // ridges down its shaded side so it matches their faceted style.
           const t = layer.terrain;
-          const groundTone: RGB = t === 'desert' || t === 'salt-flats' || layer.range.floor === 'arid' ? mixRgb(layer.land, layer.rock, 0.25 + p.tone * 0.15)
+          const under = layer.ground ?? layer.land;
+          const groundTone: RGB = layer.ground ? mixRgb(under, t === 'ice' || t === 'tundra' ? layer.snow : layer.rock, 0.12 + p.tone * 0.12)
+            : t === 'desert' || t === 'salt-flats' || layer.range.floor === 'arid' ? mixRgb(layer.land, layer.rock, 0.25 + p.tone * 0.15)
             : t === 'ice' || t === 'tundra' ? mixRgb(layer.snow, layer.rock, 0.18 + p.tone * 0.1)
               : t === 'mountains' ? mixRgb(layer.rock, layer.leaf, 0.3 + p.tone * 0.2)
                 : mixRgb(layer.land, layer.leaf, 0.45 + p.tone * 0.25);
