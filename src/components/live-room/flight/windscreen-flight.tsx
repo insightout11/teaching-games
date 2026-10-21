@@ -82,6 +82,8 @@ export interface WindscreenFlightProps {
   landmarks?: WorldLandmark[];
   /** A drawn landmark close to the departure city (Giza from Cairo, Fuji from Tokyo): shown after the climb, slowly. */
   scenicLandmark?: { id: string; kind: WorldLandmark['kind']; name: string; side: 'left' | 'right' } | null;
+  /** The same for the arrival: a drawn landmark close to the destination, shown slowly once the descent starts. */
+  arrivalScenic?: { id: string; kind: WorldLandmark['kind']; name: string; side: 'left' | 'right' } | null;
   /** Real rivers and lakes around the plane. */
   waters?: Waters;
   /** Real coastlines around the plane. */
@@ -112,7 +114,7 @@ export interface WindscreenFlightProps {
   altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, waters, coast, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, arrivalScenic = null, waters, coast, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -187,25 +189,35 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
 
   // The scenic landmark: starts when the climb ends, runs for SCENIC_MS
   const [scenicAt, setScenicAt] = useState<number | null>(null);
+  const [scenic, setScenic] = useState<NonNullable<WindscreenFlightProps['scenicLandmark']> | null>(null);
   const prevPhase = useRef(phase);
   useEffect(() => {
-    if (prevPhase.current === 'climb' && phase === 'cruise' && scenicLandmark) setScenicAt(Date.now());
+    if (prevPhase.current === 'climb' && phase === 'cruise' && scenicLandmark) { setScenic(scenicLandmark); setScenicAt(Date.now()); }
     if (phase === 'gate') setScenicAt(null);
     prevPhase.current = phase;
   }, [phase, scenicLandmark]);
+  // arriving: starts once, when the deck says the descent has begun
+  const arrivalStarted = useRef<string | null>(null);
+  useEffect(() => {
+    if (!arrivalScenic || arrivalStarted.current === arrivalScenic.id) return;
+    arrivalStarted.current = arrivalScenic.id;
+    setScenic(arrivalScenic);
+    setScenicAt(Date.now());
+  }, [arrivalScenic]);
+  const scenicArriving = !!arrivalScenic && scenic?.id === arrivalScenic.id;
   const [, setTick] = useState(0);
   useEffect(() => {
     if (scenicAt == null) return;
     const id = setInterval(() => { if (Date.now() - scenicAt > SCENIC_MS) setScenicAt(null); setTick((n) => n + 1); }, 1000);
     return () => clearInterval(id);
   }, [scenicAt]);
-  const scenicOn = scenicAt != null && scenicLandmark != null;
+  const scenicOn = scenicAt != null && scenic != null;
   const scenicSince = scenicAt != null ? Date.now() - scenicAt : 0;
   const allLandmarks = useMemo(() => {
-    if (!scenicOn || !scenicLandmark) return landmarks;
-    const own = { id: scenicLandmark.id, kind: scenicLandmark.kind, ahead: SCENIC_AHEAD_KM, lateral: scenicLandmark.side === 'left' ? -9 : 9 };
+    if (!scenicOn || !scenic) return landmarks;
+    const own = { id: scenic.id, kind: scenic.kind, ahead: SCENIC_AHEAD_KM, lateral: scenic.side === 'left' ? -9 : 9 };
     return [...(landmarks ?? []).filter((l) => l.id !== own.id), own];
-  }, [scenicOn, scenicLandmark, landmarks]);
+  }, [scenicOn, scenic, landmarks]);
   // The climb through the clouds: how deep in cloud the plane is (0 clear, 1 thick), and when it breaks out on top
   const climbing = phase === 'climb';
   const inCloud = !climbing ? 0 : progress < CLIMB_IN ? 0 : progress < CLIMB_THICK ? (progress - CLIMB_IN) / (CLIMB_THICK - CLIMB_IN) : progress < CLIMB_OUT ? 1 : 0;
@@ -349,8 +361,8 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
       )}
       {/* breaking out on top of the clouds: a warm burst of sunlight that fades */}
       {breakout > 0.001 && <div className="pointer-events-none absolute inset-0" style={{ opacity: breakout, background: `radial-gradient(ellipse 70% 55% at ${spot?.x ?? '70%'} 18%, rgba(255,244,214,0.75), rgba(255,236,200,0.18) 45%, transparent 75%)` }} />}
-      {scenicOn && scenicLandmark && scenicSince < 9000 && (
-        <p className="pointer-events-none absolute left-1/2 top-[14%] -translate-x-1/2 rounded-full bg-slate-950/75 px-4 py-2 text-sm text-white backdrop-blur">Captain: {scenicLandmark.name.charAt(0).toUpperCase() + scenicLandmark.name.slice(1)} coming up on the {scenicLandmark.side}. Get ready for a photo!</p>
+      {scenicOn && scenic && scenicSince < 9000 && (
+        <p className="pointer-events-none absolute left-1/2 top-[14%] -translate-x-1/2 rounded-full bg-slate-950/75 px-4 py-2 text-sm text-white backdrop-blur">Captain: {scenic.name.charAt(0).toUpperCase() + scenic.name.slice(1)} {scenicArriving ? 'on the ' + scenic.side + ' as we come in' : 'coming up on the ' + scenic.side}. Get ready for a photo!</p>
       )}
       {calm && !outside && <div className="absolute inset-0 bg-slate-950/25" />}
     </div>

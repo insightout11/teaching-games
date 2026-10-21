@@ -1047,6 +1047,8 @@ export function FlightDeck({
   }, [watersStep, flightStage, descending, holding]);
   // A landmark right by the departure city (Giza from Cairo): the windscreen shows it after the climb, slowly
   const scenicLandmark = useMemo(() => (origin.id === destination.id ? null : drawnLandmarkNear(origin, bearingDeg(origin, destination)) ?? (scenicTest ? { id: 'pyramids', kind: 'pyramids' as const, name: 'the Pyramids of Giza', side: 'right' as const } : null)), [origin, destination, scenicTest]);
+  // ...and one right by the arrival city (Fuji coming into Tokyo): shown slowly once the descent starts
+  const arrivalLandmark = useMemo(() => (origin.id === destination.id ? null : drawnLandmarkNear(destination, bearingDeg(origin, destination))), [origin, destination]);
   const landmarkKey = sceneryLandmarks.map((l) => l.id).join(',');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const stableLandmarks = useMemo(() => sceneryLandmarks, [landmarkKey]);
@@ -2835,6 +2837,7 @@ export function FlightDeck({
           cities={distantCities}
           landmarks={stableLandmarks}
           scenicLandmark={scenicLandmark}
+          arrivalScenic={descending ? arrivalLandmark : null}
           waters={routeWaters}
           coast={routeCoast}
           highGround={routeGround}

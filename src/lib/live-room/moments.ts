@@ -90,7 +90,9 @@ export function planMoments(o: {
     if (kind === 'island') continue;
     const c = closest({ lat, lng });
     const drawn = DRAWN_LANDMARK_NAMES.includes(name);
-    if (c.d <= (drawn ? 300 : 250) && inCruise(minuteOf(c.i))) {
+    // a drawn landmark by the arrival city (Fuji coming into Tokyo) may come in the descent: it is the view outside
+    const okTime = inCruise(minuteOf(c.i)) || (drawn && minuteOf(c.i) >= quietStart && minuteOf(c.i) <= flightMinutes - 1.5);
+    if (c.d <= (drawn ? 300 : 250) && okTime) {
       found.push({ id: `nf:${name}`, at: minuteOf(c.i), kind: kind === 'mountain' || kind === 'sight' ? 'landmark' : 'place', title: name, lat, lng, where: whereFrom(c.i, { lat, lng }, c.d), ...(drawn ? { drawn: true } : {}) });
     }
   }
