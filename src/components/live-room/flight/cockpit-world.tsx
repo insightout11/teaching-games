@@ -10,7 +10,7 @@ import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmar
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
-import { groundAt, type CoastStrip } from '@/lib/live-room/coast-strip';
+import { clipCoastView, groundAt, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -414,7 +414,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [waters]);
   // Real coastline: the land outlines fixed on the ground (as the cities), with their edges filed by depth so each
   // strip of ground can find where it crosses the coast. A new set is taken only once the last one has mostly passed.
-  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number; route: boolean; routeKm: number } | null>(null);
+  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; landRings: Array<{ points: Array<[number, number]>; minX: number; maxX: number; minZ: number; maxZ: number }>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number; route: boolean; routeKm: number } | null>(null);
   /** Build the land edges (filed by depth), the beach lines and which beach pieces are real, from points already in
    *  the world frame (x across, z along). */
   const buildCoast = (lineRings: Array<Array<[number, number]>>, lineShores: number[][], landPts: Array<Array<[number, number]>>) => {
@@ -448,7 +448,11 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const nx = (-dz / len) * d, nz = (dx / len) * d;
       return landAt(probe, mx + nx, mz + nz) !== landAt(probe, mx - nx, mz - nz);
     }));
-    return { edges, buckets, rings, shores, real };
+    const boundedLand = landRings.map((points) => ({ points,
+      minX: Math.min(...points.map(([x]) => x)), maxX: Math.max(...points.map(([x]) => x)),
+      minZ: Math.min(...points.map(([, z]) => z)), maxZ: Math.max(...points.map(([, z]) => z)),
+    }));
+    return { edges, buckets, landRings: boundedLand, rings, shores, real };
   };
   // The whole route's coast (worked out once at take-off): placed by km along the route, read at the plane's real place
   useEffect(() => {
@@ -761,35 +765,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           if (cw && seaRip.current && landRip.current && cz >= cw.zMin && cz <= cw.zMax) {
             const top = L[L.length - 1];
             const sea: Layer = { ...top, terrain: 'ocean', rip: seaRip.current, macroAlpha: 0.1 };
-            const land: Layer = { ...top, terrain: landRip.current.terrain, rip: landRip.current.rip, macroAlpha: 0.4 };
-            // where this strip crosses the land's outline
-            const xs: Array<{ x: number; land: boolean }> = [];
-            for (const k of cw.buckets.get(Math.floor(cz / COAST_BUCKET)) ?? []) {
-              const x1 = cw.edges[k * 4], z1 = cw.edges[k * 4 + 1], x2 = cw.edges[k * 4 + 2], z2 = cw.edges[k * 4 + 3];
-              if ((z1 <= cz && cz < z2) || (z2 <= cz && cz < z1)) xs.push({ x: x1 + ((cz - z1) * (x2 - x1)) / (z2 - z1), land: true });
-            }
-            xs.sort((a, b) => a.x - b.x);
-            // sea to the far left; each crossing of the land's outline switches between sea and land
-            let state = false;
-            const sx = F / z;
-            // distant land fades into the haze (far islands showed as hard golden stripes on the horizon) and firms up as
-            // it comes closer: fully there from about 60% of the view's depth
-            const farLand = Math.max(0.25, Math.min(1, 1 - (z / Z_FAR - 0.6) / 0.4 * 0.75));
             paintRow(sea, y, z, F, camZ, 1);
-            let from = -1e9;
-            // the land's real kind at this span (from the route strip), else the last land crossed
-            const landFor = (x0: number, x1: number): Layer => {
-              if (!cw.route || !coastStripRef.current) return land;
-              const g = groundAt(coastStripRef.current, cz / (CITY_UNITS_PER_KM * spreadRef.current), ((x0 + x1) / 2) / (CITY_UNITS_PER_KM * 0.7));
-              const rip = g ? stripRips.current.get(`${g.terrain}|${g.region}`) : undefined;
-              return rip && g ? { ...land, terrain: g.terrain, rip } : land;
-            };
-            for (const c of xs) {
-              if (state) paintRow(landFor(from, c.x), y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w / 2 + c.x * sx]);
-              from = c.x;
-              state = !state;
-            }
-            if (state) paintRow(landFor(from, from + 4000), y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w]);
             continue;
           }
           let i = L.length - 1;
@@ -804,6 +780,43 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             else paintRow(L[i], y, z, F, camZ, t * t * (3 - 2 * t), false);
           } else {
             paintRow(L[i], y, z, F, camZ, 1);
+          }
+        }
+        // Texture rows cover the whole view; a single projected path defines the coast, independently of rowH.
+        // The same smoothed outlines still supply landAt's depth buckets for peaks and town lights.
+        const landPath = new Path2D();
+        let visibleLand = false;
+        const coastBase = cw0?.route ? routeU : camZ;
+        if (cw0 && landRip.current && seaRip.current) {
+          const near = Math.max(Z_NEAR * 0.6, camH * F / (h - horizonY));
+          const halfSlope = w / (2 * F);
+          for (const ring of cw0.landRings) {
+            if (ring.maxZ < coastBase + near || ring.minZ > coastBase + Z_FAR ||
+                ring.minX > Z_FAR * halfSlope || ring.maxX < -Z_FAR * halfSlope) continue;
+            const pts = clipCoastView(ring.points, coastBase, near, Z_FAR, halfSlope);
+            if (pts.length < 3) continue;
+            pts.forEach(([x, z], i) => {
+              const scale = F / (z - coastBase);
+              const px = w / 2 + x * scale, py = horizonY + camH * scale;
+              if (i === 0) landPath.moveTo(px, py); else landPath.lineTo(px, py);
+            });
+            landPath.closePath();
+            visibleLand = true;
+          }
+          if (visibleLand) {
+            ctx.save(); sctx.save();
+            ctx.clip(landPath, 'evenodd'); sctx.clip(landPath, 'evenodd');
+            const top = L[L.length - 1];
+            for (let y = y0; y < h; y += rowH) {
+              const z = camH * F / (y - horizonY), cz = coastBase + z;
+              if (z > Z_FAR) continue;
+              const g = cw0.route && coastStripRef.current ? groundAt(coastStripRef.current, cz / (CITY_UNITS_PER_KM * spreadRef.current), 0) : null;
+              const rip = g ? stripRips.current.get(`${g.terrain}|${g.region}`) : null;
+              const land: Layer = { ...top, terrain: g?.terrain ?? landRip.current.terrain, rip: rip ?? landRip.current.rip, macroAlpha: 0.4 };
+              const farLand = Math.max(0.25, Math.min(1, 1 - (z / Z_FAR - 0.6) / 0.4 * 0.75));
+              paintRow(land, y, z, F, camZ, farLand);
+            }
+            ctx.restore(); sctx.restore();
           }
         }
         // The shore: a band of turquoise shallow water just offshore, then a sandy beach along the coast (both opaque, so

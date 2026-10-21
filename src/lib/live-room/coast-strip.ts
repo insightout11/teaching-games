@@ -12,6 +12,31 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
 export type StripPoint = [along: number, side: number];
 
+/** Clip a world-space (x, depth) polygon to the camera frustum before perspective division. */
+export function clipCoastView(ring: Array<[number, number]>, base: number, near: number, far: number, halfSlope: number): Array<[number, number]> {
+  let pts = ring;
+  const planes = [
+    ([, z]: [number, number]) => z - base - near,
+    ([, z]: [number, number]) => base + far - z,
+    ([x, z]: [number, number]) => (z - base) * halfSlope - x,
+    ([x, z]: [number, number]) => (z - base) * halfSlope + x,
+  ];
+  for (const distance of planes) {
+    const out: Array<[number, number]> = [];
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i], b = pts[(i + 1) % pts.length];
+      const da = distance(a), db = distance(b);
+      if (da >= 0) out.push(a);
+      if ((da >= 0) !== (db >= 0)) {
+        const t = da / (da - db);
+        out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+      }
+    }
+    pts = out;
+  }
+  return pts;
+}
+
 export interface CoastStrip {
   /** The land as closed outlines, in route coordinates (km along, km to the right). */
   land: StripPoint[][];
