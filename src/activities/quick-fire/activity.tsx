@@ -1,19 +1,20 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Zap, Pause, Play, SkipForward } from 'lucide-react';
+import { Zap, Pause, Play, Plus, SkipForward } from 'lucide-react';
 import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { ActivityProps } from '../types';
 import type { SpeakingFrameCard } from '../shared/speaking-turns';
 import { fallbackQuickFire } from '@/lib/quick-fire';
 
-// Quick-fire chain (Speak v2 warm-up): one fun question, everyone answers in 10 seconds, the turn
+// Quick-fire chain (Speak v2 warm-up): one fun question, everyone answers in a short turn (10, 20 or 30 seconds, +10 when needed), the turn
 // passes on. Fair order (least-featured first), a visible countdown that moves on by itself just
 // after "Time!", Next to finish early, Pause. Everyone talks within the first few minutes, and
 // nobody is on stage for long. Phones show "Your turn!" / "You're next".
 
-const TURN_SECONDS = 10;
+const TURN_CHOICES = [10, 20, 30] as const;
+const ADD_SECONDS = 10;
 const GRACE_MS = 1500;
 
 type Phase = 'idle' | 'chain' | 'done';
@@ -23,8 +24,11 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
   const questions = useMemo(() => (content?.questions?.length ? content.questions.slice(0, 4) : fallbackQuickFire(content?.topicContext ?? '')), [content]);
   const recordFeature = useSessionStore((s) => s.recordFeature);
 
-  const rosterKey = students.map((s) => s.id).join(',');
-  const rosterRef = useRef(students); rosterRef.current = students;
+  // Everyone takes a turn: phones, and students on the plane without a device (from the room's seat map)
+  const deviceless = useSessionStore((s) => s.devicelessStudents);
+  const everyone = useMemo(() => [...students, ...deviceless.filter((d) => !students.some((s) => s.id === d.id || s.name === d.name))], [students, deviceless]);
+  const rosterKey = everyone.map((s) => s.id).join(',');
+  const rosterRef = useRef(everyone); rosterRef.current = everyone;
   const order = useMemo<Array<Student | null>>(() => {
     const list = rosterRef.current;
     if (!list.length) return [null];
@@ -36,7 +40,10 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
   const [phase, setPhase] = useState<Phase>('idle');
   const [q, setQ] = useState(0);
   const [turn, setTurn] = useState(0);
-  const [left, setLeft] = useState(TURN_SECONDS);
+  // Turn length: chosen before starting (20 s by default; 10 s was too fast), and +10 s for a turn that needs it
+  const [turnSeconds, setTurnSeconds] = useState<number>(20);
+  const [turnTotal, setTurnTotal] = useState<number>(20);
+  const [left, setLeft] = useState(20);
   const [paused, setPaused] = useState(false);
   const speaker = order[turn] ?? null;
   const next = order[turn + 1] ?? null;
@@ -50,7 +57,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
     students.forEach((s) => {
       const card: SpeakingFrameCard = {
         role: 'speaking-frame',
-        title: s.id === speaker?.id ? 'Your turn! 10 seconds' : s.id === next?.id ? 'You’re next: get ready' : 'Quick-fire',
+        title: s.id === speaker?.id ? `Your turn! ${turnTotal} seconds` : s.id === next?.id ? 'You’re next: get ready' : 'Quick-fire',
         prompt: questions[q],
         helpers: [{ label: 'Start with', items: ['I think…', 'For me,…', 'Probably…', 'Definitely…'] }],
         yourTurn: s.id === speaker?.id,
@@ -59,7 +66,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
       per[s.name] = card;
     });
     onSetInputSpec?.({ type: 'confirm', gameKey: 'quick-fire', prompt: 'Quick-fire', perStudentData: per, stableInput: true });
-  }, [phase, q, speaker, next, students, questions, onSetInputSpec]);
+  }, [phase, q, speaker, next, students, questions, onSetInputSpec, turnTotal]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   const advance = useCallback(() => {
@@ -67,12 +74,13 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
       recordFeature(speaker.id);
       void onScore?.({ studentId: speaker.id, clientId: null, displayName: speaker.name, promptIndex: q * 100 + turn + 1, points: 1, isCorrect: null });
     }
-    setLeft(TURN_SECONDS);
+    setLeft(turnSeconds);
+    setTurnTotal(turnSeconds);
     if (!lastTurn) { setTurn((t) => t + 1); return; }
     if (!lastQuestion) { setQ((x) => x + 1); setTurn(0); return; }
     setPhase('done');
     onPhaseChange?.('finished');
-  }, [speaker, q, turn, lastTurn, lastQuestion, recordFeature, onScore, onPhaseChange]);
+  }, [speaker, q, turn, lastTurn, lastQuestion, recordFeature, onScore, onPhaseChange, turnSeconds]);
 
   // The clock: ticks while running; at 0 shows "Time!", then moves on by itself.
   const advanceRef = useRef(advance); advanceRef.current = advance;
@@ -86,7 +94,8 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
     return () => window.clearTimeout(id);
   }, [phase, paused, left]);
 
-  const start = () => { setQ(0); setTurn(0); setLeft(TURN_SECONDS); setPaused(false); setPhase('chain'); onPhaseChange?.('chain'); };
+  const addTime = () => { setLeft((x) => Math.max(0, x) + ADD_SECONDS); setTurnTotal((t) => Math.max(t, 0) + ADD_SECONDS); };
+  const start = () => { setQ(0); setTurn(0); setLeft(turnSeconds); setTurnTotal(turnSeconds); setPaused(false); setPhase('chain'); onPhaseChange?.('chain'); };
 
   if (phase === 'idle') {
     return (
@@ -94,8 +103,14 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
         <Zap className="h-16 w-16 text-amber-300" />
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300/80">Quick-fire</p>
-          <h3 className="mt-2 text-3xl font-game text-white">Everyone, ten seconds each</h3>
+          <h3 className="mt-2 text-3xl font-game text-white">Everyone, {turnSeconds} seconds each</h3>
           <p className="mx-auto mt-3 max-w-xl text-sm text-slate-300">One question, then the turn passes on. Short answers are fine. Just keep it moving!</p>
+        </div>
+        <div className="flex items-center gap-2" role="group" aria-label="Seconds per turn">
+          <span className="text-sm text-slate-400">Each turn</span>
+          {TURN_CHOICES.map((n) => (
+            <button key={n} type="button" onClick={() => setTurnSeconds(n)} className={`rounded-full border px-3 py-1 text-sm ${turnSeconds === n ? 'border-amber-300/70 bg-amber-300/15 text-amber-100' : 'border-white/15 text-slate-300 hover:text-white'}`}>{n} s</button>
+          ))}
         </div>
         <button onClick={start} className="rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 px-10 py-4 font-game text-lg text-white shadow-xl transition hover:scale-105">GO</button>
       </div>
@@ -112,7 +127,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
     );
   }
 
-  const pct = Math.max(0, left) / TURN_SECONDS;
+  const pct = Math.min(1, Math.max(0, left) / Math.max(1, turnTotal));
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
@@ -131,6 +146,9 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
         {next && <p className="text-sm text-slate-400">Next: <span className="text-slate-200">{next.name}</span></p>}
       </div>
       <div className="flex items-center justify-end gap-2">
+        <button onClick={addTime} title="Give this turn 10 more seconds" className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300/40 bg-amber-300/10 px-4 py-3 font-game text-sm text-amber-100 hover:bg-amber-300/20">
+          <Plus className="h-4 w-4" aria-hidden />10 S
+        </button>
         <button onClick={() => setPaused((p) => !p)} className="inline-flex items-center gap-1.5 rounded-xl border border-white/15 bg-white/5 px-4 py-3 font-game text-sm text-slate-200 hover:bg-white/10">
           {paused ? <Play className="h-4 w-4" aria-hidden /> : <Pause className="h-4 w-4" aria-hidden />}{paused ? 'RESUME' : 'PAUSE'}
         </button>

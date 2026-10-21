@@ -182,6 +182,9 @@ interface SessionState {
   /** Junior class (classes.junior): picture answers on phones, no rankings. */
   junior: boolean;
   setJunior: (junior: boolean) => void;
+  /** Class-list students on the plane without a device (the room's seat map): turn-taking activities include them. */
+  devicelessStudents: Student[];
+  setDevicelessStudents: (students: Student[]) => void;
   students: Student[];
   scores: Score[];
   streaks: Record<string, number>;
@@ -379,6 +382,8 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   classId: null,
   junior: false,
   setJunior: (junior: boolean) => set({ junior }),
+  devicelessStudents: [],
+  setDevicelessStudents: (devicelessStudents: Student[]) => set({ devicelessStudents }),
   students: [],
   scores: [],
   streaks: {},

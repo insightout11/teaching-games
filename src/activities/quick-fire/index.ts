@@ -2,11 +2,11 @@ import { Zap } from 'lucide-react';
 import type { ActivityPlugin } from '../types';
 import { QuickFireActivity } from './activity';
 
-// Speak v2 warm-up: everyone answers each question in 10 seconds, the turn passes on.
+// Speak v2 warm-up: everyone answers each question in a short turn, the turn passes on.
 export const quickFirePlugin: ActivityPlugin = {
   key: 'quick-fire',
   name: 'Quick-fire',
-  description: 'One fun question, everyone answers in 10 seconds, the turn passes on. Everyone talks in the first few minutes.',
+  description: 'One fun question, everyone answers in a short turn, the turn passes on. Everyone talks in the first few minutes.',
   category: 'learning',
   pppStage: 'practice',
   skills: ['Speaking', 'Listening'],

@@ -947,6 +947,13 @@ export function FlightDeck({
     // Seats fill in the order students boarded.
     return [...phones, ...noDevice].sort((a, b) => a.joined_at.localeCompare(b.joined_at));
   }, [participants, rosterAll, boarded]);
+  // Students without a device go to the session store, so turn-taking activities (Quick-fire) give them turns too
+  const setDevicelessStudents = useSessionStore((s) => s.setDevicelessStudents);
+  const devicelessKey = allSeats.filter((p) => p.deviceless).map((p) => p.student_id).join(',');
+  useEffect(() => {
+    setDevicelessStudents(allSeats.filter((p) => p.deviceless && p.student_id).map((p) => ({ id: p.student_id!, class_id: '', name: p.display_name, avatar_seed: p.avatar_seed ?? '', created_at: p.joined_at })));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [devicelessKey, setDevicelessStudents]);
   // Class-list students not on the plane yet (the + seat offers them).
   const notAboard = useMemo(() => rosterAll.filter((r) => !allSeats.some((p) => p.student_id === r.id)), [rosterAll, allSeats]);
   const [spotlight, setSpotlightId] = useState<string | null>(null);
