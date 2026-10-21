@@ -96,3 +96,24 @@ The bank supplies no image-fetching code or selected asset. Image selection belo
 also return maps, drawings or tourists, so the eventual consumer must choose a clear photograph of the named subject.
 Nyhavn, Seoraksan and Charyn Canyon replace tentative subjects whose reviewed Commons references did not give a clear
 subject photograph. No claim of classroom performance or universal recognition is made.
+
+## Picture foods (21 October 2026)
+
+`food.ts` exports `FOOD_QUESTIONS`: 60 static questions about named dishes with a clear modern culinary home.
+They ask about the dish or regional style, not who first invented every ingredient, bread, noodle or cooking technique.
+Fusion dishes such as banh mi and lomo saltado retain their Vietnamese and Peruvian culinary homes without erasing
+outside influences. Local debates about a restaurant or inventor within the same country do not create two country answers.
+Country choices are distinct and on the answer's quiz continent.
+
+Most records link to a dish-specific article. Stronger direct cultural references are used for
+[tom yum kung](https://ich.unesco.org/en/RL/tom-yum-kung-01879),
+[attiéké](https://ich.unesco.org/en/RL/skills-related-to-attieke-production-in-cote-d-ivoire-02086),
+[ceebu jën / thieboudienne](https://ich.unesco.org/en/RL/ceebu-jen-a-culinary-art-of-senegal-01748), and
+[budae jjigae](https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=904&vcontsId=221258).
+UNESCO listing is used as cultural provenance, not as proof that no other country cooks the food.
+
+Disputed or broadly shared candidates were left out, including baklava, hummus, jollof rice, couscous, tamales, plov,
+laksa and injera. Generic kimchi does not have a unique modern South Korean origin, so budae jjigae is used instead.
+Quiche Lorraine and gazpacho were replaced after reviewing historical/shared regional origins; the report gives the full
+omission list. Brussels waffles were replaced with the more visually specific stroopwafel. Short facts describe typical
+ingredients without claiming every recipe is identical. The modules never fetch these references or food pictures.
