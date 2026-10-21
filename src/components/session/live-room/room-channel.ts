@@ -16,6 +16,8 @@ export type RoomMessage =
   | { type: 'heard'; students: Array<{ id: string; name: string; heard: boolean }> }
   /** Sources window → room: the teacher marks a student as heard (or not). */
   | { type: 'spoke'; id: string; heard: boolean }
+  /** Room → Sources window: the answer key for the question the class was just asked (private until revealed). */
+  | { type: 'answer'; question: string; answer: string | null; open?: boolean; source?: { title: string; url: string } | null }
   | { type: 'hello' };
 
 const channelName = (sessionId: string) => `lc-live-room:${sessionId}`;

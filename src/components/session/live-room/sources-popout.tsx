@@ -24,12 +24,15 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
     channelRef.current = openRoomChannel(sessionId, (m) => {
       if (m.type === 'topic') setTopic(m.title || null);
       else if (m.type === 'heard') setHeard(m.students);
+      else if (m.type === 'answer') setAnswer({ question: m.question, answer: m.answer, open: m.open, source: m.source ?? null });
     });
     channelRef.current?.postMessage({ type: 'hello' });
     document.title = 'Private window · LessonCaptain';
     return () => channelRef.current?.close();
   }, [sessionId]);
 
+  // The answer key for the question the class was just asked (private: only here until the teacher reveals it)
+  const [answer, setAnswer] = useState<{ question: string; answer: string | null; open?: boolean; source: { title: string; url: string } | null } | null>(null);
   // Who has not been heard yet this lesson (private: only here).
   const [heard, setHeard] = useState<Array<{ id: string; name: string; heard: boolean }>>([]);
   const [showHeard, setShowHeard] = useState(false);
@@ -62,6 +65,18 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
       <p className="px-1 text-xs text-white/55">
         Private window. Share only the room tab on Zoom; nothing here reaches the class until you choose.
       </p>
+      {answer && (
+        <div className="rounded-xl border border-emerald-300/40 bg-emerald-400/[0.07] p-3" aria-label="Answer key">
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-300">{answer.open ? 'Answer key · good answers' : 'Answer key'}</span>
+            <button type="button" onClick={() => setAnswer(null)} className="text-[11px] text-white/50 hover:text-white">Hide</button>
+          </div>
+          <p className="mt-1 text-xs italic text-white/60">{answer.question}</p>
+          <p className="mt-1 text-sm leading-snug text-white">{answer.answer ?? 'Finding the answer…'}</p>
+          {answer.source && <a href={answer.source.url} target="_blank" rel="noreferrer" className="mt-1 block text-[11px] text-cyan-200 underline">Source: {answer.source.title} (Wikipedia)</a>}
+          <p className="mt-1 text-[11px] text-white/45">Only you can see this. Press Reveal the answer in the room to show the class.</p>
+        </div>
+      )}
       {heard.length > 0 && (
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2.5" aria-label="Not heard yet">
           <div className="mb-1.5 flex items-center justify-between gap-2">

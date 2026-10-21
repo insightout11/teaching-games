@@ -34,7 +34,7 @@ import type { WorldFlightDesignMissionContext } from '@/lib/world-flight/investi
 import { LandingRewards, useWorldFlightRecord, WorldFlightRecordPanel } from '@/components/session/live-room/world-flight-record';
 import { findPlanCity } from '@/lib/live-room/plan-city';
 import type { LessonPlanPayload } from '@/lib/lesson-plan-payload';
-import { parseWouldYouRather } from '@/lib/live-room/talk-vote';
+import { parseWouldYouRather, quickVoteOptions } from '@/lib/live-room/talk-vote';
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin } from '@/activities/types';
 import type { SourceMaterial } from '@/types/source-material';
@@ -799,6 +799,11 @@ export function FlightDeck({
   }, [sessionId]);
 
   const [talkPrompt, setTalkPrompt] = useState('');
+  // The answer key for a question asked from the facts board: private (the Sources window) until the teacher reveals it
+  type TalkAnswer = { question: string; answer: string | null; open?: boolean; source?: { title: string; url: string } | null; revealed: boolean };
+  const [talkAnswer, setTalkAnswer] = useState<TalkAnswer | null>(null);
+  const talkAnswerRef = useRef<TalkAnswer | null>(null);
+  talkAnswerRef.current = talkAnswer;
   const [talkFollowUps, setTalkFollowUps] = useState<string[]>([]);
   const [talkOptions, setTalkOptions] = useState<{ prompt: string; followUps: string[]; options?: string[] }[]>([]);
   /** Two choices for the class vote on the current talking point (Would you rather / opinion / debate). */
@@ -1792,6 +1797,8 @@ export function FlightDeck({
       else if (m.type === 'hello') {
         if (focusedTitleRef.current) channel?.postMessage({ type: 'topic', title: focusedTitleRef.current });
         heardPostRef.current?.();
+        const a = talkAnswerRef.current;
+        if (a) channel?.postMessage({ type: 'answer', question: a.question, answer: a.answer, open: a.open, source: a.source });
       }
     });
     roomChannelRef.current = channel;
@@ -2295,6 +2302,22 @@ export function FlightDeck({
     flash('Vote open on phones: pick a side, then say why');
   };
 
+  // Ask the class: fetch the answer key and send it to the private window only
+  const fetchAnswer = (question: string, card?: { headline: string; detail?: string }) => {
+    const pending: TalkAnswer = { question, answer: null, revealed: false };
+    setTalkAnswer(pending);
+    roomChannelRef.current?.postMessage({ type: 'answer', question, answer: null });
+    if (isMockMode()) return;
+    void fetch('/api/live-room/answer', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, fact: card ? `${card.headline}. ${card.detail ?? ''}` : '', topic: focused?.title ?? '', junior: !!junior }),
+    }).then((r) => (r.ok ? r.json() : null)).then((d: { answer?: string; open?: boolean; source?: { title: string; url: string } | null } | null) => {
+      if (!d?.answer) { flash('No answer key for this one'); return; }
+      setTalkAnswer((cur) => (cur && cur.question === question ? { ...cur, answer: d.answer!, open: d.open, source: d.source ?? null } : cur));
+      roomChannelRef.current?.postMessage({ type: 'answer', question, answer: d.answer, open: d.open, source: d.source ?? null });
+    }).catch(() => {});
+  };
+
   // ── windscreen content ───────────────────────────────────────────────────
   let scene: ReactNode;
   if (view === 'boarding' && cityVote && flightStage === 'gate') {
@@ -2463,6 +2486,17 @@ export function FlightDeck({
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/50">or</span>
             <span className="rounded-2xl border border-rose-300/40 bg-slate-950/60 px-4 py-2 font-display text-2xl text-white backdrop-blur-sm">{talkVote[1]}</span>
           </div>
+        )}
+        {talkAnswer && talkAnswer.question === talkPrompt && talkAnswer.revealed && talkAnswer.answer && (
+          <div className="max-w-3xl rounded-2xl border border-emerald-300/40 bg-slate-950/70 px-5 py-3 text-center backdrop-blur-sm">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-300">{talkAnswer.open ? 'Some good answers' : 'The answer'}</p>
+            <p className="mt-1 text-2xl leading-snug text-white">{talkAnswer.answer}</p>
+          </div>
+        )}
+        {!presenting && talkAnswer && talkAnswer.question === talkPrompt && !talkAnswer.revealed && (
+          <button type="button" disabled={!talkAnswer.answer} onClick={() => setTalkAnswer({ ...talkAnswer, revealed: true })} title="Your answer key is in the private window; this shows it to the class" className="flex items-center gap-1.5 rounded-lg border border-emerald-300/50 bg-slate-950/60 px-3 py-1.5 text-sm text-emerald-100 backdrop-blur-sm hover:bg-emerald-300/10 disabled:opacity-50">
+            <Eye className="h-4 w-4" /> {talkAnswer.answer ? 'Reveal the answer' : 'Finding the answer…'}
+          </button>
         )}
         {!presenting && talkPrompt.trim().length > 3 && (<div className="flex flex-wrap items-center justify-center gap-2">
           <button type="button" onClick={() => void startTalkVote()} className="flex items-center gap-1.5 rounded-lg border border-rose-300/50 bg-slate-950/60 px-2.5 py-1 text-xs text-rose-100 backdrop-blur-sm hover:bg-rose-300/10">
@@ -2797,9 +2831,20 @@ export function FlightDeck({
           title={focused.title}
           cards={brief.cards}
           pictures={cardPics[focused.id] ?? []}
-          onAsk={(q) => { setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk'); }}
+          onAsk={(q) => { setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk'); fetchAnswer(q, brief.cards?.find((c) => c.questions?.includes(q))); }}
           onDive={(c) => { setFactsOpen(false); makeFocus({ title: c.headline.replace(/[.!]+$/, ''), text: c.detail || undefined }); }}
-          onVote={(q) => { setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk'); void startPoll(q, parseWouldYouRather(q) ?? ['Yes', 'No'], { askWhy: true, purpose: 'talk-vote' }, 'Vote open on phones: pick a side, then say why'); }}
+          onVote={(q) => {
+            setFactsOpen(false); setTalkPrompt(q); setTalkFollowUps([]); setTalkVote(null); setView('talk');
+            const card = brief.cards?.find((c) => c.questions?.includes(q));
+            fetchAnswer(q, card);
+            const open = (options: string[]) => void startPoll(q, options, { askWhy: true, purpose: 'talk-vote' }, 'Vote open on phones: pick one, then say why');
+            const ready = quickVoteOptions(q);
+            if (ready || isMockMode()) { open(ready ?? ['Yes', 'No']); return; }
+            flash('Writing the choices…');
+            void fetch('/api/live-room/answer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'choices', question: q, fact: card ? `${card.headline}. ${card.detail ?? ''}` : '', topic: focused?.title ?? '', junior: !!junior }) })
+              .then((r) => (r.ok ? r.json() : null)).then((d: { options?: string[] } | null) => { if (d?.options?.length) open(d.options); else flash('Could not write choices for this one: try Everyone answers'); })
+              .catch(() => flash('Could not write choices for this one: try Everyone answers'));
+          }}
           onBoard={(q) => { setFactsOpen(false); openTool('class-board', window.innerWidth / 2, window.innerHeight * 0.8); window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-question', { detail: { question: q } })), 150); flash('Everyone answers on their phones: the answers gather on the Class Board'); }}
           onQuiz={() => { setFactsOpen(false); launch('flash-quiz', focused); }}
           onClose={() => setFactsOpen(false)}
