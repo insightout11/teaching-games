@@ -1156,10 +1156,15 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const fog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
         const fade = Math.min(1, (Z_FAR - rz) / 8000); // appear gently at the far edge
         if (p.hill) {
-          // A soft dome: one smooth silhouette, lit from above, melting into the
-          // fields at its foot, with the shaded flank away from the light.
-          const grass = mixRgb(layer.land, [86, 118, 64], 0.5 + p.tone * 0.25);
-          const g = layer.night ? mixRgb(grass, [10, 14, 28], 0.55) : grass;
+          // A soft dome in the colour of the ground it stands on (sand in the desert, green in farmland, white in snow;
+          // it was always grassy teal, pasted onto brown desert), darkened at night like the mountains, with a few soft
+          // ridges down its shaded side so it matches their faceted style.
+          const t = layer.terrain;
+          const groundTone: RGB = t === 'desert' || t === 'salt-flats' || layer.range.floor === 'arid' ? mixRgb(layer.land, layer.rock, 0.25 + p.tone * 0.15)
+            : t === 'ice' || t === 'tundra' ? mixRgb(layer.snow, layer.rock, 0.18 + p.tone * 0.1)
+              : t === 'mountains' ? mixRgb(layer.rock, layer.leaf, 0.3 + p.tone * 0.2)
+                : mixRgb(layer.land, layer.leaf, 0.45 + p.tone * 0.25);
+          const g = layer.night ? mixRgb(groundTone, [10, 14, 28], 0.55) : groundTone;
           const crest = mixRgb(mixRgb(g, [224, 232, 176], 0.34), haze, fog * 0.85);
           const foot = mixRgb(g, haze, Math.min(1, fog + 0.15));
           const dome = new Path2D();
@@ -1179,6 +1184,29 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           flank.addColorStop(1, `rgba(18,28,24,${0.45 * (1 - fog)})`);
           ctx.fillStyle = flank;
           ctx.fill(dome);
+          // soft ridges, like gentle versions of the mountains' facets: from near the crest down the shaded side
+          ctx.save();
+          ctx.clip(dome);
+          const ridge = mixRgb(g, [8, 12, 20], 0.35);
+          ctx.strokeStyle = `rgba(${ridge[0]},${ridge[1]},${ridge[2]},${0.28 * (1 - fog)})`;
+          ctx.lineWidth = Math.max(1, half * 0.035);
+          ctx.lineCap = 'round';
+          const H = baseY - topY;
+          for (let k = 0; k < 4; k++) {
+            const u = (((p.roll * 9973 + k * 0.29) % 1) - 0.35) * 1.3; // -0.45 .. 0.85 of the half width: mostly the shaded side
+            const sx = cx + u * half * 0.35, sy = topY + H * (0.12 + Math.abs(u) * 0.18);
+            ctx.beginPath();
+            ctx.moveTo(sx, sy);
+            ctx.quadraticCurveTo(sx + u * half * 0.25, sy + H * 0.45, sx + u * half * 0.7, baseY);
+            ctx.stroke();
+          }
+          // and the lit side catches a little light along its upper edge
+          const lit = ctx.createLinearGradient(cx - half, 0, cx, 0);
+          lit.addColorStop(0, 'rgba(255,255,255,0)');
+          lit.addColorStop(1, `rgba(255,255,255,${(layer.night ? 0.05 : 0.1) * (1 - fog)})`);
+          ctx.fillStyle = lit;
+          ctx.fillRect(cx - half, topY, half, H * 0.5);
+          ctx.restore();
           ctx.globalAlpha = 1;
           continue;
         }
