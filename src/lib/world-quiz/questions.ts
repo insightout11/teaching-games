@@ -58,17 +58,26 @@ function cardsFor(c: QuizCountry): Card[] {
   const e = ENTRIES.find((x) => names.includes(x.title.toLowerCase()) || (x.aliases ?? []).some((a) => names.includes(a.toLowerCase())));
   return e?.levels.B1?.cards ?? e?.levels.A1?.cards ?? [];
 }
-/** Hide the country's name (and the words people use for it) in a clue. */
-function hideName(text: string, c: QuizCountry): string {
-  const words = [c.name, c.map ?? '', c.name.replace(/^the /i, '')].filter(Boolean);
+const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+/** Hide the country's name in a clue, as a whole word only; null when the clue uses a word made from the name
+ *  ("The Jamaican tody" became "The this countryn tody", and "Jamaican" gives the answer away anyway). */
+export function hideName(text: string, c: QuizCountry): string | null {
+  const words = Array.from(new Set([c.name, c.map ?? '', c.name.replace(/^the /i, '')].filter(Boolean)));
   let out = text;
-  for (const w of words) out = out.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), 'this country');
+  for (const w of words) out = out.replace(new RegExp(`\\b${esc(w)}\\b`, 'gi'), 'this country');
+  // anything left that comes from the name (Jamaican, Mexican, Brazilian): drop the clue
+  for (const w of words) {
+    const stem = w.replace(/^the /i, '');
+    const root = stem.length > 4 ? stem.slice(0, -1) : stem;
+    if (new RegExp(`\\b${esc(root)}[a-z]*`, 'i').test(out)) return null;
+  }
+  out = out.replace(/\bthe this country\b/gi, 'this country');
   return out.replace(/^this country/, 'This country');
 }
 function cluesFor(c: QuizCountry): string[] {
   const cards = cardsFor(c);
   // the most surprising first, the basics (which give it away) last
-  return cards.map((k) => hideName(k.headline, c)).filter((t) => !t.toLowerCase().includes(c.name.toLowerCase())).reverse().slice(0, 4);
+  return cards.map((k) => hideName(k.headline, c)).filter((t): t is string => !!t && !t.toLowerCase().includes(c.name.toLowerCase())).reverse().slice(0, 4);
 }
 
 // ── shapes from the country outlines ──────────────────────────────────────────────────────────────────────────────
