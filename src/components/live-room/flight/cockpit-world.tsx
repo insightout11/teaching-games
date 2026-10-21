@@ -317,9 +317,10 @@ function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: numb
 /** Where the plane really is along its route: `t` (0-1) at time `at`, advancing `perMs` per millisecond. */
 export interface RouteClock { at: number; t: number; perMs: number; /** The route's length (km), for things placed along it. */ km?: number }
 
-/** How fast the view moves at the least (world units a second, about an airliner seen from its window). A lesson's
- *  flight is paced by the class (a short hop over a whole lesson crawls), so the route is spread out to match. */
-export const VIEW_UNITS_PER_SEC = 700;
+/** The view's own pace (world units a second): the scenery's cruise speed as it always was (0.55 x CRUISE_SPEED). A
+ *  lesson's flight is paced by the class, so the route (coast, landmarks, real mountains, rivers) is spread out to
+ *  match this pace: everything moves together at the old speed and still arrives at the flight's real progress. */
+export const VIEW_UNITS_PER_SEC = 0.55 * 4200;
 /** How much the route is spread out along the view (1 for a fast flight; more for a slow one). */
 export function routeSpread(rc: RouteClock | null | undefined): number {
   if (!rc?.km || !rc.perMs) return 1;
