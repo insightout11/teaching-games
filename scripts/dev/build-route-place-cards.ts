@@ -11,7 +11,12 @@ const identity = (s: string) => s.toLowerCase().replace(/[’']/g, '').replace(/
 const sentences = (s: string) => s.split(/[.!?](?:\s+|$)/).filter(s => s.trim());
 const hasBrokenText = (s: string) => /[\uFFFD\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(s);
 type Level = 'A1' | 'B1';
-interface EditorialPlace { title: string; levels: Record<Level, { cards: FactCard[] }> }
+export interface RoutePlaceCard extends FactCard {
+  /** Exact Commons filename and licence; both blank when no photo is verified. */
+  pictureFile: string;
+  pictureLicense: string;
+}
+interface EditorialPlace { title: string; levels: Record<Level, { cards: RoutePlaceCard[] }> }
 
 /** Short closed questions or simple colour/preferences, rather than reasoning prompts. */
 export function isSimpleA1Question(question: string): boolean {
@@ -109,12 +114,12 @@ export function validateRoutePlaceCards(places: EditorialPlace[]): void {
 /** TSV has one fully authored card per row, including both levels and reference URLs. */
 export function buildRoutePlaceCards(source: string) {
   if (hasBrokenText(source)) throw new Error('Broken character in editorial input');
-  const byPlace = new Map<string, { A1: FactCard[]; B1: FactCard[]; sources: string[] }>();
+  const byPlace = new Map<string, { A1: RoutePlaceCard[]; B1: RoutePlaceCard[]; sources: string[] }>();
   for (const line of source.split(/\r?\n/)) {
     if (!line.trim() || line.startsWith('#')) continue;
     const columns = line.split('\t');
-    if (columns.length !== 10) throw new Error(`Expected ten editorial columns: ${columns[0]}`);
-    const [title, number, a1Headline, b1Headline, a1Detail, b1Detail, a1Questions, b1Questions, picture, references] = columns;
+    if (columns.length !== 12) throw new Error(`Expected twelve editorial columns: ${columns[0]}`);
+    const [title, number, a1Headline, b1Headline, a1Detail, b1Detail, a1Questions, b1Questions, picture, references, pictureFile, pictureLicense] = columns;
     const entry = byPlace.get(title) ?? { A1: [], B1: [], sources: [] };
     if (Number(number) !== entry.B1.length + 1) throw new Error(`Duplicate/misordered card: ${title} ${number}`);
     const strings = (json: string): string[] => {
@@ -125,8 +130,8 @@ export function buildRoutePlaceCards(source: string) {
     const refs = strings(references);
     if (!refs.length || refs.some(url => !url.startsWith('https://'))) throw new Error(`References required: ${title} ${number}`);
     entry.sources.push(...refs);
-    entry.B1.push({ headline: b1Headline, detail: b1Detail, questions: strings(b1Questions), picture });
-    if (Number(number) <= 4) entry.A1.push({ headline: a1Headline, detail: a1Detail, questions: strings(a1Questions), picture });
+    entry.B1.push({ headline: b1Headline, detail: b1Detail, questions: strings(b1Questions), picture, pictureFile, pictureLicense });
+    if (Number(number) <= 4) entry.A1.push({ headline: a1Headline, detail: a1Detail, questions: strings(a1Questions), picture, pictureFile, pictureLicense });
     byPlace.set(title, entry);
   }
   const bank = recipe.places.map(place => {
@@ -135,7 +140,7 @@ export function buildRoutePlaceCards(source: string) {
     const levels = Object.fromEntries((['A1', 'B1'] as const).map(level => {
       const cards = editorial[level];
       return [level, { briefing: `Let us explore ${place.title} together. Read each fact and share your ideas about it.`, facts: cards.map(c => c.headline), angles: cards[0]?.questions ?? [], vocab: [], expressions: [], cards }];
-    })) as Record<Level, { briefing: string; facts: string[]; angles: string[]; vocab: never[]; expressions: never[]; cards: FactCard[] }>;
+    })) as Record<Level, { briefing: string; facts: string[]; angles: string[]; vocab: never[]; expressions: never[]; cards: RoutePlaceCard[] }>;
     return { id: 'route-place-' + place.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''), title: place.title, aliases: place.aliases, category: 'geography', levels, sources: Array.from(new Set(editorial.sources)) };
   });
   if (byPlace.size !== bank.length) throw new Error('Unknown place in editorial source');
