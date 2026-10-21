@@ -2048,7 +2048,7 @@ export const HELLO_QUESTIONS = [
     "prompt": "This is how people say hello in Bhutan (Dzongkha). Choose the greeting.",
     "options": [
       {
-        "text": "ཀུ་ཟུ་བཟང་པོ།",
+        "text": "སྐུ་གཟུགས་བཟང་པོ།",
         "language": "Dzongkha",
         "fromIso2": "bt",
         "sourceUrl": "https://bhutan.travel/visit"
@@ -2890,7 +2890,7 @@ export const HELLO_QUESTIONS = [
     ],
     "correctIndex": 0,
     "language": "Icelandic",
-    "pronunciation": "hat-LOH"
+    "pronunciation": "HAH-loh"
   },
   {
     "id": "hello-cz",

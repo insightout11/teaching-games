@@ -4449,7 +4449,7 @@ export const COUNTRY_FACTS: Readonly<Record<string, CountryFacts>> = {
     ],
     "hello": {
       "language": "Dzongkha",
-      "text": "ཀུ་ཟུ་བཟང་པོ།",
+      "text": "སྐུ་གཟུགས་བཟང་པོ།",
       "pronunciation": "koo-zoo-ZANG-poh",
       "sourceUrl": "https://bhutan.travel/visit"
     },
@@ -6169,7 +6169,7 @@ export const COUNTRY_FACTS: Readonly<Record<string, CountryFacts>> = {
     "hello": {
       "language": "Icelandic",
       "text": "Halló",
-      "pronunciation": "hat-LOH",
+      "pronunciation": "HAH-loh",
       "sourceUrl": "https://en.wiktionary.org/wiki/hall%C3%B3"
     },
     "currency": {

@@ -425,7 +425,7 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     "picture": "CN Tower Toronto",
     "pictureFile": "File:CN Tower from Puente de Luz, Toronto, Ontario, 2025-08-25 01.jpg",
     "pictureLicense": "CC BY-SA 4.0",
-    "fact": "The CN Tower stands beside downtown Toronto's railway lands.",
+    "fact": "The CN Tower was built on downtown Toronto's former Railway Lands.",
     "sourceUrl": "https://en.wikipedia.org/wiki/CN_Tower"
   },
   {
