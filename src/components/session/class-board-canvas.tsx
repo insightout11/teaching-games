@@ -819,10 +819,10 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
           <button
             type="button"
             onClick={() => (isLive ? void closeForStudents() : void openForStudents())}
-            title={isLive ? 'Close the board on the phones' : 'Open the board on the students\' phones'}
+            title={isLive ? 'Take the board off the phones' : 'Open the board on the students\' phones'}
             className={`ml-auto flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs ${isLive ? 'border-emerald-300/50 bg-emerald-300/10 text-emerald-100' : 'border-cyan-300/50 bg-cyan-300/10 text-cyan-100 hover:bg-cyan-300/20'}`}
           >
-            <Smartphone className="h-3.5 w-3.5" /> {isLive ? <>On phones · <b>{answered}{studentCount ? ` of ${studentCount}` : ''}</b> answered</> : 'Open to phones'}
+            <Smartphone className="h-3.5 w-3.5" /> {isLive ? <>On phones · <b>{answered}{studentCount ? ` of ${studentCount}` : ''}</b> answered <span className="ml-1 flex items-center gap-0.5 rounded-full bg-black/25 px-1.5 py-0.5 text-[10px] uppercase tracking-wide"><X className="h-3 w-3" />Close</span></> : 'Open to phones'}
           </button>
         )}
       </div>

@@ -19,7 +19,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -621,6 +621,13 @@ export function FlightDeck({
 
   // Class pin map: every phone drops a pin (geo-point input); pins land live.
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
+  const phoneSpec = useSessionStore((s) => s.inputSpec);
+  // One tap clears every phone: whatever task is on them (board, question, game input) and any open vote
+  const clearPhones = async () => {
+    await setInputSpec(null);
+    if (!isMockMode()) await createClient().from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    flash('Phones cleared');
+  };
   const [pinRound, setPinRound] = useState<{ id: string; prompt: string } | null>(null);
   const [pins, setPins] = useState<DeckMapPin[]>([]);
   // A place tapped on the explore map, waiting for 'Make it the topic'
@@ -3343,6 +3350,11 @@ export function FlightDeck({
         {view === 'talk' && (
           <button type="button" onClick={() => setClearScreen((c) => !c)} title="Hide the talking point, so the windscreen is clear for a widget" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${clearScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
             {clearScreen ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />} {clearScreen ? 'Show talking point' : 'Clear screen'}
+          </button>
+        )}
+        {phoneSpec && (
+          <button type="button" onClick={() => void clearPhones()} title="Take everything off the students' phones (board, question, vote)" className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-rose-300/40 px-2.5 py-1.5 text-xs text-rose-100 hover:bg-rose-300/10">
+            <Smartphone className="h-3.5 w-3.5" /> Clear phones
           </button>
         )}
         <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
