@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Plane, Scale, Shuffle, Trophy } from 'lucide-react';
+import { SkyRace, LandingOrder, type SkyPilot } from '@/components/quiz/sky-race';
+import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Plane, Scale, Shuffle, Stamp } from 'lucide-react';
 import { WorldLensMap, type WorldLensGuess } from '../world-lens/world-lens-map';
 import { parseWorldLensGuess } from '../world-lens/scoring';
 import { haversineKm } from '../mystery-flight/logic';
@@ -206,10 +207,11 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
   }
 
   if (phase === 'end') {
-    const ranked = Array.from(scores.values()).sort((a, b) => b.points - a.points).slice(0, 5);
+    const ranked = Array.from(scores.entries()).map(([id, s]) => ({ id, ...s })).sort((a, b) => b.points - a.points).slice(0, 5);
+    const pilots: SkyPilot[] = ranked.map((s) => ({ id: s.id, name: s.name, points: s.points, seed: students.find((st) => st.id === s.id)?.avatar_seed }));
     return (
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 p-8 text-white">
-        <Trophy className="h-12 w-12 text-amber-300" />
+        <div className="w-full"><LandingOrder pilots={junior ? [{ id: 'class', name: 'Our class', points: classRight }] : pilots} junior={junior} /></div>
         {junior ? (
           <>
             <p className="font-display text-4xl">Great flying, class!</p>
@@ -217,7 +219,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
           </>
         ) : (
           <>
-            <p className="font-display text-4xl">World Quiz champions</p>
+            <p className="font-display text-3xl">World Quiz champions</p>
             <div className="w-full space-y-2">
               {ranked.map((s, i) => (
                 <div key={s.name + i} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-lg">
@@ -315,8 +317,13 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
         {q.options.map((o, i) => {
           const right = revealing && i === q.correctIndex;
           return (
-            <div key={o} className={`rounded-2xl border px-4 py-2.5 text-lg ${right ? 'border-emerald-300 bg-emerald-400/20 text-emerald-50' : revealing ? 'border-white/10 bg-white/5 text-white/40' : 'border-white/15 bg-white/8'}`}>
-              <span className="mr-3 font-mono text-sm text-white/50">{'ABCD'[i]}</span>{o}
+            <div key={o} className={`relative overflow-hidden rounded-2xl border px-4 py-2.5 text-lg ${right ? 'border-emerald-300 bg-emerald-400/20 text-emerald-50' : revealing ? 'border-white/10 bg-white/5 text-white/40' : 'border-white/15 bg-white/8'}`}>
+              <span className="mr-3 font-mono text-xs uppercase tracking-[0.18em] text-white/50">Gate {'ABCD'[i]}</span>{o}
+              {right && (
+                <motion.span initial={{ scale: 2.4, opacity: 0, rotate: -25 }} animate={{ scale: 1, opacity: 1, rotate: -10 }} transition={{ type: 'spring', stiffness: 260, damping: 14 }} className="absolute right-3 top-1/2 -mt-4 flex items-center gap-1 rounded-md border-[3px] border-emerald-300 px-2 py-0.5 font-mono text-base font-black text-emerald-300">
+                  <Stamp className="h-4 w-4" /> CLEARED
+                </motion.span>
+              )}
             </div>
           );
         })}
@@ -324,7 +331,13 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
 
       {revealing && (
         <div className="flex w-full flex-col items-center gap-3">
-          {q.fact && <p className="max-w-2xl text-center text-lg text-white/80">{q.fact}</p>}
+          {q.fact && (
+            <motion.div initial={{ y: 16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="flex w-full max-w-2xl overflow-hidden rounded-xl bg-[#f6f1e4] text-[#1b2233]">
+              <div className="flex-1 px-4 py-2.5"><p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/50">Boarding pass · fact</p><p className="text-lg">{q.fact}</p></div>
+              <div className="w-24 border-l-2 border-dashed border-[#1b2233]/25 px-2 py-2.5 text-center"><p className="font-mono text-[10px] text-[#1b2233]/50">RIGHT</p><p className="font-display text-2xl">{answers.filter((a) => a.correct).length}/{answers.length}</p></div>
+            </motion.div>
+          )}
+          {scores.size > 0 && <div className="w-full max-w-3xl"><SkyRace height={230} junior={junior} pilots={Array.from(scores.entries()).map(([id, v]) => ({ id, name: v.name, points: v.points, seed: students.find((st) => st.id === id)?.avatar_seed })).sort((a, b) => b.points - a.points)} /></div>}
           <button type="button" onClick={next} className="rounded-full bg-amber-300 px-8 py-2.5 font-semibold text-[#1b2233] hover:bg-amber-200">{index + 1 < questions.length ? 'Next' : 'See the results'}</button>
         </div>
       )}

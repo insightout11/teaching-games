@@ -13,6 +13,7 @@ import { ANSWERS_OPEN_GRACE_MS, type InputSpec } from '@/lib/input-spec';
 import { useSyncedTimer } from '@/hooks/use-synced-timer';
 import { GenerationLoader } from '@/components/ui/generation-loader';
 import type { SourceMaterial } from '@/types/source-material';
+import { SkyRace, LandingOrder, type SkyPilot } from '@/components/quiz/sky-race';
 import { KitButton, KitChip, KitLabel, KitReadout, KitStatus } from '@/components/session/widget-kit';
 import { FreePictureCard } from '@/components/ui/free-picture';
 import { revealedPictureQuery } from '@/lib/free-picture-cache';
@@ -213,6 +214,9 @@ export function FlashQuizGame({
     students.forEach((s) => { if (!scores.has(s.id)) list.push({ id: s.id, name: s.name, points: 0, lives: lives.get(s.id) ?? LIVES }); });
     return list.sort((a, b) => (mode === 'turbulence' ? ((b.lives ?? 0) > 0 ? 1 : 0) - ((a.lives ?? 0) > 0 ? 1 : 0) : 0) || b.points - a.points);
   }, [lives, mode, scores, students, teams]);
+
+  const junior = useSessionStore((s) => s.junior);
+  const pilots: SkyPilot[] = useMemo(() => entries.map((e) => ({ id: e.id, name: e.name, points: e.points, color: e.color, seed: students.find((s) => s.id === e.id)?.avatar_seed, out: mode === 'turbulence' && (e.lives ?? 1) <= 0 })), [entries, students, mode]);
 
   // ── Broadcasting to phones ────────────────────────────────────────────────
   const lockedFor = useCallback((extra: Record<string, unknown> = {}) => {
@@ -702,7 +706,7 @@ export function FlashQuizGame({
           <KitReadout>{mode === 'teams' ? 'Team standings' : 'Altitude board'}</KitReadout>
           <KitLabel>After Q{currentIndex + 1}</KitLabel>
         </div>
-        <AltitudeBoard entries={entries} showLives={mode === 'turbulence'} />
+        {mode === 'turbulence' ? <AltitudeBoard entries={entries} showLives /> : <SkyRace pilots={pilots} junior={junior && mode !== 'teams'} />}
         <KitButton tone="amber" solid className="w-full py-2.5 text-sm" icon={last ? <Trophy className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />} onClick={advance}>
           {last ? 'Final results' : `Next question (${currentIndex + 2}/${questions.length})`}
         </KitButton>
@@ -718,9 +722,9 @@ export function FlashQuizGame({
         <div className="py-2 text-center">
           <Trophy className="mx-auto h-10 w-10 text-amber-300" />
           <KitLabel tone="amber" className="mt-2">{modeInfo.name} · complete</KitLabel>
-          {winner && <KitReadout className="mt-1 text-3xl">{winner.name} {mode === 'teams' ? 'win!' : 'flies highest!'}</KitReadout>}
         </div>
-        <AltitudeBoard entries={entries} showLives={mode === 'turbulence'} />
+        {winner && <LandingOrder pilots={pilots} junior={junior && mode !== 'teams'} />}
+        {!junior && <AltitudeBoard entries={entries} showLives={mode === 'turbulence'} />}
         <div className="flex gap-2">
           <KitButton className="flex-1" onClick={() => setPhase('setup')}>Change mode</KitButton>
           <KitButton tone="amber" solid className="flex-1" icon={<Zap className="h-3.5 w-3.5" />} onClick={() => void fetchQuestions()}>Play again</KitButton>
