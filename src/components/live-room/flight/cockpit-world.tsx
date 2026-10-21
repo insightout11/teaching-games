@@ -720,14 +720,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             // sea to the far left; each crossing of the land's outline switches between sea and land
             let state = false;
             const sx = F / z;
+            // distant land fades into the haze (far islands showed as hard golden stripes on the horizon) and firms up as
+            // it comes closer: fully there from about 60% of the view's depth
+            const farLand = Math.max(0.25, Math.min(1, 1 - (z / Z_FAR - 0.6) / 0.4 * 0.75));
             paintRow(sea, y, z, F, camZ, 1);
             let from = -1e9;
             for (const c of xs) {
-              if (state) paintRow(land, y, z, F, camZ, 1, true, undefined, [w / 2 + from * sx, w / 2 + c.x * sx]);
+              if (state) paintRow(land, y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w / 2 + c.x * sx]);
               from = c.x;
               state = !state;
             }
-            if (state) paintRow(land, y, z, F, camZ, 1, true, undefined, [w / 2 + from * sx, w]);
+            if (state) paintRow(land, y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w]);
             continue;
           }
           let i = L.length - 1;
