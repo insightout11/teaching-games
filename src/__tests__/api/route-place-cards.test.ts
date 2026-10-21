@@ -27,7 +27,7 @@ const postFocus = (body: unknown) => focus(request(body), { params: { sessionId:
 const paris = findRoutePlaceBriefing('Paris')!;
 // Exact photos are static data until the separate room integration. Keep
 // asserting the current API's authored prose and fallback search contract.
-const publicCards = (cards: NonNullable<typeof paris.levels.B1.cards>) => cards.map(({ headline, detail, questions, picture }) => ({ headline, detail, questions, picture }));
+const publicCards = (cards: NonNullable<typeof paris.levels.B1.cards>) => cards.map(({ headline, detail, questions, picture, pictureFile }) => ({ headline, detail, questions, picture, ...(pictureFile ? { pictureFile } : {}) }));
 const photo = { url: 'https://example.test/paris.jpg', title: 'Paris', source: 'Wikimedia' };
 
 beforeEach(() => {
