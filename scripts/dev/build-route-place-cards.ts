@@ -3,6 +3,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import recipe from './data/route-place-source-data.json';
+import countryBasics from './data/route-place-country-basics.json';
 import type { FactCard } from '@/lib/live-room/fact-cards';
 
 const words = (s: string) => s.trim().split(/\s+/).length;
@@ -11,6 +12,58 @@ const sentences = (s: string) => s.split(/[.!?](?:\s+|$)/).filter(s => s.trim())
 const hasBrokenText = (s: string) => /[\uFFFD\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(s);
 type Level = 'A1' | 'B1';
 interface EditorialPlace { title: string; levels: Record<Level, { cards: FactCard[] }> }
+
+/** Short closed questions or simple colour/preferences, rather than reasoning prompts. */
+export function isSimpleA1Question(question: string): boolean {
+  return words(question) <= 8 && !/\b(?:how could|why might)\b/i.test(question)
+    && /^(?:(?:Do|Does|Did|Is|Are|Can|Have|Has)\b|Would you (?:like|visit|try|eat|climb|see|walk)\b|What colou?r\b|Which do you like more:)/i.test(question);
+}
+
+const sentenceWords = (s: string): string[] => {
+  const equivalents: Record<string, string> = { reaches: 'connect', reach: 'connect', flows: 'connect', flow: 'connect', connects: 'connect', links: 'connect', link: 'connect', joins: 'connect', join: 'connect', rises: 'rise', stands: 'rise', rising: 'rise', forms: 'form', boundary: 'border', borders: 'border', between: 'border', coasts: 'coast', coastlines: 'coast', fragments: 'piece', fragment: 'piece', suspended: 'hang', hanging: 'hang', control: 'reduce', controls: 'reduce', swaying: 'move', movement: 'move' };
+  return Array.from(new Set(identity(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[^a-z0-9]+/).filter(w => w.length > 2 && !/^(?:the|and|are|was|were|has|have|had|its|with|from|this|that|these|those|some|many|much|can|also|their|they|them|here|there|into|through|along|part|parts|very|one|such|across|near|which|while|where|over|other|toward|towards)$/.test(w)).map(w => {
+    const stem = w.replace(/ing$/, '').replace(/ies$/, 'y').replace(/(ch|sh|x|z|ss)es$/, '$1').replace(/([^s])s$/, '$1');
+    return equivalents[w] ?? equivalents[stem] ?? stem;
+  })));
+};
+
+/** Conservative lexical paraphrase guard; editorial review still checks meaning. */
+export function hasRepeatedDetailSentence(detail: string): boolean {
+  const all = sentences(detail);
+  return all.some((sentence, i) => {
+    const current = sentenceWords(sentence), preceding = sentenceWords(all.slice(0, i).join(' '));
+    // A closing summary may repackage both earlier sentences rather than copy just one.
+    if (current.length >= 3 && current.every(word => preceding.includes(word))) return true;
+    return all.slice(0, i).some(earlier => {
+    if (identity(sentence) === identity(earlier)) return true;
+    const a = sentenceWords(earlier), b = sentenceWords(sentence);
+    const shared = a.filter(word => b.includes(word)).length;
+    return shared >= 3 && (shared / Math.min(a.length, b.length) >= 0.6 || shared / (a.length + b.length - shared) >= 0.5);
+    });
+  });
+}
+
+/** Reviewed subject references protect capital/animal/food/landmark coverage on rebuild. */
+export function validateCountryBasics(places: EditorialPlace[]): void {
+  const countries = recipe.places.filter(p => p.kinds.includes('country')).map(p => p.title).sort();
+  const titles = countryBasics.places.map(p => p.title).sort();
+  if (JSON.stringify(countries) !== JSON.stringify(titles)) throw new Error('Country basics roster mismatch');
+  for (const basics of countryBasics.places) {
+    const place = places.find(p => p.title === basics.title);
+    if (!place) throw new Error(`Country basics missing: ${basics.title}`);
+    for (const level of ['A1', 'B1'] as const) {
+      const prose = identity(place.levels[level].cards.map(c => c.headline + ' ' + c.detail).join(' '));
+      for (const subject of ['capital', 'animal', 'food', 'landmark'] as const) {
+        const coverage = basics[subject];
+        // Only the two polar outline entries have no established resident cuisine.
+        if (!coverage.terms.length && subject === 'food' && ['Antarctica', 'French Southern and Antarctic Lands'].includes(basics.title)) continue;
+        if (!coverage.terms.length || !coverage.terms.some(term => prose.includes(identity(term)))) {
+          throw new Error(`Country ${subject} missing: ${basics.title} ${level}`);
+        }
+      }
+    }
+  }
+}
 
 /** Fail closed so rebuilding cannot silently restore the defects this revision removes. */
 export function validateRoutePlaceCards(places: EditorialPlace[]): void {
@@ -29,7 +82,9 @@ export function validateRoutePlaceCards(places: EditorialPlace[]): void {
         if (headlines.has(headline)) throw new Error(`Duplicate headline: ${context}`);
         headlines.add(headline);
         if (identity(card.detail).startsWith(identity(card.headline))) throw new Error(`Repeated headline: ${context}`);
-        if (sentences(card.detail).length !== (level === 'A1' ? 2 : 3)) throw new Error(`Detail sentences: ${context}`);
+        const count = sentences(card.detail).length;
+        if (level === 'A1' ? count !== 2 : count < 2 || count > 3) throw new Error(`Detail sentences: ${context}`);
+        if (level === 'B1' && hasRepeatedDetailSentence(card.detail)) throw new Error(`Repeated detail sentence: ${context}`);
         if (level === 'A1' && sentences(card.detail).some(s => words(s) > 12)) throw new Error(`Long A1 sentence: ${context}`);
         if (/\bis a city here\b|\bdegrees (?:north|south)\b|\b(?:estimated population|people lived here|dated estimate)\b/i.test(card.headline + ' ' + card.detail)) throw new Error(`Filler fact: ${context}`);
         if (words(card.picture) < 2 || words(card.picture) > 5 || /\blandscape\b/i.test(card.picture)) throw new Error(`Photo subject: ${context}`);
@@ -39,6 +94,7 @@ export function validateRoutePlaceCards(places: EditorialPlace[]): void {
         if (card.questions.length !== 2 || new Set(card.questions.map(identity)).size !== 2) throw new Error(`Two questions required: ${context}`);
         for (const question of card.questions) {
           if (question.length < 6 || !question.endsWith('?')) throw new Error(`Question: ${context}`);
+          if (level === 'A1' && !isSimpleA1Question(question)) throw new Error(`Simple A1 question required: ${context}: ${question}`);
           const key = identity(question);
           const used = questionPlaces.get(key) ?? new Set<string>();
           used.add(place.title);
@@ -84,6 +140,7 @@ export function buildRoutePlaceCards(source: string) {
   });
   if (byPlace.size !== bank.length) throw new Error('Unknown place in editorial source');
   validateRoutePlaceCards(bank);
+  validateCountryBasics(bank);
   return bank;
 }
 

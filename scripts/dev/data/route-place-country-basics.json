@@ -1,0 +1,4937 @@
+{
+  "reviewedOn": "2026-10-21",
+  "notes": "Explicit coverage references, not a sovereign-state roster. Route outline identities are preserved. Subject prose and questions live only in the editorial TSV. Qualified roles and no-resident-cuisine exceptions are intentional.",
+  "places": [
+    {
+      "title": "Russia",
+      "capital": {
+        "terms": [
+          "Moscow"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/RU/"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Pelmeni"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pelmeni"
+      },
+      "landmark": {
+        "terms": [
+          "Lake Baikal holds deep freshwater"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Russia"
+      }
+    },
+    {
+      "title": "China",
+      "capital": {
+        "terms": [
+          "Beijing"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CN/"
+      },
+      "animal": {
+        "terms": [
+          "Giant panda"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Giant_panda"
+      },
+      "food": {
+        "terms": [
+          "Jiaozi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Jiaozi"
+      },
+      "landmark": {
+        "terms": [
+          "The Great Wall has many sections"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/China"
+      }
+    },
+    {
+      "title": "United States of America",
+      "capital": {
+        "terms": [
+          "Washington, D.C."
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Washington%2C_D.C."
+      },
+      "animal": {
+        "terms": [
+          "American bison"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/American_bison"
+      },
+      "food": {
+        "terms": [
+          "Cornbread"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cornbread"
+      },
+      "landmark": {
+        "terms": [
+          "The Statue of Liberty stands on an island"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/New_York_City"
+      }
+    },
+    {
+      "title": "India",
+      "capital": {
+        "terms": [
+          "New Delhi"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/IN/"
+      },
+      "animal": {
+        "terms": [
+          "Bengal tiger"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bengal_tiger"
+      },
+      "food": {
+        "terms": [
+          "Dosa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dosa"
+      },
+      "landmark": {
+        "terms": [
+          "The Taj Mahal is a tomb"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/India"
+      }
+    },
+    {
+      "title": "Canada",
+      "capital": {
+        "terms": [
+          "Ottawa"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CA/"
+      },
+      "animal": {
+        "terms": [
+          "North American beaver"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/North_American_beaver"
+      },
+      "food": {
+        "terms": [
+          "Poutine"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Poutine"
+      },
+      "landmark": {
+        "terms": [
+          "The CN Tower rises above the skyline"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Toronto"
+      }
+    },
+    {
+      "title": "Brazil",
+      "capital": {
+        "terms": [
+          "Brasilia"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BR/"
+      },
+      "animal": {
+        "terms": [
+          "Capybara"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Capybara"
+      },
+      "food": {
+        "terms": [
+          "Pão de queijo"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/P%C3%A3o_de_queijo"
+      },
+      "landmark": {
+        "terms": [
+          "Sugarloaf Mountain rises beside the harbour"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rio_de_Janeiro"
+      }
+    },
+    {
+      "title": "Kazakhstan",
+      "capital": {
+        "terms": [
+          "Astana"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.gov.kz/org/mfa-pretoria/press/news/details/429981"
+      },
+      "animal": {
+        "terms": [
+          "Saiga antelope"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Saiga_antelope"
+      },
+      "food": {
+        "terms": [
+          "Beshbarmak"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Beshbarmak"
+      },
+      "landmark": {
+        "terms": [
+          "The Caspian has no ocean outlet"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kazakhstan"
+      }
+    },
+    {
+      "title": "Germany",
+      "capital": {
+        "terms": [
+          "Berlin"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/DE/"
+      },
+      "animal": {
+        "terms": [
+          "Red squirrel"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_squirrel"
+      },
+      "food": {
+        "terms": [
+          "Pretzel"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pretzel"
+      },
+      "landmark": {
+        "terms": [
+          "The Brandenburg Gate is a city landmark"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Berlin"
+      }
+    },
+    {
+      "title": "France",
+      "capital": {
+        "terms": [
+          "Paris"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/FR/"
+      },
+      "animal": {
+        "terms": [
+          "Red fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_fox"
+      },
+      "food": {
+        "terms": [
+          "Baguette"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Baguette"
+      },
+      "landmark": {
+        "terms": [
+          "The Eiffel Tower stands in Paris"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/France"
+      }
+    },
+    {
+      "title": "Mongolia",
+      "capital": {
+        "terms": [
+          "Ulaanbaatar"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MN/"
+      },
+      "animal": {
+        "terms": [
+          "Przewalski's horse"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Przewalski's_horse"
+      },
+      "food": {
+        "terms": [
+          "Buuz"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Buuz"
+      },
+      "landmark": {
+        "terms": [
+          "The Gobi reaches southern Mongolia"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mongolia"
+      }
+    },
+    {
+      "title": "Indonesia",
+      "capital": {
+        "terms": [
+          "Jakarta"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Capital_of_Indonesia"
+      },
+      "animal": {
+        "terms": [
+          "Komodo dragon"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Komodo_dragon"
+      },
+      "food": {
+        "terms": [
+          "Nasi goreng"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nasi_goreng"
+      },
+      "landmark": {
+        "terms": [
+          "Borobudur stands in central Java"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Java"
+      }
+    },
+    {
+      "title": "United Kingdom",
+      "capital": {
+        "terms": [
+          "London"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/GB/"
+      },
+      "animal": {
+        "terms": [
+          "Red fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_fox"
+      },
+      "food": {
+        "terms": [
+          "Fish and chips"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fish_and_chips"
+      },
+      "landmark": {
+        "terms": [
+          "Stonehenge is a prehistoric stone monument"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/United_Kingdom"
+      }
+    },
+    {
+      "title": "Spain",
+      "capital": {
+        "terms": [
+          "Madrid"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/ES/"
+      },
+      "animal": {
+        "terms": [
+          "Iberian lynx"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Iberian_lynx"
+      },
+      "food": {
+        "terms": [
+          "Paella"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Paella"
+      },
+      "landmark": {
+        "terms": [
+          "The Alhambra stands above Granada"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Spain"
+      }
+    },
+    {
+      "title": "Australia",
+      "capital": {
+        "terms": [
+          "Canberra"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AU/"
+      },
+      "animal": {
+        "terms": [
+          "Koala"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Koala"
+      },
+      "food": {
+        "terms": [
+          "Lamington"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lamington"
+      },
+      "landmark": {
+        "terms": [
+          "The Opera House has sail-like roof forms"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sydney"
+      }
+    },
+    {
+      "title": "Italy",
+      "capital": {
+        "terms": [
+          "Rome"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/IT/"
+      },
+      "animal": {
+        "terms": [
+          "Alpine ibex"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Alpine_ibex"
+      },
+      "food": {
+        "terms": [
+          "Risotto"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Risotto"
+      },
+      "landmark": {
+        "terms": [
+          "The Roman Forum was a public centre"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rome"
+      }
+    },
+    {
+      "title": "Pakistan",
+      "capital": {
+        "terms": [
+          "Islamabad"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PK/"
+      },
+      "animal": {
+        "terms": [
+          "Markhor"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Markhor"
+      },
+      "food": {
+        "terms": [
+          "Chapli kebab"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chapli_kebab"
+      },
+      "landmark": {
+        "terms": [
+          "K2 rises in the Karakoram"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pakistan"
+      }
+    },
+    {
+      "title": "Thailand",
+      "capital": {
+        "terms": [
+          "Bangkok"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/TH/"
+      },
+      "animal": {
+        "terms": [
+          "Asian elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Asian_elephant"
+      },
+      "food": {
+        "terms": [
+          "Pad thai"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pad_thai"
+      },
+      "landmark": {
+        "terms": [
+          "Wat Arun stands beside the river"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bangkok"
+      }
+    },
+    {
+      "title": "Vietnam",
+      "capital": {
+        "terms": [
+          "Hanoi"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/VN/"
+      },
+      "animal": {
+        "terms": [
+          "Red-shanked douc"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red-shanked_douc"
+      },
+      "food": {
+        "terms": [
+          "Pho"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pho"
+      },
+      "landmark": {
+        "terms": [
+          "Ha Long Bay has limestone islands"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Vietnam"
+      }
+    },
+    {
+      "title": "Iran",
+      "capital": {
+        "terms": [
+          "Tehran"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/IR/"
+      },
+      "animal": {
+        "terms": [
+          "Persian leopard"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Persian_leopard"
+      },
+      "food": {
+        "terms": [
+          "Fesenjan"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fesenj%C4%81n"
+      },
+      "landmark": {
+        "terms": [
+          "Persepolis preserves ancient royal buildings"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Iran"
+      }
+    },
+    {
+      "title": "Turkey",
+      "capital": {
+        "terms": [
+          "Ankara"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/TR/"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Simit"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Simit"
+      },
+      "landmark": {
+        "terms": [
+          "Hagia Sophia has a huge central dome"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Istanbul"
+      }
+    },
+    {
+      "title": "Egypt",
+      "capital": {
+        "terms": [
+          "Cairo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/EG/"
+      },
+      "animal": {
+        "terms": [
+          "Nile crocodile"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nile_crocodile"
+      },
+      "food": {
+        "terms": [
+          "Koshary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Koshary"
+      },
+      "landmark": {
+        "terms": [
+          "The Giza pyramids are ancient tombs"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Egypt"
+      }
+    },
+    {
+      "title": "Myanmar",
+      "capital": {
+        "terms": [
+          "Nay Pyi Taw"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MM/"
+      },
+      "animal": {
+        "terms": [
+          "Burmese star tortoise"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Burmese_star_tortoise"
+      },
+      "food": {
+        "terms": [
+          "Mohinga"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mohinga"
+      },
+      "landmark": {
+        "terms": [
+          "Bagan has many old temples"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Myanmar"
+      }
+    },
+    {
+      "title": "Netherlands",
+      "capital": {
+        "terms": [
+          "Amsterdam"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NL/"
+      },
+      "animal": {
+        "terms": [
+          "Grey heron"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Grey_heron"
+      },
+      "food": {
+        "terms": [
+          "Stroopwafel"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Stroopwafel"
+      },
+      "landmark": {
+        "terms": [
+          "Kinderdijk has historic windmills"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kinderdijk"
+      }
+    },
+    {
+      "title": "Poland",
+      "capital": {
+        "terms": [
+          "Warsaw"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PL/"
+      },
+      "animal": {
+        "terms": [
+          "European bison"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/European_bison"
+      },
+      "food": {
+        "terms": [
+          "Pierogi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pierogi"
+      },
+      "landmark": {
+        "terms": [
+          "Białowieża protects an old forest"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Poland"
+      }
+    },
+    {
+      "title": "Afghanistan",
+      "capital": {
+        "terms": [
+          "Kabul"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AF/"
+      },
+      "animal": {
+        "terms": [
+          "Snow leopard"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Snow_leopard"
+      },
+      "food": {
+        "terms": [
+          "Kabuli palaw"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kabuli_pulao"
+      },
+      "landmark": {
+        "terms": [
+          "Bamiyan has tall empty rock niches"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Buddhas_of_Bamiyan"
+      }
+    },
+    {
+      "title": "Colombia",
+      "capital": {
+        "terms": [
+          "Bogota"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CO/"
+      },
+      "animal": {
+        "terms": [
+          "Cotton-top tamarin"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cotton-top_tamarin"
+      },
+      "food": {
+        "terms": [
+          "Arepa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arepa"
+      },
+      "landmark": {
+        "terms": [
+          "The Gold Museum displays worked gold objects"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bogot%C3%A1"
+      }
+    },
+    {
+      "title": "Argentina",
+      "capital": {
+        "terms": [
+          "Buenos Aires"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AR/"
+      },
+      "animal": {
+        "terms": [
+          "Guanaco"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Guanaco"
+      },
+      "food": {
+        "terms": [
+          "Empanada"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Empanada"
+      },
+      "landmark": {
+        "terms": [
+          "Patagonia reaches far into the south"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Argentina"
+      }
+    },
+    {
+      "title": "Japan",
+      "capital": {
+        "terms": [
+          "Tokyo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/JP/"
+      },
+      "animal": {
+        "terms": [
+          "Japanese macaque"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Japanese_macaque"
+      },
+      "food": {
+        "terms": [
+          "Sushi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sushi"
+      },
+      "landmark": {
+        "terms": [
+          "Mount Fuji is a volcano"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Japan"
+      }
+    },
+    {
+      "title": "Malaysia",
+      "capital": {
+        "terms": [
+          "Kuala Lumpur"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MY/"
+      },
+      "animal": {
+        "terms": [
+          "Malayan tapir"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Malayan_tapir"
+      },
+      "food": {
+        "terms": [
+          "Nasi lemak"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nasi_lemak"
+      },
+      "landmark": {
+        "terms": [
+          "Kuala Lumpur has famous twin towers"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Petronas_Towers"
+      }
+    },
+    {
+      "title": "Mexico",
+      "capital": {
+        "terms": [
+          "Mexico City"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MX/"
+      },
+      "animal": {
+        "terms": [
+          "Axolotl"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Axolotl"
+      },
+      "food": {
+        "terms": [
+          "Taco"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Taco"
+      },
+      "landmark": {
+        "terms": [
+          "Chichén Itzá is an ancient city"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mexico"
+      }
+    },
+    {
+      "title": "Portugal",
+      "capital": {
+        "terms": [
+          "Lisbon"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PT/"
+      },
+      "animal": {
+        "terms": [
+          "Iberian lynx"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Iberian_lynx"
+      },
+      "food": {
+        "terms": [
+          "Pastel de nata"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pastel_de_nata"
+      },
+      "landmark": {
+        "terms": [
+          "Belém Tower stands beside the Tagus"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Belém_Tower"
+      }
+    },
+    {
+      "title": "Philippines",
+      "capital": {
+        "terms": [
+          "Manila"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PH/"
+      },
+      "animal": {
+        "terms": [
+          "Philippine eagle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Philippine_eagle"
+      },
+      "food": {
+        "terms": [
+          "Adobo"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Philippine_adobo"
+      },
+      "landmark": {
+        "terms": [
+          "Mayon is a cone-shaped volcano"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Philippines"
+      }
+    },
+    {
+      "title": "Ethiopia",
+      "capital": {
+        "terms": [
+          "Addis Ababa"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/ET/"
+      },
+      "animal": {
+        "terms": [
+          "Gelada"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gelada"
+      },
+      "food": {
+        "terms": [
+          "Injera"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Injera"
+      },
+      "landmark": {
+        "terms": [
+          "Lalibela has churches cut into rock"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ethiopia"
+      }
+    },
+    {
+      "title": "Ireland",
+      "capital": {
+        "terms": [
+          "Dublin"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/IE/"
+      },
+      "animal": {
+        "terms": [
+          "Irish hare"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Irish_hare"
+      },
+      "food": {
+        "terms": [
+          "Colcannon"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Colcannon"
+      },
+      "landmark": {
+        "terms": [
+          "Newgrange is a prehistoric passage tomb"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ireland"
+      }
+    },
+    {
+      "title": "Algeria",
+      "capital": {
+        "terms": [
+          "Algiers"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/DZ/"
+      },
+      "animal": {
+        "terms": [
+          "Fennec fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fennec_fox"
+      },
+      "food": {
+        "terms": [
+          "Couscous"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Couscous"
+      },
+      "landmark": {
+        "terms": [
+          "Tassili n'Ajjer has ancient rock art"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Algeria"
+      }
+    },
+    {
+      "title": "South Korea",
+      "capital": {
+        "terms": [
+          "Seoul"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/KR/"
+      },
+      "animal": {
+        "terms": [
+          "Korean water deer"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Water_deer"
+      },
+      "food": {
+        "terms": [
+          "Bibimbap"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bibimbap"
+      },
+      "landmark": {
+        "terms": [
+          "Gyeongbokgung is a historic palace"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Seoul"
+      }
+    },
+    {
+      "title": "Nigeria",
+      "capital": {
+        "terms": [
+          "Abuja"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NG/"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Jollof rice"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Jollof_rice"
+      },
+      "landmark": {
+        "terms": [
+          "Zuma Rock rises above the plains"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Zuma_Rock"
+      }
+    },
+    {
+      "title": "Ukraine",
+      "capital": {
+        "terms": [
+          "Kyiv"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/UA/"
+      },
+      "animal": {
+        "terms": [
+          "White stork"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/White_stork"
+      },
+      "food": {
+        "terms": [
+          "Borscht"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Borscht"
+      },
+      "landmark": {
+        "terms": [
+          "Saint Sophia has old mosaics"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Saint_Sophia_Cathedral,_Kyiv"
+      }
+    },
+    {
+      "title": "Peru",
+      "capital": {
+        "terms": [
+          "Lima"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PE/"
+      },
+      "animal": {
+        "terms": [
+          "Vicuña"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Vicu%C3%B1a"
+      },
+      "food": {
+        "terms": [
+          "Ceviche"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ceviche"
+      },
+      "landmark": {
+        "terms": [
+          "Machu Picchu is an Inca site"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Peru"
+      }
+    },
+    {
+      "title": "Chile",
+      "capital": {
+        "terms": [
+          "Santiago"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CL/"
+      },
+      "animal": {
+        "terms": [
+          "Andean condor"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Andean_condor"
+      },
+      "food": {
+        "terms": [
+          "Pastel de choclo"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pastel_de_choclo"
+      },
+      "landmark": {
+        "terms": [
+          "The Atacama is extremely dry"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chile"
+      }
+    },
+    {
+      "title": "Sweden",
+      "capital": {
+        "terms": [
+          "Stockholm"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SE/"
+      },
+      "animal": {
+        "terms": [
+          "Moose"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Moose"
+      },
+      "food": {
+        "terms": [
+          "Swedish meatballs"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Meatball"
+      },
+      "landmark": {
+        "terms": [
+          "Drottningholm is a royal palace"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Drottningholm_Palace"
+      }
+    },
+    {
+      "title": "Senegal",
+      "capital": {
+        "terms": [
+          "Dakar"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SN/"
+      },
+      "animal": {
+        "terms": [
+          "African pelican"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Great_white_pelican"
+      },
+      "food": {
+        "terms": [
+          "Thieboudienne"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Thieboudienne"
+      },
+      "landmark": {
+        "terms": [
+          "Gorée Island lies offshore"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dakar"
+      }
+    },
+    {
+      "title": "United Arab Emirates",
+      "capital": {
+        "terms": [
+          "Abu Dhabi"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AE/"
+      },
+      "animal": {
+        "terms": [
+          "Arabian oryx"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arabian_oryx"
+      },
+      "food": {
+        "terms": [
+          "Harees"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Harees"
+      },
+      "landmark": {
+        "terms": [
+          "The Burj Khalifa is a very tall tower"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dubai"
+      }
+    },
+    {
+      "title": "Uzbekistan",
+      "capital": {
+        "terms": [
+          "Tashkent"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/UZ/"
+      },
+      "animal": {
+        "terms": [
+          "Bactrian camel"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bactrian_camel"
+      },
+      "food": {
+        "terms": [
+          "Palov"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pilaf"
+      },
+      "landmark": {
+        "terms": [
+          "Bukhara has a tall brick minaret"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kalyan_Minaret"
+      }
+    },
+    {
+      "title": "Iceland",
+      "capital": {
+        "terms": [
+          "Reykjavik"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/IS/"
+      },
+      "animal": {
+        "terms": [
+          "Arctic fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arctic_fox"
+      },
+      "food": {
+        "terms": [
+          "Skyr"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Skyr"
+      },
+      "landmark": {
+        "terms": [
+          "Hallgrímskirkja is a church on a hill"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Reykjav%C3%ADk"
+      }
+    },
+    {
+      "title": "Kenya",
+      "capital": {
+        "terms": [
+          "Nairobi"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/KE/"
+      },
+      "animal": {
+        "terms": [
+          "Lion"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lion"
+      },
+      "food": {
+        "terms": [
+          "Ugali"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ugali"
+      },
+      "landmark": {
+        "terms": [
+          "The Great Rift Valley crosses Kenya"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kenya"
+      }
+    },
+    {
+      "title": "Panama",
+      "capital": {
+        "terms": [
+          "Panama City"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PA/"
+      },
+      "animal": {
+        "terms": [
+          "Harpy eagle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Harpy_eagle"
+      },
+      "food": {
+        "terms": [
+          "Sancocho"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sancocho"
+      },
+      "landmark": {
+        "terms": [
+          "The Panama Canal carries ships"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Panama"
+      }
+    },
+    {
+      "title": "Sudan",
+      "capital": {
+        "terms": [
+          "Khartoum"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SD/"
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Kisra"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kisra"
+      },
+      "landmark": {
+        "terms": [
+          "Sudan has many ancient pyramids"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sudan"
+      }
+    },
+    {
+      "title": "Greenland",
+      "capital": {
+        "terms": [
+          "Nuuk"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nuuk"
+      },
+      "animal": {
+        "terms": [
+          "Polar bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Polar_bear"
+      },
+      "food": {
+        "terms": [
+          "Suaasat"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Suaasat"
+      },
+      "landmark": {
+        "terms": [
+          "The Greenland ice sheet is enormous"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Greenland_ice_sheet"
+      }
+    },
+    {
+      "title": "Belarus",
+      "capital": {
+        "terms": [
+          "Minsk"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BY/"
+      },
+      "animal": {
+        "terms": [
+          "European bison"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/European_bison"
+      },
+      "food": {
+        "terms": [
+          "Draniki"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Potato_pancake"
+      },
+      "landmark": {
+        "terms": [
+          "Nesvizh has a historic castle complex"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nesvizh_Castle"
+      }
+    },
+    {
+      "title": "Libya",
+      "capital": {
+        "terms": [
+          "Tripoli"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/LY/"
+      },
+      "animal": {
+        "terms": [
+          "Fennec fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fennec_fox"
+      },
+      "food": {
+        "terms": [
+          "Bazeen"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bazeen"
+      },
+      "landmark": {
+        "terms": [
+          "Leptis Magna preserves Roman buildings"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Libya"
+      }
+    },
+    {
+      "title": "Norway",
+      "capital": {
+        "terms": [
+          "Oslo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NO/"
+      },
+      "animal": {
+        "terms": [
+          "Atlantic puffin"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Atlantic_puffin"
+      },
+      "food": {
+        "terms": [
+          "Fårikål"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/F%C3%A5rik%C3%A5l"
+      },
+      "landmark": {
+        "terms": [
+          "Norway's coast has deep fjords"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Norway"
+      }
+    },
+    {
+      "title": "Fiji",
+      "capital": {
+        "terms": [
+          "Suva"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/FJ/"
+      },
+      "animal": {
+        "terms": [
+          "Fiji crested iguana"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fiji_crested_iguana"
+      },
+      "food": {
+        "terms": [
+          "Kokoda"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fijian_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "The Fiji Museum keeps historical collections"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Suva"
+      }
+    },
+    {
+      "title": "Mauritania",
+      "capital": {
+        "terms": [
+          "Nouakchott"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MR/"
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Thieboudienne"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Thieboudienne"
+      },
+      "landmark": {
+        "terms": [
+          "Ancient towns served desert trade routes"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mauritania"
+      }
+    },
+    {
+      "title": "New Zealand",
+      "capital": {
+        "terms": [
+          "Wellington"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NZ/"
+      },
+      "animal": {
+        "terms": [
+          "Kiwi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kiwi_(bird)"
+      },
+      "food": {
+        "terms": [
+          "Pavlova"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pavlova_(dessert)"
+      },
+      "landmark": {
+        "terms": [
+          "The Sky Tower rises above Auckland"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sky_Tower_(Auckland)"
+      }
+    },
+    {
+      "title": "Niger",
+      "capital": {
+        "terms": [
+          "Niamey"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NE/"
+      },
+      "animal": {
+        "terms": [
+          "West African giraffe"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/West_African_giraffe"
+      },
+      "food": {
+        "terms": [
+          "Dambou"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dambou"
+      },
+      "landmark": {
+        "terms": [
+          "The Niger River enters the southwest"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Niger"
+      }
+    },
+    {
+      "title": "South Africa",
+      "capital": {
+        "terms": [
+          "Pretoria"
+        ],
+        "role": "administrative capital",
+        "sourceUrl": "https://www.gov.za/south-africa-glance"
+      },
+      "animal": {
+        "terms": [
+          "Springbok"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Springbok"
+      },
+      "food": {
+        "terms": [
+          "Bobotie"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bobotie"
+      },
+      "landmark": {
+        "terms": [
+          "Table Mountain overlooks Cape Town"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/South_Africa"
+      }
+    },
+    {
+      "title": "Kyrgyzstan",
+      "capital": {
+        "terms": [
+          "Bishkek"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bishkek"
+      },
+      "animal": {
+        "terms": [
+          "Snow leopard"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Snow_leopard"
+      },
+      "food": {
+        "terms": [
+          "Beshbarmak"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Beshbarmak"
+      },
+      "landmark": {
+        "terms": [
+          "Issyk-Kul is a large mountain lake"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kyrgyzstan"
+      }
+    },
+    {
+      "title": "Greece",
+      "capital": {
+        "terms": [
+          "Athens"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/GR/"
+      },
+      "animal": {
+        "terms": [
+          "Loggerhead sea turtle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Loggerhead_sea_turtle"
+      },
+      "food": {
+        "terms": [
+          "Spanakopita"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Spanakopita"
+      },
+      "landmark": {
+        "terms": [
+          "The Acropolis rises above Athens"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Greece"
+      }
+    },
+    {
+      "title": "Saudi Arabia",
+      "capital": {
+        "terms": [
+          "Riyadh"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SA/"
+      },
+      "animal": {
+        "terms": [
+          "Arabian oryx"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arabian_oryx"
+      },
+      "food": {
+        "terms": [
+          "Kabsa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kabsa"
+      },
+      "landmark": {
+        "terms": [
+          "AlUla has sandstone rock landscapes"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Saudi_Arabia"
+      }
+    },
+    {
+      "title": "Mali",
+      "capital": {
+        "terms": [
+          "Bamako"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/ML/"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Maafe"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Maafe"
+      },
+      "landmark": {
+        "terms": [
+          "Timbuktu was a centre of learning"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mali"
+      }
+    },
+    {
+      "title": "North Korea",
+      "capital": {
+        "terms": [
+          "Pyongyang"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pyongyang"
+      },
+      "animal": {
+        "terms": [
+          "Korean magpie"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Oriental_magpie"
+      },
+      "food": {
+        "terms": [
+          "Kimchi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kimchi"
+      },
+      "landmark": {
+        "terms": [
+          "Kaesong has an old stone bridge"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sonjuk_Bridge"
+      }
+    },
+    {
+      "title": "Turkmenistan",
+      "capital": {
+        "terms": [
+          "Ashgabat"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ashgabat"
+      },
+      "animal": {
+        "terms": [
+          "Akhal-Teke horse"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Akhal-Teke_horse"
+      },
+      "food": {
+        "terms": [
+          "Ichlekli"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Turkmen_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Ancient Merv was a major city"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Turkmenistan"
+      }
+    },
+    {
+      "title": "Laos",
+      "capital": {
+        "terms": [
+          "Vientiane"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/LA/"
+      },
+      "animal": {
+        "terms": [
+          "Asian elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Asian_elephant"
+      },
+      "food": {
+        "terms": [
+          "Laap"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Larb"
+      },
+      "landmark": {
+        "terms": [
+          "Large stone jars stand in Laos"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Plain_of_Jars"
+      }
+    },
+    {
+      "title": "Finland",
+      "capital": {
+        "terms": [
+          "Helsinki"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/FI/"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Karjalanpiirakka"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Karelian_pasty"
+      },
+      "landmark": {
+        "terms": [
+          "Suomenlinna is an island fortress"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Suomenlinna"
+      }
+    },
+    {
+      "title": "Iraq",
+      "capital": {
+        "terms": [
+          "Baghdad"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/IQ/"
+      },
+      "animal": {
+        "terms": [
+          "Eurasian otter"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Eurasian_otter"
+      },
+      "food": {
+        "terms": [
+          "Masgouf"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Masgouf"
+      },
+      "landmark": {
+        "terms": [
+          "Babylon had a decorated blue gateway"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ishtar_Gate"
+      }
+    },
+    {
+      "title": "Venezuela",
+      "capital": {
+        "terms": [
+          "Caracas"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/VE/"
+      },
+      "animal": {
+        "terms": [
+          "Venezuelan troupial"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Venezuelan_troupial"
+      },
+      "food": {
+        "terms": [
+          "Arepa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arepa"
+      },
+      "landmark": {
+        "terms": [
+          "Angel Falls drops from a plateau"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Venezuela"
+      }
+    },
+    {
+      "title": "Chad",
+      "capital": {
+        "terms": [
+          "N'Djamena"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/TD/"
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Daraba"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chadian_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Ennedi has sandstone arches and towers"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ennedi_Plateau"
+      }
+    },
+    {
+      "title": "Cambodia",
+      "capital": {
+        "terms": [
+          "Phnom Penh"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/KH/"
+      },
+      "animal": {
+        "terms": [
+          "Pileated gibbon"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pileated_gibbon"
+      },
+      "food": {
+        "terms": [
+          "Fish amok"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fish_amok"
+      },
+      "landmark": {
+        "terms": [
+          "Angkor has many ancient temples"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cambodia"
+      }
+    },
+    {
+      "title": "Belgium",
+      "capital": {
+        "terms": [
+          "Brussels"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BE/"
+      },
+      "animal": {
+        "terms": [
+          "Red fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_fox"
+      },
+      "food": {
+        "terms": [
+          "Belgian waffle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Belgian_waffle"
+      },
+      "landmark": {
+        "terms": [
+          "Bruges has a historic canal network"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Belgium"
+      }
+    },
+    {
+      "title": "Austria",
+      "capital": {
+        "terms": [
+          "Vienna"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AT/"
+      },
+      "animal": {
+        "terms": [
+          "Alpine ibex"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Alpine_ibex"
+      },
+      "food": {
+        "terms": [
+          "Apfelstrudel"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Apfelstrudel"
+      },
+      "landmark": {
+        "terms": [
+          "Schönbrunn is a grand palace"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Schönbrunn_Palace"
+      }
+    },
+    {
+      "title": "Morocco",
+      "capital": {
+        "terms": [
+          "Rabat"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MA/"
+      },
+      "animal": {
+        "terms": [
+          "Barbary macaque"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Barbary_macaque"
+      },
+      "food": {
+        "terms": [
+          "Couscous"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Couscous"
+      },
+      "landmark": {
+        "terms": [
+          "Fez has a historic old city"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Morocco"
+      }
+    },
+    {
+      "title": "Bulgaria",
+      "capital": {
+        "terms": [
+          "Sofia"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BG/"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Banitsa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Banitsa"
+      },
+      "landmark": {
+        "terms": [
+          "Rila Monastery stands in mountain country"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rila_Monastery"
+      }
+    },
+    {
+      "title": "Democratic Republic of the Congo",
+      "capital": {
+        "terms": [
+          "Kinshasa"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CD/"
+      },
+      "animal": {
+        "terms": [
+          "Bonobo"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bonobo"
+      },
+      "food": {
+        "terms": [
+          "Moambe chicken"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Moambe_chicken"
+      },
+      "landmark": {
+        "terms": [
+          "Nyiragongo is a steep-sided volcano"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Nyiragongo"
+      }
+    },
+    {
+      "title": "Romania",
+      "capital": {
+        "terms": [
+          "Bucharest"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/RO/"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Mămăligă"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/M%C4%83m%C4%83lig%C4%83"
+      },
+      "landmark": {
+        "terms": [
+          "Maramureș has tall wooden churches"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Wooden_churches_of_Maramure%C8%99"
+      }
+    },
+    {
+      "title": "Serbia",
+      "capital": {
+        "terms": [
+          "Belgrade"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/RS/"
+      },
+      "animal": {
+        "terms": [
+          "Griffon vulture"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Griffon_vulture"
+      },
+      "food": {
+        "terms": [
+          "Gibanica"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gibanica"
+      },
+      "landmark": {
+        "terms": [
+          "Gamzigrad preserves a Roman palace complex"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gamzigrad"
+      }
+    },
+    {
+      "title": "Syria",
+      "capital": {
+        "terms": [
+          "Damascus"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Damascus"
+      },
+      "animal": {
+        "terms": [
+          "Striped hyena"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Striped_hyena"
+      },
+      "food": {
+        "terms": [
+          "Kibbeh"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kibbeh"
+      },
+      "landmark": {
+        "terms": [
+          "Palmyra was an ancient trading city"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Syria"
+      }
+    },
+    {
+      "title": "Croatia",
+      "capital": {
+        "terms": [
+          "Zagreb"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/HR/"
+      },
+      "animal": {
+        "terms": [
+          "Bottlenose dolphin"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bottlenose_dolphin"
+      },
+      "food": {
+        "terms": [
+          "Peka"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Peka"
+      },
+      "landmark": {
+        "terms": [
+          "Plitvice has connected lakes and waterfalls"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Croatia"
+      }
+    },
+    {
+      "title": "South Sudan",
+      "capital": {
+        "terms": [
+          "Juba"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Juba"
+      },
+      "animal": {
+        "terms": [
+          "Shoebill"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Shoebill"
+      },
+      "food": {
+        "terms": [
+          "Kisra"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kisra"
+      },
+      "landmark": {
+        "terms": [
+          "The Sudd has seasonal wetlands"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/South_Sudan"
+      }
+    },
+    {
+      "title": "Oman",
+      "capital": {
+        "terms": [
+          "Muscat"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/OM/"
+      },
+      "animal": {
+        "terms": [
+          "Arabian tahr"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arabian_tahr"
+      },
+      "food": {
+        "terms": [
+          "Shuwa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Omani_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Aflaj carry water towards settlements"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Aflaj_Irrigation_Systems_of_Oman"
+      }
+    },
+    {
+      "title": "Czechia",
+      "capital": {
+        "terms": [
+          "Prague"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CZ/"
+      },
+      "animal": {
+        "terms": [
+          "Red deer"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_deer"
+      },
+      "food": {
+        "terms": [
+          "Svíčková"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sv%C3%AD%C4%8Dkov%C3%A1"
+      },
+      "landmark": {
+        "terms": [
+          "Prague has an astronomical clock"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Prague_astronomical_clock"
+      }
+    },
+    {
+      "title": "Latvia",
+      "capital": {
+        "terms": [
+          "Riga"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/LV/"
+      },
+      "animal": {
+        "terms": [
+          "White wagtail"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/White_wagtail"
+      },
+      "food": {
+        "terms": [
+          "Rye bread"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rye_bread"
+      },
+      "landmark": {
+        "terms": [
+          "The Daugava flows through Riga"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Latvia"
+      }
+    },
+    {
+      "title": "Nepal",
+      "capital": {
+        "terms": [
+          "Kathmandu"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NP/"
+      },
+      "animal": {
+        "terms": [
+          "Red panda"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_panda"
+      },
+      "food": {
+        "terms": [
+          "Dal bhat"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dal_bhat"
+      },
+      "landmark": {
+        "terms": [
+          "People visit Lumbini for their religion",
+          "Lumbini is a pilgrimage place"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nepal"
+      }
+    },
+    {
+      "title": "Cuba",
+      "capital": {
+        "terms": [
+          "Havana"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CU/"
+      },
+      "animal": {
+        "terms": [
+          "Cuban crocodile"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cuban_crocodile"
+      },
+      "food": {
+        "terms": [
+          "Moros y cristianos"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Moros_y_Cristianos_(dish)"
+      },
+      "landmark": {
+        "terms": [
+          "Havana has a historic harbour"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cuba"
+      }
+    },
+    {
+      "title": "Denmark",
+      "capital": {
+        "terms": [
+          "Copenhagen"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/DK/"
+      },
+      "animal": {
+        "terms": [
+          "Red deer"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_deer"
+      },
+      "food": {
+        "terms": [
+          "Smørrebrød"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sm%C3%B8rrebr%C3%B8d"
+      },
+      "landmark": {
+        "terms": [
+          "Vikings built long wooden ships"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Viking_ship"
+      }
+    },
+    {
+      "title": "Hungary",
+      "capital": {
+        "terms": [
+          "Budapest"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/HU/"
+      },
+      "animal": {
+        "terms": [
+          "White stork"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/White_stork"
+      },
+      "food": {
+        "terms": [
+          "Goulash"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Goulash"
+      },
+      "landmark": {
+        "terms": [
+          "Hungary has many thermal springs"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Hungary"
+      }
+    },
+    {
+      "title": "Tajikistan",
+      "capital": {
+        "terms": [
+          "Dushanbe"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dushanbe"
+      },
+      "animal": {
+        "terms": [
+          "Yak"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Yak"
+      },
+      "food": {
+        "terms": [
+          "Qurutob"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Qurutob"
+      },
+      "landmark": {
+        "terms": [
+          "The Pamirs rise in eastern Tajikistan"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tajikistan"
+      }
+    },
+    {
+      "title": "Somalia",
+      "capital": {
+        "terms": [
+          "Mogadishu"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SO/"
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Canjeero"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lahoh"
+      },
+      "landmark": {
+        "terms": [
+          "Lido Beach faces the Indian Ocean"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lido_Beach"
+      }
+    },
+    {
+      "title": "Antarctica",
+      "capital": {
+        "terms": [
+          "no capital"
+        ],
+        "role": "no capital",
+        "sourceUrl": "https://www.antarctica.gov.au/about-antarctica/"
+      },
+      "food": {
+        "terms": [],
+        "exception": "No established resident national cuisine; no famous local dish is invented."
+      },
+      "animal": {
+        "terms": [
+          "penguin"
+        ]
+      },
+      "landmark": {
+        "terms": [
+          "South Pole"
+        ]
+      }
+    },
+    {
+      "title": "Azerbaijan",
+      "capital": {
+        "terms": [
+          "Baku"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Baku"
+      },
+      "animal": {
+        "terms": [
+          "Goitered gazelle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Goitered_gazelle"
+      },
+      "food": {
+        "terms": [
+          "Plov"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Plov"
+      },
+      "landmark": {
+        "terms": [
+          "Baku has a historic stone tower"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Maiden_Tower_(Baku)"
+      }
+    },
+    {
+      "title": "Cameroon",
+      "capital": {
+        "terms": [
+          "Yaounde"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CM/"
+      },
+      "animal": {
+        "terms": [
+          "Drill"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Drill_(animal)"
+      },
+      "food": {
+        "terms": [
+          "Ndolé"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ndol%C3%A9"
+      },
+      "landmark": {
+        "terms": [
+          "Mount Cameroon is a volcano"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cameroon"
+      }
+    },
+    {
+      "title": "Uruguay",
+      "capital": {
+        "terms": [
+          "Montevideo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/UY/"
+      },
+      "animal": {
+        "terms": [
+          "Capybara"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Capybara"
+      },
+      "food": {
+        "terms": [
+          "Chivito"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chivito_(sandwich)"
+      },
+      "landmark": {
+        "terms": [
+          "Colonia preserves an old town"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Colonia_del_Sacramento"
+      }
+    },
+    {
+      "title": "Angola",
+      "capital": {
+        "terms": [
+          "Luanda"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AO/"
+      },
+      "animal": {
+        "terms": [
+          "Giant sable antelope"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Giant_sable_antelope"
+      },
+      "food": {
+        "terms": [
+          "Muamba de galinha"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Moamba_de_galinha"
+      },
+      "landmark": {
+        "terms": [
+          "Kalandula has broad waterfalls"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Angola"
+      }
+    },
+    {
+      "title": "Bangladesh",
+      "capital": {
+        "terms": [
+          "Dhaka"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BD/"
+      },
+      "animal": {
+        "terms": [
+          "Bengal tiger"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bengal_tiger"
+      },
+      "food": {
+        "terms": [
+          "Panta bhat"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Panta_bhat"
+      },
+      "landmark": {
+        "terms": [
+          "The Sundarbans contain tidal forests"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bangladesh"
+      }
+    },
+    {
+      "title": "Yemen",
+      "capital": {
+        "terms": [
+          "Sana'a"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sana'a"
+      },
+      "animal": {
+        "terms": [
+          "Nubian ibex"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nubian_ibex"
+      },
+      "food": {
+        "terms": [
+          "Saltah"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Saltah"
+      },
+      "landmark": {
+        "terms": [
+          "Shibam has tall earthen houses"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Shibam"
+      }
+    },
+    {
+      "title": "Switzerland",
+      "capital": {
+        "terms": [
+          "Bern"
+        ],
+        "role": "federal city",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bern"
+      },
+      "animal": {
+        "terms": [
+          "Alpine ibex"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Alpine_ibex"
+      },
+      "food": {
+        "terms": [
+          "Rösti"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/R%C3%B6sti"
+      },
+      "landmark": {
+        "terms": [
+          "The Matterhorn has a pyramid-like shape"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Matterhorn"
+      }
+    },
+    {
+      "title": "Lithuania",
+      "capital": {
+        "terms": [
+          "Vilnius"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/LT/"
+      },
+      "animal": {
+        "terms": [
+          "White stork"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/White_stork"
+      },
+      "food": {
+        "terms": [
+          "Cepelinai"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cepelinai"
+      },
+      "landmark": {
+        "terms": [
+          "Vilnius has a large historic centre"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lithuania"
+      }
+    },
+    {
+      "title": "Benin",
+      "capital": {
+        "terms": [
+          "Porto-Novo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Porto-Novo"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Akassa"
+        ],
+        "sourceUrl": "https://horizon.documentation.ird.fr/exl-doc/pleins_textes/divers15-11/010052107.pdf"
+      },
+      "landmark": {
+        "terms": [
+          "The royal city of Abomey is historic"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Benin"
+      }
+    },
+    {
+      "title": "Slovakia",
+      "capital": {
+        "terms": [
+          "Bratislava"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SK/"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Bryndzové halušky"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bryndzov%C3%A9_halu%C5%A1ky"
+      },
+      "landmark": {
+        "terms": [
+          "Spiš has a large hilltop castle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Spi%C5%A1_Castle"
+      }
+    },
+    {
+      "title": "Albania",
+      "capital": {
+        "terms": [
+          "Tirana"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AL/"
+      },
+      "animal": {
+        "terms": [
+          "Golden eagle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Golden_eagle"
+      },
+      "food": {
+        "terms": [
+          "Tavë kosi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tav%C3%AB_kosi"
+      },
+      "landmark": {
+        "terms": [
+          "Butrint preserves layers of ancient settlement"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Albania"
+      }
+    },
+    {
+      "title": "Bosnia and Herzegovina",
+      "capital": {
+        "terms": [
+          "Sarajevo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sarajevo"
+      },
+      "animal": {
+        "terms": [
+          "Chamois"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chamois"
+      },
+      "food": {
+        "terms": [
+          "Ćevapi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/%C4%86evapi"
+      },
+      "landmark": {
+        "terms": [
+          "Mostar has a famous stone bridge"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bosnia_and_Herzegovina"
+      }
+    },
+    {
+      "title": "Burkina Faso",
+      "capital": {
+        "terms": [
+          "Ouagadougou"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ouagadougou"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Tô"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Burkinabe_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Bobo-Dioulasso has a famous mud mosque"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Mosque_of_Bobo-Dioulasso"
+      }
+    },
+    {
+      "title": "Jordan",
+      "capital": {
+        "terms": [
+          "Amman"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/JO/"
+      },
+      "animal": {
+        "terms": [
+          "Arabian oryx"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arabian_oryx"
+      },
+      "food": {
+        "terms": [
+          "Mansaf"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mansaf"
+      },
+      "landmark": {
+        "terms": [
+          "Petra has buildings cut into rock"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Jordan"
+      }
+    },
+    {
+      "title": "Tunisia",
+      "capital": {
+        "terms": [
+          "Tunis"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/TN/"
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Brik"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brik"
+      },
+      "landmark": {
+        "terms": [
+          "El Jem has a Roman amphitheatre"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Amphitheatre_of_El_Jem"
+      }
+    },
+    {
+      "title": "Central African Republic",
+      "capital": {
+        "terms": [
+          "Bangui"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bangui"
+      },
+      "animal": {
+        "terms": [
+          "Western lowland gorilla"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Western_lowland_gorilla"
+      },
+      "food": {
+        "terms": [
+          "Fufu"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fufu"
+      },
+      "landmark": {
+        "terms": [
+          "Dzanga-Sangha protects forests",
+          "Dzanga-Sangha protects rainforest habitats"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Central_African_Republic"
+      }
+    },
+    {
+      "title": "Bolivia",
+      "capital": {
+        "terms": [
+          "Sucre"
+        ],
+        "role": "constitutional capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sucre"
+      },
+      "animal": {
+        "terms": [
+          "Llama"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Llama"
+      },
+      "food": {
+        "terms": [
+          "Salteña"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Salte%C3%B1a"
+      },
+      "landmark": {
+        "terms": [
+          "Salar de Uyuni is a salt flat"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bolivia"
+      }
+    },
+    {
+      "title": "Estonia",
+      "capital": {
+        "terms": [
+          "Tallinn"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/EE/"
+      },
+      "animal": {
+        "terms": [
+          "Barn swallow"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Barn_swallow"
+      },
+      "food": {
+        "terms": [
+          "Kama"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kama_(food)"
+      },
+      "landmark": {
+        "terms": [
+          "Tallinn has a medieval old town"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Estonia"
+      }
+    },
+    {
+      "title": "Namibia",
+      "capital": {
+        "terms": [
+          "Windhoek"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NA/"
+      },
+      "animal": {
+        "terms": [
+          "Gemsbok"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gemsbok"
+      },
+      "food": {
+        "terms": [
+          "Kapana"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Namibian_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Namibia has high sand dunes"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Namibia"
+      }
+    },
+    {
+      "title": "Bahamas",
+      "capital": {
+        "terms": [
+          "Nassau"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BS/"
+      },
+      "animal": {
+        "terms": [
+          "American flamingo"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/American_flamingo"
+      },
+      "food": {
+        "terms": [
+          "Conch fritters"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bahamian_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Dean's Blue Hole is a sea sinkhole"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dean%27s_Blue_Hole"
+      }
+    },
+    {
+      "title": "Ghana",
+      "capital": {
+        "terms": [
+          "Accra"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/GH/"
+      },
+      "animal": {
+        "terms": [
+          "African forest elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_forest_elephant"
+      },
+      "food": {
+        "terms": [
+          "Banku"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Banku"
+      },
+      "landmark": {
+        "terms": [
+          "Kakum has a forest canopy walkway"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kakum_National_Park"
+      }
+    },
+    {
+      "title": "Eritrea",
+      "capital": {
+        "terms": [
+          "Asmara"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Asmara"
+      },
+      "animal": {
+        "terms": [
+          "Ostrich"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ostrich"
+      },
+      "food": {
+        "terms": [
+          "Zigni"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Zigni"
+      },
+      "landmark": {
+        "terms": [
+          "Asmara has twentieth-century modernist buildings"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Eritrea"
+      }
+    },
+    {
+      "title": "Georgia",
+      "capital": {
+        "terms": [
+          "Tbilisi"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/GE/"
+      },
+      "animal": {
+        "terms": [
+          "Caucasian tur"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/East_Caucasian_tur"
+      },
+      "food": {
+        "terms": [
+          "Khachapuri"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Khachapuri"
+      },
+      "landmark": {
+        "terms": [
+          "Svan villages have tall stone towers"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Svan_towers"
+      }
+    },
+    {
+      "title": "Republic of the Congo",
+      "capital": {
+        "terms": [
+          "Brazzaville"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brazzaville"
+      },
+      "animal": {
+        "terms": [
+          "Western lowland gorilla"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Western_lowland_gorilla"
+      },
+      "food": {
+        "terms": [
+          "Saka-saka"
+        ],
+        "sourceUrl": "https://www.untourism.int/africa/african-gastronomy/republic-of-congo"
+      },
+      "landmark": {
+        "terms": [
+          "Odzala has forest clearings called bais"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Odzala-Kokoua_National_Park"
+      }
+    },
+    {
+      "title": "North Macedonia",
+      "capital": {
+        "terms": [
+          "Skopje"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Skopje"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Ajvar"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ajvar"
+      },
+      "landmark": {
+        "terms": [
+          "Matka has a steep river canyon"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Matka_Canyon"
+      }
+    },
+    {
+      "title": "Papua New Guinea",
+      "capital": {
+        "terms": [
+          "Port Moresby"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PG/"
+      },
+      "animal": {
+        "terms": [
+          "Raggiana bird-of-paradise"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Raggiana_bird-of-paradise"
+      },
+      "food": {
+        "terms": [
+          "Mumu"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Papua_New_Guinean_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Kuk preserves traces of ancient farming"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kuk_Swamp"
+      }
+    },
+    {
+      "title": "Paraguay",
+      "capital": {
+        "terms": [
+          "Asuncion"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/PY/"
+      },
+      "animal": {
+        "terms": [
+          "Jaguar"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Jaguar"
+      },
+      "food": {
+        "terms": [
+          "Sopa paraguaya"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sopa_paraguaya"
+      },
+      "landmark": {
+        "terms": [
+          "Trinidad preserves a Jesuit mission"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/La_Santísima_Trinidad_de_Paraná"
+      }
+    },
+    {
+      "title": "Western Sahara",
+      "capital": {
+        "terms": [
+          "Laayoune"
+        ],
+        "role": "main city",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Laayoune",
+        "note": "Qualified place role rather than an unqualified sovereignty or capital claim."
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Mechoui"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mechoui"
+      },
+      "landmark": {
+        "terms": [
+          "Laayoune grew beside a desert valley"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Western_Sahara"
+      }
+    },
+    {
+      "title": "Israel",
+      "capital": {
+        "terms": [
+          "Jerusalem"
+        ],
+        "role": "government seat",
+        "sourceUrl": "https://www.geonames.org/countries/IL/",
+        "note": "Qualified place role rather than an unqualified sovereignty or capital claim."
+      },
+      "animal": {
+        "terms": [
+          "Nubian ibex"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nubian_ibex"
+      },
+      "food": {
+        "terms": [
+          "Falafel"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Falafel"
+      },
+      "landmark": {
+        "terms": [
+          "The Dead Sea is very salty"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Israel"
+      }
+    },
+    {
+      "title": "Togo",
+      "capital": {
+        "terms": [
+          "Lomé"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lom%C3%A9"
+      },
+      "animal": {
+        "terms": [
+          "Hippopotamus"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Hippopotamus"
+      },
+      "food": {
+        "terms": [
+          "Fufu"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Fufu"
+      },
+      "landmark": {
+        "terms": [
+          "Koutammakou has special tower houses",
+          "Koutammakou has distinctive tower houses"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Togo"
+      }
+    },
+    {
+      "title": "Armenia",
+      "capital": {
+        "terms": [
+          "Yerevan"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/AM/"
+      },
+      "animal": {
+        "terms": [
+          "Bezoar goat"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Wild_goat"
+      },
+      "food": {
+        "terms": [
+          "Ghapama"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ghapama"
+      },
+      "landmark": {
+        "terms": [
+          "Geghard includes buildings cut into rock"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Geghard"
+      }
+    },
+    {
+      "title": "Somaliland",
+      "capital": {
+        "terms": [
+          "Hargeisa"
+        ],
+        "role": "government seat",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Hargeisa",
+        "note": "Qualified place role rather than an unqualified sovereignty or capital claim."
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Lahoh"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lahoh"
+      },
+      "landmark": {
+        "terms": [
+          "Laas Geel has ancient rock paintings"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Somaliland"
+      }
+    },
+    {
+      "title": "Uganda",
+      "capital": {
+        "terms": [
+          "Kampala"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/UG/"
+      },
+      "animal": {
+        "terms": [
+          "Mountain gorilla"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mountain_gorilla"
+      },
+      "food": {
+        "terms": [
+          "Matoke"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Matoke"
+      },
+      "landmark": {
+        "terms": [
+          "The Rwenzori have very high peaks"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rwenzori_Mountains"
+      }
+    },
+    {
+      "title": "Côte d'Ivoire",
+      "capital": {
+        "terms": [
+          "Yamoussoukro"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CI/"
+      },
+      "animal": {
+        "terms": [
+          "African forest elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_forest_elephant"
+      },
+      "food": {
+        "terms": [
+          "Attiéké"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Atti%C3%A9k%C3%A9"
+      },
+      "landmark": {
+        "terms": [
+          "Taï protects a tropical rainforest"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ivory_Coast"
+      }
+    },
+    {
+      "title": "Bhutan",
+      "capital": {
+        "terms": [
+          "Thimphu"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BT/"
+      },
+      "animal": {
+        "terms": [
+          "Takin"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Takin"
+      },
+      "food": {
+        "terms": [
+          "Ema datshi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ema_datshi"
+      },
+      "landmark": {
+        "terms": [
+          "Tiger's Nest sits above a valley"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bhutan"
+      }
+    },
+    {
+      "title": "Ecuador",
+      "capital": {
+        "terms": [
+          "Quito"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/EC/"
+      },
+      "animal": {
+        "terms": [
+          "Galápagos giant tortoise"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_giant_tortoise"
+      },
+      "food": {
+        "terms": [
+          "Llapingacho"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Llapingacho"
+      },
+      "landmark": {
+        "terms": [
+          "The Galápagos have special wildlife",
+          "The Galápagos have distinctive wildlife"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ecuador"
+      }
+    },
+    {
+      "title": "Gabon",
+      "capital": {
+        "terms": [
+          "Libreville"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Libreville"
+      },
+      "animal": {
+        "terms": [
+          "Western lowland gorilla"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Western_lowland_gorilla"
+      },
+      "food": {
+        "terms": [
+          "Poulet nyembwe"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gabonese_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Loango has forests beside the sea"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gabon"
+      }
+    },
+    {
+      "title": "Guyana",
+      "capital": {
+        "terms": [
+          "Georgetown"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/GY/"
+      },
+      "animal": {
+        "terms": [
+          "Giant otter"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Giant_otter"
+      },
+      "food": {
+        "terms": [
+          "Guyanese pepperpot"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Guyanese_pepperpot"
+      },
+      "landmark": {
+        "terms": [
+          "Kaieteur Falls drops from a plateau"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Guyana"
+      }
+    },
+    {
+      "title": "Nicaragua",
+      "capital": {
+        "terms": [
+          "Managua"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/NI/"
+      },
+      "animal": {
+        "terms": [
+          "Turquoise-browed motmot"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Turquoise-browed_motmot"
+      },
+      "food": {
+        "terms": [
+          "Gallo pinto"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gallo_pinto"
+      },
+      "landmark": {
+        "terms": [
+          "Masaya has an active volcano"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Masaya_Volcano"
+      }
+    },
+    {
+      "title": "Tanzania",
+      "capital": {
+        "terms": [
+          "Dodoma"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/TZ/"
+      },
+      "animal": {
+        "terms": [
+          "Giraffe"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Giraffe"
+      },
+      "food": {
+        "terms": [
+          "Ugali"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ugali"
+      },
+      "landmark": {
+        "terms": [
+          "Kilimanjaro rises in northern Tanzania"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tanzania"
+      }
+    },
+    {
+      "title": "Dominican Republic",
+      "capital": {
+        "terms": [
+          "Santo Domingo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/DO/"
+      },
+      "animal": {
+        "terms": [
+          "Palmchat"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Palmchat"
+      },
+      "food": {
+        "terms": [
+          "Mangú"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mang%C3%BA"
+      },
+      "landmark": {
+        "terms": [
+          "Santo Domingo has a historic centre"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dominican_Republic"
+      }
+    },
+    {
+      "title": "Guinea",
+      "capital": {
+        "terms": [
+          "Conakry"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Conakry"
+      },
+      "animal": {
+        "terms": [
+          "Chimpanzee"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chimpanzee"
+      },
+      "food": {
+        "terms": [
+          "Poulet yassa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Yassa"
+      },
+      "landmark": {
+        "terms": [
+          "The Fouta Djallon has high plateaus"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Guinea"
+      }
+    },
+    {
+      "title": "Montenegro",
+      "capital": {
+        "terms": [
+          "Podgorica"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Podgorica"
+      },
+      "animal": {
+        "terms": [
+          "Dalmatian pelican"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dalmatian_pelican"
+      },
+      "food": {
+        "terms": [
+          "Kačamak"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ka%C4%8Damak"
+      },
+      "landmark": {
+        "terms": [
+          "The Bay of Kotor reaches inland"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Montenegro"
+      }
+    },
+    {
+      "title": "Mozambique",
+      "capital": {
+        "terms": [
+          "Maputo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MZ/"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Matapa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Matapa"
+      },
+      "landmark": {
+        "terms": [
+          "The Island of Mozambique has an old town"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Island_of_Mozambique"
+      }
+    },
+    {
+      "title": "Zambia",
+      "capital": {
+        "terms": [
+          "Lusaka"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/ZM/"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Nshima"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ugali"
+      },
+      "landmark": {
+        "terms": [
+          "Victoria Falls sends up tall spray"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Zambia"
+      }
+    },
+    {
+      "title": "Haiti",
+      "capital": {
+        "terms": [
+          "Port-au-Prince"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/HT/"
+      },
+      "animal": {
+        "terms": [
+          "Hispaniolan solenodon"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Hispaniolan_solenodon"
+      },
+      "food": {
+        "terms": [
+          "Soup joumou"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Soup_joumou"
+      },
+      "landmark": {
+        "terms": [
+          "The Citadelle stands on a mountain"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Haiti"
+      }
+    },
+    {
+      "title": "Moldova",
+      "capital": {
+        "terms": [
+          "Chișinău"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chi%C8%99in%C4%83u"
+      },
+      "animal": {
+        "terms": [
+          "White stork"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/White_stork"
+      },
+      "food": {
+        "terms": [
+          "Plăcintă"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pl%C4%83cint%C4%83"
+      },
+      "landmark": {
+        "terms": [
+          "Orheiul Vechi preserves historic layers"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Old_Orhei"
+      }
+    },
+    {
+      "title": "Slovenia",
+      "capital": {
+        "terms": [
+          "Ljubljana"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SI/"
+      },
+      "animal": {
+        "terms": [
+          "Olm"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Olm"
+      },
+      "food": {
+        "terms": [
+          "Potica"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Slovenian_potica"
+      },
+      "landmark": {
+        "terms": [
+          "Triglav is Slovenia's highest mountain"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Triglav"
+      }
+    },
+    {
+      "title": "Sri Lanka",
+      "capital": {
+        "terms": [
+          "Sri Jayawardenepura Kotte"
+        ],
+        "role": "legislative capital",
+        "sourceUrl": "https://www.kotte.mc.gov.lk/index.php?Itemid=175&id=25&lang=en&option=com_content&view=article"
+      },
+      "animal": {
+        "terms": [
+          "Sri Lankan elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sri_Lankan_elephant"
+      },
+      "food": {
+        "terms": [
+          "Hoppers"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Appam"
+      },
+      "landmark": {
+        "terms": [
+          "Sigiriya rises above the surrounding plains"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sri_Lanka"
+      }
+    },
+    {
+      "title": "Cyprus",
+      "capital": {
+        "terms": [
+          "Nicosia"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CY/"
+      },
+      "animal": {
+        "terms": [
+          "Cyprus mouflon"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mouflon"
+      },
+      "food": {
+        "terms": [
+          "Halloumi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Halloumi"
+      },
+      "landmark": {
+        "terms": [
+          "Some Troodos churches have painted interiors"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cyprus"
+      }
+    },
+    {
+      "title": "Guatemala",
+      "capital": {
+        "terms": [
+          "Guatemala City"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/GT/"
+      },
+      "animal": {
+        "terms": [
+          "Resplendent quetzal"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Resplendent_quetzal"
+      },
+      "food": {
+        "terms": [
+          "Pepián"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Guatemalan_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Tikal preserves an ancient Maya city"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Guatemala"
+      }
+    },
+    {
+      "title": "Madagascar",
+      "capital": {
+        "terms": [
+          "Antananarivo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/MG/"
+      },
+      "animal": {
+        "terms": [
+          "Ring-tailed lemur"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ring-tailed_lemur"
+      },
+      "food": {
+        "terms": [
+          "Romazava"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Romazava"
+      },
+      "landmark": {
+        "terms": [
+          "The Baobab Avenue has tall trees"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Avenue_of_the_Baobabs"
+      }
+    },
+    {
+      "title": "Suriname",
+      "capital": {
+        "terms": [
+          "Paramaribo"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SR/"
+      },
+      "animal": {
+        "terms": [
+          "Jaguar"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Jaguar"
+      },
+      "food": {
+        "terms": [
+          "Pom"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pom_(dish)"
+      },
+      "landmark": {
+        "terms": [
+          "Paramaribo has historic wooden buildings"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Suriname"
+      }
+    },
+    {
+      "title": "Taiwan",
+      "capital": {
+        "terms": [
+          "Taipei"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Taipei"
+      },
+      "animal": {
+        "terms": [
+          "Formosan black bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Formosan_black_bear"
+      },
+      "food": {
+        "terms": [
+          "Beef noodle soup"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Beef_noodle_soup"
+      },
+      "landmark": {
+        "terms": [
+          "Taipei 101 rises above the city"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Taiwan"
+      }
+    },
+    {
+      "title": "Botswana",
+      "capital": {
+        "terms": [
+          "Gaborone"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BW/"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Seswaa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Seswaa"
+      },
+      "landmark": {
+        "terms": [
+          "The Okavango spreads across an inland delta"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Botswana"
+      }
+    },
+    {
+      "title": "Honduras",
+      "capital": {
+        "terms": [
+          "Tegucigalpa"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/HN/"
+      },
+      "animal": {
+        "terms": [
+          "Scarlet macaw"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Scarlet_macaw"
+      },
+      "food": {
+        "terms": [
+          "Baleada"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Baleada"
+      },
+      "landmark": {
+        "terms": [
+          "Copán preserves Maya monuments"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Honduras"
+      }
+    },
+    {
+      "title": "Liberia",
+      "capital": {
+        "terms": [
+          "Monrovia"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Monrovia"
+      },
+      "animal": {
+        "terms": [
+          "Pygmy hippopotamus"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pygmy_hippopotamus"
+      },
+      "food": {
+        "terms": [
+          "Palava sauce"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Palava_sauce"
+      },
+      "landmark": {
+        "terms": [
+          "Sapo protects a large rainforest area"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Liberia"
+      }
+    },
+    {
+      "title": "Djibouti",
+      "capital": {
+        "terms": [
+          "Djibouti"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Djibouti"
+      },
+      "animal": {
+        "terms": [
+          "Whale shark"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Whale_shark"
+      },
+      "food": {
+        "terms": [
+          "Skoudehkaris"
+        ],
+        "sourceUrl": "https://www.petitfute.com/v51482-djibouti/decouvrir/d2032-gastronomie/"
+      },
+      "landmark": {
+        "terms": [
+          "Lake Assal is very salty"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Djibouti"
+      }
+    },
+    {
+      "title": "Gambia",
+      "capital": {
+        "terms": [
+          "Banjul"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Banjul"
+      },
+      "animal": {
+        "terms": [
+          "West African manatee"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/West_African_manatee"
+      },
+      "food": {
+        "terms": [
+          "Domoda"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Peanut_stew#The_Gambia"
+      },
+      "landmark": {
+        "terms": [
+          "Wassu has ancient stone circles"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Senegambian_stone_circles"
+      }
+    },
+    {
+      "title": "Guinea-Bissau",
+      "capital": {
+        "terms": [
+          "Bissau"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bissau"
+      },
+      "animal": {
+        "terms": [
+          "Hippopotamus"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Hippopotamus"
+      },
+      "food": {
+        "terms": [
+          "Caldo de mancarra"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bissau-Guinean_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "The Bijagós are Atlantic islands",
+          "The Bijagós form an Atlantic archipelago"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Guinea-Bissau"
+      }
+    },
+    {
+      "title": "Kosovo",
+      "capital": {
+        "terms": [
+          "Pristina"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pristina"
+      },
+      "animal": {
+        "terms": [
+          "Brown bear"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown_bear"
+      },
+      "food": {
+        "terms": [
+          "Flija"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Flija"
+      },
+      "landmark": {
+        "terms": [
+          "Prizren has an old stone bridge"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kosovo"
+      }
+    },
+    {
+      "title": "Zimbabwe",
+      "capital": {
+        "terms": [
+          "Harare"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/ZW/"
+      },
+      "animal": {
+        "terms": [
+          "African elephant"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/African_elephant"
+      },
+      "food": {
+        "terms": [
+          "Sadza"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sadza"
+      },
+      "landmark": {
+        "terms": [
+          "Great Zimbabwe has large stone walls"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Zimbabwe"
+      }
+    },
+    {
+      "title": "Jamaica",
+      "capital": {
+        "terms": [
+          "Kingston"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/JM/"
+      },
+      "animal": {
+        "terms": [
+          "Jamaican tody"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Jamaican_tody"
+      },
+      "food": {
+        "terms": [
+          "Ackee and saltfish"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ackee_and_saltfish"
+      },
+      "landmark": {
+        "terms": [
+          "Dunn's River Falls flows over steps"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dunn%27s_River_Falls"
+      }
+    },
+    {
+      "title": "Costa Rica",
+      "capital": {
+        "terms": [
+          "San Jose"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/CR/"
+      },
+      "animal": {
+        "terms": [
+          "Brown-throated sloth"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brown-throated_sloth"
+      },
+      "food": {
+        "terms": [
+          "Gallo pinto"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gallo_pinto"
+      },
+      "landmark": {
+        "terms": [
+          "Arenal is a cone-shaped volcano"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arenal_Volcano"
+      }
+    },
+    {
+      "title": "Kuwait",
+      "capital": {
+        "terms": [
+          "Kuwait City"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/KW/"
+      },
+      "animal": {
+        "terms": [
+          "Dromedary"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dromedary"
+      },
+      "food": {
+        "terms": [
+          "Machboos"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kabsa"
+      },
+      "landmark": {
+        "terms": [
+          "Kuwait Towers have special rounded forms",
+          "Kuwait Towers have distinctive rounded forms"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kuwait_Towers"
+      }
+    },
+    {
+      "title": "Puerto Rico",
+      "capital": {
+        "terms": [
+          "San Juan"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/San_Juan"
+      },
+      "animal": {
+        "terms": [
+          "Coquí"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Common_coqu%C3%AD"
+      },
+      "food": {
+        "terms": [
+          "Mofongo"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mofongo"
+      },
+      "landmark": {
+        "terms": [
+          "El Yunque protects tropical forest"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Puerto_Rico"
+      }
+    },
+    {
+      "title": "Qatar",
+      "capital": {
+        "terms": [
+          "Doha"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/QA/"
+      },
+      "animal": {
+        "terms": [
+          "Arabian oryx"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Arabian_oryx"
+      },
+      "food": {
+        "terms": [
+          "Machboos"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kabsa"
+      },
+      "landmark": {
+        "terms": [
+          "Al Zubarah preserves a trading town"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Qatar"
+      }
+    },
+    {
+      "title": "Belize",
+      "capital": {
+        "terms": [
+          "Belmopan"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BZ/"
+      },
+      "animal": {
+        "terms": [
+          "Baird's tapir"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Baird's_tapir"
+      },
+      "food": {
+        "terms": [
+          "Rice and beans"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rice_and_beans"
+      },
+      "landmark": {
+        "terms": [
+          "Belize has ancient Maya sites"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Belize"
+      }
+    },
+    {
+      "title": "Malawi",
+      "capital": {
+        "terms": [
+          "Lilongwe"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lilongwe"
+      },
+      "animal": {
+        "terms": [
+          "Cichlid"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cichlid"
+      },
+      "food": {
+        "terms": [
+          "Nsima"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nshima"
+      },
+      "landmark": {
+        "terms": [
+          "Nyika has high rolling grasslands"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Nyika_National_Park"
+      }
+    },
+    {
+      "title": "Palestine",
+      "capital": {
+        "terms": [
+          "Ramallah"
+        ],
+        "role": "administrative centre",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ramallah",
+        "note": "Qualified place role rather than an unqualified sovereignty or capital claim."
+      },
+      "animal": {
+        "terms": [
+          "Palestine sunbird"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Palestine_sunbird"
+      },
+      "food": {
+        "terms": [
+          "Musakhan"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Musakhan"
+      },
+      "landmark": {
+        "terms": [
+          "Jericho lies near the Jordan Valley"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Palestine"
+      }
+    },
+    {
+      "title": "Sierra Leone",
+      "capital": {
+        "terms": [
+          "Freetown"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Freetown"
+      },
+      "animal": {
+        "terms": [
+          "Chimpanzee"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Chimpanzee"
+      },
+      "food": {
+        "terms": [
+          "Cassava leaf stew"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sierra_Leonean_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Freetown stands beside a natural harbour"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sierra_Leone"
+      }
+    },
+    {
+      "title": "El Salvador",
+      "capital": {
+        "terms": [
+          "San Salvador"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/SV/"
+      },
+      "animal": {
+        "terms": [
+          "Turquoise-browed motmot"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Turquoise-browed_motmot"
+      },
+      "food": {
+        "terms": [
+          "Pupusa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pupusa"
+      },
+      "landmark": {
+        "terms": [
+          "Joya de Cerén preserves a farming village"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/El_Salvador"
+      }
+    },
+    {
+      "title": "Lebanon",
+      "capital": {
+        "terms": [
+          "Beirut"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/LB/"
+      },
+      "animal": {
+        "terms": [
+          "Striped hyena"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Striped_hyena"
+      },
+      "food": {
+        "terms": [
+          "Tabbouleh"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tabbouleh"
+      },
+      "landmark": {
+        "terms": [
+          "Tyre preserves ancient coastal remains"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Tyre,_Lebanon"
+      }
+    },
+    {
+      "title": "Burundi",
+      "capital": {
+        "terms": [
+          "Gitega"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Gitega"
+      },
+      "animal": {
+        "terms": [
+          "Hippopotamus"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Hippopotamus"
+      },
+      "food": {
+        "terms": [
+          "Ubugali"
+        ],
+        "sourceUrl": "https://tourisme.gov.bi/en/gastronomy/"
+      },
+      "landmark": {
+        "terms": [
+          "Lake Tanganyika is a deep freshwater lake"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Burundi"
+      }
+    },
+    {
+      "title": "New Caledonia",
+      "capital": {
+        "terms": [
+          "Nouméa"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Noum%C3%A9a"
+      },
+      "animal": {
+        "terms": [
+          "Kagu"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Kagu"
+      },
+      "food": {
+        "terms": [
+          "Bougna"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bougna"
+      },
+      "landmark": {
+        "terms": [
+          "A large coral reef surrounds the islands"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/New_Caledonia"
+      }
+    },
+    {
+      "title": "Solomon Islands",
+      "capital": {
+        "terms": [
+          "Honiara"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Honiara"
+      },
+      "animal": {
+        "terms": [
+          "Dugong"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dugong"
+      },
+      "food": {
+        "terms": [
+          "Poi"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cuisine_of_Solomon_Islands"
+      },
+      "landmark": {
+        "terms": [
+          "Rennell has a large inland lake"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Solomon_Islands"
+      }
+    },
+    {
+      "title": "Timor-Leste",
+      "capital": {
+        "terms": [
+          "Dili"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Dili"
+      },
+      "animal": {
+        "terms": [
+          "Saltwater crocodile"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Saltwater_crocodile"
+      },
+      "food": {
+        "terms": [
+          "Ikan sabuko"
+        ],
+        "sourceUrl": "https://www.aciar.gov.au/sites/default/files/2020-12/CookingTimor-Leste_web-72dpi_3.pdf"
+      },
+      "landmark": {
+        "terms": [
+          "Cristo Rei stands above Dili"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cristo_Rei_of_Dili"
+      }
+    },
+    {
+      "title": "Trinidad and Tobago",
+      "capital": {
+        "terms": [
+          "Port of Spain"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Port_of_Spain"
+      },
+      "animal": {
+        "terms": [
+          "Scarlet ibis"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Scarlet_ibis"
+      },
+      "food": {
+        "terms": [
+          "Doubles"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Doubles_(food)"
+      },
+      "landmark": {
+        "terms": [
+          "Trinidad has a natural pitch lake"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Trinidad_and_Tobago"
+      }
+    },
+    {
+      "title": "Brunei",
+      "capital": {
+        "terms": [
+          "Bandar Seri Begawan"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/BN/"
+      },
+      "animal": {
+        "terms": [
+          "Proboscis monkey"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Proboscis_monkey"
+      },
+      "food": {
+        "terms": [
+          "Ambuyat"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ambuyat"
+      },
+      "landmark": {
+        "terms": [
+          "Kampong Ayer has buildings over water"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Brunei"
+      }
+    },
+    {
+      "title": "Equatorial Guinea",
+      "capital": {
+        "terms": [
+          "Ciudad de la Paz"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.guineaecuatorialpress.com/index.php/noticias/el_presidente_de_la_republica_proclama_la_ciudad_de_la_paz_como_capital_de_la_republica_de_guinea_ecuatorial_con_la_firma_de_un_decreto_ley"
+      },
+      "animal": {
+        "terms": [
+          "Drill"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Drill"
+      },
+      "food": {
+        "terms": [
+          "Peanut chicken"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Cuisine_of_Equatorial_Guinea"
+      },
+      "landmark": {
+        "terms": [
+          "Pico Basilé rises above Bioko"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pico_Basil%C3%A9"
+      }
+    },
+    {
+      "title": "Lesotho",
+      "capital": {
+        "terms": [
+          "Maseru"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Maseru"
+      },
+      "animal": {
+        "terms": [
+          "Basotho pony"
+        ],
+        "sourceUrl": "https://www.visitlesotho.org.ls/category/activities/pony-trekking"
+      },
+      "food": {
+        "terms": [
+          "Papa"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ugali"
+      },
+      "landmark": {
+        "terms": [
+          "Katse Dam holds highland water"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Katse_Dam"
+      }
+    },
+    {
+      "title": "Luxembourg",
+      "capital": {
+        "terms": [
+          "Luxembourg City"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Luxembourg_City"
+      },
+      "animal": {
+        "terms": [
+          "Red fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Red_fox"
+      },
+      "food": {
+        "terms": [
+          "Judd mat Gaardebounen"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Judd_mat_Gaardebounen"
+      },
+      "landmark": {
+        "terms": [
+          "The Bock has defensive tunnels"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Bock_(Luxembourg)"
+      }
+    },
+    {
+      "title": "Northern Cyprus",
+      "capital": {
+        "terms": [
+          "North Nicosia"
+        ],
+        "role": "administrative centre",
+        "sourceUrl": "https://en.wikipedia.org/wiki/North_Nicosia",
+        "note": "Qualified place role rather than an unqualified sovereignty or capital claim."
+      },
+      "animal": {
+        "terms": [
+          "Green sea turtle"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Green_sea_turtle"
+      },
+      "food": {
+        "terms": [
+          "Şeftali kebab"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sheftalia"
+      },
+      "landmark": {
+        "terms": [
+          "Kyrenia has an old harbour"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Northern_Cyprus"
+      }
+    },
+    {
+      "title": "Eswatini",
+      "capital": {
+        "terms": [
+          "Mbabane"
+        ],
+        "role": "administrative capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mbabane"
+      },
+      "animal": {
+        "terms": [
+          "White rhinoceros"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/White_rhinoceros"
+      },
+      "food": {
+        "terms": [
+          "Sishwala"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Ugali"
+      },
+      "landmark": {
+        "terms": [
+          "Sibebe is a huge rock dome"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Sibebe"
+      }
+    },
+    {
+      "title": "French Southern and Antarctic Lands",
+      "capital": {
+        "terms": [
+          "Saint-Pierre"
+        ],
+        "role": "administrative headquarters",
+        "sourceUrl": "https://taaf.fr/collectivites/presentation/"
+      },
+      "food": {
+        "terms": [],
+        "exception": "No established resident national cuisine; no famous local dish is invented."
+      },
+      "animal": {
+        "terms": [
+          "penguin"
+        ]
+      },
+      "landmark": {
+        "terms": [
+          "Kerguelen"
+        ]
+      }
+    },
+    {
+      "title": "Rwanda",
+      "capital": {
+        "terms": [
+          "Kigali"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://www.geonames.org/countries/RW/"
+      },
+      "animal": {
+        "terms": [
+          "Mountain gorilla"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Mountain_gorilla"
+      },
+      "food": {
+        "terms": [
+          "Isombe"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Rwandan_cuisine"
+      },
+      "landmark": {
+        "terms": [
+          "Lake Kivu lies beside steep hills"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Lake_Kivu"
+      }
+    },
+    {
+      "title": "Vanuatu",
+      "capital": {
+        "terms": [
+          "Port Vila"
+        ],
+        "role": "capital",
+        "sourceUrl": "https://en.wikipedia.org/wiki/Port_Vila"
+      },
+      "animal": {
+        "terms": [
+          "Flying fox"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Pteropus"
+      },
+      "food": {
+        "terms": [
+          "Laplap"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Laplap"
+      },
+      "landmark": {
+        "terms": [
+          "Yasur is an active volcano"
+        ],
+        "sourceUrl": "https://en.wikipedia.org/wiki/Vanuatu"
+      }
+    }
+  ]
+}
