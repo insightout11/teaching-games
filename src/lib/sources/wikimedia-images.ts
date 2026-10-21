@@ -84,7 +84,17 @@ export function pictureMatches(query: string, title: string): boolean {
   const t = title.toLowerCase();
   const words = query.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 4 && !STOP.has(w));
   if (!words.length) return true;
-  return words.some((w) => t.includes(w.slice(0, Math.min(w.length, 5))));
+  const stem = (w: string) => w.slice(0, Math.min(w.length, 5));
+  // the subject's words must all be in the title; the last word (usually the country) may be missing. One shared
+  // word let a Philippine owl and a Philippine tarsier pass for "Philippine eagle".
+  const subject = (words.length > 1 ? words.slice(0, -1) : words).map(stem);
+  if (!subject.every((w) => t.includes(w))) return false;
+  // a search word joined to another animal's name is a different animal ("eagle-owl", "tiger-shark")
+  for (const w of words) {
+    const m = new RegExp(`${stem(w)}[a-z]*-([a-z]{3,})`).exec(t);
+    if (m && !words.some((x) => m[1].startsWith(stem(x)))) return false;
+  }
+  return true;
 }
 
 /**
