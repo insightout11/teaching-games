@@ -827,7 +827,7 @@
     "questions": [
       {
         "id": "food-01",
-        "prompt": "Which sweet spread goes on bread?",
+        "prompt": "Which sweet one goes on bread?",
         "options": [
           "rice",
           "egg",
@@ -835,7 +835,7 @@
           "carrot"
         ],
         "answer": "jam",
-        "say": "Which sweet spread goes on bread? Rice, egg, jam, or carrot?"
+        "say": "Which sweet one goes on bread? Rice, egg, jam, or carrot?"
       },
       {
         "id": "food-02",
@@ -3486,7 +3486,7 @@
       },
       {
         "id": "colours-of-things-04",
-        "prompt": "Which white figure is made of snow?",
+        "prompt": "Which one is made of snow?",
         "options": [
           "sun",
           "snowman",
@@ -3494,7 +3494,7 @@
           "strawberry"
         ],
         "answer": "snowman",
-        "say": "Which white figure is made of snow? Sun, snowman, grass, or strawberry?"
+        "say": "Which one is made of snow? Sun, snowman, grass, or strawberry?"
       },
       {
         "id": "colours-of-things-05",
