@@ -21,6 +21,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Koala eucalyptus",
+    "pictureFile": "File:Koala climbing tree.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Koalas live in eucalyptus forests in Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Koala",
     "rangeIso2": [
@@ -40,6 +42,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Common wombat",
+    "pictureFile": "File:Vombatus ursinus -Maria Island National Park.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Wombats dig burrows using strong claws.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Common_wombat",
     "rangeIso2": [
@@ -59,6 +63,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Tasmanian devil",
+    "pictureFile": "File:Sarcophilus harrisii taranna.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Tasmanian devils are meat-eating marsupials native to Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Tasmanian_devil",
     "rangeIso2": [
@@ -78,6 +84,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Platypus swimming",
+    "pictureFile": "File:Duck-billed platypus (Ornithorhynchus anatinus) Scottsdale.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Platypuses are Australian mammals that lay eggs.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Platypus",
     "rangeIso2": [
@@ -97,6 +105,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Quokka animal",
+    "pictureFile": "File:Setonix brachyurus on Rottnest Island 1.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Quokkas are small marsupials native to southwestern Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Quokka",
     "rangeIso2": [
@@ -116,6 +126,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Red kangaroo",
+    "pictureFile": "File:Female Red Kangaroo (Macropus rufus).jpg",
+    "pictureLicense": "CC BY 3.0",
     "fact": "Red kangaroos live in Australia's dry interior.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Red_kangaroo",
     "rangeIso2": [
@@ -135,6 +147,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Numbat animal",
+    "pictureFile": "File:Numbat, Dryandra Woodland, Western Australia.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Numbats use long tongues to eat termites.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Numbat",
     "rangeIso2": [
@@ -154,6 +168,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Emu bird",
+    "pictureFile": "File:Emu 1 - Tidbinbilla.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Emus are large flightless birds native to Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Emu",
     "rangeIso2": [
@@ -173,6 +189,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Moloch horridus lizard",
+    "pictureFile": "File:Thornydevil.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Thorny devils are spiny Australian lizards that eat ants.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Thorny_devil",
     "rangeIso2": [
@@ -192,6 +210,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Honey possum",
+    "pictureFile": "File:Tarsipes rostratus 325231884.jpg",
+    "pictureLicense": "CC BY 4.0",
     "fact": "Honey possums feed on nectar and pollen in southwestern Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Honey_possum",
     "rangeIso2": [
@@ -211,6 +231,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Greater bilby",
+    "pictureFile": "File:Bilby at Sydney Wildlife World.jpg",
+    "pictureLicense": "Public domain",
     "fact": "Bilbies have long ears and dig burrows in Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Greater_bilby",
     "rangeIso2": [
@@ -230,6 +252,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Northern hairy nosed wombat",
+    "pictureFile": "File:Haarnasenwombat (Lasiorhinus krefftii).jpg",
+    "pictureLicense": "CC BY-SA 2.0 de",
     "fact": "Northern hairy-nosed wombats are rare Australian burrowing marsupials.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Northern_hairy-nosed_wombat",
     "rangeIso2": [
@@ -249,6 +273,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Southern hairy nosed wombat",
+    "pictureFile": "File:Southern Hairy-nosed Wombat.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Southern hairy-nosed wombats live in dry parts of southern Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Southern_hairy-nosed_wombat",
     "rangeIso2": [
@@ -268,6 +294,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Western grey kangaroo",
+    "pictureFile": "File:Kangaroo Island Western grey kangaroo (Macropus fuliginosus fuliginosus) male.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Western grey kangaroos are native to southern Australia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Western_grey_kangaroo",
     "rangeIso2": [
@@ -287,6 +315,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Kiwi bird",
+    "pictureFile": "File:TeTuatahianui.jpg",
+    "pictureLicense": "Public domain",
     "fact": "Kiwi are flightless birds native to New Zealand.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Kiwi_(bird)",
     "rangeIso2": [
@@ -306,6 +336,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Kakapo parrot",
+    "pictureFile": "File:Sirocco full length portrait.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Kākāpō are flightless, nocturnal parrots from New Zealand.",
     "sourceUrl": "https://en.wikipedia.org/wiki/K%C4%81k%C4%81p%C5%8D",
     "rangeIso2": [
@@ -325,6 +357,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Kea parrot",
+    "pictureFile": "File:Nestor notabilis -Fiordland, New Zealand-8b.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Kea are mountain parrots native to New Zealand.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Kea",
     "rangeIso2": [
@@ -344,6 +378,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Takahe bird",
+    "pictureFile": "File:Male takahe walking on grass.jpg",
+    "pictureLicense": "Public domain",
     "fact": "Takahē are large flightless birds from New Zealand.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Takah%C4%93",
     "rangeIso2": [
@@ -363,6 +399,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Tuatara reptile",
+    "pictureFile": "File:Tuatara (5205719005).jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Tuatara are New Zealand reptiles from an ancient lineage.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Tuatara",
     "rangeIso2": [
@@ -382,6 +420,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Hectors dolphin",
+    "pictureFile": "File:Hector's Dolphins at Porpoise Bay 1999 a cropped.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Hector's dolphins live in coastal waters around New Zealand.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Hector's_dolphin",
     "rangeIso2": [
@@ -401,6 +441,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Yellow eyed penguin",
+    "pictureFile": "File:Yellow-eyed Penguin MC.jpg",
+    "pictureLicense": "CC BY 2.5",
     "fact": "Yellow-eyed penguins breed in New Zealand.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Yellow-eyed_penguin",
     "rangeIso2": [
@@ -420,6 +462,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "New Zealand falcon",
+    "pictureFile": "File:NZ Falcon - Karearea 02.JPG",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "The New Zealand falcon hunts birds and other small animals.",
     "sourceUrl": "https://en.wikipedia.org/wiki/New_Zealand_falcon",
     "rangeIso2": [
@@ -439,6 +483,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Ring tailed lemur",
+    "pictureFile": "File:Ring-tailed lemur (Lemur catta).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Ring-tailed lemurs are native to Madagascar.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Ring-tailed_lemur",
     "rangeIso2": [
@@ -458,6 +504,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Aye aye lemur",
+    "pictureFile": "File:Wild aye aye.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Aye-ayes use long fingers to find food in wood.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Aye-aye",
     "rangeIso2": [
@@ -477,6 +525,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Indri lemur",
+    "pictureFile": "File:Indri (Indri indri).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Indri are large lemurs from Madagascar's forests.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Indri",
     "rangeIso2": [
@@ -496,6 +546,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Verreaux sifaka",
+    "pictureFile": "File:Verreauxs Sifika Kirindy Madagascar.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Verreaux's sifakas leap between trees in Madagascar.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Verreaux's_sifaka",
     "rangeIso2": [
@@ -515,6 +567,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Fossa animal",
+    "pictureFile": "File:Cryptoprocta Ferox.JPG",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Fossas are meat-eating mammals native to Madagascar.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Fossa_(animal)",
     "rangeIso2": [
@@ -534,6 +588,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Madagascar tomato frog",
+    "pictureFile": "File:Dyscophus antongilii02.jpg",
+    "pictureLicense": "CC BY-SA 2.5",
     "fact": "Madagascar tomato frogs can have bright orange-red bodies.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Dyscophus_antongilii",
     "rangeIso2": [
@@ -553,6 +609,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Trachelophorus giraffa",
+    "pictureFile": "File:Giraffe Weevil, Andasibe, Madagascar.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Giraffe weevils have long necks and live in Madagascar.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Giraffe_weevil",
     "rangeIso2": [
@@ -572,6 +630,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Radiated tortoise",
+    "pictureFile": "File:Radiated tortoise (Astrochelys radiata) Tsimanampetsotsa.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Radiated tortoises have star-like patterns on their shells.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Radiated_tortoise",
     "rangeIso2": [
@@ -593,6 +653,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Satanic leaf tailed gecko",
+    "pictureFile": "File:Uroplatus phantasticus 12893423.jpg",
+    "pictureLicense": "CC BY 4.0",
     "fact": "This Madagascan gecko's tail resembles a dry leaf.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Uroplatus_phantasticus",
     "rangeIso2": [
@@ -612,6 +674,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Madagascar pochard",
+    "pictureFile": "File:Madagascar Pochard, Captive Breeding Program, Madagascar 2.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "The Madagascar pochard is a rare diving duck.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Madagascar_pochard",
     "rangeIso2": [
@@ -631,6 +695,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Giant panda bamboo",
+    "pictureFile": "File:Grosser Panda.JPG",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Giant pandas live wild in China's mountain forests.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Giant_panda",
     "rangeIso2": [
@@ -650,6 +716,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Golden snub nosed monkey",
+    "pictureFile": "File:Golden Snub-nosed Monkeys, Qinling Mountains - China.jpg",
+    "pictureLicense": "CC BY-SA 2.0",
     "fact": "Golden snub-nosed monkeys live in mountain forests in China.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Golden_snub-nosed_monkey",
     "rangeIso2": [
@@ -669,6 +737,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Chinese alligator",
+    "pictureFile": "File:ChineseAlligator15.JPG",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Chinese alligators live in the lower Yangtze region.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Chinese_alligator",
     "rangeIso2": [
@@ -688,6 +758,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Komodo dragon",
+    "pictureFile": "File:202306 Varanus komodoensis.jpg",
+    "pictureLicense": "CC BY 4.0",
     "fact": "Komodo dragons live on several Indonesian islands.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Komodo_dragon",
     "rangeIso2": [
@@ -707,6 +779,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Bali myna",
+    "pictureFile": "File:Bali Myna 0A2A9443.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "The Bali myna is a white bird native to Bali.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Bali_myna",
     "rangeIso2": [
@@ -726,6 +800,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Javan rhinoceros",
+    "pictureFile": "File:Rhinoceros sondaicus in London Zoo.jpg",
+    "pictureLicense": "Public domain",
     "fact": "Surviving wild Javan rhinoceroses live on Java.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Javan_rhinoceros",
     "rangeIso2": [
@@ -745,6 +821,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Japanese macaque",
+    "pictureFile": "File:Japanese Snow Monkey (Macaque) Mother Grooms Her Young.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Japanese macaques are also called snow monkeys.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Japanese_macaque",
     "rangeIso2": [
@@ -765,6 +843,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Japanese serow",
+    "pictureFile": "File:Nihonkamoshika-akita.JPG",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Japanese serows are goat-antelopes found in Japanese forests.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Japanese_serow",
     "rangeIso2": [
@@ -784,6 +864,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Philippine eagle",
+    "pictureFile": "File:Pamarayeg IIIx2 (cropped).jpg",
+    "pictureLicense": "CC BY 4.0",
     "fact": "The Philippine eagle lives in forests on several Philippine islands.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Philippine_eagle",
     "rangeIso2": [
@@ -803,6 +885,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Philippine tarsier",
+    "pictureFile": "File:Philippine tarsier (Carlito syrichta fraterculus) Bohol.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Philippine tarsiers are small primates with very large eyes.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Philippine_tarsier",
     "rangeIso2": [
@@ -822,6 +906,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Ethiopian wolf",
+    "pictureFile": "File:Ethiopian wolf (Canis simensis citernii).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Ethiopian wolves hunt rodents in high mountain grasslands.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Ethiopian_wolf",
     "rangeIso2": [
@@ -841,6 +927,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Gelada monkey",
+    "pictureFile": "File:Gelada (Theropithecus gelada gelada) male 2.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Geladas eat mainly grasses in Ethiopia's highlands.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Gelada",
     "rangeIso2": [
@@ -860,6 +948,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "American alligator",
+    "pictureFile": "File:AlligatorFL2007.JPG",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "American alligators live in the southeastern United States.",
     "sourceUrl": "https://en.wikipedia.org/wiki/American_alligator",
     "rangeIso2": [
@@ -879,6 +969,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Hawaiian monk seal",
+    "pictureFile": "File:Monachus schauinslandi.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Hawaiian monk seals live around the Hawaiian Islands.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Hawaiian_monk_seal",
     "rangeIso2": [
@@ -898,6 +990,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Asiatic lion",
+    "pictureFile": "File:Lions.Gir5 (cropped).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Wild Asiatic lions live in India's Gujarat state.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Asiatic_lion",
     "rangeIso2": [
@@ -917,6 +1011,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Lion tailed macaque",
+    "pictureFile": "File:Lion-tailed Macaque in Bristol Zoo.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Lion-tailed macaques live in rainforests of India's Western Ghats.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Lion-tailed_macaque",
     "rangeIso2": [
@@ -936,6 +1032,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Nilgiri tahr",
+    "pictureFile": "File:Nilgiri Tahr at Eravikulam National Park.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Nilgiri tahr live on grassy slopes in India's Western Ghats.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Nilgiri_tahr",
     "rangeIso2": [
@@ -955,6 +1053,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Purple faced langur",
+    "pictureFile": "File:Purple-faced langur (Semnopithecus vetulus vetulus).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Purple-faced langurs live in Sri Lanka.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Purple-faced_langur",
     "rangeIso2": [
@@ -974,6 +1074,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Proboscis monkey",
+    "pictureFile": "File:Proboscis Monkey in Borneo.jpg",
+    "pictureLicense": "CC BY-SA 2.0",
     "fact": "Proboscis monkeys live on Borneo, shared by Indonesia, Malaysia, and Brunei.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Proboscis_monkey",
     "rangeIso2": [
@@ -995,6 +1097,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Sumatran orangutan",
+    "pictureFile": "File:Sumatra-Orang-Utan im Pongoland.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Sumatran orangutans live in forests on Sumatra.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Sumatran_orangutan",
     "rangeIso2": [
@@ -1014,6 +1118,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Bornean orangutan",
+    "pictureFile": "File:Tanjung Puting30477.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Bornean orangutans live wild in both Malaysia and Indonesia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Bornean_orangutan",
     "rangeIso2": [
@@ -1034,6 +1140,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Cape mountain zebra",
+    "pictureFile": "File:Cape Mountain Zebra (Equus zebra zebra) (31707282834).jpg",
+    "pictureLicense": "CC BY-SA 2.0",
     "fact": "Cape mountain zebras are native to South Africa.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Cape_mountain_zebra",
     "rangeIso2": [
@@ -1053,6 +1161,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "African penguin",
+    "pictureFile": "File:Wikimania 2018, Cape Town ( 1050602), crop.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "African penguins breed along the coasts of South Africa and Namibia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/African_penguin",
     "rangeIso2": [
@@ -1075,6 +1185,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Riverine rabbit",
+    "pictureFile": "File:Bunolagus monticularis imported from iNaturalist photo 15093370 on 5 February 2020 (cropped).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Riverine rabbits live in South Africa's Karoo region.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Riverine_rabbit",
     "rangeIso2": [
@@ -1094,6 +1206,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Okapi forest",
+    "pictureFile": "File:Saint-Aignan (Loir-et-Cher). Okapi.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Okapi live in forests of DR Congo.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Okapi",
     "rangeIso2": [
@@ -1113,6 +1227,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Bonobo ape",
+    "pictureFile": "File:Apeldoorn Apenheul zoo Bonobo.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Bonobos live wild only in DR Congo.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Bonobo",
     "rangeIso2": [
@@ -1132,6 +1248,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Congo peafowl",
+    "pictureFile": "File:Afropavo congensis -Antwerp Zoo -pair-8a.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Congo peafowl are forest birds native to DR Congo.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Congo_peafowl",
     "rangeIso2": [
@@ -1151,6 +1269,8 @@ export const ANIMAL_QUESTIONS: readonly AnimalQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Mountain gorilla",
+    "pictureFile": "File:Susa group, mountain gorilla.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Mountain gorillas live wild in Rwanda, Uganda, and DR Congo.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Mountain_gorilla",
     "rangeIso2": [

@@ -252,3 +252,155 @@ Without a selected photo:
 - `landmark-grand-palace` — Reviewed night scenes and cropped palace details; no verified whole daylight landmark selected.
 - `landmark-golden-bridge` — Reviewed close-up and low-sun aerial view; bridge runs out of frame, and daylight requirement is uncertain for aerial.
 - `landmark-gyeongbokgung` — Overview offers KOGL Type 1, outside the allowed list; alternative shows only the throne hall and its readable name plaque.
+
+### Food exact files
+
+| Question | Exact file / original source | Licence | Author / credit |
+| --- | --- | --- | --- |
+| `food-sushi` | [File:Sushi platter.jpg](https://commons.wikimedia.org/wiki/File:Sushi_platter.jpg) | CC BY-SA 2.0 | chidorian from Japan |
+| `food-onigiri` | [File:小料理バルさくら 特製おにぎり.jpg](https://commons.wikimedia.org/wiki/File:%E5%B0%8F%E6%96%99%E7%90%86%E3%83%90%E3%83%AB%E3%81%95%E3%81%8F%E3%82%89_%E7%89%B9%E8%A3%BD%E3%81%8A%E3%81%AB%E3%81%8E%E3%82%8A.jpg) | CC BY-SA 4.0 | 脇山航 |
+| `food-takoyaki` | [File:Takoyaki-1.jpg](https://commons.wikimedia.org/wiki/File:Takoyaki-1.jpg) | CC BY 2.0 | jetalone's photos |
+| `food-okonomiyaki` | [File:Okonomiyaki 001.jpg](https://commons.wikimedia.org/wiki/File:Okonomiyaki_001.jpg) | CC BY 2.0 | ume-y |
+| `food-tonkatsu` | [File:"Amai-Yuwaku" Special Loin Pork Cutlet1.jpg](https://commons.wikimedia.org/wiki/File:%22Amai-Yuwaku%22_Special_Loin_Pork_Cutlet1.jpg) | CC BY-SA 4.0 | ＫｏＺ |
+| `food-pizza` | [File:Pizza-3007395.jpg](https://commons.wikimedia.org/wiki/File:Pizza-3007395.jpg) | CC0 | igorovsyannykov |
+| `food-risotto` | [File:Risotto with speck and goat cheese (6101067436).jpg](https://commons.wikimedia.org/wiki/File:Risotto_with_speck_and_goat_cheese_(6101067436).jpg) | CC BY 2.0 | Luca Nebuloni from Milan, Italy |
+| `food-lasagne` | [File:Lasagne - stonesoup.jpg](https://commons.wikimedia.org/wiki/File:Lasagne_-_stonesoup.jpg) | CC BY 2.0 | jules / stonesoup |
+| `food-tiramisu` | [File:Tiramisu - Raffaele Diomede.jpg](https://commons.wikimedia.org/wiki/File:Tiramisu_-_Raffaele_Diomede.jpg) | CC BY 2.0 | Raffaele Diomede from Pordenone, ITALIA |
+| `food-tacos` | [File:001 Tacos de carnitas, carne asada y al pastor.jpg](https://commons.wikimedia.org/wiki/File:001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg) | CC BY-SA 2.0 | Larry Miller |
+| `food-enchiladas` | [File:Enchilada Rice Beans.jpg](https://commons.wikimedia.org/wiki/File:Enchilada_Rice_Beans.jpg) | Public domain | Jon Sullivan |
+| `food-pozole` | [File:Green pozole, dressed (29161841908) (cropped).jpg](https://commons.wikimedia.org/wiki/File:Green_pozole,_dressed_(29161841908)_(cropped).jpg) | CC BY 2.0 | T.Tseng |
+| `food-mole-poblano` | [File:ChickRedMole.JPG](https://commons.wikimedia.org/wiki/File:ChickRedMole.JPG) | CC BY-SA 4.0 | AlejandroLinaresGarcia |
+| `food-cochinita-pibil` | [File:Cochinita pibil 2.jpg](https://commons.wikimedia.org/wiki/File:Cochinita_pibil_2.jpg) | CC BY-SA 3.0 | Popo le Chien |
+| `food-pho` | [File:Bowl of Meatball pho.jpg](https://commons.wikimedia.org/wiki/File:Bowl_of_Meatball_pho.jpg) | CC BY 4.0 | SerraKnightz |
+| `food-banh-mi` | [File:Bánh mì thịt nướng.png](https://commons.wikimedia.org/wiki/File:B%C3%A1nh_m%C3%AC_th%E1%BB%8Bt_n%C6%B0%E1%BB%9Bng.png) | CC BY-SA 3.0 | nsaum75 ¡שיחת! ‎ |
+| `food-bun-bo-hue` | [File:Bún bò huê close-up - Dakao Hoang.jpg](https://commons.wikimedia.org/wiki/File:B%C3%BAn_b%C3%B2_hu%C3%AA_close-up_-_Dakao_Hoang.jpg) | CC BY-SA 2.0 | Alpha from Melbourne, Australia |
+| `food-pad-thai` | [File:Phat Thai kung Chang Khien street stall.jpg](https://commons.wikimedia.org/wiki/File:Phat_Thai_kung_Chang_Khien_street_stall.jpg) | CC BY-SA 3.0 | Takeaway |
+| `food-tom-yum-kung` | [File:Tom yam kung maenam.jpg](https://commons.wikimedia.org/wiki/File:Tom_yam_kung_maenam.jpg) | CC BY-SA 3.0 | Takeaway |
+| `food-massaman-curry` | [File:Kaeng matsaman kai.JPG](https://commons.wikimedia.org/wiki/File:Kaeng_matsaman_kai.JPG) | CC BY-SA 3.0 | Takeaway |
+| `food-butter-chicken` | [File:Butter Chicken & Butter Naan - Home - Chandigarh - India - 0006.jpg](https://commons.wikimedia.org/wiki/File:Butter_Chicken_%26_Butter_Naan_-_Home_-_Chandigarh_-_India_-_0006.jpg) | CC BY-SA 4.0 | Yuvraj Singh 97 |
+| `food-masala-dosa` | [File:Masala Dosa 2023.jpg](https://commons.wikimedia.org/wiki/File:Masala_Dosa_2023.jpg) | CC BY-SA 4.0 | Yakshitha |
+| `food-dhokla` | [File:Dhokla on Gujrart.jpg](https://commons.wikimedia.org/wiki/File:Dhokla_on_Gujrart.jpg) | CC BY-SA 4.0 | Samirluhar99 |
+| `food-pav-bhaji` | [File:Bambayya Pav bhaji.jpg](https://commons.wikimedia.org/wiki/File:Bambayya_Pav_bhaji.jpg) | CC BY-SA 4.0 | Rupali Banarase |
+| `food-peking-duck` | [File:Peking Duck, 2014 (02).jpg](https://commons.wikimedia.org/wiki/File:Peking_Duck,_2014_(02).jpg) | CC BY 2.0 | City Foodsters |
+| `food-mapo-tofu` | [File:Chen Mapo Tofu.jpg](https://commons.wikimedia.org/wiki/File:Chen_Mapo_Tofu.jpg) | CC BY-SA 4.0 | ZhengZhou |
+| `food-xiaolongbao` | [File:A Xiaolongbao from The Modern Shanghai.jpg](https://commons.wikimedia.org/wiki/File:A_Xiaolongbao_from_The_Modern_Shanghai.jpg) | CC BY-SA 4.0 | Peachyeung316 |
+| `food-bibimbap` | [File:Dolsot-bibimbap.jpg](https://commons.wikimedia.org/wiki/File:Dolsot-bibimbap.jpg) | CC BY 2.0 | Sous Chef |
+| `food-budae-jjigae` | [File:Budae jjigae (28587380901).jpg](https://commons.wikimedia.org/wiki/File:Budae_jjigae_(28587380901).jpg) | CC BY 2.0 | T.Tseng |
+| `food-tteokbokki` | [File:Tteokbokki.JPG](https://commons.wikimedia.org/wiki/File:Tteokbokki.JPG) | CC0 | Popo le Chien |
+| `food-gado-gado` | [File:Gado gado jakarta.jpg](https://commons.wikimedia.org/wiki/File:Gado_gado_jakarta.jpg) | CC BY-SA 4.0 | Piknikdong |
+| `food-pempek` | [File:Pempek Kuah Cuko.jpg](https://commons.wikimedia.org/wiki/File:Pempek_Kuah_Cuko.jpg) | CC BY-SA 3.0 | Gunawan Kartapranata |
+| `food-gudeg` | [File:Nasi Gudeg.jpg](https://commons.wikimedia.org/wiki/File:Nasi_Gudeg.jpg) | CC BY-SA 2.0 | christian razukas from Honolulu, Hawaii |
+| `food-filipino-adobo` | [File:Adobo DSCF4391.jpg](https://commons.wikimedia.org/wiki/File:Adobo_DSCF4391.jpg) | CC BY-SA 4.0 | Joy D. Ganaden |
+| `food-nasi-kandar` | [File:A plate of Nasi Kandar.jpg](https://commons.wikimedia.org/wiki/File:A_plate_of_Nasi_Kandar.jpg) | CC BY-SA 4.0 | Kutubkhanah |
+| `food-kottu` | [File:Chicken Kottu.jpg](https://commons.wikimedia.org/wiki/File:Chicken_Kottu.jpg) | CC BY-SA 4.0 | Dan arndt |
+| `food-ratatouille` | [File:Ratatouille home cooked.jpg](https://commons.wikimedia.org/wiki/File:Ratatouille_home_cooked.jpg) | CC0 | Jack145945 |
+| `food-bouillabaisse` | [File:Bullabessa.jpg](https://commons.wikimedia.org/wiki/File:Bullabessa.jpg) | CC BY 3.0 | Slastic |
+| `food-souffle` | [File:Bacon and Cheddar Cheese Soufflé.jpg](https://commons.wikimedia.org/wiki/File:Bacon_and_Cheddar_Cheese_Souffl%C3%A9.jpg) | CC BY-SA 4.0 | Mark Miller |
+| `food-tarte-tatin` | [File:Franse tarte tatin.jpg](https://commons.wikimedia.org/wiki/File:Franse_tarte_tatin.jpg) | CC BY-SA 3.0 | Djenghisz |
+| `food-paella` | [File:01 Paella Valenciana original.jpg](https://commons.wikimedia.org/wiki/File:01_Paella_Valenciana_original.jpg) | CC BY-SA 4.0 | Jan Harenburg |
+| `food-crema-catalana` | [File:Creme catalane.jpg](https://commons.wikimedia.org/wiki/File:Creme_catalane.jpg) | CC0 | Popo le Chien |
+| `food-pastel-de-nata` | [File:Tart telur Portugis (Pastéis de nata) 20230409 194702.jpg](https://commons.wikimedia.org/wiki/File:Tart_telur_Portugis_(Past%C3%A9is_de_nata)_20230409_194702.jpg) | CC0 | Wiki Farazi |
+| `food-stroopwafel` | [File:Stroopwafels 01.jpg](https://commons.wikimedia.org/wiki/File:Stroopwafels_01.jpg) | CC BY-SA 3.0 | Takeaway |
+| `food-yorkshire-pudding` | [File:Yorkshire Puddings on plate.jpg](https://commons.wikimedia.org/wiki/File:Yorkshire_Puddings_on_plate.jpg) | CC BY 2.0 | Sam Greenhalgh |
+| `food-cornish-pasty` | [File:Cornish Pasty (cropped).jpeg](https://commons.wikimedia.org/wiki/File:Cornish_Pasty_(cropped).jpeg) | CC BY-SA 3.0 | David Johnson &#91;1&#93; |
+| `food-sauerbraten` | [File:Heldrunger Sauerbraten 2.JPG](https://commons.wikimedia.org/wiki/File:Heldrunger_Sauerbraten_2.JPG) | CC BY-SA 4.0 | Dr. Bernd Gross |
+| `food-kaiserschmarrn` | [File:2015 0731 Kaiserschmarrn Apfelsoße Edelweisshütte Sölden.jpg](https://commons.wikimedia.org/wiki/File:2015_0731_Kaiserschmarrn_Apfelso%C3%9Fe_Edelweissh%C3%BCtte_S%C3%B6lden.jpg) | CC BY-SA 4.0 | Takeaway |
+| `food-goulash` | [File:Gulyas080.jpg](https://commons.wikimedia.org/wiki/File:Gulyas080.jpg) | CC BY-SA 3.0 | Lily15 |
+| `food-souvlaki` | [File:Ελληνικό Σουβλάκι - panoramio.jpg](https://commons.wikimedia.org/wiki/File:%CE%95%CE%BB%CE%BB%CE%B7%CE%BD%CE%B9%CE%BA%CF%8C_%CE%A3%CE%BF%CF%85%CE%B2%CE%BB%CE%AC%CE%BA%CE%B9_-_panoramio.jpg) | CC BY-SA 3.0 | EntaXoyas |
+| `food-menemen` | [File:Menemen in a sahan.jpg](https://commons.wikimedia.org/wiki/File:Menemen_in_a_sahan.jpg) | CC BY-SA 4.0 | E4024 |
+| `food-khachapuri` | [File:Old Tbilisi, Georgian khachapuri, Georgia.jpg](https://commons.wikimedia.org/wiki/File:Old_Tbilisi,_Georgian_khachapuri,_Georgia.jpg) | CC BY 4.0 | Vyacheslav Argenberg |
+| `food-brigadeiro` | [File:Brigadeiro.jpg](https://commons.wikimedia.org/wiki/File:Brigadeiro.jpg) | CC BY-SA 2.0 | User Mayra (Maych) on Flickr |
+| `food-pao-de-queijo` | [File:Cheesebread.jpg](https://commons.wikimedia.org/wiki/File:Cheesebread.jpg) | CC BY-SA 4.0 | Murilo manzini |
+| `food-lomo-saltado` | [File:Lomo Saltado - Lima, Peru Miraflores (Tiendecita Blanca).jpg](https://commons.wikimedia.org/wiki/File:Lomo_Saltado_-_Lima,_Peru_Miraflores_(Tiendecita_Blanca).jpg) | CC BY-SA 2.0 | Chasqui (Luis Tamayo) |
+| `food-poutine` | [File:Food at WIkimanian 2017 02.jpg](https://commons.wikimedia.org/wiki/File:Food_at_WIkimanian_2017_02.jpg) | CC BY-SA 4.0 | Camelia.boban |
+| `food-jambalaya` | [File:Homemade Jambalaya.JPG](https://commons.wikimedia.org/wiki/File:Homemade_Jambalaya.JPG) | CC BY-SA 3.0 | Amadscientist |
+| `food-attieke` | [File:Attieke.JPG](https://commons.wikimedia.org/wiki/File:Attieke.JPG) | CC BY-SA 3.0 | Serein |
+| `food-thieboudienne` | [File:Thieboudienne.JPG](https://commons.wikimedia.org/wiki/File:Thieboudienne.JPG) | Public domain | KVDP |
+| `food-romazava` | [File:Madagaskar stew 2019-10-01.jpg](https://commons.wikimedia.org/wiki/File:Madagaskar_stew_2019-10-01.jpg) | CC BY-SA 4.0 | Z thomas |
+
+Every question in this bank has a selected photo.
+
+### Animals exact files
+
+| Question | Exact file / original source | Licence | Author / credit |
+| --- | --- | --- | --- |
+| `animal-koala` | [File:Koala climbing tree.jpg](https://commons.wikimedia.org/wiki/File:Koala_climbing_tree.jpg) | CC BY-SA 3.0 | Diliff |
+| `animal-common-wombat` | [File:Vombatus ursinus -Maria Island National Park.jpg](https://commons.wikimedia.org/wiki/File:Vombatus_ursinus_-Maria_Island_National_Park.jpg) | CC BY-SA 3.0 | JJ Harrison ( jjharrison89@facebook.com ) |
+| `animal-tasmanian-devil` | [File:Sarcophilus harrisii taranna.jpg](https://commons.wikimedia.org/wiki/File:Sarcophilus_harrisii_taranna.jpg) | CC BY-SA 3.0 | JJ Harrison ( https://www.jjharrison.com.au/ ) |
+| `animal-platypus` | [File:Duck-billed platypus (Ornithorhynchus anatinus) Scottsdale.jpg](https://commons.wikimedia.org/wiki/File:Duck-billed_platypus_(Ornithorhynchus_anatinus)_Scottsdale.jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-quokka` | [File:Setonix brachyurus on Rottnest Island 1.jpg](https://commons.wikimedia.org/wiki/File:Setonix_brachyurus_on_Rottnest_Island_1.jpg) | CC BY-SA 4.0 | Christophe95 |
+| `animal-red-kangaroo` | [File:Female Red Kangaroo (Macropus rufus).jpg](https://commons.wikimedia.org/wiki/File:Female_Red_Kangaroo_(Macropus_rufus).jpg) | CC BY 3.0 | Bidgee |
+| `animal-numbat` | [File:Numbat, Dryandra Woodland, Western Australia.jpg](https://commons.wikimedia.org/wiki/File:Numbat,_Dryandra_Woodland,_Western_Australia.jpg) | CC BY-SA 4.0 | JJ Harrison |
+| `animal-emu` | [File:Emu 1 - Tidbinbilla.jpg](https://commons.wikimedia.org/wiki/File:Emu_1_-_Tidbinbilla.jpg) | CC BY-SA 4.0 | JJ Harrison ( https://www.jjharrison.com.au/ ) |
+| `animal-thorny-devil` | [File:Thornydevil.jpg](https://commons.wikimedia.org/wiki/File:Thornydevil.jpg) | CC BY-SA 3.0 | Bäras ( talk · contribs ) |
+| `animal-honey-possum` | [File:Tarsipes rostratus 325231884.jpg](https://commons.wikimedia.org/wiki/File:Tarsipes_rostratus_325231884.jpg) | CC BY 4.0 | Simon Colenutt |
+| `animal-greater-bilby` | [File:Bilby at Sydney Wildlife World.jpg](https://commons.wikimedia.org/wiki/File:Bilby_at_Sydney_Wildlife_World.jpg) | Public domain | Dcoetzee |
+| `animal-northern-hairy-nosed-wombat` | [File:Haarnasenwombat (Lasiorhinus krefftii).jpg](https://commons.wikimedia.org/wiki/File:Haarnasenwombat_(Lasiorhinus_krefftii).jpg) | CC BY-SA 2.0 de | See file page |
+| `animal-southern-hairy-nosed-wombat` | [File:Southern Hairy-nosed Wombat.jpg](https://commons.wikimedia.org/wiki/File:Southern_Hairy-nosed_Wombat.jpg) | CC BY 2.0 | Jason Pratt |
+| `animal-western-grey-kangaroo` | [File:Kangaroo Island Western grey kangaroo (Macropus fuliginosus fuliginosus) male.jpg](https://commons.wikimedia.org/wiki/File:Kangaroo_Island_Western_grey_kangaroo_(Macropus_fuliginosus_fuliginosus)_male.jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-kiwi` | [File:TeTuatahianui.jpg](https://commons.wikimedia.org/wiki/File:TeTuatahianui.jpg) | Public domain | Maungatautari Ecological Island Trust |
+| `animal-kakapo` | [File:Sirocco full length portrait.jpg](https://commons.wikimedia.org/wiki/File:Sirocco_full_length_portrait.jpg) | CC BY 2.0 | Department of Conservation |
+| `animal-kea` | [File:Nestor notabilis -Fiordland, New Zealand-8b.jpg](https://commons.wikimedia.org/wiki/File:Nestor_notabilis_-Fiordland,_New_Zealand-8b.jpg) | CC BY 2.0 | Mark Whatmough |
+| `animal-takahe` | [File:Male takahe walking on grass.jpg](https://commons.wikimedia.org/wiki/File:Male_takahe_walking_on_grass.jpg) | Public domain | Pseudopanax at English Wikipedia |
+| `animal-tuatara` | [File:Tuatara (5205719005).jpg](https://commons.wikimedia.org/wiki/File:Tuatara_(5205719005).jpg) | CC BY 2.0 | Sid Mosdell from New Zealand |
+| `animal-hector-s-dolphin` | [File:Hector's Dolphins at Porpoise Bay 1999 a cropped.jpg](https://commons.wikimedia.org/wiki/File:Hector%27s_Dolphins_at_Porpoise_Bay_1999_a_cropped.jpg) | CC BY-SA 3.0 | Avenue |
+| `animal-yellow-eyed-penguin` | [File:Yellow-eyed Penguin MC.jpg](https://commons.wikimedia.org/wiki/File:Yellow-eyed_Penguin_MC.jpg) | CC BY 2.5 | Christian Mehlführer, User:Chmehl |
+| `animal-new-zealand-falcon` | [File:NZ Falcon - Karearea 02.JPG](https://commons.wikimedia.org/wiki/File:NZ_Falcon_-_Karearea_02.JPG) | CC BY-SA 3.0 | Tony Wills |
+| `animal-ring-tailed-lemur` | [File:Ring-tailed lemur (Lemur catta).jpg](https://commons.wikimedia.org/wiki/File:Ring-tailed_lemur_(Lemur_catta).jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-aye-aye` | [File:Wild aye aye.jpg](https://commons.wikimedia.org/wiki/File:Wild_aye_aye.jpg) | CC BY 2.0 | nomis-simon |
+| `animal-indri` | [File:Indri (Indri indri).jpg](https://commons.wikimedia.org/wiki/File:Indri_(Indri_indri).jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-verreaux-s-sifaka` | [File:Verreauxs Sifika Kirindy Madagascar.jpg](https://commons.wikimedia.org/wiki/File:Verreauxs_Sifika_Kirindy_Madagascar.jpg) | CC BY-SA 4.0 | JialiangGao www.peace-on-earth.org |
+| `animal-fossa` | [File:Cryptoprocta Ferox.JPG](https://commons.wikimedia.org/wiki/File:Cryptoprocta_Ferox.JPG) | CC BY-SA 4.0 | Ran Kirlian |
+| `animal-madagascar-tomato-frog` | [File:Dyscophus antongilii02.jpg](https://commons.wikimedia.org/wiki/File:Dyscophus_antongilii02.jpg) | CC BY-SA 2.5 | Franco Andreone - &#91;:it:Wikipedia:Autorizzazioni_ottenute/Franco_Andreone see authorization&#93; |
+| `animal-giraffe-weevil` | [File:Giraffe Weevil, Andasibe, Madagascar.jpg](https://commons.wikimedia.org/wiki/File:Giraffe_Weevil,_Andasibe,_Madagascar.jpg) | CC BY 2.0 | Frank Vassen |
+| `animal-radiated-tortoise` | [File:Radiated tortoise (Astrochelys radiata) Tsimanampetsotsa.jpg](https://commons.wikimedia.org/wiki/File:Radiated_tortoise_(Astrochelys_radiata)_Tsimanampetsotsa.jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-satanic-leaf-tailed-gecko` | [File:Uroplatus phantasticus 12893423.jpg](https://commons.wikimedia.org/wiki/File:Uroplatus_phantasticus_12893423.jpg) | CC BY 4.0 | Julien Renoult |
+| `animal-madagascar-pochard` | [File:Madagascar Pochard, Captive Breeding Program, Madagascar 2.jpg](https://commons.wikimedia.org/wiki/File:Madagascar_Pochard,_Captive_Breeding_Program,_Madagascar_2.jpg) | CC BY 2.0 | Frank Vassen |
+| `animal-giant-panda` | [File:Grosser Panda.JPG](https://commons.wikimedia.org/wiki/File:Grosser_Panda.JPG) | CC BY-SA 3.0 | J. Patrick Fischer |
+| `animal-golden-snub-nosed-monkey` | [File:Golden Snub-nosed Monkeys, Qinling Mountains - China.jpg](https://commons.wikimedia.org/wiki/File:Golden_Snub-nosed_Monkeys,_Qinling_Mountains_-_China.jpg) | CC BY-SA 2.0 | Giovanni Mari |
+| `animal-chinese-alligator` | [File:ChineseAlligator15.JPG](https://commons.wikimedia.org/wiki/File:ChineseAlligator15.JPG) | CC BY-SA 3.0 | Greg Hume |
+| `animal-komodo-dragon` | [File:202306 Varanus komodoensis.jpg](https://commons.wikimedia.org/wiki/File:202306_Varanus_komodoensis.jpg) | CC BY 4.0 | James Jolokia ( james1203 ) |
+| `animal-bali-myna` | [File:Bali Myna 0A2A9443.jpg](https://commons.wikimedia.org/wiki/File:Bali_Myna_0A2A9443.jpg) | CC BY-SA 3.0 | JJ Harrison |
+| `animal-javan-rhinoceros` | [File:Rhinoceros sondaicus in London Zoo.jpg](https://commons.wikimedia.org/wiki/File:Rhinoceros_sondaicus_in_London_Zoo.jpg) | Public domain | T.Dixon. The Zoological Society of London |
+| `animal-japanese-macaque` | [File:Japanese Snow Monkey (Macaque) Mother Grooms Her Young.jpg](https://commons.wikimedia.org/wiki/File:Japanese_Snow_Monkey_(Macaque)_Mother_Grooms_Her_Young.jpg) | CC BY-SA 4.0 | Rocktendo & Adam Gman |
+| `animal-japanese-serow` | [File:Nihonkamoshika-akita.JPG](https://commons.wikimedia.org/wiki/File:Nihonkamoshika-akita.JPG) | CC BY-SA 3.0 | Kei hashi |
+| `animal-philippine-eagle` | [File:Pamarayeg IIIx2 (cropped).jpg](https://commons.wikimedia.org/wiki/File:Pamarayeg_IIIx2_(cropped).jpg) | CC BY 4.0 | Aimee Valencia |
+| `animal-philippine-tarsier` | [File:Philippine tarsier (Carlito syrichta fraterculus) Bohol.jpg](https://commons.wikimedia.org/wiki/File:Philippine_tarsier_(Carlito_syrichta_fraterculus)_Bohol.jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-ethiopian-wolf` | [File:Ethiopian wolf (Canis simensis citernii).jpg](https://commons.wikimedia.org/wiki/File:Ethiopian_wolf_(Canis_simensis_citernii).jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-gelada` | [File:Gelada (Theropithecus gelada gelada) male 2.jpg](https://commons.wikimedia.org/wiki/File:Gelada_(Theropithecus_gelada_gelada)_male_2.jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-american-alligator` | [File:AlligatorFL2007.JPG](https://commons.wikimedia.org/wiki/File:AlligatorFL2007.JPG) | CC BY-SA 3.0 | User:Leafyplant |
+| `animal-hawaiian-monk-seal` | [File:Monachus schauinslandi.jpg](https://commons.wikimedia.org/wiki/File:Monachus_schauinslandi.jpg) | CC BY-SA 3.0 | N3kt0n |
+| `animal-asiatic-lion` | [File:Lions.Gir5 (cropped).jpg](https://commons.wikimedia.org/wiki/File:Lions.Gir5_(cropped).jpg) | CC BY-SA 4.0 | 0720reemagupta |
+| `animal-lion-tailed-macaque` | [File:Lion-tailed Macaque in Bristol Zoo.jpg](https://commons.wikimedia.org/wiki/File:Lion-tailed_Macaque_in_Bristol_Zoo.jpg) | CC BY-SA 3.0 | Chris huh |
+| `animal-nilgiri-tahr` | [File:Nilgiri Tahr at Eravikulam National Park.jpg](https://commons.wikimedia.org/wiki/File:Nilgiri_Tahr_at_Eravikulam_National_Park.jpg) | CC BY-SA 4.0 | Aveek Bandyopadhyay |
+| `animal-purple-faced-langur` | [File:Purple-faced langur (Semnopithecus vetulus vetulus).jpg](https://commons.wikimedia.org/wiki/File:Purple-faced_langur_(Semnopithecus_vetulus_vetulus).jpg) | CC BY-SA 4.0 | Charles J. Sharp |
+| `animal-proboscis-monkey` | [File:Proboscis Monkey in Borneo.jpg](https://commons.wikimedia.org/wiki/File:Proboscis_Monkey_in_Borneo.jpg) | CC BY-SA 2.0 | David Dennis |
+| `animal-sumatran-orangutan` | [File:Sumatra-Orang-Utan im Pongoland.jpg](https://commons.wikimedia.org/wiki/File:Sumatra-Orang-Utan_im_Pongoland.jpg) | CC BY-SA 4.0 | Fiver, der Hellseher |
+| `animal-bornean-orangutan` | [File:Tanjung Puting30477.jpg](https://commons.wikimedia.org/wiki/File:Tanjung_Puting30477.jpg) | CC BY-SA 4.0 | Nanosanchez |
+| `animal-cape-mountain-zebra` | [File:Cape Mountain Zebra (Equus zebra zebra) (31707282834).jpg](https://commons.wikimedia.org/wiki/File:Cape_Mountain_Zebra_(Equus_zebra_zebra)_(31707282834).jpg) | CC BY-SA 2.0 | Bernard DUPONT from FRANCE |
+| `animal-african-penguin` | [File:Wikimania 2018, Cape Town ( 1050602), crop.jpg](https://commons.wikimedia.org/wiki/File:Wikimania_2018,_Cape_Town_(_1050602),_crop.jpg) | CC BY-SA 4.0 | Matti Blume |
+| `animal-riverine-rabbit` | [File:Bunolagus monticularis imported from iNaturalist photo 15093370 on 5 February 2020 (cropped).jpg](https://commons.wikimedia.org/wiki/File:Bunolagus_monticularis_imported_from_iNaturalist_photo_15093370_on_5_February_2020_(cropped).jpg) | CC BY-SA 4.0 | (c) Tony Camacho, some rights reserved (CC BY-SA) |
+| `animal-okapi` | [File:Saint-Aignan (Loir-et-Cher). Okapi.jpg](https://commons.wikimedia.org/wiki/File:Saint-Aignan_(Loir-et-Cher)._Okapi.jpg) | CC BY 2.0 | Daniel Jolivet |
+| `animal-bonobo` | [File:Apeldoorn Apenheul zoo Bonobo.jpg](https://commons.wikimedia.org/wiki/File:Apeldoorn_Apenheul_zoo_Bonobo.jpg) | CC BY-SA 3.0 | natataek |
+| `animal-congo-peafowl` | [File:Afropavo congensis -Antwerp Zoo -pair-8a.jpg](https://commons.wikimedia.org/wiki/File:Afropavo_congensis_-Antwerp_Zoo_-pair-8a.jpg) | CC BY 2.0 | frank wouters |
+| `animal-mountain-gorilla` | [File:Susa group, mountain gorilla.jpg](https://commons.wikimedia.org/wiki/File:Susa_group,_mountain_gorilla.jpg) | CC BY 2.0 | https://www.flickr.com/photos/deepphoto/ d_proffer |
+
+Every question in this bank has a selected photo.
+
+
+Animal setting exceptions: Tasmanian devil (conservation park), red kangaroo (Wagga
+Zoo), greater bilby (Sydney Wildlife World, with a much smaller hopping mouse in
+the enclosure), fossa (Bioparc Valencia), Madagascar pochard (captive breeding),
+giant panda (Ocean Park), Chinese alligator (Cincinnati Zoo), lion-tailed macaque
+(Bristol Zoo), Sumatran orangutan (Leipzig Zoo), okapi (Beauval), bonobo (Apenheul),
+and Congo peafowl (Antwerp Zoo). The Javan rhinoceros is a historical black-and-white
+London Zoo photograph (1874–1885), not a claim of a modern wild sighting. Natural
+substrate/vegetation is visible in most; the bilby, lion-tailed macaque, Chinese
+alligator and archival rhino have conspicuous captive surroundings. Clear subject
+identity was prioritized over distant alternative images. Some other files do not
+establish wild/captive status; no wild-only claim is made.
+
+Commons marks the Colosseum and Pisa photographs `ita-mibac` (Italian cultural
+heritage restrictions) in addition to their allowed CC licences. The exact file
+pages retain those notices; the CC licence labels describe photographic copyright,
+not a blanket clearance of every non-copyright restriction.
