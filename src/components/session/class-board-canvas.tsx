@@ -90,6 +90,13 @@ function columnsClass(layout: ClassBoardLayout, zoneCount: number): string {
   }
 }
 
+/** A short stable code for a question, so each question has its own board. */
+function questionRoundOf(q: string): string {
+  let h = 5381;
+  for (const ch of q.trim().toLowerCase()) h = ((h * 33) ^ ch.charCodeAt(0)) >>> 0;
+  return `q${h.toString(36).slice(0, 6)}`;
+}
+
 export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall = false, sortByVotes = false, zonesOverride, includePending = false, pendingControls }: ClassBoardCanvasProps) {
   const templateLocked = Boolean(presetKey);
   const [selectedPresetKey, setSelectedPresetKey] = useState(presetKey ?? DEFAULT_CLASS_BOARD_PRESET_KEY);
@@ -133,7 +140,11 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const reduce = useReducedMotion();
 
   const base = boardKey ?? DEFAULT_CLASS_BOARD_KEY;
-  const activeBoardKey = normalizeClassBoardKey(templateLocked ? base : `${base}-${aiPreset ? aiPreset.key : selectedPresetKey}`);
+  // Each new question gets its own board (its own cards); the old question's answers stay under its own key
+  const [questionRound, setQuestionRound] = useState<string | null>(null);
+  const layoutKey = `${base}-${aiPreset ? aiPreset.key : selectedPresetKey}`;
+  const roundKey = (round: string | null) => normalizeClassBoardKey(templateLocked ? base : round ? `${layoutKey.slice(0, 70)}-${round}` : layoutKey);
+  const activeBoardKey = roundKey(questionRound);
 
   // Zones with any teacher-renamed titles applied. `zonesOverride` (e.g. one zone per real
   // attraction in Out & About) replaces the preset's default zones as the base.
@@ -340,14 +351,14 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   }, [autoShow, items, patchItem]);
 
   const buildSpec = useCallback(
-    (nextPreset: ClassBoardPreset, nextZones: ClassBoardZone[]): InputSpec => ({
+    (nextPreset: ClassBoardPreset, nextZones: ClassBoardZone[], keyOverride?: string): InputSpec => ({
       type: 'board',
       gameKey: 'class-board',
       prompt: nextPreset.prompt,
       instruction: 'Add to the class board',
       maxLength: 280,
       allowMultiple: true,
-      ...boardSpecFields(nextPreset, activeBoardKey, nextZones),
+      ...boardSpecFields(nextPreset, keyOverride ?? activeBoardKey, nextZones),
     }),
     [activeBoardKey],
   );
@@ -448,10 +459,13 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   useEffect(() => {
     if (!boardQuestion || preset.key !== 'open-board') return;
     const labels = { [baseZones[0]?.key ?? 'main']: boardQuestion };
+    const round = questionRoundOf(boardQuestion);
+    setQuestionRound(round);
     setZoneLabels(labels);
     setCustomQuestion(boardQuestion);
-    void setInputSpec(buildSpec(preset, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label }))));
+    void setInputSpec(buildSpec(preset, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label })), roundKey(round)));
     setBoardQuestion(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardQuestion, preset, baseZones, buildSpec, setInputSpec]);
 
   const answerQuestion = useCallback(
@@ -598,7 +612,9 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     setCustomQuestion(q);
     const labels = single && zones[0] ? { ...zoneLabels, [zones[0].key]: q } : zoneLabels;
     setZoneLabels(labels);
-    void setInputSpec(buildSpec({ ...preset, prompt: q }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label }))));
+    const round = questionRoundOf(q);
+    setQuestionRound(round);
+    void setInputSpec(buildSpec({ ...preset, prompt: q }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label })), roundKey(round)));
   };
   useEffect(() => {
     if (!pendingIdea || preset.key !== pendingIdea.layout) return;
@@ -607,7 +623,9 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     setCustomQuestion(q);
     const labels = baseZones.length === 1 ? { [baseZones[0].key]: q } : {};
     setZoneLabels(labels);
-    void setInputSpec(buildSpec({ ...preset, prompt: q }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key as keyof typeof labels] ?? zone.label }))));
+    const round = questionRoundOf(q);
+    setQuestionRound(round);
+    void setInputSpec(buildSpec({ ...preset, prompt: q }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key as keyof typeof labels] ?? zone.label })), roundKey(round)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingIdea, preset]);
   const loadIdeas = async () => {
