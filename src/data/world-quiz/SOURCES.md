@@ -75,3 +75,71 @@ The files make local assets available. The existing `flagUrl` still points to fl
   were omitted from this selection.
 
 No runtime downloads, AI calls, ranking logic, pair work or classroom-results claims are introduced.
+
+## Picture landmarks (21 October 2026)
+
+`landmarks.ts` exports `LANDMARK_QUESTIONS`: 80 static country questions about named buildings, statues,
+archaeological sites and natural features. `picture-question.ts` defines the shared schema. Level 1 means especially
+widely recognised subjects; levels 2 and 3 introduce less familiar places. Difficulty is an editorial judgment.
+Country names and continent groupings follow `QUIZ_COUNTRIES`; the four choices are distinct and on the same continent.
+The `iso2` country is the answer at the zero-based `correctIndex`. Options are materialised data, not generated at runtime.
+
+Each `sourceUrl` is a subject-specific reference for location and the short authored reveal fact, usually an encyclopedia
+article. For example: [Eiffel Tower](https://en.wikipedia.org/wiki/Eiffel_Tower),
+[Machu Picchu](https://en.wikipedia.org/wiki/Machu_Picchu), and [Borobudur](https://en.wikipedia.org/wiki/Borobudur).
+No source is fetched by these modules. Shared-border landmarks such as Niagara, Iguazu and Victoria Falls, Everest and
+the Matterhorn are omitted from this single-country bank.
+
+`picture` is a two-to-five-word Wikimedia Commons search phrase for the physical subject, not an image URL, a person,
+or a caption to display as an answer hint. Landmark names and geographic qualifiers distinguish similarly named places.
+The bank supplies no image-fetching code or selected asset. Image selection belongs to game integration: a search can
+also return maps, drawings or tourists, so the eventual consumer must choose a clear photograph of the named subject.
+Nyhavn, Seoraksan and Charyn Canyon replace tentative subjects whose reviewed Commons references did not give a clear
+subject photograph. No claim of classroom performance or universal recognition is made.
+
+## Picture foods (21 October 2026)
+
+`food.ts` exports `FOOD_QUESTIONS`: 60 static questions about named dishes with a clear modern culinary home.
+They ask about the dish or regional style, not who first invented every ingredient, bread, noodle or cooking technique.
+Fusion dishes such as banh mi and lomo saltado retain their Vietnamese and Peruvian culinary homes without erasing
+outside influences. Local debates about a restaurant or inventor within the same country do not create two country answers.
+Country choices are distinct and on the answer's quiz continent.
+
+Most records link to a dish-specific article. Stronger direct cultural references are used for
+[tom yum kung](https://ich.unesco.org/en/RL/tom-yum-kung-01879),
+[attiéké](https://ich.unesco.org/en/RL/skills-related-to-attieke-production-in-cote-d-ivoire-02086),
+[ceebu jën / thieboudienne](https://ich.unesco.org/en/RL/ceebu-jen-a-culinary-art-of-senegal-01748), and
+[budae jjigae](https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=904&vcontsId=221258).
+UNESCO listing is used as cultural provenance, not as proof that no other country cooks the food.
+
+Disputed or broadly shared candidates were left out, including baklava, hummus, jollof rice, couscous, tamales, plov,
+laksa and injera. Generic kimchi does not have a unique modern South Korean origin, so budae jjigae is used instead.
+Quiche Lorraine and gazpacho were replaced after reviewing historical/shared regional origins; the report gives the full
+omission list. Brussels waffles were replaced with the more visually specific stroopwafel. Short facts describe typical
+ingredients without claiming every recipe is identical. The modules never fetch these references or food pictures.
+
+## Picture animals (21 October 2026)
+
+`animals.ts` exports `ANIMAL_QUESTIONS`: 60 static questions about living wild animals. Species and subspecies names
+are used where a broad label would be ambiguous: red kangaroo, ring-tailed lemur, Cape mountain zebra, Sumatran orangutan
+and Bornean orangutan. The queries identify the animal itself; for ambiguous common names the scientific name is used,
+such as `Trachelophorus giraffa` for Madagascar's giraffe weevil. A photograph from a zoo can identify a species but is
+not evidence that the species lives wild in the photograph's country.
+
+Every entry has a species reference and `rangeIso2`: reviewed countries/territories excluded from wrong answers, including
+native range and known introduced populations or visitors where relevant. It is a conservative exclusion list, not a
+complete, timeless range atlas. The answer must be in the list, and none of the other options may be in it. All four
+options follow the answer's quiz continent. Territories outside the playable roster can occur only as range metadata.
+No exclusive-country claim is made merely because the list has one entry.
+
+Shared-range guards include Indonesia/Malaysia for Bornean orangutans; Indonesia/Malaysia/Brunei for proboscis monkeys;
+Rwanda/Uganda/DR Congo for mountain gorillas; and South Africa/Namibia plus reviewed visitors for African penguins.
+Introduced radiated tortoises on Réunion/Mauritius and Japanese macaques in Texas are conservatively excluded too.
+References include each species article and these cross-checks:
+[proboscis monkey range](https://primate.wisc.edu/primate-info-net/pin-factsheets/pin-factsheet-proboscis-monkey/),
+[radiated tortoise](https://museum.wa.gov.au/explore/articles/meet-radiated-tortoise),
+[kiwi](https://www.doc.govt.nz/kiwi), and [koala](https://australian.museum/learn/animals/mammals/koala/).
+
+Extinct animals, generic multi-country families and uncertain wild-range candidates were omitted or narrowed; see the
+handoff report. No changing population numbers, danger levels or promised sightings are added. The static provenance
+and search phrases add no runtime network requests, and no game integration is included.
