@@ -37,6 +37,22 @@ export function clipCoastView(ring: Array<[number, number]>, base: number, near:
   return pts;
 }
 
+/** Clip only the original shore segment, never the artificial closing edges of a clipped land polygon. */
+export function clipCoastLine(a: [number, number], b: [number, number], base: number, near: number, far: number, halfSlope: number): Array<[number, number]> {
+  let lo = 0, hi = 1;
+  const depths = (p: [number, number]) => [p[1] - base - near, base + far - p[1], (p[1] - base) * halfSlope - p[0], (p[1] - base) * halfSlope + p[0]];
+  const da = depths(a), db = depths(b);
+  for (let i = 0; i < da.length; i++) {
+    if (da[i] < 0 && db[i] < 0) return [];
+    if ((da[i] < 0) !== (db[i] < 0)) {
+      const t = da[i] / (da[i] - db[i]);
+      if (da[i] < 0) lo = Math.max(lo, t); else hi = Math.min(hi, t);
+    }
+  }
+  if (lo > hi) return [];
+  return [lo, hi].map((t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+}
+
 export interface CoastStrip {
   /** The land as closed outlines, in route coordinates (km along, km to the right). */
   land: StripPoint[][];

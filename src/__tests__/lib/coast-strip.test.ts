@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { clipCoastView, groundMixAt, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
+import { clipCoastLine, clipCoastView, groundMixAt, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { greatCirclePoint } from '@/lib/live-room/route-terrain';
 
 const manila = { lat: 14.5995, lng: 120.9842 }, hanoi = { lat: 21.0278, lng: 105.8342 };
@@ -17,6 +17,19 @@ describe('coast polygons in the camera view', () => {
   it('discards land behind the camera and retains land enclosing the view', () => {
     expect(clipCoastView([[0, -20], [10, -10], [-10, -10]], 0, 1, 50, 0.5)).toEqual([]);
     expect(clipCoastView([[-100, -10], [100, -10], [100, 100], [-100, 100]], 0, 1, 50, 0.5)).toHaveLength(4);
+  });
+  it('clips shores crossing the near plane without drawing a closing beach across the view', () => {
+    const crossing = clipCoastLine([0, -10], [0, 100], 0, 5, 50, 0.5);
+    expect(crossing).toHaveLength(2);
+    expect(crossing[0][1]).toBeCloseTo(5);
+    expect(crossing[1][1]).toBeCloseTo(50);
+    expect(clipCoastLine([100, 10], [200, 50], 0, 5, 50, 0.5)).toEqual([]);
+    const segment = clipCoastLine([-100, 20], [100, 20], 0, 5, 50, 0.5);
+    expect(segment).toHaveLength(2);
+    expect(segment[0][0]).toBeCloseTo(-10);
+    expect(segment[1][0]).toBeCloseTo(10);
+    expect(segment[0][1]).toBeCloseTo(20);
+    expect(segment[1][1]).toBeCloseTo(20);
   });
 });
 

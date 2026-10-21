@@ -10,7 +10,7 @@ import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmar
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
-import { clipCoastView, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
+import { clipCoastLine, clipCoastView, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -414,7 +414,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [waters]);
   // Real coastline: the land outlines fixed on the ground (as the cities), with their edges filed by depth so each
   // strip of ground can find where it crosses the coast. A new set is taken only once the last one has mostly passed.
-  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; landRings: Array<{ points: Array<[number, number]>; minX: number; maxX: number; minZ: number; maxZ: number }>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number; route: boolean; routeKm: number } | null>(null);
+  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; landRings: Array<{ points: Array<[number, number]>; shore: boolean[]; minX: number; maxX: number; minZ: number; maxZ: number }>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number; route: boolean; routeKm: number } | null>(null);
   /** Build the land edges (filed by depth), the beach lines and which beach pieces are real, from points already in
    *  the world frame (x across, z along). */
   const buildCoast = (lineRings: Array<Array<[number, number]>>, lineShores: number[][], landPts: Array<Array<[number, number]>>) => {
@@ -449,6 +449,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       return landAt(probe, mx + nx, mz + nz) !== landAt(probe, mx - nx, mz - nz);
     }));
     const boundedLand = landRings.map((points) => ({ points,
+      shore: points.map(([x, z], i) => {
+        const [xb, zb] = points[(i + 1) % points.length];
+        const dx = xb - x, dz = zb - z, len = Math.hypot(dx, dz) || 1;
+        const mx = (x + xb) / 2, mz = (z + zb) / 2;
+        // Shared/internal outline edges and tiny collapsed rings have no beach.
+        const nx = -dz / len * 40, nz = dx / len * 40;
+        return landAt(probe, mx + nx, mz + nz) !== landAt(probe, mx - nx, mz - nz);
+      }),
       minX: Math.min(...points.map(([x]) => x)), maxX: Math.max(...points.map(([x]) => x)),
       minZ: Math.min(...points.map(([, z]) => z)), maxZ: Math.max(...points.map(([, z]) => z)),
     }));
@@ -869,7 +877,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
               for (let y = y0; y < h; y += rowH) {
                 const z = camH * F / (y - horizonY);
                 if (z > Z_FAR) continue;
-                const farLand = Math.max(0.25, Math.min(1, 1 - (z / Z_FAR - 0.6) / 0.4 * 0.75));
+                const fogT = Math.max(0, Math.min(1, (z / Z_FAR - 0.5) * 2));
+                const farLand = 1 - fogT * fogT * (3 - 2 * fogT);
                 paintRow(land, y, z, F, camZ, farLand, !shaded, undefined, undefined, tctx, lsctx);
               }
               shaded = true;
@@ -894,44 +903,46 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             sctx.drawImage(landShade, 0, 0, w, h);
           }
         }
-        // The shore: a band of turquoise shallow water just offshore, then a sandy beach along the coast (both opaque, so
-        // overlapping pieces do not show as blobs, and wide enough to cover the strips' stair-step edge)
-        const cwB = realCoast() ? coastWorld.current : null;
-        if (cwB) {
-          // three kinds of shore: white tropical sand with clear turquoise shallows, golden sand with mild shallows,
-          // dark rock and cliffs (no beach, no shallows)
-          const seaBase = mixRgb(look.current.water, [40, 120, 150], 0.35);
-          const night = (c: RGB): RGB => mixRgb(c, [10, 16, 30], 0.62);
-          const shallowOf = [mixRgb(seaBase, [110, 220, 215], 0.5), mixRgb(seaBase, [120, 200, 205], 0.28), seaBase];
-          const sandOf: RGB[] = [[214, 208, 184], [198, 182, 142], [92, 90, 96]];
-          ctx.save();
-          ctx.lineCap = 'round';
-          for (const pass of [0, 1] as const) {
-            for (let ri = 0; ri < cwB.rings.length; ri++) {
-              const ring = cwB.rings[ri], kinds = cwB.shores[ri] ?? [];
-              for (let i = 0; i + 1 < ring.length; i++) {
-                const kind = Math.max(0, Math.min(2, kinds[i] ?? 1));
-                if (pass === 0 && kind === 2) continue; // rocky shores: no shallow band
-                if (!cwB.real[ri]?.[i]) continue; // not on the land's real edge
-                const [xa, za] = ring[i], [xb, zb] = ring[i + 1];
-                const base = cwB.route ? routeUnits(cwB) : camZ;
-                const ra = za - base, rb = zb - base;
-                if (ra < Z_NEAR * 0.6 || rb < Z_NEAR * 0.6 || ra > Z_FAR || rb > Z_FAR) continue;
-                const rz = (ra + rb) / 2, s = F / rz;
-                const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
-                const wide = Math.max(0.4, Math.min(1.8, 45 * s)); // a hairline: a beach seen from 8 km up, never an outline
-                const col = pass === 0 ? shallowOf[kind] : sandOf[kind];
-                ctx.strokeStyle = css(mixRgb(dark ? night(col) : col, haze, fog * 0.7));
-                ctx.globalAlpha = (pass === 0 ? 0.3 : 0.45) * (1 - fog * 0.5);
-                ctx.lineWidth = pass === 0 ? wide * (kind === 0 ? 2.2 : 1.8) : wide * (kind === 2 ? 0.8 : 1);
-                ctx.beginPath();
-                ctx.moveTo(w / 2 + xa * (F / ra), horizonY + camH * (F / ra));
-                ctx.lineTo(w / 2 + xb * (F / rb), horizonY + camH * (F / rb));
-                ctx.stroke();
+        // Sand and shallows follow the exact smoothed land boundary, never the separately sampled coast lines.
+        // Stroke original segments only: frustum clipping must not invent beaches along the horizon or window edge.
+        if (cw0 && visibleLand) {
+          const near = Math.max(Z_NEAR * 0.6, camH * F / (h - horizonY));
+          const seaBase = mixRgb(look.current.water, [110, 210, 205], 0.35);
+          const sand: RGB = dark ? [80, 78, 72] : [206, 196, 165];
+          tctx.clearRect(0, 0, w, h);
+          tctx.lineCap = 'round'; tctx.lineJoin = 'round';
+          // Nested faint strokes give the shallow band a soft outer edge; the land mask removes its inland half.
+          for (const pass of [0, 1, 2, 3]) {
+            for (const ring of cw0.landRings) {
+              if (ring.maxZ < coastBase + near || ring.minZ > coastBase + Z_FAR ||
+                  ring.minX > Z_FAR * w / (2 * F) || ring.maxX < -Z_FAR * w / (2 * F)) continue;
+              for (let i = 0; i < ring.points.length; i++) {
+                if (!ring.shore[i]) continue;
+                const pts = clipCoastLine(ring.points[i], ring.points[(i + 1) % ring.points.length], coastBase, near, Z_FAR, w / (2 * F));
+                if (pts.length !== 2) continue;
+                const rz = (pts[0][1] + pts[1][1]) / 2 - coastBase;
+                const fadeT = Math.max(0, Math.min(1, (rz / Z_FAR - 0.5) * 2));
+                const fade = 1 - fadeT * fadeT * (3 - 2 * fadeT);
+                if (fade < 0.01) continue;
+                const wide = Math.min(2, Math.max(0.35, 45 * F / rz));
+                tctx.strokeStyle = css(mixRgb(pass === 3 ? sand : dark ? mixRgb(seaBase, [10, 16, 30], 0.62) : seaBase, haze, (1 - fade) * 0.7));
+                tctx.globalAlpha = fade * (pass === 3 ? 0.5 : 0.065);
+                tctx.lineWidth = wide * [6, 4, 2.5, 0.8][pass];
+                tctx.beginPath();
+                pts.forEach(([x, z], n) => {
+                  const scale = F / (z - coastBase);
+                  if (n === 0) tctx.moveTo(w / 2 + x * scale, horizonY + camH * scale);
+                  else tctx.lineTo(w / 2 + x * scale, horizonY + camH * scale);
+                });
+                tctx.stroke();
               }
             }
           }
-          ctx.restore();
+          tctx.globalAlpha = 1;
+          tctx.globalCompositeOperation = 'destination-out';
+          tctx.drawImage(coastMask, 0, 0, w, h);
+          tctx.globalCompositeOperation = 'source-over';
+          ctx.drawImage(terrainSurface, 0, 0, w, h);
         }
         // Real rivers and lakes on the ground: water in the scene's light, a pale shore, greying into the haze far off
         if (realWaters() && waterWorld.current.length) {
