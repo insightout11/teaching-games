@@ -52,6 +52,25 @@ export function toRoute(a: LatLng, course: number, p: LatLng): StripPoint {
 /** Side band kept around the route (km): wide enough for the window's view at any height. */
 const BAND_KM = 350;
 
+/** Cut a closed outline to the band beside the route (|side| <= band), keeping it closed (Sutherland-Hodgman, two
+ *  edges). Far-off coast is then never scanned: the whole Mediterranean's outlines, scanned for every row of the
+ *  picture, froze the scenery. */
+function clipToBand(ring: StripPoint[], band: number): StripPoint[] {
+  const clip = (pts: StripPoint[], keep: (p: StripPoint) => boolean, cut: (a: StripPoint, b: StripPoint) => StripPoint) => {
+    const out: StripPoint[] = [];
+    for (let i = 0; i < pts.length; i++) {
+      const cur = pts[i], prev = pts[(i + pts.length - 1) % pts.length];
+      const inC = keep(cur), inP = keep(prev);
+      if (inC) { if (!inP) out.push(cut(prev, cur)); out.push(cur); } else if (inP) out.push(cut(prev, cur));
+    }
+    return out;
+  };
+  const at = (a: StripPoint, b: StripPoint, d: number): StripPoint => { const t = (d - a[1]) / (b[1] - a[1]); return [a[0] + (b[0] - a[0]) * t, d]; };
+  let r = clip(ring, (p) => p[1] <= band, (a, b) => at(a, b, band));
+  r = clip(r, (p) => p[1] >= -band, (a, b) => at(a, b, -band));
+  return r;
+}
+
 export async function coastStrip(origin: LatLng, destination: LatLng): Promise<CoastStrip> {
   const routeKm = distKm(origin, destination);
   const course = bearingRad(origin, destination);
@@ -61,15 +80,20 @@ export async function coastStrip(origin: LatLng, destination: LatLng): Promise<C
   const [landRaw, lineRaw] = await Promise.all([landNear(mid, boxKm).catch(() => []), coastNear(mid, boxKm).catch(() => [])]);
   const near = (pts: StripPoint[]) => pts.some(([s, d]) => Math.abs(d) < BAND_KM && s > -BAND_KM && s < routeKm + BAND_KM);
   const conv = (ring: Array<[number, number]>) => ring.map(([lng, lat]) => toRoute(origin, course, { lat, lng }));
-  const land = landRaw.map(conv).filter(near);
+  const land = landRaw.map(conv).filter(near).map((r) => clipToBand(r, BAND_KM)).filter((r) => r.length > 3);
   const lines: StripPoint[][] = [];
   const shores: ShoreKind[][] = [];
   for (const raw of lineRaw) {
     if (raw.length < 3) continue;
     const pts = conv(raw);
     if (!near(pts)) continue;
-    lines.push(pts);
-    shores.push(raw.map(([, lat]) => shoreKind(lat, 0)));
+    // keep only the runs inside the band beside the route (every far-off beach was drawn-tested each frame)
+    let run: StripPoint[] = [], kinds: ShoreKind[] = [];
+    const flush = () => { if (run.length > 1) { lines.push(run); shores.push(kinds); } run = []; kinds = []; };
+    pts.forEach((pt, i) => {
+      if (Math.abs(pt[1]) <= BAND_KM && pt[0] > -BAND_KM && pt[0] < routeKm + BAND_KM) { run.push(pt); kinds.push(shoreKind(raw[i][1], 0)); } else flush();
+    });
+    flush();
   }
   return { land, lines, shores, routeKm };
 }

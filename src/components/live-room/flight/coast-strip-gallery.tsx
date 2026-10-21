@@ -13,6 +13,7 @@ const ROUTES = [
   { label: 'Manila to Hanoi', from: { lat: 14.5995, lng: 120.9842 }, to: { lat: 21.0278, lng: 105.8342 } },
   { label: 'Tokyo to Seoul', from: { lat: 35.6762, lng: 139.6503 }, to: { lat: 37.5665, lng: 126.978 } },
   { label: 'Athens to Rome', from: { lat: 37.9838, lng: 23.7275 }, to: { lat: 41.9028, lng: 12.4964 } },
+  { label: 'Cairo to Rome', from: { lat: 30.0444, lng: 31.2357 }, to: { lat: 41.9028, lng: 12.4964 } },
 ];
 
 export function CoastStripGallery() {
@@ -33,7 +34,7 @@ export function CoastStripGallery() {
     return () => clearInterval(id);
   }, [playing, minutes]);
   const dest = WORLD_DESTINATIONS.find((d) => d.scene)!;
-  const palette = useMemo(() => composeTimedPalette('day', dest.scene!), [dest]);
+  const palette = useMemo(() => composeTimedPalette(new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '').get('tod') === 'dusk' ? 'dusk' : 'day', dest.scene!), [dest]);
   return (
     <div className="min-h-screen space-y-3 bg-[#070b14] p-4 text-white">
       <div className="flex flex-wrap items-center gap-2">
