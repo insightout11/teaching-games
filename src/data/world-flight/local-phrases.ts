@@ -35,7 +35,7 @@ export const LOCAL_PHRASES_BY_DESTINATION: Record<string, DestinationLocalPhrase
     { phrase: 'You alright?', meaning: 'Hi / how are you?', sayIt: 'yoo awl-right' },
     { phrase: 'Cheers', meaning: 'Thanks', sayIt: 'cheerz' },
     { phrase: 'Sorry', meaning: 'Excuse me (to get past someone)', sayIt: 'sor-ee' },
-    { phrase: 'Ta', meaning: 'Thanks / bye (informal)', sayIt: 'tah' },
+    { phrase: 'Ta', meaning: 'Thanks (informal)', sayIt: 'tah' },
   ],
   'new-york': [
     { phrase: 'Hey, how you doing?', meaning: 'Hello / how are you?', sayIt: 'hay, how-yuh doo-in' },
@@ -213,7 +213,7 @@ export const LOCAL_PHRASES_BY_DESTINATION: Record<string, DestinationLocalPhrase
   ],
   auckland: [
     { phrase: 'Kia ora', meaning: 'Hello / thank you', sayIt: 'kee-ah oh-rah' },
-    { phrase: 'Tēnā koe', meaning: 'Hello (to one person)', sayIt: 'teh-nah koy' },
+    { phrase: 'Tēnā koe', meaning: 'Hello (to one person)', sayIt: 'teh-nah koh-eh' },
     { phrase: 'Aroha mai', meaning: 'Sorry / excuse me', sayIt: 'ah-roh-hah my' },
     { phrase: 'Haere rā', meaning: 'Goodbye (to someone leaving)', sayIt: 'high-reh rah' },
   ],
