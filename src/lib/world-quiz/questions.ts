@@ -11,9 +11,13 @@ import { WHICH_IS_BIGGER } from '@/data/world-quiz/which-is-bigger';
 import { CAPITAL_QUESTIONS } from '@/data/world-quiz/capitals';
 import { HELLO_QUESTIONS } from '@/data/world-quiz/hello';
 import { getFlightLog } from '@/lib/world-quiz/flight-log';
+import { LANDMARK_QUESTIONS } from '@/data/world-quiz/landmarks';
+import { FOOD_QUESTIONS } from '@/data/world-quiz/food';
+import { ANIMAL_QUESTIONS } from '@/data/world-quiz/animals';
+import type { PictureQuestion } from '@/data/world-quiz/picture-question';
 
-export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'pins' | 'bigger' | 'capitals' | 'hello' | 'flight' | 'mix';
-export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard' | 'pin' | 'bigger' | 'capital' | 'hello';
+export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'pins' | 'bigger' | 'capitals' | 'hello' | 'landmarks' | 'food' | 'animals' | 'flight' | 'mix';
+export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard' | 'pin' | 'bigger' | 'capital' | 'hello' | 'picture';
 export interface WorldQuestion {
   kind: QuestionKind;
   country: QuizCountry;
@@ -35,6 +39,8 @@ export interface WorldQuestion {
   prompt?: string;
   /** Which is bigger: the two countries (flags) and the real numbers, shown on the reveal. */
   pair?: Array<{ iso2: string; name: string; value: number; unit: string; year: number }>;
+  /** Picture rounds (landmarks, food, animals): a photo search for the subject (Wikimedia, strict match). */
+  picture?: string;
   /** Hello: how to say the right greeting. */
   pronunciation?: string;
 }
@@ -149,6 +155,14 @@ function hellos(count: number, level: 1 | 2 | 3): WorldQuestion[] {
   }));
 }
 
+/** Picture rounds (Codex's checked banks): a photo, which country? At or below the class's level. */
+function pictureRound(bank: readonly PictureQuestion[], count: number, level: 1 | 2 | 3): WorldQuestion[] {
+  const fit = bank.filter((q) => q.level <= level);
+  return shuffle([...(fit.length >= count ? fit : bank)]).slice(0, count).map((q) => ({
+    kind: 'picture' as const, country: countryOf(q.iso2, q.options[q.correctIndex]), options: [...q.options], correctIndex: q.correctIndex, prompt: q.prompt, picture: q.picture, fact: q.fact,
+  }));
+}
+
 /** Our flight: questions about today's journey (where we took off, where we are going, what we flew over). */
 function ourFlight(count: number): WorldQuestion[] {
   const f = getFlightLog();
@@ -190,7 +204,10 @@ export async function buildQuiz(mode: WorldQuizMode, level: 1 | 2 | 3, count: nu
   if (mode === 'capitals') return capitals(count, level);
   if (mode === 'hello') return hellos(count, level);
   if (mode === 'flight') return ourFlight(count);
-  const cards = mode === 'mix' ? shuffle([...postcards(Math.ceil(count / 8)), ...pinDrops(Math.ceil(count / 8)), ...bigger(Math.ceil(count / 8)), ...capitals(Math.ceil(count / 8), level)]).slice(0, Math.ceil(count / 2)) : [];
+  if (mode === 'landmarks') return pictureRound(LANDMARK_QUESTIONS, count, level);
+  if (mode === 'food') return pictureRound(FOOD_QUESTIONS, count, level);
+  if (mode === 'animals') return pictureRound(ANIMAL_QUESTIONS, count, level);
+  const cards = mode === 'mix' ? shuffle([...postcards(Math.ceil(count / 8)), ...pinDrops(Math.ceil(count / 8)), ...bigger(Math.ceil(count / 8)), ...capitals(Math.ceil(count / 8), level), ...pictureRound([...LANDMARK_QUESTIONS, ...FOOD_QUESTIONS, ...ANIMAL_QUESTIONS], Math.ceil(count / 6), level)]).slice(0, Math.ceil(count / 2)) : [];
   const pool = countriesFor(level);
   const picked = shuffle(pool).slice(0, Math.min(count * 2, pool.length));
   const kinds: QuestionKind[] = mode === 'mix' ? ['flag', 'shape', 'clues'] : [mode === 'flags' ? 'flag' : mode === 'shapes' ? 'shape' : 'clues'];

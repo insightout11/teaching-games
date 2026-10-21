@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { FreePictureCard } from '@/components/ui/free-picture';
 import { SkyRace, LandingOrder, type SkyPilot } from '@/components/quiz/sky-race';
-import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Plane, Scale, Shuffle, Stamp } from 'lucide-react';
+import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Plane, Scale, Shuffle, Stamp, Castle, UtensilsCrossed, PawPrint } from 'lucide-react';
 import { WorldLensMap, type WorldLensGuess } from '../world-lens/world-lens-map';
 import { parseWorldLensGuess } from '../world-lens/scoring';
 import { haversineKm } from '../mystery-flight/logic';
@@ -33,6 +34,9 @@ const MODES: Array<{ key: WorldQuizMode; label: string; detail: string; icon: ty
   { key: 'bigger', label: 'Which is bigger?', detail: 'More people or more land? Then the real numbers', icon: Scale },
   { key: 'capitals', label: 'Capitals', detail: 'What is the capital of…?', icon: Landmark },
   { key: 'hello', label: 'Hello around the world', detail: 'How do people say hello there?', icon: MessageCircle },
+  { key: 'landmarks', label: 'Landmarks', detail: 'A famous place: which country is it in?', icon: Castle },
+  { key: 'food', label: 'Food around the world', detail: 'Where does this food come from?', icon: UtensilsCrossed },
+  { key: 'animals', label: 'Animals of the world', detail: 'Where does this animal live in the wild?', icon: PawPrint },
   { key: 'flight', label: 'Our flight', detail: 'Questions about today\'s journey', icon: Plane },
   { key: 'mix', label: 'Mix', detail: 'A bit of everything', icon: Shuffle },
 ];
@@ -45,7 +49,7 @@ function headingOf(q: WorldQuestion): string {
 }
 const fmtNumber = (n: number, unit: string) => unit === 'km2' ? `${n.toLocaleString()} km²` : `${n.toLocaleString()} people`;
 
-export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, onPhaseChange }: GameProps) {
+export function WorldQuizGame({ sessionId, students, onScore, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, onPhaseChange }: GameProps) {
   const junior = useSessionStore((s) => s.junior);
   const [phase, setPhase] = useState<Phase>('setup');
   const [mode, setMode] = useState<WorldQuizMode>('mix');
@@ -292,6 +296,9 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
               <p className="text-white/60">Pin it on the map on your phone</p>
             </div>
           )
+        )}
+        {q.kind === 'picture' && q.picture && (
+          <div className="w-full max-w-lg [&_img]:max-h-[240px]"><FreePictureCard sessionId={sessionId} query={q.picture} /></div>
         )}
         {q.kind === 'postcard' && q.scene && q.destinationId && (
           <div className="relative aspect-[16/7] w-full max-w-lg overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
