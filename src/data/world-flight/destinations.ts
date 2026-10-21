@@ -3093,7 +3093,7 @@ const TRAVEL_ANCHORS_BY_DESTINATION: Partial<Record<string, TravelAnchors>> = {
       verifiedTravelDish('balik-ekmek', 'Balik Ekmek', 'A grilled fish sandwich commonly eaten near the waterfront.', 'https://en.wikipedia.org/wiki/Bal%C4%B1k_ekmek', 'Often associated with ferries and the Galata Bridge area.'),
     ],
     attractions: [
-      verifiedTravelAttraction('hagia-sophia', 'Hagia Sophia', 'A monumental former church and mosque in Sultanahmet.', 'https://en.wikipedia.org/wiki/Hagia_Sophia', 'Useful for layered history and respectful visiting rules.'),
+      verifiedTravelAttraction('hagia-sophia', 'Hagia Sophia', 'A monumental historic church that is now a mosque in Sultanahmet.', 'https://en.wikipedia.org/wiki/Hagia_Sophia', 'Useful for layered history and respectful visiting rules.'),
       verifiedTravelAttraction('topkapi-palace', 'Topkapi Palace', 'A former Ottoman palace complex with courtyards and treasury rooms.', 'https://en.wikipedia.org/wiki/Topkap%C4%B1_Palace', 'Good for map language across large grounds.'),
       verifiedTravelAttraction('grand-bazaar', 'Grand Bazaar', 'A huge covered market with lanes, shops, and gates.', 'https://en.wikipedia.org/wiki/Grand_Bazaar,_Istanbul', 'Natural for bargaining and getting-lost dialogue.'),
     ],

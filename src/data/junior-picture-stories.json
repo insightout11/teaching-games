@@ -167,7 +167,7 @@
         "answer": "rain"
       },
       {
-        "prompt": "Where is the missing boot?",
+        "prompt": "Where are the missing boots?",
         "options": [
           "bed",
           "table",
@@ -5335,7 +5335,7 @@
         "answer": "autumn"
       },
       {
-        "prompt": "What was missing?",
+        "prompt": "Which game was missing a piece?",
         "options": [
           "board-game",
           "spoon",
@@ -5646,7 +5646,7 @@
     ],
     "questions": [
       {
-        "prompt": "What did Suri lose?",
+        "prompt": "What was Suri's ticket made of?",
         "options": [
           "paper",
           "map",

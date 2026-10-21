@@ -456,7 +456,7 @@
       { "order": 2, "kind": "food", "text": "A sesame-covered bread ring is often eaten plain or filled for a quick snack." },
       { "order": 3, "kind": "culture", "text": "Tea is commonly served in small tulip-shaped glasses during visits and breaks." },
       { "order": 4, "kind": "nature", "text": "Ferries carry passengers between busy waterfront neighborhoods on opposite shores." },
-      { "order": 5, "kind": "landmark", "text": "A domed former church and mosque has a large central dome and tall minarets." },
+      { "order": 5, "kind": "landmark", "text": "A historic church that is now a mosque has a large central dome and tall minarets." },
       { "order": 6, "kind": "giveaway", "text": "This city is in Turkey." }
     ],
     "souvenirs": [
