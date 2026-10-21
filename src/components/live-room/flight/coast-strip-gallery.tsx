@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CockpitSky } from '@/components/live-room/flight/cockpit-sky';
 import { CockpitWorld, type RouteClock } from '@/components/live-room/flight/cockpit-world';
-import { setRealCoast } from '@/components/live-room/flight/ground-texture';
+import { realCoast, setRealCoast } from '@/components/live-room/flight/ground-texture';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { coastStrip, type CoastStrip } from '@/lib/live-room/coast-strip';
@@ -17,7 +17,11 @@ const ROUTES = [
 ];
 
 export function CoastStripGallery() {
-  useEffect(() => { setRealCoast(true); }, []);
+  useEffect(() => {
+    const previous = realCoast();
+    setRealCoast(true);
+    return () => setRealCoast(previous);
+  }, []);
   const [ri, setRi] = useState(0);
   const route = ROUTES[ri];
   const [strip, setStrip] = useState<CoastStrip | null>(null);

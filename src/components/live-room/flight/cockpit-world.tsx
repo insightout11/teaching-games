@@ -303,7 +303,7 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
 }
 
 /** Is this point inside the real land outlines? (Counts the outline crossings to its left: odd is land.) */
-function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: number, z: number): boolean {
+export function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: number, z: number): boolean {
   let n = 0;
   for (const k of cw.buckets.get(Math.floor(z / COAST_BUCKET)) ?? []) {
     const x1 = cw.edges[k * 4], z1 = cw.edges[k * 4 + 1], x2 = cw.edges[k * 4 + 2], z2 = cw.edges[k * 4 + 3];
