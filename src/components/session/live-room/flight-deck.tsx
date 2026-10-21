@@ -57,6 +57,7 @@ import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/li
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
+import { setFlightLog } from '@/lib/world-quiz/flight-log';
 import { PhotoMoment } from '@/components/live-room/flight/photo-moment';
 import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
 import { lensById, lensesFor } from '@/lib/lens';
@@ -1104,6 +1105,17 @@ export function FlightDeck({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [flightStage, origin.id, destination.id, Math.round(flightMs / 300_000), countries, naturalEvents],
   );
+  // Today's flight for the World Quiz "Our flight" round: the cities, countries crossed, places passed, heading
+  useEffect(() => {
+    if (origin.id === destination.id) { setFlightLog(null); return; }
+    setFlightLog({
+      origin: { name: origin.city, country: getDestinationById(origin.id)?.country ?? '', lat: origin.lat, lng: origin.lng },
+      destination: { name: destination.city, country: getDestinationById(destination.id)?.country ?? '', lat: destination.lat, lng: destination.lng },
+      countries: preview.filter((s) => s.crossing).map((s) => s.text.replace(/^Cross into /, '')),
+      places: moments.filter((m) => m.kind === 'landmark' || m.kind === 'place' || m.kind === 'crossing').map((m) => m.title),
+      heading: bearingDeg(origin, destination),
+    });
+  }, [origin, destination, preview, moments]);
   const [momentsShown, setMomentsShown] = useState<string[]>([]);
   const [momentCard, setMomentCard] = useState<{ moment: Moment; facts: string[]; picture: FreePicture | null; loading: boolean } | null>(null);
   const momentUpcoming = minutesFlown == null ? null : moments.find((m) => !momentsShown.includes(m.id) && m.at - minutesFlown > 0 && m.at - minutesFlown <= 3) ?? null;

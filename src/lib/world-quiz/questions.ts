@@ -10,8 +10,9 @@ import { PIN_DROP_PLACES } from '@/data/world-quiz/pin-drop';
 import { WHICH_IS_BIGGER } from '@/data/world-quiz/which-is-bigger';
 import { CAPITAL_QUESTIONS } from '@/data/world-quiz/capitals';
 import { HELLO_QUESTIONS } from '@/data/world-quiz/hello';
+import { getFlightLog } from '@/lib/world-quiz/flight-log';
 
-export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'pins' | 'bigger' | 'capitals' | 'hello' | 'mix';
+export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'pins' | 'bigger' | 'capitals' | 'hello' | 'flight' | 'mix';
 export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard' | 'pin' | 'bigger' | 'capital' | 'hello';
 export interface WorldQuestion {
   kind: QuestionKind;
@@ -148,6 +149,39 @@ function hellos(count: number, level: 1 | 2 | 3): WorldQuestion[] {
   }));
 }
 
+/** Our flight: questions about today's journey (where we took off, where we are going, what we flew over). */
+function ourFlight(count: number): WorldQuestion[] {
+  const f = getFlightLog();
+  if (!f) return [];
+  const out: WorldQuestion[] = [];
+  const cityName = (c: QuizCountry | undefined, n: string) => c ?? { name: n, iso2: '', continent: 'Europe' as const, level: 1 as const };
+  // where we took off and where we are flying: pins on the map
+  out.push({ kind: 'pin', country: cityName(QUIZ_COUNTRIES.find((c) => c.name === f.origin.country), f.origin.country), options: [], correctIndex: -1, prompt: 'Where did we take off today? Pin it!', place: f.origin, fact: `We took off from ${f.origin.name}${f.origin.country ? `, ${f.origin.country}` : ''}.` });
+  out.push({ kind: 'pin', country: cityName(QUIZ_COUNTRIES.find((c) => c.name === f.destination.country), f.destination.country), options: [], correctIndex: -1, prompt: 'Where are we flying to? Pin it!', place: f.destination, fact: `We are flying to ${f.destination.name}${f.destination.country ? `, ${f.destination.country}` : ''}.` });
+  // which way are we flying
+  const dirs = ['north', 'north-east', 'east', 'south-east', 'south', 'south-west', 'west', 'north-west'];
+  const dir = dirs[Math.round(((f.heading % 360) + 360) % 360 / 45) % 8];
+  const dirOptions = shuffle([dir, ...shuffle(dirs.filter((d) => d !== dir)).slice(0, 3)]);
+  out.push({ kind: 'clues', country: cityName(undefined, f.destination.country), options: dirOptions, correctIndex: dirOptions.indexOf(dir), prompt: `Which way are we flying from ${f.origin.name} to ${f.destination.name}?`, clues: [`We started in ${f.origin.name}.`, `We are going to ${f.destination.name}.`], fact: `We are flying ${dir}.` });
+  // a country we flew over (with its flag)
+  for (const name of shuffle(f.countries).slice(0, 2)) {
+    const c = QUIZ_COUNTRIES.find((x) => x.name === name);
+    if (!c) continue;
+    const wrong = shuffle(QUIZ_COUNTRIES.filter((x) => x.continent === c.continent && !f.countries.includes(x.name))).slice(0, 3).map((x) => x.name);
+    if (wrong.length < 3) continue;
+    const options = shuffle([c.name, ...wrong]);
+    out.push({ kind: 'flag', country: c, options, correctIndex: options.indexOf(c.name), prompt: 'We flew over this country today. Which one is it?', fact: `We flew over ${c.name}.` });
+  }
+  // a place we passed
+  const place = shuffle(f.places)[0];
+  if (place) {
+    const others = shuffle([...PIN_DROP_PLACES.map((p) => p.name)].filter((n) => !f.places.includes(n))).slice(0, 3);
+    const options = shuffle([place, ...others]);
+    out.push({ kind: 'clues', country: cityName(undefined, ''), options, correctIndex: options.indexOf(place), prompt: 'Which of these did we pass on our flight today?', clues: [`It was on our way from ${f.origin.name} to ${f.destination.name}.`], fact: `We passed ${place}.` });
+  }
+  return out.slice(0, count);
+}
+
 /** A round of questions for a mode, at a level (1 easiest), `count` long. */
 export async function buildQuiz(mode: WorldQuizMode, level: 1 | 2 | 3, count: number): Promise<WorldQuestion[]> {
   if (mode === 'postcards') return postcards(count);
@@ -155,6 +189,7 @@ export async function buildQuiz(mode: WorldQuizMode, level: 1 | 2 | 3, count: nu
   if (mode === 'bigger') return bigger(count);
   if (mode === 'capitals') return capitals(count, level);
   if (mode === 'hello') return hellos(count, level);
+  if (mode === 'flight') return ourFlight(count);
   const cards = mode === 'mix' ? shuffle([...postcards(Math.ceil(count / 8)), ...pinDrops(Math.ceil(count / 8)), ...bigger(Math.ceil(count / 8)), ...capitals(Math.ceil(count / 8), level)]).slice(0, Math.ceil(count / 2)) : [];
   const pool = countriesFor(level);
   const picked = shuffle(pool).slice(0, Math.min(count * 2, pool.length));

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Scale, Shuffle, Trophy } from 'lucide-react';
+import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Plane, Scale, Shuffle, Trophy } from 'lucide-react';
 import { WorldLensMap, type WorldLensGuess } from '../world-lens/world-lens-map';
 import { parseWorldLensGuess } from '../world-lens/scoring';
 import { haversineKm } from '../mystery-flight/logic';
@@ -32,6 +32,7 @@ const MODES: Array<{ key: WorldQuizMode; label: string; detail: string; icon: ty
   { key: 'bigger', label: 'Which is bigger?', detail: 'More people or more land? Then the real numbers', icon: Scale },
   { key: 'capitals', label: 'Capitals', detail: 'What is the capital of…?', icon: Landmark },
   { key: 'hello', label: 'Hello around the world', detail: 'How do people say hello there?', icon: MessageCircle },
+  { key: 'flight', label: 'Our flight', detail: 'Questions about today\'s journey', icon: Plane },
   { key: 'mix', label: 'Mix', detail: 'A bit of everything', icon: Shuffle },
 ];
 const REVEAL_GRACE_MS = 1200;
