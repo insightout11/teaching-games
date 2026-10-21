@@ -95,6 +95,7 @@ import { useDeckDrag, type DeckDrop } from '@/components/session/live-room/use-d
 import { useLessonMemory } from '@/hooks/use-lesson-memory';
 import { LessonLogbookDrawer } from '@/components/session/live-room/lesson-logbook-drawer';
 import { AlbumStrip } from '@/components/session/live-room/album-strip';
+import { phonesAnnounceMode, setPhonesAnnounceMode, type PhonesAnnounce } from '@/components/session/phones-now-banner';
 import { lessonEntry, sanitizeLessonMemory, type LessonEntry } from '@/lib/lesson-memory';
 
 /**
@@ -622,6 +623,9 @@ export function FlightDeck({
 
   // Class pin map: every phone drops a pin (geo-point input); pins land live.
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
+  // How the shared screen announces new phone tasks (chime / quiet / off): see phones-now-banner
+  const [announce, setAnnounce] = useState<PhonesAnnounce>('chime');
+  useEffect(() => { setAnnounce(phonesAnnounceMode()); }, []);
   const phoneSpec = useSessionStore((s) => s.inputSpec);
   // One tap clears every phone: whatever task is on them (board, question, game input) and any open vote
   const clearPhones = async () => {
@@ -3522,6 +3526,12 @@ export function FlightDeck({
             <div className="absolute right-0 top-10 z-50 w-56 rounded-xl border border-[#2A3854] bg-[#0c1322] p-1.5 shadow-2xl">
               <button type="button" onClick={() => { setPanel(null); setPlanOpen(true); }} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/5"><Plane className="h-4 w-4" /> Launch a flight</button>
               <button type="button" onClick={() => setPanel('logbook')} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-white/5"><BookOpen className="h-4 w-4" /> Today&apos;s logbook</button>
+              <div className="flex items-center gap-2 px-3 py-2 text-sm">
+                <Smartphone className="h-4 w-4 shrink-0" /> <span className="flex-1">Phones announcement</span>
+                {(['chime', 'quiet', 'off'] as const).map((m) => (
+                  <button key={m} type="button" onClick={() => { setPhonesAnnounceMode(m); setAnnounce(m); }} className={`rounded-md border px-1.5 py-0.5 text-[11px] capitalize ${announce === m ? 'border-amber-300/60 bg-amber-300/15 text-amber-100' : 'border-white/15 text-white/60 hover:text-white'}`}>{m}</button>
+                ))}
+              </div>
               {flightStage === 'flying' ? (
                 <>
                   <button type="button" onClick={landNow} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-amber-200 hover:bg-amber-300/10">

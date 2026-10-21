@@ -247,6 +247,7 @@ function getInputActionLabel(spec: InputSpec): string {
 
 function getSignalName(gameKey: string | null | undefined): string {
   if (!gameKey) return 'Crew Signal';
+  if (gameKey === 'class-board') return 'Class Board';
   return getGame(gameKey)?.name ?? getActivity(gameKey)?.name ?? gameKey;
 }
 
