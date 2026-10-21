@@ -95,7 +95,7 @@ describe('checked route-place cards', () => {
   it('uses subject searches for cultural and geographic cards', () => {
     const songkran = findRoutePlaceBriefing('Thailand')!.levels.A1.cards!.find(c => c.headline.includes('Songkran'))!;
     expect(songkran.picture).toBe('Songkran water festival Thailand');
-    expect(songkran.questions).toContain('How do people celebrate New Year where you live?');
+    expect(songkran.questions).toContain('Do you like Songkran water games?');
     const yushan = findRoutePlaceBriefing('Taiwan')!.levels.B1.cards!.find(c => c.headline.includes('Yushan'))!;
     expect(yushan.picture).toBe('Yushan summit Taiwan');
   });

@@ -12,6 +12,12 @@ const hasBrokenText = (s: string) => /[\uFFFD\u0000-\u0008\u000B\u000C\u000E-\u0
 type Level = 'A1' | 'B1';
 interface EditorialPlace { title: string; levels: Record<Level, { cards: FactCard[] }> }
 
+/** Short closed questions or simple colour/preferences, rather than reasoning prompts. */
+export function isSimpleA1Question(question: string): boolean {
+  return words(question) <= 8 && !/\b(?:how could|why might)\b/i.test(question)
+    && /^(?:(?:Do|Does|Did|Is|Are|Can|Have|Has)\b|Would you like\b|What colou?r\b|Which do you like more:)/i.test(question);
+}
+
 /** Fail closed so rebuilding cannot silently restore the defects this revision removes. */
 export function validateRoutePlaceCards(places: EditorialPlace[]): void {
   const questionPlaces = new Map<string, Set<string>>();
@@ -39,6 +45,7 @@ export function validateRoutePlaceCards(places: EditorialPlace[]): void {
         if (card.questions.length !== 2 || new Set(card.questions.map(identity)).size !== 2) throw new Error(`Two questions required: ${context}`);
         for (const question of card.questions) {
           if (question.length < 6 || !question.endsWith('?')) throw new Error(`Question: ${context}`);
+          if (level === 'A1' && !isSimpleA1Question(question)) throw new Error(`Simple A1 question required: ${context}: ${question}`);
           const key = identity(question);
           const used = questionPlaces.get(key) ?? new Set<string>();
           used.add(place.title);

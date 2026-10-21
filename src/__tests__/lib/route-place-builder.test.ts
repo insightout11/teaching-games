@@ -19,7 +19,7 @@ describe('route-place compiler rejects editorial regressions', () => {
   });
   it('counts a question in both levels of one place only once', () => {
     const cards = copy().slice(0, 1);
-    cards[0].levels.A1.cards[0].questions = [...cards[0].levels.B1.cards[0].questions];
+    cards[0].levels.B1.cards[0].questions = [...cards[0].levels.A1.cards[0].questions];
     expect(() => validateRoutePlaceCards(cards)).not.toThrow();
   });
   it('does not disguise a repeated question with case, punctuation or spacing', () => {
