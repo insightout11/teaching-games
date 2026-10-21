@@ -18,11 +18,13 @@ export interface WorldFlightRecordData {
   landing: {
     city: string; moves: boolean; newCity: boolean; lesson: string | null; everyoneAboard: boolean; strongLanding: boolean; stars: number; after: WorldFlightUpgradeState; hoursAfter: number; starsAfter: number;
     souvenirs?: Array<{ id: string; name: string; description: string; icon: string }>;
+    photos?: Array<{ id: string; name: string; timeOfDay: string; rare: boolean; url: string | null }>;
     saved?: boolean;
     postcard?: { prompts: string[]; souvenir: string | null; written: boolean } | null;
   } | null;
   souvenirShelf?: Array<{ destinationId: string; city: string; items: Array<{ id: string; name: string; description: string; icon: string; owned: boolean; how: string }> }>;
   postcards?: Array<{ id: string; destinationId: string; city: string; prompt: string; message: string; createdAt: string }>;
+  albumToFind?: Array<{ id: string; name: string; hint: string }>;
   album?: Array<{ id: string; landmarkId: string; name: string; takenAt: string; timeOfDay: string; weather: string; fromCity: string; toCity: string; rare: boolean; url: string | null }>;
 }
 
@@ -143,11 +145,11 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
                 </section>
               )}
 
-              {(data.album?.length ?? 0) > 0 && (
+              {((data.album?.length ?? 0) > 0 || (data.albumToFind?.length ?? 0) > 0) && (
                 <section>
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Landmark album · {data.album!.length}</p>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Landmark album · {data.album?.length ?? 0}</p>
                   <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    {data.album!.map((ph, i) => (
+                    {(data.album ?? []).map((ph, i) => (
                       <figure key={ph.id} className="rounded-sm bg-white p-1.5 pb-2 text-[#1b2233] shadow-[0_8px_20px_rgba(0,0,0,0.35)]" style={{ transform: `rotate(${[-1.5, 1, -0.5, 1.8, -1][i % 5]}deg)` }}>
                         {ph.url
                           // eslint-disable-next-line @next/next/no-img-element
@@ -157,6 +159,12 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
                           <span className="flex items-center justify-between gap-1 font-semibold capitalize">{ph.name}{ph.rare && <span className="rounded-full bg-amber-300 px-1.5 text-[9px] uppercase tracking-wide">Rare</span>}</span>
                           <span className="text-[#1b2233]/60">{day(ph.takenAt)} · {ph.timeOfDay}{ph.weather ? ` · ${ph.weather}` : ''}{ph.fromCity && ph.toCity ? ` · ${ph.fromCity} to ${ph.toCity}` : ''}</span>
                         </figcaption>
+                      </figure>
+                    ))}
+                    {(data.albumToFind ?? []).map((t) => (
+                      <figure key={t.id} className="flex flex-col justify-center rounded-sm border-2 border-dashed border-white/25 p-3 text-center">
+                        <p className="text-sm font-semibold capitalize text-white/80">{t.name}</p>
+                        <p className="mt-0.5 text-[11px] text-white/50">{t.hint}</p>
                       </figure>
                     ))}
                   </div>
@@ -320,6 +328,15 @@ export function LandingRewards({ landing, sessionId, onPostcardSaved }: { landin
           {[landing.everyoneAboard && 'Everyone Aboard', landing.strongLanding && 'Strong Landing'].filter(Boolean).join(' · ') || 'No stars this time'}
         </span>
       </p>
+      {(landing.photos?.length ?? 0) > 0 && (
+        <div className="flex items-center gap-2">
+          {landing.photos!.slice(0, 3).map((ph) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            ph.url ? <img key={ph.id} src={ph.url} alt={ph.name} className="h-10 w-16 rotate-[-2deg] rounded-[2px] border-2 border-white object-cover shadow" /> : null
+          ))}
+          <span><span className="font-semibold">New in our album:</span> {landing.photos!.map((ph) => `${ph.name}${ph.timeOfDay ? ` at ${ph.timeOfDay}` : ''}${ph.rare ? ' (rare!)' : ''}`).join(', ')}</span>
+        </div>
+      )}
       {(landing.souvenirs?.length ?? 0) > 0 && (
         <div className="space-y-1">
           {landing.souvenirs!.map((sv) => {

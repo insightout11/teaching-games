@@ -42,6 +42,15 @@ export function drawnLandmarkNear(at: LatLng, headingDeg: number, maxKm = 150, c
   return best;
 }
 
+/** Every drawn landmark within `maxKm` of a city, nearest first: the album's "still to find" frames. */
+export function drawnLandmarksNear(at: LatLng, maxKm = 150, catalog: readonly Landmark[] = LANDMARK_CATALOG): Array<{ id: string; name: string; km: number }> {
+  return catalog
+    .filter((l) => DRAWN[l.shape] && DRAWN[l.shape] !== 'niagara')
+    .map((l) => ({ id: l.id, name: l.name, km: Math.round(km(at, l)) }))
+    .filter((l) => l.km <= maxKm)
+    .sort((a, b) => a.km - b.km);
+}
+
 /** Every catalogue landmark in view from `at` (drawn or not): for the route report and, later, the album's hints. */
 export function catalogueInView(at: LatLng, headingDeg: number, catalog: readonly Landmark[] = LANDMARK_CATALOG): Array<{ id: string; ahead: number; lateral: number }> {
   return inView(at, headingDeg, catalog, false).map(({ id, ahead, lateral }) => ({ id, ahead, lateral }));

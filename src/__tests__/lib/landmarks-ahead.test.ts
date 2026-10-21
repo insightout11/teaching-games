@@ -26,3 +26,16 @@ describe('landmarks ahead of the plane', () => {
     expect(fuji?.lateral).toBeGreaterThan(0);
   });
 });
+
+import { drawnLandmarkNear, drawnLandmarksNear } from '@/lib/live-room/landmarks-ahead';
+
+describe('landmarks by a city', () => {
+  const cairo = { lat: 30.0444, lng: 31.2357 };
+  it('finds the pyramids near Cairo, for the album and the take-off', () => {
+    expect(drawnLandmarksNear(cairo).map((l) => l.id)).toContain('pyramids');
+    expect(drawnLandmarkNear(cairo, 0)?.id).toBe('pyramids');
+  });
+  it('finds nothing drawn in the open ocean', () => {
+    expect(drawnLandmarksNear({ lat: -40, lng: -120 })).toEqual([]);
+  });
+});

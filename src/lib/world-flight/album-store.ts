@@ -8,7 +8,7 @@ type Service = ReturnType<typeof createServiceClient>;
 export const ALBUM_BUCKET = 'landmark-album';
 const MAX_BYTES = 3 * 1024 * 1024;
 
-export interface AlbumPhoto { id: string; landmarkId: string; takenAt: string; timeOfDay: string; weather: string; fromCity: string; toCity: string; rare: boolean; url: string | null }
+export interface AlbumPhoto { id: string; sessionId: string | null; landmarkId: string; takenAt: string; timeOfDay: string; weather: string; fromCity: string; toCity: string; rare: boolean; url: string | null }
 
 /** A rare photo: a landmark seen at dawn, dusk or night, or in snow, a storm or the northern lights. */
 export function isRarePhoto(timeOfDay: string, weather: string): boolean {
@@ -36,10 +36,10 @@ export async function saveLandmarkPhoto(input: { classId: string; sessionId: str
 
 /** The class album, newest first, with links that last an hour. */
 export async function classAlbum(service: Service, classId: string, limit = 60): Promise<AlbumPhoto[]> {
-  const { data, error } = await service.from('class_landmark_photos').select('id, landmark_id, taken_at, time_of_day, weather, from_city, to_city, rare, image_path').eq('class_id', classId).order('taken_at', { ascending: false }).limit(limit);
+  const { data, error } = await service.from('class_landmark_photos').select('id, session_id, landmark_id, taken_at, time_of_day, weather, from_city, to_city, rare, image_path').eq('class_id', classId).order('taken_at', { ascending: false }).limit(limit);
   if (error || !data?.length) return [];
-  const rows = data as Array<{ id: string; landmark_id: string; taken_at: string; time_of_day: string; weather: string; from_city: string; to_city: string; rare: boolean; image_path: string }>;
+  const rows = data as Array<{ id: string; session_id: string | null; landmark_id: string; taken_at: string; time_of_day: string; weather: string; from_city: string; to_city: string; rare: boolean; image_path: string }>;
   const signed = await service.storage.from(ALBUM_BUCKET).createSignedUrls(rows.map((r) => r.image_path), 3600);
   const urlOf = new Map((signed.data ?? []).map((s) => [s.path, s.signedUrl]));
-  return rows.map((r) => ({ id: r.id, landmarkId: r.landmark_id, takenAt: r.taken_at, timeOfDay: r.time_of_day, weather: r.weather, fromCity: r.from_city, toCity: r.to_city, rare: r.rare, url: urlOf.get(r.image_path) ?? null }));
+  return rows.map((r) => ({ id: r.id, sessionId: r.session_id, landmarkId: r.landmark_id, takenAt: r.taken_at, timeOfDay: r.time_of_day, weather: r.weather, fromCity: r.from_city, toCity: r.to_city, rare: r.rare, url: urlOf.get(r.image_path) ?? null }));
 }

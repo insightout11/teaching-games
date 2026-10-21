@@ -12,6 +12,7 @@ import { citySouvenirs, howToEarn, postcardPrompts, postcardSouvenir, souvenirsF
 import { classPostcards, ownedSouvenirs } from '@/lib/world-flight/souvenir-store';
 import { classAlbum } from '@/lib/world-flight/album-store';
 import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
+import { drawnLandmarksNear } from '@/lib/live-room/landmarks-ahead';
 
 export const dynamic = 'force-dynamic';
 
@@ -133,6 +134,17 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
   // Souvenirs: the shelf (every city the class has visited, what it has and what it can still earn there) and postcards.
   const [ownedSv, postcards, album] = await Promise.all([ownedSouvenirs(service, classId), classPostcards(service, classId), classAlbum(service, classId)]);
   const albumList = album.map((p) => ({ ...p, name: LANDMARK_CATALOG.find((l) => l.id === p.landmarkId)?.name ?? p.landmarkId }));
+  // Still to find: drawn landmarks near the cities the class has been to, not yet in its album
+  const photographed = new Set(album.map((p) => p.landmarkId));
+  const albumToFind: Array<{ id: string; name: string; hint: string }> = [];
+  for (const s of stamps) {
+    const d = getDestinationById(s.destinationId);
+    if (!d) continue;
+    for (const l of drawnLandmarksNear(d)) {
+      if (photographed.has(l.id) || albumToFind.some((x) => x.id === l.id)) continue;
+      albumToFind.push({ id: l.id, name: l.name, hint: `Near ${d.city}: look out after take-off` });
+    }
+  }
   const ownedIds = new Set(ownedSv.map((s) => s.souvenirId));
   const shelfCities = Array.from(new Set([...stamps.map((s) => s.destinationId), ...ownedSv.map((s) => s.destinationId)]));
   const souvenirShelf = shelfCities.map((destinationId) => ({
@@ -164,6 +176,7 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     after: getWorldFlightUpgradeState({ planeTier, rangeKm, flightHours: flightHours + (alreadySaved ? 0 : 1), crewStars: crewStars + (alreadySaved ? 0 : reward.crewStarsAwarded) }),
     hoursAfter: flightHours + (alreadySaved ? 0 : 1),
     starsAfter: crewStars + (alreadySaved ? 0 : reward.crewStarsAwarded),
+    photos: albumList.filter((p) => p.sessionId === params.sessionId).map((p) => ({ id: p.id, name: p.name, timeOfDay: p.timeOfDay, rare: p.rare, url: p.url })),
     souvenirs: landingSouvenirs.map((s) => ({ id: s.id, name: s.name, description: s.description, icon: s.icon })),
     saved: alreadySaved,
     postcard: landingMoves && postcardPrompts(thisLeg.destination_id).length ? {
@@ -173,5 +186,5 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     } : null,
   } : null;
 
-  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, expeditions, hangar, landing , souvenirShelf, postcards: postcardList, album: albumList });
+  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, expeditions, hangar, landing , souvenirShelf, postcards: postcardList, album: albumList, albumToFind: albumToFind.slice(0, 6) });
 }
