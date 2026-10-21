@@ -9,6 +9,9 @@ import { WHICH_IS_BIGGER } from './which-is-bigger';
 import { CAPITAL_QUESTIONS } from './capitals';
 import { HELLO_QUESTIONS } from './hello';
 import { PIN_DROP_PLACES } from './pin-drop';
+import { LANDMARK_QUESTIONS } from './landmarks';
+import { FOOD_QUESTIONS } from './food';
+import { ANIMAL_QUESTIONS } from './animals';
 
 const key = (s: string) => s.normalize('NFKC').toLowerCase().replace(/[\s.,!?'’]/g, '');
 const ids = QUIZ_COUNTRIES.map(c => c.iso2).sort();
@@ -85,6 +88,93 @@ describe('World Quiz country facts', () => {
     expect(COUNTRY_FACTS.jp.neighbours.kind).toBe('island');
     expect(COUNTRY_FACTS.pt.neighbours.countries.map(n => n.iso2)).toEqual(['es']);
     expect(COUNTRY_FACTS.ie.neighbours.countries.map(n => n.iso2)).toEqual(['gb']);
+  });
+});
+
+describe('World Quiz static picture banks', () => {
+  const banks = [
+    { name: 'landmarks', questions: LANDMARK_QUESTIONS },
+    { name: 'food', questions: FOOD_QUESTIONS },
+    { name: 'animals', questions: ANIMAL_QUESTIONS },
+  ];
+  const questions = banks.flatMap(bank => bank.questions);
+  const countriesByName = new Map(QUIZ_COUNTRIES.map(country => [country.name, country]));
+  const words = (text: string) => text.trim().split(/\s+/).length;
+
+  it('keeps picture ids unique across the new and existing question banks', () => {
+    const questionIds = [...questions, ...CAPITAL_QUESTIONS, ...HELLO_QUESTIONS].map(question => question.id);
+    expect(new Set(questionIds).size).toBe(questionIds.length);
+    questions.forEach(question => expect(question.id).toMatch(/^(landmark|food|animal)-[a-z0-9]+(?:-[a-z0-9]+)*$/));
+  });
+
+  it.each(banks)('$name has questions at each difficulty without fixing the bank size', bank => {
+    expect(bank.questions.length).toBeGreaterThan(0);
+    expect(new Set(bank.questions.map(question => question.level))).toEqual(new Set([1, 2, 3]));
+    expect(new Set(bank.questions.map(question => question.correctIndex)).size).toBeGreaterThan(1);
+  });
+
+  it.each(questions)('$id has one correct country and three different, same-continent alternatives', question => {
+    const answer = QUIZ_COUNTRIES.find(country => country.iso2 === question.iso2);
+    expect(answer).toBeDefined();
+    expect(question.options).toHaveLength(4);
+    expect(new Set(question.options).size).toBe(question.options.length);
+    expect(Number.isInteger(question.correctIndex)).toBe(true);
+    expect(question.correctIndex).toBeGreaterThanOrEqual(0);
+    expect(question.correctIndex).toBeLessThan(question.options.length);
+    expect(question.options[question.correctIndex]).toBe(answer!.name);
+    question.options.forEach(option => {
+      const country = countriesByName.get(option);
+      expect(country, option).toBeDefined();
+      expect(country!.continent).toBe(answer!.continent);
+    });
+    expect([1, 2, 3]).toContain(question.level);
+  });
+
+  it.each(questions)('$id has short sourced text and a subject photo query', question => {
+    expect(words(question.prompt)).toBeLessThanOrEqual(8);
+    expect(question.prompt).toMatch(/\?$/);
+    expect(words(question.fact)).toBeLessThanOrEqual(14);
+    expect(question.fact.trim()).not.toBe('');
+    expect(question.fact).toMatch(/\.$/);
+    expect(words(question.picture)).toBeGreaterThanOrEqual(2);
+    expect(words(question.picture)).toBeLessThanOrEqual(5);
+    expect(question.picture).not.toMatch(/https?:|\b(people|tourists|crowd|chef|selfie)\b/i);
+    expect(JSON.stringify(question)).not.toMatch(/\uFFFD|[\r\n]/);
+    https(question.sourceUrl);
+  });
+
+  it.each(ANIMAL_QUESTIONS)('$id excludes every reviewed wild-range country from wrong answers', question => {
+    expect(question.rangeIso2).toContain(question.iso2);
+    expect(new Set(question.rangeIso2).size).toBe(question.rangeIso2.length);
+    question.rangeIso2.forEach(iso2 => expect(iso2).toMatch(/^[a-z]{2}$/));
+    question.options.forEach((option, index) => {
+      if (index !== question.correctIndex) expect(question.rangeIso2).not.toContain(countriesByName.get(option)!.iso2);
+    });
+  });
+
+  it.each([
+    ['animal-proboscis-monkey', ['id', 'my', 'bn']],
+    ['animal-bornean-orangutan', ['id', 'my']],
+    ['animal-mountain-gorilla', ['rw', 'ug', 'cd']],
+    ['animal-african-penguin', ['za', 'na']],
+    ['animal-radiated-tortoise', ['mg', 'mu', 're']],
+    ['animal-japanese-macaque', ['jp', 'us']],
+  ] as const)('%s retains its shared or introduced range exclusions', (id, range) => {
+    const question = ANIMAL_QUESTIONS.find(entry => entry.id === id)!;
+    range.forEach(iso2 => expect(question.rangeIso2).toContain(iso2));
+  });
+
+  it('uses specific species rather than ambiguous kangaroo or lemur families', () => {
+    expect(ANIMAL_QUESTIONS.some(question => question.id === 'animal-red-kangaroo')).toBe(true);
+    expect(ANIMAL_QUESTIONS.some(question => question.id === 'animal-ring-tailed-lemur')).toBe(true);
+    expect(ANIMAL_QUESTIONS.some(question => question.id === 'animal-kangaroo' || question.id === 'animal-lemur')).toBe(false);
+  });
+
+  it('contains static data and provenance URLs without network or generation code', () => {
+    for (const file of ['picture-question.ts', 'landmarks.ts', 'food.ts', 'animals.ts']) {
+      const text = readFileSync(join(process.cwd(), 'src/data/world-quiz', file), 'utf8');
+      expect(text).not.toMatch(/\bfetch\s*\(|\bXMLHttpRequest\b|\baxios\s*[.(]|\b(?:function|async)\b|\bMath\.random\s*\(/);
+    }
   });
 });
 
