@@ -116,7 +116,9 @@ export async function freePictures(query: string, limit = 8, opts: { strict?: bo
     .filter((p): p is FreePicture => !!p)
     .filter((p) => !opts.strict || pictureMatches(q, p.title));
   const out: FreePicture[] = [];
-  for (const p of lead ? [lead, ...found] : found) {
+  // the Wikipedia lead picture is checked too in strict mode (it skipped the check and showed a canyon for sea sponges)
+  const first = lead && (!opts.strict || pictureMatches(q, lead.title)) ? lead : null;
+  for (const p of first ? [first, ...found] : found) {
     if (!out.some((o) => o.id === p.id || o.imageUrl === p.imageUrl)) out.push(p);
     if (out.length === limit) break;
   }
