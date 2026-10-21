@@ -75,3 +75,24 @@ The files make local assets available. The existing `flagUrl` still points to fl
   were omitted from this selection.
 
 No runtime downloads, AI calls, ranking logic, pair work or classroom-results claims are introduced.
+
+## Picture landmarks (21 October 2026)
+
+`landmarks.ts` exports `LANDMARK_QUESTIONS`: 80 static country questions about named buildings, statues,
+archaeological sites and natural features. `picture-question.ts` defines the shared schema. Level 1 means especially
+widely recognised subjects; levels 2 and 3 introduce less familiar places. Difficulty is an editorial judgment.
+Country names and continent groupings follow `QUIZ_COUNTRIES`; the four choices are distinct and on the same continent.
+The `iso2` country is the answer at the zero-based `correctIndex`. Options are materialised data, not generated at runtime.
+
+Each `sourceUrl` is a subject-specific reference for location and the short authored reveal fact, usually an encyclopedia
+article. For example: [Eiffel Tower](https://en.wikipedia.org/wiki/Eiffel_Tower),
+[Machu Picchu](https://en.wikipedia.org/wiki/Machu_Picchu), and [Borobudur](https://en.wikipedia.org/wiki/Borobudur).
+No source is fetched by these modules. Shared-border landmarks such as Niagara, Iguazu and Victoria Falls, Everest and
+the Matterhorn are omitted from this single-country bank.
+
+`picture` is a two-to-five-word Wikimedia Commons search phrase for the physical subject, not an image URL, a person,
+or a caption to display as an answer hint. Landmark names and geographic qualifiers distinguish similarly named places.
+The bank supplies no image-fetching code or selected asset. Image selection belongs to game integration: a search can
+also return maps, drawings or tourists, so the eventual consumer must choose a clear photograph of the named subject.
+Nyhavn, Seoraksan and Charyn Canyon replace tentative subjects whose reviewed Commons references did not give a clear
+subject photograph. No claim of classroom performance or universal recognition is made.
