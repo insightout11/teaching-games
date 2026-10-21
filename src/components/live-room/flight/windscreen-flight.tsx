@@ -214,10 +214,14 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const scenicOn = scenicAt != null && scenic != null;
   const scenicSince = scenicAt != null ? Date.now() - scenicAt : 0;
   const allLandmarks = useMemo(() => {
-    if (!scenicOn || !scenic) return landmarks;
+    // a landmark kept for the slow look (by the departure or arrival city) never shows in the normal scenery: it passed
+    // at full speed in the climb from Manila (Pinatubo), before the slow look began
+    const held = new Set([scenicLandmark?.id, arrivalScenic?.id].filter(Boolean) as string[]);
+    const normal = (landmarks ?? []).filter((l) => !held.has(l.id));
+    if (!scenicOn || !scenic) return normal;
     const own = { id: scenic.id, kind: scenic.kind, ahead: SCENIC_AHEAD_KM, lateral: scenic.side === 'left' ? -9 : 9 };
-    return [...(landmarks ?? []).filter((l) => l.id !== own.id), own];
-  }, [scenicOn, scenic, landmarks]);
+    return [...normal, own];
+  }, [scenicOn, scenic, landmarks, scenicLandmark?.id, arrivalScenic?.id]);
   // The climb through the clouds: how deep in cloud the plane is (0 clear, 1 thick), and when it breaks out on top
   const climbing = phase === 'climb';
   const inCloud = !climbing ? 0 : progress < CLIMB_IN ? 0 : progress < CLIMB_THICK ? (progress - CLIMB_IN) / (CLIMB_THICK - CLIMB_IN) : progress < CLIMB_OUT ? 1 : 0;

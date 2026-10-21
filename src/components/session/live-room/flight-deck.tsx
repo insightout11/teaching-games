@@ -1405,10 +1405,14 @@ export function FlightDeck({
   useEffect(() => {
     if (!nightSky) return;
     const { planet, shower, aurora, north } = nightSky;
-    if (planet) addLive({ id: `planet:${planet.name}`, title: planet.name, where: planet.elevation > 55 ? 'the bright "star" high above us (too high to see from the window)' : `the bright "star" ${sideOfSky(planet.azimuth, skyNow.sun.heading)}${Math.abs(((planet.azimuth - skyNow.sun.heading + 540) % 360) - 180) > 48 ? ' (out of this window)' : ''}`, fact: 'It is a planet, not a star: it shines with reflected sunlight and does not twinkle.', question: 'Have you ever seen a planet in the night sky? How could you tell it from a star?' });
+    // Only what the class can see in the window right now (a planet "too high to see" was no use): the same limits the
+    // sky drawing uses; later in the flight, when it comes into view, it is offered then
+    const relOf = (az: number) => ((az - skyNow.sun.heading + 540) % 360) - 180;
+    const planetInView = !!planet && Math.abs(relOf(planet.azimuth)) <= 48 && planet.elevation <= 55;
+    if (planet && planetInView) addLive({ id: `planet:${planet.name}`, title: planet.name, where: `the bright "star" ${sideOfSky(planet.azimuth, skyNow.sun.heading)}`, fact: 'It is a planet, not a star: it shines with reflected sunlight and does not twinkle.', question: 'Have you ever seen a planet in the night sky? How could you tell it from a star?' });
     if (shower) addLive({ id: `meteors:${shower.name}`, title: shower.name, where: `a meteor shower tonight: up to ${shower.perHour} shooting stars an hour`, fact: `The shooting stars are tiny pieces left behind by ${shower.from}.`, question: 'Have you ever seen a shooting star? What would you wish for?' }, 5);
     if (aurora) addLive({ id: 'aurora', title: north ? 'the northern lights' : 'the southern lights', where: 'in the sky tonight', fact: 'Particles from the sun light up the air high above the Earth.', question: 'Would you like to see the lights in real life? Where would you go?' }, 6);
-    if (skyNow.timeOfDay === 'night' && skyNow.moon.elevation > 5) {
+    if (skyNow.timeOfDay === 'night' && skyNow.moon.elevation > 5 && skyNow.moon.elevation < 38 && Math.abs(relOf(skyNow.moon.azimuth)) < 65) {
       addLive({ id: 'moon', title: 'the Moon', where: `tonight it is ${moonPhaseName(skyNow.moon.illumination, skyNow.moon.waxing)}, ${Math.round(skyNow.moon.illumination * 100)}% lit`, fact: 'The Moon does not make light: we see the part lit by the sun.', question: 'What shape was the Moon the last time you saw it? Where were you?' });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
