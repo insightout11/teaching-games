@@ -2918,8 +2918,17 @@ export function FlightDeck({
           {(brief?.cards?.length ?? 0) > 0 && !factsOpen && !clearScreen && (
             <button type="button" onClick={() => setFactsOpen(true)} className="rounded-full border border-amber-300/40 bg-slate-950/65 px-3 py-1 text-xs text-amber-100 backdrop-blur-md hover:bg-amber-300/10">Show the facts</button>
           )}
-          {!aboutOpen && !clearScreen && ((brief?.nextTopics?.length ?? 0) > 0 || earlierTopics.length > 0) && (
+          {!aboutOpen && !clearScreen && ((brief?.nextTopics?.length ?? 0) > 0 || earlierTopics.length > 0 || !!topicPick) && (
             <div className="flex max-w-[86%] flex-wrap items-center justify-center gap-1.5 text-[11px]">
+              {topicPick && !presenting && (
+          <span className="flex max-w-[22rem] items-center gap-1 rounded-full border border-cyan-300/50 bg-slate-950/65 py-0.5 pl-2.5 pr-1 text-cyan-50 backdrop-blur-sm">
+            <button type="button" disabled={pickBusy} onClick={() => void playTopicPick()} title="From our library, for today's topic" className="flex min-w-0 items-center gap-1.5 hover:text-white disabled:opacity-60">
+              {topicPick.video ? <Video className="h-3.5 w-3.5 shrink-0" /> : <BookOpen className="h-3.5 w-3.5 shrink-0" />}
+              <span className="truncate">{pickBusy ? 'Opening…' : `${topicPick.video ? 'Watch' : 'Read'}: ${topicPick.title}`}</span>
+            </button>
+            <button type="button" onClick={() => setTopicPick(null)} aria-label="Hide the suggestion" className="rounded p-0.5 text-cyan-100/60 hover:text-white"><X className="h-3.5 w-3.5" /></button>
+          </span>
+        )}
               {(brief?.nextTopics?.length ?? 0) > 0 && <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-white/55">Where next?</span>}
               {(brief?.nextTopics ?? []).map((t) => (
                 <button key={t.title} type="button" onClick={() => { makeFocus({ title: t.title }); setTf((x) => ({ ...x, whereNext: true })); }} title={`${t.link}: make it the topic`} className="rounded-full border border-white/15 bg-slate-950/55 px-2.5 py-0.5 text-white/85 backdrop-blur-sm hover:border-amber-300/60 hover:text-white">
@@ -3416,7 +3425,7 @@ export function FlightDeck({
             <button type="button" onClick={() => void closeLensVote(false)} aria-label="Cancel the lens vote" className="text-white/50 hover:text-white"><X className="h-3 w-3" /></button>
           </span>
         )}
-        <span className="flex min-w-0 items-center gap-2 rounded-full border border-amber-300/45 bg-amber-300/10 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-amber-300" aria-live="polite">
+        <span title={`On screen: ${onScreenLabel}`} className="flex min-w-0 max-w-[15rem] items-center gap-2 rounded-full border border-amber-300/45 bg-amber-300/10 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-amber-300" aria-live="polite">
           <i className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-rose-400 shadow-[0_0_10px_#fb7185]" />
           <span className="truncate">On screen: {onScreenLabel}</span>
         </span>
@@ -3427,7 +3436,7 @@ export function FlightDeck({
           onSubmit={(t) => makeFocus({ title: t })}
           onPick={(id) => setFocusId(id)}
         />
-        <nav className="ml-auto flex gap-1" aria-label="Windscreen view">
+        <nav className="ml-auto flex shrink-0 gap-1" aria-label="Windscreen view">
           {VIEWS.filter((v) => !(scoresOff && v.key === 'scores')).map((v) => {
             const on = view === v.key;
             return (
@@ -3440,8 +3449,8 @@ export function FlightDeck({
             );
           })}
         </nav>
-        <button type="button" onClick={toggleZoomLayout} title="Big windscreen for sharing this window in Zoom" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${zoomLayout ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
-          <Video className="h-3.5 w-3.5" /> Zoom layout
+        <button type="button" onClick={toggleZoomLayout} title="Zoom layout: a big windscreen for sharing this window in Zoom" className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${zoomLayout ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+          <Video className="h-3.5 w-3.5" /> <span className="hidden 2xl:inline">Zoom layout</span>
         </button>
         <button type="button" onClick={() => setRecordTab('passport')} title="The class's passport, flight log and hangar" className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Stamp className="h-3.5 w-3.5" /> {zoomLayout ? '' : 'Journey'}
@@ -3451,33 +3460,24 @@ export function FlightDeck({
             <Camera className="h-3.5 w-3.5" /> Take photo: {photoLandmark.name}
           </button>
         )}
-        {topicPick && !presenting && (
-          <span className="flex max-w-[22rem] shrink items-center gap-1 rounded-lg border border-cyan-300/40 bg-cyan-300/[0.06] py-1 pl-2.5 pr-1 text-xs text-cyan-50">
-            <button type="button" disabled={pickBusy} onClick={() => void playTopicPick()} title="From our library, for today's topic" className="flex min-w-0 items-center gap-1.5 hover:text-white disabled:opacity-60">
-              {topicPick.video ? <Video className="h-3.5 w-3.5 shrink-0" /> : <BookOpen className="h-3.5 w-3.5 shrink-0" />}
-              <span className="truncate">{pickBusy ? 'Opening…' : `${topicPick.video ? 'Watch' : 'Read'}: ${topicPick.title}`}</span>
-            </button>
-            <button type="button" onClick={() => setTopicPick(null)} aria-label="Hide the suggestion" className="rounded p-0.5 text-cyan-100/60 hover:text-white"><X className="h-3.5 w-3.5" /></button>
-          </span>
-        )}
         {view === 'talk' && (
           <button type="button" onClick={() => setClearScreen((c) => !c)} title="Hide the talking point, so the windscreen is clear for a widget" className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${clearScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
-            {clearScreen ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />} {clearScreen ? 'Show talking point' : 'Clear screen'}
+            {clearScreen ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />} <span className="hidden 2xl:inline">{clearScreen ? 'Show talking point' : 'Clear screen'}</span>
           </button>
         )}
         {phoneSpec && (
           <button type="button" onClick={() => void clearPhones()} title="Take everything off the students' phones (board, question, vote)" className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-rose-300/40 px-2.5 py-1.5 text-xs text-rose-100 hover:bg-rose-300/10">
-            <Smartphone className="h-3.5 w-3.5" /> Clear phones
+            <Smartphone className="h-3.5 w-3.5" /> <span className="hidden 2xl:inline">Clear phones</span>
           </button>
         )}
-        <button type="button" onClick={() => setPresenting(true)} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
-          <Maximize2 className="h-3.5 w-3.5" /> Present
+        <button type="button" onClick={() => setPresenting(true)} title="Present: the windscreen fills the window" className="flex shrink-0 items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
+          <Maximize2 className="h-3.5 w-3.5" /> <span className="hidden 2xl:inline">Present</span>
         </button>
         <button type="button" onClick={() => setGuideOpen((o) => !o)} aria-label="Guide" title="Guide for this kind of class" className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg border ${guideOpen ? 'border-amber-300/60 text-amber-200' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           <HelpCircle className="h-4 w-4" />
         </button>
         <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave). Tip: F11 stays full screen even when the Sources window opens." className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
-          {fullScreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />} {fullScreen ? 'Exit full screen' : 'Full screen'}
+          {fullScreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />} <span className="hidden 2xl:inline">{fullScreen ? 'Exit full screen' : 'Full screen'}</span>
         </button>
         {fullScreenLost && !fullScreen && (
           <div className="fixed bottom-24 left-1/2 z-[75] flex -translate-x-1/2 items-center gap-2 rounded-full border border-sky-300/50 bg-slate-950/90 py-1.5 pl-4 pr-1.5 text-sm text-sky-50 shadow-xl backdrop-blur-md">
@@ -4051,7 +4051,7 @@ function FocusBar({ current, status, trail, onSubmit, onPick }: {
   const [open, setOpen] = useState(false);
   return (
     <form
-      className="relative flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-[#2A3854] bg-[#0a0f19] px-2.5 py-1.5 focus-within:border-amber-300/60"
+      className="relative flex min-w-[15rem] flex-1 items-center gap-2 rounded-xl border border-[#2A3854] bg-[#0a0f19] px-2.5 py-1.5 focus-within:border-amber-300/60"
       onSubmit={(e) => {
         e.preventDefault();
         if (draft.trim()) onSubmit(draft);
@@ -4072,7 +4072,7 @@ function FocusBar({ current, status, trail, onSubmit, onPick }: {
         aria-label="Class topic"
       />
       {status === 'loading' && <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-amber-300/80">Briefing…</span>}
-      {status === 'ready' && <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-emerald-300/80">Phones updated</span>}
+      {status === 'ready' && <span title="Phones updated with this topic" aria-label="Phones updated" className="h-2 w-2 shrink-0 rounded-full bg-emerald-300 shadow-[0_0_6px_#6ee7b7]" />}
       {status === 'failed' && <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.12em] text-rose-300/80">No briefing</span>}
       {open && trail.length > 0 && (
         <div className="absolute left-0 right-0 top-full z-50 mt-1 rounded-xl border border-[#2A3854] bg-[#0c1322] p-1.5 shadow-2xl">
