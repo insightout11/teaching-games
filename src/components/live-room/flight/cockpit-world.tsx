@@ -286,7 +286,7 @@ function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: numb
 }
 
 /** Where the plane really is along its route: `t` (0-1) at time `at`, advancing `perMs` per millisecond. */
-export interface RouteClock { at: number; t: number; perMs: number }
+export interface RouteClock { at: number; t: number; perMs: number; /** The route's length (km), for things placed along it. */ km?: number }
 
 export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events, coastStrip = null, routeClock = null }: { /** The whole route's coast, worked out once at take-off (preferred over `coast`). */ coastStrip?: CoastStrip | null; /** Where the plane really is on the route: `t` (0-1) at time `at`, moving `perMs` each millisecond. */ routeClock?: RouteClock | null; /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -315,14 +315,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
   }, [cities]);
   // Landmarks, fixed on the ground once they come into range (as the cities).
-  const landmarkWorld = useRef(new Map<string, { kind: WorldLandmarkKind; z: number; x: number }>());
+  const landmarkWorld = useRef(new Map<string, { kind: WorldLandmarkKind; z: number; x: number; along?: number }>());
   const photoChance = useRef<string | null>(null);
   useEffect(() => {
     const map = landmarkWorld.current;
     const keep = new Set<string>();
     for (const l of landmarks ?? []) {
       keep.add(l.id);
-      if (!map.has(l.id)) map.set(l.id, { kind: l.kind, z: cam.current + l.ahead * CITY_UNITS_PER_KM, x: l.lateral * CITY_UNITS_PER_KM * 0.7 });
+      if (!map.has(l.id)) map.set(l.id, { kind: l.kind, z: cam.current + l.ahead * CITY_UNITS_PER_KM, x: l.lateral * CITY_UNITS_PER_KM * 0.7, along: l.along });
     }
     // kept until the view has passed it: the scenery moves slower than the real flight, so the route list drops a
     // landmark (the plane is really over it) while it is still far ahead here (Fuji vanished after Tokyo)
@@ -1009,6 +1009,13 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // ── Mountains and hills standing on that ground ────────────────────
       const coastHere = realCoast() ? coastWorld.current : null;
       const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind; cloud?: SkyCloud; ev?: { kind: EventKind; seed: number } }> = [];
+      // Landmarks placed along the route come and pass with the real plane (in the faster scenery they rushed past in
+      // seconds while their Look card stayed up for minutes: Everest 40 km away was never seen)
+      const rcl = live.current.routeClock;
+      if (rcl?.km) {
+        const nowKm = Math.max(0, Math.min(1, rcl.t + (Date.now() - rcl.at) * rcl.perMs)) * rcl.km;
+        landmarkWorld.current.forEach((l) => { if (l.along != null) l.z = camZ + (l.along - nowKm) * CITY_UNITS_PER_KM; });
+      }
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
       // Photo mode: the landmark in good view right now (close enough, inside the window), for the Take photo button
       let chance: string | null = null, chanceZ = Infinity;

@@ -12,7 +12,7 @@ type RGB = [number, number, number];
 export type WorldLandmarkKind = 'fuji' | 'pyramids' | 'everest' | 'matterhorn' | 'kilimanjaro' | 'volcano' | 'niagara';
 
 /** A landmark on the ground: how far ahead and to the side when it comes into range (km), as for the distant cities. */
-export interface WorldLandmark { id: string; kind: WorldLandmarkKind; ahead: number; lateral: number }
+export interface WorldLandmark { id: string; kind: WorldLandmarkKind; ahead: number; lateral: number; /** Its place along the route (km from the origin): it then comes and passes with the real plane, not the faster scenery. */ along?: number }
 
 /** Size in world units (the cockpit's): height and the radius kept clear of ordinary mountains. */
 export const LANDMARK_SIZE: Record<WorldLandmarkKind, { h: number; w: number; clear: number }> = {

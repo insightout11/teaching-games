@@ -30,6 +30,9 @@ function distKm(a: LatLng, b: LatLng): number {
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
   return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
 }
+/** The route's length (km), along the great circle. */
+export function routeLengthKm(a: LatLng, b: LatLng): number { return distKm(a, b); }
+
 function bearingRad(a: LatLng, b: LatLng): number {
   const y = Math.sin(rad(b.lng - a.lng)) * Math.cos(rad(b.lat));
   const x = Math.cos(rad(a.lat)) * Math.sin(rad(b.lat)) - Math.sin(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.cos(rad(b.lng - a.lng));

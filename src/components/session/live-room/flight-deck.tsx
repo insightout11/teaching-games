@@ -51,7 +51,7 @@ import type { InputSpec } from '@/lib/input-spec';
 import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
-import { coastStrip, type CoastStrip } from '@/lib/live-room/coast-strip';
+import { coastStrip, routeLengthKm, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { drawnKindOf, drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { openWindowViewChannel, WINDOW_VIEW_HEARTBEAT_MS, type WindowView } from '@/lib/live-room/window-view';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
@@ -1021,6 +1021,7 @@ export function FlightDeck({
     flash(`Class now ends at ${new Date(clock.endAt + delta * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`);
   };
   const below = useMemo(() => overflightAt(origin, destination, routeT), [origin, destination, routeT]);
+  const routeKmTotal = useMemo(() => routeLengthKm(origin, destination), [origin, destination]);
   // The land below, for topics taken from the flight (which Blue Mountains: the facts lookup needs the place).
   const flightWhere = regionOf(below.point) ?? undefined;
   // Landmark Quest step 2 (approved by the owner 20 Oct 2026): real landmarks the route passes stand in the scenery at
@@ -1029,8 +1030,9 @@ export function FlightDeck({
   const sceneryLandmarks = useMemo(() => {
     if (flightStage !== 'flying' || holding) return [];
     const heading = bearingDeg(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 0.01)));
-    return landmarksAhead(below.point, heading).filter((l) => l.kind !== 'niagara');
-  }, [flightStage, holding, below.point, origin, destination, routeT]);
+    const nowKm = routeT * routeKmTotal;
+    return landmarksAhead(below.point, heading).filter((l) => l.kind !== 'niagara').map((l) => ({ ...l, along: nowKm + l.ahead }));
+  }, [flightStage, holding, below.point, origin, destination, routeT, routeKmTotal]);
   // Real rivers and lakes under the plane (when switched on): looked up every 20 seconds of flight, cruise only.
   const [routeWaters, setRouteWaters] = useState<Waters | undefined>(undefined);
   const [routeCoast] = useState<Coast | undefined>(undefined);
@@ -1045,7 +1047,7 @@ export function FlightDeck({
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [origin.id, destination.id, flightStage === 'gate']);
-  const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : 1 / Math.max(1, flightMs) } : null), [flightStage, routeT, flightMs, holding]);
+  const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : 1 / Math.max(1, flightMs), km: routeKmTotal } : null), [flightStage, routeT, flightMs, holding, routeKmTotal]);
   const [routeGround, setRouteGround] = useState<HighGround | undefined>(undefined);
   const watersStep = Math.floor(routeT * 400);
   useEffect(() => {
