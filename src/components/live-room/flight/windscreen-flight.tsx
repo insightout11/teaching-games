@@ -26,7 +26,7 @@ import { CockpitSky, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weathe
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { CoastStrip } from '@/lib/live-room/coast-strip';
-import { CockpitWorld, type DistantCity, type SeaGlint, type RouteClock } from '@/components/live-room/flight/cockpit-world';
+import { CockpitWorld, type DistantCity, type SeaGlint, routeSpread, type RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
 
 /**
@@ -287,6 +287,10 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   // the ground: close under the plane early in the climb, falling away to cruise height
   const groundAltitude = climbing ? Math.min(descentAltitude, 0.3 + 0.7 * Math.min(1, progress / CLIMB_OUT)) : descentAltitude;
   const cloudSpeed = phase === 'climb' ? (inCloud > 0 ? 1.9 : 1.1) : scenicOn ? SCENIC_SPEED : diving ? 1.2 + progress * 3 : 0.55;
+  // the clouds drifting past at eye level move with the ground: at the real plane's speed in a flight (the ground went
+  // to real speed and these kept the old, faster speed)
+  const realFactor = phase === 'cruise' && routeClock?.km && routeClock.perMs ? Math.min(1, (routeClock.km * 400 * routeClock.perMs * 1000 * routeSpread(routeClock)) / (0.55 * 4200)) : 1;
+  const driftSpeed = cloudSpeed * realFactor;
   const whiteout = climbing ? (progress < CLIMB_THICK ? Math.pow(inCloud, 1.4) * 0.96 : inCloud * 0.96 * (1 - climbParting)) : phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
   const parting = climbing ? climbParting : phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
   const tint = cloudTint.join(',');
@@ -337,7 +341,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             {deckStrength > 0.01 && (
               <div className="absolute inset-x-0 bottom-0" style={{ top: '50%', background: `linear-gradient(180deg, rgba(${deck},0) 0%, rgba(${deck},${deckStrength * 0.35}) 14%, rgba(${deck},${deckStrength * 0.75}) 34%, rgba(${deck},${deckStrength * 0.92}) 60%, rgba(${deck},${deckStrength * 0.95}) 100%)` }} />
             )}
-            {deckStrength > 0.01 && <CloudDeck tint={deck} strength={deckStrength} speed={cloudSpeed} paused={paused} />}
+            {deckStrength > 0.01 && <CloudDeck tint={deck} strength={deckStrength} speed={driftSpeed} paused={paused} />}
             {/* the far edge of the cloud deck: a soft bright haze where it meets the sky (no hard grey line) */}
             {deckStrength > 0.01 && (
               <div className="absolute inset-x-0" style={{ top: '49%', height: '16%', background: `linear-gradient(180deg, rgba(232,238,248,0) 0%, rgba(232,238,248,${deckStrength * 0.55}) 50%, rgba(232,238,248,0) 100%)` }} />
@@ -358,7 +362,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
               </div>
             )}
             {phase === 'cruise' && weather === 'aurora' && <WindscreenWeather weather="aurora" />}
-            <CockpitClouds speed={turbulence ? cloudSpeed + 1.6 : cloudSpeed} tint={cloudsTint} density={turbulence || diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving || (climbing && inCloud > 0.2 && climbParting < 0.5)} paused={paused} />
+            <CockpitClouds speed={turbulence ? driftSpeed + 1.6 * realFactor : driftSpeed} tint={cloudsTint} density={turbulence || diving ? 1 : easedDensity} horizon={diving ? 0.58 - progress * 0.4 : 0.58} dive={diving || (climbing && inCloud > 0.2 && climbParting < 0.5)} paused={paused} />
           </motion.div>
         )}
       </AnimatePresence>
