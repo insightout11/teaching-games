@@ -4,6 +4,8 @@ import type { FreePicture } from '@/lib/sources/wikimedia-images';
 export function pictureQuery(value: unknown): string {
   if (typeof value !== 'string') return '';
   const query = value.trim().replace(/\s+/g, ' ');
+  // an exact Commons file chosen ahead of time
+  if (/^File:.+\.(jpe?g|png)$/i.test(query) && query.length <= 200) return query;
   const count = query.split(' ').length;
   return query.length <= 100 && count >= 2 && count <= 5 ? query : '';
 }

@@ -298,7 +298,7 @@ export function WorldQuizGame({ sessionId, students, onScore, sessionSettings, o
           )
         )}
         {q.kind === 'picture' && q.picture && (
-          <div className="w-full max-w-lg [&_img]:max-h-[240px]"><FreePictureCard sessionId={sessionId} query={q.picture} /></div>
+          <div className="w-full max-w-lg [&_img]:max-h-[240px]"><FreePictureCard sessionId={sessionId} query={q.pictureFile ?? q.picture} /></div>
         )}
         {q.kind === 'postcard' && q.scene && q.destinationId && (
           <div className="relative aspect-[16/7] w-full max-w-lg overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">

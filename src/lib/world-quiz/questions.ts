@@ -41,6 +41,8 @@ export interface WorldQuestion {
   pair?: Array<{ iso2: string; name: string; value: number; unit: string; year: number }>;
   /** Picture rounds (landmarks, food, animals): a photo search for the subject (Wikimedia, strict match). */
   picture?: string;
+  /** The exact photo for it, chosen and checked by Codex (a Commons file name); preferred over the search. */
+  pictureFile?: string;
   /** Hello: how to say the right greeting. */
   pronunciation?: string;
 }
@@ -159,7 +161,7 @@ function hellos(count: number, level: 1 | 2 | 3): WorldQuestion[] {
 function pictureRound(bank: readonly PictureQuestion[], count: number, level: 1 | 2 | 3): WorldQuestion[] {
   const fit = bank.filter((q) => q.level <= level);
   return shuffle([...(fit.length >= count ? fit : bank)]).slice(0, count).map((q) => ({
-    kind: 'picture' as const, country: countryOf(q.iso2, q.options[q.correctIndex]), options: [...q.options], correctIndex: q.correctIndex, prompt: q.prompt, picture: q.picture, fact: q.fact,
+    kind: 'picture' as const, country: countryOf(q.iso2, q.options[q.correctIndex]), options: [...q.options], correctIndex: q.correctIndex, prompt: q.prompt, picture: q.picture, pictureFile: q.pictureFile, fact: q.fact,
   }));
 }
 

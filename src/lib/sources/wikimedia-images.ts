@@ -78,6 +78,14 @@ async function wikipediaPicture(query: string): Promise<FreePicture | null> {
   return p ? toPicture(p) : null;
 }
 
+/** One exact Commons file, chosen and checked ahead of time (the quiz rounds' pictureFile): no search, no drift. */
+export async function commonsFile(title: string): Promise<FreePicture | null> {
+  if (!/^File:.+\.(jpe?g|png)$/i.test(title)) return null;
+  const info = (await getJSON('https://commons.wikimedia.org/w/api.php', { action: 'query', titles: title, ...IMAGE_PROPS })) as { query?: { pages?: CommonsPage[] } } | null;
+  const p = info?.query?.pages?.[0];
+  return p ? toPicture(p) : null;
+}
+
 const STOP = new Set(['with', 'from', 'that', 'this', 'their', 'there', 'about', 'into', 'over', 'under', 'they', 'what', 'when', 'where', 'which', 'some', 'many', 'very', 'more', 'most', 'other', 'than', 'then', 'have', 'been', 'were', 'will', 'your', 'photo', 'picture', 'image']);
 /** Does a photo's title share a real word with the search? (A free search drifts: "coral nursery" found a flower catalogue.) */
 export function pictureMatches(query: string, title: string): boolean {
