@@ -103,6 +103,8 @@ interface SessionPayload {
   referenceVocab: ReferenceVocabItem[] | null;
   /** Junior class (classes.junior): picture word cards, gentle feedback, no ranks. */
   junior?: boolean;
+  /** The class's plane (from the World Flight launch), so the phone's boarding shows the same plane as the room. */
+  planeKey?: string | null;
   referenceExpressions: ReferenceExpressionItem[] | null;
   latestFeedback: { feedback: string; points: number; submissionId: string } | null;
   /** This student's own recent messages to the teacher, newest first. */
@@ -277,7 +279,7 @@ export async function GET(request: NextRequest) {
     // Check if session exists and is active, including input_spec
     const { data: session, error: sessionError } = await supabase
       .from('sessions')
-      .select('id, status, input_spec, topic, difficulty, custom_topic, grammar_target, reference_vocab, reference_expressions, classes(junior)')
+      .select('id, status, input_spec, topic, difficulty, custom_topic, grammar_target, reference_vocab, reference_expressions, world_flight_context, classes(junior)')
       .eq('id', sessionId)
       .single();
 
@@ -851,6 +853,7 @@ export async function GET(request: NextRequest) {
       grammarTarget: (session.grammar_target as string | null) ?? null,
       referenceVocab: normalizedReferenceVocab.length > 0 ? normalizedReferenceVocab : null,
       junior: (session as { classes?: { junior?: boolean } | null }).classes?.junior === true,
+      planeKey: (session as { world_flight_context?: { planeKey?: string | null } | null }).world_flight_context?.planeKey ?? null,
       referenceExpressions: normalizedReferenceExpressions.length > 0 ? normalizedReferenceExpressions : null,
       latestFeedback,
       myMessages,

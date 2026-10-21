@@ -267,6 +267,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   const [connectionNow, setConnectionNow] = useState(Date.now());
   const [inputSpec, setInputSpec] = useState<InputSpec | null>(null);
   // Junior class: remembered once any spec says so (also after the lesson ends, for the landing card).
+  // the class's plane for the boarding moment; undefined until the session has loaded (so it never shows the wrong one)
+  const [planeKey, setPlaneKey] = useState<string | null | undefined>(undefined);
   const [juniorClass, setJuniorClass] = useState(() => {
     try { return sessionStorage.getItem(`lc-junior-${sessionId}`) === '1'; } catch { return false; }
   });
@@ -682,6 +684,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (data.difficulty) setSessionDifficulty(data.difficulty);
       setGrammarTarget(data.grammarTarget ?? null);
       setReferenceVocab(Array.isArray(data.referenceVocab) ? data.referenceVocab : null);
+      setPlaneKey(data.planeKey ?? null);
       if (data.junior === true) {
         setJuniorClass(true);
         try { sessionStorage.setItem(`lc-junior-${sessionId}`, '1'); } catch { /* private mode */ }
@@ -1471,7 +1474,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       <BrandMomentOverlay moment="phone-join" sessionId={sessionId} markSize={130} onDone={() => setBrandDone(true)} />
       {/* The student's own boarding (their avatar walking on, then their seat) starts once the logo reveal has
           finished: played together, the reveal covered it and it was over before anyone saw it. */}
-      {brandDone && <BoardingMoment
+      {brandDone && planeKey !== undefined && <BoardingMoment
+        planeKey={planeKey}
         sessionId={sessionId}
         name={studentSession.displayName}
         seed={studentSession.avatarSeed ?? null}

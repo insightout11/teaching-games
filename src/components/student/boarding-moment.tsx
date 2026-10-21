@@ -12,7 +12,7 @@ const MONO = 'font-[family-name:var(--font-instrument)] uppercase tracking-[0.14
  * your own character walks up the airstairs, then your seat gets stamped.
  * Tap anywhere to skip.
  */
-export function BoardingMoment({ sessionId, name, seed, seat }: { sessionId: string; name: string; seed: string | null; seat: string | null }) {
+export function BoardingMoment({ sessionId, name, seed, seat, planeKey = null }: { sessionId: string; name: string; seed: string | null; seat: string | null; planeKey?: string | null }) {
   const key = `lc-boarded:${sessionId}`;
   const reduce = useReducedMotion();
   const [show, setShow] = useState(false);
@@ -46,7 +46,7 @@ export function BoardingMoment({ sessionId, name, seed, seat }: { sessionId: str
       <p className={`${MONO} text-[11px] text-emerald-300`}>Now boarding</p>
       <p className="font-display text-3xl text-lc-text">Welcome aboard, {name}</p>
       <div className="w-full max-w-sm">
-        <BoardingLane arrivals={[{ id: 'me', name, seed }]} onBoarded={() => setAboard(true)} />
+        <BoardingLane planeKey={planeKey} arrivals={[{ id: 'me', name, seed }]} onBoarded={() => setAboard(true)} />
       </div>
       {aboard ? (
         <motion.div
