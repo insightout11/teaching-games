@@ -4,7 +4,7 @@ import { lookupWikipedia } from '@/lib/sources/wikipedia';
 import { freePictures } from '@/lib/sources/wikimedia-images';
 import { findRoutePlaceBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
 import { generateJSON } from '@/lib/ai';
-import { lensById, lensPromptNote } from '@/lib/lens';
+import { lensById, lensPlaceCards, lensPromptNote } from '@/lib/lens';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,6 +24,11 @@ export async function POST(request: Request) {
   const isEvent = body?.kind === 'event';
   // A class lens: the card is about this place or thing seen through it (Japan with Films: Studio Ghibli)
   if (lens) {
+    const ready = lensPlaceCards(title, lens);
+    if (ready) {
+      const picture = (await freePictures(ready[0].picture || title, 1, { strict: true }).catch(() => []))[0] ?? null;
+      return NextResponse.json({ facts: ready.slice(0, 3).map((c) => c.headline), picture, question: ready[0].questions[0] }, { headers: { 'Cache-Control': 'private, max-age=3600' } });
+    }
     const where = typeof body?.where === 'string' ? body.where.slice(0, 120) : '';
     const [out, pics] = await Promise.all([
       generateJSON<{ facts?: unknown; question?: unknown; picture?: unknown }>(

@@ -15,7 +15,7 @@ import {
   withPhraseSource,
 } from '@/lib/reference-materials';
 import { findTopicBriefing, topicBriefingLevel } from '@/lib/topic-briefings';
-import { lensById, lensPromptNote } from '@/lib/lens';
+import { lensById, lensPlaceCards, lensPromptNote, lensSeedsNote } from '@/lib/lens';
 import { stickerLabel } from '@/lib/stickers';
 import { lookupWikipedia, type WikiReference } from '@/lib/sources/wikipedia';
 import { depthPromptNote, type TopicDepth } from '@/lib/topic-depth';
@@ -117,7 +117,7 @@ Prepare the teacher and students:
 ${PHRASEBOOK_FIELDS_PROMPT}
 - "expressions": exactly 6 useful sentence stems for discussing it, each with a short example about this topic.
 ${factCardsPrompt(junior)}
-${nextTopicsPrompt(title, covered)}`;
+${lensSeedsNote(lens)}${nextTopicsPrompt(title, covered)}`;
 
   let brief: FocusBrief;
   try {
@@ -147,7 +147,8 @@ ${nextTopicsPrompt(title, covered)}`;
     })
     .eq('id', params.sessionId);
   // The facts board on phones too (students on one device can read the facts while they answer). Public: facts only.
-  const cards = (() => { const c = cleanFactCards(bankedLevel?.cards ?? brief.cards); return c.length >= 3 ? c : cardsFromFacts(strings(brief.facts, 5, 240), strings(brief.angles, 4, 240)); })();
+  const lensCards = lensPlaceCards(title, lens);
+  const cards = lensCards ?? (() => { const c = cleanFactCards(bankedLevel?.cards ?? brief.cards); return c.length >= 3 ? c : cardsFromFacts(strings(brief.facts, 5, 240), strings(brief.angles, 4, 240)); })();
   try {
     await service.from('session_private_state').upsert(
       { session_id: params.sessionId, key: 'facts', payload: { title: title.slice(0, 120), cards: cards.map((c) => ({ headline: c.headline, detail: c.detail })) }, updated_at: new Date().toISOString() },

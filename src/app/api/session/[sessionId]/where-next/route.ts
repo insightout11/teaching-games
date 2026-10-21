@@ -3,7 +3,7 @@ import { generateJSON } from '@/lib/ai';
 import { requireAuth } from '@/lib/auth-credits';
 import { verifyTeacherOwnsSession } from '@/lib/session-ownership';
 import { cleanNextTopics, NEXT_TOPICS_SCHEMA, nextTopicsPrompt } from '@/lib/live-room/where-next';
-import { lensById, lensPromptNote } from '@/lib/lens';
+import { lensById, lensPromptNote, lensSeedsNote } from '@/lib/lens';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +26,7 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   if (owned.error) return owned.error;
 
   const next = await generateJSON<{ nextTopics: unknown }>(
-    `A live English class (kids or teens) is talking about "${title}". Suggest where the conversation could go next.\n${lensPromptNote(lens)}${nextTopicsPrompt(title, covered)}`,
+    `A live English class (kids or teens) is talking about "${title}". Suggest where the conversation could go next.\n${lensPromptNote(lens)}${lensSeedsNote(lens)}${nextTopicsPrompt(title, covered)}`,
     { type: 'object', properties: { nextTopics: NEXT_TOPICS_SCHEMA }, required: ['nextTopics'] },
     { taskClass: 'writing' },
   ).catch(() => null);
