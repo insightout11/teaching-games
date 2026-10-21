@@ -3,6 +3,7 @@
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import recipe from './data/route-place-source-data.json';
+import countryBasics from './data/route-place-country-basics.json';
 import type { FactCard } from '@/lib/live-room/fact-cards';
 
 const words = (s: string) => s.trim().split(/\s+/).length;
@@ -15,7 +16,7 @@ interface EditorialPlace { title: string; levels: Record<Level, { cards: FactCar
 /** Short closed questions or simple colour/preferences, rather than reasoning prompts. */
 export function isSimpleA1Question(question: string): boolean {
   return words(question) <= 8 && !/\b(?:how could|why might)\b/i.test(question)
-    && /^(?:(?:Do|Does|Did|Is|Are|Can|Have|Has)\b|Would you like\b|What colou?r\b|Which do you like more:)/i.test(question);
+    && /^(?:(?:Do|Does|Did|Is|Are|Can|Have|Has)\b|Would you (?:like|visit|try|eat|climb|see|walk)\b|What colou?r\b|Which do you like more:)/i.test(question);
 }
 
 const sentenceWords = (s: string): string[] => {
@@ -40,6 +41,28 @@ export function hasRepeatedDetailSentence(detail: string): boolean {
     return shared >= 3 && (shared / Math.min(a.length, b.length) >= 0.6 || shared / (a.length + b.length - shared) >= 0.5);
     });
   });
+}
+
+/** Reviewed subject references protect capital/animal/food/landmark coverage on rebuild. */
+export function validateCountryBasics(places: EditorialPlace[]): void {
+  const countries = recipe.places.filter(p => p.kinds.includes('country')).map(p => p.title).sort();
+  const titles = countryBasics.places.map(p => p.title).sort();
+  if (JSON.stringify(countries) !== JSON.stringify(titles)) throw new Error('Country basics roster mismatch');
+  for (const basics of countryBasics.places) {
+    const place = places.find(p => p.title === basics.title);
+    if (!place) throw new Error(`Country basics missing: ${basics.title}`);
+    for (const level of ['A1', 'B1'] as const) {
+      const prose = identity(place.levels[level].cards.map(c => c.headline + ' ' + c.detail).join(' '));
+      for (const subject of ['capital', 'animal', 'food', 'landmark'] as const) {
+        const coverage = basics[subject];
+        // Only the two polar outline entries have no established resident cuisine.
+        if (!coverage.terms.length && subject === 'food' && ['Antarctica', 'French Southern and Antarctic Lands'].includes(basics.title)) continue;
+        if (!coverage.terms.length || !coverage.terms.some(term => prose.includes(identity(term)))) {
+          throw new Error(`Country ${subject} missing: ${basics.title} ${level}`);
+        }
+      }
+    }
+  }
 }
 
 /** Fail closed so rebuilding cannot silently restore the defects this revision removes. */
@@ -117,6 +140,7 @@ export function buildRoutePlaceCards(source: string) {
   });
   if (byPlace.size !== bank.length) throw new Error('Unknown place in editorial source');
   validateRoutePlaceCards(bank);
+  validateCountryBasics(bank);
   return bank;
 }
 
