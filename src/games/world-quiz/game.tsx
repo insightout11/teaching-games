@@ -344,7 +344,7 @@ export function WorldQuizGame({ sessionId, students, onScore, sessionSettings, o
               <div className="w-24 border-l-2 border-dashed border-[#1b2233]/25 px-2 py-2.5 text-center"><p className="font-mono text-[10px] text-[#1b2233]/50">RIGHT</p><p className="font-display text-2xl">{answers.filter((a) => a.correct).length}/{answers.length}</p></div>
             </motion.div>
           )}
-          {scores.size > 0 && <div className="w-full max-w-3xl"><SkyRace height={230} junior={junior} pilots={Array.from(scores.entries()).map(([id, v]) => ({ id, name: v.name, points: v.points, seed: students.find((st) => st.id === id)?.avatar_seed })).sort((a, b) => b.points - a.points)} /></div>}
+          {scores.size > 0 && <div className="w-full max-w-3xl"><SkyRace height={230} junior={junior} ceiling={questions.length * 150} pilots={Array.from(scores.entries()).map(([id, v]) => ({ id, name: v.name, points: v.points, seed: students.find((st) => st.id === id)?.avatar_seed })).sort((a, b) => b.points - a.points)} /></div>}
           <button type="button" onClick={next} className="rounded-full bg-amber-300 px-8 py-2.5 font-semibold text-[#1b2233] hover:bg-amber-200">{index + 1 < questions.length ? 'Next' : 'See the results'}</button>
         </div>
       )}

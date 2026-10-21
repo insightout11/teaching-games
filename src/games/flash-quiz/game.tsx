@@ -706,7 +706,7 @@ export function FlashQuizGame({
           <KitReadout>{mode === 'teams' ? 'Team standings' : 'Altitude board'}</KitReadout>
           <KitLabel>After Q{currentIndex + 1}</KitLabel>
         </div>
-        {mode === 'turbulence' ? <AltitudeBoard entries={entries} showLives /> : <SkyRace pilots={pilots} junior={junior && mode !== 'teams'} />}
+        {mode === 'turbulence' ? <AltitudeBoard entries={entries} showLives /> : <SkyRace pilots={pilots} junior={junior && mode !== 'teams'} ceiling={questions.length * 125 + (bossFinale ? 125 : 0)} />}
         <KitButton tone="amber" solid className="w-full py-2.5 text-sm" icon={last ? <Trophy className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />} onClick={advance}>
           {last ? 'Final results' : `Next question (${currentIndex + 2}/${questions.length})`}
         </KitButton>

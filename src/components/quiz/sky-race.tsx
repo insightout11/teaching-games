@@ -38,15 +38,17 @@ function Clouds({ top, height, seed, alpha = 1, speed = 90, className = '' }: { 
 }
 
 const SKY = 'linear-gradient(180deg,#0b1a3a 0%,#1d4f8a 30%,#4f93cc 55%,#94c7ea 78%,#d6ecf9 100%)';
-const DECK = 0.36; // the cloud deck, as a share of the height from the top
+const DECK = 0.5; // the cloud deck, as a share of the height from the top (broken through about halfway to the best score)
+const RISE = 68;  // how far up the sky (%) a perfect score climbs: room above for the names and the label
 
-export function SkyRace({ pilots, junior = false, height = 380 }: { pilots: SkyPilot[]; junior?: boolean; height?: number }) {
+export function SkyRace({ pilots, junior = false, height = 380, ceiling }: { pilots: SkyPilot[]; junior?: boolean; height?: number; /** The best score possible in the whole quiz: everyone climbs toward it question by question (measured against the leader, the leader sat at the top after one question). */ ceiling?: number }) {
   const list = junior
     ? [{ id: 'class', name: 'Our class', points: pilots.reduce((n, p) => n + p.points, 0), color: '#fcd34d' }]
     : pilots.slice(0, 8);
   const top = Math.max(1, ...list.map((p) => p.points));
   // Junior: the class plane climbs toward the top over the quiz (no ranking, no comparison)
-  const share = (p: SkyPilot) => (junior ? Math.min(1, p.points / Math.max(60, top * 1.15)) : p.points / top);
+  const scale = ceiling && ceiling > 0 ? (junior ? ceiling * Math.max(1, pilots.length) : ceiling) : Math.max(junior ? 60 : 1, top * 1.25);
+  const share = (p: SkyPilot) => Math.max(0, Math.min(1, p.points / scale));
   const leader = !junior && list[0] && list[0].points > 0 ? list[0].id : null;
   if (!list.length) return <p className="rounded-xl border border-dashed border-white/15 px-4 py-6 text-center text-sm text-white/50">No pilots yet: planes appear here as students answer.</p>;
   return (
@@ -60,14 +62,14 @@ export function SkyRace({ pilots, junior = false, height = 380 }: { pilots: SkyP
       {list.map((p, i) => {
         const h = share(p);
         const x = list.length === 1 ? 50 : 12 + (i * 80) / Math.max(1, list.length - 1);
-        const above = h > 1 - DECK + 0.04;
+        const above = 4 + h * RISE > (1 - DECK) * 100 + 4;
         return (
           <motion.div
             key={p.id}
             className={`absolute flex -translate-x-1/2 flex-col items-center ${above ? 'z-[3]' : 'z-[1]'}`}
             style={{ left: `${x}%` }}
             initial={{ bottom: '3%' }}
-            animate={{ bottom: `${4 + h * 78}%` }}
+            animate={{ bottom: `${4 + h * RISE}%` }}
             transition={{ type: 'spring', stiffness: 38, damping: 12, delay: i * 0.06 }}
           >
             {p.id === leader && above && <span className="mb-1 whitespace-nowrap rounded-full bg-amber-300 px-2 py-0.5 text-[10px] font-bold text-[#1b2233]">Above the clouds</span>}
