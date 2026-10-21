@@ -36,12 +36,11 @@ export const CLASS_BOARD_PRESETS: Record<string, ClassBoardPreset> = {
   'open-board': {
     key: 'open-board',
     title: 'Class Board',
-    prompt: 'Add ideas, examples, questions, or evidence for the class to discuss.',
+    prompt: 'Add your answer or idea for the class to see.',
     layout: 'list',
+    // one kind of card: the old Idea / Evidence / Question picker made students choose before they could answer
     categories: [
-      { key: 'idea', label: 'Idea', tone: 'cyan' },
-      { key: 'evidence', label: 'Evidence', tone: 'emerald' },
-      { key: 'question', label: 'Question', tone: 'amber' },
+      { key: 'idea', label: 'Answer', tone: 'cyan' },
     ],
     zones: [{ key: 'main', label: 'Board' }],
     defaultCategory: 'idea',

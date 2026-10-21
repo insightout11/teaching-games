@@ -463,7 +463,8 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     setQuestionRound(round);
     setZoneLabels(labels);
     setCustomQuestion(boardQuestion);
-    void setInputSpec(buildSpec(preset, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label })), roundKey(round)));
+    setAutoShow(true); // everyone answers: the answers appear as they arrive (rude words are filtered on the way in)
+    void setInputSpec(buildSpec({ ...preset, prompt: boardQuestion }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label })), roundKey(round)));
     setBoardQuestion(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardQuestion, preset, baseZones, buildSpec, setInputSpec]);
@@ -614,6 +615,7 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
     setZoneLabels(labels);
     const round = questionRoundOf(q);
     setQuestionRound(round);
+    setAutoShow(true);
     void setInputSpec(buildSpec({ ...preset, prompt: q }, baseZones.map((zone) => ({ ...zone, label: labels[zone.key] ?? zone.label })), roundKey(round)));
   };
   useEffect(() => {

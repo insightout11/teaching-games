@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
     }
     // Word Cloud: silently drop obvious profanity so it never reaches the screen.
     // Reported as success so the student isn't tipped off; the word simply never appears.
-    if (body.wordCloud && isProfane(content)) {
+    if ((body.wordCloud || authorType === 'student') && isProfane(content)) {
       return NextResponse.json({ success: true, filtered: true });
     }
 
