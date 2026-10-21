@@ -92,6 +92,7 @@ import { roomItemToSource } from '@/components/session/live-room/room-source';
 import { useDeckDrag, type DeckDrop } from '@/components/session/live-room/use-deck-drag';
 import { useLessonMemory } from '@/hooks/use-lesson-memory';
 import { LessonLogbookDrawer } from '@/components/session/live-room/lesson-logbook-drawer';
+import { AlbumStrip } from '@/components/session/live-room/album-strip';
 import { lessonEntry, sanitizeLessonMemory, type LessonEntry } from '@/lib/lesson-memory';
 
 /**
@@ -2307,6 +2308,7 @@ export function FlightDeck({
               {newest ? `${newest.display_name} has boarded` : 'Waiting for passengers'}
             </motion.p>
           </AnimatePresence>
+          {flightStage === 'gate' && !isMockMode() && <AlbumStrip sessionId={sessionId} />}
           {flightStage === 'gate' && (
             <label className="flex items-center gap-2 text-sm text-white/75">
               Class length
