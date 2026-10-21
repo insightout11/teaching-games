@@ -5,6 +5,8 @@
  * `map` is the name in src/data/world/countries-110m.json when it differs.
  */
 
+import { FLAG_SOURCES } from '@/data/world-quiz/flag-sources';
+
 export type Continent = 'Africa' | 'Asia' | 'Europe' | 'North America' | 'South America' | 'Oceania';
 export interface QuizCountry { name: string; iso2: string; continent: Continent; level: 1 | 2 | 3; map?: string }
 
@@ -47,8 +49,9 @@ export const QUIZ_COUNTRIES: QuizCountry[] = [
   C('Australia', 'au', 'Oceania', 1), C('New Zealand', 'nz', 'Oceania', 1), C('Papua New Guinea', 'pg', 'Oceania', 3), C('Fiji', 'fj', 'Oceania', 3),
 ];
 
-/** A free public-domain flag picture (flagcdn: national flags are public domain). */
-export const flagUrl = (c: QuizCountry, width = 640) => `https://flagcdn.com/w${width}/${c.iso2}.png`;
+/** The country's flag: a local public-domain file (Codex, src/data/world-quiz/flag-sources.ts), so the quiz needs no
+ *  outside service; flagcdn only for a country without one. */
+export const flagUrl = (c: QuizCountry, width = 640) => (FLAG_SOURCES as Record<string, { path: string }>)[c.iso2]?.path ?? `https://flagcdn.com/w${width}/${c.iso2}.png`;
 
 /** Countries for a quiz at this level: easier classes get the well-known ones. */
 export function countriesFor(level: 1 | 2 | 3): QuizCountry[] {

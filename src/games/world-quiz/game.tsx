@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Flag, Image as ImageIcon, Lightbulb, Map as MapIcon, MapPin, Shuffle, Trophy } from 'lucide-react';
+import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Scale, Shuffle, Trophy } from 'lucide-react';
 import { WorldLensMap, type WorldLensGuess } from '../world-lens/world-lens-map';
 import { parseWorldLensGuess } from '../world-lens/scoring';
 import { haversineKm } from '../mystery-flight/logic';
@@ -29,9 +29,19 @@ const MODES: Array<{ key: WorldQuizMode; label: string; detail: string; icon: ty
   { key: 'clues', label: 'Clue ladder', detail: 'Clues from hard to easy: guess early for more points', icon: Lightbulb },
   { key: 'postcards', label: 'Postcards', detail: 'Which city is this? Our illustrated cities', icon: ImageIcon },
   { key: 'pins', label: 'Pin drop', detail: 'Pin the place on your phone map: closest wins', icon: MapPin },
+  { key: 'bigger', label: 'Which is bigger?', detail: 'More people or more land? Then the real numbers', icon: Scale },
+  { key: 'capitals', label: 'Capitals', detail: 'What is the capital of…?', icon: Landmark },
+  { key: 'hello', label: 'Hello around the world', detail: 'How do people say hello there?', icon: MessageCircle },
   { key: 'mix', label: 'Mix', detail: 'A bit of everything', icon: Shuffle },
 ];
 const REVEAL_GRACE_MS = 1200;
+
+/** The question as the class sees it. */
+function headingOf(q: WorldQuestion): string {
+  if (q.prompt) return q.prompt;
+  return q.kind === 'flag' ? 'Whose flag is this?' : q.kind === 'shape' ? 'Which country has this shape?' : q.kind === 'postcard' ? 'Which city is this?' : q.kind === 'pin' ? 'Where is it?' : 'Which country is it?';
+}
+const fmtNumber = (n: number, unit: string) => unit === 'km2' ? `${n.toLocaleString()} km²` : `${n.toLocaleString()} people`;
 
 export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSpec, onRegisterRemoteVoteHandler, onPhaseChange }: GameProps) {
   const junior = useSessionStore((s) => s.junior);
@@ -73,7 +83,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
     }
     onSetInputSpec?.({
       type: 'choice', gameKey: 'world-quiz',
-      prompt: question.kind === 'flag' ? 'Whose flag is this?' : question.kind === 'shape' ? 'Which country has this shape?' : question.kind === 'postcard' ? 'Which city is this?' : 'Which country is it?',
+      prompt: headingOf(question),
       options: question.options, timerSeconds: timerRef.current, startedAt: startRef.current, perStudentData,
     } as InputSpec);
   }, [onSetInputSpec]);
@@ -230,7 +240,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
         <span>Question {index + 1} of {questions.length}</span>
         <span>{revealing ? `${rightCount} of ${answers.length} right` : `${answers.length} answered · ${timeLeft}s`}</span>
       </div>
-      <p className="font-display text-3xl">{q.kind === 'flag' ? 'Whose flag is this?' : q.kind === 'shape' ? 'Which country has this shape?' : q.kind === 'postcard' ? 'Which city is this?' : q.kind === 'pin' ? 'Where is it?' : 'Which country is it?'}</p>
+      <p className="max-w-3xl text-center font-display text-3xl">{headingOf(q)}</p>
 
       {/* the picture: a flag, a shape zooming out, or the clue ladder */}
       <div className="flex min-h-[200px] w-full items-center justify-center">
@@ -244,6 +254,28 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
               <path d={q.shape} fill={revealing ? '#fcd34d' : '#e2e8f0'} stroke="#0b1220" strokeWidth={0.4} fillRule="evenodd" />
             </motion.g>
           </svg>
+        )}
+        {q.kind === 'bigger' && q.pair && (
+          <div className="flex items-stretch justify-center gap-6">
+            {q.pair.map((c, i) => (
+              <div key={c.iso2} className={`flex w-56 flex-col items-center gap-2 rounded-2xl border p-3 ${revealing && i === q.correctIndex ? 'border-emerald-300 bg-emerald-400/15' : 'border-white/12 bg-white/5'}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={flagUrl({ name: c.name, iso2: c.iso2, continent: 'Europe', level: 1 })} alt="" className="h-20 rounded shadow" />
+                <p className="font-display text-2xl">{c.name}</p>
+                {revealing && <p className="text-sm text-white/75">{fmtNumber(c.value, c.unit)} <span className="text-white/45">({c.year})</span></p>}
+              </div>
+            ))}
+          </div>
+        )}
+        {q.kind === 'capital' && q.country.iso2 && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={flagUrl(q.country)} alt="" className="max-h-[140px] rounded-md shadow-[0_10px_40px_rgba(0,0,0,0.5)]" />
+        )}
+        {q.kind === 'hello' && (
+          <div className="flex flex-col items-center gap-2">
+            <MessageCircle className="h-14 w-14 text-amber-300" />
+            {revealing && q.pronunciation && <p className="font-display text-3xl text-amber-100">“{q.options[q.correctIndex]}” · say it: {q.pronunciation}</p>}
+          </div>
         )}
         {q.kind === 'pin' && q.place && (
           revealing ? (

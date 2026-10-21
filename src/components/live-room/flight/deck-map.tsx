@@ -26,6 +26,8 @@ export interface DeckMapProps {
   className?: string;
   /** Makes pins tappable (e.g. picking the next destination). */
   onPinClick?: (id: string) => void;
+  /** Tapping a named place on the map (a country, city, town, river, peak or sea): its name. */
+  onPlaceClick?: (name: string) => void;
   /** Detailed map: roads, buildings, parks and place names when zoomed in. */
   detailed?: boolean;
   /** Fly to a point (e.g. the pin the teacher just tapped). */
@@ -66,7 +68,9 @@ function pinElement(pin: DeckMapPin, onClick?: (id: string) => void) {
   return el;
 }
 
-export function DeckMap({ pins, paths = [], focusZoom, labels = true, className = '', onPinClick, detailed = false, focusPoint = null }: DeckMapProps) {
+export function DeckMap({ pins, paths = [], focusZoom, labels = true, className = '', onPinClick, onPlaceClick, detailed = false, focusPoint = null }: DeckMapProps) {
+  const placeRef = useRef(onPlaceClick);
+  placeRef.current = onPlaceClick;
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markers = useRef<Map<string, Marker>>(new Map());
@@ -86,6 +90,15 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
       zoom: 1,
       attributionControl: false,
       renderWorldCopies: true,
+    });
+    map.on('click', (e) => {
+      if (!placeRef.current) return;
+      const LABELS = ['peak-labels', 'river-labels', 'town-labels', 'city-labels', 'capital-labels', 'water-labels', 'country-labels'];
+      const layers = LABELS.filter((id) => map.getLayer(id));
+      if (!layers.length) return;
+      const hit = map.queryRenderedFeatures([[e.point.x - 8, e.point.y - 8], [e.point.x + 8, e.point.y + 8]], { layers })[0];
+      const name = hit ? String(hit.properties?.['name:en'] ?? hit.properties?.name ?? '') : '';
+      if (name) placeRef.current(name);
     });
     map.on('style.load', () => {
       if (!map.getSource('deck-paths')) {

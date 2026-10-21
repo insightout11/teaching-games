@@ -6,10 +6,13 @@ import routePlaces from '@/data/route-place-briefings.json';
 import { countriesFor, QUIZ_COUNTRIES, type QuizCountry } from '@/lib/world-quiz/countries';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import type { DestinationPack } from '@/lib/world-flight/types';
-import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
+import { PIN_DROP_PLACES } from '@/data/world-quiz/pin-drop';
+import { WHICH_IS_BIGGER } from '@/data/world-quiz/which-is-bigger';
+import { CAPITAL_QUESTIONS } from '@/data/world-quiz/capitals';
+import { HELLO_QUESTIONS } from '@/data/world-quiz/hello';
 
-export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'pins' | 'mix';
-export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard' | 'pin';
+export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'pins' | 'bigger' | 'capitals' | 'hello' | 'mix';
+export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard' | 'pin' | 'bigger' | 'capital' | 'hello';
 export interface WorldQuestion {
   kind: QuestionKind;
   country: QuizCountry;
@@ -27,6 +30,12 @@ export interface WorldQuestion {
   scene?: DestinationPack['scene'];
   /** Pin drop: the place to find on the map. */
   place?: { name: string; country: string; lat: number; lng: number };
+  /** The question's own wording (capitals, hello, which is bigger). */
+  prompt?: string;
+  /** Which is bigger: the two countries (flags) and the real numbers, shown on the reveal. */
+  pair?: Array<{ iso2: string; name: string; value: number; unit: string; year: number }>;
+  /** Hello: how to say the right greeting. */
+  pronunciation?: string;
 }
 
 const shuffle = <T,>(xs: T[]): T[] => { const a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -103,21 +112,50 @@ function postcards(count: number): WorldQuestion[] {
 
 /** Pin drop: famous landmarks (our catalogue) and our destination cities; everyone pins where it is. */
 function pinDrops(count: number): WorldQuestion[] {
-  const places = shuffle([
-    ...LANDMARK_CATALOG.map((l) => ({ name: l.name, country: l.country, lat: l.lat, lng: l.lng })),
-    ...WORLD_DESTINATIONS.map((d) => ({ name: d.city, country: d.country, lat: d.lat, lng: d.lng })),
-  ]);
+  const places = shuffle([...PIN_DROP_PLACES]);
   return places.slice(0, count).map((p) => {
-    const country = QUIZ_COUNTRIES.find((c) => c.name === p.country) ?? { name: p.country, iso2: '', continent: 'Europe' as const, level: 1 as const };
-    return { kind: 'pin' as const, country, options: [], correctIndex: -1, place: p, fact: `${p.name} is in ${p.country}.` };
+    const country = QUIZ_COUNTRIES.find((c) => c.iso2 === p.iso2) ?? { name: p.country, iso2: p.iso2, continent: 'Europe' as const, level: 1 as const };
+    return { kind: 'pin' as const, country, options: [], correctIndex: -1, place: { name: p.name, country: p.country, lat: p.lat, lng: p.lng }, fact: p.fact };
   });
+}
+
+const countryOf = (iso2: string, name: string): QuizCountry => QUIZ_COUNTRIES.find((c) => c.iso2 === iso2) ?? { name, iso2, continent: 'Europe', level: 3 };
+const atLevel = (iso2: string, level: 1 | 2 | 3) => (QUIZ_COUNTRIES.find((c) => c.iso2 === iso2)?.level ?? 3) <= level;
+
+/** Which is bigger: two countries, more people or more land, then the real numbers (World Bank, via Codex). */
+function bigger(count: number): WorldQuestion[] {
+  return shuffle([...WHICH_IS_BIGGER]).slice(0, count).map((b) => {
+    const options = [b.left.name, b.right.name];
+    const correctIndex = b.correctIso2 === b.left.iso2 ? 0 : 1;
+    return {
+      kind: 'bigger' as const, country: countryOf(b.correctIso2, options[correctIndex]), options, correctIndex, prompt: b.prompt,
+      pair: [b.left, b.right].map((x) => ({ iso2: x.iso2, name: x.name, value: x.number.value, unit: x.number.unit, year: x.number.year })),
+      fact: b.whySurprising,
+    };
+  });
+}
+/** Capitals (Codex's checked bank), for the countries at this level. */
+function capitals(count: number, level: 1 | 2 | 3): WorldQuestion[] {
+  return shuffle(CAPITAL_QUESTIONS.filter((q) => atLevel(q.iso2, level))).slice(0, count).map((q) => ({
+    kind: 'capital' as const, country: countryOf(q.iso2, q.prompt), options: [...q.options], correctIndex: q.correctIndex, prompt: q.prompt, fact: `${q.answer} is the ${q.capitalRole.replace(/-/g, ' ')}.`,
+  }));
+}
+/** Hello around the world: choose the greeting people use in that country. */
+function hellos(count: number, level: 1 | 2 | 3): WorldQuestion[] {
+  return shuffle(HELLO_QUESTIONS.filter((q) => atLevel(q.iso2, level))).slice(0, count).map((q) => ({
+    kind: 'hello' as const, country: countryOf(q.iso2, q.prompt), options: q.options.map((o) => o.text), correctIndex: q.correctIndex, prompt: q.prompt,
+    pronunciation: q.pronunciation, fact: q.pronunciation ? `Say it: ${q.pronunciation}` : undefined,
+  }));
 }
 
 /** A round of questions for a mode, at a level (1 easiest), `count` long. */
 export async function buildQuiz(mode: WorldQuizMode, level: 1 | 2 | 3, count: number): Promise<WorldQuestion[]> {
   if (mode === 'postcards') return postcards(count);
   if (mode === 'pins') return pinDrops(count);
-  const cards = mode === 'mix' ? [...postcards(Math.ceil(count / 5)), ...pinDrops(Math.ceil(count / 5))] : [];
+  if (mode === 'bigger') return bigger(count);
+  if (mode === 'capitals') return capitals(count, level);
+  if (mode === 'hello') return hellos(count, level);
+  const cards = mode === 'mix' ? shuffle([...postcards(Math.ceil(count / 8)), ...pinDrops(Math.ceil(count / 8)), ...bigger(Math.ceil(count / 8)), ...capitals(Math.ceil(count / 8), level)]).slice(0, Math.ceil(count / 2)) : [];
   const pool = countriesFor(level);
   const picked = shuffle(pool).slice(0, Math.min(count * 2, pool.length));
   const kinds: QuestionKind[] = mode === 'mix' ? ['flag', 'shape', 'clues'] : [mode === 'flags' ? 'flag' : mode === 'shapes' ? 'shape' : 'clues'];

@@ -33,6 +33,8 @@ export interface WorldFlightMapProps {
   farId?: string | null;
   expedition?: { stopIds: string[]; completedIds: string[]; recommendedId: string | null } | null;
   onCityClick?: (id: string, reachable: boolean) => void;
+  /** Tapping a named place that is not one of our cities (a country, a capital, a sea): its name. */
+  onPlaceClick?: (name: string) => void;
   /** Visited cities' souvenirs: the icon of one the class has, and whether another is still waiting there. */
   souvenirs?: Array<{ destinationId: string; icon: string | null; waiting: boolean }>;
   /** Change this number to replay the class's journey: the plane flies every leg in turn (about 20 seconds). */
@@ -47,7 +49,7 @@ const byId = new Map(WORLD_DESTINATIONS.map((d) => [d.id, d]));
 const asData = (d: unknown) => d as Parameters<GeoJSONSource['setData']>[0];
 const src = (map: MapLibreMap | null, id: string) => map?.getSource(id) as GeoJSONSource | undefined;
 
-export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedId, farId = null, expedition = null, onCityClick, souvenirs = [], replayKey = 0, onReplayDone, still = false, className = '' }: WorldFlightMapProps) {
+export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedId, farId = null, expedition = null, onCityClick, onPlaceClick, souvenirs = [], replayKey = 0, onReplayDone, still = false, className = '' }: WorldFlightMapProps) {
   const box = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const [ready, setReady] = useState(false);
@@ -55,6 +57,8 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
   const rangeAnim = useRef(0);
   const clickRef = useRef(onCityClick);
   clickRef.current = onCityClick;
+  const placeRef = useRef(onPlaceClick);
+  placeRef.current = onPlaceClick;
 
   // The origin as a city the drawing code understands (LC International is not one of the 50 cities).
   const originPack = useMemo(() => byId.get(origin.id) ?? ({ ...WORLD_DESTINATIONS[0], id: origin.id, lat: origin.lat, lng: origin.lng } as DestinationPack), [origin.id, origin.lat, origin.lng]);
@@ -81,6 +85,8 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
     });
     mapRef.current = map;
     if (!still) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    // the journey as a turning globe: routes curve round the Earth (the still landing-card map stays flat)
+    if (!still) map.on('style.load', () => { try { (map as unknown as { setProjection: (p: { type: string }) => void }).setProjection({ type: 'globe' }); } catch { /* flat map */ } });
     map.on('load', () => {
       // The world lights up: each country the class has visited glows softly, under everything else.
       map.addSource('wf-lit-countries', { type: 'geojson', data: asData(EMPTY_FEATURE_COLLECTION) });
@@ -91,6 +97,16 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
         const p = e.features?.[0]?.properties as { id?: string; reachable?: boolean } | undefined;
         if (p?.id) clickRef.current?.(p.id, !!p.reachable);
       };
+      // a named place that is not one of our cities: a country, a capital, a sea (make it the topic)
+      map.on('click', (e) => {
+        if (!placeRef.current) return;
+        const box: [[number, number], [number, number]] = [[e.point.x - 8, e.point.y - 8], [e.point.x + 8, e.point.y + 8]];
+        if (map.queryRenderedFeatures(box, { layers: ['world-flight-city-dots', 'world-flight-city-labels', 'world-flight-visited-checks'].filter((id) => map.getLayer(id)) }).length) return;
+        const layers = ['capital-labels', 'water-labels', 'country-labels'].filter((id) => map.getLayer(id));
+        const hit = layers.length ? map.queryRenderedFeatures(box, { layers })[0] : undefined;
+        const name = hit ? String(hit.properties?.['name:en'] ?? hit.properties?.name ?? '') : '';
+        if (name) placeRef.current(name);
+      });
       for (const layer of ['world-flight-city-dots', 'world-flight-city-labels', 'world-flight-visited-checks']) {
         map.on('click', layer, click);
         map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });

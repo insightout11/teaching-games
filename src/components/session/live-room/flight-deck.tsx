@@ -620,6 +620,8 @@ export function FlightDeck({
   const setInputSpec = useSessionStore((s) => s.setInputSpec);
   const [pinRound, setPinRound] = useState<{ id: string; prompt: string } | null>(null);
   const [pins, setPins] = useState<DeckMapPin[]>([]);
+  // A place tapped on the explore map, waiting for 'Make it the topic'
+  const [placePick, setPlacePick] = useState<string | null>(null);
   const [mapMode, setMapMode] = useState<'tracker' | 'pins'>('tracker');
   const startPins = (prompt: string): string => {
     const id = `room-pins-${Date.now()}`;
@@ -2484,8 +2486,18 @@ export function FlightDeck({
               pins={pinGame ? (pinGame.revealed ? [...pins, { id: `answer:${pinGame.city.id}`, lat: pinGame.city.lat, lng: pinGame.city.lng, label: pinGame.city.city, color: '#facc15' }] : []) : pins}
               detailed={detailedMap}
               onPinClick={pickPin}
+              onPlaceClick={pinGame ? undefined : (name) => setPlacePick(name)}
               focusPoint={pinPick ? { lat: pinPick.pin.lat, lng: pinPick.pin.lng, zoom: detailedMap ? 11 : 6 } : null}
             />
+            {placePick && !pinPick && (
+              <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 rounded-2xl border border-white/15 bg-slate-950/85 p-3 backdrop-blur-md">
+                <p className="text-sm text-white"><b>{placePick}</b></p>
+                <span className="flex gap-2">
+                  <button type="button" onClick={() => { makeFocus({ title: placePick }); flash(`New topic: ${placePick}`); setPlacePick(null); }} className="rounded-full border border-amber-300/60 bg-amber-300/10 px-3 py-1 text-xs font-semibold text-amber-100 hover:bg-amber-300/20">Make it the topic</button>
+                  <button type="button" onClick={() => setPlacePick(null)} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
+                </span>
+              </div>
+            )}
             {pinPick && (
               <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/15 bg-slate-950/85 p-3 backdrop-blur-md">
                 <div className="flex items-start justify-between gap-2">
@@ -2523,12 +2535,20 @@ export function FlightDeck({
               replayKey={replayKey}
               onReplayDone={() => setReplayRunning(false)}
               farId={teachId}
+              onPlaceClick={(name) => setPlacePick(name)}
               onCityClick={(id, inRange) => {
                 if (id === origin.id || stayHome) return;
                 if (inRange && reachable.some((c) => c.id === id)) { setTeachId(null); setChosenId(id); }
                 else if (!lockedId && SCENE_CITIES.some((c) => c.id === id)) setTeachId(id);
               }}
             />
+            {placePick && (
+              <div className="absolute left-1/2 top-3 z-[3] flex -translate-x-1/2 items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/85 px-3 py-2 backdrop-blur-md">
+                <p className="text-sm text-white"><b>{placePick}</b></p>
+                <button type="button" onClick={() => { makeFocus({ title: placePick }); flash(`New topic: ${placePick}`); setPlacePick(null); }} className="rounded-full border border-amber-300/60 bg-amber-300/10 px-3 py-1 text-xs font-semibold text-amber-100 hover:bg-amber-300/20">Make it the topic</button>
+                <button type="button" onClick={() => setPlacePick(null)} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
+              </div>
+            )}
             <div className="pointer-events-none absolute inset-x-3 bottom-3 flex flex-wrap items-end justify-between gap-2 [&>*]:pointer-events-auto">
               {stayHomeCity ? (
                 <div className="rounded-xl border border-white/15 bg-slate-950/85 px-3 py-2 backdrop-blur-md">
