@@ -105,6 +105,27 @@ export function groundAt(strip: CoastStrip, along: number, side: number): { terr
   return null;
 }
 
+/** Continuous land-kind weights between grid centres. Sea samples borrow nearby land, never add blue patches. */
+export function groundMixAt(strip: CoastStrip, along: number, side: number): Array<{ terrain: Terrain; region: string | null; weight: number }> {
+  const u = (along + BAND_KM) / GROUND_STEP_KM, v = (side + BAND_KM) / GROUND_SIDE_KM;
+  const i = Math.floor(u), j = Math.floor(v);
+  const smooth = (t: number) => t * t * (3 - 2 * t);
+  const fy = smooth(u - i), fx = smooth(v - j);
+  const kinds = new Map<string, { terrain: Terrain; region: string | null; weight: number }>();
+  let total = 0;
+  for (let di = 0; di < 2; di++) for (let dj = 0; dj < 2; dj++) {
+    const weight = (di ? fy : 1 - fy) * (dj ? fx : 1 - fx);
+    if (weight < 1e-6) continue;
+    const cell = groundAt(strip, (i + di) * GROUND_STEP_KM - BAND_KM, (j + dj) * GROUND_SIDE_KM - BAND_KM);
+    if (!cell) continue;
+    const key = `${cell.terrain}|${cell.region}`;
+    const found = kinds.get(key);
+    if (found) found.weight += weight; else kinds.set(key, { ...cell, weight });
+    total += weight;
+  }
+  return Array.from(kinds.values(), (cell) => ({ ...cell, weight: cell.weight / total }));
+}
+
 /** Side band kept around the route (km): wide enough for the window's view at any height. */
 const BAND_KM = 350;
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { clipCoastView, toRoute } from '@/lib/live-room/coast-strip';
+import { clipCoastView, groundMixAt, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { greatCirclePoint } from '@/lib/live-room/route-terrain';
 
 const manila = { lat: 14.5995, lng: 120.9842 }, hanoi = { lat: 21.0278, lng: 105.8342 };
@@ -17,6 +17,28 @@ describe('coast polygons in the camera view', () => {
   it('discards land behind the camera and retains land enclosing the view', () => {
     expect(clipCoastView([[0, -20], [10, -10], [-10, -10]], 0, 1, 50, 0.5)).toEqual([]);
     expect(clipCoastView([[-100, -10], [100, -10], [100, 100], [-100, 100]], 0, 1, 50, 0.5)).toHaveLength(4);
+  });
+});
+
+describe('continuous land colours', () => {
+  const desert = { terrain: 'desert' as const, region: 'Africa' };
+  const farm = { terrain: 'farmland' as const, region: 'Europe' };
+  const strip: CoastStrip = { routeKm: 500, land: [], lines: [], shores: [], ground: [[desert, farm], [farm, desert]] };
+  it('blends across and along the route with normalized weights', () => {
+    const mix = groundMixAt(strip, -335, -315);
+    expect(mix).toHaveLength(2);
+    expect(mix.find((c) => c.terrain === 'desert')?.weight).toBeCloseTo(0.5);
+    expect(mix.reduce((n, c) => n + c.weight, 0)).toBeCloseTo(1);
+    expect(groundMixAt(strip, -350, -350)).toEqual([{ ...desert, weight: 1 }]);
+  });
+  it('has no colour jump at the old nearest-cell boundary', () => {
+    const before = groundMixAt(strip, -350, -315.001).find((c) => c.terrain === 'desert')!.weight;
+    const after = groundMixAt(strip, -350, -314.999).find((c) => c.terrain === 'desert')!.weight;
+    expect(Math.abs(before - after)).toBeLessThan(0.0001);
+  });
+  it('borrows land at sea cells and handles an empty grid', () => {
+    expect(groundMixAt({ ...strip, ground: [[null, farm]] }, -350, -315)).toEqual([{ ...farm, weight: 1 }]);
+    expect(groundMixAt({ ...strip, ground: [] }, 0, 0)).toEqual([]);
   });
 });
 const course = Math.atan2(
