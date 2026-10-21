@@ -827,7 +827,7 @@
     "questions": [
       {
         "id": "food-01",
-        "prompt": "Which one can go on bread?",
+        "prompt": "Which sweet spread goes on bread?",
         "options": [
           "rice",
           "egg",
@@ -835,7 +835,7 @@
           "carrot"
         ],
         "answer": "jam",
-        "say": "Which one can go on bread? Rice, egg, jam, or carrot?"
+        "say": "Which sweet spread goes on bread? Rice, egg, jam, or carrot?"
       },
       {
         "id": "food-02",
@@ -3486,7 +3486,7 @@
       },
       {
         "id": "colours-of-things-04",
-        "prompt": "Which one is white?",
+        "prompt": "Which white figure is made of snow?",
         "options": [
           "sun",
           "snowman",
@@ -3494,7 +3494,7 @@
           "strawberry"
         ],
         "answer": "snowman",
-        "say": "Which one is white? Sun, snowman, grass, or strawberry?"
+        "say": "Which white figure is made of snow? Sun, snowman, grass, or strawberry?"
       },
       {
         "id": "colours-of-things-05",
@@ -5598,7 +5598,7 @@
       },
       {
         "id": "the-sun-06",
-        "prompt": "When do you usually see the sun?",
+        "prompt": "When does the sun rise?",
         "options": [
           "night",
           "winter",
@@ -5606,7 +5606,7 @@
           "morning"
         ],
         "answer": "morning",
-        "say": "When do you usually see the sun? Night, winter, autumn, or morning?"
+        "say": "When does the sun rise? Night, winter, autumn, or morning?"
       },
       {
         "id": "the-sun-07",
@@ -6504,7 +6504,7 @@
       },
       {
         "id": "festivals-around-the-world-06",
-        "prompt": "Which action can people do together?",
+        "prompt": "Which action is often part of a festival?",
         "options": [
           "sleep",
           "cry",
@@ -6512,7 +6512,7 @@
           "fall"
         ],
         "answer": "dance",
-        "say": "Which action can people do together? Sleep, cry, dance, or fall?"
+        "say": "Which action is often part of a festival? Sleep, cry, dance, or fall?"
       },
       {
         "id": "festivals-around-the-world-07",
@@ -7817,7 +7817,7 @@
       },
       {
         "id": "sports-2-06",
-        "prompt": "What marks a soccer score?",
+        "prompt": "Which thing stands at the goal in soccer?",
         "options": [
           "lamp",
           "goalpost",
@@ -7825,7 +7825,7 @@
           "window"
         ],
         "answer": "goalpost",
-        "say": "What marks a soccer score? Lamp, goalpost, door, or window?"
+        "say": "Which thing stands at the goal in soccer? Lamp, goalpost, door, or window?"
       },
       {
         "id": "sports-2-07",
@@ -7922,7 +7922,7 @@
       },
       {
         "id": "birthdays-2-04",
-        "prompt": "What could friends sing together?",
+        "prompt": "What do friends do at a birthday party?",
         "options": [
           "sing",
           "sleep",
@@ -7930,7 +7930,7 @@
           "fall"
         ],
         "answer": "sing",
-        "say": "What could friends sing together? Sing, sleep, cry, or fall?"
+        "say": "What do friends do at a birthday party? Sing, sleep, cry, or fall?"
       },
       {
         "id": "birthdays-2-05",
