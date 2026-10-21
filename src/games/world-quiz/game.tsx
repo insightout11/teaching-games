@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Flag, Image as ImageIcon, Lightbulb, Map as MapIcon, Shuffle, Trophy } from 'lucide-react';
+import { Flag, Image as ImageIcon, Lightbulb, Map as MapIcon, MapPin, Shuffle, Trophy } from 'lucide-react';
+import { WorldLensMap, type WorldLensGuess } from '../world-lens/world-lens-map';
+import { parseWorldLensGuess } from '../world-lens/scoring';
+import { haversineKm } from '../mystery-flight/logic';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import type { GameProps, GameRemoteVote } from '../types';
 import { useSessionStore } from '@/stores/session-store';
@@ -18,14 +21,15 @@ import { flagUrl } from '@/lib/world-quiz/countries';
  */
 
 type Phase = 'setup' | 'loading' | 'answering' | 'revealing' | 'end';
-interface Answer { studentId: string; clientId: string; name: string; choice: number; correct: boolean; points: number }
+interface Answer { studentId: string; clientId: string; name: string; choice: number; correct: boolean; points: number; lat?: number; lng?: number; km?: number }
 
 const MODES: Array<{ key: WorldQuizMode; label: string; detail: string; icon: typeof Flag }> = [
   { key: 'flags', label: 'Flags', detail: 'Whose flag is this?', icon: Flag },
   { key: 'shapes', label: 'Shapes', detail: 'The country\'s shape, zooming out', icon: MapIcon },
   { key: 'clues', label: 'Clue ladder', detail: 'Clues from hard to easy: guess early for more points', icon: Lightbulb },
   { key: 'postcards', label: 'Postcards', detail: 'Which city is this? Our illustrated cities', icon: ImageIcon },
-  { key: 'mix', label: 'Mix', detail: 'Flags, shapes, clues and postcards', icon: Shuffle },
+  { key: 'pins', label: 'Pin drop', detail: 'Pin the place on your phone map: closest wins', icon: MapPin },
+  { key: 'mix', label: 'Mix', detail: 'A bit of everything', icon: Shuffle },
 ];
 const REVEAL_GRACE_MS = 1200;
 
@@ -49,13 +53,21 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
 
   // clue questions take longer (the clues arrive one by one)
   const q = questions[index];
-  const timer = q?.kind === 'clues' ? 40 : Math.max(15, Math.min(30, sessionSettings.timerSeconds ?? 20));
+  const timer = q?.kind === 'clues' ? 40 : q?.kind === 'pin' ? 35 : Math.max(15, Math.min(30, sessionSettings.timerSeconds ?? 20));
   const timerRef = useRef(timer); timerRef.current = timer;
   const { timeLeft } = useSyncedTimer(timer, phase === 'answering', nonce);
   const elapsed = timer - timeLeft;
   const cluesShown = q?.clues ? Math.min(q.clues.length, 1 + Math.floor(elapsed / Math.max(6, timer / (q.clues.length + 0.5)))) : 0;
 
   const broadcast = useCallback((question: WorldQuestion, perStudentData: Record<string, unknown> = {}) => {
+    if (question.kind === 'pin' && question.place) {
+      onSetInputSpec?.({
+        type: 'geo-point', gameKey: 'world-quiz', prompt: `Where is ${question.place.name}? Pin it on the map!`,
+        roundId: `wq-${startRef.current}`, stableInput: true, mapCenter: [10, 18], mapZoom: 0.8, mapLabels: false,
+        timerSeconds: timerRef.current, startedAt: startRef.current, perStudentData,
+      } as InputSpec);
+      return;
+    }
     onSetInputSpec?.({
       type: 'choice', gameKey: 'world-quiz',
       prompt: question.kind === 'flag' ? 'Whose flag is this?' : question.kind === 'shape' ? 'Which country has this shape?' : question.kind === 'postcard' ? 'Which city is this?' : 'Which country is it?',
@@ -87,9 +99,24 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
     if (phaseRef.current !== 'answering') return;
     const studentId = vote.studentId || vote.clientId;
     const question = qRef.current[iRef.current];
+    if (!studentId || !question || answersRef.current.some((a) => a.studentId === studentId)) return;
+    if (question.kind === 'pin' && question.place) {
+      const g = parseWorldLensGuess(vote.choice);
+      if (!g || g.roundId !== `wq-${startRef.current}`) return;
+      const km = haversineKm(question.place, g);
+      const points = Math.max(0, Math.round(150 * (1 - km / 4000)));
+      const a: Answer = { studentId, clientId: vote.clientId, name: vote.displayName || 'A student', choice: -1, correct: km < 1000, points, lat: g.lat, lng: g.lng, km };
+      setAnswers((prev) => {
+        const next = [...prev, a];
+        const lock: Record<string, unknown> = {};
+        next.forEach((x) => { lock[x.clientId] = { locked: true }; });
+        broadcast(question, lock);
+        return next;
+      });
+      return;
+    }
     const choice = parseInt(vote.choice, 10);
-    if (!studentId || !question || isNaN(choice) || choice < 0 || choice > 3) return;
-    if (answersRef.current.some((a) => a.studentId === studentId)) return;
+    if (isNaN(choice) || choice < 0 || choice > 3) return;
     const secs = (Date.now() - startRef.current - ANSWERS_OPEN_GRACE_MS) / 1000;
     const left = Math.max(0, timerRef.current - secs);
     const correct = choice === question.correctIndex;
@@ -193,7 +220,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
         <span>Question {index + 1} of {questions.length}</span>
         <span>{revealing ? `${rightCount} of ${answers.length} right` : `${answers.length} answered · ${timeLeft}s`}</span>
       </div>
-      <p className="font-display text-3xl">{q.kind === 'flag' ? 'Whose flag is this?' : q.kind === 'shape' ? 'Which country has this shape?' : q.kind === 'postcard' ? 'Which city is this?' : 'Which country is it?'}</p>
+      <p className="font-display text-3xl">{q.kind === 'flag' ? 'Whose flag is this?' : q.kind === 'shape' ? 'Which country has this shape?' : q.kind === 'postcard' ? 'Which city is this?' : q.kind === 'pin' ? 'Where is it?' : 'Which country is it?'}</p>
 
       {/* the picture: a flag, a shape zooming out, or the clue ladder */}
       <div className="flex min-h-[200px] w-full items-center justify-center">
@@ -207,6 +234,19 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
               <path d={q.shape} fill={revealing ? '#fcd34d' : '#e2e8f0'} stroke="#0b1220" strokeWidth={0.4} fillRule="evenodd" />
             </motion.g>
           </svg>
+        )}
+        {q.kind === 'pin' && q.place && (
+          revealing ? (
+            <div className="h-[260px] w-full max-w-2xl overflow-hidden rounded-2xl border border-white/10">
+              <WorldLensMap answer={{ name: q.place.name, country: q.place.country, lat: q.place.lat, lng: q.place.lng }} guesses={answers.filter((a) => a.lat !== undefined).map((a, i): WorldLensGuess => ({ studentKey: `${a.studentId}-${i}`, displayName: '', lat: a.lat!, lng: a.lng!, distanceKm: Math.round(a.km ?? 0), basePoints: a.points, closestBonus: 0, lessonPoints: a.points }))} revealed />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-2">
+              <MapPin className="h-12 w-12 text-amber-300" />
+              <p className="font-display text-5xl">{q.place.name}</p>
+              <p className="text-white/60">Pin it on the map on your phone</p>
+            </div>
+          )
         )}
         {q.kind === 'postcard' && q.scene && q.destinationId && (
           <div className="relative aspect-[16/7] w-full max-w-lg overflow-hidden rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
@@ -224,8 +264,11 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
         )}
       </div>
 
+      {q.kind === 'pin' && revealing && answers.length > 0 && (
+        <p className="text-lg text-white/80">Closest pin: <b className="text-amber-200">{Math.round(Math.min(...answers.map((a) => a.km ?? Infinity)))} km</b> away · {answers.filter((a) => a.correct).length} of {answers.length} within 1,000 km</p>
+      )}
       {/* the four choices (the phones have the same) */}
-      <div className="grid w-full gap-3 sm:grid-cols-2">
+      <div className={`grid w-full gap-3 sm:grid-cols-2 ${q.kind === 'pin' ? 'hidden' : ''}`}>
         {q.options.map((o, i) => {
           const right = revealing && i === q.correctIndex;
           return (

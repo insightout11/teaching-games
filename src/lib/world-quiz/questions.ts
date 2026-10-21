@@ -6,9 +6,10 @@ import routePlaces from '@/data/route-place-briefings.json';
 import { countriesFor, QUIZ_COUNTRIES, type QuizCountry } from '@/lib/world-quiz/countries';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import type { DestinationPack } from '@/lib/world-flight/types';
+import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
 
-export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'mix';
-export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard';
+export type WorldQuizMode = 'flags' | 'shapes' | 'clues' | 'postcards' | 'pins' | 'mix';
+export type QuestionKind = 'flag' | 'shape' | 'clues' | 'postcard' | 'pin';
 export interface WorldQuestion {
   kind: QuestionKind;
   country: QuizCountry;
@@ -24,6 +25,8 @@ export interface WorldQuestion {
   /** Postcard: one of our illustrated city arrival scenes (the city is the answer). */
   destinationId?: string;
   scene?: DestinationPack['scene'];
+  /** Pin drop: the place to find on the map. */
+  place?: { name: string; country: string; lat: number; lng: number };
 }
 
 const shuffle = <T,>(xs: T[]): T[] => { const a = [...xs]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -98,10 +101,23 @@ function postcards(count: number): WorldQuestion[] {
   });
 }
 
+/** Pin drop: famous landmarks (our catalogue) and our destination cities; everyone pins where it is. */
+function pinDrops(count: number): WorldQuestion[] {
+  const places = shuffle([
+    ...LANDMARK_CATALOG.map((l) => ({ name: l.name, country: l.country, lat: l.lat, lng: l.lng })),
+    ...WORLD_DESTINATIONS.map((d) => ({ name: d.city, country: d.country, lat: d.lat, lng: d.lng })),
+  ]);
+  return places.slice(0, count).map((p) => {
+    const country = QUIZ_COUNTRIES.find((c) => c.name === p.country) ?? { name: p.country, iso2: '', continent: 'Europe' as const, level: 1 as const };
+    return { kind: 'pin' as const, country, options: [], correctIndex: -1, place: p, fact: `${p.name} is in ${p.country}.` };
+  });
+}
+
 /** A round of questions for a mode, at a level (1 easiest), `count` long. */
 export async function buildQuiz(mode: WorldQuizMode, level: 1 | 2 | 3, count: number): Promise<WorldQuestion[]> {
   if (mode === 'postcards') return postcards(count);
-  const cards = mode === 'mix' ? postcards(Math.ceil(count / 4)) : [];
+  if (mode === 'pins') return pinDrops(count);
+  const cards = mode === 'mix' ? [...postcards(Math.ceil(count / 5)), ...pinDrops(Math.ceil(count / 5))] : [];
   const pool = countriesFor(level);
   const picked = shuffle(pool).slice(0, Math.min(count * 2, pool.length));
   const kinds: QuestionKind[] = mode === 'mix' ? ['flag', 'shape', 'clues'] : [mode === 'flags' ? 'flag' : mode === 'shapes' ? 'shape' : 'clues'];
