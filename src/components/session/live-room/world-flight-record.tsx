@@ -23,6 +23,7 @@ export interface WorldFlightRecordData {
   } | null;
   souvenirShelf?: Array<{ destinationId: string; city: string; items: Array<{ id: string; name: string; description: string; icon: string; owned: boolean; how: string }> }>;
   postcards?: Array<{ id: string; destinationId: string; city: string; prompt: string; message: string; createdAt: string }>;
+  album?: Array<{ id: string; landmarkId: string; name: string; takenAt: string; timeOfDay: string; weather: string; fromCity: string; toCity: string; rare: boolean; url: string | null }>;
 }
 
 /** The class's World Flight record for this session (Passport, Hangar, landing card). Null while loading or offline. */
@@ -137,6 +138,26 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
                           })}
                         </div>
                       </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {(data.album?.length ?? 0) > 0 && (
+                <section>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">Landmark album · {data.album!.length}</p>
+                  <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {data.album!.map((ph, i) => (
+                      <figure key={ph.id} className="rounded-sm bg-white p-1.5 pb-2 text-[#1b2233] shadow-[0_8px_20px_rgba(0,0,0,0.35)]" style={{ transform: `rotate(${[-1.5, 1, -0.5, 1.8, -1][i % 5]}deg)` }}>
+                        {ph.url
+                          // eslint-disable-next-line @next/next/no-img-element
+                          ? <img src={ph.url} alt={ph.name} className="aspect-[16/10] w-full object-cover" />
+                          : <div className="aspect-[16/10] w-full bg-slate-200" />}
+                        <figcaption className="mt-1 px-0.5 text-[11px] leading-tight">
+                          <span className="flex items-center justify-between gap-1 font-semibold capitalize">{ph.name}{ph.rare && <span className="rounded-full bg-amber-300 px-1.5 text-[9px] uppercase tracking-wide">Rare</span>}</span>
+                          <span className="text-[#1b2233]/60">{day(ph.takenAt)} · {ph.timeOfDay}{ph.weather ? ` · ${ph.weather}` : ''}{ph.fromCity && ph.toCity ? ` · ${ph.fromCity} to ${ph.toCity}` : ''}</span>
+                        </figcaption>
+                      </figure>
                     ))}
                   </div>
                 </section>

@@ -1257,6 +1257,9 @@ export function FlightDeck({
   const [photoChance, setPhotoChance] = useState<string | null>(null);
   const [photo, setPhoto] = useState<{ image: string; caption: string; name: string } | null>(null);
   const photoName = useRef<string>('');
+  const photoId = useRef<string>('');
+  const albumRoute = useRef({ from: '', to: '' });
+  albumRoute.current = { from: origin.city, to: destination.city };
   useEffect(() => {
     const onChance = (e: Event) => setPhotoChance((e as CustomEvent<{ id: string | null }>).detail?.id ?? null);
     const onTaken = (e: Event) => {
@@ -1268,6 +1271,13 @@ export function FlightDeck({
       setPhoto({ image, caption, name });
       const id = `photo-${Date.now().toString(36)}`;
       addItem(sessionId, { id, kind: 'image', title: `Our photo: ${caption}`, url: image, imageUrl: image, publisher: 'Our flight' } as Parameters<typeof addItem>[1]);
+      // Landmark Album: kept for the class (migration 068); quietly skipped if the album is not ready yet
+      if (!isMockMode() && photoId.current) {
+        void fetch(`/api/session/${sessionId}/album`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ landmarkId: photoId.current, image, timeOfDay: skyNowRef.current.timeOfDay, weather: skyNowRef.current.weather, fromCity: albumRoute.current.from, toCity: albumRoute.current.to }),
+        }).then((r) => (r.ok ? r.json() : null)).then((d: { rare?: boolean } | null) => { if (d) setToast(d.rare ? `Rare photo! ${name} is in the class album` : `${name} is in the class album`); }).catch(() => {});
+      }
     };
     window.addEventListener('lc-photo-chance', onChance);
     window.addEventListener('lc-photo-taken', onTaken);
@@ -1277,6 +1287,7 @@ export function FlightDeck({
   const takePhoto = () => {
     if (!photoLandmark) return;
     photoName.current = photoLandmark.name;
+    photoId.current = photoLandmark.id;
     window.dispatchEvent(new Event('lc-take-photo'));
   };
   // Real things happening on the journey (Oct 2026), each a "Look" moment the class can open: another real plane, the

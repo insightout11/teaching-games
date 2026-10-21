@@ -350,7 +350,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
       {/* breaking out on top of the clouds: a warm burst of sunlight that fades */}
       {breakout > 0.001 && <div className="pointer-events-none absolute inset-0" style={{ opacity: breakout, background: `radial-gradient(ellipse 70% 55% at ${spot?.x ?? '70%'} 18%, rgba(255,244,214,0.75), rgba(255,236,200,0.18) 45%, transparent 75%)` }} />}
       {scenicOn && scenicLandmark && scenicSince < 9000 && (
-        <p className="pointer-events-none absolute left-1/2 top-[14%] -translate-x-1/2 rounded-full bg-slate-950/75 px-4 py-2 text-sm text-white backdrop-blur">Captain: {scenicLandmark.name} coming up on the {scenicLandmark.side}. Get ready for a photo!</p>
+        <p className="pointer-events-none absolute left-1/2 top-[14%] -translate-x-1/2 rounded-full bg-slate-950/75 px-4 py-2 text-sm text-white backdrop-blur">Captain: {scenicLandmark.name.charAt(0).toUpperCase() + scenicLandmark.name.slice(1)} coming up on the {scenicLandmark.side}. Get ready for a photo!</p>
       )}
       {calm && !outside && <div className="absolute inset-0 bg-slate-950/25" />}
     </div>

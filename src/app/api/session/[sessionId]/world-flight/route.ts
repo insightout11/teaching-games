@@ -10,6 +10,8 @@ import { calculateWorldFlightReward, getWorldFlightUpgradeState } from '@/lib/wo
 import { DEFAULT_PLANE_KEY, getPlaneTier } from '@/lib/plane-progression';
 import { citySouvenirs, howToEarn, postcardPrompts, postcardSouvenir, souvenirsForLanding } from '@/lib/world-flight/souvenirs';
 import { classPostcards, ownedSouvenirs } from '@/lib/world-flight/souvenir-store';
+import { classAlbum } from '@/lib/world-flight/album-store';
+import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
 
 export const dynamic = 'force-dynamic';
 
@@ -129,7 +131,8 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
   const alreadySaved = thisLeg ? thisLeg.status !== 'planned' : false;
 
   // Souvenirs: the shelf (every city the class has visited, what it has and what it can still earn there) and postcards.
-  const [ownedSv, postcards] = await Promise.all([ownedSouvenirs(service, classId), classPostcards(service, classId)]);
+  const [ownedSv, postcards, album] = await Promise.all([ownedSouvenirs(service, classId), classPostcards(service, classId), classAlbum(service, classId)]);
+  const albumList = album.map((p) => ({ ...p, name: LANDMARK_CATALOG.find((l) => l.id === p.landmarkId)?.name ?? p.landmarkId }));
   const ownedIds = new Set(ownedSv.map((s) => s.souvenirId));
   const shelfCities = Array.from(new Set([...stamps.map((s) => s.destinationId), ...ownedSv.map((s) => s.destinationId)]));
   const souvenirShelf = shelfCities.map((destinationId) => ({
@@ -170,5 +173,5 @@ export async function GET(_request: Request, { params }: { params: { sessionId: 
     } : null,
   } : null;
 
-  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, expeditions, hangar, landing , souvenirShelf, postcards: postcardList });
+  return NextResponse.json({ classId, currentCity: state?.current_destination_id ? getDestinationById(state.current_destination_id)?.city ?? null : null, stamps, flights: flights.reverse(), investigations, expedition, expeditions, hangar, landing , souvenirShelf, postcards: postcardList, album: albumList });
 }
