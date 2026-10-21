@@ -40,6 +40,113 @@ export interface Landmark {
 const wiki = (title: string) => `https://en.wikipedia.org/wiki/${title}`;
 
 export const LANDMARK_CATALOG: readonly Landmark[] = [
+  // City coverage additions, checked 21 October 2026. Summit positions, not city or park centres.
+  {
+    id: 'popocatepetl', name: 'Popocatépetl', country: 'Mexico', lat: 19.023, lng: -98.622, shape: 'volcano',
+    look: { snowLine: 0.85, steam: true, crater: true, steep: 1.1, colour: 'grey-rock', width: 20 },
+    facts: {
+      junior: ['It is in Mexico.', 'It is a volcano.', 'It has a deep crater.'],
+      core: ['Popocatépetl stands southeast of Mexico City.', 'Its name means smoking mountain in Nahuatl.', 'Snow can cover its upper slopes.'],
+      advanced: ['It belongs to the Trans-Mexican Volcanic Arc.', 'The summit crater has steep walls.', 'Ventorrillo on its northwest side is a remnant of an older volcano.'],
+    }, question: 'Would you like to draw this volcano?', sources: ['https://volcano.si.edu/volcano.cfm?vn=341090'],
+    note: 'GVP summit position. Published summit heights differ, so height is omitted. Snow is seasonal; the shared snow line is an artistic approximation. Steam represents usual gas emissions, not a current eruption or alert level.',
+  },
+  {
+    id: 'rangitoto', name: 'Rangitoto', aliases: ['Rangitoto Island'], country: 'New Zealand', lat: -36.7877, lng: 174.85803, heightM: 259, shape: 'volcano',
+    look: { snowLine: 0, steam: false, crater: true, steep: 0.5, colour: 'green', width: 5.5 },
+    facts: {
+      junior: ['It is an island.', 'It is a volcano.', 'Trees grow on old lava.'],
+      core: ['Rangitoto stands in the Hauraki Gulf near Auckland.', 'A walking track crosses lava fields and forest.', 'Lava caves lie below the summit.'],
+      advanced: ['A shield volcano supports smaller scoria cones at the top.', 'Pōhutukawa trees grow across its basalt lava fields.', 'A crater-rim track circles the forested summit crater.'],
+    }, question: 'Would you rather see lava caves or trees?', sources: [
+      'https://www.doc.govt.nz/parks-and-recreation/places-to-go/auckland/places/rangitoto-island/tracks/rangitoto-summit-track',
+      'https://www.peakbagger.com/peak.aspx?pid=33108', wiki('Rangitoto_Island'),
+    ],
+    note: 'Peakbagger high-point coordinates, rather than the island or wharf location. Height rounded to the DOC summit lookout value of 259 m. The shared cone simplifies the broad shield and smaller summit cones.',
+  },
+  {
+    id: 'mount-baker', name: 'Mount Baker', country: 'United States', lat: 48.777, lng: -121.813, heightM: 3286, shape: 'volcano',
+    look: { snowLine: 0.45, steam: false, crater: false, steep: 1, colour: 'white', width: 15 },
+    facts: {
+      junior: ['It is a volcano.', 'Ice covers its slopes.', 'It is in Washington State.'],
+      core: ['Mount Baker is near the Canadian border.', 'Glaciers flow down the mountain.', 'Its summit is higher than Sherman Crater.'],
+      advanced: ['The USGS lists its summit at 3,286 metres.', 'Ice-filled Carmelo Crater lies beneath the summit ice dome.', 'Most of its hydrothermal activity is concentrated in Sherman Crater.'],
+    }, question: 'What colour would you use for the ice?', sources: [
+      'https://www.usgs.gov/volcanoes/mount-baker/',
+      'https://www.usgs.gov/volcanoes/mount-baker/science/mount-baker-140000-years-ago-present',
+    ],
+    note: 'USGS summit coordinates and elevation; GVP lists 3,285 m. No drawn steam plume: Sherman Crater lies below and south of the summit, which the shared drawing cannot distinguish.',
+  },
+  {
+    id: 'diamond-head', name: 'Diamond Head (Lēʻahi)', aliases: ['Diamond Head'], country: 'United States', lat: 21.26194, lng: -157.80556, heightM: 232, shape: 'volcano',
+    look: { snowLine: 0, steam: false, crater: true, steep: 0.5, colour: 'sand', width: 1.5 },
+    facts: {
+      junior: ['It is in Hawaii.', 'It has a wide crater.', 'A path climbs to the top.'],
+      core: ['Diamond Head is a volcanic cone on Oʻahu.', 'Its rock is called tuff.', 'The crater stands beside Waikiki.'],
+      advanced: ['Ash and fine particles cemented together to form its tuff.', 'The summit trail was built in 1908 for coastal defence.', 'A fire-control station was completed near the summit in 1911.'],
+    }, question: 'Would you like to draw its wide crater?', sources: [
+      'https://dlnr.hawaii.gov/dsp/parks/oahu/diamond-head-state-monument/', wiki('Diamond_Head,_Hawaii'),
+    ],
+    note: 'Highest-point coordinates from the mountain infobox, on the crater rim rather than the visitor centre. The shared volcano simplifies a broad tuff cone; colour and width are artistic approximations.',
+  },
+  {
+    id: 'salak', name: 'Mount Salak', aliases: ['Gunung Salak'], country: 'Indonesia', lat: -6.71583, lng: 106.73361, shape: 'volcano',
+    look: { snowLine: 0, steam: false, crater: false, steep: 0.9, colour: 'green', width: 12 },
+    facts: {
+      junior: ['It is in Indonesia.', 'It is a volcano.', 'It has several peaks.'],
+      core: ['Mount Salak stands in West Java.', 'Erosion has changed the shape of this volcano.', 'Smaller cones stand around its slopes.'],
+      advanced: ['Salak is part of the Sunda Volcanic Arc.', 'Its volcanic complex has more than one summit crater.', 'Satellite cones occur on its southeast flank and northern foot.'],
+    }, question: 'Would you draw one peak or several peaks?', sources: [
+      'https://volcano.si.edu/volcano.cfm?vn=263050', wiki('Mount_Salak'),
+    ],
+    note: 'Highest-point coordinates from the mountain infobox. Published elevations differ (2,211 and 2,218 m), so height is omitted. The shared cone simplifies an eroded, multi-peaked volcano; no summit plume is implied by lower geothermal vents.',
+  },
+  {
+    id: 'keilir', name: 'Keilir', country: 'Iceland', lat: 63.9425, lng: -22.17083, shape: 'volcano',
+    look: { snowLine: 0, steam: false, crater: false, steep: 1.2, colour: 'grey-rock', width: 1.5 },
+    facts: {
+      junior: ['It is in Iceland.', 'It has a pointed top.', 'A trail climbs this mountain.'],
+      core: ['Keilir is a volcanic mountain on the Reykjanes Peninsula.', 'Eruptions under glacier ice formed it.', 'Its distinctive cone is a local landmark.'],
+      advanced: ['Its subglacial eruptions took place during the Ice Age.', 'The rock is described as hyaloclastite.', 'A direction map stands on the summit.'],
+    }, question: 'Can you draw a pointed mountain?', sources: [
+      'https://www.visitreykjanes.is/en/place/keilir', wiki('Keilir'),
+    ],
+    note: 'Summit coordinates from the mountain infobox, not the tourism access point. Published elevations differ, so height is omitted. An old volcanic cone formed beneath ice; no present ice cap, open crater or steam plume is depicted.',
+  },
+  {
+    id: 'longonot', name: 'Mount Longonot', country: 'Kenya', lat: -0.91528, lng: 36.45694, heightM: 2776, shape: 'volcano',
+    look: { snowLine: 0, steam: false, crater: true, steep: 0.8, colour: 'green', width: 6 },
+    facts: {
+      junior: ['It is in Kenya.', 'It has a large crater.', 'Trees grow inside the crater.'],
+      core: ['Longonot is a volcano in the Great Rift Valley.', 'It stands southeast of Lake Naivasha.', 'Walkers can follow a path around its crater rim.'],
+      advanced: ['The highest point reaches about 2,776 metres.', 'Forest covers the floor of its summit crater.', 'Mount Longonot National Park protects the volcanic landscape.'],
+    }, question: 'Would you like to draw trees inside a crater?', sources: [
+      'https://volcano.oregonstate.edu/longonot', 'https://kws.go.ke/park/mt-longonot-national-park/', wiki('Mount_Longonot'),
+    ],
+    note: 'Highest-point coordinates from the mountain infobox, rather than the lower crater centre used by some volcano databases. The shared shape is an approximation; no persistent visible plume is asserted.',
+  },
+  {
+    id: 'tolima', name: 'Nevado del Tolima', country: 'Colombia', lat: 4.658, lng: -75.33, heightM: 5215, shape: 'volcano',
+    look: { snowLine: 0.85, steam: false, crater: true, steep: 1.2, colour: 'grey-rock', width: 10 },
+    facts: {
+      junior: ['It is in Colombia.', 'It is a volcano.', 'Ice lies near the top.'],
+      core: ['Tolima is a steep volcano in the Andes.', 'A glacier covers its upper slopes.', 'The summit has a deep crater.'],
+      advanced: ['GVP lists the summit elevation as 5,215 metres.', 'Lava domes form a cluster around the summit.', 'The younger cone rises above an older caldera.'],
+    }, question: 'Would you draw the ice white or green?', sources: ['https://volcano.si.edu/volcano.cfm?vn=351030'],
+    note: 'GVP summit position and elevation. The snow line is an artistic approximation, not a measurement of the changing glacier boundary.',
+  },
+  {
+    id: 'tupungato', name: 'Tupungato', country: 'Chile / Argentina', lat: -33.35833, lng: -69.77, shape: 'volcano',
+    look: { snowLine: 0.65, steam: false, crater: false, steep: 0.9, colour: 'grey-rock', width: 18 },
+    facts: {
+      junior: ['It is in the Andes.', 'It is an old volcano.', 'Snow covers its upper slopes.'],
+      core: ['Tupungato stands on the Chile-Argentina border.', 'It is east of Santiago.', 'A different volcano, Tupungatito, stands to its southwest.'],
+      advanced: ['Tupungato is a volcanic mountain dating from the Pleistocene.', 'Matthias Zurbriggen and Stuart Vines first climbed it in 1897.', 'Published summit elevations differ between Chilean and Argentine mapping sources.'],
+    }, question: 'Would you draw this snowy mountain?', sources: [
+      'https://www.andeshandbook.org/details/hill/42', wiki('Tupungato'),
+    ],
+    note: 'Summit coordinates from the mountain infobox. Height omitted because Andeshandbook lists 6,570 m (Chilean IGM) and 6,635 m (Argentine IGN). This is Tupungato, not the separate Tupungatito volcano; no steam plume is shown.',
+  },
   {
     id: 'everest', name: 'Mount Everest', country: 'Nepal / China', lat: 27.9881, lng: 86.925, heightM: 8848.86, shape: 'everest',
     facts: {
