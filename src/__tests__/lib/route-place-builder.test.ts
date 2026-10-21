@@ -1,12 +1,60 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import bank from '@/data/route-place-briefings.json';
-import { buildRoutePlaceCards, validateRoutePlaceCards, validateCountryBasics, hasRepeatedDetailSentence, isSimpleA1Question } from '../../../scripts/dev/build-route-place-cards';
+import { buildRoutePlaceCards, validateRoutePlaceCards, validateCountryBasics, validateRoutePlacePhotos, hasRepeatedDetailSentence, isSimpleA1Question } from '../../../scripts/dev/build-route-place-cards';
 
 const copy = () => JSON.parse(JSON.stringify(bank.slice(0, 4))) as typeof bank;
 describe('route-place compiler rejects editorial regressions', () => {
   it('reproduces the runtime bank from explicit source fields', () => {
     expect(buildRoutePlaceCards(readFileSync('scripts/dev/data/route-place-editorial.tsv', 'utf8'))).toEqual(bank);
+  });
+  it.each([
+    ['file:Example.jpg', 'CC BY 4.0'],
+    ['File:Example.svg', 'CC BY 4.0'],
+    ['https://example.org/photo.jpg', 'CC BY 4.0'],
+    ['File:Example.jpg ', 'CC BY 4.0'],
+    ['File:Example.jpg', ''],
+    ['', 'CC BY 4.0'],
+    ['File:Example.jpg', 'CC BY-NC 4.0'],
+    ['File:Example.jpg', 'CC BY-ND 4.0'],
+    ['File:Example.jpg', 'Fair use'],
+  ])('rejects an invalid photo pair: %s / %s', (pictureFile, pictureLicense) => {
+    const places = copy().slice(0, 1);
+    Object.assign(places[0].levels.A1.cards[0], { pictureFile, pictureLicense });
+    expect(() => validateRoutePlacePhotos(places)).toThrow();
+  });
+  it.each(['CC0', 'Public domain', 'CC BY 4.0', 'CC BY-SA 3.0', 'CC BY-SA 3.0 de'])('accepts a reviewed photo with %s', pictureLicense => {
+    const places = copy().slice(0, 1);
+    for (const level of ['A1', 'B1'] as const) for (const card of places[0].levels[level].cards) Object.assign(card, { pictureFile: '', pictureLicense: '' });
+    Object.assign(places[0].levels.A1.cards[0], { pictureFile: 'File:Example.JPG', pictureLicense });
+    Object.assign(places[0].levels.B1.cards[0], { pictureFile: 'File:Example.JPG', pictureLicense });
+    expect(() => validateRoutePlacePhotos(places)).not.toThrow();
+  });
+  it('allows blank photo fields without inventing a default file', () => {
+    const source = readFileSync('scripts/dev/data/route-place-editorial.tsv', 'utf8');
+    const blank = source.split('\n').map(line => line.startsWith('#') || !line ? line : line.split('\t').slice(0, 10).concat(['', '']).join('\t')).join('\n');
+    const result = buildRoutePlaceCards(blank);
+    expect(result.every(p => p.levels.B1.cards.every(c => c.pictureFile === '' && c.pictureLicense === ''))).toBe(true);
+  });
+  it('rejects reuse on another card of one place, including underscore aliases', () => {
+    const places = copy().slice(0, 1);
+    for (const level of ['A1', 'B1'] as const) for (const card of places[0].levels[level].cards) Object.assign(card, { pictureFile: '', pictureLicense: '' });
+    Object.assign(places[0].levels.A1.cards[0], { pictureFile: 'File:Same photograph.jpg', pictureLicense: 'CC0' });
+    Object.assign(places[0].levels.B1.cards[0], { pictureFile: 'File:Same photograph.jpg', pictureLicense: 'CC0' });
+    Object.assign(places[0].levels.B1.cards[1], { pictureFile: 'File:Same_photograph.jpg', pictureLicense: 'CC0' });
+    expect(() => validateRoutePlacePhotos(places)).toThrow('Photo reused within place');
+  });
+  it('requires a shared headline to use the same exact photo across levels', () => {
+    const places = copy().slice(0, 1);
+    for (const level of ['A1', 'B1'] as const) for (const card of places[0].levels[level].cards) Object.assign(card, { pictureFile: '', pictureLicense: '' });
+    Object.assign(places[0].levels.A1.cards[0], { pictureFile: 'File:First.jpg', pictureLicense: 'CC0' });
+    Object.assign(places[0].levels.B1.cards[0], { pictureFile: 'File:Second.jpg', pictureLicense: 'CC0' });
+    expect(() => validateRoutePlacePhotos(places)).toThrow('Headline photo differs');
+  });
+  it('checks photo data in editorial input, rather than only testing the built bank', () => {
+    const source = readFileSync('scripts/dev/data/route-place-editorial.tsv', 'utf8');
+    const invalid = source.split('\n').map(line => line.startsWith('Asia\t1\t') ? line.split('\t').slice(0, 10).concat(['File:Example.jpg', 'CC BY-NC 4.0']).join('\t') : line).join('\n');
+    expect(() => buildRoutePlaceCards(invalid)).toThrow('Photo licence');
   });
   it('does not invent text for a missing card', () => {
     const source = readFileSync('scripts/dev/data/route-place-editorial.tsv', 'utf8');

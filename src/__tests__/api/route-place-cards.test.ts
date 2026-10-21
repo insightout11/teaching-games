@@ -25,6 +25,9 @@ import { findRoutePlaceBriefing } from '@/lib/topic-briefings';
 const request = (body: unknown) => new Request('http://localhost/test', { method: 'POST', body: JSON.stringify(body) });
 const postFocus = (body: unknown) => focus(request(body), { params: { sessionId: 'session-test' } });
 const paris = findRoutePlaceBriefing('Paris')!;
+// Exact photos are static data until the separate room integration. Keep
+// asserting the current API's authored prose and fallback search contract.
+const publicCards = (cards: NonNullable<typeof paris.levels.B1.cards>) => cards.map(({ headline, detail, questions, picture }) => ({ headline, detail, questions, picture }));
 const photo = { url: 'https://example.test/paris.jpg', title: 'Paris', source: 'Wikimedia' };
 
 beforeEach(() => {
@@ -45,7 +48,7 @@ describe('focus route checked places', () => {
     const response = await postFocus({ title: 'THE pArIs' });
     expect(response.status).toBe(200);
     const data = await response.json();
-    expect(data.cards).toEqual(paris.levels[level].cards);
+    expect(data.cards).toEqual(publicCards(paris.levels[level].cards!));
     expect(data.facts).toEqual(paris.levels[level].facts);
     expect(mocks.ai).not.toHaveBeenCalled();
     expect(mocks.wiki).not.toHaveBeenCalled();
@@ -57,7 +60,7 @@ describe('focus route checked places', () => {
 
   it('does not choose an easier level just because the class is Junior', async () => {
     mocks.difficulty = 'Easy'; mocks.junior = true;
-    expect((await (await postFocus({ title: 'Paris' })).json()).cards).toEqual(paris.levels.B1.cards);
+    expect((await (await postFocus({ title: 'Paris' })).json()).cards).toEqual(publicCards(paris.levels.B1.cards!));
   });
 
   it.each(['Pariss', 'Paris suburbs', 'Cordillera Oriental'])('keeps the existing AI fallback for %s', async title => {
