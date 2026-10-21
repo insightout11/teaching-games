@@ -12,6 +12,14 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
 export type StripPoint = [along: number, side: number];
 
+/** Reproject a cached ground row through the same camera after moving forward by dz world units. */
+export function coastCacheRow(y: number, horizon: number, focal: number, cachedHeight: number, height: number, dz: number): { y: number; scale: number } | null {
+  if (y <= horizon) return null;
+  const depth = cachedHeight * focal / (y - horizon), remaining = depth - dz;
+  if (remaining <= 0) return null;
+  return { y: horizon + height * focal / remaining, scale: depth / remaining };
+}
+
 /** Clip a world-space (x, depth) polygon to the camera frustum before perspective division. */
 export function clipCoastView(ring: Array<[number, number]>, base: number, near: number, far: number, halfSlope: number): Array<[number, number]> {
   let pts = ring;

@@ -1,8 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { clipCoastLine, clipCoastView, groundMixAt, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
+import { clipCoastLine, clipCoastView, coastCacheRow, groundMixAt, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { greatCirclePoint } from '@/lib/live-room/route-terrain';
 
 const manila = { lat: 14.5995, lng: 120.9842 }, hanoi = { lat: 21.0278, lng: 105.8342 };
+
+describe('cached coast pixels follow the ground camera', () => {
+  it('matches direct world projection when the camera moves and changes height', () => {
+    const horizon = 400, focal = 1100, height = 3200, nextHeight = 3100;
+    for (const depth of [14000, 30000, 60000]) {
+      const row = coastCacheRow(horizon + height * focal / depth, horizon, focal, height, nextHeight, 1200)!;
+      expect(row.y).toBeCloseTo(horizon + nextHeight * focal / (depth - 1200));
+      expect(2000 * focal / depth * row.scale).toBeCloseTo(2000 * focal / (depth - 1200));
+    }
+  });
+  it('leaves an unmoved view still and rejects rows behind the camera', () => {
+    expect(coastCacheRow(600, 400, 1100, 3200, 3200, 0)).toEqual({ y: 600, scale: 1 });
+    expect(coastCacheRow(400, 400, 1100, 3200, 3200, 0)).toBeNull();
+    expect(coastCacheRow(600, 400, 1100, 3200, 3200, 20000)).toBeNull();
+  });
+});
 
 describe('coast polygons in the camera view', () => {
   it('clips crossing edges to near, far and side planes before projection', () => {
