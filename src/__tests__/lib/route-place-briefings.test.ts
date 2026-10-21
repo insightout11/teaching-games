@@ -19,7 +19,11 @@ describe('checked route-place cards', () => {
       expect(cleanFactCards(cards)).toEqual(cards);
       for (const card of cards) {
         expect(words(card.headline)).toBeLessThanOrEqual(level === 'A1' ? 8 : 14);
-        expect(sentences(card.detail)).toHaveLength(level === 'A1' ? 2 : 3);
+        if (level === 'A1') expect(sentences(card.detail)).toHaveLength(2);
+        else {
+          expect(sentences(card.detail).length).toBeGreaterThanOrEqual(2);
+          expect(sentences(card.detail).length).toBeLessThanOrEqual(3);
+        }
         expect(card.detail.toLowerCase().startsWith(card.headline.toLowerCase())).toBe(false);
         expect(card.headline + ' ' + card.detail).not.toMatch(/is a city here|degrees (north|south)|estimated population|dated estimate|people lived here/i);
         if (level === 'A1') sentences(card.detail).forEach(s => expect(words(s)).toBeLessThanOrEqual(12));

@@ -85,7 +85,7 @@
           },
           {
             "headline": "Asia joins Europe on land",
-            "detail": "Their shared landmass is Eurasia. The usual continental boundary passes along the Ural Mountains. The Urals form part of the usual boundary between the continents.",
+            "detail": "Their shared landmass is Eurasia. The usual continental boundary passes along the Ural Mountains.",
             "questions": [
               "How could you travel between Europe and Asia without a boat?",
               "Why can a continental boundary be hard to see?"
@@ -94,7 +94,7 @@
           },
           {
             "headline": "The Himalayas rise in Asia",
-            "detail": "They contain very high peaks. Mount Everest stands on the Nepal and China border. Everest rises between Nepal and China.",
+            "detail": "They contain very high peaks. Mount Everest stands on the Nepal and China border.",
             "questions": [
               "What would be hard about climbing Everest?",
               "How would you keep warm on a Himalayan mountain?"
@@ -373,7 +373,7 @@
           },
           {
             "headline": "The date line crosses the Pacific",
-            "detail": "Calendars change across that line. Its route bends to keep some island groups together. The line mostly avoids crossing inhabited islands.",
+            "detail": "Calendars change across that line. Its route bends to keep some island groups together.",
             "questions": [
               "How could two Pacific islands have different calendar dates?",
               "What would you check before calling someone across the date line?"
@@ -464,7 +464,7 @@
         "cards": [
           {
             "headline": "Europe shares a landmass with Asia",
-            "detail": "That landmass is called Eurasia. The Ural Mountains mark part of their conventional boundary. The Ural Mountains form part of the conventional division.",
+            "detail": "That landmass is called Eurasia. The Ural Mountains mark part of their conventional boundary.",
             "questions": [
               "Why can Europe and Asia be joined but have different names?",
               "What would you look for at their usual mountain boundary?"
@@ -491,7 +491,7 @@
           },
           {
             "headline": "Long rivers connect inland regions",
-            "detail": "The Danube is one example. It passes through or beside several countries before reaching the Black Sea. The Danube flows towards the Black Sea.",
+            "detail": "The Danube is one example. It passes through or beside several countries before reaching the Black Sea.",
             "questions": [
               "How can a river connect people in different countries?",
               "What would you carry on a journey along the Danube?"
@@ -591,7 +591,7 @@
         "cards": [
           {
             "headline": "Russia spans two continents",
-            "detail": "They are Europe and Asia. The Ural Mountains mark part of their usual boundary. The Urals form part of the usual continental boundary.",
+            "detail": "They are Europe and Asia. The Ural Mountains mark part of their usual boundary.",
             "questions": [
               "How could mountains help people describe a boundary?",
               "Why might a continent's edge be a convention?"
@@ -600,7 +600,7 @@
           },
           {
             "headline": "Many taiga trees have needles",
-            "detail": "Larches are an important example. Unlike many conifers they lose their needles each autumn. Larch trees lose their needles before winter.",
+            "detail": "Larches are an important example. Unlike many conifers they lose their needles each autumn.",
             "questions": [
               "How are pine needles different from broad leaves?",
               "What might help a tree survive a Siberian winter?"
@@ -757,7 +757,7 @@
           },
           {
             "headline": "Hutongs are traditional city lanes",
-            "detail": "Homes stand beside these narrow passages. Some historic neighbourhoods preserve courtyard-house layouts. Many lanes connect traditional courtyard homes.",
+            "detail": "Homes stand beside these narrow passages. Some historic neighbourhoods preserve courtyard-house layouts.",
             "questions": [
               "How could a narrow lane shape neighbourhood life?",
               "What might change if cars filled the lane?"
@@ -853,7 +853,7 @@
         "cards": [
           {
             "headline": "This plain lies in northern Europe",
-            "detail": "Much of its land is low. It crosses parts of Germany and Poland and nearby countries. The plain extends through northern Germany and Poland.",
+            "detail": "Much of its land is low. It crosses parts of Germany and Poland and nearby countries.",
             "questions": [
               "What would make travel easy on a broad plain?",
               "How would a flat view differ from a mountain view?"
@@ -1133,7 +1133,7 @@
           },
           {
             "headline": "Monsoon winds change with the seasons",
-            "detail": "They affect rainfall near the ocean. Sailors historically used these seasonal winds for travel. Traditional sailing schedules followed these seasonal wind patterns.",
+            "detail": "They affect rainfall near the ocean. Sailors historically used these seasonal winds for travel.",
             "questions": [
               "How could sailors use a changing wind?",
               "What would you do if the monsoon arrived during a boat trip?"
@@ -1390,7 +1390,7 @@
           },
           {
             "headline": "The Rocky Mountains rise in the west",
-            "detail": "They cross Canada and the United States. Their valleys and passes shape many travel routes. The range extends through western Canada and the United States.",
+            "detail": "They cross Canada and the United States. Their valleys and passes shape many travel routes.",
             "questions": [
               "What would be hard about crossing the Rockies?",
               "How might snow change travel through a mountain pass?"
@@ -1656,7 +1656,7 @@
           },
           {
             "headline": "The CN Tower rises above the skyline",
-            "detail": "It is a tall communications tower. It opened to the public in 1976. The tower also carries communications equipment.",
+            "detail": "It is a tall communications tower. It opened to the public in 1976.",
             "questions": [
               "Why might people build an observation platform?",
               "What would you look for from a tall tower?"
@@ -1665,7 +1665,7 @@
           },
           {
             "headline": "Stanley Park has forests and paths",
-            "detail": "Its seawall follows much of the shore. The park lies beside the central urban area. The seawall follows much of the park's edge.",
+            "detail": "Its seawall follows much of the shore. The park lies beside the central urban area.",
             "questions": [
               "How could a path connect forest and waterfront?",
               "What would you notice on a slow park walk?"
@@ -1770,7 +1770,7 @@
           },
           {
             "headline": "The sea connects with the Atlantic",
-            "detail": "A narrow strait joins them. The Strait of Gibraltar lies between Spain and Morocco. Spain and Morocco stand on opposite sides.",
+            "detail": "A narrow strait joins them. The Strait of Gibraltar lies between Spain and Morocco.",
             "questions": [
               "Why do ships pass through this narrow strait?",
               "How might a busy sea entrance be managed?"
@@ -1797,7 +1797,7 @@
           },
           {
             "headline": "The Suez Canal links nearby seas",
-            "detail": "It connects the Mediterranean and Red Sea. Ships can travel through it without sailing around Africa. The canal provides a route between Mediterranean and Red Sea waters.",
+            "detail": "It connects the Mediterranean and Red Sea. Ships can travel through it without sailing around Africa.",
             "questions": [
               "How does a canal change a sea journey?",
               "Why might ships have to wait before entering Suez?"
@@ -1897,7 +1897,7 @@
           },
           {
             "headline": "Frevo is a local music and dance tradition",
-            "detail": "Dancers use quick movements. Small colourful umbrellas are associated with its performances. Dancers often use small colourful umbrellas.",
+            "detail": "Dancers use quick movements. Small colourful umbrellas are associated with its performances.",
             "questions": [
               "How could music change the way people move?",
               "What would you notice in a frevo dance?"
@@ -2176,7 +2176,7 @@
           },
           {
             "headline": "Desert temperatures change through the day",
-            "detail": "Nights can be much cooler. Dry air and clear skies allow heat to escape quickly. Dry air often allows heat to escape quickly after sunset.",
+            "detail": "Nights can be much cooler. Dry air and clear skies allow heat to escape quickly.",
             "questions": [
               "Why would you pack warm clothes for a desert trip?",
               "When would you choose to walk across hot sand?"
@@ -2185,7 +2185,7 @@
           },
           {
             "headline": "Ancient rock art shows different environments",
-            "detail": "Some pictures include large animals. Parts of the Sahara were wetter at times in the past. Some images record animals associated with wetter conditions.",
+            "detail": "Some pictures include large animals. Parts of the Sahara were wetter at times in the past.",
             "questions": [
               "What can painted cattle tell us about a desert's past?",
               "How could we protect ancient rock paintings?"
@@ -2287,7 +2287,7 @@
           },
           {
             "headline": "Many taiga trees have needles",
-            "detail": "Larches are an important example. Unlike many conifers they lose their needles each autumn. Larch trees lose their needles before winter.",
+            "detail": "Larches are an important example. Unlike many conifers they lose their needles each autumn.",
             "questions": [
               "How are pine needles different from broad leaves?",
               "What might help a tree survive a Siberian winter?"
@@ -2535,7 +2535,7 @@
         "cards": [
           {
             "headline": "The Rhine crosses western Germany",
-            "detail": "Boats travel along it. It connects inland towns with ports near the North Sea. The Rhine reaches the North Sea through the Netherlands.",
+            "detail": "Boats travel along it. The Rhine reaches the North Sea through the Netherlands.",
             "questions": [
               "Why might barges carry heavy goods?",
               "How could rivers connect factories and ports?"
@@ -2922,7 +2922,7 @@
         "cards": [
           {
             "headline": "The Iberian Peninsula lies in southwestern Europe",
-            "detail": "It faces the Atlantic and Mediterranean. Spain and Portugal occupy most of it. Most of the peninsula is occupied by Spain and Portugal.",
+            "detail": "It faces the Atlantic and Mediterranean. Spain and Portugal occupy most of it.",
             "questions": [
               "How could you tell that a place is on a peninsula?",
               "What might you compare on its Atlantic and Mediterranean coasts?"
@@ -2931,7 +2931,7 @@
           },
           {
             "headline": "The Pyrenees stand in the northeast",
-            "detail": "They are a mountain range. They separate much of Spain from France. The mountains separate much of Iberia from the rest of Europe.",
+            "detail": "They are a mountain range. They separate much of Spain from France.",
             "questions": [
               "Why might mountain passes be important between Spain and France?",
               "What would make crossing the Pyrenees difficult in winter?"
@@ -2940,7 +2940,7 @@
           },
           {
             "headline": "A narrow strait lies to the south",
-            "detail": "Africa stands across the water. The Strait of Gibraltar connects the Atlantic and Mediterranean. The strait connects Atlantic and Mediterranean waters.",
+            "detail": "Africa stands across the water. The Strait of Gibraltar connects the Atlantic and Mediterranean.",
             "questions": [
               "How could two continents be close without touching?",
               "Why might boats gather near a narrow strait?"
@@ -2949,7 +2949,7 @@
           },
           {
             "headline": "High land covers much of the interior",
-            "detail": "Spain's central plateau is called the Meseta. It contrasts with many lower coastal plains. The Meseta occupies much of central Spain.",
+            "detail": "Spain's central plateau is called the Meseta. It contrasts with many lower coastal plains.",
             "questions": [
               "How would farming on the Meseta differ from farming on a wet coast?",
               "What might a high inland plain look like from a train?"
@@ -3051,7 +3051,7 @@
         "cards": [
           {
             "headline": "This plain lies in eastern China",
-            "detail": "Large areas are flat and low. It surrounds parts of the lower Yellow River system. The region lies near the lower Yellow River.",
+            "detail": "Large areas are flat and low. It surrounds parts of the lower Yellow River system.",
             "questions": [
               "Why might people choose a plain for farming?",
               "How could a large flat region help transport?"
@@ -3069,7 +3069,7 @@
           },
           {
             "headline": "Many people farm this region",
-            "detail": "Wheat is an important crop. Farming and settlement have a long history on the plain. Wheat is an important crop in this region.",
+            "detail": "Wheat is an important crop. Farming and settlement have a long history on the plain.",
             "questions": [
               "What would farmers need during a dry growing season?",
               "How could harvests reach people in nearby cities?"
@@ -3178,7 +3178,7 @@
         "cards": [
           {
             "headline": "Polynesia is a Pacific island region",
-            "detail": "Its islands spread across a wide ocean. Hawaii and New Zealand and Rapa Nui mark its broad triangle. Hawaii and New Zealand mark two corners of the usual Polynesian triangle.",
+            "detail": "Its islands spread across a wide ocean. Hawaii and New Zealand and Rapa Nui mark its broad triangle.",
             "questions": [
               "How could you travel between widely separated Polynesian islands?",
               "What would you need for a long Pacific canoe journey?"
@@ -3341,7 +3341,7 @@
           },
           {
             "headline": "Dinosaur fossils have been found here",
-            "detail": "Some include fossil eggs. These discoveries help scientists study ancient life. Fossil discoveries include nests and eggs.",
+            "detail": "Some include fossil eggs. These discoveries help scientists study ancient life.",
             "questions": [
               "What could a dinosaur egg tell scientists?",
               "How would you protect a fossil before moving it?"
@@ -3462,7 +3462,7 @@
           },
           {
             "headline": "Lake Toba fills a large volcanic basin",
-            "detail": "It contains an island within the lake. Its landscape records a very large ancient volcanic eruption. Samosir Island rises within Lake Toba.",
+            "detail": "Its landscape records a very large ancient volcanic eruption. Samosir Island rises within Lake Toba.",
             "questions": [
               "How could a volcanic basin become a lake?",
               "What might an island inside a lake look like?"
@@ -3567,7 +3567,7 @@
         "cards": [
           {
             "headline": "These lowlands lie in North America",
-            "detail": "They occupy part of its interior. These plains lie far from many ocean coasts. They lie east of the Great Plains in the continent's interior.",
+            "detail": "These plains lie far from many ocean coasts. They lie east of the Great Plains in the continent's interior.",
             "questions": [
               "How would you describe these plains from a train?",
               "Why might roads be straighter here than in mountains?"
@@ -3830,7 +3830,7 @@
           },
           {
             "headline": "Bridges connect the Thames banks",
-            "detail": "Tower Bridge is one example. Its central sections can lift to let taller vessels pass. Its two central sections tilt upwards.",
+            "detail": "Tower Bridge is one example. Its central sections can lift to let taller vessels pass.",
             "questions": [
               "Why would a bridge need moving parts?",
               "How could road users and ships share this crossing?"
@@ -4115,7 +4115,7 @@
           },
           {
             "headline": "High land covers much of the interior",
-            "detail": "Spain's central plateau is called the Meseta. It contrasts with many lower coastal plains. The Meseta occupies much of central Spain.",
+            "detail": "Spain's central plateau is called the Meseta. It contrasts with many lower coastal plains.",
             "questions": [
               "How would farming on the Meseta differ from farming on a wet coast?",
               "What might a high inland plain look like from a train?"
@@ -4614,7 +4614,7 @@
           },
           {
             "headline": "Dinosaur fossils have been found here",
-            "detail": "Some include fossil eggs. These discoveries help scientists study ancient life. Fossil discoveries include nests and eggs.",
+            "detail": "Some include fossil eggs. These discoveries help scientists study ancient life.",
             "questions": [
               "What could a dinosaur egg tell scientists?",
               "How would you protect a fossil before moving it?"
@@ -4623,7 +4623,7 @@
           },
           {
             "headline": "Mountains affect rainfall in the region",
-            "detail": "Moist air loses water before arriving. This helps create dry conditions within inland Asia. Air can lose moisture before reaching the dry interior.",
+            "detail": "Moist air loses water before arriving. This helps create dry conditions within inland Asia.",
             "questions": [
               "How can a mountain reduce rainfall beyond it?",
               "What would happen to moist air as it climbed a mountain?"
@@ -5129,7 +5129,7 @@
           },
           {
             "headline": "Ice moves slowly towards the coast",
-            "detail": "Glaciers carry some of it seaward. Pieces can break away and become icebergs. Broken pieces can float away as icebergs.",
+            "detail": "Glaciers carry some of it seaward. Pieces can break away and become icebergs.",
             "questions": [
               "What happens when ice reaches the sea?",
               "Why would you keep a safe distance from a glacier front?"
@@ -5138,7 +5138,7 @@
           },
           {
             "headline": "Scientists drill long cores through ice",
-            "detail": "They study the trapped layers. Air bubbles and other clues help reveal past climates. The bubbles preserve samples of past air.",
+            "detail": "They study the trapped layers. Air bubbles and other clues help reveal past climates.",
             "questions": [
               "What might a bubble trapped in ice tell us?",
               "Why do scientists keep ice cores cold?"
@@ -5147,7 +5147,7 @@
           },
           {
             "headline": "Melting land ice can raise sea level",
-            "detail": "Water eventually reaches the ocean. This differs from ice that is already floating at sea. Water stored on land can add to ocean volume.",
+            "detail": "Water eventually reaches the ocean. This differs from ice that is already floating at sea.",
             "questions": [
               "How does melting land ice differ from melting sea ice?",
               "Why would coastal communities watch changes in Greenland's ice?"
@@ -5240,7 +5240,7 @@
         "cards": [
           {
             "headline": "This steppe lies near two inland seas",
-            "detail": "They are the Black and Caspian Seas. Its grasslands connect Eastern Europe with Central Asia. The belt extends between the Black Sea and Caspian region.",
+            "detail": "They are the Black and Caspian Seas. Its grasslands connect Eastern Europe with Central Asia.",
             "questions": [
               "How might life on a wide steppe differ from life in a forest?",
               "What could a traveller see across open grassland?"
@@ -5516,7 +5516,7 @@
           },
           {
             "headline": "Major Asian rivers begin near this region",
-            "detail": "Snow and ice store water. Their seasonal melting helps supply rivers downstream. Seasonal snowmelt joins rainfall in feeding rivers.",
+            "detail": "Snow and ice store water. Their seasonal melting helps supply rivers downstream. Rainfall also feeds these rivers.",
             "questions": [
               "Why might people far downstream care about mountain snow?",
               "How could a dry year affect rivers that begin here?"
@@ -5627,7 +5627,7 @@
         "cards": [
           {
             "headline": "The Caribbean lies beside the Americas",
-            "detail": "Many islands border its waters. Central America forms much of its western edge. Central America borders the sea to the west.",
+            "detail": "Many islands border its waters. Central America forms much of its western edge.",
             "questions": [
               "How could a sheltered bay help an island community?",
               "What would you compare on two Caribbean islands?"
@@ -5636,7 +5636,7 @@
           },
           {
             "headline": "Coral reefs grow in shallow waters",
-            "detail": "They provide homes for marine life. Reefs also help reduce wave energy near some coasts. Reef surfaces provide food and shelter for many small animals.",
+            "detail": "They provide homes for marine life. Reefs also help reduce wave energy near some coasts. Small animals also find food on reef surfaces.",
             "questions": [
               "Why might fish gather around coral?",
               "How could visitors protect a Caribbean reef?"
@@ -6271,7 +6271,7 @@
         "cards": [
           {
             "headline": "The Chao Phraya passes through Bangkok",
-            "detail": "Boats use the river. It links inland plains with the Gulf of Thailand. The river reaches the Gulf of Thailand.",
+            "detail": "Boats use the river. It links inland plains with the Gulf of Thailand.",
             "questions": [
               "How could boats help a riverside city?",
               "Where would you place a new pier?"
@@ -6280,7 +6280,7 @@
           },
           {
             "headline": "Boats carry people along the river",
-            "detail": "Ferries connect opposite banks. Some piers also connect with urban rail services. Piers let passengers join services along the river.",
+            "detail": "Ferries connect opposite banks. Some piers also connect with urban rail services.",
             "questions": [
               "Why might commuters choose a boat?",
               "How would you plan a safe river crossing?"
@@ -6307,7 +6307,7 @@
           },
           {
             "headline": "Wat Arun stands beside the river",
-            "detail": "Its central tower is a landmark. The temple's surface includes decorative ceramic pieces. Decorative fragments cover parts of its outer surface.",
+            "detail": "Its central tower is a landmark. The temple's surface includes decorative ceramic pieces.",
             "questions": [
               "What would you notice on Wat Arun's tower?",
               "How should visitors behave at a temple?"
@@ -6805,7 +6805,7 @@
           },
           {
             "headline": "Herding has a long history here",
-            "detail": "People have raised grazing animals. Mobile livelihoods developed around the needs of animals and water. Animals need access to both water and grazing.",
+            "detail": "People have raised grazing animals. Mobile livelihoods developed around the needs of animals and water.",
             "questions": [
               "How would caring for horses shape a herder's day?",
               "Why might a family move camp during the year?"
@@ -6934,7 +6934,7 @@
           },
           {
             "headline": "These are very old mountains",
-            "detail": "Erosion has worn many peaks down. Their shape differs from much younger mountain systems. Wind and water wear exposed rocks over long periods.",
+            "detail": "Erosion has worn many peaks down. Their shape differs from much younger mountain systems.",
             "questions": [
               "What could make a mountain peak become rounded?",
               "How would a stream carry pieces of worn rock?"
@@ -7192,7 +7192,7 @@
           },
           {
             "headline": "The Gulf of Aden joins this region",
-            "detail": "It leads towards the Red Sea. The Bab el-Mandeb connects the gulf with that sea. The Bab el-Mandeb leads towards the Red Sea.",
+            "detail": "It leads towards the Red Sea. The Bab el-Mandeb connects the gulf with that sea.",
             "questions": [
               "How could a narrow gulf connect trading routes?",
               "Why might ships pass near the same headlands?"
@@ -7303,7 +7303,7 @@
         "cards": [
           {
             "headline": "The Rockies rise in western North America",
-            "detail": "They cross Canada and the United States. The range contains high peaks and deep valleys. The mountain chain runs through both Canada and the United States.",
+            "detail": "They cross Canada and the United States. The range contains high peaks and deep valleys.",
             "questions": [
               "Why might a road bend through the Rockies?",
               "What would you pack for a cold mountain pass?"
@@ -7312,7 +7312,7 @@
           },
           {
             "headline": "Snow collects on many high slopes",
-            "detail": "It melts during warmer months. This water helps feed rivers that flow into distant regions. Snow stores water during the colder months.",
+            "detail": "It melts during warmer months. This water helps feed rivers that flow into distant regions.",
             "questions": [
               "How does mountain snow become river water?",
               "Why might a late snowmelt matter to a valley farm?"
@@ -7578,7 +7578,7 @@
           },
           {
             "headline": "Limestone hills rise near Guilin",
-            "detail": "Water dissolves the rock over time. This creates caves and steep-sided karst landscapes. Weakly acidic water dissolves limestone over long periods.",
+            "detail": "Weakly acidic water dissolves limestone over long periods. This can form caves and steep-sided karst landscapes.",
             "questions": [
               "How can water slowly change limestone?",
               "What shapes would you look for near Guilin?"
@@ -7725,7 +7725,7 @@
           },
           {
             "headline": "Floods bring both water and danger",
-            "detail": "They can renew soils with sediment. Communities manage rivers to protect homes and fields. Floodwater may renew soil while also damaging buildings.",
+            "detail": "Floodwater can renew soils with sediment. It can also damage homes and fields.",
             "questions": [
               "How could a community prepare for rising river water?",
               "Why can a flood be both useful and dangerous?"
@@ -8488,7 +8488,7 @@
           },
           {
             "headline": "Some northern areas freeze in winter",
-            "detail": "Ice conditions vary between years. The far north usually has colder winter waters. Sea ice grows most readily in colder sheltered waters.",
+            "detail": "Ice conditions vary between years. The far north usually has colder winter waters. Sheltered waters can freeze more easily.",
             "questions": [
               "How could frozen sea water change a harbour's work?",
               "What might an icebreaker help ships do?"
@@ -8588,7 +8588,7 @@
         "cards": [
           {
             "headline": "Melanesia is a southwestern Pacific region",
-            "detail": "It contains many island groups. Fiji and Vanuatu belong to this wider region. Fiji and Vanuatu belong to the Melanesian region.",
+            "detail": "It contains many island groups. Fiji and Vanuatu belong to this wider region.",
             "questions": [
               "How would you plan travel between Melanesian islands?",
               "What might two island communities share despite a long sea gap?"
@@ -8715,7 +8715,7 @@
         "cards": [
           {
             "headline": "The Vistula flows across Poland",
-            "detail": "It passes through Warsaw. It reaches the Baltic Sea near Gdańsk. The river reaches the Baltic near Gdańsk.",
+            "detail": "It passes through Warsaw. It reaches the Baltic Sea near Gdańsk.",
             "questions": [
               "Why might cities grow along a river?",
               "How could a bridge connect markets?"
@@ -8844,7 +8844,7 @@
         "cards": [
           {
             "headline": "Sumatra is an Indonesian island",
-            "detail": "It lies near the equator. The Strait of Malacca separates it from the Malay Peninsula. The Strait of Malacca separates Sumatra from the Malay Peninsula.",
+            "detail": "It lies near the equator. The Strait of Malacca separates it from the Malay Peninsula.",
             "questions": [
               "How would you compare Sumatra's coast with its interior?",
               "Why might an island near the equator have warm weather?"
@@ -8871,7 +8871,7 @@
           },
           {
             "headline": "Lake Toba fills a large volcanic basin",
-            "detail": "It contains an island within the lake. Its landscape records a very large ancient volcanic eruption. Samosir Island rises within Lake Toba.",
+            "detail": "Its landscape records a very large ancient volcanic eruption. Samosir Island rises within Lake Toba.",
             "questions": [
               "How could a volcanic basin become a lake?",
               "What might an island inside a lake look like?"
@@ -9229,7 +9229,7 @@
         "cards": [
           {
             "headline": "The Brazilian Highlands cover a large region",
-            "detail": "They lie mainly within Brazil. Their plateaus occupy much of eastern and central Brazil. These highlands occupy much of eastern and central Brazil.",
+            "detail": "They lie mainly within Brazil. Their plateaus occupy much of eastern and central Brazil.",
             "questions": [
               "How would a highland journey differ from a coastal journey?",
               "Why might a town grow on a broad plateau?"
@@ -9522,7 +9522,7 @@
           },
           {
             "headline": "Cycle routes connect parts of Bogotá",
-            "detail": "Some roads close for cycling events. The city's Ciclovía offers public space for active travel. Temporary road closures create space for walking and cycling.",
+            "detail": "Some roads close for cycling events. The city's Ciclovía offers public space for active travel.",
             "questions": [
               "How could a car-free street change a Sunday?",
               "What would make cycling safer for children?"
@@ -9616,7 +9616,7 @@
         "cards": [
           {
             "headline": "This desert lies within the Sahara",
-            "detail": "It extends beyond Libya's borders. Parts reach western Egypt and northwestern Sudan. The region extends beyond Libya into Egypt and Sudan.",
+            "detail": "It extends beyond Libya's borders. Parts reach western Egypt and northwestern Sudan.",
             "questions": [
               "How could you plan a route through an almost waterless region?",
               "Why would maps matter in open desert?"
@@ -9752,7 +9752,7 @@
           },
           {
             "headline": "Tango has deep local roots",
-            "detail": "Music and dance developed in the region. Buenos Aires and nearby Montevideo share parts of this history. Tango music and dance developed around the Río de la Plata.",
+            "detail": "Music and dance developed in the region. Buenos Aires and nearby Montevideo share parts of this history.",
             "questions": [
               "How could dance express a city's history?",
               "What would you notice about partners moving together?"
@@ -10139,7 +10139,7 @@
           },
           {
             "headline": "Some sections follow steep mountain ridges",
-            "detail": "Their position helped defenders watch approaches. Ridges made parts of the walls more difficult to reach. Steep slopes made some approaches harder to cross.",
+            "detail": "Their position helped defenders watch approaches. Ridges made parts of the walls more difficult to reach.",
             "questions": [
               "What would make building on a ridge difficult?",
               "How could a high position help a lookout?"
@@ -10148,7 +10148,7 @@
           },
           {
             "headline": "Different materials were used in construction",
-            "detail": "Some sections use brick and stone. Others were made partly from compacted earth. Dry inland sections include walls made from compacted earth.",
+            "detail": "Some sections use brick and stone. Dry inland sections include walls made from compacted earth.",
             "questions": [
               "Why might builders choose local earth instead of stone?",
               "How would materials change along a long route?"
@@ -11446,7 +11446,7 @@
           },
           {
             "headline": "Large rivers flow into the Arctic",
-            "detail": "The Lena is one example. Freshwater from rivers mixes with salty ocean water. Rivers carry both freshwater and sediment.",
+            "detail": "The Lena is one example. Freshwater from rivers mixes with salty ocean water. Rivers also carry sediment.",
             "questions": [
               "How could a large river change coastal seawater?",
               "What might a river bring from forests to the Arctic?"
@@ -11814,7 +11814,7 @@
           },
           {
             "headline": "Bridges connect the Thames banks",
-            "detail": "Tower Bridge is one example. Its central sections can lift to let taller vessels pass. Its two central sections tilt upwards.",
+            "detail": "Tower Bridge is one example. Its central sections can lift to let taller vessels pass.",
             "questions": [
               "Why would a bridge need moving parts?",
               "How could road users and ships share this crossing?"
@@ -11941,7 +11941,7 @@
           },
           {
             "headline": "The Manzanares flows through Madrid",
-            "detail": "Parks follow parts of its banks. The river is much smaller than many major European city rivers. Paths follow parts of the river.",
+            "detail": "Parks follow parts of its banks. The river is much smaller than many major European city rivers.",
             "questions": [
               "How could a riverbank become a park?",
               "Where might a footbridge be useful?"
@@ -12061,7 +12061,7 @@
         "cards": [
           {
             "headline": "The Nile flows north through Africa",
-            "detail": "It reaches the Mediterranean Sea. Its lower valley passes through Egypt. Water moves towards the lower Mediterranean coast.",
+            "detail": "It reaches the Mediterranean Sea. Its lower valley passes through Egypt.",
             "questions": [
               "Why might people travel north on this river?",
               "How could you find its flow direction on a map?"
@@ -12070,7 +12070,7 @@
           },
           {
             "headline": "Two main rivers meet at Khartoum",
-            "detail": "They are called the White and Blue Niles. Together they continue north as the main Nile. The Blue Nile and White Nile join at Khartoum.",
+            "detail": "They are called the White and Blue Niles. Together they continue north as the main Nile.",
             "questions": [
               "What changes where two rivers meet?",
               "Why might a city grow at that meeting point?"
@@ -12462,7 +12462,7 @@
           },
           {
             "headline": "Newgrange is a prehistoric passage tomb",
-            "detail": "It stands north of Dublin. Winter solstice sunlight can enter its passage and chamber. The stone passage connects with an inner chamber.",
+            "detail": "It stands north of Dublin. Winter solstice sunlight can enter its passage and chamber.",
             "questions": [
               "How could a narrow passage lead into a mound?",
               "What would archaeologists want to learn there?"
@@ -12471,7 +12471,7 @@
           },
           {
             "headline": "Phoenix Park is a large city park",
-            "detail": "People walk and cycle there. A herd of fallow deer also lives within the park. Deer live within parts of the park.",
+            "detail": "People walk and cycle there. A herd of fallow deer also lives within the park.",
             "questions": [
               "How could a large park protect city wildlife?",
               "What would you watch for on a quiet walk?"
@@ -12610,7 +12610,7 @@
           },
           {
             "headline": "Many basins have no ocean outlet",
-            "detail": "Water can collect and then evaporate. Salts remain behind in some of the driest lowlands. Evaporation removes water while salts remain.",
+            "detail": "Water can collect and then evaporate. Salts remain behind in some of the driest lowlands.",
             "questions": [
               "Where does water go without a sea outlet?",
               "How could hot weather change a shallow inland lake?"
@@ -13344,7 +13344,7 @@
         "cards": [
           {
             "headline": "This range lies in eastern Australia",
-            "detail": "It includes many connected highland areas. It extends along a long part of the continent's east. The range extends through several eastern Australian states.",
+            "detail": "It includes many connected highland areas. It extends along a long part of the continent's east.",
             "questions": [
               "Why might a long highland belt affect roads?",
               "How would you compare its plateaus and ridges?"
@@ -13353,7 +13353,7 @@
           },
           {
             "headline": "Mountain ridges separate river catchments",
-            "detail": "Water flows towards different basins. This drainage pattern helped give the range its name. Water follows slopes towards different river systems.",
+            "detail": "Water flows towards different basins. This drainage pattern helped give the range its name.",
             "questions": [
               "How does a ridge separate river catchments?",
               "Where might rain go on opposite sides?"
@@ -13599,7 +13599,7 @@
         "cards": [
           {
             "headline": "Ulaanbaatar is a city in Mongolia",
-            "detail": "Mountains surround its valley. The Tuul River flows through the wider city region. The Tuul River flows south of the centre.",
+            "detail": "Mountains surround its valley. The Tuul River flows south of the centre.",
             "questions": [
               "How might mountains affect a city's growth?",
               "Where would you build roads in this valley?"
@@ -13608,7 +13608,7 @@
           },
           {
             "headline": "The city has very cold winters",
-            "detail": "Summers are much warmer. Its inland position contributes to strong seasonal temperature contrasts. The inland climate brings strong seasonal temperature changes.",
+            "detail": "Summers are much warmer. Its inland position contributes to strong seasonal temperature contrasts.",
             "questions": [
               "How would you dress for a very cold city winter?",
               "What could help people travel on icy days?"
@@ -13626,7 +13626,7 @@
           },
           {
             "headline": "The city developed from a mobile monastery",
-            "detail": "Its settlement moved several times. It became established at its present location in the eighteenth century. The settlement eventually stayed near its present location.",
+            "detail": "Its settlement moved several times. It became established at its present location in the eighteenth century.",
             "questions": [
               "How might a mobile settlement become permanent?",
               "What could make people choose one valley?"
@@ -13635,7 +13635,7 @@
           },
           {
             "headline": "The Gandan monastery is a city landmark",
-            "detail": "Its buildings remain in religious use. Visitors can learn about important Mongolian Buddhist traditions there. Religious buildings remain part of the modern city.",
+            "detail": "Its buildings remain in religious use. Visitors can learn about important Mongolian Buddhist traditions there.",
             "questions": [
               "How should visitors behave at a working monastery?",
               "What would you notice in its courtyard?"
@@ -13728,7 +13728,7 @@
         "cards": [
           {
             "headline": "High ridges border many rift valleys",
-            "detail": "The East African system has several branches. Steep escarpments rise beside lower ground. The East African system includes several connected branches.",
+            "detail": "The East African system has several branches. Steep escarpments rise beside lower ground.",
             "questions": [
               "How could a broad geographic label hide different landscapes?",
               "What would you compare between two rift valleys?"
@@ -13755,7 +13755,7 @@
           },
           {
             "headline": "Volcanoes occur in parts of the region",
-            "detail": "Hot material rises through weakened crust. Volcanic landscapes are visible in several eastern African countries. Hot material can rise through weakened crust.",
+            "detail": "Hot material rises through weakened crust. Volcanic landscapes are visible in several eastern African countries.",
             "questions": [
               "Why might volcanoes occur near stretching crust?",
               "What could a crater show about a volcano?"
@@ -13857,7 +13857,7 @@
         "cards": [
           {
             "headline": "The Java Sea lies within Indonesia",
-            "detail": "Java lies along its southern edge. Borneo lies to its north. Java lies along its southern side.",
+            "detail": "Java lies along its southern edge. Borneo lies to its north.",
             "questions": [
               "How could this sea connect Indonesian communities?",
               "What might make an inter-island boat trip difficult?"
@@ -14130,7 +14130,7 @@
           },
           {
             "headline": "The Dnipro crosses Ukraine",
-            "detail": "It passes through Kyiv. Its lower waters reach the Black Sea. The river flows towards the Black Sea.",
+            "detail": "It passes through Kyiv. Its lower waters reach the Black Sea.",
             "questions": [
               "How could a river connect inland cities?",
               "Where might a new bridge be useful?"
@@ -14244,7 +14244,7 @@
         "cards": [
           {
             "headline": "The Caspian is surrounded by land",
-            "detail": "It has no natural ocean outlet. It is often described as the world's largest inland body of water. It has no natural outlet to an ocean.",
+            "detail": "It has no natural ocean outlet. It is often described as the world's largest inland body of water.",
             "questions": [
               "Why might a huge enclosed lake be called a sea?",
               "How could its coast resemble an ocean coast?"
@@ -15302,7 +15302,7 @@
           },
           {
             "headline": "Phoenix Park is a large city park",
-            "detail": "People walk and cycle there. A herd of fallow deer also lives within the park. Deer live within parts of the park.",
+            "detail": "People walk and cycle there. A herd of fallow deer also lives within the park.",
             "questions": [
               "How could a large park protect city wildlife?",
               "What would you watch for on a quiet walk?"
@@ -15411,7 +15411,7 @@
           },
           {
             "headline": "Victoria Harbour separates two busy shores",
-            "detail": "Ferries carry people across the water. Hong Kong Island and Kowloon face each other across the harbour. Ferries carry passengers between the two shores.",
+            "detail": "Ferries carry people across the water. Hong Kong Island and Kowloon face each other across the harbour.",
             "questions": [
               "Why might a ferry beat a long road journey?",
               "What would you see from the harbour?"
@@ -15420,7 +15420,7 @@
           },
           {
             "headline": "Steep hills rise behind city buildings",
-            "detail": "Roads and paths climb their slopes. Victoria Peak provides views across parts of the urban area. Paths provide views over buildings and harbour water.",
+            "detail": "Roads and paths climb their slopes. Victoria Peak provides views across parts of the urban area.",
             "questions": [
               "How would a steep hillside change a walk?",
               "Where might you choose a city viewpoint?"
@@ -15438,7 +15438,7 @@
           },
           {
             "headline": "Much of Hong Kong is not skyscrapers",
-            "detail": "Beaches and wooded hills lie nearby. Country parks protect substantial areas beyond the busiest streets. Some districts contain quiet beaches and wooded hills.",
+            "detail": "Beaches and wooded hills lie nearby. Country parks protect substantial areas beyond the busiest streets.",
             "questions": [
               "Why might a city protect country parks?",
               "What would you compare between its shore and centre?"
@@ -15565,7 +15565,7 @@
           },
           {
             "headline": "Some northern areas freeze in winter",
-            "detail": "Ice conditions vary between years. The far north usually has colder winter waters. Sea ice grows most readily in colder sheltered waters.",
+            "detail": "Ice conditions vary between years. The far north usually has colder winter waters. Sheltered waters can freeze more easily.",
             "questions": [
               "How could frozen sea water change a harbour's work?",
               "What might an icebreaker help ships do?"
@@ -16065,7 +16065,7 @@
           },
           {
             "headline": "Glaciers cover some high mountain areas",
-            "detail": "Ice has carved many valleys. Some valleys now form deep coastal fjords. Flooded glacial valleys form fjords.",
+            "detail": "Ice has carved many valleys. Some valleys now form deep coastal fjords.",
             "questions": [
               "How can a glacier leave a deep coastal inlet?",
               "What might happen when seawater enters a glacial valley?"
@@ -16174,7 +16174,7 @@
         "cards": [
           {
             "headline": "These islands lie in the Pacific",
-            "detail": "They belong to Polynesia. The chain includes eight main islands and many smaller ones. The main inhabited islands form only part of the chain.",
+            "detail": "They belong to Polynesia. The chain includes eight main islands and many smaller ones.",
             "questions": [
               "How might ocean distance affect island life?",
               "What would you plan before travelling between islands?"
@@ -16446,7 +16446,7 @@
           },
           {
             "headline": "Volcanoes rise along the island",
-            "detail": "Some remain active. These mountains form part of an important tectonic belt. Java lies near an active tectonic boundary.",
+            "detail": "Some remain active. These mountains form part of an important tectonic belt.",
             "questions": [
               "Why might a volcanic island have several peaks?",
               "How could a community prepare for volcanic ash?"
@@ -16565,7 +16565,7 @@
           },
           {
             "headline": "Gorée Island lies offshore",
-            "detail": "Ferries connect it with Dakar. Its historic buildings are connected with a difficult Atlantic history. The island preserves buildings connected with Atlantic trade.",
+            "detail": "Ferries connect it with Dakar. The island preserves buildings connected with Atlantic trade.",
             "questions": [
               "What could a small island tell us about wider history?",
               "How should visitors approach a place with difficult history?"
@@ -16943,7 +16943,7 @@
         "cards": [
           {
             "headline": "Almaty is a city in Kazakhstan",
-            "detail": "Mountains rise close to it. The nearby peaks belong to the northern Tian Shan region. The city lies near the northern Tian Shan.",
+            "detail": "Mountains rise close to it. The nearby peaks belong to the northern Tian Shan region.",
             "questions": [
               "How might nearby mountains change city life?",
               "What would you pack for a trip above Almaty?"
@@ -17088,7 +17088,7 @@
           },
           {
             "headline": "Hutongs are traditional city lanes",
-            "detail": "Homes stand beside these narrow passages. Some historic neighbourhoods preserve courtyard-house layouts. Many lanes connect traditional courtyard homes.",
+            "detail": "Homes stand beside these narrow passages. Some historic neighbourhoods preserve courtyard-house layouts.",
             "questions": [
               "How could a narrow lane shape neighbourhood life?",
               "What might change if cars filled the lane?"
@@ -17460,7 +17460,7 @@
           },
           {
             "headline": "Boats carry people along the river",
-            "detail": "Ferries connect opposite banks. Some piers also connect with urban rail services. Piers let passengers join services along the river.",
+            "detail": "Ferries connect opposite banks. Some piers also connect with urban rail services.",
             "questions": [
               "Why might commuters choose a boat?",
               "How would you plan a safe river crossing?"
@@ -17478,7 +17478,7 @@
           },
           {
             "headline": "Wat Arun stands beside the river",
-            "detail": "Its central tower is a landmark. The temple's surface includes decorative ceramic pieces. Decorative fragments cover parts of its outer surface.",
+            "detail": "Its central tower is a landmark. The temple's surface includes decorative ceramic pieces.",
             "questions": [
               "What would you notice on Wat Arun's tower?",
               "How should visitors behave at a temple?"
@@ -17732,7 +17732,7 @@
           },
           {
             "headline": "Hallgrímskirkja is a church on a hill",
-            "detail": "Its tower is a city landmark. The design recalls shapes associated with Iceland's volcanic landscapes. Its tower is visible from many city streets.",
+            "detail": "Its tower is a city landmark. The design recalls shapes associated with Iceland's volcanic landscapes.",
             "questions": [
               "How could a tall church help people find their way?",
               "What would you compare from below and above?"
@@ -17852,7 +17852,7 @@
           },
           {
             "headline": "The city's name means reef",
-            "detail": "Reefs lie near parts of the coast. These rock and marine features helped shape its harbour. Rocky reefs lie close to parts of the coast.",
+            "detail": "Reefs lie near parts of the coast. These rock and marine features helped shape its harbour.",
             "questions": [
               "How could a reef affect waves near shore?",
               "Why might early sailors notice a reef?"
@@ -17870,7 +17870,7 @@
           },
           {
             "headline": "Frevo is a local music and dance tradition",
-            "detail": "Dancers use quick movements. Small colourful umbrellas are associated with its performances. Dancers often use small colourful umbrellas.",
+            "detail": "Dancers use quick movements. Small colourful umbrellas are associated with its performances.",
             "questions": [
               "How could music change the way people move?",
               "What would you notice in a frevo dance?"
@@ -17997,7 +17997,7 @@
           },
           {
             "headline": "The city has important international offices",
-            "detail": "UN Environment is based here. Nairobi connects local and international environmental work. Meetings connect local work with international decisions.",
+            "detail": "UN Environment is based here. Nairobi connects local and international environmental work.",
             "questions": [
               "Why might international offices share one city?",
               "What environmental problems could people discuss there?"
@@ -18243,7 +18243,7 @@
           },
           {
             "headline": "Central Park lies within Manhattan",
-            "detail": "Paths cross its green spaces. Its designed landscape includes lakes and wooded areas. Paths connect lakes and wooded areas within it.",
+            "detail": "Paths cross its green spaces. Its designed landscape includes lakes and wooded areas.",
             "questions": [
               "What could a large park add to a dense city?",
               "How would you use an open green space?"
@@ -18481,7 +18481,7 @@
           },
           {
             "headline": "Two main rivers meet at Khartoum",
-            "detail": "They are called the White and Blue Niles. Together they continue north as the main Nile. The Blue Nile and White Nile join at Khartoum.",
+            "detail": "They are called the White and Blue Niles. Together they continue north as the main Nile.",
             "questions": [
               "What changes where two rivers meet?",
               "Why might a city grow at that meeting point?"
@@ -18601,7 +18601,7 @@
         "cards": [
           {
             "headline": "Cairo is a city in Egypt",
-            "detail": "The Nile flows through it. Bridges connect districts across the river. Bridges connect districts on opposite banks.",
+            "detail": "The Nile flows through it. Bridges connect districts across the river.",
             "questions": [
               "Why might a large city grow beside the Nile?",
               "How could river crossings change city life?"
@@ -18755,7 +18755,7 @@
           },
           {
             "headline": "Ice moves slowly towards the coast",
-            "detail": "Glaciers carry some of it seaward. Pieces can break away and become icebergs. Broken pieces can float away as icebergs.",
+            "detail": "Glaciers carry some of it seaward. Pieces can break away and become icebergs.",
             "questions": [
               "What happens when ice reaches the sea?",
               "Why would you keep a safe distance from a glacier front?"
@@ -18764,7 +18764,7 @@
           },
           {
             "headline": "Scientists drill long cores through ice",
-            "detail": "They study the trapped layers. Air bubbles and other clues help reveal past climates. The bubbles preserve samples of past air.",
+            "detail": "They study the trapped layers. Air bubbles and other clues help reveal past climates.",
             "questions": [
               "What might a bubble trapped in ice tell us?",
               "Why do scientists keep ice cores cold?"
@@ -18856,7 +18856,7 @@
         "cards": [
           {
             "headline": "Manila is a city in the Philippines",
-            "detail": "It lies beside Manila Bay. The Pasig River reaches the bay through the city. The Pasig connects inland waters with Manila Bay.",
+            "detail": "It lies beside Manila Bay. The Pasig River reaches the bay through the city.",
             "questions": [
               "How could a river mouth help a city trade?",
               "Why might a bridge be useful near a port?"
@@ -18992,7 +18992,7 @@
           },
           {
             "headline": "The CN Tower rises above the skyline",
-            "detail": "It is a tall communications tower. It opened to the public in 1976. The tower also carries communications equipment.",
+            "detail": "It is a tall communications tower. It opened to the public in 1976.",
             "questions": [
               "Why might people build an observation platform?",
               "What would you look for from a tall tower?"
@@ -19258,7 +19258,7 @@
           },
           {
             "headline": "Gorée Island lies offshore",
-            "detail": "Ferries connect it with Dakar. Its historic buildings are connected with a difficult Atlantic history. The island preserves buildings connected with Atlantic trade.",
+            "detail": "Ferries connect it with Dakar. The island preserves buildings connected with Atlantic trade.",
             "questions": [
               "What could a small island tell us about wider history?",
               "How should visitors approach a place with difficult history?"
@@ -19376,7 +19376,7 @@
           },
           {
             "headline": "This desert lies within the Sahara",
-            "detail": "It extends beyond Libya's borders. Parts reach western Egypt and northwestern Sudan. The region extends beyond Libya into Egypt and Sudan.",
+            "detail": "It extends beyond Libya's borders. Parts reach western Egypt and northwestern Sudan.",
             "questions": [
               "How could you plan a route through an almost waterless region?",
               "Why would maps matter in open desert?"
@@ -19495,7 +19495,7 @@
         "cards": [
           {
             "headline": "Norway's coast has deep fjords",
-            "detail": "Ice shaped many of them. Glaciers widened valleys that later filled with seawater. Seawater fills valleys carved by earlier ice.",
+            "detail": "Ice shaped many of them. Glaciers widened valleys that later filled with seawater.",
             "questions": [
               "How can a glacier leave a deep inlet?",
               "Why might ferries matter beside fjords?"
@@ -19770,7 +19770,7 @@
           },
           {
             "headline": "Hallgrímskirkja is a church on a hill",
-            "detail": "Its tower is a city landmark. The design recalls shapes associated with Iceland's volcanic landscapes. Its tower is visible from many city streets.",
+            "detail": "Its tower is a city landmark. The design recalls shapes associated with Iceland's volcanic landscapes.",
             "questions": [
               "How could a tall church help people find their way?",
               "What would you compare from below and above?"
@@ -19779,7 +19779,7 @@
           },
           {
             "headline": "The city has very different summer daylight",
-            "detail": "Winter days are much shorter. Its northerly latitude creates strong seasonal light changes. Winter days have much shorter daylight.",
+            "detail": "Winter days are much shorter. Its northerly latitude creates strong seasonal light changes.",
             "questions": [
               "How would very late daylight change your evening?",
               "What might help you sleep in a bright summer?"
@@ -19917,7 +19917,7 @@
           },
           {
             "headline": "Cycle routes connect parts of Bogotá",
-            "detail": "Some roads close for cycling events. The city's Ciclovía offers public space for active travel. Temporary road closures create space for walking and cycling.",
+            "detail": "Some roads close for cycling events. The city's Ciclovía offers public space for active travel.",
             "questions": [
               "How could a car-free street change a Sunday?",
               "What would make cycling safer for children?"
@@ -20008,7 +20008,7 @@
         "cards": [
           {
             "headline": "Jakarta is a city on Java",
-            "detail": "It lies beside the Java Sea. Its low-lying coastal position affects drainage and flooding. The city faces the Java Sea.",
+            "detail": "It lies beside the Java Sea. Its low-lying coastal position affects drainage and flooding.",
             "questions": [
               "How could a coastal position influence Jakarta's growth?",
               "Why might low ground need careful drainage?"
@@ -20135,7 +20135,7 @@
         "cards": [
           {
             "headline": "Los Angeles is a city in California",
-            "detail": "It lies near the Pacific coast. Mountains and valleys shape its wider urban region. Mountains rise beyond parts of the urban area.",
+            "detail": "It lies near the Pacific coast. Mountains and valleys shape its wider urban region.",
             "questions": [
               "How could the Pacific affect a coastal city?",
               "What would you compare between shore and inland hills?"
@@ -20280,7 +20280,7 @@
           },
           {
             "headline": "Stanley Park has forests and paths",
-            "detail": "Its seawall follows much of the shore. The park lies beside the central urban area. The seawall follows much of the park's edge.",
+            "detail": "Its seawall follows much of the shore. The park lies beside the central urban area.",
             "questions": [
               "How could a path connect forest and waterfront?",
               "What would you notice on a slow park walk?"
@@ -20536,7 +20536,7 @@
           },
           {
             "headline": "Markets are important city meeting places",
-            "detail": "They sell food and everyday goods. Bến Thành is one well-known market in the centre. Food stalls and goods shops share the market area.",
+            "detail": "They sell food and everyday goods. Bến Thành is one well-known market in the centre.",
             "questions": [
               "How could a market become a meeting place?",
               "What would you ask a stallholder?"
@@ -20645,7 +20645,7 @@
         "cards": [
           {
             "headline": "Miami is a city in Florida",
-            "detail": "It lies beside Biscayne Bay. The Atlantic Ocean is beyond the nearby barrier islands. Barrier islands separate parts of the bay from the Atlantic.",
+            "detail": "It lies beside Biscayne Bay. The Atlantic Ocean is beyond the nearby barrier islands.",
             "questions": [
               "How could a bay shelter boats?",
               "Why might a city grow beside warm coastal water?"
@@ -20790,7 +20790,7 @@
           },
           {
             "headline": "Gardens and trees grow among dense buildings",
-            "detail": "Parks provide shade and public spaces. Urban planning includes connected green areas. Planted areas provide cooler sheltered spaces.",
+            "detail": "Parks provide shade and public spaces. Urban planning includes connected green areas.",
             "questions": [
               "How could greenery improve a dense city?",
               "Where would you put shade on a busy route?"
@@ -20917,7 +20917,7 @@
           },
           {
             "headline": "Tango has deep local roots",
-            "detail": "Music and dance developed in the region. Buenos Aires and nearby Montevideo share parts of this history. Tango music and dance developed around the Río de la Plata.",
+            "detail": "Music and dance developed in the region. Buenos Aires and nearby Montevideo share parts of this history.",
             "questions": [
               "How could dance express a city's history?",
               "What would you notice about partners moving together?"
@@ -21053,7 +21053,7 @@
           },
           {
             "headline": "Desert temperatures change through the day",
-            "detail": "Nights can be much cooler. Dry air and clear skies allow heat to escape quickly. Dry air often allows heat to escape quickly after sunset.",
+            "detail": "Nights can be much cooler. Dry air and clear skies allow heat to escape quickly.",
             "questions": [
               "Why would you pack warm clothes for a desert trip?",
               "When would you choose to walk across hot sand?"
@@ -21155,7 +21155,7 @@
         "cards": [
           {
             "headline": "New Zealand has two main islands",
-            "detail": "Water separates them. Cook Strait lies between the North and South Islands. Cook Strait separates the North and South Islands.",
+            "detail": "Water separates them. Cook Strait lies between the North and South Islands.",
             "questions": [
               "Why might a ferry be useful between the main islands?",
               "How could rough weather change a crossing?"
@@ -21283,7 +21283,7 @@
         "cards": [
           {
             "headline": "Mexico City lies in a high basin",
-            "detail": "Mountains surround the urban area. Its elevation helps keep temperatures cooler than nearby tropical lowlands. Surrounding slopes rise above much of the built-up area.",
+            "detail": "Mountains surround the urban area. Its elevation helps keep temperatures cooler than nearby tropical lowlands.",
             "questions": [
               "How might mountains affect a city's air?",
               "What would make travel across a high basin difficult?"
@@ -21575,7 +21575,7 @@
           },
           {
             "headline": "Rio has a strong carnival tradition",
-            "detail": "Music and dance fill the celebrations. Samba schools prepare large performances for the annual event. Samba schools prepare music and costumes for processions.",
+            "detail": "Music and dance fill the celebrations. Samba schools prepare large performances for the annual event.",
             "questions": [
               "How could a parade tell a story?",
               "What would your group choose for a costume theme?"
@@ -21675,7 +21675,7 @@
           },
           {
             "headline": "Fynbos grows on many nearby slopes",
-            "detail": "Its plants include proteas. This vegetation belongs to the Cape Floristic Region. Proteas are among the characteristic flowering plants.",
+            "detail": "Its plants include proteas. This vegetation belongs to the Cape Floristic Region.",
             "questions": [
               "Why might local plants need special protection?",
               "What would you look for in a fynbos flower?"
@@ -21958,7 +21958,7 @@
           },
           {
             "headline": "The name means New Flower",
-            "detail": "It comes from Amharic. The city developed in the late nineteenth century. Amharic words give the city its familiar name.",
+            "detail": "It comes from Amharic. The city developed in the late nineteenth century.",
             "questions": [
               "How could a city name create an image?",
               "What name would you choose for a new town?"
@@ -22196,7 +22196,7 @@
           },
           {
             "headline": "Rainfall is very low in many months",
-            "detail": "Coastal mist is common in cooler seasons. Ocean conditions help shape this unusual desert-city climate. Cool ocean conditions help produce coastal fog.",
+            "detail": "Coastal mist is common in cooler seasons. Cool ocean conditions help produce coastal fog.",
             "questions": [
               "How could a coast be cloudy without much rain?",
               "What might fog change during a walk?"
@@ -22559,7 +22559,7 @@
         "cards": [
           {
             "headline": "Cape Town is a city in South Africa",
-            "detail": "It stands beside Table Bay. Mountains rise close to the city and its coast. The city developed near sheltered Table Bay.",
+            "detail": "It stands beside Table Bay. Mountains rise close to the city and its coast.",
             "questions": [
               "How could a mountain influence a port city?",
               "Where would you choose a viewpoint?"
@@ -22586,7 +22586,7 @@
           },
           {
             "headline": "Fynbos grows on many nearby slopes",
-            "detail": "Its plants include proteas. This vegetation belongs to the Cape Floristic Region. Proteas are among the characteristic flowering plants.",
+            "detail": "Its plants include proteas. This vegetation belongs to the Cape Floristic Region.",
             "questions": [
               "Why might local plants need special protection?",
               "What would you look for in a fynbos flower?"
@@ -22969,7 +22969,7 @@
           },
           {
             "headline": "The city has important international offices",
-            "detail": "UN Environment is based here. Nairobi connects local and international environmental work. Meetings connect local work with international decisions.",
+            "detail": "UN Environment is based here. Nairobi connects local and international environmental work.",
             "questions": [
               "Why might international offices share one city?",
               "What environmental problems could people discuss there?"
@@ -23214,7 +23214,7 @@
           },
           {
             "headline": "Santa Lucía is a hill in the centre",
-            "detail": "Paths lead through its landscaped areas. It provides views across surrounding districts. Paths and steps lead to viewpoints.",
+            "detail": "Paths lead through its landscaped areas. It provides views across surrounding districts.",
             "questions": [
               "Why might a small city hill become a park?",
               "What could you notice from the top?"
@@ -23223,7 +23223,7 @@
           },
           {
             "headline": "The city has a large metro network",
-            "detail": "Many people use it for daily journeys. Rail links connect different parts of the metropolitan region. Interchange stations connect different rail lines.",
+            "detail": "Many people use it for daily journeys. Rail links connect different parts of the metropolitan region. Passengers change trains at interchange stations.",
             "questions": [
               "How could a metro link spread-out districts?",
               "What would make a station welcoming?"
@@ -23469,7 +23469,7 @@
           },
           {
             "headline": "Rain is common in the city",
-            "detail": "Green hills rise nearby. The southeast receives moist winds from surrounding ocean waters. Moist winds bring water to the southeast of Viti Levu.",
+            "detail": "Green hills rise nearby. The southeast receives moist winds from surrounding ocean waters.",
             "questions": [
               "How would you plan a walk in a rainy city?",
               "Why might wet hills support green vegetation?"
@@ -23605,7 +23605,7 @@
           },
           {
             "headline": "ʻIolani Palace stands in Honolulu",
-            "detail": "It was a royal residence. Its history connects with the former Hawaiian Kingdom. The building preserves evidence of Hawaiian royal life.",
+            "detail": "It was a royal residence. Its history connects with the former Hawaiian Kingdom.",
             "questions": [
               "How can a palace tell a country's history?",
               "What would you ask a guide about its rooms?"
@@ -23705,7 +23705,7 @@
         "cards": [
           {
             "headline": "The Niger flows through Mali",
-            "detail": "It bends across the country. The river supports farming and transport near its banks. The river bends through the country's interior.",
+            "detail": "It bends across the country. The river supports farming and transport near its banks.",
             "questions": [
               "How could a river connect inland markets?",
               "Why might water levels change boat travel?"
@@ -25160,7 +25160,7 @@
           },
           {
             "headline": "Desert temperatures change through the day",
-            "detail": "Nights can be much cooler. Dry air and clear skies allow heat to escape quickly. Dry air often allows heat to escape quickly after sunset.",
+            "detail": "Nights can be much cooler. Dry air and clear skies allow heat to escape quickly.",
             "questions": [
               "Why would you pack warm clothes for a desert trip?",
               "When would you choose to walk across hot sand?"
@@ -25280,7 +25280,7 @@
           },
           {
             "headline": "The Rose Valley grows fragrant roses",
-            "detail": "People collect their flowers. Rose oil is used in perfumes and other products. Rose petals are used to produce fragrant oil.",
+            "detail": "People collect their flowers. Rose oil is used in perfumes and other products.",
             "questions": [
               "How could flowers become a useful crop?",
               "What would you notice during a rose harvest?"
@@ -25934,7 +25934,7 @@
           },
           {
             "headline": "Plitvice has connected lakes and waterfalls",
-            "detail": "Water moves between the lakes. Natural mineral deposits help build the barriers between them. Mineral deposits help form natural barriers.",
+            "detail": "Water moves between the lakes. Natural mineral deposits help build the barriers between them.",
             "questions": [
               "How could one lake drain into another?",
               "What might help protect clear lake water?"
@@ -26057,7 +26057,7 @@
           },
           {
             "headline": "Two main rivers meet at Khartoum",
-            "detail": "They are called the White and Blue Niles. Together they continue north as the main Nile. The Blue Nile and White Nile join at Khartoum.",
+            "detail": "They are called the White and Blue Niles. Together they continue north as the main Nile.",
             "questions": [
               "What changes where two rivers meet?",
               "Why might a city grow at that meeting point?"
@@ -26957,7 +26957,7 @@
         "cards": [
           {
             "headline": "The Danube passes through Budapest",
-            "detail": "Bridges connect its two banks. Buda and Pest developed on opposite sides of the river. Buda and Pest developed on opposite banks.",
+            "detail": "Bridges connect its two banks. Buda and Pest developed on opposite sides of the river.",
             "questions": [
               "How could a river divide a city?",
               "Why would bridges become important meeting routes?"
@@ -26975,7 +26975,7 @@
           },
           {
             "headline": "Hungary has many thermal springs",
-            "detail": "Hot water rises from underground. Budapest's bathing traditions use several of these springs. Water heated below ground rises through natural pathways.",
+            "detail": "Hot water rises from underground. Budapest's bathing traditions use several of these springs.",
             "questions": [
               "How could warm groundwater be useful?",
               "Why might people share a public bath?"
@@ -27226,7 +27226,7 @@
           },
           {
             "headline": "The Gulf of Aden joins this region",
-            "detail": "It leads towards the Red Sea. The Bab el-Mandeb connects the gulf with that sea. The Bab el-Mandeb leads towards the Red Sea.",
+            "detail": "It leads towards the Red Sea. The Bab el-Mandeb connects the gulf with that sea.",
             "questions": [
               "How could a narrow gulf connect trading routes?",
               "Why might ships pass near the same headlands?"
@@ -27743,7 +27743,7 @@
           },
           {
             "headline": "Tango has deep local roots",
-            "detail": "Music and dance developed in the region. Buenos Aires and nearby Montevideo share parts of this history. Tango music and dance developed around the Río de la Plata.",
+            "detail": "Music and dance developed in the region. Buenos Aires and nearby Montevideo share parts of this history.",
             "questions": [
               "How could dance express a city's history?",
               "What would you notice about partners moving together?"
@@ -28532,7 +28532,7 @@
           },
           {
             "headline": "Ganvié stands on Lake Nokoué",
-            "detail": "Many buildings rest on stilts. Boats provide transport through this lakeside settlement. Boats serve as everyday transport on the lake.",
+            "detail": "Many buildings rest on stilts. Boats provide transport through this lakeside settlement.",
             "questions": [
               "Why might homes stand above water?",
               "How would families travel between buildings?"
@@ -28906,7 +28906,7 @@
         "cards": [
           {
             "headline": "The Dinaric Alps cross this country",
-            "detail": "Valleys lie between mountain ridges. These landscapes connect inland areas with the Adriatic region. Valleys link communities between the mountains.",
+            "detail": "Valleys lie between mountain ridges. These landscapes connect inland areas with the Adriatic region.",
             "questions": [
               "How could steep ridges affect village travel?",
               "Why might roads follow river valleys?"
@@ -29576,7 +29576,7 @@
           },
           {
             "headline": "Salar de Uyuni is a salt flat",
-            "detail": "Its surface can look like a mirror. A thin layer of rainwater creates strong reflections. A thin water layer can reflect the sky.",
+            "detail": "Its surface can look like a mirror. A thin layer of rainwater creates strong reflections.",
             "questions": [
               "How could a lake leave a salt flat?",
               "What might change after shallow rain?"
@@ -29697,7 +29697,7 @@
           },
           {
             "headline": "Some northern areas freeze in winter",
-            "detail": "Ice conditions vary between years. The far north usually has colder winter waters. Sea ice grows most readily in colder sheltered waters.",
+            "detail": "Ice conditions vary between years. The far north usually has colder winter waters. Sheltered waters can freeze more easily.",
             "questions": [
               "How could frozen sea water change a harbour's work?",
               "What might an icebreaker help ships do?"
@@ -29818,7 +29818,7 @@
         "cards": [
           {
             "headline": "The Namib lies beside the Atlantic",
-            "detail": "It is a coastal desert. Fog provides moisture in some very dry coastal habitats. Coastal fog brings moisture to some desert surfaces.",
+            "detail": "It is a coastal desert. Fog provides moisture in some very dry coastal habitats.",
             "questions": [
               "How can a dry desert meet a cold ocean?",
               "What would you compare on land and sea?"
@@ -30098,7 +30098,7 @@
           },
           {
             "headline": "Kente cloth uses colourful woven strips",
-            "detail": "Weavers join them into larger pieces. The patterns have strong cultural associations in Ghana. Weavers join strips to make a larger textile.",
+            "detail": "Weavers join them into larger pieces. The patterns have strong cultural associations in Ghana.",
             "questions": [
               "How could narrow woven strips form cloth?",
               "What colours would you choose for a pattern?"
@@ -30472,7 +30472,7 @@
         "cards": [
           {
             "headline": "The Congo River borders the country",
-            "detail": "Brazzaville stands beside it. Kinshasa lies across the river in another country. Kinshasa lies across the river from Brazzaville.",
+            "detail": "Brazzaville stands beside it. Kinshasa lies across the river in another country.",
             "questions": [
               "How could a river connect neighbouring countries?",
               "Why might a ferry serve a capital city?"
@@ -31519,7 +31519,7 @@
           },
           {
             "headline": "Hargeisa lies in a highland valley",
-            "detail": "Hills rise around parts of the town. Roads connect it with the coastal port of Berbera. Routes connect Hargeisa with coastal Berbera.",
+            "detail": "Hills rise around parts of the town. Roads connect it with the coastal port of Berbera.",
             "questions": [
               "How might hills affect a town's streets?",
               "Why could a valley attract settlement?"
@@ -32429,7 +32429,7 @@
           },
           {
             "headline": "Coral reefs grow in shallow waters",
-            "detail": "They provide homes for marine life. Reefs also help reduce wave energy near some coasts. Reef surfaces provide food and shelter for many small animals.",
+            "detail": "They provide homes for marine life. Reefs also help reduce wave energy near some coasts. Small animals also find food on reef surfaces.",
             "questions": [
               "Why might fish gather around coral?",
               "How could visitors protect a Caribbean reef?"
@@ -32812,7 +32812,7 @@
         "cards": [
           {
             "headline": "The Fouta Djallon has high plateaus",
-            "detail": "Many rivers begin nearby. Headwaters here feed important West African river systems. Streams gather into larger river systems.",
+            "detail": "Many rivers begin nearby. Headwaters here feed important West African river systems.",
             "questions": [
               "Why do rivers begin in highlands?",
               "How could upstream rain help distant places?"
@@ -33081,7 +33081,7 @@
           },
           {
             "headline": "Monsoon winds change with the seasons",
-            "detail": "They affect rainfall near the ocean. Sailors historically used these seasonal winds for travel. Traditional sailing schedules followed these seasonal wind patterns.",
+            "detail": "They affect rainfall near the ocean. Sailors historically used these seasonal winds for travel.",
             "questions": [
               "How could sailors use a changing wind?",
               "What would you do if the monsoon arrived during a boat trip?"
@@ -33462,7 +33462,7 @@
         "cards": [
           {
             "headline": "Moldova has no sea coast",
-            "detail": "It lies in eastern Europe. The Prut forms much of its border with Romania. The Prut forms much of the boundary with Romania.",
+            "detail": "It lies in eastern Europe. The Prut forms much of its border with Romania.",
             "questions": [
               "How could river valleys help a landlocked country?",
               "Why might bridges connect local markets?"
@@ -33731,7 +33731,7 @@
           },
           {
             "headline": "Monsoon winds change with the seasons",
-            "detail": "They affect rainfall near the ocean. Sailors historically used these seasonal winds for travel. Traditional sailing schedules followed these seasonal wind patterns.",
+            "detail": "They affect rainfall near the ocean. Sailors historically used these seasonal winds for travel.",
             "questions": [
               "How could sailors use a changing wind?",
               "What would you do if the monsoon arrived during a boat trip?"
@@ -33861,7 +33861,7 @@
           },
           {
             "headline": "The sea connects with the Atlantic",
-            "detail": "A narrow strait joins them. The Strait of Gibraltar lies between Spain and Morocco. Spain and Morocco stand on opposite sides.",
+            "detail": "A narrow strait joins them. The Strait of Gibraltar lies between Spain and Morocco.",
             "questions": [
               "Why do ships pass through this narrow strait?",
               "How might a busy sea entrance be managed?"
@@ -34390,7 +34390,7 @@
           },
           {
             "headline": "Taipei 101 rises above the city",
-            "detail": "A large weight hangs inside the tower. It helps reduce the building's swaying. A large suspended weight helps control movement.",
+            "detail": "A large weight hangs inside the tower. It helps reduce the building's swaying.",
             "questions": [
               "How could a tall tower move in wind?",
               "What might engineers do to reduce swaying?"
@@ -34898,7 +34898,7 @@
           },
           {
             "headline": "The Gulf of Aden joins this region",
-            "detail": "It leads towards the Red Sea. The Bab el-Mandeb connects the gulf with that sea. The Bab el-Mandeb leads towards the Red Sea.",
+            "detail": "It leads towards the Red Sea. The Bab el-Mandeb connects the gulf with that sea.",
             "questions": [
               "How could a narrow gulf connect trading routes?",
               "Why might ships pass near the same headlands?"
