@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import maplibregl, { type Map as MapLibreMap, type Marker as MapLibreMarker } from 'maplibre-gl';
 import { MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { createWorldFlightGuessMapStyle, createCityStreetMapStyle } from '@/data/world-flight/map-style';
+import { createWorldFlightGuessMapStyle, createCityStreetMapStyle, createQuizMapStyle } from '@/data/world-flight/map-style';
 import { CompassRose } from '@/components/ui/compass-rose';
 import type { InputSpec } from '@/lib/input-spec';
 import { formatGeoPositionStatus } from '@/lib/geo-point-status';
@@ -44,7 +44,7 @@ export function GeoPointInput({ spec, onSubmit, isSubmitting, submitStatus, clie
       container: containerRef.current,
       style: spec.mapStyle === 'city-streets'
         ? createCityStreetMapStyle(spec.mapLabels ?? false)
-        : createWorldFlightGuessMapStyle(spec.mapLabels ?? false),
+        : spec.mapLabels ? createWorldFlightGuessMapStyle(true) : createQuizMapStyle({ borders: spec.mapBorders ?? true, terrain: false }),
       center: spec.mapCenter ?? [10, 18],
       zoom: spec.mapZoom ?? 0.8,
       minZoom: 0.5,

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap } from 'maplibre-gl';
-import { createWorldFlightGuessMapStyle } from '@/data/world-flight/map-style';
+import { createQuizMapStyle } from '@/data/world-flight/map-style';
 
 export interface WorldLensGuess {
   studentKey: string;
@@ -26,6 +26,8 @@ interface WorldLensMapProps {
   answer: WorldLensAnswer;
   guesses: WorldLensGuess[];
   revealed: boolean;
+  /** Quiz map borders (easier) or none (harder). Default: kept. */
+  borders?: boolean;
 }
 
 const EMPTY_COLLECTION = { type: 'FeatureCollection', features: [] } as const;
@@ -34,7 +36,7 @@ function mapData(data: unknown) {
   return data as Parameters<GeoJSONSource['setData']>[0];
 }
 
-export function WorldLensMap({ answer, guesses, revealed }: WorldLensMapProps) {
+export function WorldLensMap({ answer, guesses, revealed, borders = true }: WorldLensMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const [ready, setReady] = useState(false);
@@ -48,7 +50,7 @@ export function WorldLensMap({ answer, guesses, revealed }: WorldLensMapProps) {
     if (!containerRef.current || mapRef.current) return;
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: createWorldFlightGuessMapStyle(false),
+      style: createQuizMapStyle({ borders, terrain: true }),
       center: [10, 18],
       zoom: 0.8,
       minZoom: 0.5,
@@ -165,6 +167,8 @@ export function WorldLensMap({ answer, guesses, revealed }: WorldLensMapProps) {
       map.remove();
       mapRef.current = null;
     };
+    // the map is made once; the borders choice is fixed for a question
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type Marker } from 'maplibre-gl';
-import { createCityStreetMapStyle, createWorldFlightGuessMapStyle } from '@/data/world-flight/map-style';
+import { createCityStreetMapStyle, createExploreMapStyle, createQuizMapStyle } from '@/data/world-flight/map-style';
 import { greatCirclePoint, type LatLng } from '@/lib/live-room/route-terrain';
 
 /**
@@ -81,7 +81,7 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
     if (!box.current || mapRef.current) return;
     const map = new maplibregl.Map({
       container: box.current,
-      style: createWorldFlightGuessMapStyle(labels),
+      style: labels ? createExploreMapStyle() : createQuizMapStyle({ borders: true, terrain: true }),
       center: [10, 20],
       zoom: 1,
       attributionControl: false,
@@ -158,7 +158,7 @@ export function DeckMap({ pins, paths = [], focusZoom, labels = true, className 
     const map = mapRef.current;
     if (!map) return;
     if (firstStyle.current) { firstStyle.current = false; if (!detailed) return; }
-    map.setStyle(detailed ? createCityStreetMapStyle(true) : createWorldFlightGuessMapStyle(labels));
+    map.setStyle(detailed ? createCityStreetMapStyle(true) : labels ? createExploreMapStyle() : createQuizMapStyle({ borders: true, terrain: true }));
   }, [detailed, labels]);
 
   useEffect(() => {

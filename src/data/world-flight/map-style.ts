@@ -175,6 +175,81 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
   ],
 };
 
+// ── Map looks (Oct 2026): Quiz (nothing that gives the answer away), Explore (terrain and many more places) ─────────
+/** Free public elevation tiles (Mapzen terrarium on AWS open data), for shaded mountains and valleys. */
+const TERRAIN_SOURCE = {
+  type: 'raster-dem' as const,
+  tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+  encoding: 'terrarium' as const,
+  tileSize: 256,
+  maxzoom: 10,
+};
+const HILLSHADE_LAYER = {
+  id: 'terrain-shade',
+  type: 'hillshade' as const,
+  source: 'terrain',
+  paint: {
+    'hillshade-exaggeration': 0.4,
+    'hillshade-shadow-color': '#040b14',
+    'hillshade-highlight-color': '#6f8aa6',
+    'hillshade-accent-color': '#0d1b2b',
+  },
+};
+/** Put the terrain shading on the land, under the water (the elevation data includes the sea floor, which looked busy). */
+function withTerrain(layers: StyleSpecification['layers']): StyleSpecification['layers'] {
+  const i = layers.findIndex((l) => l.id === 'water');
+  const at = i < 0 ? layers.length : i;
+  return [...layers.slice(0, at), HILLSHADE_LAYER as StyleSpecification['layers'][number], ...layers.slice(at)];
+}
+
+/**
+ * The quiz look: no names and no city dots, so nothing gives the answer away. `borders` (easier) keeps the country
+ * lines; without them only coastlines, rivers and the shape of the land remain. `terrain` shades the mountains (off on
+ * phones, to keep them light).
+ */
+export function createQuizMapStyle({ borders = true, terrain = true }: { borders?: boolean; terrain?: boolean } = {}): StyleSpecification {
+  const layers = WORLD_FLIGHT_MAP_STYLE.layers
+    .filter((layer) => layer.type !== 'symbol')
+    .filter((layer) => borders || (layer.id !== 'country-boundaries' && layer.id !== 'state-boundaries'))
+    // borders a little clearer here: with no names they are what the class finds its way by
+    .map((layer) => (layer.id === 'country-boundaries' ? { ...layer, paint: { ...(layer as { paint?: object }).paint, 'line-opacity': 0.75, 'line-color': '#6f88a2' } } : { ...layer })) as StyleSpecification['layers'];
+  return {
+    ...WORLD_FLIGHT_MAP_STYLE,
+    sources: terrain ? { ...WORLD_FLIGHT_MAP_STYLE.sources, terrain: TERRAIN_SOURCE } : WORLD_FLIGHT_MAP_STYLE.sources,
+    layers: terrain ? withTerrain(layers) : layers,
+  };
+}
+
+const label = (id: string, filter: unknown, minzoom: number, size: [number, number, number, number], color: string, font = 'Noto Sans Regular', layer = 'place') => ({
+  id, type: 'symbol' as const, source: 'openmaptiles', 'source-layer': layer, filter, minzoom,
+  layout: {
+    'text-field': ['coalesce', ['get', 'name:en'], ['get', 'name']],
+    'text-font': [font],
+    'text-size': ['interpolate', ['linear'], ['zoom'], size[0], size[1], size[2], size[3]],
+    'text-max-width': 8,
+  },
+  paint: { 'text-color': color, 'text-halo-color': '#0b1724', 'text-halo-width': 1.2 },
+});
+
+/**
+ * The explore look, for free conversation: shaded terrain, and more places as you zoom in (big cities, then towns),
+ * named rivers, mountain peaks and seas. Everything a class can point at and talk about.
+ */
+export function createExploreMapStyle(): StyleSpecification {
+  const extra = [
+    label('city-labels', ['all', ['==', 'class', 'city'], ['!=', 'capital', 2]], 3.5, [3.5, 10, 8, 14], '#a9bbcc'),
+    label('town-labels', ['in', 'class', 'town'], 6, [6, 10, 10, 13], '#8ea2b6'),
+    label('river-labels', ['==', 'class', 'river'], 5, [5, 10, 9, 12], '#6f9cbc', 'Noto Sans Italic', 'waterway'),
+    label('peak-labels', ['has', 'name'], 6, [6, 10, 10, 12], '#c9b99a', 'Noto Sans Italic', 'mountain_peak'),
+  ];
+  const base = WORLD_FLIGHT_MAP_STYLE.layers.map((layer) => ({ ...layer }));
+  return {
+    ...WORLD_FLIGHT_MAP_STYLE,
+    sources: { ...WORLD_FLIGHT_MAP_STYLE.sources, terrain: TERRAIN_SOURCE },
+    layers: [...withTerrain(base), ...(extra as unknown as StyleSpecification['layers'])],
+  };
+}
+
 export function createWorldFlightGuessMapStyle(showLabels = false): StyleSpecification {
   return {
     ...WORLD_FLIGHT_MAP_STYLE,

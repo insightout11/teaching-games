@@ -124,6 +124,8 @@ export interface InputSpec {
   mapBounds?: [number, number, number, number];
   /** Whether geographic labels should be visible on map inputs. Defaults to false. */
   mapLabels?: boolean;
+  /** Quiz map without names: keep the country borders (easier) or hide them (harder). Default: kept. */
+  mapBorders?: boolean;
   /** Basemap for map inputs: the world guess map (default) or a city street map (directions). */
   mapStyle?: 'world' | 'city-streets';
   /** Max zoom for map inputs (city street maps need ~16, world guessing caps lower). */

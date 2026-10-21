@@ -38,6 +38,9 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
   const [phase, setPhase] = useState<Phase>('setup');
   const [mode, setMode] = useState<WorldQuizMode>('mix');
   const [count, setCount] = useState(10);
+  // Pin drop maps: with country borders (easier) or without (harder)
+  const [borders, setBorders] = useState(true);
+  const bordersRef = useRef(borders); bordersRef.current = borders;
   const [questions, setQuestions] = useState<WorldQuestion[]>([]);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -63,7 +66,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
     if (question.kind === 'pin' && question.place) {
       onSetInputSpec?.({
         type: 'geo-point', gameKey: 'world-quiz', prompt: `Where is ${question.place.name}? Pin it on the map!`,
-        roundId: `wq-${startRef.current}`, stableInput: true, mapCenter: [10, 18], mapZoom: 0.8, mapLabels: false,
+        roundId: `wq-${startRef.current}`, stableInput: true, mapCenter: [10, 18], mapZoom: 0.8, mapLabels: false, mapBorders: bordersRef.current,
         timerSeconds: timerRef.current, startedAt: startRef.current, perStudentData,
       } as InputSpec);
       return;
@@ -175,6 +178,13 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
             </button>
           ))}
         </div>
+        {(mode === 'pins' || mode === 'mix') && (
+          <div className="flex items-center gap-2 text-sm text-white/70">
+            Pin drop map
+            <button type="button" onClick={() => setBorders(true)} className={`rounded-full border px-3 py-1 ${borders ? 'border-amber-300/70 text-amber-100' : 'border-white/15'}`}>With borders (easier)</button>
+            <button type="button" onClick={() => setBorders(false)} className={`rounded-full border px-3 py-1 ${!borders ? 'border-amber-300/70 text-amber-100' : 'border-white/15'}`}>No borders (harder)</button>
+          </div>
+        )}
         <div className="flex items-center gap-2 text-sm text-white/70">
           Questions
           {[5, 10, 15].map((n) => <button key={n} type="button" onClick={() => setCount(n)} className={`rounded-full border px-3 py-1 ${count === n ? 'border-amber-300/70 text-amber-100' : 'border-white/15'}`}>{n}</button>)}
@@ -238,7 +248,7 @@ export function WorldQuizGame({ students, onScore, sessionSettings, onSetInputSp
         {q.kind === 'pin' && q.place && (
           revealing ? (
             <div className="h-[260px] w-full max-w-2xl overflow-hidden rounded-2xl border border-white/10">
-              <WorldLensMap answer={{ name: q.place.name, country: q.place.country, lat: q.place.lat, lng: q.place.lng }} guesses={answers.filter((a) => a.lat !== undefined).map((a, i): WorldLensGuess => ({ studentKey: `${a.studentId}-${i}`, displayName: '', lat: a.lat!, lng: a.lng!, distanceKm: Math.round(a.km ?? 0), basePoints: a.points, closestBonus: 0, lessonPoints: a.points }))} revealed />
+              <WorldLensMap answer={{ name: q.place.name, country: q.place.country, lat: q.place.lat, lng: q.place.lng }} guesses={answers.filter((a) => a.lat !== undefined).map((a, i): WorldLensGuess => ({ studentKey: `${a.studentId}-${i}`, displayName: '', lat: a.lat!, lng: a.lng!, distanceKm: Math.round(a.km ?? 0), basePoints: a.points, closestBonus: 0, lessonPoints: a.points }))} revealed borders={borders} />
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2">
