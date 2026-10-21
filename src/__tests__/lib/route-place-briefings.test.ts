@@ -3,6 +3,8 @@ import places from '@/data/route-place-briefings.json';
 import audit from '../../../docs/route-places.json';
 import { cleanFactCards } from '@/lib/live-room/fact-cards';
 import { findRoutePlaceBriefing, findTopicBriefing, routePlaceKey, topicBriefingLevel } from '@/lib/topic-briefings';
+import basics from '../../../scripts/dev/data/route-place-country-basics.json';
+import { hasRepeatedDetailSentence, isSimpleA1Question } from '../../../scripts/dev/build-route-place-cards';
 
 const words = (s: string) => s.trim().split(/\s+/).length;
 // Decimal points in heights are not sentence boundaries.
@@ -23,12 +25,18 @@ describe('checked route-place cards', () => {
         else {
           expect(sentences(card.detail).length).toBeGreaterThanOrEqual(2);
           expect(sentences(card.detail).length).toBeLessThanOrEqual(3);
+          expect(hasRepeatedDetailSentence(card.detail), `${place.title}: ${card.detail}`).toBe(false);
         }
         expect(card.detail.toLowerCase().startsWith(card.headline.toLowerCase())).toBe(false);
         expect(card.headline + ' ' + card.detail).not.toMatch(/is a city here|degrees (north|south)|estimated population|dated estimate|people lived here/i);
         if (level === 'A1') sentences(card.detail).forEach(s => expect(words(s)).toBeLessThanOrEqual(12));
         expect(card.questions).toHaveLength(2);
         card.questions.forEach(q => { expect(q.length).toBeGreaterThan(5); expect(q).toMatch(/\?$/); });
+        if (level === 'A1') for (const question of card.questions) {
+          expect(words(question), question).toBeLessThanOrEqual(8);
+          expect(question).not.toMatch(/how could|why might/i);
+          expect(isSimpleA1Question(question), question).toBe(true);
+        }
         expect(words(card.picture)).toBeGreaterThanOrEqual(2);
         expect(words(card.picture)).toBeLessThanOrEqual(5);
         expect(card.picture).not.toMatch(/\blandscape\b/i);
@@ -102,6 +110,46 @@ describe('checked route-place cards', () => {
     expect(songkran.questions).toContain('How do people celebrate New Year where you live?');
     const yushan = findRoutePlaceBriefing('Taiwan')!.levels.B1.cards!.find(c => c.headline.includes('Yushan'))!;
     expect(yushan.picture).toBe('Yushan summit Taiwan');
+  });
+
+  it.each(basics.places)('$title keeps its reviewed capital or qualified place role at both levels', entry => {
+    const place = findRoutePlaceBriefing(entry.title)!;
+    for (const level of ['A1', 'B1'] as const) {
+      const prose = place.levels[level].cards!.map(c => c.headline + ' ' + c.detail).join(' ').toLowerCase();
+      expect(entry.capital.terms.some(term => prose.includes(term.toLowerCase())), `${entry.title} ${level}`).toBe(true);
+    }
+  });
+
+  it('teaches Beijing and pandas in China, including the beginner cards', () => {
+    for (const level of ['A1', 'B1'] as const) {
+      const cards = findRoutePlaceBriefing('China')!.levels[level].cards!;
+      const prose = cards.map(c => c.headline + ' ' + c.detail).join(' ');
+      expect(prose).toContain('Beijing');
+      expect(prose).toMatch(/panda/i);
+      expect(prose).toMatch(/jiaozi/i);
+      expect(prose).toContain('Great Wall');
+    }
+  });
+
+  it('uses the 2026 Equatorial Guinea capital without turning polar outlines into countries', () => {
+    for (const level of ['A1', 'B1'] as const) {
+      const text = (title: string) => findRoutePlaceBriefing(title)!.levels[level].cards!.map(c => c.headline + ' ' + c.detail).join(' ');
+      expect(text('Equatorial Guinea')).toContain('Ciudad de la Paz is the capital');
+      expect(text('Antarctica')).toContain('Antarctica has no capital city');
+      expect(text('French Southern and Antarctic Lands')).toContain('Island offices are in Saint-Pierre');
+    }
+  });
+
+  it('keeps capital declarations distinct from government locations', () => {
+    for (const level of ['A1', 'B1'] as const) {
+      const prose = (title: string) => findRoutePlaceBriefing(title)!.levels[level].cards!.map(c => c.headline + ' ' + c.detail).join(' ');
+      expect(prose('Palestine')).toContain('Palestine names East Jerusalem as its capital');
+      expect(prose('Palestine')).toContain('Ramallah');
+      expect(prose('Israel')).toContain('Israel names Jerusalem as its capital');
+      expect(prose('South Africa')).toContain('Pretoria is an administrative capital');
+      expect(prose('Eswatini')).toContain('Mbabane is an administrative capital');
+      expect(prose('Western Sahara')).toContain('Laayoune is a major desert city');
+    }
   });
 
   it('qualifies photos when a regional fact is used for a particular country', () => {
