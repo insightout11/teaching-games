@@ -143,3 +143,112 @@ References include each species article and these cross-checks:
 Extinct animals, generic multi-country families and uncertain wild-range candidates were omitted or narrowed; see the
 handoff report. No changing population numbers, danger levels or promised sightings are added. The static provenance
 and search phrases add no runtime network requests, and no game integration is included.
+
+
+## Exact photo review — 21 October 2026
+
+`pictureFile` is an optional, exact Commons filename, paired with `pictureLicense`.
+The selected images were displayed remotely and visually inspected for subject,
+framing, daylight for landmarks, and visible answer-giving country names, national
+flags or place captions. File descriptions and licence metadata were checked via
+the Commons API. No image assets were downloaded or added to this repository.
+The existing `picture` search phrases remain unchanged. Uncertain selections have
+both optional fields omitted; this is not a claim of complete coverage.
+
+The tables link the original file pages for full authorship, licence terms and
+attribution. CC BY/CC BY-SA use still requires the displayed credit and licence
+link; these data fields do not implement attribution or game rendering. See
+[Commons licensing](https://commons.wikimedia.org/wiki/Commons:Licensing).
+Continuous photographic panoramas are retained; separate-image montages are not.
+Large natural features and archaeological sites use a coherent, recognizable view
+of the feature or its main monuments, rather than claiming every kilometre or
+building fits into one frame. Boudhanath's religious prayer flags are not national
+answer flags. Captive settings are documented below; none has a visible zoo sign.
+
+### Landmarks exact files
+
+| Question | Exact file / original source | Licence | Author / credit |
+| --- | --- | --- | --- |
+| `landmark-eiffel-tower` | [File:Tour Eiffel Wikimedia Commons (cropped).jpg](https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_(cropped).jpg) | Public domain | Benh LIEU SONG |
+| `landmark-statue-of-liberty` | [File:Front view of Statue of Liberty (cropped).jpg](https://commons.wikimedia.org/wiki/File:Front_view_of_Statue_of_Liberty_(cropped).jpg) | CC0 | AskALotl |
+| `landmark-great-wall` | [File:The Great Wall of China at Jinshanling-edit.jpg](https://commons.wikimedia.org/wiki/File:The_Great_Wall_of_China_at_Jinshanling-edit.jpg) | CC BY-SA 3.0 | Severin.stalder |
+| `landmark-taj-mahal` | [File:Taj Mahal (Edited).jpeg](https://commons.wikimedia.org/wiki/File:Taj_Mahal_(Edited).jpeg) | CC BY-SA 4.0 | Yann ; edited by Jim Carter |
+| `landmark-pyramids-of-giza` | [File:Pyramids of the Giza Necropolis.jpg](https://commons.wikimedia.org/wiki/File:Pyramids_of_the_Giza_Necropolis.jpg) | CC BY-SA 4.0 | KennyOMG |
+| `landmark-colosseum` | [File:Colosseo 2020.jpg](https://commons.wikimedia.org/wiki/File:Colosseo_2020.jpg) | CC BY-SA 4.0 | FeaturedPics |
+| `landmark-sydney-opera-house` | [File:Sydney Australia. (21339175489).jpg](https://commons.wikimedia.org/wiki/File:Sydney_Australia._(21339175489).jpg) | CC0 | Bernard Spragg. NZ from Christchurch, New Zealand |
+| `landmark-big-ben` | [File:Elizabeth Tower and the north front of the Palace of Westminster, London.jpg](https://commons.wikimedia.org/wiki/File:Elizabeth_Tower_and_the_north_front_of_the_Palace_of_Westminster,_London.jpg) | CC BY-SA 4.0 | Christian David |
+| `landmark-christ-the-redeemer` | [File:Christ the Redeemer - Cristo Redentor.jpg](https://commons.wikimedia.org/wiki/File:Christ_the_Redeemer_-_Cristo_Redentor.jpg) | CC BY-SA 3.0 de | Arne Müseler |
+| `landmark-machu-picchu` | [File:Machu Picchu, 2023 (012).jpg](https://commons.wikimedia.org/wiki/File:Machu_Picchu,_2023_(012).jpg) | CC BY-SA 4.0 | Draceane |
+| `landmark-angkor-wat` | [File:Angkor Wat.jpg](https://commons.wikimedia.org/wiki/File:Angkor_Wat.jpg) | CC BY-SA 4.0 | Bjørn Christian Tørrissen |
+| `landmark-mount-fuji` | [File:View of Mount Fuji from Ōwakudani 20211202.jpg](https://commons.wikimedia.org/wiki/File:View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg) | CC BY-SA 4.0 | Suicasmo |
+| `landmark-acropolis` | [File:View of the Acropolis of Athens from Mt Lycabettus on April 22, 2022.jpg](https://commons.wikimedia.org/wiki/File:View_of_the_Acropolis_of_Athens_from_Mt_Lycabettus_on_April_22,_2022.jpg) | CC BY-SA 4.0 | George E. Koronaios |
+| `landmark-sagrada-familia` | [File:SF maig 2 cropped.jpg](https://commons.wikimedia.org/wiki/File:SF_maig_2_cropped.jpg) | CC BY-SA 4.0 | Canaan |
+| `landmark-leaning-tower-of-pisa` | [File:The Leaning Tower of Pisa SB.jpeg](https://commons.wikimedia.org/wiki/File:The_Leaning_Tower_of_Pisa_SB.jpeg) | CC BY-SA 3.0 | Saffron Blaze |
+| `landmark-stonehenge` | [File:Stonehenge2007 07 30.jpg](https://commons.wikimedia.org/wiki/File:Stonehenge2007_07_30.jpg) | CC BY 2.0 | garethwiscombe |
+| `landmark-moai` | [File:AhuTongariki.JPG](https://commons.wikimedia.org/wiki/File:AhuTongariki.JPG) | CC BY 2.5 | Ian Sewell |
+| `landmark-golden-gate-bridge` | [File:Golden Gate Bridge as seen from Battery East.jpg](https://commons.wikimedia.org/wiki/File:Golden_Gate_Bridge_as_seen_from_Battery_East.jpg) | CC BY-SA 4.0 | Frank Schulenburg |
+| `landmark-grand-canyon` | [File:Canyon River Tree (165872763).jpeg](https://commons.wikimedia.org/wiki/File:Canyon_River_Tree_(165872763).jpeg) | CC BY 3.0 | Lennart Sikkema |
+| `landmark-mount-rushmore` | [File:Mount Rushmore detail view (100MP).jpg](https://commons.wikimedia.org/wiki/File:Mount_Rushmore_detail_view_(100MP).jpg) | CC BY-SA 3.0 | Thomas Wolf , www.foto-tw.de |
+| `landmark-cn-tower` | [File:CN Tower from Puente de Luz, Toronto, Ontario, 2025-08-25 01.jpg](https://commons.wikimedia.org/wiki/File:CN_Tower_from_Puente_de_Luz,_Toronto,_Ontario,_2025-08-25_01.jpg) | CC BY-SA 4.0 | Chris Woodrich |
+| `landmark-chichen-itza` | [File:Chichen Itza 3.jpg](https://commons.wikimedia.org/wiki/File:Chichen_Itza_3.jpg) | CC BY-SA 4.0 | Daniel Schwen |
+| `landmark-teotihuacan` | [File:ZA77 Teotihuacán edo de mex Herberto de la rosa.jpg](https://commons.wikimedia.org/wiki/File:ZA77_Teotihuac%C3%A1n_edo_de_mex_Herberto_de_la_rosa.jpg) | CC BY-SA 4.0 | Hdlrosa |
+| `landmark-arenal-volcano` | [File:Arenal volcano (70785p) (cropped).jpg](https://commons.wikimedia.org/wiki/File:Arenal_volcano_(70785p)_(cropped).jpg) | CC BY-SA 4.0 | Rhododendrites |
+| `landmark-tikal` | [File:Tikal 3.jpg](https://commons.wikimedia.org/wiki/File:Tikal_3.jpg) | CC BY-SA 4.0 | Mundo Maya |
+| `landmark-angel-falls` | [File:SaltoAngel1.jpg](https://commons.wikimedia.org/wiki/File:SaltoAngel1.jpg) | CC BY 2.0 | Rich Childs |
+| `landmark-salar-de-uyuni` | [File:Salar de Uyuni-5 (53641294827).jpg](https://commons.wikimedia.org/wiki/File:Salar_de_Uyuni-5_(53641294827).jpg) | CC BY 2.0 | Otávio Nogueira from Fortaleza, BR |
+| `landmark-sugarloaf-mountain` | [File:Pão de Açucar - Sugarloaf Mountain - Zuckerhut - 2022.jpg](https://commons.wikimedia.org/wiki/File:P%C3%A3o_de_A%C3%A7ucar_-_Sugarloaf_Mountain_-_Zuckerhut_-_2022.jpg) | CC BY-SA 3.0 de | Arne Müseler |
+| `landmark-torres-del-paine` | [File:Mirador Base de Las Torres.jpg](https://commons.wikimedia.org/wiki/File:Mirador_Base_de_Las_Torres.jpg) | CC BY-SA 4.0 | RobertTarantino |
+| `landmark-neuschwanstein-castle` | [File:Schloss Neuschwanstein 2013.jpg](https://commons.wikimedia.org/wiki/File:Schloss_Neuschwanstein_2013.jpg) | CC BY-SA 3.0 de | Thomas Wolf , www.foto-tw.de |
+| `landmark-brandenburg-gate` | [File:Berlin-Brandenburg Gate overview.jpg](https://commons.wikimedia.org/wiki/File:Berlin-Brandenburg_Gate_overview.jpg) | CC BY-SA 3.0 | Cezary p at Polish Wikipedia |
+| `landmark-kinderdijk` | [File:KinderdijkMolens02.jpg](https://commons.wikimedia.org/wiki/File:KinderdijkMolens02.jpg) | CC BY-SA 3.0 | Lucas Hirschegger |
+| `landmark-saint-basil-s-cathedral` | [File:Saint Basil's Cathedral in Moscow.jpg](https://commons.wikimedia.org/wiki/File:Saint_Basil%27s_Cathedral_in_Moscow.jpg) | CC BY-SA 4.0 | Tsy1980 |
+| `landmark-blue-mosque` | [File:Istanbul (34223582516) (cropped).jpg](https://commons.wikimedia.org/wiki/File:Istanbul_(34223582516)_(cropped).jpg) | CC BY-SA 2.0 | Pedro Szekely from Los Angeles, USA |
+| `landmark-hagia-sophia` | [File:Hagia Sophia (228968325).jpeg](https://commons.wikimedia.org/wiki/File:Hagia_Sophia_(228968325).jpeg) | CC BY-SA 3.0 | Adli Wahid |
+| `landmark-himeji-castle` | [File:Himeji castle in may 2015.jpg](https://commons.wikimedia.org/wiki/File:Himeji_castle_in_may_2015.jpg) | CC BY-SA 4.0 | Nikos Kitsakis |
+| `landmark-terracotta-army` | [File:51714-Terracota-Army.jpg](https://commons.wikimedia.org/wiki/File:51714-Terracota-Army.jpg) | CC BY 2.0 | xiquinhosilva |
+| `landmark-borobudur` | [File:Borobudur-Nothwest-view.jpg](https://commons.wikimedia.org/wiki/File:Borobudur-Nothwest-view.jpg) | Public domain | Gunawan Kartapranata |
+| `landmark-prambanan` | [File:Prambanan Temple Yogyakarta Indonesia.jpg](https://commons.wikimedia.org/wiki/File:Prambanan_Temple_Yogyakarta_Indonesia.jpg) | CC BY-SA 4.0 | Christopher Michel |
+| `landmark-batu-caves` | [File:Batu Caves stairs 2022-05.jpg](https://commons.wikimedia.org/wiki/File:Batu_Caves_stairs_2022-05.jpg) | CC BY-SA 4.0 | Chainwit. |
+| `landmark-chocolate-hills` | [File:Chocolate Hills Bohol.JPG](https://commons.wikimedia.org/wiki/File:Chocolate_Hills_Bohol.JPG) | CC BY-SA 3.0 | P199 |
+| `landmark-banaue-rice-terraces` | [File:Banaue-terrace.JPG](https://commons.wikimedia.org/wiki/File:Banaue-terrace.JPG) | Public domain | User: (WT-shared) Roundtheworld at wts wikivoyage |
+| `landmark-shwedagon-pagoda` | [File:Shwedagon Pagoda 2017.jpg](https://commons.wikimedia.org/wiki/File:Shwedagon_Pagoda_2017.jpg) | CC BY-SA 4.0 | Bjørn Christian Tørrissen |
+| `landmark-pha-that-luang` | [File:Pha Than Luang stupa.jpg](https://commons.wikimedia.org/wiki/File:Pha_Than_Luang_stupa.jpg) | CC BY 2.0 | Wakxy |
+| `landmark-ha-long-bay` | [File:Ha Long Bay in 2019.jpg](https://commons.wikimedia.org/wiki/File:Ha_Long_Bay_in_2019.jpg) | CC BY-SA 4.0 | Taewangkorea |
+| `landmark-seoraksan` | [File:Seoraksan National Park panorama 3.jpg](https://commons.wikimedia.org/wiki/File:Seoraksan_National_Park_panorama_3.jpg) | CC BY-SA 4.0 | kallerna |
+| `landmark-sigiriya` | [File:Sigiriya (141688197).jpeg](https://commons.wikimedia.org/wiki/File:Sigiriya_(141688197).jpeg) | CC BY-SA 3.0 | Wrobell |
+| `landmark-lahore-fort` | [File:Lahore Fort view from Baradari.jpg](https://commons.wikimedia.org/wiki/File:Lahore_Fort_view_from_Baradari.jpg) | CC BY-SA 3.0 | Rohaan Bhatti |
+| `landmark-badshahi-mosque` | [File:Badshahi Mosque front picture.jpg](https://commons.wikimedia.org/wiki/File:Badshahi_Mosque_front_picture.jpg) | CC BY-SA 4.0 | Romero Maia |
+| `landmark-paro-taktsang` | [File:Paro Taktsang, Bhutan (edited).jpg](https://commons.wikimedia.org/wiki/File:Paro_Taktsang,_Bhutan_(edited).jpg) | CC BY 2.0 | Original: Nina R from Africa Derivative work: UnpetitproleX |
+| `landmark-boudhanath` | [File:Boudhanath stupa , Kathmandu, Nepal.jpg](https://commons.wikimedia.org/wiki/File:Boudhanath_stupa_,_Kathmandu,_Nepal.jpg) | CC BY-SA 4.0 | Sumitbhatt222 |
+| `landmark-registan` | [File:RegistanSquare Samarkand.jpg](https://commons.wikimedia.org/wiki/File:RegistanSquare_Samarkand.jpg) | CC BY 2.0 | Registan_-_Gusjer.jpg : Gustavo Jeronimo from Aranjuez, Spain derivative work: MrPanyGoff |
+| `landmark-charyn-canyon` | [File:Charyn Canyon, Kazakhstan 03.jpg](https://commons.wikimedia.org/wiki/File:Charyn_Canyon,_Kazakhstan_03.jpg) | CC0 | Bgag |
+| `landmark-gergeti-trinity-church` | [File:Gergeti Trinity Church 09.23.jpg](https://commons.wikimedia.org/wiki/File:Gergeti_Trinity_Church_09.23.jpg) | CC BY 4.0 | Full attribution on linked file page |
+| `landmark-temple-of-garni` | [File:Garni temple 2021 drone.jpg](https://commons.wikimedia.org/wiki/File:Garni_temple_2021_drone.jpg) | CC BY-SA 4.0 | Yerevantsi |
+| `landmark-naqsh-e-jahan-square` | [File:Naqsh-i Jahan Square, Jan. 2018.jpg](https://commons.wikimedia.org/wiki/File:Naqsh-i_Jahan_Square,_Jan._2018.jpg) | CC BY-SA 4.0 | احمد جمالی مقدم |
+| `landmark-timgad` | [File:Timgad (15685889550).jpg](https://commons.wikimedia.org/wiki/File:Timgad_(15685889550).jpg) | CC BY-SA 2.0 | Dan Sloan |
+| `landmark-koutoubia-mosque` | [File:Marokko0112 (retouched).jpg](https://commons.wikimedia.org/wiki/File:Marokko0112_(retouched).jpg) | CC BY-SA 4.0 | Rol1000 |
+| `landmark-abu-simbel` | [File:Ramsis, Aswan Governorate, Egypt - panoramio.jpg](https://commons.wikimedia.org/wiki/File:Ramsis,_Aswan_Governorate,_Egypt_-_panoramio.jpg) | CC BY 3.0 | youssef_alam |
+| `landmark-lalibela-churches` | [File:Lalibela, san giorgio, esterno 24.jpg](https://commons.wikimedia.org/wiki/File:Lalibela,_san_giorgio,_esterno_24.jpg) | CC BY 3.0 | Sailko |
+| `landmark-mount-kilimanjaro` | [File:Kilimanjaro from Amboseli.jpg](https://commons.wikimedia.org/wiki/File:Kilimanjaro_from_Amboseli.jpg) | CC BY-SA 4.0 | Sergey Pesterev |
+| `landmark-table-mountain` | [File:Table Mountain DanieVDM.jpg](https://commons.wikimedia.org/wiki/File:Table_Mountain_DanieVDM.jpg) | CC BY 2.0 | Danie van der Merwe from Cape Town, South Africa |
+| `landmark-sossusvlei` | [File:Sossusvlei south view.jpg](https://commons.wikimedia.org/wiki/File:Sossusvlei_south_view.jpg) | CC BY-SA 3.0 | Hans Hillewaert |
+| `landmark-avenue-of-the-baobabs` | [File:Walking the Avenue of the Baobabs.jpg](https://commons.wikimedia.org/wiki/File:Walking_the_Avenue_of_the_Baobabs.jpg) | CC BY-SA 3.0 | Gavinevans |
+| `landmark-great-zimbabwe` | [File:Conical Tower - Great Enclosure III (33736918448).jpg](https://commons.wikimedia.org/wiki/File:Conical_Tower_-_Great_Enclosure_III_(33736918448).jpg) | CC BY-SA 2.0 | Andrew Moore from Johannesburg, South Africa |
+
+Without a selected photo:
+
+- `landmark-petra` — Reviewed night scene, cropped facade and architectural-detail candidates; no verified whole daylight view selected.
+- `landmark-burj-khalifa` — Reviewed sunset silhouette, distant skyline and view-from-the-tower candidates; none clearly shows the whole tower as main subject.
+- `landmark-hollywood-sign` — The sign itself spells HOLLYWOOD, a readable place name; cannot retain the whole landmark and remove this clue without editing the image.
+- `landmark-panama-canal` — Lock photo visibly says PANAMA CANAL; alternative aerial entrance view is dark/distant and does not clearly show the landmark.
+- `landmark-galapagos-islands` — First island view offers only Copyrighted free use; the astronaut photograph is annotated with GALAPAGOS and island names.
+- `landmark-atomium` — Reviewed twilight, cropped sphere and cropped archival/construction views; none verifies a complete daylight landmark.
+- `landmark-nyhavn` — Reviewed canal photographs show or may show national flags; no confidently flag-free selection.
+- `landmark-fushimi-inari-shrine` — Reviewed torii passages show only part of the shrine and readable donor/place inscriptions; no verified whole, clue-free view.
+- `landmark-forbidden-city` — Reviewed sunset panorama, isolated corner tower and cropped gate views; no clear whole daylight site selected.
+- `landmark-leshan-giant-buddha` — Reviewed boat-obstructed, feet-cropped and head-cropped views; none shows the whole Buddha unobstructed.
+- `landmark-petronas-towers` — Reviewed twilight, night panorama and cropped shopping-centre/tower views; no complete daylight pair selected.
+- `landmark-wat-arun` — Riverfront view contains national flags; alternative gate/ordination-hall views do not clearly show the whole landmark/main prang.
+- `landmark-grand-palace` — Reviewed night scenes and cropped palace details; no verified whole daylight landmark selected.
+- `landmark-golden-bridge` — Reviewed close-up and low-sun aerial view; bridge runs out of frame, and daylight requirement is uncertain for aerial.
+- `landmark-gyeongbokgung` — Overview offers KOGL Type 1, outside the allowed list; alternative shows only the throne hall and its readable name plaque.

@@ -15,6 +15,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Eiffel Tower",
+    "pictureFile": "File:Tour Eiffel Wikimedia Commons (cropped).jpg",
+    "pictureLicense": "Public domain",
     "fact": "The Eiffel Tower stands beside the Seine in Paris.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Eiffel_Tower"
   },
@@ -31,6 +33,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Statue of Liberty",
+    "pictureFile": "File:Front view of Statue of Liberty (cropped).jpg",
+    "pictureLicense": "CC0",
     "fact": "The Statue of Liberty stands on Liberty Island in New York Harbor.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Statue_of_Liberty"
   },
@@ -47,6 +51,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Great Wall China",
+    "pictureFile": "File:The Great Wall of China at Jinshanling-edit.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "The Great Wall stretches across northern China.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Great_Wall_of_China"
   },
@@ -63,6 +69,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Taj Mahal mausoleum",
+    "pictureFile": "File:Taj Mahal (Edited).jpeg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Taj Mahal stands beside the Yamuna River in Agra.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Taj_Mahal"
   },
@@ -79,6 +87,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Giza pyramids",
+    "pictureFile": "File:Pyramids of the Giza Necropolis.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The pyramids of Giza stand near Cairo.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Giza_pyramid_complex"
   },
@@ -95,6 +105,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Colosseum Rome",
+    "pictureFile": "File:Colosseo 2020.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Colosseum is an ancient amphitheatre in Rome.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Colosseum"
   },
@@ -111,6 +123,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Sydney Opera House",
+    "pictureFile": "File:Sydney Australia. (21339175489).jpg",
+    "pictureLicense": "CC0",
     "fact": "The Sydney Opera House stands beside Sydney Harbour.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Sydney_Opera_House"
   },
@@ -127,6 +141,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Big Ben tower",
+    "pictureFile": "File:Elizabeth Tower and the north front of the Palace of Westminster, London.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Big Ben is the great bell inside London's Elizabeth Tower.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Big_Ben"
   },
@@ -143,6 +159,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Christ Redeemer statue",
+    "pictureFile": "File:Christ the Redeemer - Cristo Redentor.jpg",
+    "pictureLicense": "CC BY-SA 3.0 de",
     "fact": "Christ the Redeemer overlooks Rio de Janeiro from Corcovado mountain.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)"
   },
@@ -159,6 +177,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Machu Picchu ruins",
+    "pictureFile": "File:Machu Picchu, 2023 (012).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Machu Picchu is an Inca site high in the Andes.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Machu_Picchu"
   },
@@ -175,6 +195,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Angkor Wat temple",
+    "pictureFile": "File:Angkor Wat.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Angkor Wat is a temple complex near Siem Reap.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Angkor_Wat"
   },
@@ -207,6 +229,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Mount Fuji summit",
+    "pictureFile": "File:View of Mount Fuji from Ōwakudani 20211202.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Mount Fuji is Japan's highest mountain.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Fuji"
   },
@@ -223,6 +247,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Acropolis Athens",
+    "pictureFile": "File:View of the Acropolis of Athens from Mt Lycabettus on April 22, 2022.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Acropolis rises above Athens.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Acropolis_of_Athens"
   },
@@ -239,6 +265,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Sagrada Familia basilica",
+    "pictureFile": "File:SF maig 2 cropped.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Sagrada Familia is a basilica in Barcelona.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Sagrada_Fam%C3%ADlia"
   },
@@ -271,6 +299,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Leaning Tower Pisa",
+    "pictureFile": "File:The Leaning Tower of Pisa SB.jpeg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "The Leaning Tower of Pisa is a cathedral bell tower.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Leaning_Tower_of_Pisa"
   },
@@ -287,6 +317,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Stonehenge stones",
+    "pictureFile": "File:Stonehenge2007 07 30.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Stonehenge stands on Salisbury Plain in England.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Stonehenge"
   },
@@ -303,6 +335,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Rapa Nui moai",
+    "pictureFile": "File:AhuTongariki.JPG",
+    "pictureLicense": "CC BY 2.5",
     "fact": "Moai are stone statues on Rapa Nui, an island belonging to Chile.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Moai"
   },
@@ -319,6 +353,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Golden Gate Bridge",
+    "pictureFile": "File:Golden Gate Bridge as seen from Battery East.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Golden Gate Bridge links San Francisco with Marin County.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge"
   },
@@ -335,6 +371,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Grand Canyon cliffs",
+    "pictureFile": "File:Canyon River Tree (165872763).jpeg",
+    "pictureLicense": "CC BY 3.0",
     "fact": "The Colorado River flows through the Grand Canyon.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Canyon"
   },
@@ -351,6 +389,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Mount Rushmore sculpture",
+    "pictureFile": "File:Mount Rushmore detail view (100MP).jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Mount Rushmore has four presidents' faces carved into granite.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Rushmore"
   },
@@ -383,6 +423,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "CN Tower Toronto",
+    "pictureFile": "File:CN Tower from Puente de Luz, Toronto, Ontario, 2025-08-25 01.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The CN Tower stands beside downtown Toronto's railway lands.",
     "sourceUrl": "https://en.wikipedia.org/wiki/CN_Tower"
   },
@@ -399,6 +441,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Chichen Itza pyramid",
+    "pictureFile": "File:Chichen Itza 3.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "El Castillo is a step pyramid at Chichen Itza.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Chichen_Itza"
   },
@@ -415,6 +459,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Teotihuacan pyramids",
+    "pictureFile": "File:ZA77 Teotihuacán edo de mex Herberto de la rosa.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Teotihuacan includes the Pyramid of the Sun.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Teotihuacan"
   },
@@ -447,6 +493,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Arenal volcano cone",
+    "pictureFile": "File:Arenal volcano (70785p) (cropped).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Arenal is a cone-shaped volcano in northern Costa Rica.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Arenal_Volcano"
   },
@@ -463,6 +511,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Tikal temples",
+    "pictureFile": "File:Tikal 3.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Tikal was a Maya city surrounded by tropical forest.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Tikal"
   },
@@ -479,6 +529,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Angel Falls waterfall",
+    "pictureFile": "File:SaltoAngel1.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Angel Falls drops from the Auyán-tepui plateau.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Angel_Falls"
   },
@@ -511,6 +563,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Salar Uyuni salt",
+    "pictureFile": "File:Salar de Uyuni-5 (53641294827).jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "The Salar de Uyuni is a vast salt flat in Bolivia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Salar_de_Uyuni"
   },
@@ -527,6 +581,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Sugarloaf Mountain Rio",
+    "pictureFile": "File:Pão de Açucar - Sugarloaf Mountain - Zuckerhut - 2022.jpg",
+    "pictureLicense": "CC BY-SA 3.0 de",
     "fact": "Sugarloaf Mountain rises beside Guanabara Bay in Rio de Janeiro.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Sugarloaf_Mountain"
   },
@@ -543,6 +599,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Torres del Paine",
+    "pictureFile": "File:Mirador Base de Las Torres.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The granite towers of Torres del Paine rise in Chilean Patagonia.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Torres_del_Paine_National_Park"
   },
@@ -559,6 +617,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Neuschwanstein Castle",
+    "pictureFile": "File:Schloss Neuschwanstein 2013.jpg",
+    "pictureLicense": "CC BY-SA 3.0 de",
     "fact": "Neuschwanstein Castle stands in Bavaria near the Alps.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Neuschwanstein_Castle"
   },
@@ -575,6 +635,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Brandenburg Gate",
+    "pictureFile": "File:Berlin-Brandenburg Gate overview.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "The Brandenburg Gate stands in Berlin.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Brandenburg_Gate"
   },
@@ -591,6 +653,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Kinderdijk windmills",
+    "pictureFile": "File:KinderdijkMolens02.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Kinderdijk's windmills helped manage water in low-lying land.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Kinderdijk"
   },
@@ -639,6 +703,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Saint Basil cathedral",
+    "pictureFile": "File:Saint Basil's Cathedral in Moscow.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Saint Basil's Cathedral stands on Moscow's Red Square.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Saint_Basil's_Cathedral"
   },
@@ -655,6 +721,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Blue Mosque Istanbul",
+    "pictureFile": "File:Istanbul (34223582516) (cropped).jpg",
+    "pictureLicense": "CC BY-SA 2.0",
     "fact": "The Blue Mosque has six minarets in Istanbul.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Blue_Mosque,_Istanbul"
   },
@@ -671,6 +739,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Hagia Sophia exterior",
+    "pictureFile": "File:Hagia Sophia (228968325).jpeg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Hagia Sophia stands in Istanbul's historic centre.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Hagia_Sophia"
   },
@@ -687,6 +757,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Himeji Castle",
+    "pictureFile": "File:Himeji castle in may 2015.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Himeji Castle is known for its white walls.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Himeji_Castle"
   },
@@ -719,6 +791,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Terracotta Army warriors",
+    "pictureFile": "File:51714-Terracota-Army.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "The Terracotta Army guards the tomb of China's first emperor.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Terracotta_Army"
   },
@@ -767,6 +841,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Borobudur temple",
+    "pictureFile": "File:Borobudur-Nothwest-view.jpg",
+    "pictureLicense": "Public domain",
     "fact": "Borobudur is a Buddhist temple on Java.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Borobudur"
   },
@@ -783,6 +859,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Prambanan temples",
+    "pictureFile": "File:Prambanan Temple Yogyakarta Indonesia.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Prambanan is a Hindu temple complex on Java.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Prambanan"
   },
@@ -815,6 +893,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Batu Caves entrance",
+    "pictureFile": "File:Batu Caves stairs 2022-05.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Batu Caves contains Hindu shrines inside limestone caves.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Batu_Caves"
   },
@@ -831,6 +911,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Chocolate Hills",
+    "pictureFile": "File:Chocolate Hills Bohol.JPG",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "The Chocolate Hills are rounded hills on Bohol.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Chocolate_Hills"
   },
@@ -847,6 +929,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Banaue rice terraces",
+    "pictureFile": "File:Banaue-terrace.JPG",
+    "pictureLicense": "Public domain",
     "fact": "Banaue's rice terraces follow the mountain slopes of Luzon.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Banaue_Rice_Terraces"
   },
@@ -863,6 +947,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Shwedagon Pagoda",
+    "pictureFile": "File:Shwedagon Pagoda 2017.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Shwedagon Pagoda has a golden stupa in Yangon.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Shwedagon_Pagoda"
   },
@@ -879,6 +965,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Pha That Luang",
+    "pictureFile": "File:Pha Than Luang stupa.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Pha That Luang is a golden stupa in Vientiane.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Pha_That_Luang"
   },
@@ -927,6 +1015,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Ha Long Bay",
+    "pictureFile": "File:Ha Long Bay in 2019.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Limestone islands rise from the water in Ha Long Bay.",
     "sourceUrl": "https://en.wikipedia.org/wiki/H%E1%BA%A1_Long_Bay"
   },
@@ -975,6 +1065,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Seoraksan mountain peaks",
+    "pictureFile": "File:Seoraksan National Park panorama 3.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Seoraksan is a mountain in northeastern South Korea.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Seoraksan"
   },
@@ -991,6 +1083,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Sigiriya rock fortress",
+    "pictureFile": "File:Sigiriya (141688197).jpeg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Sigiriya's ancient fortress stands on a great rock.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Sigiriya"
   },
@@ -1007,6 +1101,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Lahore Fort",
+    "pictureFile": "File:Lahore Fort view from Baradari.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Lahore Fort contains palaces, gardens, and gateways.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Lahore_Fort"
   },
@@ -1023,6 +1119,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Badshahi Mosque",
+    "pictureFile": "File:Badshahi Mosque front picture.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Badshahi Mosque stands opposite Lahore Fort.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Badshahi_Mosque"
   },
@@ -1039,6 +1137,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Paro Taktsang monastery",
+    "pictureFile": "File:Paro Taktsang, Bhutan (edited).jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Paro Taktsang is a monastery on a cliff above Paro Valley.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Paro_Taktsang"
   },
@@ -1055,6 +1155,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Boudhanath stupa",
+    "pictureFile": "File:Boudhanath stupa , Kathmandu, Nepal.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Boudhanath is a large Buddhist stupa in Kathmandu.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Boudhanath"
   },
@@ -1071,6 +1173,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Registan Samarkand",
+    "pictureFile": "File:RegistanSquare Samarkand.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Three madrasas frame the Registan square in Samarkand.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Registan"
   },
@@ -1087,6 +1191,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Charyn Canyon cliffs",
+    "pictureFile": "File:Charyn Canyon, Kazakhstan 03.jpg",
+    "pictureLicense": "CC0",
     "fact": "The Charyn River flows through Charyn Canyon in southeastern Kazakhstan.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Charyn_Canyon"
   },
@@ -1103,6 +1209,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Gergeti Trinity Church",
+    "pictureFile": "File:Gergeti Trinity Church 09.23.jpg",
+    "pictureLicense": "CC BY 4.0",
     "fact": "Gergeti Trinity Church stands beneath Mount Kazbek.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Gergeti_Trinity_Church"
   },
@@ -1119,6 +1227,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Garni temple",
+    "pictureFile": "File:Garni temple 2021 drone.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Temple of Garni has columns built from grey basalt.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Temple_of_Garni"
   },
@@ -1135,6 +1245,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Naqsh Jahan Square",
+    "pictureFile": "File:Naqsh-i Jahan Square, Jan. 2018.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Naqsh-e Jahan Square is a historic square in Isfahan.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Naqsh-e_Jahan_Square"
   },
@@ -1151,6 +1263,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Timgad Roman ruins",
+    "pictureFile": "File:Timgad (15685889550).jpg",
+    "pictureLicense": "CC BY-SA 2.0",
     "fact": "Timgad preserves the street grid of an ancient Roman town.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Timgad"
   },
@@ -1167,6 +1281,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Koutoubia Mosque",
+    "pictureFile": "File:Marokko0112 (retouched).jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "The Koutoubia Mosque has a tall minaret in Marrakesh.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Kutubiyya_Mosque"
   },
@@ -1183,6 +1299,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Abu Simbel temples",
+    "pictureFile": "File:Ramsis, Aswan Governorate, Egypt - panoramio.jpg",
+    "pictureLicense": "CC BY 3.0",
     "fact": "Giant statues of Ramesses II sit outside Abu Simbel's main temple.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Abu_Simbel"
   },
@@ -1199,6 +1317,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Lalibela rock churches",
+    "pictureFile": "File:Lalibela, san giorgio, esterno 24.jpg",
+    "pictureLicense": "CC BY 3.0",
     "fact": "Lalibela's churches were cut from rock.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Rock-Hewn_Churches,_Lalibela"
   },
@@ -1215,6 +1335,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Mount Kilimanjaro",
+    "pictureFile": "File:Kilimanjaro from Amboseli.jpg",
+    "pictureLicense": "CC BY-SA 4.0",
     "fact": "Kilimanjaro is Africa's highest mountain.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro"
   },
@@ -1231,6 +1353,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 0,
     "picture": "Table Mountain summit",
+    "pictureFile": "File:Table Mountain DanieVDM.jpg",
+    "pictureLicense": "CC BY 2.0",
     "fact": "Table Mountain has a flat summit above Cape Town.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Table_Mountain"
   },
@@ -1247,6 +1371,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 1,
     "picture": "Sossusvlei dunes",
+    "pictureFile": "File:Sossusvlei south view.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Red sand dunes surround the clay pan at Sossusvlei.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Sossusvlei"
   },
@@ -1263,6 +1389,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 2,
     "picture": "Avenue Baobabs trees",
+    "pictureFile": "File:Walking the Avenue of the Baobabs.jpg",
+    "pictureLicense": "CC BY-SA 3.0",
     "fact": "Tall baobab trees line this road in western Madagascar.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Avenue_of_the_Baobabs"
   },
@@ -1279,6 +1407,8 @@ export const LANDMARK_QUESTIONS: readonly PictureQuestion[] = [
     ],
     "correctIndex": 3,
     "picture": "Great Zimbabwe ruins",
+    "pictureFile": "File:Conical Tower - Great Enclosure III (33736918448).jpg",
+    "pictureLicense": "CC BY-SA 2.0",
     "fact": "Great Zimbabwe is known for its dry-stone walls.",
     "sourceUrl": "https://en.wikipedia.org/wiki/Great_Zimbabwe"
   },
