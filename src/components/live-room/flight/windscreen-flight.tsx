@@ -85,6 +85,8 @@ export interface WindscreenFlightProps {
   scenicLandmark?: { id: string; kind: WorldLandmark['kind']; name: string; side: 'left' | 'right' } | null;
   /** The same for the arrival: a drawn landmark close to the destination, shown slowly once the descent starts. */
   arrivalScenic?: { id: string; kind: WorldLandmark['kind']; name: string; side: 'left' | 'right' } | null;
+  /** The arrival landmark's id for the whole flight (held out of the normal scenery from the start, not only in the descent). */
+  arrivalHoldId?: string | null;
   /** Real rivers and lakes around the plane. */
   waters?: Waters;
   /** Real coastlines around the plane. */
@@ -118,7 +120,7 @@ export interface WindscreenFlightProps {
   altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, arrivalScenic = null, waters, coast, coastStrip = null, routeClock = null, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, arrivalScenic = null, arrivalHoldId = null, waters, coast, coastStrip = null, routeClock = null, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
   const lurch = useCabinShake(turbulence, 1.6);
@@ -220,12 +222,12 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const allLandmarks = useMemo(() => {
     // a landmark kept for the slow look (by the departure or arrival city) never shows in the normal scenery: it passed
     // at full speed in the climb from Manila (Pinatubo), before the slow look began
-    const held = new Set([scenicLandmark?.id, arrivalScenic?.id].filter(Boolean) as string[]);
+    const held = new Set([scenicLandmark?.id, arrivalScenic?.id, arrivalHoldId].filter(Boolean) as string[]);
     const normal = (landmarks ?? []).filter((l) => !held.has(l.id));
     if (!scenicOn || !scenic) return normal;
     const own = { id: scenic.id, kind: scenic.kind, ahead: SCENIC_AHEAD_KM, lateral: scenic.side === 'left' ? -9 : 9 };
     return [...normal, own];
-  }, [scenicOn, scenic, landmarks, scenicLandmark?.id, arrivalScenic?.id]);
+  }, [scenicOn, scenic, landmarks, scenicLandmark?.id, arrivalScenic?.id, arrivalHoldId]);
   // The climb through the clouds: how deep in cloud the plane is (0 clear, 1 thick), and when it breaks out on top
   const climbing = phase === 'climb';
   const inCloud = !climbing ? 0 : progress < CLIMB_IN ? 0 : progress < CLIMB_THICK ? (progress - CLIMB_IN) / (CLIMB_THICK - CLIMB_IN) : progress < CLIMB_OUT ? 1 : 0;

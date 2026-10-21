@@ -2857,6 +2857,7 @@ export function FlightDeck({
           landmarks={stableLandmarks}
           scenicLandmark={scenicLandmark}
           arrivalScenic={descending ? arrivalLandmark : null}
+          arrivalHoldId={arrivalLandmark?.id ?? null}
           waters={routeWaters}
           coast={routeCoast}
           coastStrip={coastStripData}
