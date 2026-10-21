@@ -17,6 +17,38 @@ export interface RoutePlaceCard extends FactCard {
   pictureLicense: string;
 }
 interface EditorialPlace { title: string; levels: Record<Level, { cards: RoutePlaceCard[] }> }
+const photoKey = (file: string) => file.normalize('NFC').replace(/_/g, ' ').replace(/\s+/g, ' ').toLowerCase();
+const allowedPhotoLicense = /^(?:CC0|Public domain|CC BY(?:-SA)? (?:1\.0|2\.0|2\.5|3\.0|4\.0)(?: [a-z]{2})?)$/;
+
+/** The same logical card may share its photograph across the two reading levels. */
+export function validateRoutePlacePhotos(places: EditorialPlace[]): void {
+  const headlinePhotos = new Map<string, string>();
+  for (const place of places) {
+    const owners = new Map<string, number>();
+    for (const level of ['A1', 'B1'] as const) {
+      place.levels[level].cards.forEach((card, index) => {
+        const context = `${place.title} ${level}: ${card.headline}`;
+        if (typeof card.pictureFile !== 'string' || typeof card.pictureLicense !== 'string') throw new Error(`Photo fields required: ${context}`);
+        if (!card.pictureFile && !card.pictureLicense) {
+          const headline = identity(card.headline);
+          if (headlinePhotos.has(headline) && headlinePhotos.get(headline) !== '') throw new Error(`Headline photo differs: ${context}`);
+          headlinePhotos.set(headline, '');
+          return;
+        }
+        if (card.pictureFile !== card.pictureFile.trim() || !card.pictureFile.startsWith('File:') || !/\.(?:jpe?g|png)$/i.test(card.pictureFile) || hasBrokenText(card.pictureFile)) throw new Error(`Exact photo filename: ${context}`);
+        if (!allowedPhotoLicense.test(card.pictureLicense)) throw new Error(`Photo licence: ${context}`);
+        const file = photoKey(card.pictureFile);
+        const owner = owners.get(file);
+        if (owner !== undefined && owner !== index) throw new Error(`Photo reused within place: ${context}`);
+        owners.set(file, index);
+        const headline = identity(card.headline);
+        const shared = headlinePhotos.get(headline);
+        if (shared !== undefined && shared !== file) throw new Error(`Headline photo differs: ${context}`);
+        headlinePhotos.set(headline, file);
+      });
+    }
+  }
+}
 
 /** Short closed questions or simple colour/preferences, rather than reasoning prompts. */
 export function isSimpleA1Question(question: string): boolean {
@@ -146,6 +178,7 @@ export function buildRoutePlaceCards(source: string) {
   if (byPlace.size !== bank.length) throw new Error('Unknown place in editorial source');
   validateRoutePlaceCards(bank);
   validateCountryBasics(bank);
+  validateRoutePlacePhotos(bank);
   return bank;
 }
 

@@ -4,6 +4,7 @@ import audit from '../../../docs/route-places.json';
 import { cleanFactCards } from '@/lib/live-room/fact-cards';
 import { findRoutePlaceBriefing, findTopicBriefing, routePlaceKey, topicBriefingLevel } from '@/lib/topic-briefings';
 import basics from '../../../scripts/dev/data/route-place-country-basics.json';
+import photoSources from '../../../scripts/dev/data/route-place-photo-sources.json';
 import { hasRepeatedDetailSentence, isSimpleA1Question } from '../../../scripts/dev/build-route-place-cards';
 
 const words = (s: string) => s.trim().split(/\s+/).length;
@@ -59,6 +60,62 @@ describe('checked route-place cards', () => {
         expect(findRoutePlaceBriefing(`THE ${alias.replace(/^the /i, '').toUpperCase()}`)?.id).toBe(place.id);
       }
     }
+  });
+
+  it.each(places)('$title has valid optional exact photos, shared only by the same card at both levels', place => {
+    const owners = new Map<string, number>();
+    const headlines = new Map<string, string>();
+    for (const level of ['A1', 'B1'] as const) place.levels[level].cards.forEach((card, index) => {
+      expect(typeof card.pictureFile).toBe('string');
+      expect(typeof card.pictureLicense).toBe('string');
+      if (!card.pictureFile) {
+        expect(card.pictureLicense).toBe('');
+        return;
+      }
+      expect(card.pictureFile.startsWith('File:')).toBe(true);
+      expect(card.pictureFile).toMatch(/\.(?:jpe?g|png)$/i);
+      expect(card.pictureFile).toBe(card.pictureFile.trim());
+      expect(card.pictureLicense).toMatch(/^(?:CC0|Public domain|CC BY(?:-SA)? (?:1\.0|2\.0|2\.5|3\.0|4\.0)(?: [a-z]{2})?)$/);
+      const file = card.pictureFile.normalize('NFC').replace(/_/g, ' ').replace(/\s+/g, ' ').toLowerCase();
+      expect(owners.get(file) ?? index).toBe(index);
+      owners.set(file, index);
+      expect(headlines.get(card.headline) ?? file).toBe(file);
+      headlines.set(card.headline, file);
+    });
+  });
+
+  it('uses one exact photo pair for a shared headline throughout the bank, including blanks', () => {
+    const shared = new Map<string, readonly string[]>();
+    for (const place of places) for (const level of ['A1', 'B1'] as const) for (const card of place.levels[level].cards) {
+      const headline = card.headline.toLowerCase().replace(/[’']/g, '').replace(/[?!.,:;]+/g, '').trim().replace(/\s+/g, ' ');
+      const pair = [card.pictureFile, card.pictureLicense] as const;
+      expect(shared.get(headline) ?? pair, `${place.title}: ${headline}`).toEqual(pair);
+      shared.set(headline, pair);
+    }
+  });
+
+  it('keeps a Commons source and matching licence for every selected photograph', () => {
+    const sources = new Map(photoSources.photos.map(photo => [photo.pictureFile, photo]));
+    expect(sources.size).toBe(photoSources.photos.length);
+    const used = new Set<string>();
+    for (const place of places) for (const level of ['A1', 'B1'] as const) for (const card of place.levels[level].cards) {
+      if (!card.pictureFile) continue;
+      used.add(card.pictureFile);
+      const source = sources.get(card.pictureFile);
+      expect(source, `${place.title}: ${card.headline}`).toBeDefined();
+      expect(source?.pictureLicense).toBe(card.pictureLicense);
+      const url = new URL(source!.filePage);
+      expect(url.origin).toBe('https://commons.wikimedia.org');
+      expect(decodeURIComponent(url.pathname).replace(/_/g, ' ')).toBe(`/wiki/${card.pictureFile}`);
+      expect(source!.reviewNote.trim().length).toBeGreaterThan(0);
+    }
+    expect(Array.from(sources.keys()).sort()).toEqual(Array.from(used).sort());
+  });
+
+  it('records a reason for every editorial card left without an exact photo', () => {
+    const expected = places.flatMap(place => place.levels.B1.cards.flatMap((card, index) => card.pictureFile ? [] : [{ place: place.title, card: index + 1, headline: card.headline }]));
+    expect(photoSources.omissions.map(({ place, card, headline }) => ({ place, card, headline }))).toEqual(expected);
+    for (const omitted of photoSources.omissions) expect(omitted.reason.trim().length).toBeGreaterThan(0);
   });
 
   it('covers the audit selection, all destinations and every crossed outline', () => {
