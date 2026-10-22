@@ -1,10 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { clipCoastLine, clipCoastView, coastCacheRow, groundMixAt, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
+import { clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { greatCirclePoint } from '@/lib/live-room/route-terrain';
 
 const manila = { lat: 14.5995, lng: 120.9842 }, hanoi = { lat: 21.0278, lng: 105.8342 };
 
 describe('cached coast pixels follow the ground camera', () => {
+  it('joins resampled bands without transparent seams at fractional display scales', () => {
+    for (const pixel of [1, 0.8, 1.25]) {
+      let previous: number | null = null;
+      for (let y = 470; y < 690; y += 2) {
+        const a = coastCacheRow(y, 400, 1100, 3200, 3200, 800)!;
+        const b = coastCacheRow(y + 2, 400, 1100, 3200, 3200, 800)!;
+        const [from, to] = coastCacheBand(a.y, b.y, pixel);
+        if (previous !== null) expect(from).toBe(previous);
+        expect(from / pixel).toBeCloseTo(Math.round(from / pixel));
+        expect(to / pixel).toBeCloseTo(Math.round(to / pixel));
+        previous = to;
+      }
+    }
+  });
   it('matches direct world projection when the camera moves and changes height', () => {
     const horizon = 400, focal = 1100, height = 3200, nextHeight = 3100;
     for (const depth of [14000, 30000, 60000]) {

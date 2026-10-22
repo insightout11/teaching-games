@@ -20,6 +20,11 @@ export function coastCacheRow(y: number, horizon: number, focal: number, cachedH
   return { y: horizon + height * focal / remaining, scale: depth / remaining };
 }
 
+/** Adjacent cached-image bands share a whole device-pixel edge, with no partially covered seams. */
+export function coastCacheBand(from: number, to: number, pixel: number): [number, number] {
+  return [Math.round(from / pixel) * pixel, Math.round(to / pixel) * pixel];
+}
+
 /** Clip a world-space (x, depth) polygon to the camera frustum before perspective division. */
 export function clipCoastView(ring: Array<[number, number]>, base: number, near: number, far: number, halfSlope: number): Array<[number, number]> {
   let pts = ring;
