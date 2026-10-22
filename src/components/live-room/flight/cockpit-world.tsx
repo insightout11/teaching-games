@@ -739,6 +739,16 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       shadeTarget.globalAlpha = 1;
     };
 
+    // Opt-in local preview instrumentation; absent from normal flights and clean FPS runs.
+    const profileEnabled = process.env.NODE_ENV === 'development' && window.location.pathname === '/dev/coast-strip' &&
+      new URLSearchParams(window.location.search).get('profile') === '1';
+    let profileSteps: Record<string, number> | null = null;
+    let profileMark = 0, profileStart = 0, profileRefreshed = false;
+    const mark = (step: string) => {
+      if (!profileSteps) return;
+      const time = performance.now(); profileSteps[step] = time - profileMark; profileMark = time;
+    };
+
     const frame = (now: number) => {
       camH += (CAM_HEIGHT * Math.max(0.2, Math.min(1, live.current.altitude)) - camH) * 0.01;
       // A video is playing (or a video is full screen; the whole room in full screen keeps moving): the scenery holds still so the video gets the whole machine.
@@ -747,6 +757,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         raf = requestAnimationFrame(frame);
         return;
       }
+      if (profileEnabled) { profileSteps = {}; profileMark = profileStart = performance.now(); profileRefreshed = false; }
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       drawnSpeed += (live.current.speed - drawnSpeed) * Math.min(1, dt * 1.2);
@@ -777,6 +788,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const horizonY = h * HORIZON;
       const F = w * 0.9;
       ctx.clearRect(0, 0, w, h);
+      mark('camera');
 
       // ── Ground, row by row at its true depth ───────────────────────────
       if (L.length) {
@@ -815,6 +827,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             paintRow(L[i], y, z, F, camZ, 1);
           }
         }
+        mark('base-ground');
         const coastBase = cw0?.route ? routeU : camZ;
         const delta = coastBase - cacheBase;
         const horizonMove = Math.abs(camH * F / Math.max(1, Z_FAR - delta) - camH * F / Z_FAR);
@@ -823,6 +836,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           !Number.isFinite(cacheBase) || delta < 0 || delta > nearDepth * 0.2 || Math.abs(camH - cacheHeight) > 80 ||
           (now - lastCoastRefresh >= 200 && horizonMove >= 0.15));
         if (refreshCoast) {
+          profileRefreshed = true;
           nextMaskAt = 0;
           // Texture rows cover the whole view; a single projected path defines the coast, independently of rowH.
           // The same smoothed outlines still supply landAt's depth buckets for peaks and town lights.
@@ -961,6 +975,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           cacheWorld = cw0; cacheLayer = L[L.length - 1]; cacheLook = look.current;
           cacheBase = coastBase; cacheHeight = camH; lastCoastRefresh = now; cachedVisibleLand = visibleLand;
         }
+        mark('coast-cache-refresh');
         if (cw0 && cachedVisibleLand) {
           // Reproject cached pixels with the SAME camera between refreshes. Land, sand and shallows travel together.
           // The narrow bands resample an image; they never scan or clip a land ring.
@@ -979,11 +994,13 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             }
           };
           warp(mixedLand, vctx); warp(coastMask, mvctx); warp(landShade, svctx);
+          mark('coast-pixel-reprojection');
           ctx.drawImage(landView, 0, 0, w, h);
           // Replace the sea's low-resolution shade only beneath the reprojected land mask.
           sctx.globalCompositeOperation = 'destination-out'; sctx.drawImage(maskView, 0, 0, w, h);
           sctx.globalCompositeOperation = 'source-over'; sctx.drawImage(shadeView, 0, 0, w, h);
         }
+        mark('coast-composite');
         // Real rivers and lakes on the ground: water in the scene's light, a pale shore, greying into the haze far off
         if (realWaters() && waterWorld.current.length) {
           // deep water (the palette's sea colour darkened), and a green strip of fields along the banks
@@ -1103,6 +1120,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       }
 
       // ── Night lights: towns and roads across the land ────────────────────────────────────────────────────────
+      mark('water-shade-haze');
       if (dark && nightLights() && L.length) {
         const layerAt = (wz: number) => { let i = L.length - 1; while (i > 0 && L[i].startZ > wz) i--; return L[i]; };
         // from just under the nose (towns stay lit until they slide off the bottom of the window) to the horizon
@@ -1457,6 +1475,11 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         drawSceneEvent(ctx, ev.kind, ev.seed, ex, ez, proj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000), LANDMARK_SIZE.volcano.h);
       }
 
+      mark('scenery');
+      if (profileSteps) window.dispatchEvent(new CustomEvent('coast-frame-profile', { detail: {
+        steps: profileSteps, frameMs: performance.now() - profileStart, maskRefreshed: profileRefreshed,
+        maskPixels: [coastMask.width, coastMask.height], canvasPixels: [canvas.width, canvas.height],
+      } }));
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
