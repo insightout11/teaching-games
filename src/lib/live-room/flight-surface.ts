@@ -4,6 +4,15 @@ import { loadSurfaceGrid, type SurfaceGrid } from './terrain-surface';
 // A cold route needs hundreds of tiles through a six-request pool. Six seconds
 // only loaded 58 tiles in the live game, permanently selecting the old scenery.
 export const FLIGHT_TERRAIN_TIMEOUT_MS = 60000;
+/**
+ * A few failed tiles must not cost the whole flight its terrain: their samples are already filled from the
+ * bundled coarse elevation. Fall back only when the download largely failed (more than 10% of tiles).
+ */
+export function usableGrid(grid: SurfaceGrid | null | undefined): grid is SurfaceGrid {
+  if (!grid || grid.source === 'coarse' || !grid.tiles) return false;
+  const failed = grid.failedTiles ?? 0;
+  return failed <= Math.max(2, (grid.tiles + failed) * 0.1);
+}
 type FlightSurface = { pending: Promise<SurfaceGrid | null>; startDeadline: () => void };
 const flights = new WeakMap<CoastStrip, FlightSurface>();
 
@@ -28,7 +37,7 @@ export function flightSurface(strip: CoastStrip, takingOff = true): Promise<Surf
     // Synchronous grid preparation can cross the deadline before the timer gets a turn.
     if (deadline !== null && Date.now() >= deadline) controller.abort();
     settled = true;
-    finish(!controller.signal.aborted && grid?.source === 'terrarium' && grid.failedTiles === 0 ? grid : null);
+    finish(!controller.signal.aborted && usableGrid(grid) ? grid : null);
   }).catch(error => { if (process.env.NODE_ENV === 'development') console.info('[flight terrain] fallback', String(error)); clearTimeout(timer); settled = true; finish(null); });
   return pending;
 }

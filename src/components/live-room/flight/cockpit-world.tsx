@@ -1262,9 +1262,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const onSurface = (x: number, z: number) => surfaceDrawn ? surfaceHeight(x, z) : 0;
       const visibleOnSurface = (x: number, y: number, z: number) => {
         if (!surfaceDrawn) return true;
-        const sx = Math.max(0, Math.min(surfaceCanvas.width - 1, Math.floor(x / w * surfaceCanvas.width)));
-        const sy = Math.max(0, Math.min(surfaceCanvas.height - 1, Math.floor(y / h * surfaceCanvas.height)));
-        return surfaceDepth[sy * surfaceCanvas.width + sx] >= z * 0.96;
+        const sw = surfaceCanvas.width, sh = surfaceCanvas.height;
+        const sx = Math.max(0, Math.min(sw - 1, Math.floor(x / w * sw)));
+        const sy = Math.max(0, Math.min(sh - 1, Math.floor(y / h * sh)));
+        // A low-res surface pixel stores the NEAREST ground inside it, so a point lying on visible ground
+        // could read as hidden one frame and visible the next (town lights blinked). Compare against the
+        // farthest ground in its pixel, the pixel above and their side neighbours: a ridge in front still hides it.
+        let farthest = 0;
+        for (let py = Math.max(0, sy - 1); py <= sy; py++)
+          for (let px = Math.max(0, sx - 1); px <= Math.min(sw - 1, sx + 1); px++)
+            farthest = Math.max(farthest, surfaceDepth[py * sw + px]);
+        return farthest >= z * 0.96;
       };
       const terrainClips = new Map<number, Path2D>();
       const clipSurface = (z: number) => {

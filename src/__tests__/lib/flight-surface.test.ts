@@ -9,7 +9,7 @@ import { realTerrain, setRealTerrain } from '@/components/live-room/flight/groun
 
 afterEach(() => { vi.useRealTimers(); vi.clearAllMocks(); vi.unstubAllGlobals(); setRealTerrain(true); });
 const route = () => ({}) as CoastStrip;
-const grid = (source: SurfaceGrid['source'] = 'terrarium', failedTiles = 0) => ({ source, failedTiles }) as SurfaceGrid;
+const grid = (source: SurfaceGrid['source'] = 'terrarium', failedTiles = 0, tiles = 100) => ({ source, failedTiles, tiles }) as SurfaceGrid;
 
 describe('flight terrain decision', () => {
   it('shares a complete take-off load between preload and cockpit', async () => {
@@ -44,8 +44,11 @@ describe('flight terrain decision', () => {
     expect(await pending).toBeNull(); expect(vi.mocked(loadSurfaceGrid).mock.calls[0][1]?.aborted).toBe(true);
     finish(grid()); await Promise.resolve(); expect(await flightSurface(strip)).toBeNull();
   });
-  it.each([grid('mixed', 1), grid('terrarium', 1), grid('coarse', 10)])('falls back for incomplete elevation %j', async bad => {
+  it.each([grid('mixed', 20, 100), grid('mixed', 3, 0), grid('coarse', 10)])('falls back when elevation largely failed %j', async bad => {
     vi.mocked(loadSurfaceGrid).mockResolvedValue(bad); expect(await flightSurface(route())).toBeNull();
+  });
+  it.each([grid('mixed', 1), grid('terrarium', 2, 20), grid('mixed', 25, 250)])('keeps the terrain when only a few tiles failed %j', async ok => {
+    vi.mocked(loadSurfaceGrid).mockResolvedValue(ok); expect(await flightSurface(route())).toBe(ok);
   });
   it('falls back when the loader rejects', async () => {
     vi.mocked(loadSurfaceGrid).mockRejectedValue(new Error('offline')); expect(await flightSurface(route())).toBeNull();

@@ -67,14 +67,28 @@ export function sampleTerrarium(loaded: ReadonlyMap<string, Tile>, p: LatLng): n
   return value;
 }
 
-/** Take-off only. A bounded six-request pool fills the route band before rendering uses synchronous samples. */
-export async function loadTerrarium(points: Iterable<LatLng>, signal?: AbortSignal): Promise<{ sample: (p: LatLng) => number | null; count: number; failed: number }> {
+/**
+ * Tiles needed for points sampled every `spacingKm`. A neighbouring tile is added only when a point lies close
+ * enough to a tile edge that denser samples between points (or bilinear interpolation) can cross into it.
+ * Padding every point by a whole tile downloaded ~50% more tiles than the route band needs.
+ */
+export function routeTileKeys(points: Iterable<LatLng>, spacingKm = 12): Set<string> {
   const keys = new Set<string>();
   for (const p of Array.from(points)) {
     const [x, y] = terrainPixel(p), tx = Math.floor(x / SIZE), ty = Math.floor(y / SIZE);
-    // One tile of padding covers the band boundary and interpolation at tile seams.
-    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) keys.add(tileKey(tx + dx, ty + dy));
+    const kmPerPixel = 40075 * Math.cos(Math.max(-85, Math.min(85, p.lat)) * Math.PI / 180) / (SIZE * 2 ** TERRARIUM_ZOOM);
+    const margin = (spacingKm + 1) / Math.max(0.01, kmPerPixel) + 2;
+    const fx = x - tx * SIZE, fy = y - ty * SIZE;
+    const xs = [0, ...(fx < margin ? [-1] : []), ...(fx > SIZE - 1 - margin ? [1] : [])];
+    const ys = [0, ...(fy < margin ? [-1] : []), ...(fy > SIZE - 1 - margin ? [1] : [])];
+    for (const dy of ys) for (const dx of xs) keys.add(tileKey(tx + dx, ty + dy));
   }
+  return keys;
+}
+
+/** Take-off only. A bounded six-request pool fills the route band before rendering uses synchronous samples. */
+export async function loadTerrarium(points: Iterable<LatLng>, signal?: AbortSignal): Promise<{ sample: (p: LatLng) => number | null; count: number; failed: number }> {
+  const keys = routeTileKeys(points);
   const pending = Array.from(keys), loaded = new Map<string, Tile>(); let next = 0, failed = 0;
   await Promise.all(Array.from({ length: Math.min(6, pending.length) }, async () => {
     while (next < pending.length && !signal?.aborted) {
