@@ -20,14 +20,17 @@ export function IssPass({ start, side }: { start: number; side: 'left' | 'right'
   }, [start]);
   if (t < 0 || t > 1) return null;
   const x = side === 'left' ? 6 + 88 * t : 94 - 88 * t;
-  const y = 48 - 36 * Math.sin(Math.PI * t);
+  // low across the sky (above the horizon, below where cards open), as a real pass looks from a plane window
+  const y = 50 - 14 * Math.sin(Math.PI * t);
   const fade = Math.min(1, t * 7, (1 - t) * 7);
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">
-      <div
-        className="absolute h-[5px] w-[5px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white"
-        style={{ left: `${x}%`, top: `${y}%`, opacity: fade * (0.75 + 0.25 * Math.sin(Math.PI * t)), boxShadow: '0 0 6px 2px rgba(255,255,255,0.75), 0 0 16px 6px rgba(200,220,255,0.3)' }}
-      />
+      {/* a bright point, with a soft ring and a small label so the class can find it (a 5 px dot was lost on Zoom) */}
+      <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${x}%`, top: `${y}%`, opacity: fade }}>
+        <div className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full border border-sky-100/50" />
+        <div className="h-[8px] w-[8px] rounded-full bg-white" style={{ boxShadow: '0 0 8px 3px rgba(255,255,255,0.8), 0 0 22px 8px rgba(200,220,255,0.35)' }} />
+        <span className="absolute left-1/2 top-6 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-950/60 px-1.5 font-mono text-[10px] font-semibold tracking-[0.12em] text-sky-100">ISS</span>
+      </div>
     </div>
   );
 }

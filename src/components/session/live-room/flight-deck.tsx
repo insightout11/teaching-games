@@ -1284,7 +1284,8 @@ export function FlightDeck({
     let live = true;
     const here = below.point;
     void fetch('/api/live-room/iss').then((r) => (r.ok ? r.json() : null)).then((d: { lat: number; lng: number; altitudeKm: number; sunlit: boolean } | null) => {
-      if (!live || !d || !d.sunlit) return;
+      // only when it can really be seen: the station in sunlight and our sky dark or in twilight (not at dawn daylight)
+      if (!live || !d || !d.sunlit || skyNow.sun.elevation > -4) return;
       const km = distanceBetweenCoordsKm(here, d);
       if (km > 2000) return;
       const rel = ((bearingDeg(here, d) - skyNow.sun.heading + 540) % 360) - 180;
