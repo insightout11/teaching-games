@@ -10,6 +10,18 @@ import { shoreKind, type ShoreKind } from '@/lib/live-room/coast-ahead';
 import { greatCirclePoint, regionOf, terrainAt, type LatLng } from '@/lib/live-room/route-terrain';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
+/** Chaikin for a closed outline (a lake's shore): every corner rounded, the ring stays closed. */
+export function smoothCoastRing(pts: Array<[number, number]>): Array<[number, number]> {
+  const ring = pts.length > 1 && pts[0][0] === pts[pts.length - 1][0] && pts[0][1] === pts[pts.length - 1][1] ? pts.slice(0, -1) : pts;
+  if (ring.length < 3) return pts;
+  const out: Array<[number, number]> = [];
+  for (let i = 0; i < ring.length; i++) {
+    const [ax, az] = ring[i], [bx, bz] = ring[(i + 1) % ring.length];
+    out.push([ax * 0.75 + bx * 0.25, az * 0.75 + bz * 0.25], [ax * 0.25 + bx * 0.75, az * 0.25 + bz * 0.75]);
+  }
+  return out;
+}
+
 export type StripPoint = [along: number, side: number];
 
 /** Reproject a cached ground row through the same camera after moving forward by dz world units. */
@@ -67,6 +79,8 @@ export function clipCoastLine(a: [number, number], b: [number, number], base: nu
 }
 
 export interface CoastStrip {
+  /** Optional geographic frame for the continuous elevation surface; absent on older saved strips. */
+  origin?: LatLng; destination?: LatLng;
   /** The land as closed outlines, in route coordinates (km along, km to the right). */
   land: StripPoint[][];
   /** Coastlines (open lines), for the beaches. */
@@ -219,5 +233,5 @@ export async function coastStrip(origin: LatLng, destination: LatLng): Promise<C
     }
     ground.push(row);
   }
-  return { land, lines, shores, routeKm, ground };
+  return { land, lines, shores, routeKm, ground, origin, destination };
 }
