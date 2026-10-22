@@ -1404,7 +1404,124 @@
     "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Should people move animals when their habitats become warmer?"
+    "flightQuestion": "Should people move animals when their habitats become warmer?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 22,
+          "end": 33,
+          "question": "How does climate change compared to weather?",
+          "options": [
+            "It changes more slowly.",
+            "It changes every hour.",
+            "It never changes at all."
+          ],
+          "correctIndex": 0,
+          "keyLine": "the definitions are right there you know that the weather can change quickly but climate can also change just more slowly"
+        },
+        {
+          "start": 84,
+          "end": 95,
+          "question": "How does a waxy, tough outside help a cactus?",
+          "options": [
+            "It helps the cactus grow tall.",
+            "It helps the cactus save water.",
+            "It helps the cactus catch insects."
+          ],
+          "correctIndex": 1,
+          "keyLine": "is kind of waxy and tough this adaptation helps the cactus save water by keeping the water from evaporating into the dry air now say something"
+        },
+        {
+          "start": 96,
+          "end": 108,
+          "question": "What do we call it when weather patterns change over a long time?",
+          "options": [
+            "A desert storm",
+            "A food chain",
+            "Climate change"
+          ],
+          "correctIndex": 2,
+          "keyLine": "hotter days and less rainfall than before when weather patterns change over a long period of time we call it climate"
+        },
+        {
+          "start": 172,
+          "end": 186,
+          "question": "What is carbon dioxide doing to the Earth?",
+          "options": [
+            "Trapping more heat and making the Earth warmer",
+            "Making more rain fall in the desert",
+            "Cooling down the air around the planet"
+          ],
+          "correctIndex": 0,
+          "keyLine": "increase in gases like carbon dioxide is trapping more heat close to the earth acting like a blanket and making the earth warmer but scientists are hard at"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "How climate change affects living things and ecosystems",
+            "How to grow a cactus in your house",
+            "Why it rains every day in Arizona"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happens if the cactus at the bottom of the desert food chain cannot survive?",
+          "options": [
+            "The other desert animals get more water.",
+            "The rest of the ecosystem is thrown off balance.",
+            "The desert turns into a forest."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What are scientists trying to do about climate change?",
+          "options": [
+            "Move all desert animals to colder places",
+            "Make the sun shine less brightly",
+            "Find ways to keep too much carbon dioxide from entering the atmosphere"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why might desert animals and plants struggle if the climate becomes much hotter and drier, even though they already have adaptations for the desert?",
+        "options": [
+          "Their adaptations only work in cold weather.",
+          "They still need some water, and their current adaptations may not be enough for a much hotter and drier climate.",
+          "They will forget how to use photosynthesis to make food."
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "climate",
+          "meaning": "the usual weather in a place over a long time",
+          "at": 3
+        },
+        {
+          "word": "adaptation",
+          "meaning": "a special feature that helps a plant or animal live in its home",
+          "at": 75
+        },
+        {
+          "word": "evaporating",
+          "meaning": "turning from liquid water into gas in the air",
+          "at": 90
+        },
+        {
+          "word": "ecosystem",
+          "meaning": "a community of living things and the place where they live",
+          "at": 115
+        },
+        {
+          "word": "atmosphere",
+          "meaning": "the layer of gases all around the Earth",
+          "at": 172
+        }
+      ]
+    }
   },
   {
     "id": "kids_living_things_change",
@@ -1426,7 +1543,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Can animals adapt quickly enough when their environment changes?"
+    "flightQuestion": "Can animals adapt quickly enough when their environment changes?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 49,
+          "end": 57,
+          "question": "What is an environment made up of?",
+          "options": [
+            "Only the big trees in a forest",
+            "The conditions around a living thing",
+            "The food that animals eat in winter"
+          ],
+          "correctIndex": 1,
+          "keyLine": "An environment is made up of the conditions around a living thing."
+        },
+        {
+          "start": 74,
+          "end": 81,
+          "question": "How would penguins and polar bears feel in a pineapple field?",
+          "options": [
+            "Hot and unhappy",
+            "Cold and sleepy",
+            "Happy and hungry"
+          ],
+          "correctIndex": 0,
+          "keyLine": "If we put these animals into a pineapple field, they'd get pretty hot and unhappy."
+        },
+        {
+          "start": 131,
+          "end": 145,
+          "question": "What helped giant insects live on Earth 360 million years ago?",
+          "options": [
+            "There was more snow on the ground.",
+            "There were no other animals on land.",
+            "There was more oxygen in the Earth's atmosphere."
+          ],
+          "correctIndex": 2,
+          "keyLine": "and then they release oxygen. All of those plants made lots and lots of oxygen. There was more oxygen in the Earth's atmosphere than than there is now, enough to support all of those giant insects."
+        },
+        {
+          "start": 221,
+          "end": 230,
+          "question": "Which moths were more common after pollution made the trees dark?",
+          "options": [
+            "Light moths",
+            "Dark moths",
+            "Green moths"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The results? After the environment had been polluted for a long time, there were more dark moths than light ones."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main idea of this video?",
+          "options": [
+            "When an environment changes, living things change too.",
+            "Pineapples can grow anywhere in the world.",
+            "Insects are much bigger today than they were in the past."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happened to the giant insects when the ancient swamp plants became extinct?",
+          "options": [
+            "They learned to live in the ocean.",
+            "They shrank into pepped moths.",
+            "They could no longer survive because they depended on the oxygen from those plants."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Why is the number of light-colored peppered moths rising again today?",
+          "options": [
+            "Birds stopped eating moths.",
+            "The environment is less polluted now, so trees are not covered with dark dirt anymore.",
+            "Dark moths moved to the North Pole."
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "How did coal pollution change which peppered moths had the better adaptation?",
+        "options": [
+          "Soot made the trees dark, so dark moths blended in better and light moths were eaten more often.",
+          "The smoke turned the light moths' wings black when they flew through the air.",
+          "The pollution made the trees grow leaves that only dark moths could eat."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "environment",
+          "meaning": "the conditions around a living thing",
+          "at": 51
+        },
+        {
+          "word": "pollution",
+          "meaning": "dirty or harmful things put into the air, water, or land",
+          "at": 65
+        },
+        {
+          "word": "adaptation",
+          "meaning": "a special feature that helps a living thing survive in its home",
+          "at": 81
+        },
+        {
+          "word": "extinct",
+          "meaning": "no longer living anywhere on Earth",
+          "at": 125
+        },
+        {
+          "word": "predators",
+          "meaning": "animals that hunt and eat other animals",
+          "at": 181
+        }
+      ]
+    }
   },
   {
     "id": "kids_every_kind_of_volcano",
@@ -1448,7 +1682,124 @@
     "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Would you rather study a quiet volcano or an active one?"
+    "flightQuestion": "Would you rather study a quiet volcano or an active one?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 92,
+          "end": 102,
+          "question": "What do all volcanoes have in common?",
+          "options": [
+            "They are all tall, pointy mountains.",
+            "They all have a vent, an opening in the Earth's crust.",
+            "They are all under the ocean."
+          ],
+          "correctIndex": 1,
+          "keyLine": "Some of them do! The thing all volcanoes have in common is a vent: an opening in the earth’s crust."
+        },
+        {
+          "start": 154,
+          "end": 165,
+          "question": "What is hot melted rock called when it is still under the ground?",
+          "options": [
+            "Magma",
+            "Lava",
+            "Ash"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The hot melted rock is called magma when it’s under the ground. And after it escapes a vent, it becomes lava."
+        },
+        {
+          "start": 236,
+          "end": 247,
+          "question": "How many active volcanoes are on Earth right now?",
+          "options": [
+            "Only 8",
+            "About 300",
+            "Over 1,500"
+          ],
+          "correctIndex": 2,
+          "keyLine": "We won’t run out of active volcanoes. Right now, there are over 1500 active volcanoes on Earth!"
+        },
+        {
+          "start": 455,
+          "end": 464,
+          "question": "How can volcanic ash help plants?",
+          "options": [
+            "It gives nutrients to the soil.",
+            "It blocks the sun so plants stay cool.",
+            "It turns into water for the roots."
+          ],
+          "correctIndex": 0,
+          "keyLine": "Volcanic ash can give nutrients to the soil, which is helpful for plants to grow."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "Different kinds of volcanoes and how they erupt",
+            "How to build a toy volcano with clay",
+            "Why dinosaurs disappeared from the Earth"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is the difference between a stratovolcano and a shield volcano?",
+          "options": [
+            "A stratovolcano is underwater, while a shield volcano is on land.",
+            "A stratovolcano is cone-shaped with a narrow top, while a shield volcano has wide, dome-shaped slopes.",
+            "A stratovolcano only erupts water, while a shield volcano erupts ice."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do scientists know when a volcano might erupt?",
+          "options": [
+            "They wait for animals to run away from the mountain.",
+            "They look at the color of the clouds above the mountain.",
+            "They track changes in the Earth, like increases in earthquakes or heat."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why was 1816 called 'The Year Without a Summer' after Mount Tambora erupted in 1815?",
+        "options": [
+          "The lava melted all the ice at the North Pole and flooded the land.",
+          "A huge cloud of volcanic ash and gases blocked the sun and lowered temperatures around the world.",
+          "The eruption made the Earth spin faster, so summer was skipped."
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "erupting",
+          "meaning": "bursting out with lava, ash, and gas",
+          "at": 22
+        },
+        {
+          "word": "crust",
+          "meaning": "the top layer of the Earth that we stand on",
+          "at": 100
+        },
+        {
+          "word": "magma",
+          "meaning": "hot melted rock under the ground",
+          "at": 157
+        },
+        {
+          "word": "dormant",
+          "meaning": "has not erupted for a long time, but might erupt again",
+          "at": 223
+        },
+        {
+          "word": "ash",
+          "meaning": "a dusty mix of tiny rock pieces from inside a volcano",
+          "at": 318
+        }
+      ]
+    }
   },
   {
     "id": "kids_busy_bees",
@@ -1470,7 +1821,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Should people protect both bumblebees and honeybees?"
+    "flightQuestion": "Should people protect both bumblebees and honeybees?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 40,
+          "end": 47,
+          "question": "How many legs do bees have?",
+          "options": [
+            "Six legs",
+            "Four legs",
+            "Eight legs"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Like all insects, bees have six legs and three body parts."
+        },
+        {
+          "start": 82,
+          "end": 92,
+          "question": "Why are bumblebees easy to spot?",
+          "options": [
+            "They are bright red and blue.",
+            "They are big and fluffy.",
+            "They have no wings."
+          ],
+          "correctIndex": 1,
+          "keyLine": "most often are bumblebees and honeybees. Bumblebees are easy to spot, because they’re big and fluffy."
+        },
+        {
+          "start": 115,
+          "end": 123,
+          "question": "What is the queen bee's job in the hive?",
+          "options": [
+            "She flies out to find flowers.",
+            "She cleans the outside of the hive.",
+            "She stays in the hive all day and lays eggs."
+          ],
+          "correctIndex": 2,
+          "keyLine": "job. She stays in the hive all day, and lays eggs...lots of them!"
+        },
+        {
+          "start": 148,
+          "end": 158,
+          "question": "What is the sweet juice inside a flower called?",
+          "options": [
+            "Nectar",
+            "Pollen",
+            "Water"
+          ],
+          "correctIndex": 0,
+          "keyLine": "When a worker bee lands on a flower, she drinks a sweet juice from the inside of the flower. This juice is called nectar."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "What bees look like, where they live, and what they do all day",
+            "How to cook food using honey",
+            "Why beetles and ants live under the ground"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is the main job that worker bees do almost all of the time?",
+          "options": [
+            "Sleeping in the flowers",
+            "Looking for food from flowers",
+            "Wearing a crown in the hive"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What should you do if you see a bee outside?",
+          "options": [
+            "Try to catch it in your hands",
+            "Chase it away from the flowers",
+            "Leave her alone and give her room to get her work done"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How are bumblebees and honeybees similar, and how are they different?",
+        "options": [
+          "Both live in hives and make honey, but bumblebees are bigger and fluffier and only make a little honey.",
+          "Only bumblebees live in hives, while honeybees live alone in trees.",
+          "Bumblebees have eight legs, while honeybees have six legs."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "insects",
+          "meaning": "small animals with six legs and three body parts, like bees and ants",
+          "at": 38
+        },
+        {
+          "word": "stinger",
+          "meaning": "the sharp part a bee uses to protect itself",
+          "at": 65
+        },
+        {
+          "word": "hives",
+          "meaning": "the nests where big groups of bees live together",
+          "at": 107
+        },
+        {
+          "word": "nectar",
+          "meaning": "the sweet juice inside a flower that bees drink and turn into honey",
+          "at": 155
+        },
+        {
+          "word": "pollen",
+          "meaning": "the yellow dust made by flowers that sticks to bees",
+          "at": 162
+        }
+      ]
+    }
   },
   {
     "id": "kids_dont_fear_spiders",
@@ -1492,7 +1960,124 @@
     "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Should children be afraid of spiders that catch insects?"
+    "flightQuestion": "Should children be afraid of spiders that catch insects?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 45,
+          "end": 52,
+          "question": "What important job do spiders do?",
+          "options": [
+            "They make honey from flowers.",
+            "They eat small insects like mosquitoes, gnats, and houseflies.",
+            "They help birds build nests in trees."
+          ],
+          "correctIndex": 1,
+          "keyLine": "they eat lots of small, little insects like mosquitoes, gnats, and house flies"
+        },
+        {
+          "start": 89,
+          "end": 98,
+          "question": "How many legs does a spider always have?",
+          "options": [
+            "Eight legs",
+            "Six legs",
+            "Ten legs"
+          ],
+          "correctIndex": 0,
+          "keyLine": "And maybe the easiest way to spot a spider is that they always have eight legs and they don't have wings or antennas"
+        },
+        {
+          "start": 140,
+          "end": 157,
+          "question": "How far can some jumping spiders jump?",
+          "options": [
+            "Up to 5 times their body length",
+            "Up to 10 times their body length",
+            "Up to 50 times their body length"
+          ],
+          "correctIndex": 2,
+          "keyLine": "They jump! some of these fires can jump up to 50 times the length of their own bodies If you could do that, you'd be able to jump over 12 cars in a single leap But these spiders are careful jumpers. They always stick a piece of silk called a 'drag line'"
+        },
+        {
+          "start": 173,
+          "end": 182,
+          "question": "What does the word 'orb' mean in 'orb weaver'?",
+          "options": [
+            "Sticky",
+            "Round",
+            "Fast"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The word 'orb' means round and that's the shape we see in an orb Weaver's web: a nice pretty circle"
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why did the host make this video about spiders?",
+          "options": [
+            "To help kids learn about spiders so they do not have to be afraid of them",
+            "To show how to keep a pet spider in a box",
+            "To explain why spiders are a type of flying insect"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How are a spider's body and eyes different from an insect's?",
+          "options": [
+            "Spiders have six legs and three body parts, while insects have eight legs.",
+            "Spiders have two body parts, eight legs, and simple eyes with one lens instead of compound eyes.",
+            "Spiders have wings and antennae, but no eyes."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does a jumping spider keep itself from falling when it jumps?",
+          "options": [
+            "It opens tiny wings to glide through the air.",
+            "It only jumps onto soft flowers.",
+            "It sticks a silk thread called a dragline to whatever it is jumping from."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How do orb weaver spiders walk on their own webs without getting stuck?",
+        "options": [
+          "They spin both sticky and non-sticky silk, and they keep their feet on the non-sticky threads.",
+          "Their feet have special oil that melts the sticky silk.",
+          "They only make sticky threads after they finish walking on the web."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "pesky",
+          "meaning": "annoying or causing trouble",
+          "at": 55
+        },
+        {
+          "word": "abdomen",
+          "meaning": "the back body part of a spider or insect",
+          "at": 82
+        },
+        {
+          "word": "vision",
+          "meaning": "the ability to see",
+          "at": 129
+        },
+        {
+          "word": "dragline",
+          "meaning": "a silk thread a spider sticks down before jumping so it will not fall",
+          "at": 155
+        },
+        {
+          "word": "spinnerets",
+          "meaning": "the special body parts a spider uses to make silk",
+          "at": 186
+        }
+      ]
+    }
   },
   {
     "id": "kids_cave_animals",
@@ -1514,7 +2099,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Would you rather explore a bright forest or a dark cave?"
+    "flightQuestion": "Would you rather explore a bright forest or a dark cave?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 46,
+          "end": 54,
+          "question": "What is a habitat?",
+          "options": [
+            "A place where living things make their home",
+            "A special kind of dark rock",
+            "A tool for exploring caves"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Caves are a kind of habitat. A habitat is a place where living things make their home,"
+        },
+        {
+          "start": 61,
+          "end": 71,
+          "question": "What do bats do in caves during the day?",
+          "options": [
+            "They look for frogs",
+            "They sleep in caves",
+            "They swim in rivers"
+          ],
+          "correctIndex": 1,
+          "keyLine": "[Mister Brown] That’s right! Some animals, like bats, sleep in caves during the day and come out at night."
+        },
+        {
+          "start": 81,
+          "end": 90,
+          "question": "What animal is a salamander actually more like?",
+          "options": [
+            "A spider",
+            "A bat",
+            "A frog"
+          ],
+          "correctIndex": 2,
+          "keyLine": "A salamander is a creature that looks like a lizard, but is actually more like a frog!"
+        },
+        {
+          "start": 113,
+          "end": 121,
+          "question": "What do the three deep cave animals have in common?",
+          "options": [
+            "They don't have any eyes",
+            "They all have big wings",
+            "They glow in the dark"
+          ],
+          "correctIndex": 0,
+          "keyLine": "[Squeaks squeaks] That’s right, they don’t have any eyes."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "How animals live in dark caves using their senses",
+            "How to pack for a sunny beach trip",
+            "Why frogs live in trees"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why don't deep cave animals need eyes?",
+          "options": [
+            "Because caves are too hot for eyes",
+            "Because caves are very dark and they use other senses instead",
+            "Because water washes their eyes away"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How can a cave spider or olm find its way around in the dark?",
+          "options": [
+            "By turning on a light",
+            "By asking bats for help",
+            "By using its legs to feel where it is going"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the host ask you to close your eyes or turn off the lights?",
+        "options": [
+          "So you can fall asleep like a bat",
+          "To show how you can notice things using hearing and touch without sight",
+          "To test if your room is colder than a cave"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "cave",
+          "meaning": "a big natural hole under the ground or inside a rock",
+          "at": 20
+        },
+        {
+          "word": "habitat",
+          "meaning": "the natural home where an animal or plant lives",
+          "at": 48
+        },
+        {
+          "word": "surface",
+          "meaning": "the outside or top layer of the ground or water",
+          "at": 73
+        },
+        {
+          "word": "sense",
+          "meaning": "a way the body knows about the world, like sight, hearing, or touch",
+          "at": 125
+        },
+        {
+          "word": "predators",
+          "meaning": "animals that hunt and eat other animals",
+          "at": 221
+        }
+      ]
+    }
   },
   {
     "id": "kids_diamond_super_crystal",
@@ -1536,7 +2238,124 @@
     "cefr": "B1",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Is a diamond more useful as a tool or as jewelry?"
+    "flightQuestion": "Is a diamond more useful as a tool or as jewelry?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 10,
+          "end": 18,
+          "question": "How can we test which rock is harder?",
+          "options": [
+            "By putting the rocks in cold water",
+            "By scratching one rock against another",
+            "By weighing the rocks on a scale"
+          ],
+          "correctIndex": 1,
+          "keyLine": "We can test which rock is harder by scratching one rock against another,"
+        },
+        {
+          "start": 54,
+          "end": 62,
+          "question": "What are rocks made up of?",
+          "options": [
+            "Lots of different crystals mixed together",
+            "Only one single piece of glass",
+            "Melted plastic and sand"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Rocks, on the other hand, are made up of lots of different crystals mixed together —"
+        },
+        {
+          "start": 74,
+          "end": 81,
+          "question": "What material are diamonds made out of?",
+          "options": [
+            "Silver",
+            "Ice",
+            "Carbon"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Let’s take a closer look. Diamonds are made out of carbon,"
+        },
+        {
+          "start": 105,
+          "end": 116,
+          "question": "What needs to happen for carbon to become a diamond?",
+          "options": [
+            "It needs to be frozen in snow for a year",
+            "It needs to be heated up really hot and smooshed together super hard",
+            "It needs to be washed by ocean waves"
+          ],
+          "correctIndex": 1,
+          "keyLine": "or a mountain. For carbon building blocks to become a diamond, they need to be heated up really high, and smushed together super hard."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "Why diamonds are so strong and how they form deep underground",
+            "How to make paper and pencils at school",
+            "Where to find dinosaur bones"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did diamonds get from deep underground up near the Earth's surface?",
+          "options": [
+            "People dug 150 kilometers down to get them",
+            "Fast eruptions carried them up from deep inside the Earth",
+            "Rivers washed them down from tall mountains"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why do people use diamonds in special tools?",
+          "options": [
+            "Because diamonds are soft and easy to bend",
+            "Because diamonds are cheap and easy to make",
+            "Because diamonds are one of the strongest materials in the world"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does Jessi compare carbon to toy building blocks?",
+        "options": [
+          "Because carbon is colorful and made of plastic",
+          "Because the same carbon pieces can be put together in different ways to make different things",
+          "Because Squeaks uses diamonds to build toy houses"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "crumble",
+          "meaning": "break into tiny pieces",
+          "at": 31
+        },
+        {
+          "word": "crystal",
+          "meaning": "a solid material whose tiny pieces are arranged in a repeating pattern",
+          "at": 44
+        },
+        {
+          "word": "carbon",
+          "meaning": "a common natural material found in rocks, pencils, and all living things",
+          "at": 78
+        },
+        {
+          "word": "pressure",
+          "meaning": "strong pushing or squeezing force",
+          "at": 148
+        },
+        {
+          "word": "crust",
+          "meaning": "the outside top layer of the Earth where we live",
+          "at": 203
+        }
+      ]
+    }
   },
   {
     "id": "kids_whats_inside_rocks",
@@ -1557,7 +2376,124 @@
     "genre": "expository",
     "cefr": "A2",
     "ageBand": "kids",
-    "flightQuestion": "Would you rather find a crystal or a fossil inside rock?"
+    "flightQuestion": "Would you rather find a crystal or a fossil inside rock?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 14,
+          "end": 25,
+          "question": "What is inside a geode?",
+          "options": [
+            "Beautiful crystals",
+            "Melted lava",
+            "Green leaves"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Have you ever seen one? Geodes are rocks that look like regular rocks on the outside, but inside they’re filled with beautiful crystals!"
+        },
+        {
+          "start": 50,
+          "end": 58,
+          "question": "What is a mineral?",
+          "options": [
+            "A tiny bug that lives in water",
+            "A kind of natural material that isn't alive",
+            "A part of a tree root"
+          ],
+          "correctIndex": 1,
+          "keyLine": "leaves behind minerals. A mineral is a kind of natural material that isn’t alive — like a crystal!"
+        },
+        {
+          "start": 67,
+          "end": 81,
+          "question": "What does it mean if the crystals inside a geode are bigger?",
+          "options": [
+            "The geode is softer",
+            "The geode is younger",
+            "The geode is older"
+          ],
+          "correctIndex": 2,
+          "keyLine": "other and form crystals. So the bigger the crystals inside a geode, the older the geode is. Our geodes look pretty small, so if there are crystals in them, they’re probably small."
+        },
+        {
+          "start": 112,
+          "end": 118,
+          "question": "What should you do first before breaking open a geode?",
+          "options": [
+            "Put the rock in hot water",
+            "Put on your safety glasses",
+            "Wash the hammer with soap"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Let’s go outside. First, put on your safety glasses."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "How geodes form crystals inside and how to break them open safely",
+            "How volcanoes erupt under the sea",
+            "How to build a bookshelf for the library"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How do minerals get inside the empty space of a geode?",
+          "options": [
+            "Squeaks puts them inside",
+            "Water flows through the rock and leaves tiny bits of minerals behind",
+            "Wind blows sand into the rock"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why does Jessi use the pointed back part of the hammer first?",
+          "options": [
+            "Because the flat side is too clean",
+            "To make the crystals change color",
+            "To break the rock in half instead of smashing it to bits"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How can an empty space form inside a rock before it becomes a geode?",
+        "options": [
+          "From gas bubbles in volcano rock or a tree root that broke down",
+          "From animals digging a home inside the hard rock",
+          "From someone hitting the rock with a hammer"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "geode",
+          "meaning": "a rock that looks plain on the outside but has crystals inside",
+          "at": 16
+        },
+        {
+          "word": "empty",
+          "meaning": "having nothing inside",
+          "at": 31
+        },
+        {
+          "word": "mineral",
+          "meaning": "a natural material found in earth and water that is not alive",
+          "at": 52
+        },
+        {
+          "word": "patient",
+          "meaning": "able to wait calmly without getting upset",
+          "at": 108
+        },
+        {
+          "word": "hammer",
+          "meaning": "a heavy tool used for hitting or breaking things",
+          "at": 122
+        }
+      ]
+    }
   },
   {
     "id": "kids_stalactites_stalagmites",
@@ -1578,7 +2514,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "kids",
-    "flightQuestion": "Should visitors be allowed to touch cave formations?"
+    "flightQuestion": "Should visitors be allowed to touch cave formations?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 55,
+          "end": 61,
+          "question": "What are the rock structures on the ceiling of a cave called?",
+          "options": [
+            "Stalactites",
+            "Stalagmites",
+            "Geodes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The ones on the ceiling are called stalactites…"
+        },
+        {
+          "start": 86,
+          "end": 92,
+          "question": "Where do stalagmites grow from?",
+          "options": [
+            "Down from the trees",
+            "Up from the ground",
+            "Out of the river"
+          ],
+          "correctIndex": 1,
+          "keyLine": "And stalagmites grow up from the ground."
+        },
+        {
+          "start": 206,
+          "end": 218,
+          "question": "What happens if we leave the glass of sugar water alone for a long time?",
+          "options": [
+            "The glass turns into ice",
+            "The sugar disappears forever",
+            "The water dries up, but the sugar stays"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Well, If we left the glass alone for a long long time… we would see that the water dries up but the sugar stays."
+        },
+        {
+          "start": 257,
+          "end": 265,
+          "question": "When does dripping cave water form a stalactite?",
+          "options": [
+            "If the water dries up before it drips to the ground",
+            "If the water freezes into snow on the floor",
+            "If a bat hits the rock with its wings"
+          ],
+          "correctIndex": 0,
+          "keyLine": "If the water dries up before it drips to the ground, it forms a stalactite…"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "How water and tiny bits of rock form stalactites and stalagmites in caves",
+            "How to bake a sweet cake with sugar and water",
+            "Why bats are afraid of the dark"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What trick helps you remember stalactites and stalagmites?",
+          "options": [
+            "Stalactites has a C for ceiling, and stalagmites has a G for ground",
+            "Stalactites is a shorter word than stalagmites",
+            "Stalactites are always blue, and stalagmites are always red"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why does Jessi mix sugar into water in her experiment?",
+          "options": [
+            "To make a sweet drink for Squeaks",
+            "To show how tiny pieces can hide in water and stay behind when water dries up",
+            "To clean the spoon and glass"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "harder": {
+        "q": "How do we know the sugar is still in the water after we stir it and cannot see it?",
+        "options": [
+          "The water turns bright pink",
+          "The water gets very hot",
+          "We have evidence because we can taste that the water is sweet"
+        ],
+        "correctIndex": 2
+      },
+      "words": [
+        {
+          "word": "ceiling",
+          "meaning": "the top inside roof of a room or cave",
+          "at": 57
+        },
+        {
+          "word": "investigation",
+          "meaning": "a careful test or study to find out how something works",
+          "at": 129
+        },
+        {
+          "word": "disappears",
+          "meaning": "goes out of sight so you cannot see it anymore",
+          "at": 175
+        },
+        {
+          "word": "evidence",
+          "meaning": "something you can see, taste, or measure that proves something is true",
+          "at": 191
+        },
+        {
+          "word": "drip",
+          "meaning": "fall in small drops of liquid",
+          "at": 246
+        }
+      ]
+    }
   },
   {
     "id": "kids_antarctica",
@@ -1598,7 +2651,124 @@
     "audience": "kids",
     "genre": "narrative",
     "cefr": "A2",
-    "ageBand": "kids"
+    "ageBand": "kids",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 55,
+          "end": 63,
+          "question": "What does all the blue around Antarctica on the map show?",
+          "options": [
+            "That it is completely surrounded by ocean",
+            "That it is covered in blue flowers",
+            "That it rains every single day"
+          ],
+          "correctIndex": 0,
+          "keyLine": "All that blue on the map shows that Antarctica is completely surrounded by ocean."
+        },
+        {
+          "start": 68,
+          "end": 79,
+          "question": "What covers lots of the land in Antarctica, even in summer?",
+          "options": [
+            "Green grass",
+            "Ice",
+            "Hot sand"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Oh, snow is a good guess! Lots of the land in Antarctica is covered with ice, even when it’s summer there!"
+        },
+        {
+          "start": 232,
+          "end": 240,
+          "question": "What really makes a desert a desert?",
+          "options": [
+            "How many cactus plants it has",
+            "How hot the sun is",
+            "How dry it is"
+          ],
+          "correctIndex": 2,
+          "keyLine": "But what really makes a desert a desert is how dry it is."
+        },
+        {
+          "start": 284,
+          "end": 296,
+          "question": "Where do polar bears live?",
+          "options": [
+            "In Antarctica at the South Pole",
+            "Near the North Pole in the Arctic",
+            "In the warm ocean near the middle of the Earth"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Good question, what about polar bears? Polar bears do live in a frozen climate, but they live near the North pole, in the Arctic,"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "Why Antarctica is so cold and dry, and what animals live there",
+            "How to swim from the North Pole to the South Pole",
+            "How to make hot cocoa in winter"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Who lives in Antarctica?",
+          "options": [
+            "Big cities of people live there all year round",
+            "Nobody lives there all year round, but scientists visit to study it",
+            "Only polar bears live there"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Which penguins are the biggest penguins on Earth and live in Antarctica?",
+          "options": [
+            "Kingfisher penguins",
+            "Arctic penguins",
+            "Emperor penguins"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is Antarctica so cold even in the summer, and even colder and dark in the winter?",
+        "options": [
+          "Because the Earth is round so sunlight hits the poles at a slant, and in winter the South Pole tilts away from the sun",
+          "Because giant clouds block the sun over Antarctica all year long",
+          "Because the ocean water puts out the heat of the sun"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "surrounded",
+          "meaning": "having something all the way around on every side",
+          "at": 60
+        },
+        {
+          "word": "tilted",
+          "meaning": "leaning to one side instead of standing straight up and down",
+          "at": 143
+        },
+        {
+          "word": "desert",
+          "meaning": "a very dry place that gets almost no rain or snow",
+          "at": 227
+        },
+        {
+          "word": "coast",
+          "meaning": "the land right next to the ocean",
+          "at": 267
+        },
+        {
+          "word": "cozy",
+          "meaning": "warm, comfortable, and safe",
+          "at": 322
+        }
+      ]
+    }
   },
   {
     "id": "kids_four_spheres_geo_bio",
@@ -1629,6 +2799,123 @@
       "id": "earth-and-weather",
       "title": "Earth and Weather for Young Learners",
       "order": 1
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 53,
+          "end": 60,
+          "question": "What does the Greek word 'geo' mean?",
+          "options": [
+            "Ground",
+            "Water",
+            "Air"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Up first is the geosphere. \"Geo\" comes from the Greek word for \"ground.\""
+        },
+        {
+          "start": 68,
+          "end": 80,
+          "question": "What is the geosphere made up of?",
+          "options": [
+            "All the plants and trees on Earth",
+            "All the rocks and minerals on Earth",
+            "All the clouds and rain in the sky"
+          ],
+          "correctIndex": 1,
+          "keyLine": "All of the other spheres are built on top of it. It's made up of all the rocks and minerals on Earth, from the biggest boulders to the tiniest grains of sand."
+        },
+        {
+          "start": 101,
+          "end": 109,
+          "question": "What does the Greek word 'bio' mean?",
+          "options": [
+            "Rock",
+            "Space",
+            "Life"
+          ],
+          "correctIndex": 2,
+          "keyLine": "the biosphere. \"Bio\" is Greek for \"life,\" and like \"geo,\" you've probably heard it before"
+        },
+        {
+          "start": 193,
+          "end": 202,
+          "question": "What is true about everything in the biosphere?",
+          "options": [
+            "Everything in it is made of stone",
+            "Everything in it is alive",
+            "Everything in it lives under the ground"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Now, let's think about the biosphere. Unlike the geosphere, everything in the biosphere is alive."
+        }
+      ],
+      "gist": [
+        {
+          "q": "Which two spheres of Earth is this video mainly about?",
+          "options": [
+            "The geosphere and the biosphere",
+            "The hydrosphere and the atmosphere",
+            "The sun and the moon"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "In the forest meadow scene, which things belong to the biosphere?",
+          "options": [
+            "The rock, the soil, and the mountain",
+            "The grass, the birds, and the deer",
+            "The stream bed and the pebbles"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do the different spheres of Earth work?",
+          "options": [
+            "They never touch each other",
+            "Only one sphere is important",
+            "They work together like puzzle pieces"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker compare the geosphere to the skeleton of our planet?",
+        "options": [
+          "Because all the other spheres are built on top of it",
+          "Because it is made of white bones",
+          "Because it is the only sphere with living animals"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "puzzle",
+          "meaning": "a game with many pieces that fit together",
+          "at": 13
+        },
+        {
+          "word": "skeleton",
+          "meaning": "the hard frame of bones inside a body",
+          "at": 67
+        },
+        {
+          "word": "boulders",
+          "meaning": "very large rocks",
+          "at": 75
+        },
+        {
+          "word": "biomes",
+          "meaning": "large areas of land with similar plants, animals, and weather",
+          "at": 114
+        },
+        {
+          "word": "meadow",
+          "meaning": "a field of grass and wild flowers",
+          "at": 145
+        }
+      ]
     }
   },
   {
@@ -1660,6 +2947,123 @@
       "id": "earth-and-weather",
       "title": "Earth and Weather for Young Learners",
       "order": 2
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 30,
+          "end": 39,
+          "question": "What is in the hydrosphere?",
+          "options": [
+            "All the water on the planet",
+            "All the rocks and dirt",
+            "All the trees and animals"
+          ],
+          "correctIndex": 0,
+          "keyLine": "the hydrosphere, which includes all the water on the planet, and the geosphere, which is simply the solid Earth."
+        },
+        {
+          "start": 66,
+          "end": 75,
+          "question": "How can you tell if something is part of the geosphere?",
+          "options": [
+            "It falls from the clouds like rain",
+            "It looks like solid ground",
+            "It swims in the ocean"
+          ],
+          "correctIndex": 1,
+          "keyLine": "and even the continents we live on, are part of the geosphere. If it looks like solid ground, it's part of the geosphere."
+        },
+        {
+          "start": 86,
+          "end": 93,
+          "question": "What does the word 'hydro' mean?",
+          "options": [
+            "Ground",
+            "Air",
+            "Water"
+          ],
+          "correctIndex": 2,
+          "keyLine": "\"Hydro\" means \"water,\" so the hydrosphere is made of all the water on Earth."
+        },
+        {
+          "start": 188,
+          "end": 197,
+          "question": "What does the geosphere provide for the hydrosphere?",
+          "options": [
+            "Warm sunlight",
+            "A home",
+            "Fresh air"
+          ],
+          "correctIndex": 1,
+          "keyLine": "All of which are part of the geosphere. So on a basic level, the geosphere really provides a home for the hydrosphere."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "How the geosphere and the hydrosphere work together",
+            "How to make a peanut butter sandwich",
+            "Why dinosaurs lived underground"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which of these is part of the hydrosphere?",
+          "options": [
+            "Mountains, pebbles, and desert sand",
+            "Rivers, lakes, oceans, and rain",
+            "Only the hot core inside the Earth"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is under a river or at the bottom of a lake?",
+          "options": [
+            "Nothing at all",
+            "Only clouds and air",
+            "Parts of the geosphere that hold the water"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How far up and down does the hydrosphere reach?",
+        "options": [
+          "Only on the flat ground where we walk",
+          "From just below the Earth's surface up into the atmosphere as rain and snow",
+          "All the way down to the hot center of the Earth's core"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "pebble",
+          "meaning": "a small, smooth round stone",
+          "at": 63
+        },
+        {
+          "word": "core",
+          "meaning": "the deep center part of our planet Earth",
+          "at": 78
+        },
+        {
+          "word": "glaciers",
+          "meaning": "huge, slow-moving rivers of ice",
+          "at": 96
+        },
+        {
+          "word": "moisture",
+          "meaning": "tiny drops of water in the air or ground",
+          "at": 99
+        },
+        {
+          "word": "shores",
+          "meaning": "the land along the edge of an ocean or lake",
+          "at": 182
+        }
+      ]
     }
   },
   {
@@ -1691,6 +3095,123 @@
       "id": "earth-and-weather",
       "title": "Earth and Weather for Young Learners",
       "order": 3
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 46,
+          "end": 51,
+          "question": "What is wind?",
+          "options": [
+            "Air in motion",
+            "Water in the ocean",
+            "Heat from the ground"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Well, wind is air in motion."
+        },
+        {
+          "start": 64,
+          "end": 72,
+          "question": "What kind of air pressure does cool air produce?",
+          "options": [
+            "No air pressure",
+            "High air pressure",
+            "Low air pressure"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Specifically, cool air produces high air pressure, and warm air produces low air pressure."
+        },
+        {
+          "start": 124,
+          "end": 130,
+          "question": "During the daytime at the beach, what heats up faster?",
+          "options": [
+            "The ocean",
+            "The clouds",
+            "The land"
+          ],
+          "correctIndex": 2,
+          "keyLine": "When the Sun's shining down on it, the land heats up faster than the ocean."
+        },
+        {
+          "start": 181,
+          "end": 192,
+          "question": "Where do the fastest winds on Earth happen?",
+          "options": [
+            "Inside tornadoes",
+            "On a quiet beach at night",
+            "Under the ocean water"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Wind isn't always just a gentle breeze, the fastest winds on Earth occur inside tornadoes, where they can reach a speed over 400 kilometers per hour."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What causes wind on Earth?",
+          "options": [
+            "The uneven heating of the Earth's surfaces by the sun",
+            "Big fish swimming fast in the ocean",
+            "Trees waving their branches in the forest"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which way does a sea breeze blow during the day?",
+          "options": [
+            "From the land out to the ocean",
+            "From the ocean onto the land",
+            "Straight up into outer space"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What happens to the wind at the beach at night?",
+          "options": [
+            "The wind stops forever",
+            "It blows from the ocean onto the land",
+            "The land cools faster and cool air blows out to the ocean"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does cool air from the water rush onto the land during the day?",
+        "options": [
+          "Because warm air over the hot land rises, and cooler air rushes in to take its place",
+          "Because the ocean water pushes the air away with big waves",
+          "Because the land has higher air pressure than the cool water"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "riddle",
+          "meaning": "a fun puzzle or question that you have to guess the answer to",
+          "at": 0
+        },
+        {
+          "word": "absorbs",
+          "meaning": "takes in or soaks up heat or liquid",
+          "at": 24
+        },
+        {
+          "word": "motion",
+          "meaning": "moving from one place to another",
+          "at": 48
+        },
+        {
+          "word": "breeze",
+          "meaning": "a light, gentle wind",
+          "at": 135
+        },
+        {
+          "word": "pattern",
+          "meaning": "something that happens again and again in the same way",
+          "at": 110
+        }
+      ]
     }
   },
   {
@@ -1722,6 +3243,123 @@
       "id": "earth-and-weather",
       "title": "Earth and Weather for Young Learners",
       "order": 4
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 67,
+          "end": 75,
+          "question": "How does the speaker describe mountains?",
+          "options": [
+            "Really big hills with steep sides",
+            "Flat pieces of land under the ocean",
+            "Small holes in the desert sand"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Basically, they're just really big hills with steep sides that stretch way above the surface of the Earth."
+        },
+        {
+          "start": 81,
+          "end": 94,
+          "question": "How are plateaus different from mountains?",
+          "options": [
+            "Plateaus are made of ice",
+            "Plateaus have flat tops",
+            "Plateaus are always under water"
+          ],
+          "correctIndex": 1,
+          "keyLine": "But if mountains don't 'peak' your interest, how about plateaus? Plateaus are also tall landforms, but unlike mountains, which tend to have the pointy tops we know as peaks, plateaus have flat tops."
+        },
+        {
+          "start": 151,
+          "end": 161,
+          "question": "Where is the Sahara, the world's largest desert?",
+          "options": [
+            "In the Pacific Ocean",
+            "In Antarctica",
+            "In Northern Africa"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The world's largest desert is the Sahara in Northern Africa, where daytime temperatures can climb to a sweltering 55°C!"
+        },
+        {
+          "start": 170,
+          "end": 177,
+          "question": "Where can you find deltas?",
+          "options": [
+            "On the pointy top of a tall mountain",
+            "At the end of rivers, where they meet the ocean",
+            "In the middle of a dry sandy desert"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Islands and deltas. You'll find deltas at the mouth, or end, of rivers where they meet the ocean."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What are landforms?",
+          "options": [
+            "Natural shapes and features of the Earth's surface",
+            "Buildings, streets, and telephone poles made by people",
+            "Clouds and wind high up in the sky"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happens when magma breaks through the Earth's surface?",
+          "options": [
+            "It turns into ice and snow",
+            "It gets a new name, lava, and a volcano is born",
+            "It makes a river delta in the ocean"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What makes a piece of land an island?",
+          "options": [
+            "It has a flat top like a table",
+            "It is the hottest place on Earth",
+            "It is surrounded on all sides by water"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is cold Antarctica considered a desert just like the hot Sahara?",
+        "options": [
+          "Because a desert is any land that loses more water to the air than it gets from rain or snow",
+          "Because Antarctica has many sandy beaches and palm trees",
+          "Because volcanoes in Antarctica keep the ground dry"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "valleys",
+          "meaning": "low spaces of land between hills or mountains",
+          "at": 81
+        },
+        {
+          "word": "peaks",
+          "meaning": "the pointy tops of mountains",
+          "at": 90
+        },
+        {
+          "word": "erosion",
+          "meaning": "when wind, water, or ice slowly wears away rock and dirt",
+          "at": 109
+        },
+        {
+          "word": "magma",
+          "meaning": "hot melted rock under the Earth's surface",
+          "at": 115
+        },
+        {
+          "word": "erupts",
+          "meaning": "bursts out suddenly, like lava from a volcano",
+          "at": 135
+        }
+      ]
     }
   },
   {
@@ -1753,6 +3391,123 @@
       "id": "engineering-design-process",
       "title": "How Engineers Solve Problems",
       "order": 1
+    },
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 32,
+          "end": 39,
+          "question": "What does an engineer want to know?",
+          "options": [
+            "How and why things work",
+            "Where to buy the best pizza",
+            "How to paint pictures of animals"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The short answer is that an engineer is someone who wants to know how and why things work."
+        },
+        {
+          "start": 79,
+          "end": 89,
+          "question": "What does a civil engineer design and build?",
+          "options": [
+            "Computers and video games",
+            "Buildings, roads, and bridges",
+            "Airplanes and spaceships"
+          ],
+          "correctIndex": 1,
+          "keyLine": "I mentioned that there are different kinds of engineers, and the civil engineer is someone who designs and constructs buildings, roads and, yep, bridges."
+        },
+        {
+          "start": 129,
+          "end": 136,
+          "question": "What do electrical engineers study?",
+          "options": [
+            "Rocks and mountains",
+            "Boats and oceans",
+            "Electricity"
+          ],
+          "correctIndex": 2,
+          "keyLine": "First up, electrical engineers. Electrical engineers study electricity."
+        },
+        {
+          "start": 213,
+          "end": 221,
+          "question": "What is the most basic job of every kind of engineer?",
+          "options": [
+            "Problem-solving",
+            "Driving fast cars",
+            "Selling houses"
+          ],
+          "correctIndex": 0,
+          "keyLine": "No matter what kind of engineer someone is, their job at its most basic level is problem-solving."
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why was the Golden Gate Bridge built in San Francisco?",
+          "options": [
+            "So people could travel in and out of the city without needing a boat",
+            "To keep boats from sailing into the ocean",
+            "To give electrical engineers a place to test microwaves"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What kind of engineer was Henry Ford?",
+          "options": [
+            "A software engineer who wrote computer programs",
+            "A mechanical engineer who made affordable cars",
+            "An aerospace engineer who built spaceships"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What do software engineers do?",
+          "options": [
+            "They build tall bridges over water",
+            "They study rocks and volcanoes",
+            "They write programs for computers to make them faster and able to do more things"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why did we not have aerospace engineers over 100 years ago?",
+        "options": [
+          "Because we did not have planes like we do today or need spaceships yet",
+          "Because people did not want to travel to other places",
+          "Because all engineers only wanted to build bridges"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "communicate",
+          "meaning": "to share information or talk with other people",
+          "at": 14
+        },
+        {
+          "word": "curious",
+          "meaning": "wanting to learn or know about things",
+          "at": 44
+        },
+        {
+          "word": "constructs",
+          "meaning": "builds or makes something large like a road or bridge",
+          "at": 84
+        },
+        {
+          "word": "solution",
+          "meaning": "a way to fix or answer a problem",
+          "at": 117
+        },
+        {
+          "word": "affordable",
+          "meaning": "not too expensive, so people have enough money to buy it",
+          "at": 176
+        }
+      ]
     }
   },
   {
