@@ -27,6 +27,15 @@ describe('flight terrain decision', () => {
     await vi.advanceTimersByTimeAsync(FLIGHT_TERRAIN_TIMEOUT_MS);
     expect(await preload).toBeNull();
   });
+  it('accepts a cold route that takes longer than the former six-second cutoff', async () => {
+    vi.useFakeTimers();
+    const complete = grid();
+    vi.mocked(loadSurfaceGrid).mockImplementation(() => new Promise(resolve => setTimeout(() => resolve(complete), 25000)));
+    const pending = flightSurface(route());
+    await vi.advanceTimersByTimeAsync(25000);
+    expect(await pending).toBe(complete);
+    expect(vi.mocked(loadSurfaceGrid).mock.calls[0][1]?.aborted).toBe(false);
+  });
   it('cancels a slow load and never enables a late grid for that flight', async () => {
     vi.useFakeTimers(); let finish!: (g: SurfaceGrid) => void;
     vi.mocked(loadSurfaceGrid).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
