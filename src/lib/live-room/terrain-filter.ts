@@ -74,3 +74,30 @@ export function interiorSample(values: Float32Array, i: number, cols: number, fx
   const b = values[i + cols] + (values[i + cols + 1] - values[i + cols]) * fx;
   return a + (b - a) * fy;
 }
+
+export const CONTOUR_SCALE = 3;
+/** Monotone Hermite interpolation preserves samples/extrema: no height blur and no new summit overshoot. */
+function contourBetween(a: number, b: number, c: number, d: number, t: number): number {
+  const left = b - a, middle = c - b, right = d - c;
+  const m0 = left * middle > 0 ? 2 * left * middle / (left + middle) : 0;
+  const m1 = middle * right > 0 ? 2 * middle * right / (middle + right) : 0;
+  const t2 = t * t, t3 = t2 * t;
+  return Math.max(Math.min(b, c), Math.min(Math.max(b, c),
+    (2 * t3 - 3 * t2 + 1) * b + (t3 - 2 * t2 + t) * m0 + (-2 * t3 + 3 * t2) * c + (t3 - t2) * m1));
+}
+
+/** Cache the contour interpolant at take-off; rendering still needs only four height reads per ray. */
+export function contourElevation(source: Float32Array, rows: number, cols: number): Float32Array {
+  const scale = CONTOUR_SCALE, wide = (cols - 1) * scale + 1, tall = (rows - 1) * scale + 1;
+  const horizontal = new Float32Array(rows * wide), result = new Float32Array(tall * wide);
+  for (let r = 0; r < rows; r++) for (let x = 0; x < wide; x++) {
+    const c = Math.min(cols - 2, Math.floor(x / scale)), t = x / scale - c, i = r * cols;
+    horizontal[r * wide + x] = contourBetween(source[i + Math.max(0, c - 1)], source[i + c], source[i + c + 1], source[i + Math.min(cols - 1, c + 2)], t);
+  }
+  for (let y = 0; y < tall; y++) {
+    const r = Math.min(rows - 2, Math.floor(y / scale)), t = y / scale - r;
+    for (let c = 0; c < wide; c++) result[y * wide + c] = contourBetween(
+      horizontal[Math.max(0, r - 1) * wide + c], horizontal[r * wide + c], horizontal[(r + 1) * wide + c], horizontal[Math.min(rows - 1, r + 2) * wide + c], t);
+  }
+  return result;
+}

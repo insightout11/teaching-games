@@ -99,12 +99,12 @@ describe('voxel-space occlusion and rendering', () => {
       expect(texture.worldSize).toBe(512 * 14);
     } finally { vi.unstubAllGlobals(); }
   });
-  it('softens snow by real altitude, exposure and slope without a hard white threshold', () => {
+  it('softens snow by real altitude and slope while retaining snow cover in shadow', () => {
     expect(surfaceSnow(2400, 2500, 0.1, 1)).toBe(0);
     expect(surfaceSnow(2501, 2500, 0.1, 1)).toBeLessThan(0.001);
-    expect(surfaceSnow(3000, 2500, 0.1, 1)).toBeCloseTo(0.5);
+    expect(surfaceSnow(2750, 2500, 0.1, 1)).toBeCloseTo(0.5);
     expect(surfaceSnow(4000, 2500, 1, 1)).toBeLessThan(surfaceSnow(4000, 2500, 0.1, 1));
-    expect(surfaceSnow(4000, 2500, 0.1, -0.3)).toBe(0);
+    expect(surfaceSnow(4000, 2500, 0.1, -0.3)).toBe(surfaceSnow(4000, 2500, 0.1, 1));
   });
   it('filters texture texels continuously across wrapped boundaries', () => {
     const tex = { size: 2, worldSize: 2, mean: [0, 0, 0], pixels: new Uint8ClampedArray([0,0,0,255,100,0,0,255,200,0,0,255,100,0,0,255]) };
