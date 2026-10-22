@@ -55,7 +55,7 @@ import { coastStrip, routeLengthKm, type CoastStrip } from '@/lib/live-room/coas
 import { drawnKindOf, drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { openWindowViewChannel, WINDOW_VIEW_HEARTBEAT_MS, type WindowView } from '@/lib/live-room/window-view';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
-import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/live-room/flight/ground-texture';
+import { realCoast, realRelief, realWaters, setRealCoast, realTerrain } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
@@ -1045,12 +1045,12 @@ export function FlightDeck({
   const [coastStripData, setCoastStripData] = useState<CoastStrip | null>(null);
   useEffect(() => {
     setCoastStripData(null);
-    if (!realCoast() || flightStage === 'gate' || origin.id === destination.id) return;
+    if (!(realCoast() || realTerrain()) || origin.id === destination.id) return;
     let live = true;
     void coastStrip(origin, destination).then((c) => { if (live) setCoastStripData(c); }).catch(() => {});
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [origin.id, destination.id, flightStage === 'gate']);
+  }, [origin.id, destination.id]);
   const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : 1 / Math.max(1, flightMs), km: routeKmTotal } : null), [flightStage, routeT, flightMs, holding, routeKmTotal]);
   const [routeGround, setRouteGround] = useState<HighGround | undefined>(undefined);
   const watersStep = Math.floor(routeT * 400);

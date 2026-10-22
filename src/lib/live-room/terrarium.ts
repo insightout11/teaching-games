@@ -23,14 +23,15 @@ function tileKey(x: number, y: number): string {
 }
 function keyAt(x: number, y: number): string { return tileKey(Math.floor(x / SIZE), Math.floor(y / SIZE)); }
 
-async function readTile(key: string): Promise<Tile> {
+async function readTile(key: string, signal?: AbortSignal): Promise<Tile> {
   const [x, y] = key.split('/');
   const url = TERRAIN_SOURCE.tiles[0].replace('{z}', String(TERRARIUM_ZOOM)).replace('{x}', x).replace('{y}', y);
   // CacheStorage persists PNGs between flights/reloads. A denied storage quota still permits HTTP caching.
   const disk = await globalThis.caches?.open(CACHE_NAME).catch(() => undefined);
   let response = await disk?.match(url);
   if (!response) {
-    response = await fetch(url, { cache: 'force-cache', signal: AbortSignal.timeout(20000) });
+    signal?.throwIfAborted();
+    response = await fetch(url, { cache: 'force-cache', signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(20000)]) : AbortSignal.timeout(20000) });
     if (!response.ok) throw new Error(`Terrain tile ${key}: ${response.status}`);
     await disk?.put(url, response.clone()).catch(() => undefined);
   }
@@ -44,9 +45,9 @@ async function readTile(key: string): Promise<Tile> {
     return decodeTerrarium(ctx.getImageData(0, 0, SIZE, SIZE).data);
   } finally { bitmap.close(); }
 }
-function cachedTile(key: string): Promise<Tile> {
+function cachedTile(key: string, signal?: AbortSignal): Promise<Tile> {
   const cached = tiles.get(key); if (cached) return cached;
-  const pending = readTile(key).catch(error => { tiles.delete(key); throw error; });
+  const pending = readTile(key, signal).catch(error => { tiles.delete(key); throw error; });
   tiles.set(key, pending);
   // Bound decoded RAM; a flight owns its loaded tile map until its heightfield is built.
   if (tiles.size > 128) tiles.delete(tiles.keys().next().value!);
@@ -67,7 +68,7 @@ export function sampleTerrarium(loaded: ReadonlyMap<string, Tile>, p: LatLng): n
 }
 
 /** Take-off only. A bounded six-request pool fills the route band before rendering uses synchronous samples. */
-export async function loadTerrarium(points: Iterable<LatLng>): Promise<{ sample: (p: LatLng) => number | null; count: number; failed: number }> {
+export async function loadTerrarium(points: Iterable<LatLng>, signal?: AbortSignal): Promise<{ sample: (p: LatLng) => number | null; count: number; failed: number }> {
   const keys = new Set<string>();
   for (const p of Array.from(points)) {
     const [x, y] = terrainPixel(p), tx = Math.floor(x / SIZE), ty = Math.floor(y / SIZE);
@@ -76,10 +77,11 @@ export async function loadTerrarium(points: Iterable<LatLng>): Promise<{ sample:
   }
   const pending = Array.from(keys), loaded = new Map<string, Tile>(); let next = 0, failed = 0;
   await Promise.all(Array.from({ length: Math.min(6, pending.length) }, async () => {
-    while (next < pending.length) {
+    while (next < pending.length && !signal?.aborted) {
       const key = pending[next++];
-      try { loaded.set(key, await cachedTile(key)); } catch { failed++; }
+      try { loaded.set(key, await cachedTile(key, signal)); } catch { failed++; }
     }
   }));
+  signal?.throwIfAborted();
   return { sample: p => sampleTerrarium(loaded, p), count: loaded.size, failed };
 }

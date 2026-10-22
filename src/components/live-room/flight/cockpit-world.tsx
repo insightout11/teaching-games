@@ -1,5 +1,7 @@
 'use client';
 
+import { flightSurface } from '@/lib/live-room/flight-surface';
+
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import type { ScenePalette } from '@/components/world-flight/arrival-scene/types';
@@ -335,13 +337,13 @@ export function routeSpread(rc: RouteClock | null | undefined): number {
   return Math.max(1, VIEW_UNITS_PER_SEC / Math.max(1e-6, realUps));
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events, coastStrip = null, routeClock = null, surfaceSun, onTerrainReady }: { onTerrainReady?: () => void; surfaceSun?: { x: number; y: number; direction?: [number, number, number] }; /** The whole route's coast, worked out once at take-off (preferred over `coast`). */ coastStrip?: CoastStrip | null; /** Where the plane really is on the route: `t` (0-1) at time `at`, moving `perMs` each millisecond. */ routeClock?: RouteClock | null; /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events, coastStrip = null, routeClock = null, surfaceSun, onTerrainReady, terrainEnabled = realTerrain(), terrainRouteRequired = false, terrainPreview = false, onTerrainState }: { terrainEnabled?: boolean; terrainRouteRequired?: boolean; terrainPreview?: boolean; onTerrainState?: (state: 'off' | 'loading' | 'ready' | 'fallback') => void; onTerrainReady?: () => void; surfaceSun?: { x: number; y: number; direction?: [number, number, number] }; /** The whole route's coast, worked out once at take-off (preferred over `coast`). */ coastStrip?: CoastStrip | null; /** Where the plane really is on the route: `t` (0-1) at time `at`, moving `perMs` each millisecond. */ routeClock?: RouteClock | null; /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun, onTerrainReady });
+  const live = useRef({ speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun, onTerrainReady, terrainEnabled, onTerrainState });
   const coastStripRef = useRef(coastStrip);
   coastStripRef.current = coastStrip;
-  live.current = { speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun, onTerrainReady };
+  live.current = { speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun, onTerrainReady, terrainEnabled, onTerrainState };
   /** The plane's real place on the route, in world units along the coast strip (moves smoothly between updates). */
   const routeBase = useRef<number | null>(null);
   const routeNowU = useRef(0);
@@ -498,23 +500,29 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   const reliefPeaks = useRef<Peak[]>([]);
   const hasSurfaceRoute = useRef(!!coastStrip); hasSurfaceRoute.current = !!coastStrip;
   const surfaceGrid = useRef<SurfaceGrid | null>(null);
+  const surfaceState = useRef<'off' | 'loading' | 'ready' | 'fallback'>('off');
   const localSurface = useRef<{ grid: SurfaceGrid; camZ: number } | null>(null);
   const surfaceTextures = useRef<SurfaceTextures>(new Map());
   useEffect(() => {
     surfaceGrid.current = null;
-    if (!realTerrain() || !coastStrip) return;
+    const state = !terrainEnabled ? 'off' : coastStrip ? 'loading' : 'fallback';
+    surfaceState.current = state; live.current.onTerrainState?.(state);
+    if (!terrainEnabled || !coastStrip) return;
     let stale = false;
-    void loadSurfaceGrid(coastStrip).then(grid => {
+    void (terrainPreview ? loadSurfaceGrid(coastStrip) : flightSurface(coastStrip)).then(grid => {
       if (stale) return;
       if (grid) prepareSurfaceMaterials(grid, surfaceTextures.current, layers.current.at(-1)?.ground ?? [115, 126, 90]);
       surfaceGrid.current = grid;
-      live.current.onTerrainReady?.();
-    }).catch(() => { if (!stale) live.current.onTerrainReady?.(); });
+      surfaceState.current = grid ? 'ready' : 'fallback';
+      live.current.onTerrainState?.(surfaceState.current); live.current.onTerrainReady?.();
+    }).catch(() => {
+      if (!stale) { surfaceState.current = 'fallback'; live.current.onTerrainState?.('fallback'); live.current.onTerrainReady?.(); }
+    });
     return () => { stale = true; };
-  }, [coastStrip]);
+  }, [coastStrip, terrainEnabled, terrainPreview]);
   useEffect(() => {
-    localSurface.current = realTerrain() && highGround ? { grid: surfaceFromHighGround(highGround), camZ: cam.current } : null;
-  }, [highGround]);
+    localSurface.current = terrainEnabled && !terrainRouteRequired && highGround ? { grid: surfaceFromHighGround(highGround), camZ: cam.current } : null;
+  }, [highGround, terrainEnabled, terrainRouteRequired]);
   // The sea's texture and the land's (the latest land under the route), for painting both sides of a real coast.
   const seaRip = useRef<Rip | null>(null);
   const landRip = useRef<{ rip: Rip; terrain: Terrain } | null>(null);
@@ -531,13 +539,13 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const key = `${c.terrain}|${c.region}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
       const levels = textureCache.get(key) ?? ripChain(terrainCanvas(c.terrain, c.region, palette, night, rangeFor(c.region).floor));
       textureCache.set(key, levels);
-      if (realTerrain()) {
+      if (terrainEnabled) {
         const texture = surfaceLandTexture(c.terrain, c.region, palette, night);
         if (texture) surfaceTextures.current.set(k, texture);
       }
       stripRips.current.set(k, { w: levels.w, h: levels.h, levels: levels.levels.map((row) => row.flatMap((cv) => { const pat = ctx.createPattern(cv, 'repeat'); return pat ? [{ pat, w: cv.width, h: cv.height }] : []; })) });
     });
-  }, [coastStrip, palette, night]);
+  }, [coastStrip, palette, night, terrainEnabled]);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
   const look = useRef<{ haze: RGB; night: boolean; glow: RGB; water: RGB }>({ haze: [159, 184, 208], night, glow: [220, 200, 180], water: [60, 110, 140] });
@@ -578,7 +586,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const apply = (rc: RipCanvases) => {
       // the ground's real colour (its smallest copy, averaged): mountains and hills take some of it, so a blue-grey
       // peak no longer stands on brown desert
-      if (realTerrain()) {
+      if (terrainEnabled) {
         const texture = surfaceLandTexture(terrain, reg, palette, night);
         if (texture) surfaceTextures.current.set(`${terrain}|${reg}`, texture);
         const snow = copySurfaceTexture(iceTexture(palette, night));
@@ -641,7 +649,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       }
       layers.current.push(layer);
     }
-  }, [terrain, region, palette, night]);
+  }, [terrain, region, palette, night, terrainEnabled]);
 
   // ── One continuous render loop ─────────────────────────────────────────
   useEffect(() => {
@@ -844,7 +852,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       while (L.length > 1 && L[1].startZ + SOFT_SHORE < camZ) L.shift();
 
       const { haze, night: dark } = look.current;
-      const terrainGrid = realTerrain() ? surfaceGrid.current ?? (coastStripRef.current ? null : localSurface.current?.grid) : null;
+      const terrainGrid = live.current.terrainEnabled ? surfaceGrid.current ?? (coastStripRef.current ? null : localSurface.current?.grid) : null;
       const routeSurface = terrainGrid && terrainGrid === surfaceGrid.current;
       const surfaceAlongScale = CITY_UNITS_PER_KM * (routeSurface ? spreadRef.current : 1);
       const surfaceAhead = routeSurface ? routeNowU.current / surfaceAlongScale : (camZ - (localSurface.current?.camZ ?? camZ)) / CITY_UNITS_PER_KM;
@@ -862,12 +870,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const horizonY = h * HORIZON;
       const F = w * 0.9;
       ctx.clearRect(0, 0, w, h);
-      const cwVisible = realCoast() ? coastWorld.current : null;
+      const cwVisible = (realCoast() || surfaceActive) ? coastWorld.current : null;
       groundCtx = cwVisible ? cgctx : ctx; activeShadeCtx = cwVisible ? csctx : sctx;
       activeShadeCanvas = cwVisible ? coastShade : shade;
       if (cwVisible) cgctx.clearRect(0, 0, w, h);
       surfaceDrawn = false;
-      canvas.dataset.terrain = surfaceActive ? 'ready' : realTerrain() ? 'loading' : 'off';
+      canvas.dataset.terrain = surfaceActive ? 'ready' : live.current.terrainEnabled ? surfaceState.current : 'off';
       canvas.dataset.surfaceSource = routeSurface ? 'route' : terrainGrid ? 'local' : 'none';
       canvas.dataset.elevationSource = terrainGrid?.source ?? 'coarse';
       canvas.dataset.elevationTiles = String(terrainGrid?.tiles ?? 0);
@@ -1295,7 +1303,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           if (cellHash(ci, cj, 1) > p) return null;
           const tx = (cj + 0.2 + cellHash(ci, cj, 2) * 0.6) * TOWN_CELL, tz0 = (ci + 0.2 + cellHash(ci, cj, 3) * 0.6) * TOWN_CELL;
           // no towns on the sea of a real coast (lights floated on the water leaving Rome)
-          const cwT = realCoast() ? coastWorld.current : null;
+          const cwT = (realCoast() || surfaceActive) ? coastWorld.current : null;
           if (cwT) {
             const pz = cwT.route ? tz0 - camZ + routeUnits(cwT) : tz0;
             if (pz >= cwT.zMin && pz <= cwT.zMax && !landAt(cwT, tx, pz)) return null;
@@ -1429,7 +1437,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       });
 
       // ── Mountains and hills standing on that ground ────────────────────
-      const coastHere = realCoast() ? coastWorld.current : null;
+      const coastHere = (realCoast() || surfaceActive) ? coastWorld.current : null;
       const all: Array<{ p: Peak; layer: Layer; lm?: WorldLandmarkKind; cloud?: SkyCloud; ev?: { kind: EventKind; seed: number } }> = [];
       // Landmarks placed along the route come and pass with the real plane (in the faster scenery they rushed past in
       // seconds while their Look card stayed up for minutes: Everest 40 km away was never seen)
@@ -1440,7 +1448,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       }
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
       // Photo mode: the landmark in good view right now (close enough, inside the window), for the Take photo button
-      const chance = realTerrain() && !surfaceActive ? null : photoLandmarkId(landmarkWorld.current, camZ, F, w, Z_NEAR * 4);
+      const chance = photoLandmarkId(landmarkWorld.current, camZ, F, w, Z_NEAR * 4);
       canvas.dataset.photoChance = chance ?? '';
       if (chance !== photoChance.current) {
         photoChance.current = chance;
@@ -1557,7 +1565,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           continue;
         }
         if (lm) {
-          if (realTerrain() && naturalLandmark(lm)) {
+          if (surfaceActive && naturalLandmark(lm)) {
             const cx = w / 2 + p.x * s, cy = baseY;
             if (surfaceDrawn && cx > 20 && cx < w - 20 && cy > 12 && cy < h - 20 && visibleOnSurface(cx, cy, rz)) {
               ctx.save(); ctx.globalAlpha = Math.min(0.8, (1 - rz / Z_FAR) * 1.5);

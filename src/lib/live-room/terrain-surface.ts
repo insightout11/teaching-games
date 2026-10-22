@@ -125,8 +125,8 @@ function emptyGrid(ahead0: number, side0: number, step: number, rows: number, co
 
 const cache = new WeakMap<CoastStrip, Promise<SurfaceGrid | null>>();
 /** Load the sharper route band once at take-off; bundled elevation is an explicit offline fallback. */
-export function loadSurfaceGrid(strip: CoastStrip): Promise<SurfaceGrid | null> {
-  const cached = cache.get(strip); if (cached) return cached;
+export function loadSurfaceGrid(strip: CoastStrip, signal?: AbortSignal): Promise<SurfaceGrid | null> {
+  const cached = !signal && cache.get(strip); if (cached) return cached;
   const pending = (async () => {
     if (!strip.origin || !strip.destination) return null;
     await loadElevation();
@@ -135,7 +135,9 @@ export function loadSurfaceGrid(strip: CoastStrip): Promise<SurfaceGrid | null> 
       for (let a = -40; a <= strip.routeKm + 200; a += 12) for (let s = -160; s <= 160; s += 12)
         yield surfacePoint(from!, to!, a, s, strip.routeKm);
     }
-    const tiles = await loadTerrarium(band());
+    signal?.throwIfAborted();
+    const tiles = await loadTerrarium(band(), signal);
+    signal?.throwIfAborted();
     let missing = 0;
     const grid = buildSurfaceGrid(strip, p => {
       const height = tiles.sample(p);
@@ -147,7 +149,7 @@ export function loadSurfaceGrid(strip: CoastStrip): Promise<SurfaceGrid | null> 
     sharpenTerrainSummits(grid, from!, to!, strip.routeKm);
     return indexMax(grid);
   })();
-  cache.set(strip, pending); return pending;
+  if (!signal) cache.set(strip, pending); return pending;
 }
 
 /** A regular route mesh preserves source metres; exaggeration belongs to the view, never snow altitude. */

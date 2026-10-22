@@ -6,7 +6,7 @@ import type { WorldLandmark } from '@/components/live-room/flight/world-landmark
 import { WindowSelfieCard } from '@/components/live-room/flight/window-selfie';
 import type { SceneEvent } from '@/components/live-room/flight/event-art';
 import { CockpitWorld, type RouteClock } from '@/components/live-room/flight/cockpit-world';
-import { realCoast, setRealCoast, realTerrain, setRealTerrain } from '@/components/live-room/flight/ground-texture';
+import { realCoast, setRealCoast } from '@/components/live-room/flight/ground-texture';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
@@ -34,11 +34,10 @@ export function CoastStripGallery() {
     if (params.has('t')) setT(Math.max(0, Math.min(1, Number(params.get('t')) || 0)));
   }, []);
   useEffect(() => {
-    const previous = realCoast(), previousTerrain = realTerrain();
-    setRealTerrain(new URLSearchParams(window.location.search).get('terrain') !== 'off');
+    const previous = realCoast();
     // Preview-only coast override; restore the owner's class setting on exit.
     setRealCoast(new URLSearchParams(window.location.search).get('coast') !== 'off');
-    return () => { setRealCoast(previous); setRealTerrain(previousTerrain); };
+    return () => { setRealCoast(previous); };
   }, []);
   const [ri, setRi] = useState(0);
   const route = ROUTES[ri];
@@ -113,7 +112,7 @@ export function CoastStripGallery() {
       <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
         {query.get('selfie') && <div className="absolute right-4 top-4 z-10"><WindowSelfieCard kind={(query.get('selfie') === 'everest' ? 'everest' : query.get('selfie') === 'pyramids' ? 'pyramids' : 'fuji')} landmarkId={query.get('selfie')!} terrain="mountains" region="Asia" timeOfDay={tod} seed="terrain-preview" name="Preview" title="Window selfie" caption="Local terrain preview" /></div>}
         <CockpitSky palette={palette} timeOfDay={tod} altitude={alt} />
-        <CockpitWorld key={route.label} onTerrainReady={() => setTerrainReady(true)} altitude={alt} surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain="farmland" region="Asia" palette={palette} night={tod === 'night'} speed={0.55} cloudCover={10} coastStrip={strip} routeClock={clock} highGround={ground} landmarks={demoLandmarks} events={demoEvents} />
+        <CockpitWorld terrainPreview key={route.label} onTerrainReady={() => setTerrainReady(true)} altitude={alt} surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain="farmland" region="Asia" palette={palette} night={tod === 'night'} speed={0.55} cloudCover={10} coastStrip={strip} routeClock={clock} highGround={ground} landmarks={demoLandmarks} events={demoEvents} />
       </div>
     </div>
   );

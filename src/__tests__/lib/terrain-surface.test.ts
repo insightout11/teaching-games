@@ -18,8 +18,8 @@ function local(height: (ahead: number, side: number) => number) {
 }
 
 describe('continuous elevation in the original flight frame', () => {
-  it('keeps the feature off by default and converts real metres without changing the camera scale', () => {
-    expect(realTerrain()).toBe(false);
+  it('keeps the feature on by default and converts real metres without changing the camera scale', () => {
+    expect(realTerrain()).toBe(true);
     expect(8000 * HEIGHT_UNITS).toBe(3200);
   });
   it('keeps sun lighting relative to the plane heading and real elevation angle', () => {

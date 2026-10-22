@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const state = vi.hoisted(() => ({
+  mockMode: false,
   userId: 'teacher' as string | null,
   rows: [] as Record<string, unknown>[],
   existing: null as Record<string, unknown> | null,
@@ -8,6 +9,8 @@ const state = vi.hoisted(() => ({
   claims: 0,
   analytics: [] as Record<string, unknown>[],
 }));
+
+vi.mock('@/lib/mock/auth', () => ({ isMockMode: () => state.mockMode }));
 
 vi.mock('@/lib/supabase/server', () => ({
   createServerSupabase: () => ({ auth: { getUser: async () => ({ data: { user: state.userId ? { id: state.userId } : null } }) } }),
@@ -48,7 +51,14 @@ describe('POST /api/beta/status atomic claim', () => {
     body: JSON.stringify({ analyticsDistinctId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' }),
   });
 
-  beforeEach(() => { state.userId = 'teacher'; state.rows = []; state.existing = null; state.error = null; state.claims = 0; state.analytics = []; });
+  beforeEach(() => { state.mockMode = false; state.userId = 'teacher'; state.rows = []; state.existing = null; state.error = null; state.claims = 0; state.analytics = []; });
+
+  it('skips beta analytics in demo mode without claiming or sending an event', async () => {
+    state.mockMode = true;
+    expect(await (await POST(request())).json()).toEqual({ claimed: false });
+    expect(state.claims).toBe(0);
+    expect(state.analytics).toHaveLength(0);
+  });
 
   it('requires authentication', async () => {
     state.userId = null;

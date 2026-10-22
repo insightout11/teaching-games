@@ -664,7 +664,7 @@ export function HomeBaseBackdrop({ palette, idPrefix, ambient }: SceneLayerProps
     return (
       <g key={key}>
         <polygon points={`${cx - w} ${base}, ${cx - w * 0.28} ${ty + h * 0.22}, ${cx} ${ty}, ${cx + w * 0.36} ${ty + h * 0.28}, ${cx + w} ${base}`} fill={rock} />
-        <polygon points={`${cx} ${ty}, ${cx + w * 0.36} ${ty + h * 0.28}, ${cx + w} ${base}, ${cx + w * 0.4} ${base} Z`} fill={rockShade} />
+        <polygon points={`${cx} ${ty}, ${cx + w * 0.36} ${ty + h * 0.28}, ${cx + w} ${base}, ${cx + w * 0.4} ${base}`} fill={rockShade} />
         <polygon points={`${cx - w * 0.2} ${ty + h * 0.2}, ${cx} ${ty}, ${cx + w * 0.26} ${ty + h * 0.24}, ${cx + w * 0.16} ${ty + h * 0.32}, ${cx + w * 0.05} ${ty + h * 0.2}, ${cx - w * 0.06} ${ty + h * 0.34}, ${cx - w * 0.14} ${ty + h * 0.26}`} fill={snow} />
       </g>
     );
@@ -812,6 +812,7 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
         [0, 1, 2].map((i) => (
           <motion.ellipse
             key={i} cx={wfX - 18 + i * 18} cy={wfBot} rx={14} ry={7} fill={`url(#${mistId})`}
+            initial={{ cy: wfBot, opacity: 0.5 }}
             animate={{ cy: [wfBot, wfBot - 24], opacity: [0.5, 0] }}
             transition={{ duration: 3 + i * 0.6, repeat: Infinity, ease: 'easeOut', delay: i * 0.9 }}
           />
@@ -826,6 +827,7 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
       {ambient && [0, 1].map((i) => (
         <motion.ellipse
           key={`r${i}`} cx={wfX} cy={wfBot + 4} rx={8} ry={3} fill="none" stroke="rgba(190,235,255,0.5)" strokeWidth={1}
+          initial={{ rx: 6, ry: 2, opacity: 0.6 }}
           animate={{ rx: [6, 30], ry: [2, 9], opacity: [0.6, 0] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: i * 1.2 }}
         />
@@ -1152,6 +1154,7 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
     ambient ? (
       <motion.circle
         key={i} cx={o.x} cy={o.y} r={3} fill={rim}
+        initial={{ cy: o.y, opacity: 0.4 }}
         animate={{ cy: [o.y, o.y - 16, o.y], opacity: [0.4, 0.95, 0.4] }}
         transition={{ duration: o.d, repeat: Infinity, ease: 'easeInOut', delay: i * 0.8 }}
       />
@@ -1231,6 +1234,7 @@ function HomeBaseSkyline({ palette, rand, idPrefix, ambient }: SceneLayerProps) 
           <motion.path
             key={i}
             d={`M ${px} ${py} q 6 -5 12 0 q 6 -5 12 0`}
+            initial={{ d: `M ${px} ${py} q 6 -5 12 0 q 6 -5 12 0` }}
             fill="none" stroke="rgba(36,48,72,0.7)" strokeWidth={1.8} strokeLinecap="round"
             animate={{ d: [`M ${px} ${py} q 6 -5 12 0 q 6 -5 12 0`, `M ${px} ${py} q 6 -1 12 0 q 6 -1 12 0`] }}
             transition={{ duration: 0.55, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut', delay: (i % 2) * 0.12 }}
