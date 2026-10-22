@@ -1203,6 +1203,18 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
 
       // ── Night lights: towns and roads across the land ────────────────────────────────────────────────────────
       mark('water-shade-haze');
+      if (surfaceActive) {
+        // The flat backdrop extends beyond the heightfield's far plane. Fade those distant rows into the sky
+        // by their actual depth; an opaque first ground row otherwise leaves a pale horizontal seam.
+        const end = horizonY + frameCamH * F / (Z_FAR * 0.65);
+        const fade = groundCtx.createLinearGradient(0, horizonY, 0, end);
+        fade.addColorStop(0, 'rgba(0,0,0,1)');
+        fade.addColorStop(0.65 / 1.8, 'rgba(0,0,0,1)');
+        fade.addColorStop(0.65, 'rgba(0,0,0,0.55)');
+        fade.addColorStop(1, 'rgba(0,0,0,0)');
+        groundCtx.save(); groundCtx.globalCompositeOperation = 'destination-out'; groundCtx.fillStyle = fade;
+        groundCtx.fillRect(0, horizonY, w, end - horizonY); groundCtx.restore();
+      }
       // One upload for the complete coast ground pass, rather than synchronizing separate land/shade canvases.
       if (cwVisible && L.length) ctx.drawImage(coastGround, 0, 0, w, h);
       mark('ground-compose-upload');
