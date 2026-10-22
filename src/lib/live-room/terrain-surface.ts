@@ -209,7 +209,7 @@ export function textureChannel(tex: SurfaceTexture, u: number, v: number, channe
 
 const albedoCache = new WeakMap<SurfaceGrid, { sources: Array<SurfaceTexture | undefined>; color: Float32Array }>();
 /** Material filtering belongs to take-off/palette preparation, not to every visible ray sample. */
-function surfaceAlbedo(g: SurfaceGrid, textures: SurfaceTextures, fallback: number[]): Float32Array {
+export function prepareSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTextures, fallback: number[]): Float32Array {
   const sources = [...g.materials.map(key => textures.get(key)), textures.get('__rock'), textures.get('__forest')], old = albedoCache.get(g);
   if (old && old.sources.length === sources.length && sources.every((source, i) => source === old.sources[i])) return old.color;
   const color = new Float32Array(g.height.length * 3);
@@ -255,7 +255,7 @@ export interface SurfaceView {
 export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: SurfaceView, pixels: Uint8ClampedArray, depth: Float32Array): number {
   const { width: w, height: h, horizon, focal, cameraHeight, far, near } = view;
   pixels.fill(0); depth.fill(Infinity);
-  const albedo = surfaceAlbedo(g, textures, view.fallback);
+  const albedo = prepareSurfaceMaterials(g, textures, view.fallback);
   const snowTexture = textures.get('__snow');
   const sunUp = Math.max(0.05, view.sunDirection?.[2] ?? 1 - view.sunY);
   const sunSide = view.sunDirection?.[0] ?? (view.sunX - 0.5) * 1.5, sunAhead = view.sunDirection?.[1] ?? 0.4;

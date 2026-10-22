@@ -55,21 +55,31 @@ export function CoastStripGallery() {
     void highGroundAhead(at, heading).then(g => { if (!stale) setGround(g); });
     return () => { stale = true; };
   }, [route, groundT]);
+  const [terrainReady, setTerrainReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [minutes, setMinutes] = useState(3); // how long the fast-forward flight takes
   useEffect(() => {
-    let stale = false; setStrip(null); setGround(undefined);
+    let stale = false; setTerrainReady(false); setStrip(null); setGround(undefined);
     void coastStrip(route.from, route.to).then(value => { if (!stale) setStrip(value); });
     return () => { stale = true; };
   }, [route]);
   const [clock, setClock] = useState<RouteClock>({ at: Date.now(), t, perMs: 0 });
-  useEffect(() => { setClock({ at: Date.now(), t, perMs: playing ? 1 / (minutes * 60_000) : 0, km: strip?.routeKm }); }, [t, playing, minutes, strip]);
-  // keep the slider in step while playing
+  // The slider only observes the flight clock. It must never restart that clock on a timer tick.
+  useEffect(() => {
+    setClock({ at: Date.now(), t, perMs: playing ? 1 / (minutes * 60_000) : 0, km: strip?.routeKm, hold: !playing });
+    // t is read on control changes; seek() below updates it explicitly. Timer-driven t is display-only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playing, minutes, strip]);
   useEffect(() => {
     if (!playing) return;
-    const id = setInterval(() => setT((x) => Math.min(1, x + 1000 / (minutes * 60_000))), 1000);
+    const id = setInterval(() => setT(Math.min(1, clock.t + (Date.now() - clock.at) * clock.perMs)), 250);
     return () => clearInterval(id);
-  }, [playing, minutes]);
+  }, [playing, clock]);
+  const seek = (value: number) => {
+    setT(value);
+    setClock({ at: Date.now(), t: value, perMs: playing ? 1 / (minutes * 60_000) : 0, km: strip?.routeKm, hold: !playing });
+  };
+  const currentT = () => playing ? Math.min(1, clock.t + (Date.now() - clock.at) * clock.perMs) : t;
   const requestedTod = query.get('tod');
   const tod: TimeOfDay = requestedTod === 'dusk' || requestedTod === 'dawn' || requestedTod === 'night' ? requestedTod : 'day';
   const light = LIGHT_POS[tod];
@@ -90,18 +100,18 @@ export function CoastStripGallery() {
   const dest = WORLD_DESTINATIONS.find((d) => d.scene)!;
   const palette = useMemo(() => composeTimedPalette(tod, dest.scene!), [tod, dest]);
   return (
-    <div className="min-h-screen space-y-3 bg-[#070b14] p-4 text-white">
+    <div className="min-h-screen space-y-2 bg-[#070b14] p-3 text-white">
       <div className="flex flex-wrap items-center gap-1.5">
-        <h1 className="mr-1 font-display text-xl">Coast strip</h1>
-        {ROUTES.map((r, i) => <button key={r.label} type="button" aria-pressed={ri === i} onClick={() => { setStrip(null); setRi(i); setT(0.02); }} className={`rounded-full border px-2 py-1 text-xs ${ri === i ? 'border-amber-300/70 text-amber-100' : 'border-white/15 text-white/70'}`}>{r.label}</button>)}
-        <button type="button" onClick={() => setPlaying((p) => !p)} className="rounded-full bg-amber-300 px-3 py-1 text-xs font-semibold text-[#1b2233]">{playing ? 'Pause' : `Fly (${minutes} min)`}</button>
-        <select aria-label="Flight duration" value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="rounded bg-slate-900 px-2 py-1 text-xs"><option value={1}>1 min</option><option value={3}>3 min</option><option value={10}>10 min</option></select>
-        <span className="font-mono text-xs text-white/60">{strip ? `${Math.round(t * strip.routeKm)} of ${Math.round(strip.routeKm)} km · ${strip.land.length} land outlines` : 'working out the coast…'}</span>
+        <h1 className="mr-1 font-display text-lg">Coast strip</h1>
+        {ROUTES.map((r, i) => <button key={r.label} type="button" aria-pressed={ri === i} onClick={() => { setTerrainReady(false); setPlaying(false); setStrip(null); setRi(i); seek(0.02); }} className={`rounded-full border px-1.5 py-0.5 text-[11px] ${ri === i ? 'border-amber-300/70 text-amber-100' : 'border-white/15 text-white/70'}`}>{r.label}</button>)}
+        <button type="button" disabled={!terrainReady && query.get('terrain') !== 'off'} onClick={() => { setT(currentT()); setPlaying((p) => !p); }} className="rounded-full bg-amber-300 px-3 py-1 text-xs font-semibold text-[#1b2233]">{playing ? 'Pause' : `Fly (${minutes} min)`}</button>
+        <select aria-label="Flight duration" value={minutes} onChange={(e) => { setT(currentT()); setMinutes(Number(e.target.value)); }} className="rounded bg-slate-900 px-2 py-1 text-xs"><option value={1}>1 min</option><option value={3}>3 min</option><option value={10}>10 min</option></select>
+        <span className="font-mono text-[10px] text-white/60">{strip ? `${Math.round(t * strip.routeKm)} of ${Math.round(strip.routeKm)} km · ${strip.land.length} land outlines` : 'working out the coast…'}</span>
       </div>
-      <input type="range" min={0} max={1} step={0.002} value={t} onChange={(e) => setT(Number(e.target.value))} className="w-full" aria-label="Place on the route" />
+      <input type="range" min={0} max={1} step={0.002} value={t} onChange={(e) => seek(Number(e.target.value))} className="w-full" aria-label="Place on the route" />
       <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
         <CockpitSky palette={palette} timeOfDay={tod} altitude={alt} />
-        <CockpitWorld key={route.label} altitude={alt} surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain="farmland" region="Asia" palette={palette} night={tod === 'night'} speed={0.55} cloudCover={10} coastStrip={strip} routeClock={clock} highGround={ground} landmarks={demoLandmarks} events={demoEvents} />
+        <CockpitWorld key={route.label} onTerrainReady={() => setTerrainReady(true)} altitude={alt} surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain="farmland" region="Asia" palette={palette} night={tod === 'night'} speed={0.55} cloudCover={10} coastStrip={strip} routeClock={clock} highGround={ground} landmarks={demoLandmarks} events={demoEvents} />
       </div>
     </div>
   );

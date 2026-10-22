@@ -11,7 +11,7 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { smoothCoastRing as smoothRing, clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
-import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
+import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, prepareSurfaceMaterials, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
 import { naturalLandmark, photoLandmarkId, SUMMIT_NAMES } from '@/lib/live-room/terrain-landmarks';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
@@ -311,7 +311,7 @@ export function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, 
 }
 
 /** Where the plane really is along its route: `t` (0-1) at time `at`, advancing `perMs` per millisecond. */
-export interface RouteClock { at: number; t: number; perMs: number; /** The route's length (km), for things placed along it. */ km?: number }
+export interface RouteClock { /** Preview stills hold their exact geographic position. */ hold?: boolean; at: number; t: number; perMs: number; /** The route's length (km), for things placed along it. */ km?: number }
 
 /** The view's own pace (world units a second): the scenery's cruise speed as it always was (0.55 x CRUISE_SPEED). A
  *  lesson's flight is paced by the class, so the route (coast, landmarks, real mountains, rivers) is spread out to
@@ -324,13 +324,13 @@ export function routeSpread(rc: RouteClock | null | undefined): number {
   return Math.max(1, VIEW_UNITS_PER_SEC / Math.max(1e-6, realUps));
 }
 
-export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events, coastStrip = null, routeClock = null, surfaceSun }: { surfaceSun?: { x: number; y: number; direction?: [number, number, number] }; /** The whole route's coast, worked out once at take-off (preferred over `coast`). */ coastStrip?: CoastStrip | null; /** Where the plane really is on the route: `t` (0-1) at time `at`, moving `perMs` each millisecond. */ routeClock?: RouteClock | null; /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
+export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events, coastStrip = null, routeClock = null, surfaceSun, onTerrainReady }: { onTerrainReady?: () => void; surfaceSun?: { x: number; y: number; direction?: [number, number, number] }; /** The whole route's coast, worked out once at take-off (preferred over `coast`). */ coastStrip?: CoastStrip | null; /** Where the plane really is on the route: `t` (0-1) at time `at`, moving `perMs` each millisecond. */ routeClock?: RouteClock | null; /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
-  const live = useRef({ speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun });
+  const live = useRef({ speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun, onTerrainReady });
   const coastStripRef = useRef(coastStrip);
   coastStripRef.current = coastStrip;
-  live.current = { speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun };
+  live.current = { speed, paused, glint, altitude, cloudCover, routeClock, surfaceSun, onTerrainReady };
   /** The plane's real place on the route, in world units along the coast strip (moves smoothly between updates). */
   const routeBase = useRef<number | null>(null);
   const routeNowU = useRef(0);
@@ -493,7 +493,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     surfaceGrid.current = null;
     if (!realTerrain() || !coastStrip) return;
     let stale = false;
-    void loadSurfaceGrid(coastStrip).then(grid => { if (!stale) surfaceGrid.current = grid; }).catch(() => { /* Existing local high ground or old peaks remain available. */ });
+    void loadSurfaceGrid(coastStrip).then(grid => {
+      if (stale) return;
+      if (grid) prepareSurfaceMaterials(grid, surfaceTextures.current, layers.current.at(-1)?.ground ?? [115, 126, 90]);
+      surfaceGrid.current = grid;
+      live.current.onTerrainReady?.();
+    }).catch(() => { if (!stale) live.current.onTerrainReady?.(); });
     return () => { stale = true; };
   }, [coastStrip]);
   useEffect(() => {
@@ -808,7 +813,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       if (rcNow?.km) {
         if (rcNow.perMs > 0) spreadRef.current = routeSpread(rcNow);
         const realU = Math.max(0, Math.min(1, rcNow.t + (Date.now() - rcNow.at) * rcNow.perMs)) * rcNow.km * CITY_UNITS_PER_KM * spreadRef.current;
-        if (rcNow.perMs === 0) holdDrift.current += drawnSpeed * CRUISE_SPEED * dt * 0.12;
+        if (rcNow.hold) holdDrift.current = 0;
+        if (rcNow.perMs === 0 && !rcNow.hold) holdDrift.current += drawnSpeed * CRUISE_SPEED * dt * 0.12;
         // continuity: the route clock starts from wherever the scenery already was (no jump at take-off)
         if (routeBase.current === null) routeBase.current = cam.current - realU - holdDrift.current;
         routeNowU.current = realU + holdDrift.current;
