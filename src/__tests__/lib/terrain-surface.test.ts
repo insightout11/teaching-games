@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, textureChannel, surfaceSnow, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
+import { terrainHeight } from '@/lib/live-room/terrain-filter';
 import { routeLengthKm, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 
 const from = { lat: 47.3769, lng: 8.5417 }, to = { lat: 45.4642, lng: 9.19 };
@@ -37,10 +38,10 @@ describe('continuous elevation in the original flight frame', () => {
   it('looks ahead for higher ridges, eases without a jump, and bounds even an unexpected summit below the camera', () => {
     const g = local(a => a > 100 ? 8000 : 1000);
     expect(surfacePeakAhead(g, 0, 150, 100)).toBe(8000);
-    const target = surfaceCameraHeight(3200, 8000 * HEIGHT_UNITS * 2.2, 1);
+    const target = surfaceCameraHeight(3200, terrainHeight(8000) * HEIGHT_UNITS, 1);
     const next = easeSurfaceHeight(3200, target, 1 / 60);
     expect(next).toBeGreaterThan(3200); expect(next - 3200).toBeLessThan(70);
-    expect(8000 * HEIGHT_UNITS * safeExaggeration(next, 8000, 1)).toBeLessThanOrEqual(next - 1099);
+    expect(terrainHeight(8000, safeExaggeration(next, 8000, 1)) * HEIGHT_UNITS).toBeLessThanOrEqual(next - 1099);
     expect(easeSurfaceHeight(target, 3200, 1 / 60)).toBeLessThan(target);
   });
   it('maps along and side coordinates back to the same great-circle coast frame', () => {
@@ -61,6 +62,15 @@ describe('continuous elevation in the original flight frame', () => {
     const g = buildSurfaceGrid(strip, () => 3000);
     expect(sampleHeight(g, 100, 0)).toBeCloseTo(3000);
     expect(hasSurfaceRelief(g, 0, 150, 100)).toBe(true);
+  });
+  it('stores original metres separately and prefilters distant needles before take-off', () => {
+    const g = local((a, s) => a === 50 && s === 0 ? 8000 : 2000);
+    const i = 14 * g.cols + 30;
+    expect(g.trueHeight![i]).toBe(8000);
+    expect(g.height[i]).toBeLessThan(g.trueHeight![i]);
+    expect(g.distanceHeight![1][i]).toBeLessThan(g.distanceHeight![0][i]);
+    expect(g.distanceHeight![0][i]).toBeLessThan(g.height[i]);
+    expect(g.peak).toBe(g.height.reduce((max, value) => Math.max(max, value), 0));
   });
   it('keeps sea at zero and ramps the sampled land to the shoreline', () => {
     const g = buildSurfaceGrid({ ...strip, land: [[[-200, -100], [500, -100], [500, 100], [-200, 100]]] }, () => 3000);

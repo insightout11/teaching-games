@@ -12,6 +12,7 @@ import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { smoothCoastRing as smoothRing, clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, prepareSurfaceMaterials, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
+import { terrainHeight } from '@/lib/live-room/terrain-filter';
 import { naturalLandmark, photoLandmarkId, SUMMIT_NAMES } from '@/lib/live-room/terrain-landmarks';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
@@ -572,7 +573,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         if (texture) surfaceTextures.current.set(`${terrain}|${reg}`, texture);
         const snow = copySurfaceTexture(iceTexture(palette, night));
         if (snow) surfaceTextures.current.set('__snow', snow);
-        const rock = copySurfaceTexture(mountainTexture(palette, night, range.floor));
+        // The alpine tile includes painted snow; exposed rock must not inherit snow below its real line.
+        const rock = copySurfaceTexture(mountainTexture(palette, night, 'arid'));
         const forest = copySurfaceTexture(forestTexture(palette, night));
         if (rock) surfaceTextures.current.set('__rock', rock);
         if (forest) surfaceTextures.current.set('__forest', forest);
@@ -837,11 +839,11 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // Look well ahead before a ridge enters view. Ease the datum, and continuously cap the scale against
       // a route-wide maximum so even a slider jump cannot put a peak through the plane.
       const aheadPeak = terrainGrid ? surfacePeakAhead(terrainGrid, surfaceAhead, Z_FAR / surfaceAlongScale + 120, 150) : 0;
-      const cameraTarget = surfaceActive ? surfaceCameraHeight(camH, aheadPeak * HEIGHT_UNITS * 2.2, live.current.altitude) : camH;
+      const cameraTarget = surfaceActive ? surfaceCameraHeight(camH, terrainHeight(aheadPeak) * HEIGHT_UNITS, live.current.altitude) : camH;
       easedSurfaceH = easeSurfaceHeight(easedSurfaceH, cameraTarget, dt);
       const surfaceCamH = surfaceActive ? easedSurfaceH : camH;
       const surfaceExaggeration = terrainGrid ? safeExaggeration(surfaceCamH, terrainGrid.peak ?? aheadPeak, live.current.altitude) : 1;
-      const surfaceHeight = (x: number, z: number) => terrainGrid ? sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)) * HEIGHT_UNITS * surfaceExaggeration : 0;
+      const surfaceHeight = (x: number, z: number) => terrainGrid ? terrainHeight(sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)), surfaceExaggeration) * HEIGHT_UNITS : 0;
       const cameraGround = surfaceHeight(0, camZ);
       frameCamH = surfaceCamH;
       const horizonY = h * HORIZON;
