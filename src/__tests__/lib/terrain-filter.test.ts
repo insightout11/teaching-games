@@ -28,7 +28,7 @@ describe('cached terrain filtering', () => {
   });
   it('sets regional snow from true elevation without altering other regions', () => {
     expect(mountainSnowline(28, 87)).toBe(4900);
-    expect(mountainSnowline(46, 9)).toBe(2800);
+    expect(mountainSnowline(46, 9)).toBe(2350);
     expect(mountainSnowline(40, 14)).toBeNull();
     expect(terrainHeight(1000)).toBeCloseTo(1000 * TERRAIN_GAIN / (1 + 1000 / 18000));
     expect(terrainHeight(8000) - terrainHeight(6000)).toBeGreaterThan(terrainHeight(4000) - terrainHeight(2000));

@@ -51,7 +51,7 @@ export function medianElevation(source: Float32Array, rows: number, cols: number
 /** Regional permanent snow limits, before display exaggeration. Other regions keep their existing limit. */
 export function mountainSnowline(lat: number, lng: number): number | null {
   if (lat >= 26 && lat <= 36 && lng >= 72 && lng <= 100) return 4900;
-  if (lat >= 44 && lat <= 49 && lng >= 4 && lng <= 17) return 2800;
+  if (lat >= 44 && lat <= 49 && lng >= 4 && lng <= 17) return 2350;
   return null;
 }
 

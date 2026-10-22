@@ -1535,8 +1535,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         if (cloud) {
           const cloudProj: typeof proj = (x, z, y = 0) => proj(x, z, y === 0 ? onSurface(x, z) : y);
           ctx.save();
-          if (surfaceDrawn && cloud.y < onSurface(cloud.x, cloud.z) + 250) clipSurface(rz);
-          drawSkyCloud(ctx, cloud, cloudProj, camZ, F, skyLight, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 7000), dark);
+          // Keep the sprite's lower edge above local relief instead of cutting it with the reduced
+          // terrain depth mask. The shadow still projects onto the shared surface below it.
+          const liftedCloud = surfaceDrawn ? { ...cloud, y: Math.max(cloud.y, groundHeight + cloud.size * 0.2 + 250) } : cloud;
+          drawSkyCloud(ctx, liftedCloud, cloudProj, camZ, F, skyLight, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 7000), dark);
           ctx.restore();
           continue;
         }
