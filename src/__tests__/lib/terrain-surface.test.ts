@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
+import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
 import { routeLengthKm, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 
@@ -25,6 +25,14 @@ describe('continuous elevation in the original flight frame', () => {
     expect(surfaceLightDirection(90, 0, 90)).toEqual([0, 1, 0]);
     expect(surfaceLightDirection(180, 0, 90)[0]).toBeCloseTo(1);
     expect(surfaceLightDirection(90, 90, 90)[2]).toBeCloseTo(1);
+  });
+  it('lowers the camera during descent over high terrain while keeping clearance', () => {
+    const ground = 4500, cruise = surfaceCameraHeight(3200, ground, 1);
+    const halfway = surfaceCameraHeight(1600, ground, 0.5), low = surfaceCameraHeight(800, ground, 0.25);
+    expect(cruise).toBe(5300);
+    expect(halfway).toBeLessThan(cruise); expect(low).toBeLessThan(halfway);
+    expect(low).toBeGreaterThan(ground);
+    expect(surfaceCameraHeight(3200, 0, 1)).toBe(3200);
   });
   it('maps along and side coordinates back to the same great-circle coast frame', () => {
     const rad = Math.PI / 180;

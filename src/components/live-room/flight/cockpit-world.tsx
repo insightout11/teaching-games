@@ -11,7 +11,7 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { smoothCoastRing as smoothRing, clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
-import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceFromHighGround, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
+import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, surfaceFromHighGround, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realTerrain, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -825,7 +825,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const surfaceHeight = (x: number, z: number) => terrainGrid ? sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)) * HEIGHT_UNITS * surfaceExaggeration : 0;
       const surfaceActive = !!terrainGrid;
       const cameraGround = surfaceHeight(0, camZ);
-      const surfaceCamH = surfaceActive ? Math.max(camH, cameraGround + Math.max(800, camH * (1 - Math.min(1, live.current.altitude)))) : camH;
+      const surfaceCamH = surfaceActive ? surfaceCameraHeight(camH, cameraGround, live.current.altitude) : camH;
       frameCamH = surfaceCamH;
       const horizonY = h * HORIZON;
       const F = w * 0.9;

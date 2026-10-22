@@ -6,6 +6,10 @@ import { greatCirclePoint, type LatLng } from './route-terrain';
 
 /** Metres of real elevation to the flight's existing 400-world-units/km frame. */
 export const HEIGHT_UNITS = 0.4;
+/** Preserve a lower camera on descent even when exaggerated mountain height already exceeds cruise datum. */
+export function surfaceCameraHeight(baseHeight: number, groundHeight: number, altitude: number): number {
+  return Math.max(baseHeight, groundHeight + 800 * Math.max(0.05, Math.min(1, altitude)));
+}
 export interface SurfaceGrid {
   ahead0: number; side0: number; step: number; rows: number; cols: number;
   height: Float32Array; snowline: Float32Array;
