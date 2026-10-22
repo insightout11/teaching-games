@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ClipboardList, Eye, ImageOff, MessageCircle, Sparkles, Telescope, Vote, X, Zap } from 'lucide-react';
 import type { FactCard } from '@/lib/live-room/fact-cards';
 import type { FreePicture } from '@/lib/sources/wikimedia-images';
@@ -29,7 +29,17 @@ export function FactsBoard({ title, cards, pictures = [], onAsk, onClose, onDive
   const [open, setOpen] = useState<number | null>(null);
   // Pictures come from a free search, so the teacher can take away any that does not fit.
   const [hidden, setHidden] = useState<Set<number>>(new Set());
-  useEffect(() => { setShown(0); setOpen(null); setHidden(new Set()); }, [title]);
+  useEffect(() => { setShown(0); setOpen(null); setHidden(new Set()); opened.current = false; }, [title]);
+  // Opens straight on fact 1 (owner 22 Oct 2026: the empty numbered grid was a wasted click); the grid of all the
+  // facts stays one tap away for a recap. Cards can arrive after the title, so it opens once they are there.
+  const opened = useRef(false);
+  useEffect(() => {
+    if (opened.current || !cards.length) return;
+    opened.current = true;
+    setShown(1);
+    setOpen(0);
+  }, [cards.length, title]);
+  const go = (n: number) => { setShown((s) => Math.max(s, n + 1)); setOpen(n); };
   const picOf = (i: number) => (hidden.has(i) ? null : pictures[i] ?? null);
   const allShown = shown >= cards.length;
   const card = open !== null ? cards[open] : null;
@@ -61,7 +71,7 @@ export function FactsBoard({ title, cards, pictures = [], onAsk, onClose, onDive
       {card ? (
         // One card, big: the fact, more about it, and two questions for the class
         <div className="mx-auto w-full max-w-4xl rounded-3xl border border-white/15 bg-slate-950/65 p-6 shadow-2xl backdrop-blur-md md:p-8">
-          <button type="button" onClick={() => setOpen(null)} className="mb-4 flex w-fit items-center gap-1.5 text-sm text-white/70 hover:text-white">
+          <button type="button" onClick={() => { setShown(cards.length); setOpen(null); }} className="mb-4 flex w-fit items-center gap-1.5 text-sm text-white/70 hover:text-white">
             <ArrowLeft className="h-4 w-4" /> All the facts
           </button>
           {picOf(open!) && (
@@ -109,9 +119,28 @@ export function FactsBoard({ title, cards, pictures = [], onAsk, onClose, onDive
                 <Zap className="h-4 w-4" /> Quiz these facts
               </button>
             )}
-            <button type="button" onClick={() => { const n = (open! + 1) % cards.length; setShown((s) => Math.max(s, n + 1)); setOpen(n); }} className="ml-auto flex items-center gap-1.5 rounded-full border border-white/20 px-4 py-2 text-sm text-white/85 hover:bg-white/10">
-              {open! + 1 < cards.length ? 'Next fact' : 'First fact'} <ArrowRight className="h-4 w-4" />
-            </button>
+            {/* where you are, one tap to any fact; Previous / Next; on the last fact, Start talking */}
+            <div className="ml-auto flex items-center gap-2">
+              <span className="flex items-center gap-1.5" aria-label={`Fact ${open! + 1} of ${cards.length}`}>
+                {cards.map((c, i) => (
+                  <button key={c.headline} type="button" onClick={() => go(i)} aria-label={`Fact ${i + 1}`} className={`h-2.5 w-2.5 rounded-full ${i === open ? 'bg-amber-300' : 'bg-white/30 hover:bg-white/60'}`} />
+                ))}
+              </span>
+              {open! > 0 && (
+                <button type="button" onClick={() => go(open! - 1)} className="flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-2 text-sm text-white/85 hover:bg-white/10">
+                  <ArrowLeft className="h-4 w-4" /> Previous
+                </button>
+              )}
+              {open! + 1 < cards.length ? (
+                <button type="button" onClick={() => go(open! + 1)} className="flex items-center gap-1.5 rounded-full border border-amber-300/50 bg-amber-300/10 px-4 py-2 text-sm text-amber-50 hover:bg-amber-300/20">
+                  Next fact <ArrowRight className="h-4 w-4" />
+                </button>
+              ) : (
+                <button type="button" onClick={onClose} className="flex items-center gap-1.5 rounded-full border border-amber-300/50 bg-amber-300/10 px-4 py-2 text-sm text-amber-50 hover:bg-amber-300/20">
+                  <MessageCircle className="h-4 w-4" /> Start talking
+                </button>
+              )}
+            </div>
           </div>
         </div>
       ) : (

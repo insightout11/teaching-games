@@ -1082,8 +1082,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 for (let y = y0; y < h; y += rowH) {
                   const z = frameCamH * F / (y - horizonY);
                   if (z > Z_FAR) continue;
-                  const fogT = Math.max(0, Math.min(1, (z / Z_FAR - 0.5) * 2));
-                  const farLand = 1 - fogT * fogT * (3 - 2 * fogT);
+                  // distant land stays solid (fading it let the sea show through: Spain's coast looked like ocean far
+                  // off); the haze pass softens distance for land and sea alike
+                  const farLand = 1;
                   paintRow(land, y, z, F, camZ, farLand, !shaded, undefined, undefined, tctx, lsctx);
                 }
                 shaded = true;
