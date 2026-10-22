@@ -6,9 +6,16 @@ import { greatCirclePoint, type LatLng } from './route-terrain';
 
 /** Metres of real elevation to the flight's existing 400-world-units/km frame. */
 export const HEIGHT_UNITS = 0.4;
-/** Preserve a lower camera on descent even when exaggerated mountain height already exceeds cruise datum. */
+/** Cruise/descent datum plus clearance above the highest height in the forward view. */
 export function surfaceCameraHeight(baseHeight: number, groundHeight: number, altitude: number): number {
-  return Math.max(baseHeight, groundHeight + 800 * Math.max(0.05, Math.min(1, altitude)));
+  return Math.max(baseHeight, groundHeight + 1100 * Math.max(0.15, Math.min(1, altitude)));
+}
+export function easeSurfaceHeight(current: number, target: number, dt: number): number {
+  return current + (target - current) * (1 - Math.exp(-Math.max(0, dt) / 1.8));
+}
+/** A route-wide bound keeps the display scale continuous as new peaks enter the forward envelope. */
+export function safeExaggeration(camera: number, routePeak: number, altitude: number): number {
+  return Math.max(0.05, Math.min(2.2, (camera - 1100 * Math.max(0.15, altitude)) / Math.max(1, routePeak * HEIGHT_UNITS)));
 }
 export interface SurfaceGrid {
   ahead0: number; side0: number; step: number; rows: number; cols: number;
@@ -16,7 +23,7 @@ export interface SurfaceGrid {
   source?: 'terrarium' | 'mixed' | 'coarse'; tiles?: number; failedTiles?: number;
   /** Four normalized material weights at each vertex, rather than nearest-cell colour changes. */
   materials: string[]; kinds: Uint16Array; weights: Float32Array;
-  max: Float32Array; blockCols: number;
+  max: Float32Array; blockCols: number; peak?: number;
 }
 export interface SurfaceTexture { pixels: Uint8ClampedArray; size: number; worldSize: number; mean: number[] }
 export type SurfaceTextures = Map<string, SurfaceTexture>;
@@ -50,6 +57,7 @@ function indexMax(g: SurfaceGrid) {
     const block = Math.floor(r / 8) * g.blockCols + Math.floor(c / 8);
     g.max[block] = Math.max(g.max[block], g.height[r * g.cols + c]);
   }
+  g.peak = g.max.reduce((a, b) => Math.max(a, b), 0);
   return g;
 }
 function emptyGrid(ahead0: number, side0: number, step: number, rows: number, cols: number): SurfaceGrid {
@@ -158,13 +166,18 @@ export function sampleHeight(g: SurfaceGrid, ahead: number, side: number): numbe
     (g.height[i + g.cols] * (1 - fx) + g.height[i + g.cols + 1] * fx) * fy;
 }
 
-export function hasSurfaceRelief(g: SurfaceGrid, ahead: number, reach: number, halfWidth: number): boolean {
+export function surfacePeakAhead(g: SurfaceGrid, ahead: number, reach: number, halfWidth: number): number {
   const r0 = Math.max(0, Math.floor((ahead - g.ahead0) / (g.step * 8)));
   const r1 = Math.min(Math.ceil(g.rows / 8) - 1, Math.floor((ahead + reach - g.ahead0) / (g.step * 8)));
   const c0 = Math.max(0, Math.floor((-halfWidth - g.side0) / (g.step * 8)));
   const c1 = Math.min(g.blockCols - 1, Math.floor((halfWidth - g.side0) / (g.step * 8)));
-  for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) if (g.max[r * g.blockCols + c] > 200) return true;
-  return false;
+  let peak = 0;
+  for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) peak = Math.max(peak, g.max[r * g.blockCols + c]);
+  return peak;
+}
+
+export function hasSurfaceRelief(g: SurfaceGrid, ahead: number, reach: number, halfWidth: number): boolean {
+  return surfacePeakAhead(g, ahead, reach, halfWidth) > 200;
 }
 
 /** A disposable CPU copy, never a read from a live CanvasPattern source. */

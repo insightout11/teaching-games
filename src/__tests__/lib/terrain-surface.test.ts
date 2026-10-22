@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
+import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
 import { routeLengthKm, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 
@@ -29,10 +29,19 @@ describe('continuous elevation in the original flight frame', () => {
   it('lowers the camera during descent over high terrain while keeping clearance', () => {
     const ground = 4500, cruise = surfaceCameraHeight(3200, ground, 1);
     const halfway = surfaceCameraHeight(1600, ground, 0.5), low = surfaceCameraHeight(800, ground, 0.25);
-    expect(cruise).toBe(5300);
+    expect(cruise).toBe(5600);
     expect(halfway).toBeLessThan(cruise); expect(low).toBeLessThan(halfway);
     expect(low).toBeGreaterThan(ground);
     expect(surfaceCameraHeight(3200, 0, 1)).toBe(3200);
+  });
+  it('looks ahead for higher ridges, eases without a jump, and bounds even an unexpected summit below the camera', () => {
+    const g = local(a => a > 100 ? 8000 : 1000);
+    expect(surfacePeakAhead(g, 0, 150, 100)).toBe(8000);
+    const target = surfaceCameraHeight(3200, 8000 * HEIGHT_UNITS * 2.2, 1);
+    const next = easeSurfaceHeight(3200, target, 1 / 60);
+    expect(next).toBeGreaterThan(3200); expect(next - 3200).toBeLessThan(70);
+    expect(8000 * HEIGHT_UNITS * safeExaggeration(next, 8000, 1)).toBeLessThanOrEqual(next - 1099);
+    expect(easeSurfaceHeight(target, 3200, 1 / 60)).toBeLessThan(target);
   });
   it('maps along and side coordinates back to the same great-circle coast frame', () => {
     const rad = Math.PI / 180;

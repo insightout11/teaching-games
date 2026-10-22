@@ -11,7 +11,7 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { smoothCoastRing as smoothRing, clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
-import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, surfaceFromHighGround, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
+import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realTerrain, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -484,6 +484,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   const highGroundRef = useRef<{ g: HighGround; camZ: number } | null>(null);
   useEffect(() => { if (highGround) highGroundRef.current = { g: highGround, camZ: cam.current }; }, [highGround]);
   const reliefPeaks = useRef<Peak[]>([]);
+  const hasSurfaceRoute = useRef(!!coastStrip); hasSurfaceRoute.current = !!coastStrip;
   const surfaceGrid = useRef<SurfaceGrid | null>(null);
   const localSurface = useRef<{ grid: SurfaceGrid; camZ: number } | null>(null);
   const surfaceTextures = useRef<SurfaceTextures>(new Map());
@@ -663,7 +664,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     let w = 0, h = 0, rowH = 2;
     // Camera height: eases toward the cruise height times `altitude` (the descent brings it down slowly).
     let camH = CAM_HEIGHT * Math.max(0.2, live.current.altitude);
-    let frameCamH = camH;
+    let frameCamH = camH, easedSurfaceH = camH;
     // One matrix reused for every row (a new one per row, twice, kept the garbage collector busy mid-flight).
     const mtx = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 };
     let hazeKey = '';
@@ -817,15 +818,20 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       while (L.length > 1 && L[1].startZ + SOFT_SHORE < camZ) L.shift();
 
       const { haze, night: dark } = look.current;
-      const terrainGrid = realTerrain() ? surfaceGrid.current ?? localSurface.current?.grid : null;
+      const terrainGrid = realTerrain() ? surfaceGrid.current ?? (coastStripRef.current ? null : localSurface.current?.grid) : null;
       const routeSurface = terrainGrid && terrainGrid === surfaceGrid.current;
       const surfaceAlongScale = CITY_UNITS_PER_KM * (routeSurface ? spreadRef.current : 1);
       const surfaceAhead = routeSurface ? routeNowU.current / surfaceAlongScale : (camZ - (localSurface.current?.camZ ?? camZ)) / CITY_UNITS_PER_KM;
-      const surfaceExaggeration = terrainGrid?.source === 'terrarium' || terrainGrid?.source === 'mixed' ? 2.5 : 1;
-      const surfaceHeight = (x: number, z: number) => terrainGrid ? sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)) * HEIGHT_UNITS * surfaceExaggeration : 0;
       const surfaceActive = !!terrainGrid;
+      // Look well ahead before a ridge enters view. Ease the datum, and continuously cap the scale against
+      // a route-wide maximum so even a slider jump cannot put a peak through the plane.
+      const aheadPeak = terrainGrid ? surfacePeakAhead(terrainGrid, surfaceAhead, Z_FAR / surfaceAlongScale + 120, 150) : 0;
+      const cameraTarget = surfaceActive ? surfaceCameraHeight(camH, aheadPeak * HEIGHT_UNITS * 2.2, live.current.altitude) : camH;
+      easedSurfaceH = easeSurfaceHeight(easedSurfaceH, cameraTarget, dt);
+      const surfaceCamH = surfaceActive ? easedSurfaceH : camH;
+      const surfaceExaggeration = terrainGrid ? safeExaggeration(surfaceCamH, terrainGrid.peak ?? aheadPeak, live.current.altitude) : 1;
+      const surfaceHeight = (x: number, z: number) => terrainGrid ? sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)) * HEIGHT_UNITS * surfaceExaggeration : 0;
       const cameraGround = surfaceHeight(0, camZ);
-      const surfaceCamH = surfaceActive ? surfaceCameraHeight(camH, cameraGround, live.current.altitude) : camH;
       frameCamH = surfaceCamH;
       const horizonY = h * HORIZON;
       const F = w * 0.9;
@@ -1622,7 +1628,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       if (profileSteps) window.dispatchEvent(new CustomEvent('coast-frame-profile', { detail: {
         steps: profileSteps, frameMs: performance.now() - profileStart, maskRefreshed: profileRefreshed,
         maskPixels: [coastMask.width, coastMask.height], canvasPixels: [canvas.width, canvas.height],
-        surface: { active: surfaceActive, drawn: surfaceDrawn, source: routeSurface ? 'route' : 'local', cameraHeight: surfaceCamH, groundHeight: cameraGround, raster: [surfaceCanvas.width, surfaceCanvas.height] },
+        surface: { active: surfaceActive, drawn: surfaceDrawn, source: routeSurface ? 'route' : 'local', cameraHeight: surfaceCamH, targetHeight: cameraTarget, exaggeration: surfaceExaggeration, peakAhead: aheadPeak, peakBound: terrainGrid?.peak ?? 0, groundHeight: cameraGround, raster: [surfaceCanvas.width, surfaceCanvas.height] },
       } }));
       raf = requestAnimationFrame(frame);
     };
