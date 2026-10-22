@@ -177,7 +177,7 @@ export const WORLD_FLIGHT_MAP_STYLE: StyleSpecification = {
 
 // ── Map looks (Oct 2026): Quiz (nothing that gives the answer away), Explore (terrain and many more places) ─────────
 /** Free public elevation tiles (Mapzen terrarium on AWS open data), for shaded mountains and valleys. */
-const TERRAIN_SOURCE = {
+export const TERRAIN_SOURCE = {
   type: 'raster-dem' as const,
   tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
   encoding: 'terrarium' as const,

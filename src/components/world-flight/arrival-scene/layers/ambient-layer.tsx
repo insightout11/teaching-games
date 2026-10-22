@@ -73,6 +73,7 @@ export function AmbientLayer({ palette, rand, ambient }: SceneLayerProps) {
                 stroke="rgba(38,44,58,0.55)"
                 strokeWidth={2}
                 strokeLinecap="round"
+                initial={{ d: "M -7 0 Q 0 -6 7 0" }}
                 animate={{ d: ['M -7 0 Q 0 -6 7 0', 'M -7 0 Q 0 1 7 0', 'M -7 0 Q 0 -6 7 0'] }}
                 transition={{ duration: flap, repeat: Infinity, ease: 'easeInOut' }}
               />
