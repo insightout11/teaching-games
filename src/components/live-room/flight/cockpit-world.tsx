@@ -337,6 +337,9 @@ export function routeSpread(rc: RouteClock | null | undefined): number {
   return Math.max(1, VIEW_UNITS_PER_SEC / Math.max(1e-6, realUps));
 }
 
+/** How long newly arrived route terrain takes to fade in and rise. */
+const SURFACE_FADE_MS = 3000;
+
 export function CockpitWorld({ terrain, region, palette, night, speed, paused = false, cities, landmarks, glint, altitude = 1, cloudCover, waters, coast, highGround, events, coastStrip = null, routeClock = null, surfaceSun, onTerrainReady, terrainEnabled = realTerrain(), terrainRouteRequired = false, terrainPreview = false, onTerrainState }: { terrainEnabled?: boolean; terrainRouteRequired?: boolean; terrainPreview?: boolean; onTerrainState?: (state: 'off' | 'loading' | 'ready' | 'fallback') => void; onTerrainReady?: () => void; surfaceSun?: { x: number; y: number; direction?: [number, number, number] }; /** The whole route's coast, worked out once at take-off (preferred over `coast`). */ coastStrip?: CoastStrip | null; /** Where the plane really is on the route: `t` (0-1) at time `at`, moving `perMs` each millisecond. */ routeClock?: RouteClock | null; /** Real natural events in view (NASA EONET): smoke, ash, storm clouds. */ events?: SceneEvent[]; /** Real high ground around the plane (elevation grid): where mountains and hills stand. */ highGround?: HighGround; /** Real land outlines around the plane, in its frame (the coastline). */ coast?: Coast; /** Real rivers and lakes around the plane, in its frame (km ahead, km right). */ waters?: Waters; /** Real cloud cover (0-100): how full the sea of clouds below is. */ cloudCover?: number; /** 1 = cruise height; lower during the descent (the ground comes closer). */ altitude?: number; /** Landmarks standing in the scenery ahead (they approach and pass like the ground). */ landmarks?: WorldLandmark[]; terrain: Terrain; region?: string | null; palette: ScenePalette; night: boolean; speed: number; paused?: boolean; cities?: DistantCity[]; glint?: SeaGlint }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduce = useReducedMotion();
@@ -501,6 +504,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   const hasSurfaceRoute = useRef(!!coastStrip); hasSurfaceRoute.current = !!coastStrip;
   const surfaceGrid = useRef<SurfaceGrid | null>(null);
   const surfaceState = useRef<'off' | 'loading' | 'ready' | 'fallback'>('off');
+  // When the route terrain arrived: it fades in and its mountains rise over a few seconds, so a slow
+  // download that finishes mid-flight replaces the old scenery smoothly instead of popping in.
+  const surfaceSince = useRef(0);
   const localSurface = useRef<{ grid: SurfaceGrid; camZ: number } | null>(null);
   const surfaceTextures = useRef<SurfaceTextures>(new Map());
   useEffect(() => {
@@ -512,7 +518,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     void (terrainPreview ? loadSurfaceGrid(coastStrip) : flightSurface(coastStrip)).then(grid => {
       if (stale) return;
       if (grid) prepareSurfaceMaterials(grid, surfaceTextures.current, layers.current.at(-1)?.ground ?? [115, 126, 90]);
-      surfaceGrid.current = grid;
+      surfaceGrid.current = grid; surfaceSince.current = performance.now();
       surfaceState.current = grid ? 'ready' : 'fallback';
       live.current.onTerrainState?.(surfaceState.current); live.current.onTerrainReady?.();
     }).catch(() => {
@@ -863,7 +869,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const cameraTarget = surfaceActive ? surfaceCameraHeight(camH, terrainHeight(aheadPeak) * HEIGHT_UNITS, live.current.altitude) : camH;
       easedSurfaceH = easeSurfaceHeight(easedSurfaceH, cameraTarget, dt);
       const surfaceCamH = surfaceActive ? easedSurfaceH : camH;
-      const surfaceExaggeration = terrainGrid ? safeExaggeration(surfaceCamH, terrainGrid.peak ?? aheadPeak, live.current.altitude) : 1;
+      const riseT = routeSurface ? Math.min(1, (performance.now() - surfaceSince.current) / SURFACE_FADE_MS) : 1;
+      const surfaceRise = riseT * riseT * (3 - 2 * riseT);
+      const surfaceExaggeration = terrainGrid ? safeExaggeration(surfaceCamH, terrainGrid.peak ?? aheadPeak, live.current.altitude) * Math.max(0.02, surfaceRise) : 1;
       const surfaceHeight = (x: number, z: number) => terrainGrid ? terrainHeight(sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)), surfaceExaggeration) * HEIGHT_UNITS : 0;
       const cameraGround = surfaceHeight(0, camZ);
       frameCamH = surfaceCamH;
@@ -1255,7 +1263,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         }, surfaceImage.data, surfaceDepth) > 0;
         if (surfaceDrawn) {
           surfaceCtx.putImageData(surfaceImage, 0, 0);
-          ctx.imageSmoothingEnabled = true; ctx.drawImage(surfaceCanvas, 0, 0, w, h);
+          ctx.imageSmoothingEnabled = true; ctx.globalAlpha = surfaceRise; ctx.drawImage(surfaceCanvas, 0, 0, w, h); ctx.globalAlpha = 1;
         }
       }
       mark('terrain-surface');

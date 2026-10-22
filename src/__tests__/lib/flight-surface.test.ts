@@ -4,7 +4,7 @@ import type { SurfaceGrid } from '@/lib/live-room/terrain-surface';
 
 vi.mock('@/lib/live-room/terrain-surface', () => ({ loadSurfaceGrid: vi.fn() }));
 import { loadSurfaceGrid } from '@/lib/live-room/terrain-surface';
-import { flightSurface, FLIGHT_TERRAIN_TIMEOUT_MS } from '@/lib/live-room/flight-surface';
+import { flightSurface } from '@/lib/live-room/flight-surface';
 import { realTerrain, setRealTerrain } from '@/components/live-room/flight/ground-texture';
 
 afterEach(() => { vi.useRealTimers(); vi.clearAllMocks(); vi.unstubAllGlobals(); setRealTerrain(true); });
@@ -17,32 +17,19 @@ describe('flight terrain decision', () => {
     const a = flightSurface(strip), b = flightSurface(strip);
     expect(a).toBe(b); expect(await a).toBe(complete); expect(loadSurfaceGrid).toHaveBeenCalledTimes(1);
   });
-  it('allows boarding to preload before the take-off deadline starts', async () => {
-    vi.useFakeTimers();
-    vi.mocked(loadSurfaceGrid).mockImplementation(() => new Promise(() => {}));
-    const strip = route(), preload = flightSurface(strip, false);
-    await vi.advanceTimersByTimeAsync(20000);
-    expect(vi.mocked(loadSurfaceGrid).mock.calls[0][1]?.aborted).toBe(false);
-    expect(flightSurface(strip)).toBe(preload);
-    await vi.advanceTimersByTimeAsync(FLIGHT_TERRAIN_TIMEOUT_MS);
-    expect(await preload).toBeNull();
+  it('shares a boarding preload with the cockpit at take-off', async () => {
+    const strip = route(), complete = grid(); vi.mocked(loadSurfaceGrid).mockResolvedValue(complete);
+    const preload = flightSurface(strip, false);
+    expect(flightSurface(strip)).toBe(preload); expect(await preload).toBe(complete); expect(loadSurfaceGrid).toHaveBeenCalledTimes(1);
   });
-  it('accepts a cold route that takes longer than the former six-second cutoff', async () => {
+  it('never gives up on a slow connection: a grid that arrives minutes after take-off is still used', async () => {
     vi.useFakeTimers();
     const complete = grid();
-    vi.mocked(loadSurfaceGrid).mockImplementation(() => new Promise(resolve => setTimeout(() => resolve(complete), 25000)));
+    vi.mocked(loadSurfaceGrid).mockImplementation(() => new Promise(resolve => setTimeout(() => resolve(complete), 5 * 60_000)));
     const pending = flightSurface(route());
-    await vi.advanceTimersByTimeAsync(25000);
+    await vi.advanceTimersByTimeAsync(5 * 60_000);
     expect(await pending).toBe(complete);
-    expect(vi.mocked(loadSurfaceGrid).mock.calls[0][1]?.aborted).toBe(false);
-  });
-  it('cancels a slow load and never enables a late grid for that flight', async () => {
-    vi.useFakeTimers(); let finish!: (g: SurfaceGrid) => void;
-    vi.mocked(loadSurfaceGrid).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
-    const strip = route(), pending = flightSurface(strip);
-    await vi.advanceTimersByTimeAsync(FLIGHT_TERRAIN_TIMEOUT_MS);
-    expect(await pending).toBeNull(); expect(vi.mocked(loadSurfaceGrid).mock.calls[0][1]?.aborted).toBe(true);
-    finish(grid()); await Promise.resolve(); expect(await flightSurface(strip)).toBeNull();
+    expect(vi.mocked(loadSurfaceGrid).mock.calls[0][1]).toBeUndefined();
   });
   it.each([grid('mixed', 20, 100), grid('mixed', 3, 0), grid('coarse', 10)])('falls back when elevation largely failed %j', async bad => {
     vi.mocked(loadSurfaceGrid).mockResolvedValue(bad); expect(await flightSurface(route())).toBeNull();

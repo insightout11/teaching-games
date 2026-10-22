@@ -89,13 +89,20 @@ export function routeTileKeys(points: Iterable<LatLng>, spacingKm = 12): Set<str
 /** Take-off only. A bounded six-request pool fills the route band before rendering uses synchronous samples. */
 export async function loadTerrarium(points: Iterable<LatLng>, signal?: AbortSignal): Promise<{ sample: (p: LatLng) => number | null; count: number; failed: number }> {
   const keys = routeTileKeys(points);
-  const pending = Array.from(keys), loaded = new Map<string, Tile>(); let next = 0, failed = 0;
-  await Promise.all(Array.from({ length: Math.min(6, pending.length) }, async () => {
-    while (next < pending.length && !signal?.aborted) {
-      const key = pending[next++];
-      try { loaded.set(key, await cachedTile(key, signal)); } catch { failed++; }
-    }
-  }));
+  const loaded = new Map<string, Tile>();
+  const fetchAll = async (pending: string[]) => {
+    const failedKeys: string[] = []; let next = 0;
+    await Promise.all(Array.from({ length: Math.min(6, pending.length) }, async () => {
+      while (next < pending.length && !signal?.aborted) {
+        const key = pending[next++];
+        try { loaded.set(key, await cachedTile(key, signal)); } catch { failedKeys.push(key); }
+      }
+    }));
+    return failedKeys;
+  };
+  // One retry for tiles that failed (a dropped request on busy wifi), once the rest have arrived.
+  let failedKeys = await fetchAll(Array.from(keys));
+  if (failedKeys.length && !signal?.aborted) failedKeys = await fetchAll(failedKeys);
   signal?.throwIfAborted();
-  return { sample: p => sampleTerrarium(loaded, p), count: loaded.size, failed };
+  return { sample: p => sampleTerrarium(loaded, p), count: loaded.size, failed: failedKeys.length };
 }
