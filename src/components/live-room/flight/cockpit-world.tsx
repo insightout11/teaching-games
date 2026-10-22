@@ -703,7 +703,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       rowH = 2 / dpr;
       hazeKey = ''; nextMaskAt = 0; cacheBase = NaN;
       // Only the terrain overlay changes resolution; coast, sky and named drawings keep their existing buffers.
-      surfaceCanvas.width = Math.min(336, Math.ceil(w));
+      const requestedTerrainWidth = location.pathname === '/dev/coast-strip' ? Number(new URLSearchParams(location.search).get('terrainWidth')) : 336;
+      const terrainWidth = [336, 400, 480].includes(requestedTerrainWidth) ? requestedTerrainWidth : 336;
+      surfaceCanvas.width = Math.min(terrainWidth, Math.ceil(w));
       surfaceCanvas.height = Math.max(1, Math.ceil(surfaceCanvas.width * h / w));
       surfaceImage = surfaceCtx?.createImageData(surfaceCanvas.width, surfaceCanvas.height) ?? null;
       surfaceDepth = new Float32Array(surfaceCanvas.width * surfaceCanvas.height);

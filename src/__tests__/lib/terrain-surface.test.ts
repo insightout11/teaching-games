@@ -84,6 +84,26 @@ describe('continuous elevation in the original flight frame', () => {
 });
 
 describe('voxel-space occlusion and rendering', () => {
+  it('conservative cached bounds produce identical pixels and depth to the uncullled contour renderer', () => {
+    const g = local((a, s) => Math.max(0, 3100 + Math.sin(a * 0.13) * 1800 + Math.cos(s * 0.17) * 1400));
+    // Include a narrow ridge and the distant median blend; bounds must cover both.
+    const uncullled = { ...g, ceiling: undefined };
+    for (const ahead of [0, 17.25, 38]) for (const alongScale of [400, 1900]) {
+      const a = new Uint8ClampedArray(80 * 45 * 4), b = new Uint8ClampedArray(a.length);
+      const za = new Float32Array(80 * 45), zb = new Float32Array(za.length);
+      const camera = { ...view, width: 80, height: 45, focal: 72, horizon: 20, ahead, alongScale };
+      drawSurface(g, new Map(), camera, a, za); drawSurface(uncullled, new Map(), camera, b, zb);
+      expect(a).toEqual(b); expect(za).toEqual(zb);
+    }
+  });
+  it('widens only the snow boundary for a larger pixel footprint while retaining white interiors', () => {
+    const line = 2350, centre = line + 60;
+    expect(surfaceSnow(centre, line, 0.2, 1, 0.8, 140)).toBeCloseTo(0.5);
+    expect(surfaceSnow(centre - 70, line, 0.2, 1, 0.8, 35)).toBe(0);
+    expect(surfaceSnow(centre - 70, line, 0.2, 1, 0.8, 140)).toBeGreaterThan(0);
+    expect(surfaceSnow(centre + 400, line, 0.2, 1, 0.8, 140)).toBe(1);
+    expect(surfaceSnow(500, line, 0.1, 1, 0.8, 140)).toBe(0);
+  });
   it('reads texture pixels from a disposable reduced copy, never the live pattern source', () => {
     const source = { width: 512, getContext: vi.fn(() => { throw new Error('live texture read'); }) };
     const pixels = new Uint8ClampedArray(64 * 64 * 4).fill(120);
