@@ -23,7 +23,7 @@ export interface SurfaceGrid {
   source?: 'terrarium' | 'mixed' | 'coarse'; tiles?: number; failedTiles?: number;
   /** Four normalized material weights at each vertex, rather than nearest-cell colour changes. */
   materials: string[]; kinds: Uint16Array; weights: Float32Array;
-  max: Float32Array; blockCols: number; peak?: number;
+  max: Float32Array; blockCols: number; peak?: number; slopeX?: Float32Array; slopeZ?: Float32Array;
 }
 export interface SurfaceTexture { pixels: Uint8ClampedArray; size: number; worldSize: number; mean: number[] }
 export type SurfaceTextures = Map<string, SurfaceTexture>;
@@ -56,6 +56,12 @@ function indexMax(g: SurfaceGrid) {
   for (let r = 0; r < g.rows; r++) for (let c = 0; c < g.cols; c++) {
     const block = Math.floor(r / 8) * g.blockCols + Math.floor(c / 8);
     g.max[block] = Math.max(g.max[block], g.height[r * g.cols + c]);
+  }
+  g.slopeX = new Float32Array(g.height.length); g.slopeZ = new Float32Array(g.height.length);
+  for (let r = 1; r < g.rows - 1; r++) for (let c = 1; c < g.cols - 1; c++) {
+    const i = r * g.cols + c;
+    g.slopeX[i] = (g.height[i + 1] - g.height[i - 1]) / (g.step * 2000);
+    g.slopeZ[i] = (g.height[i + g.cols] - g.height[i - g.cols]) / (g.step * 2000);
   }
   g.peak = g.max.reduce((a, b) => Math.max(a, b), 0);
   return g;
@@ -213,7 +219,13 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   let drawn = 0;
   for (let x = 0; x < w; x++) {
     let top = h;
-    for (let z = near; z < far && top > 0; z += Math.max(90, z * 0.027)) {
+    // Fixed geographic planes: the camera slides continuously between samples instead of dragging the
+    // sampling lattice through every ridge. Half-cell spacing also prevents skipping narrow crests.
+    const march = g.step * 0.5;
+    const first = Math.ceil((view.ahead + near / view.alongScale) / march) * march;
+    for (let plane = first; top > 0; plane += march) {
+      const z = (plane - view.ahead) * view.alongScale;
+      if (z >= far) break;
       const worldX = (x + 0.5 - w / 2) * z / focal;
       const ahead = view.ahead + z / view.alongScale, side = worldX / view.sideScale;
       const r = (ahead - g.ahead0) / g.step, c = (side - g.side0) / g.step;
@@ -229,8 +241,9 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
         for (let yy = y; yy < top; yy++) depth[yy * w + x] = z;
         top = y; continue;
       }
-      const dx = ((g.height[i + 1] - g.height[i]) * (1 - fy) + (g.height[i + g.cols + 1] - g.height[i + g.cols]) * fy) / (g.step * 1000);
-      const dz = (h1 - h0) / (g.step * 1000);
+      const bilerp = (values: Float32Array) => (values[i] * (1 - fx) + values[i + 1] * fx) * (1 - fy) + (values[i + g.cols] * (1 - fx) + values[i + g.cols + 1] * fx) * fy;
+      const dx = g.slopeX ? bilerp(g.slopeX) : (g.height[i + 1] - g.height[i]) / (g.step * 1000);
+      const dz = g.slopeZ ? bilerp(g.slopeZ) : (h1 - h0) / (g.step * 1000);
       // Strong directional ridge/valley contrast, computed from real slopes before the display height scale.
       const normalScale = exaggeration * 2;
       const illumination = (-dx * normalScale * sunSide - dz * normalScale * sunAhead + sunUp) / (Math.hypot(dx * normalScale, dz * normalScale, 1) * lightLength);
