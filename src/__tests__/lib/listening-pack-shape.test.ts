@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import kidsLibrary from '@/data/kids-library.json';
 import tededLibrary from '@/data/teded-library.json';
+import natgeoLibrary from '@/data/natgeo-library.json';
 import listeningLibrary from '@/data/listening-library.json';
 import type { ListeningPack } from '@/lib/listening-pack';
 import { validPack } from '@/lib/listening-pack';
@@ -77,11 +78,12 @@ function assertValidPackShape(id: string, pack: ListeningPack | undefined) {
 }
 
 describe('listeningPack shape across libraries', () => {
-  it('validates listeningPack shape in kids, teded, and listening libraries without exact total-count assertions', () => {
+  it('validates listeningPack shape in kids, teded, natgeo, and listening libraries without exact total-count assertions', () => {
     const libraries: Array<{ name: string; entries: LibraryEntryWithPack[] }> = [
       { name: 'listening-library', entries: listeningLibrary as unknown as LibraryEntryWithPack[] },
       { name: 'kids-library', entries: kidsLibrary as unknown as LibraryEntryWithPack[] },
       { name: 'teded-library', entries: tededLibrary as unknown as LibraryEntryWithPack[] },
+      { name: 'natgeo-library', entries: natgeoLibrary as unknown as LibraryEntryWithPack[] },
     ];
 
     for (const lib of libraries) {
