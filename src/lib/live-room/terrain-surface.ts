@@ -1,4 +1,5 @@
 import { mountainClimateAt } from './land-cover';
+import { beginTerrainEdges, recordTerrainEdge, coverTerrainEdges } from './terrain-edges';
 import { elevationAt, loadElevation } from './elevation';
 import { loadTerrarium } from './terrarium';
 import { sharpenTerrainSummits } from './terrain-landmarks';
@@ -26,6 +27,8 @@ export interface SurfaceGrid {
   /** Unmodified source metres for snow; conservative median reference for the farthest skyline. */
   trueHeight?: Float32Array; distanceHeight?: [Float32Array, Float32Array];
   contourHeight?: Float32Array;
+  /** Alpine material coordinates follow the contour field, but retain unshaped source metres. */
+  snowContour?: Float32Array;
   climateDryness?: Float32Array; snowSlope?: Float32Array;
   source?: 'terrarium' | 'mixed' | 'coarse'; tiles?: number; failedTiles?: number;
   /** Four normalized material weights at each vertex, rather than nearest-cell colour changes. */
@@ -74,6 +77,8 @@ function indexMax(g: SurfaceGrid) {
   g.peak = g.max.reduce((a, b) => Math.max(a, b), 0);
   g.distanceHeight = [g.height, medianElevation(g.height, g.rows, g.cols)];
   g.contourHeight = contourElevation(g.height, g.rows, g.cols);
+  if (g.snowSlope?.some(slope => slope > 0.7))
+    g.snowContour = contourElevation(g.trueHeight ?? g.height, g.rows, g.cols);
   return g;
 }
 
@@ -297,11 +302,19 @@ const displayHeight = new Float32Array(16385), displayGradient = new Float32Arra
 for (let i = 0; i < displayHeight.length; i++) {
   displayHeight[i] = terrainHeight(i * 4, 1); displayGradient[i] = terrainGradient(i * 4, 1);
 }
-export function surfaceSnow(height: number, line: number, slope: number, _illumination: number, slopeLimit = 0.6): number {
+export function surfaceSnow(height: number, line: number, slope: number, _illumination: number, slopeLimit = 0.6, pixelBand = 35): number {
   // Exposure changes snow colour, not its presence: shaded snow must not turn into dirty bare rock.
-  const alpine = slopeLimit > 0.6;
-  const cover = smooth01((height - line) / (alpine ? 190 : 500));
-  return cover * (1 - smooth01((slope - (alpine ? 0.22 : 0.16)) / (slopeLimit - (alpine ? 0.22 : 0.16))));
+  // Regional grades are 0.8 vs Float32(0.6); compare between them, not at a rounded endpoint.
+  const alpine = slopeLimit > 0.7;
+  if (alpine) {
+    // Intersect real altitude with a snow-holding grade. Filter only the boundary's pixel footprint,
+    // rather than washing a broad range of slopes into partially white, cotton-like caps.
+    const margin = Math.min(height - line - 60, (0.48 - slope) * 1400);
+    return smooth01(0.5 + margin / (2 * Math.max(35, pixelBand)));
+  }
+  // Preserve Terrain 21's non-Alpine response, including its route-mask transition, exactly.
+  const legacyRoute = slopeLimit > 0.6, start = legacyRoute ? 0.22 : 0.16;
+  return smooth01((height - line) / (legacyRoute ? 190 : 500)) * (1 - smooth01((slope - start) / (slopeLimit - start)));
 }
 
 export interface SurfaceView {
@@ -318,6 +331,7 @@ export interface SurfaceView {
 export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: SurfaceView, pixels: Uint8ClampedArray, depth: Float32Array): number {
   const { width: w, height: h, horizon, focal, cameraHeight, far, near } = view;
   pixels.fill(0); depth.fill(Infinity);
+  const edges = beginTerrainEdges(pixels, w, h);
   const albedo = prepareSurfaceMaterials(g, textures, view.fallback);
   const sunUp = Math.max(0.05, view.sunDirection?.[2] ?? 1 - view.sunY);
   const sunSide = view.sunDirection?.[0] ?? (view.sunX - 0.5) * 1.5, sunAhead = view.sunDirection?.[1] ?? 0.4;
@@ -370,14 +384,16 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       if (heightM < 2) {
         // Near sea/flat ground occludes distant relief too. Keep its existing coast/sea pixels underneath.
         for (let yy = Math.ceil(y); yy < top; yy++) depth[yy * w + x] = z;
-        skyline[x] = y; continue;
+        edges.previous[x] = 0; skyline[x] = y; continue;
       }
       // Keep all height/depth samples, but shade at most twice per internal pixel. Reusing
       // colour for a sub-half-pixel advance preserves contour coverage without redundant lighting.
       const lastRed = redColumn[x], lastGreen = greenColumn[x], lastBlue = blueColumn[x], hasShade = hasShadeColumn[x] !== 0;
+      const previousDepth = edges.previous[x];
+      const ridgeEdge = hasShade && previousDepth > 0 && previousDepth < 30000 && z - previousDepth > Math.max(300, previousDepth * 0.045);
       let shadedY = shadedColumn[x];
       let rr = lastRed, gg = lastGreen, bb = lastBlue;
-      if (!hasShade || shadedY - y >= 0.5) {
+      if (!hasShade || shadedY - y >= 0.5 || ridgeEdge) {
         // CPU fragment equivalent: central differences at this visible height sample, not interpolated vertex normals.
         const xp = interiorSample(low, i + 1, g.cols, fx, fy), xm = interiorSample(low, i - 1, g.cols, fx, fy);
         const zp = interiorSample(low, i + g.cols, g.cols, fx, fy), zm = interiorSample(low, i - g.cols, g.cols, fx, fy);
@@ -401,10 +417,25 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
         const total = 1;
         const snowline = (g.snowline[i] * (1 - fx) + g.snowline[i + 1] * fx) * (1 - fy) + (g.snowline[i + g.cols] * (1 - fx) + g.snowline[i + g.cols + 1] * fx) * fy;
         // The snow test uses unexaggerated metres. Back-facing slopes retain exposed rock rather than a white blanket.
-        const trueHeight = interiorSample(g.trueHeight ?? g.height, i, g.cols, fx, fy);
-        // At a sharp crest central differences can cancel to zero; adjacent face grades still shed snow.
-        const faceSlope = Math.max(Math.abs(xp - h0), Math.abs(xm - h0), Math.abs(zp - h0), Math.abs(zm - h0)) / (g.step * 1000);
-        const snow = surfaceSnow(trueHeight, snowline, Math.max(Math.sqrt(slopeSquared), faceSlope), illumination, g.snowSlope ? interiorSample(g.snowSlope, i, g.cols, fx, fy) : 0.6);
+        let trueHeight: number, grade: number;
+        const snowSlope = g.snowSlope ? interiorSample(g.snowSlope, i, g.cols, fx, fy) : 0.6;
+        if (snowSlope > 0.7 && g.snowContour) {
+          const index = contourRow * contourCols + contourCol, u = cc - contourCol, v = contourFy;
+          const a = g.snowContour[index], b = g.snowContour[index + 1];
+          const c = g.snowContour[index + contourCols], d = g.snowContour[index + contourCols + 1];
+          trueHeight = (a + (b - a) * u) * (1 - v) + (c + (d - c) * u) * v;
+          const metres = g.step * 1000 / CONTOUR_SCALE;
+          const sx = ((b - a) * (1 - v) + (d - c) * v) / metres;
+          const sz = ((c - a) * (1 - u) + (d - b) * u) / metres;
+          grade = Math.sqrt(sx * sx + sz * sz);
+        } else {
+          trueHeight = interiorSample(g.trueHeight ?? g.height, i, g.cols, fx, fy);
+          // The non-Alpine mask retains Terrain 21's adjacent-face test at sharp crests.
+          const faceSlope = Math.max(Math.abs(xp - h0), Math.abs(xm - h0), Math.abs(zp - h0), Math.abs(zm - h0)) / (g.step * 1000);
+          grade = Math.max(Math.sqrt(slopeSquared), faceSlope);
+        }
+        const snowBand = snowSlope > 0.7 ? Math.min(220, Math.max(35, z / (focal * view.sideScale) * 1000 * (grade + 0.1) * 0.5)) : 35;
+        const snow = surfaceSnow(trueHeight, snowline, grade, illumination, snowSlope, snowBand);
         const exposure = snow > 0 ? smooth01((illumination + 0.1) / 0.7) : 0;
         const snowRed = view.dark ? 82 : 136 + (253 - 136) * exposure;
         const snowGreen = view.dark ? 105 : 160 + (254 - 18 * snowWarm - 160) * exposure;
@@ -416,25 +447,32 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
         bb = (blue / total * light * (1 - air) + view.haze[2] * air) * (1 - snow) + (snowBlue * (1 - snowAir) + view.haze[2] * snowAir) * snow;
         shadedY = y;
       }
+      if (ridgeEdge)
+        recordTerrainEdge(edges, x, top, previousDepth, z, lastRed, lastGreen, lastBlue, rr, gg, bb);
       const span = Math.max(1, top - y);
       for (let yy = Math.floor(y); yy < Math.ceil(top); yy++) {
         if (yy < 0 || yy >= h) continue;
         const cell = yy * w + x, p = cell * 4;
         const coverage = Math.min(yy + 1, top) - Math.max(yy, y);
         const previous = pixels[p + 3] / 255, add = Math.min(1 - previous, Math.max(0, coverage)), alpha = previous + add;
+        if (add <= 0) continue;
         if (alpha < 0.001) continue;
         // Blend sample colours down each projected segment, with fractional coverage at its skyline.
         const blend = hasShade ? Math.max(0, Math.min(1, (yy + 0.5 - y) / span)) : 0;
         const r = rr + (lastRed - rr) * blend, g = gg + (lastGreen - gg) * blend, b = bb + (lastBlue - bb) * blend;
-        pixels[p] = (pixels[p] * previous + r * add) / alpha;
-        pixels[p + 1] = (pixels[p + 1] * previous + g * add) / alpha;
-        pixels[p + 2] = (pixels[p + 2] * previous + b * add) / alpha;
+        if (add === 1) { pixels[p] = r; pixels[p + 1] = g; pixels[p + 2] = b; }
+        else {
+          pixels[p] = (pixels[p] * previous + r * add) / alpha;
+          pixels[p + 1] = (pixels[p + 1] * previous + g * add) / alpha;
+          pixels[p + 2] = (pixels[p + 2] * previous + b * add) / alpha;
+        }
         pixels[p + 3] = alpha * 255; depth[cell] = Math.min(depth[cell], z);
       }
       redColumn[x] = rr; greenColumn[x] = gg; blueColumn[x] = bb; hasShadeColumn[x] = 1; shadedColumn[x] = shadedY;
-      drawn += top - y; skyline[x] = y;
+      edges.previous[x] = z; drawn += top - y; skyline[x] = y;
     }
   }
+  coverTerrainEdges(edges, pixels);
   // Integrate the silhouette's pixel coverage across each column; no colour/height blur across ridges.
   for (let x = 1; x < w - 1; x++) {
     const centre = skyline[x], left = (skyline[x - 1] + centre) / 2, right = (centre + skyline[x + 1]) / 2;
