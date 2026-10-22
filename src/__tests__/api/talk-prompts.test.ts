@@ -14,8 +14,8 @@ describe('talk-prompts route', () => {
   it('returns three prompts with two follow-ups each', async () => {
     aiGen.mockResolvedValue([
       { prompt: 'Would you rather visit Tokyo or Paris?', followUps: ['Why?', 'Who would you take?', 'extra'] },
-      { prompt: 'What food would you try first?', followUps: ['Is it spicy?'] },
-      { prompt: 'Which festival is best?', followUps: ['When is it?', 'Have you been?'] },
+      { prompt: 'Would you rather eat sushi or tacos?', followUps: ['Is it spicy?'] },
+      { prompt: 'Would you rather see a festival or a museum?', followUps: ['When is it?', 'Have you been?'] },
       { prompt: 'dropped', followUps: [] },
     ]);
     const res = await post({ kind: 'wyr', topic: 'travel', difficulty: 'Beginner' });
@@ -34,14 +34,20 @@ describe('talk-prompts route', () => {
     ]);
     const data = await (await post({ kind: 'wyr', topic: 'animals' })).json();
     expect(data.prompts[0].options).toEqual(['Fly', 'Swim']);
-    expect(data.prompts[1].options).toBeUndefined();
-    expect(data.prompts[2].options).toBeUndefined();
+    // a would-you-rather with no two choices (in the question or the options) is dropped
+    expect(data.prompts).toHaveLength(1);
     expect(aiGen.mock.calls[0][0]).toContain('"options"');
 
     aiGen.mockResolvedValue([{ prompt: 'Tell us about a trip', followUps: [], options: ['A', 'B'] }]);
     const story = await (await post({ kind: 'story' })).json();
     expect(story.prompts[0].options).toBeUndefined();
     expect(aiGen.mock.calls[1][0]).not.toContain('"options"');
+  });
+
+  it('rebuilds a one-choice would-you-rather from its two options', async () => {
+    aiGen.mockResolvedValue([{ prompt: 'Would you rather play dominos in a sunny plaza in Madrid?', followUps: [], options: ['Play dominos', 'Visit a castle'] }]);
+    const data = await (await post({ kind: 'wyr', topic: 'Spain' })).json();
+    expect(data.prompts[0].prompt).toBe('Would you rather play dominos or visit a castle?');
   });
 
   it('rejects unknown kinds', async () => {

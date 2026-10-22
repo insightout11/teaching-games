@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { generateJSON, type AISchema } from '@/lib/ai';
 import { requireAuth, checkAndRecordAiUsage } from '@/lib/auth-credits';
 import { difficultyDescriptions, type Difficulty } from '@/lib/difficulty';
-import { cleanVoteOptions } from '@/lib/live-room/talk-vote';
+import { cleanVoteOptions, parseWouldYouRather } from '@/lib/live-room/talk-vote';
 import { lensById, lensPromptNote } from '@/lib/lens';
 
 export const dynamic = 'force-dynamic';
@@ -22,7 +22,7 @@ const KIND_BRIEF: Record<TalkKind, string> = {
   warmup: 'easy, friendly warm-up questions anyone can answer in a sentence',
   deeper: 'questions that push the conversation deeper: why, how, what if, examples from their own life',
   opinion: 'questions asking for a clear opinion and a reason',
-  wyr: '"Would you rather…?" questions with two fun, balanced options',
+  wyr: '"Would you rather…?" questions with two fun, balanced options, both named in the question and joined by "or" ("Would you rather A or B?")',
   story: 'prompts that invite a short personal story ("Tell us about a time…")',
   debate: 'debatable statements the class can agree or disagree with, phrased as a claim',
   journey: 'questions inspired by the class flight (what the plane is flying over and the city it is landing in)',
@@ -77,15 +77,24 @@ Keep everything classroom-safe. Return a JSON array of 3 objects.`;
     const items = await generateJSON<TalkPrompt[]>(prompt, schema, { temperature: 0.9 });
     const prompts = (Array.isArray(items) ? items : [])
       .filter((p) => p && typeof p.prompt === 'string' && p.prompt.trim())
-      .slice(0, 3)
       .map((p) => {
         const options = voteable ? cleanVoteOptions(p.options) : undefined;
+        let text = p.prompt.trim();
+        // a "would you rather" must name both choices ("...play dominos in a plaza in Madrid?" had only one): rebuilt
+        // from its two vote options when the question itself lacks them, dropped when there are none
+        if (kind === 'wyr' && !parseWouldYouRather(text)) {
+          if (!options) return null;
+          const low = (o: string) => o.charAt(0).toLowerCase() + o.slice(1);
+          text = `Would you rather ${low(options[0])} or ${low(options[1])}?`;
+        }
         return {
-          prompt: p.prompt.trim(),
+          prompt: text,
           followUps: (p.followUps ?? []).filter((f) => typeof f === 'string').slice(0, 2),
           ...(options ? { options } : {}),
         };
-      });
+      })
+      .filter((p): p is NonNullable<typeof p> => !!p)
+      .slice(0, 3);
     return NextResponse.json({ prompts });
   } catch {
     return NextResponse.json({ error: 'Could not write prompts right now' }, { status: 502 });
