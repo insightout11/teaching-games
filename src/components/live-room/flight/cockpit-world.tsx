@@ -268,11 +268,17 @@ function terrainCanvas(terrain: Terrain, reg: string | null, palette: ScenePalet
 }
 
 /** The average colour of a (small) canvas: the ground texture's overall colour. */
-function averageColour(c: HTMLCanvasElement): RGB | null {
+export function averageColour(c: HTMLCanvasElement): RGB | null {
   try {
-    const g = c.getContext('2d');
-    if (!g || !c.width || !c.height) return null;
-    const d = g.getImageData(0, 0, c.width, c.height).data;
+    if (!c.width || !c.height) return null;
+    // Never read a live texture: Chrome can move its backing store to the CPU, slowing every pattern draw.
+    // Copy first and read only the disposable probe; the texture stays available to the GPU.
+    const probe = document.createElement('canvas');
+    probe.width = c.width; probe.height = c.height;
+    const g = probe.getContext('2d', { willReadFrequently: true });
+    if (!g) return null;
+    g.drawImage(c, 0, 0);
+    const d = g.getImageData(0, 0, probe.width, probe.height).data;
     let r = 0, gr = 0, b = 0, n = 0;
     for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 8) continue; r += d[i]; gr += d[i + 1]; b += d[i + 2]; n++; }
     return n ? [Math.round(r / n), Math.round(gr / n), Math.round(b / n)] : null;
