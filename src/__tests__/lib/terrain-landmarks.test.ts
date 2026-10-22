@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { naturalLandmark, photoLandmarkId, sharpenTerrainSummits, terrainRouteLandmarks } from '@/lib/live-room/terrain-landmarks';
+import { naturalLandmark, photoLandmarkId, sharpenTerrainSummits, selfieTerrainRoute, terrainRouteLandmarks } from '@/lib/live-room/terrain-landmarks';
 import { surfaceFromHighGround } from '@/lib/live-room/terrain-surface';
 import { routeLengthKm } from '@/lib/live-room/coast-strip';
 
@@ -18,6 +18,12 @@ describe('natural landmarks in the terrain', () => {
     expect(Math.max(...Array.from(g.height))).toBe(3120);
     expect(g.height[0]).toBe(3000);
     expect(g.height.filter(h => h !== 3000).length).toBeLessThan(20);
+  });
+  it('gives selfie cards a fixed real view through the same catalogue landmark', () => {
+    const view = selfieTerrainRoute('everest', 'everest')!;
+    expect(view.id).toBe('everest'); expect(view.from.lng).toBeCloseTo(86.925);
+    expect((view.from.lat + view.to.lat) / 2).toBeCloseTo(27.9881);
+    expect(selfieTerrainRoute('pyramids')?.id).toBe('pyramids');
   });
   it('finds photo opportunities by position regardless of how a landmark is drawn', () => {
     const landmarks = new Map([['everest', {x: 0,z: 20000}], ['fuji', {x: 100,z: 15000}], ['pyramids', {x: 0,z: 30000}]]);

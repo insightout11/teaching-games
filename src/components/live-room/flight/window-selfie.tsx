@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CockpitSky } from '@/components/live-room/flight/cockpit-sky';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
@@ -8,6 +8,10 @@ import type { WorldLandmarkKind } from '@/components/live-room/flight/world-land
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
+import { realTerrain } from '@/components/live-room/flight/ground-texture';
+import { selfieTerrainRoute } from '@/lib/live-room/terrain-landmarks';
+import { coastStrip, type CoastStrip } from '@/lib/live-room/coast-strip';
+import type { RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 
 /**
@@ -19,15 +23,24 @@ import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 const TIMES: TimeOfDay[] = ['dawn', 'day', 'dusk', 'night'];
 const asTime = (t: string): TimeOfDay => (TIMES.includes(t as TimeOfDay) ? (t as TimeOfDay) : 'day');
 
-function WindowView({ kind, terrain, region, tod }: { kind: WorldLandmarkKind; terrain: Terrain; region: string | null; tod: TimeOfDay }) {
+function WindowView({ kind, landmarkId, terrain, region, tod }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: Terrain; region: string | null; tod: TimeOfDay }) {
   const scene = (WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0]).scene!;
   const palette = useMemo(() => composeTimedPalette(tod, scene), [tod, scene]);
-  const landmarks = useMemo(() => [{ id: 'selfie', kind, ahead: 20, lateral: 1.5 }], [kind]);
+  const route = useMemo(() => realTerrain() ? selfieTerrainRoute(kind, landmarkId) : null, [kind, landmarkId]);
+  const [strip, setStrip] = useState<CoastStrip | null>(null);
+  useEffect(() => {
+    setStrip(null); if (!route) return;
+    let stale = false;
+    void coastStrip(route.from, route.to).then(s => { if (!stale) setStrip(s); }).catch(() => {});
+    return () => { stale = true; };
+  }, [route]);
+  const clock = useMemo<RouteClock | null>(() => strip ? { at: Date.now(), t: Math.max(0, 0.5 - 20 / strip.routeKm), perMs: 0, km: strip.routeKm, hold: true } : null, [strip]);
+  const landmarks = useMemo(() => [{ id: route?.id ?? 'selfie', kind, ahead: 20, lateral: route ? 0 : 1.5, ...(strip ? { along: strip.routeKm * 0.5 } : {}) }], [kind, route, strip]);
   return (
     <div className="absolute inset-x-0" style={{ top: '-38%', height: '138%' }}>
       {/* looking down and out: the horizon sits high in a passenger window */}
       <CockpitSky palette={palette} timeOfDay={tod} altitude={0.85} />
-      <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={0.0001} altitude={0.85} cloudCover={5} landmarks={landmarks} />
+      <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={0.0001} altitude={0.85} cloudCover={5} coastStrip={strip} routeClock={clock} landmarks={landmarks} />
       <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 h-[42%] w-full" aria-hidden>
         <defs><linearGradient id="selfie-wing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#e9eef4" /><stop offset="1" stopColor="#9aa7b6" /></linearGradient></defs>
         <path d="M0 38 L74 50 L80 47 L86 50 L84 53 L0 60 Z" fill="url(#selfie-wing)" />
@@ -38,14 +51,14 @@ function WindowView({ kind, terrain, region, tod }: { kind: WorldLandmarkKind; t
   );
 }
 
-export function WindowSelfieCard({ kind, terrain, region, timeOfDay, seed, name, title, caption }: { kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string }) {
+export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay, seed, name, title, caption }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string }) {
   const tod = asTime(timeOfDay);
   return (
     <div className="w-[284px] rounded-sm bg-white p-2 pb-3 text-[#1b2233] shadow-xl">
       <div className="relative h-[300px] overflow-hidden" style={{ background: 'linear-gradient(180deg,#e7e2d8,#cfc8bb)' }}>
         <div className="absolute left-[106px] top-5 h-[220px] w-[160px] rounded-[46%/38%] bg-[#d9dde3] p-[7%] shadow-[inset_0_2px_6px_rgba(0,0,0,0.25)]">
           <div className="relative h-full w-full overflow-hidden rounded-[46%/38%] shadow-[inset_0_0_24px_rgba(0,0,0,0.55)]">
-            <WindowView kind={kind} terrain={terrain as Terrain} region={region} tod={tod} />
+            <WindowView kind={kind} landmarkId={landmarkId} terrain={terrain as Terrain} region={region} tod={tod} />
             <div className="pointer-events-none absolute inset-0 rounded-[46%/38%] bg-[linear-gradient(130deg,rgba(255,255,255,0.18),transparent_40%)]" />
           </div>
         </div>

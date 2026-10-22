@@ -58,3 +58,10 @@ export function photoLandmarkId(landmarks: ReadonlyMap<string, { x: number; z: n
   });
   return result;
 }
+
+/** A quiet, fixed side-window view at the same real landmark, for the existing selfie card. */
+export function selfieTerrainRoute(kind: WorldLandmarkKind, id?: string): { from: LatLng; to: LatLng; id: string } | null {
+  const place = LANDMARK_CATALOG.find(l => l.id === id) ?? LANDMARK_CATALOG.find(l => drawnKindOf(l.id) === kind);
+  if (!place) return null;
+  return { id: place.id, from: { lat: place.lat - 0.25, lng: place.lng }, to: { lat: place.lat + 0.25, lng: place.lng } };
+}

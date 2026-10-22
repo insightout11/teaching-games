@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CockpitSky, LIGHT_POS } from '@/components/live-room/flight/cockpit-sky';
 import type { WorldLandmark } from '@/components/live-room/flight/world-landmarks';
+import { WindowSelfieCard } from '@/components/live-room/flight/window-selfie';
 import type { SceneEvent } from '@/components/live-room/flight/event-art';
 import { CockpitWorld, type RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { realCoast, setRealCoast, realTerrain, setRealTerrain } from '@/components/live-room/flight/ground-texture';
@@ -110,6 +111,7 @@ export function CoastStripGallery() {
       </div>
       <input type="range" min={0} max={1} step={0.002} value={t} onChange={(e) => seek(Number(e.target.value))} className="w-full" aria-label="Place on the route" />
       <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
+        {query.get('selfie') && <div className="absolute right-4 top-4 z-10"><WindowSelfieCard kind={(query.get('selfie') === 'everest' ? 'everest' : query.get('selfie') === 'pyramids' ? 'pyramids' : 'fuji')} landmarkId={query.get('selfie')!} terrain="mountains" region="Asia" timeOfDay={tod} seed="terrain-preview" name="Preview" title="Window selfie" caption="Local terrain preview" /></div>}
         <CockpitSky palette={palette} timeOfDay={tod} altitude={alt} />
         <CockpitWorld key={route.label} onTerrainReady={() => setTerrainReady(true)} altitude={alt} surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain="farmland" region="Asia" palette={palette} night={tod === 'night'} speed={0.55} cloudCover={10} coastStrip={strip} routeClock={clock} highGround={ground} landmarks={demoLandmarks} events={demoEvents} />
       </div>

@@ -1424,7 +1424,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       }
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
       // Photo mode: the landmark in good view right now (close enough, inside the window), for the Take photo button
-      const chance = photoLandmarkId(landmarkWorld.current, camZ, F, w, Z_NEAR * 4);
+      const chance = realTerrain() && !surfaceActive ? null : photoLandmarkId(landmarkWorld.current, camZ, F, w, Z_NEAR * 4);
       canvas.dataset.photoChance = chance ?? '';
       if (chance !== photoChance.current) {
         photoChance.current = chance;
