@@ -18,7 +18,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Is sunshine or food more important to a plant?"
+    "flightQuestion": "Is sunshine or food more important to a plant?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 37,
+          "end": 46,
+          "question": "Why do our bodies need the energy from food?",
+          "options": [
+            "To grow, move, and stay warm",
+            "To sleep all day and night",
+            "To change the color of our eyes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "We eat because we need food to live. More exactly, we need the energy that food gives our bodies to grow, move, and stay warm."
+        },
+        {
+          "start": 60,
+          "end": 71,
+          "question": "Why do rocks never need lunch?",
+          "options": [
+            "Because they only eat at night",
+            "Because they are nonliving things",
+            "Because they are already full"
+          ],
+          "correctIndex": 1,
+          "keyLine": "You may have noticed that your collection of cool rocks that you have under your bed never needs a lunch of club sandwiches and baby carrots. That's because they're nonliving things."
+        },
+        {
+          "start": 91,
+          "end": 99,
+          "question": "Where do plants get most of their food?",
+          "options": [
+            "From bugs, rocks, and wind",
+            "From sandwiches and carrots",
+            "From the sun, water, and carbon dioxide in the air"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Plants get most of their food from the sun, water, and carbon dioxide in the air."
+        },
+        {
+          "start": 147,
+          "end": 154,
+          "question": "In the plant test, what happened to Plant 2 (the plant with extra food)?",
+          "options": [
+            "It grew bigger than Plant 1",
+            "It stayed the same size as Plant 1",
+            "It stopped growing completely"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Well, what you'd find is that plant two grew bigger than plant one."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main idea of this video?",
+          "options": [
+            "All living things need food to get energy to live and grow",
+            "Only animals that eat meat need energy",
+            "How to cook a pizza for lunch"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Do plants need food like animals do?",
+          "options": [
+            "No, because plants do not have mouths",
+            "Yes, plants need food to grow and repair themselves",
+            "Only when they are kept inside plastic cups"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What did the four-week lima bean test show?",
+          "options": [
+            "Plants do not need water or sunlight",
+            "Rocks can grow if they get plant food",
+            "With more food, a plant gets more energy and grows bigger"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why was Plant 1 called the 'control' in the investigation?",
+        "options": [
+          "Because it got no extra food, only water and sunlight, so it could be compared to Plant 2",
+          "Because it was given twice as much liquid fertilizer as Plant 2",
+          "Because it was kept in a dark room with no water"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "energy",
+          "meaning": "the power from food that helps living things grow, move, and stay alive",
+          "at": 41
+        },
+        {
+          "word": "living thing",
+          "meaning": "something that is alive, like a person, animal, or plant",
+          "at": 59
+        },
+        {
+          "word": "nonliving thing",
+          "meaning": "something that is not alive, like a rock",
+          "at": 68
+        },
+        {
+          "word": "repair",
+          "meaning": "to fix something that is hurt or broken",
+          "at": 80
+        },
+        {
+          "word": "nutrients",
+          "meaning": "good things in food that help plants and animals grow",
+          "at": 104
+        }
+      ]
+    }
   },
   {
     "id": "kids_here_comes_the_sun",
@@ -39,7 +156,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Would you rather play outside at sunrise or sunset?"
+    "flightQuestion": "Would you rather play outside at sunrise or sunset?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 10,
+          "end": 20,
+          "question": "What is the closest star to Earth?",
+          "options": [
+            "The Moon",
+            "Sol, which is the Sun",
+            "Mars"
+          ],
+          "correctIndex": 1,
+          "keyLine": "What's the closest star to Earth? It's called Sol. Never heard of it, you say? Sure you have. Sol is the Sun."
+        },
+        {
+          "start": 53,
+          "end": 63,
+          "question": "What is the hottest part of the Sun?",
+          "options": [
+            "Its core, or center",
+            "Its outside surface",
+            "Its rings of ice"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The hottest part of the Sun is its core, or center, which is about 15 million degrees Celsius."
+        },
+        {
+          "start": 80,
+          "end": 92,
+          "question": "Why does the Sun look so much bigger and brighter than other stars?",
+          "options": [
+            "Because it is the only star in space",
+            "Because it is made of cold water",
+            "Because it is so close to us on Earth"
+          ],
+          "correctIndex": 2,
+          "keyLine": "But the Sun's size isn't what makes it seem so big and bright to us on Earth. It's because it's so close to us that it seems way, way, way, way bigger and brighter than other stars."
+        },
+        {
+          "start": 130,
+          "end": 142,
+          "question": "Once light leaves the Sun's surface, how long does it take to travel to Earth?",
+          "options": [
+            "About 100,000 years",
+            "About eight minutes",
+            "About five billion years"
+          ],
+          "correctIndex": 1,
+          "keyLine": "In fact, it only takes about eight minutes for light to travel approximately 150 million kilometers through space to Earth over here."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "What the Sun is and how its energy travels to Earth",
+            "How ancient Romans built houses",
+            "How to travel to all eight planets in a spaceship"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What two kinds of energy do we get from the Sun?",
+          "options": [
+            "Wind and water",
+            "Heat and light",
+            "Ice and snow"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What would Earth be like without the Sun?",
+          "options": [
+            "A very hot desert with too many plants",
+            "Brighter and warmer than it is today",
+            "A dark, frozen world with no life"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How is the trip of energy inside the Sun different from its trip from the Sun's surface to Earth?",
+        "options": [
+          "It takes over 100,000 years to travel from the core to the surface, but only about 8 minutes to travel from the surface to Earth",
+          "It moves very fast inside the Sun, but takes 100,000 years to cross space to Earth",
+          "Both trips take about eight minutes"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "star",
+          "meaning": "a huge ball of hot gas in space that gives off light",
+          "at": 12
+        },
+        {
+          "word": "solar system",
+          "meaning": "the Sun and the eight planets that move around it",
+          "at": 27
+        },
+        {
+          "word": "core",
+          "meaning": "the center or deepest inside part of something",
+          "at": 56
+        },
+        {
+          "word": "surface",
+          "meaning": "the outside part or top layer of something",
+          "at": 63
+        },
+        {
+          "word": "frozen",
+          "meaning": "turned into ice; very, very cold",
+          "at": 38
+        }
+      ]
+    }
   },
   {
     "id": "kids_fabulous_food_chains",
@@ -60,7 +294,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Should people help when a food chain loses an animal?"
+    "flightQuestion": "Should people help when a food chain loses an animal?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 55,
+          "end": 61,
+          "question": "What does a food chain show?",
+          "options": [
+            "How energy flows between living things",
+            "Where to buy pizza and tacos",
+            "How rocks and water make mountains"
+          ],
+          "correctIndex": 0,
+          "keyLine": "A food chain is a model that shows how energy flows between living things."
+        },
+        {
+          "start": 61,
+          "end": 70,
+          "question": "What do scientists call the neighborhood where plants and animals live?",
+          "options": [
+            "A diagram",
+            "A habitat",
+            "A supermarket"
+          ],
+          "correctIndex": 1,
+          "keyLine": "You can think of animals and plants in the same food chain as all living in the same neighborhood, which scientists call a habitat."
+        },
+        {
+          "start": 121,
+          "end": 127,
+          "question": "Where does all of the energy in a food chain start?",
+          "options": [
+            "With hawks",
+            "With rabbits",
+            "With the Sun"
+          ],
+          "correctIndex": 2,
+          "keyLine": "First, all of the energy that's in a food chain starts with the Sun."
+        },
+        {
+          "start": 146,
+          "end": 155,
+          "question": "In the grass, rabbit, and hawk example, what happens when the hawk eats the rabbit?",
+          "options": [
+            "The energy from the rabbit goes to the grass",
+            "The energy from the rabbit is transferred to the hawk",
+            "All the energy disappears"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Now, if a hungry hawk decides that the rabbit would make a yummy supper, then the energy from the rabbit is transferred to the hawk."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main topic of this video?",
+          "options": [
+            "How energy moves from the Sun to plants and animals in a food chain",
+            "Why rabbits are faster than hawks",
+            "How to grow grass in a garden"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is an ecosystem?",
+          "options": [
+            "A place with only rocks and water and no living things",
+            "A system of living things interacting with each other and the nonliving environment around them",
+            "A kind of food that only humans eat"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "In the food chain diagram in the video, what is the order of energy flow?",
+          "options": [
+            "Hawk -> Rabbit -> Grass -> Sun",
+            "Rabbit -> Sun -> Grass -> Hawk",
+            "Sun -> Grass -> Rabbit -> Hawk"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why are most living things in more than one food chain?",
+        "options": [
+          "Because they eat different kinds of food at different times instead of eating the exact same thing every meal",
+          "Because they move to a new planet every week",
+          "Because plants can eat hawks and rabbits"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "food chain",
+          "meaning": "a model that shows what eats what and how energy moves between living things",
+          "at": 57
+        },
+        {
+          "word": "habitat",
+          "meaning": "the natural home or neighborhood where a plant or animal lives",
+          "at": 68
+        },
+        {
+          "word": "system",
+          "meaning": "a group of different things that work together as a whole",
+          "at": 75
+        },
+        {
+          "word": "ecosystem",
+          "meaning": "all the living things in a place working together with the nonliving things around them",
+          "at": 91
+        },
+        {
+          "word": "transferred",
+          "meaning": "moved from one place or living thing to another",
+          "at": 145
+        }
+      ]
+    }
   },
   {
     "id": "kids_defining_gravity",
@@ -81,7 +432,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Could anything stay on Earth without gravity?"
+    "flightQuestion": "Could anything stay on Earth without gravity?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 33,
+          "end": 39,
+          "question": "What does gravity do to everything on Earth?",
+          "options": [
+            "It pulls everything toward the ground",
+            "It pushes everything out into space",
+            "It makes everything invisible"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Gravity is what pulls everything toward the ground, including you."
+        },
+        {
+          "start": 55,
+          "end": 63,
+          "question": "Who was the first scientist to seriously study gravity over 300 years ago?",
+          "options": [
+            "Albert Einstein",
+            "Isaac Newton",
+            "Galileo"
+          ],
+          "correctIndex": 1,
+          "keyLine": "An English scientist named Isaac Newton was the first person to seriously study gravity over 300 years ago."
+        },
+        {
+          "start": 108,
+          "end": 114,
+          "question": "What rule did Sir Isaac Newton figure out about things that go up?",
+          "options": [
+            "What goes up stays in the air forever",
+            "Only heavy things come back down",
+            "What goes up must come down"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Basically, he determined that what goes up must come down."
+        },
+        {
+          "start": 148,
+          "end": 161,
+          "question": "When the speaker throws a tennis ball to the left or to the right, where does it go?",
+          "options": [
+            "It goes down to the ground",
+            "It floats up into the clouds",
+            "It stays in the air in front of her"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Now, throw it to your left. Ball down. Pitch it to the right. And watch it go down again. No matter where you throw the ball, it's going down."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "How to win the lottery and jump high",
+            "How gravity pulls objects toward Earth so they fall down",
+            "How to play tennis outside"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What would happen if there were no gravity on Earth?",
+          "options": [
+            "Everything would be stuck to the ground and unable to move",
+            "Apples would grow much bigger on trees",
+            "Air, water, animals, and everything else would fly off into space"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "In the famous story about Isaac Newton, what fell on his head and made him think about gravity?",
+          "options": [
+            "An apple",
+            "A bowling ball",
+            "A tennis ball"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Does an object have to be heavy for gravity to pull it down?",
+        "options": [
+          "Yes, gravity only pulls heavy things like bowling balls",
+          "No, whether it is an apple, a bowling ball, or a light feather, gravity pulls it down when let go",
+          "Yes, light things like feathers always float into space"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "gravity",
+          "meaning": "the invisible force that pulls objects toward Earth",
+          "at": 33
+        },
+        {
+          "word": "floating",
+          "meaning": "moving slowly in the air or space without falling down",
+          "at": 25
+        },
+        {
+          "word": "invisible",
+          "meaning": "something you cannot see with your eyes",
+          "at": 50
+        },
+        {
+          "word": "scientist",
+          "meaning": "a person who studies nature and how the world works",
+          "at": 56
+        },
+        {
+          "word": "feather",
+          "meaning": "one of the very light, soft parts that cover a bird's body",
+          "at": 103
+        }
+      ]
+    }
   },
   {
     "id": "kids_weathering_erosion",
@@ -102,7 +570,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Would you rather explore a river valley or a mountain?"
+    "flightQuestion": "Would you rather explore a river valley or a mountain?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 86,
+          "end": 92,
+          "question": "What is mechanical weathering?",
+          "options": [
+            "The process of breaking big rocks into little ones",
+            "Turning small pebbles into giant mountains",
+            "Painting rocks different colors"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Mechanical weathering is the process of breaking big rocks into little ones."
+        },
+        {
+          "start": 120,
+          "end": 128,
+          "question": "In the video's example, how are weathering and erosion different?",
+          "options": [
+            "Weathering glues rocks together, and erosion paints them",
+            "Weathering is like a hammer that breaks down rocks, and erosion carries the pieces away",
+            "Weathering only happens in winter, and erosion only happens in summer"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Think of weathering as the hammer that breaks down the rocks. Erosion is the process that carries those rock fragments away."
+        },
+        {
+          "start": 154,
+          "end": 166,
+          "question": "In the space photos of Cape Cod, what changed between 1984 and 2014?",
+          "options": [
+            "All the water in the ocean dried up",
+            "A new mountain grew in the middle of the beach",
+            "A long strip of land was chopped up into separate islands"
+          ],
+          "correctIndex": 2,
+          "keyLine": "There are actually more islands in 2014 than there were before. Back in 1984, that long strip of land was North Beach. Now, that strip of land has been chopped up into separate islands."
+        },
+        {
+          "start": 223,
+          "end": 229,
+          "question": "What does the hydrosphere (Earth's water) do to the geosphere (Earth's land)?",
+          "options": [
+            "It shapes and sometimes moves the geosphere",
+            "It keeps the geosphere from ever changing",
+            "It makes the geosphere float into space"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The hydrosphere shapes and sometimes moves the geosphere."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main idea of this video?",
+          "options": [
+            "Earth never changes and always looks the same up close",
+            "Weathering breaks down rocks and erosion moves them, changing Earth's landforms over time",
+            "How to take photos of beaches from space"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is the easy way the host remembers weathering and erosion?",
+          "options": [
+            "Weathering is cold, and erosion is hot",
+            "Weathering is fast, and erosion is slow",
+            "Weathering helps make a mess, and erosion helps clean it up"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "What caused North Beach in Cape Cod to break into separate islands over 30 years?",
+          "options": [
+            "Ocean waves crashing on shore, along with major storms and rising sea levels",
+            "People digging up the sand to build roads",
+            "Volcanoes erupting under the beach"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "How is chemical weathering different from mechanical weathering?",
+        "options": [
+          "Chemical weathering is caused by plant roots and ice, while mechanical weathering is caused by acids",
+          "Chemical weathering happens when substances like oxygen or acids change the surface of a rock to make it change shape or color",
+          "Chemical weathering moves rocks across the ocean, while mechanical weathering cleans them up"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "landforms",
+          "meaning": "natural shapes on Earth's surface, like mountains, valleys, and islands",
+          "at": 35
+        },
+        {
+          "word": "weathering",
+          "meaning": "the process of breaking rocks down into smaller pieces",
+          "at": 71
+        },
+        {
+          "word": "erosion",
+          "meaning": "the movement of broken rock pieces by wind, water, or ice",
+          "at": 115
+        },
+        {
+          "word": "coastline",
+          "meaning": "the land along the edge of the ocean",
+          "at": 142
+        },
+        {
+          "word": "islands",
+          "meaning": "pieces of land with water all around them",
+          "at": 156
+        }
+      ]
+    }
   },
   {
     "id": "kids_science_of_lunch",
@@ -125,7 +710,124 @@
     "ageBand": "kids",
     "needsReview": false,
     "flightQuestion": "Should children choose lunch for taste or for energy?",
-    "summary": "A brown paper lunch bag starts an investigation of observable material properties. Sabrina compares objects and foods for hardness and malleability and explains how conductors transfer heat or electricity. The lesson applies the same property tests to familiar lunch items."
+    "summary": "A brown paper lunch bag starts an investigation of observable material properties. Sabrina compares objects and foods for hardness and malleability and explains how conductors transfer heat or electricity. The lesson applies the same property tests to familiar lunch items.",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 50,
+          "end": 60,
+          "question": "Which of these are examples of soft matter?",
+          "options": [
+            "Rock, concrete, and metals",
+            "Liquids, gels, and foam",
+            "Paper bags and wood"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Rock, concrete, and some metals are hard kinds of matter, while soft matter includes things like liquids, gels, and foam."
+        },
+        {
+          "start": 78,
+          "end": 84,
+          "question": "In music, what is a conductor?",
+          "options": [
+            "A person who leads a group of musicians",
+            "A person who makes musical instruments",
+            "A person who writes songs on paper"
+          ],
+          "correctIndex": 0,
+          "keyLine": "It's a person who leads a group of musicians."
+        },
+        {
+          "start": 109,
+          "end": 114,
+          "question": "Which materials do not attract magnets?",
+          "options": [
+            "Iron and steel",
+            "Metal fridge doors",
+            "Wood and plastic"
+          ],
+          "correctIndex": 2,
+          "keyLine": "But wood and plastic don't attract magnets."
+        },
+        {
+          "start": 155,
+          "end": 164,
+          "question": "When hot cocoa is put in a metal bottle and a plastic bottle, which one feels warmer on the outside?",
+          "options": [
+            "The plastic bottle",
+            "The metal bottle",
+            "Neither bottle feels warm"
+          ],
+          "correctIndex": 1,
+          "keyLine": "If I put some nice hot cocoa in a metal bottle and some in, say, a plastic one, the metal one will feel warmer."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mainly about?",
+          "options": [
+            "How to cook a hot lunch",
+            "Different properties used to describe and compare matter",
+            "Why people recycle brown paper bags"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "In the lunch investigation, which food is hardest when pressed with a finger?",
+          "options": [
+            "The sandwich bread",
+            "The potato chip",
+            "The apple"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Why does a magnet stick to the water bottle instead of the brown paper bag?",
+          "options": [
+            "Because the bottle is made of metal",
+            "Because the bottle is full of hot cocoa",
+            "Because the paper bag is too heavy"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why is a fruit strip more malleable than a potato chip?",
+        "options": [
+          "Because it bends and changes shape without breaking into crumbs",
+          "Because it conducts heat better than a potato chip",
+          "Because it is harder to scratch than a potato chip"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "properties",
+          "meaning": "special qualities that help describe what something is like",
+          "at": 26
+        },
+        {
+          "word": "hardness",
+          "meaning": "how difficult it is to scratch or crush something",
+          "at": 47
+        },
+        {
+          "word": "malleable",
+          "meaning": "easy to bend, stretch, or shape without breaking",
+          "at": 71
+        },
+        {
+          "word": "conductivity",
+          "meaning": "how well something carries heat or electricity",
+          "at": 89
+        },
+        {
+          "word": "magnetism",
+          "meaning": "how matter reacts to a magnet",
+          "at": 102
+        }
+      ]
+    }
   },
   {
     "id": "kids_home_sweet_habitat",
@@ -147,7 +849,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Should people protect animal homes even when cities need space?"
+    "flightQuestion": "Should people protect animal homes even when cities need space?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 30,
+          "end": 36,
+          "question": "What is a habitat?",
+          "options": [
+            "The area where something lives",
+            "A special kind of winter coat for bears",
+            "A map of all the deserts in the world"
+          ],
+          "correctIndex": 0,
+          "keyLine": "You know that a habitat is the area where something lives."
+        },
+        {
+          "start": 65,
+          "end": 72,
+          "question": "What four things do animals need in their habitat?",
+          "options": [
+            "Sunlight, sand, rocks, and wind",
+            "Food, water, shelter, and space to live",
+            "Snow, ice, fish, and trees"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Animals need these things too: food, water, shelter, and space to live."
+        },
+        {
+          "start": 141,
+          "end": 149,
+          "question": "What do trees, grass, and other forest plants do with energy from the sun?",
+          "options": [
+            "They use it to warm up the soil",
+            "They turn it into water for animals",
+            "They change it into sugar"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Trees, grass, and other plants that change energy from the sun into sugar."
+        },
+        {
+          "start": 218,
+          "end": 226,
+          "question": "Why do decomposers break down matter more slowly in the Arctic than in the forest?",
+          "options": [
+            "Because it is so cold",
+            "Because there are too many plants",
+            "Because the sun is too bright"
+          ],
+          "correctIndex": 0,
+          "keyLine": "There are bacteria, but since it's so cold, the decomposers break down matter much more slowly than in the forest."
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why would a polar bear be unhappy in a desert?",
+          "options": [
+            "Because the desert is not its habitat and does not have what it needs",
+            "Because it forgot its sunglasses and swim trunks",
+            "Because there are too many other polar bears there"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is a food web?",
+          "options": [
+            "A spider web that catches insects in a forest",
+            "A big, tangled system of food chains with every plant and animal in a habitat",
+            "A list of foods that people eat for breakfast"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Which two habitats does the speaker compare in the investigation?",
+          "options": [
+            "The desert and the rainforest",
+            "The ocean and the mountains",
+            "The forest and the Arctic"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How can the Arctic ocean have a food web when there are no land trees or grass on the ice?",
+        "options": [
+          "Tiny plants called phytoplankton live in the seawater and use energy from the sun",
+          "Polar bears only eat snow and ice instead of food",
+          "Fish bring plants from the forest into the Arctic water"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "habitat",
+          "meaning": "the natural home or area where a plant or animal lives",
+          "at": 32
+        },
+        {
+          "word": "survive",
+          "meaning": "stay alive",
+          "at": 41
+        },
+        {
+          "word": "shelter",
+          "meaning": "a safe place that protects animals from weather and danger",
+          "at": 69
+        },
+        {
+          "word": "decomposers",
+          "meaning": "living things like fungi and bacteria that break down dead plants and animals",
+          "at": 162
+        },
+        {
+          "word": "phytoplankton",
+          "meaning": "very tiny plants that live in water",
+          "at": 189
+        }
+      ]
+    }
   },
   {
     "id": "kids_food_webs",
@@ -169,7 +988,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Should people protect predators as well as their prey?"
+    "flightQuestion": "Should people protect predators as well as their prey?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 51,
+          "end": 59,
+          "question": "What do we call the interaction of living and nonliving things in a habitat?",
+          "options": [
+            "An ecosystem",
+            "A spider web",
+            "A weather pattern"
+          ],
+          "correctIndex": 0,
+          "keyLine": "This interaction of living and nonliving things in a habitat is called an ecosystem."
+        },
+        {
+          "start": 76,
+          "end": 84,
+          "question": "Why are these monkeys called spider monkeys?",
+          "options": [
+            "Because they eat spiders every day",
+            "Because they hang upside down from their tails with their arms and legs dangling",
+            "Because they have eight legs like a spider"
+          ],
+          "correctIndex": 1,
+          "keyLine": "They're called spider monkeys because they hang upside down from their tails with their arms and legs dangling."
+        },
+        {
+          "start": 132,
+          "end": 140,
+          "question": "In the rainforest food web, what do frogs eat?",
+          "options": [
+            "Berries and figs",
+            "Sloths and spider monkeys",
+            "Insects"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Leopards dine on the sloths and spider monkeys, while frogs eat the insects."
+        },
+        {
+          "start": 185,
+          "end": 195,
+          "question": "What usually happens to a habitat after a forest fire or a flood?",
+          "options": [
+            "It can usually get back to normal",
+            "No plants can ever grow there again",
+            "It turns into an icy ocean"
+          ],
+          "correctIndex": 0,
+          "keyLine": "After a natural disaster like a forest fire or a flood, things might be wacky for a while, but habitats can usually get back to normal."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main idea of this video?",
+          "options": [
+            "How to care for a monkey at a zoo",
+            "All plants and animals in an ecosystem are connected, so losing one affects the others",
+            "Why rainforests get more rain than deserts"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do spider monkeys help new plants and trees grow in the rainforest?",
+          "options": [
+            "They eat fruit and leave the seeds behind in different parts of the forest",
+            "They water the trees when it is dry",
+            "They chase away insects that eat the leaves"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why does the speaker compare a food web to a spider web?",
+          "options": [
+            "Because both are only found in dark caves",
+            "Because both are made of sticky silk",
+            "Because when one part is touched or threatened, the whole thing is affected"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What happens to carnivores like leopards and frogs if the spider monkey population declines?",
+        "options": [
+          "They have less food because fewer plants grow to feed the sloths and insects",
+          "They start eating berries and tree leaves instead",
+          "Their numbers grow faster because they have more space"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "species",
+          "meaning": "a group of living things that are the same kind",
+          "at": 21
+        },
+        {
+          "word": "balance",
+          "meaning": "when all parts work together well and nothing is too much or too little",
+          "at": 37
+        },
+        {
+          "word": "ecosystem",
+          "meaning": "all the living and nonliving things working together in an area",
+          "at": 56
+        },
+        {
+          "word": "seeds",
+          "meaning": "the small parts inside fruit that grow into new plants",
+          "at": 101
+        },
+        {
+          "word": "decline",
+          "meaning": "become smaller in number",
+          "at": 150
+        }
+      ]
+    }
   },
   {
     "id": "kids_everything_revolves",
@@ -191,7 +1127,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Would you rather visit the Moon or watch it from Earth?"
+    "flightQuestion": "Would you rather visit the Moon or watch it from Earth?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 47,
+          "question": "What is an orbit?",
+          "options": [
+            "The path that an object follows around another object",
+            "A bright star in the middle of space",
+            "A machine that astronauts use to exercise"
+          ],
+          "correctIndex": 0,
+          "keyLine": "You should remember that an orbit is the path that an object follows around another object."
+        },
+        {
+          "start": 96,
+          "end": 103,
+          "question": "About how long does it take the Moon to fully orbit the Earth?",
+          "options": [
+            "About 16 hours",
+            "About 27 days",
+            "About 365 days"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Now, it takes the Moon about 27 days to fully orbit the Earth."
+        },
+        {
+          "start": 133,
+          "end": 142,
+          "question": "How many orbits around Earth does the International Space Station complete every day?",
+          "options": [
+            "1 orbit",
+            "10 orbits",
+            "16 orbits"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The ISS moves pretty fast, completing 16 orbits around our planet every day."
+        },
+        {
+          "start": 206,
+          "end": 215,
+          "question": "What would happen if the Moon's speed was much faster?",
+          "options": [
+            "It would crash into the Earth",
+            "It would escape Earth's gravity and fly off into space",
+            "It would turn into a bright star"
+          ],
+          "correctIndex": 1,
+          "keyLine": "If the Moon's speed was much faster, it would escape the Earth's gravity and just fly off into space."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What big question does this video answer?",
+          "options": [
+            "Why don't things that orbit the Earth crash into the Earth?",
+            "How can astronauts build a rocket to visit Mars?",
+            "Why does the sun shine only during the day?"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which two kinds of satellites orbit the Earth?",
+          "options": [
+            "The Sun and the stars",
+            "The Moon and artificial satellites made by people",
+            "Clouds and airplanes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What are some jobs that artificial satellites do?",
+          "options": [
+            "They pull the Moon closer to Earth",
+            "They clean up rocks and craters on the Moon",
+            "They forecast weather, monitor drought, and send signals to phones and TVs"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What two factors must be balanced to keep a satellite in a stable orbit around Earth?",
+        "options": [
+          "Earth's gravitational pull and the object's velocity (speed and direction)",
+          "The size of the satellite and the temperature of space",
+          "The distance to the Sun and the number of craters on the Moon"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "orbit",
+          "meaning": "the curved path one object takes around another object in space",
+          "at": 41
+        },
+        {
+          "word": "gravity",
+          "meaning": "the natural force that pulls objects toward each other",
+          "at": 51
+        },
+        {
+          "word": "craters",
+          "meaning": "big round holes on the Moon made when space rocks hit it",
+          "at": 81
+        },
+        {
+          "word": "satellite",
+          "meaning": "an object in space that travels around a planet",
+          "at": 106
+        },
+        {
+          "word": "velocity",
+          "meaning": "the speed and direction of something that is moving",
+          "at": 190
+        }
+      ]
+    }
   },
   {
     "id": "kids_dinosaur_pee",
@@ -212,7 +1265,124 @@
     "cefr": "A2",
     "ageBand": "kids",
     "needsReview": false,
-    "flightQuestion": "Dinosaur Pee?"
+    "flightQuestion": "Dinosaur Pee?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 46,
+          "question": "Why is water on Earth called a limited resource?",
+          "options": [
+            "Because water never leaves the system, and new water never comes in",
+            "Because dinosaurs drank most of the water on Earth",
+            "Because water only falls on the ocean"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Water never leaves the system, and new water never comes in."
+        },
+        {
+          "start": 60,
+          "end": 68,
+          "question": "What is all matter, including water, made up of?",
+          "options": [
+            "Clouds",
+            "Particles",
+            "Sunlight"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Remember that water is matter, and matter is made up of particles."
+        },
+        {
+          "start": 165,
+          "end": 177,
+          "question": "When the sun evaporates water from the ground, what happens to the salt and other minerals?",
+          "options": [
+            "They float up into the clouds",
+            "They turn into ice",
+            "They are left behind on the soil"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The sun shines down and evaporates that water in the pee, turning it into water vapor, while the salt and other minerals are left behind on the soil."
+        },
+        {
+          "start": 239,
+          "end": 247,
+          "question": "What happens to water as it moves through the water cycle?",
+          "options": [
+            "Nature cleans it",
+            "It gets saltier every year",
+            "It disappears into nothing"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The good news, though, is that as water moves through the cycle, nature cleans it."
+        }
+      ],
+      "gist": [
+        {
+          "q": "Why does the speaker joke that a glass of water could have dinosaur pee in it?",
+          "options": [
+            "Because Earth's water keeps cycling over and over for millions of years",
+            "Because scientists make new water out of dinosaur bones",
+            "Because dinosaurs lived inside the ocean"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which sphere of the Earth includes living things like people, cats, trees, and dinosaurs?",
+          "options": [
+            "The atmosphere",
+            "The biosphere",
+            "The geosphere"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How old is the water coming out of a faucet?",
+          "options": [
+            "Only a few days old",
+            "About a hundred years old",
+            "Older than the dinosaurs, almost as old as the Earth"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How does the water cycle turn salty ocean water or dirty puddles into clean drinking water?",
+        "options": [
+          "When water evaporates into vapor, the salt and impurities get left behind",
+          "The wind blows the salt out of the clouds before it rains",
+          "Glacier ice melts and washes the salt into outer space"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "water cycle",
+          "meaning": "the way water moves around the Earth as liquid, gas, and solid over and over",
+          "at": 29
+        },
+        {
+          "word": "particles",
+          "meaning": "the tiny building blocks that make up all matter",
+          "at": 65
+        },
+        {
+          "word": "evaporates",
+          "meaning": "changes from a liquid into a gas (water vapor)",
+          "at": 169
+        },
+        {
+          "word": "condense",
+          "meaning": "cool down and change from water vapor gas into a cloud",
+          "at": 181
+        },
+        {
+          "word": "precipitation",
+          "meaning": "water falling from clouds to the ground, like rain or snow",
+          "at": 189
+        }
+      ]
+    }
   },
   {
     "id": "kids_climate_change",

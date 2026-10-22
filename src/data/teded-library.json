@@ -21,7 +21,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should sugary foods be limited in school cafeterias?"
+    "flightQuestion": "Should sugary foods be limited in school cafeterias?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 45,
+          "end": 57,
+          "question": "Besides candies and desserts, which of these foods also has added sugar?",
+          "options": [
+            "Tomato sauce, yogurt, and granola bars",
+            "Fresh broccoli, plain rice, and eggs",
+            "Salted butter, olive oil, and cheese"
+          ],
+          "correctIndex": 0,
+          "keyLine": "And sugar isn't just in candies and desserts, it's also added to tomato sauce, yogurt, dried fruit, flavored waters, or granola bars."
+        },
+        {
+          "start": 150,
+          "end": 159,
+          "question": "What is the main chemical used by the brain's reward system?",
+          "options": [
+            "Insulin",
+            "Dopamine",
+            "Oxygen"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The major currency of our reward system is dopamine, an important chemical or neurotransmitter."
+        },
+        {
+          "start": 200,
+          "end": 210,
+          "question": "What happens to dopamine levels if someone eats the same healthy meal many days in a row?",
+          "options": [
+            "They double every single day",
+            "They stop completely after one meal",
+            "They spike less and less and level out"
+          ],
+          "correctIndex": 2,
+          "keyLine": "But if you eat that same dish many days in a row, dopamine levels will spike less and less, eventually leveling out."
+        },
+        {
+          "start": 248,
+          "end": 259,
+          "question": "What happens when a person eats too much sugar?",
+          "options": [
+            "The dopamine response does not level out, so it keeps feeling rewarding",
+            "The taste buds stop noticing sweet flavors",
+            "The brain stops releasing dopamine completely"
+          ],
+          "correctIndex": 0,
+          "keyLine": "But if you eat too much, the dopamine response does not level out. In other words, eating lots of sugar will continue to feel rewarding."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main topic of this video?",
+          "options": [
+            "How sugar activates the brain's reward system and why people crave it",
+            "How to bake low-sugar cakes and cookies",
+            "Why carbohydrates are the only nutrients the body needs"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why did the human brain evolve to pay special attention to new or different tastes?",
+          "options": [
+            "To help people eat faster during the winter",
+            "To detect bad food and get a wider variety of nutrients",
+            "To make vegetables taste sweeter than fruit"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What conclusion does the speaker reach at the end of the video?",
+          "options": [
+            "Even a small bite of cake is dangerous for the brain",
+            "Broccoli releases more dopamine than chocolate cake",
+            "Eating too much sugar can have addictive effects, but a wedge of cake once in a while is fine"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How do the sugar receptors in the gut help the body after food is swallowed?",
+        "options": [
+          "They taste sweet flavors a second time in the stomach",
+          "They signal the brain that the body is full or should produce more insulin",
+          "They block sugar from entering the bloodstream"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "craving",
+          "meaning": "having a strong feeling of wanting something",
+          "at": 16
+        },
+        {
+          "word": "resist",
+          "meaning": "to stop yourself from having or doing something you want",
+          "at": 22
+        },
+        {
+          "word": "activate",
+          "meaning": "to make something start working",
+          "at": 109
+        },
+        {
+          "word": "tolerance",
+          "meaning": "needing more of something in order to feel the same effect",
+          "at": 131
+        },
+        {
+          "word": "nutrient",
+          "meaning": "a substance in food that helps the body grow and stay healthy",
+          "at": 224
+        }
+      ]
+    }
   },
   {
     "id": "teded_why_do_we_dream",
@@ -41,7 +158,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Could dreams help us process memories and emotions?"
+    "flightQuestion": "Could dreams help us process memories and emotions?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 12,
+          "end": 22,
+          "question": "What did ancient Egyptians write to explain dreams?",
+          "options": [
+            "A dream book listing over a hundred common dreams and their meanings",
+            "A set of laws banning people from talking about nightmares",
+            "A collection of songs to help kings fall asleep faster"
+          ],
+          "correctIndex": 0,
+          "keyLine": "A thousand years later, ancient Egyptians wrote a dream book listing over a hundred common dreams and their meanings."
+        },
+        {
+          "start": 85,
+          "end": 99,
+          "question": "In the 2010 study, who was much better at getting through the complex 3D maze?",
+          "options": [
+            "People who stayed awake and drew a map of the maze",
+            "People who napped and dreamed of the maze before their second try",
+            "People who slept for 12 hours without dreaming at all"
+          ],
+          "correctIndex": 1,
+          "keyLine": "In 2010, researchers found that subjects were much better at getting through a complex 3D maze if they had napped and dreamed of the maze prior to their second attempt."
+        },
+        {
+          "start": 185,
+          "end": 195,
+          "question": "According to the Continual Activation Theory, what might dreams be like?",
+          "options": [
+            "A battery charger that powers muscles",
+            "A trash can that deletes all childhood memories",
+            "A random screen saver the brain turns on so it doesn't completely shut down"
+          ],
+          "correctIndex": 2,
+          "keyLine": "In other words, your dreams might be a random screen saver your brain turns on so it doesn't completely shut down."
+        },
+        {
+          "start": 233,
+          "end": 244,
+          "question": "What happens to stress neurotransmitters in the brain during the REM stage of sleep?",
+          "options": [
+            "They are much less active, even during dreams of traumatic experiences",
+            "They become ten times more active than when awake",
+            "They wake the person up immediately whenever a nightmare starts"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Stress neurotransmitters in the brain are much less active during the REM stage of sleep, even during dreams of traumatic experiences,"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main purpose of this video?",
+          "options": [
+            "To prove that only one theory about dreaming is scientifically true",
+            "To explore several scientific theories about why humans dream",
+            "To teach viewers how to control their dreams every night"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "According to the Primitive Instinct Rehearsal Theory, why do people often dream about dangerous situations?",
+          "options": [
+            "Because eating late at night causes scary thoughts",
+            "Because our eyes stay open slightly while we sleep",
+            "To practice fight-or-flight instincts so they stay sharp for real life"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How can dreaming help people solve problems?",
+          "options": [
+            "Unconstrained by normal logic, the dreaming mind can create limitless scenarios to find solutions",
+            "Dreaming slows down the brain so people stop worrying about problems",
+            "It allows people to memorize whole books while asleep"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why does the 1983 'reverse learning' theory suggest that dreaming is necessary for waking thought?",
+        "options": [
+          "Because without dumping unnecessary neural connections during sleep, useless connections and thoughts could disrupt waking thinking",
+          "Because the brain needs to double the number of neural connections every night to learn new words",
+          "Because reverse learning turns short-term fears into permanent memories"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "interpret",
+          "meaning": "to explain or decide the meaning of something",
+          "at": 10
+        },
+        {
+          "word": "fulfill",
+          "meaning": "to make a wish or goal happen",
+          "at": 37
+        },
+        {
+          "word": "symbolic",
+          "meaning": "using an image or object to represent a deeper idea",
+          "at": 51
+        },
+        {
+          "word": "rehearse",
+          "meaning": "to practice something in order to be ready for it later",
+          "at": 195
+        },
+        {
+          "word": "instinct",
+          "meaning": "a natural way of acting without having to think about it",
+          "at": 217
+        }
+      ]
+    }
   },
   {
     "id": "teded_how_stress_affects_brain",
@@ -65,7 +299,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should schools teach students ways to manage stress?"
+    "flightQuestion": "Should schools teach students ways to manage stress?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 17,
+          "end": 30,
+          "question": "When can short-term stress actually be helpful?",
+          "options": [
+            "When trying to fall into a deep sleep",
+            "When extra energy and focus are needed for sports or public speaking",
+            "When slowing down the heart rate after exercise"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Stress isn't always a bad thing. It can be handy for a burst of extra energy and focus, like when you're playing a competitive sport, or have to speak in public."
+        },
+        {
+          "start": 60,
+          "end": 75,
+          "question": "What hormone does the HPA axis release to prepare the body for instant action?",
+          "options": [
+            "Cortisol",
+            "Melatonin",
+            "Insulin"
+          ],
+          "correctIndex": 0,
+          "keyLine": "When your brain detects a stressful situation, your HPA axis is instantly activated and releases a hormone called cortisol, which primes your body for instant action."
+        },
+        {
+          "start": 109,
+          "end": 117,
+          "question": "What can too much cortisol literally do to the size of the brain?",
+          "options": [
+            "Make it grow twice as large",
+            "Cause it to shrink in size",
+            "Keep it from changing size at all"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Cortisol can literally cause your brain to shrink in size."
+        },
+        {
+          "start": 213,
+          "end": 225,
+          "question": "What are the two most powerful ways to reverse what cortisol does to a stressed brain?",
+          "options": [
+            "Drinking coffee and watching television",
+            "Sleeping 14 hours a day and eating sweet foods",
+            "Exercise and meditation"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The most powerful weapons are exercise and meditation, which involves breathing deeply and being aware and focused on your surroundings."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main message of this video?",
+          "options": [
+            "Chronic stress physically damages the brain, but habits like exercise and meditation can reverse these effects",
+            "All forms of stress are harmful and must be avoided completely",
+            "How a person responds to stress is 100% fixed at birth and can never change"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does chronic stress affect the amygdala and the hippocampus?",
+          "options": [
+            "It shuts down the amygdala and makes the hippocampus grow larger",
+            "It increases activity in the amygdala (fear center) and weakens signals in the hippocampus (learning and memory)",
+            "It turns both regions into endocrine glands on the kidneys"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What did the experiment with mother rats and their babies show?",
+          "options": [
+            "Rat babies never experience stress if they eat enough food",
+            "Only male rats have cortisol receptors in their brains",
+            "The pups of nurturing moms developed more cortisol receptors and were less sensitive to stress"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does a weakened hippocampus make it even harder for a person to recover from chronic stress?",
+        "options": [
+          "Because the hippocampus normally inhibits the HPA axis, so when it weakens, the ability to control stress also weakens",
+          "Because the hippocampus produces all of the body's cortisol during sleep",
+          "Because a smaller hippocampus forces the prefrontal cortex to grow too quickly"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "overwhelmed",
+          "meaning": "feeling that there is too much to deal with",
+          "at": 12
+        },
+        {
+          "word": "chronic",
+          "meaning": "continuing for a long time and difficult to stop",
+          "at": 37
+        },
+        {
+          "word": "hormone",
+          "meaning": "a natural chemical in the body that controls how cells and organs work",
+          "at": 69
+        },
+        {
+          "word": "shrink",
+          "meaning": "to become smaller",
+          "at": 114
+        },
+        {
+          "word": "nurturing",
+          "meaning": "caring for and protecting someone while they grow",
+          "at": 155
+        }
+      ]
+    }
   },
   {
     "id": "teded_what_is_depression",
@@ -90,7 +441,124 @@
       "title": "A2 Teens: Wellbeing and Choices",
       "order": 2
     },
-    "flightQuestion": "Should teens seek support when depression affects daily life?"
+    "flightQuestion": "Should teens seek support when depression affects daily life?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 19,
+          "end": 29,
+          "question": "What is one major source of confusion about depression?",
+          "options": [
+            "The difference between having depression and just feeling depressed",
+            "Whether depression only affects children or only affects adults",
+            "Whether bad weather is the only cause of clinical depression"
+          ],
+          "correctIndex": 0,
+          "keyLine": "One major source of confusion is the difference between having depression and just feeling depressed."
+        },
+        {
+          "start": 51,
+          "end": 62,
+          "question": "For at least how long does clinical depression last?",
+          "options": [
+            "Two or three rainy days",
+            "At least two consecutive weeks",
+            "Exactly ten years without stopping"
+          ],
+          "correctIndex": 1,
+          "keyLine": "It lingers for at least two consecutive weeks, and significantly interferes with one's ability to work, play, or love."
+        },
+        {
+          "start": 151,
+          "end": 162,
+          "question": "How long does it take the average person suffering with a mental illness to ask for help?",
+          "options": [
+            "Less than two weeks",
+            "About six months",
+            "Over 10 years"
+          ],
+          "correctIndex": 2,
+          "keyLine": "According to the National Institute of Mental Health, it takes the average person suffering with a mental illness over 10 years to ask for help."
+        },
+        {
+          "start": 238,
+          "end": 248,
+          "question": "How do open conversations about mental illness help?",
+          "options": [
+            "They replace the need for doctors and medication",
+            "They help erode stigma and make it easier for people to ask for help",
+            "They prove that everyone experiences clinical depression the same way"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Open conversations about mental illness help erode stigma and make it easier for people to ask for help."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main purpose of this video?",
+          "options": [
+            "To explain what clinical depression is, how it affects the brain, and how to support people who have it",
+            "To show that temporary sadness after a bad grade is a medical disorder",
+            "To argue that medication is the only treatment that works for mental illness"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What physical changes in the brain are associated with depression?",
+          "options": [
+            "Larger frontal lobes and an increase in serotonin",
+            "Smaller frontal lobes and hippocampal volumes, plus abnormal neurotransmitter levels",
+            "A complete stop in all circadian rhythms and hormone production"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is a helpful way to support someone who is struggling with depression?",
+          "options": [
+            "Compare their feelings to a time someone felt temporarily sad",
+            "Tell them to use willpower to get over it on their own",
+            "Encourage them gently to seek treatment and offer to help with tasks like looking up therapists"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the speaker compare depression to asthma, diabetes, or a broken arm?",
+        "options": [
+          "To show that depression is a real medical condition, not a weakness or personality trait that someone can simply will away",
+          "To explain that depression is caused by physical injuries to the bones and lungs",
+          "To suggest that depression can be diagnosed with a simple blood test or X-ray"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "disability",
+          "meaning": "a condition that makes it difficult for someone to do everyday activities",
+          "at": 9
+        },
+        {
+          "word": "linger",
+          "meaning": "to stay for a long time instead of going away",
+          "at": 53
+        },
+        {
+          "word": "symptom",
+          "meaning": "a sign in the body or mind that shows someone has an illness",
+          "at": 62
+        },
+        {
+          "word": "therapy",
+          "meaning": "treatment that helps someone feel better or recover from a problem",
+          "at": 164
+        },
+        {
+          "word": "stigma",
+          "meaning": "unfair negative beliefs that society has about something",
+          "at": 243
+        }
+      ]
+    }
   },
   {
     "id": "teded_what_if_you_didnt_sleep",
@@ -118,7 +586,124 @@
       "title": "A2 Teens: Wellbeing and Choices",
       "order": 3
     },
-    "flightQuestion": "Should students give sleep a higher priority?"
+    "flightQuestion": "Should students give sleep a higher priority?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 6,
+          "end": 21,
+          "question": "How long did 17-year-old Randy Gardner stay awake in 1965?",
+          "options": [
+            "264 hours, which is 11 days",
+            "48 hours, which is 2 days",
+            "100 hours, which is about 4 days"
+          ],
+          "correctIndex": 0,
+          "keyLine": "In 1965, 17-year-old high school student Randy Gardner stayed awake for 264 hours. That's 11 days, to see how he'd cope without sleep."
+        },
+        {
+          "start": 55,
+          "end": 64,
+          "question": "How many hours of sleep a night do adolescents need?",
+          "options": [
+            "Fewer than 6 hours",
+            "About 10 hours",
+            "7 to 8 hours"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Adults need seven to eight hours of sleep a night, and adolescents need about 10."
+        },
+        {
+          "start": 89,
+          "end": 101,
+          "question": "In the United States, what percentage of adolescents are regularly sleep-deprived?",
+          "options": [
+            "10%",
+            "30%",
+            "66%"
+          ],
+          "correctIndex": 2,
+          "keyLine": "In the United States, it's estimated that 30% of adults and 66% of adolescents are regularly sleep-deprived."
+        },
+        {
+          "start": 212,
+          "end": 225,
+          "question": "What does the glymphatic system do when a person is asleep?",
+          "options": [
+            "It creates new dreams in the visual cortex",
+            "It acts as a cleanup mechanism that removes waste buildup in the brain",
+            "It blocks caffeine from entering the bloodstream"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Scientists found something called the glymphatic system, a cleanup mechanism that removes this buildup and is much more active when we're asleep."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main topic of this video?",
+          "options": [
+            "What happens to the body and brain when people don't sleep and why sleep is essential",
+            "How high school students can train themselves to need only 4 hours of sleep",
+            "Why watching sports late at night is good for memory"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happens in the brain during waking hours that increases the urge to sleep?",
+          "options": [
+            "Cerebrospinal fluid flushes away all energy",
+            "Cells use up energy and create byproducts like adenosine, which builds up sleep pressure",
+            "Melatonin levels drop to zero whenever eyes are closed"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What serious health risks are linked to chronic lack of sleep?",
+          "options": [
+            "Improved reaction time and lower blood pressure",
+            "Extra DNA repair and stronger muscles",
+            "High blood pressure, diabetes, obesity, and a much higher risk of stroke"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How does caffeine keep a person feeling awake according to the video?",
+        "options": [
+          "It blocks adenosine's receptor pathways in the brain",
+          "It speeds up the glymphatic system so waste is cleared while awake",
+          "It turns adenosine into melatonin inside the bloodstream"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "cope",
+          "meaning": "to deal successfully with a difficult situation",
+          "at": 18
+        },
+        {
+          "word": "essential",
+          "meaning": "completely necessary",
+          "at": 56
+        },
+        {
+          "word": "adolescent",
+          "meaning": "a young person who is developing from a child into an adult",
+          "at": 60
+        },
+        {
+          "word": "accumulate",
+          "meaning": "to slowly collect or build up over time",
+          "at": 229
+        },
+        {
+          "word": "necessity",
+          "meaning": "something that is needed in order to live or be healthy",
+          "at": 252
+        }
+      ]
+    }
   },
   {
     "id": "teded_tragedy_of_the_commons",
@@ -138,7 +723,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should shared resources have limits when everyone needs them?"
+    "flightQuestion": "Should shared resources have limits when everyone needs them?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 21,
+          "end": 29,
+          "question": "How many baby fish are added to the pond each night?",
+          "options": [
+            "One baby fish for every two fish",
+            "Two baby fish for every one fish",
+            "A dozen baby fish every night"
+          ],
+          "correctIndex": 0,
+          "keyLine": "For every two fish, there will be one baby added each night."
+        },
+        {
+          "start": 49,
+          "end": 59,
+          "question": "How many fish should each fisherman catch per day so the pond stays full?",
+          "options": [
+            "Two fish each day",
+            "Just one fish each day",
+            "Three fish each day"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The best way to maximize every villager's food supply is for each fisherman to take just one fish each day."
+        },
+        {
+          "start": 80,
+          "end": 90,
+          "question": "What happens in the end if the villagers catch too many fish?",
+          "options": [
+            "The fish move to another river",
+            "The pond grows larger overnight",
+            "All the fish disappear and the villagers starve"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Eventually, the fish in the lake will be gone, leaving all four villagers to starve."
+        },
+        {
+          "start": 211,
+          "end": 220,
+          "question": "What short-term benefit does a coal-fired power plant provide for its customers?",
+          "options": [
+            "Cheap electricity",
+            "Clean air for the town",
+            "Free bottled water"
+          ],
+          "correctIndex": 0,
+          "keyLine": "A coal-fired power plant produces cheap electricity for its customers and profits for its owners."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main problem in the tragedy of the commons?",
+          "options": [
+            "People act in their own short-term interest and ruin a shared resource for everyone",
+            "Villagers refuse to share their private land with their neighbors",
+            "Natural resources disappear even when nobody uses them"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which of these is given in the video as a real-life example of this problem?",
+          "options": [
+            "Planting too many trees in a forest",
+            "Overusing antibiotics and causing resistant bacteria",
+            "Building solar panels on private houses"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "According to the video, how can humans solve the tragedy of the commons?",
+          "options": [
+            "By letting every person take as much as they want",
+            "By stopping all fishing and farming completely",
+            "By making communal agreements, electing governments, and passing laws"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does an individual fisherman decide to take extra fish even when it harms the pond?",
+        "options": [
+          "He gets the full benefit of the extra fish while the cost is spread across the whole village",
+          "He does not know that fish need other fish in order to reproduce",
+          "He wants to sell the pond to another village before the fish die"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "reproduce",
+          "meaning": "to produce babies or new living things",
+          "at": 21
+        },
+        {
+          "word": "starve",
+          "meaning": "to suffer or die because there is not enough food",
+          "at": 87
+        },
+        {
+          "word": "resource",
+          "meaning": "something useful like water, land, or air that people need",
+          "at": 116
+        },
+        {
+          "word": "pollution",
+          "meaning": "dirty or harmful substances in the air, water, or land",
+          "at": 136
+        },
+        {
+          "word": "laws",
+          "meaning": "official rules made by a government that people must follow",
+          "at": 251
+        }
+      ]
+    }
   },
   {
     "id": "teded_prisoner_hat_riddle",
@@ -157,7 +859,124 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Should prisoners share clues even if only one can escape?"
+    "flightQuestion": "Should prisoners share clues even if only one can escape?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 18,
+          "end": 27,
+          "question": "Why do the aliens decide to test the human prisoners before eating them?",
+          "options": [
+            "Their rules do not allow eating logical and cooperative beings",
+            "They want to find out which human is the tallest",
+            "They only eat prisoners who wear black hats"
+          ],
+          "correctIndex": 0,
+          "keyLine": "But their civilization forbids eating highly logical and cooperative beings."
+        },
+        {
+          "start": 49,
+          "end": 58,
+          "question": "What colors are the hats placed on the prisoners' heads?",
+          "options": [
+            "Red or blue",
+            "Black or white",
+            "Green or yellow"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Each of you will have either a black or a white hat on your head, assigned randomly."
+        },
+        {
+          "start": 77,
+          "end": 85,
+          "question": "How many of the ten prisoners must guess their hat color correctly to save everyone?",
+          "options": [
+            "At least five of them",
+            "All ten of them",
+            "At least nine of them"
+          ],
+          "correctIndex": 2,
+          "keyLine": "If at least nine of you guess correctly, you'll all be spared."
+        },
+        {
+          "start": 133,
+          "end": 148,
+          "question": "In the winning plan, when does the first speaker say the word 'black'?",
+          "options": [
+            "When he sees an odd number of black hats in front of him",
+            "When the person right in front of him has a black hat",
+            "When he sees more black hats than white hats"
+          ],
+          "correctIndex": 0,
+          "keyLine": "So the solution is to agree that whoever goes first will, for example, say black if he sees an odd number of black hats, and white if he sees an even number of black hats."
+        }
+      ],
+      "gist": [
+        {
+          "q": "How are the ten prisoners arranged for the alien test?",
+          "options": [
+            "In a circle facing each other",
+            "In a single line from tallest to shortest facing forward",
+            "In two rows of five people"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What are the prisoners allowed to say during the test?",
+          "options": [
+            "Only the words 'black' or 'white' with no special tone or volume",
+            "Any number between one and ten",
+            "A short hint to the person standing in front of them"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happens to the first prisoner at the back of the line when using this strategy?",
+          "options": [
+            "He always knows his own hat color for sure",
+            "He is not allowed to speak at all",
+            "He has a 50% chance of guessing his own hat, but his answer saves the other nine"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does using 'odd' and 'even' work when counting the total number of black hats does not?",
+        "options": [
+          "Because 'odd' and 'even' have only two possible values, matching the two words 'black' and 'white'",
+          "Because the aliens always put an even number of black hats on the prisoners",
+          "Because the shortest prisoner at the front can see all nine hats behind him"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "captured",
+          "meaning": "caught and kept as a prisoner",
+          "at": 13
+        },
+        {
+          "word": "cooperative",
+          "meaning": "able to work well together with other people",
+          "at": 24
+        },
+        {
+          "word": "randomly",
+          "meaning": "by chance, without any plan or pattern",
+          "at": 56
+        },
+        {
+          "word": "strategy",
+          "meaning": "a careful plan for achieving a goal",
+          "at": 93
+        },
+        {
+          "word": "certainty",
+          "meaning": "being 100% sure that something is true",
+          "at": 230
+        }
+      ]
+    }
   },
   {
     "id": "teded_psychology_of_narcissism",
@@ -177,7 +996,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should confidence be encouraged even when it looks selfish?"
+    "flightQuestion": "Should confidence be encouraged even when it looks selfish?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 21,
+          "end": 30,
+          "question": "In the ancient myth, what did Narcissus fall in love with?",
+          "options": [
+            "His own reflection in a river",
+            "A nymph named Echo",
+            "A yellow flower by the water"
+          ],
+          "correctIndex": 0,
+          "keyLine": "He caught a glimpse of his own reflection in a river and fell in love with it."
+        },
+        {
+          "start": 58,
+          "end": 69,
+          "question": "How do narcissists usually see themselves compared to other people?",
+          "options": [
+            "As quieter and more helpful than others",
+            "As better looking, smarter, and more important than others",
+            "As less lucky and less talented than others"
+          ],
+          "correctIndex": 1,
+          "keyLine": "To varying degrees, narcissists think they're better looking, smarter, and more important than other people, and that they deserve special treatment."
+        },
+        {
+          "start": 142,
+          "end": 151,
+          "question": "Who suffers the most from a narcissist's behavior?",
+          "options": [
+            "Only the narcissist",
+            "The doctors who study them",
+            "The people around the narcissist"
+          ],
+          "correctIndex": 2,
+          "keyLine": "It's like a disease where the sufferers feel pretty good, but the people around them suffer."
+        },
+        {
+          "start": 255,
+          "end": 264,
+          "question": "What does the video say about social media and narcissism?",
+          "options": [
+            "There is no clear evidence that social media causes narcissism",
+            "Social media is the main cause of narcissism in children",
+            "Narcissists avoid using social media"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Though it's worth noting that there's no clear evidence that social media causes narcissism."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What are the two main types of narcissism described by psychologists?",
+          "options": [
+            "Ancient and modern narcissism",
+            "Grandiose and vulnerable narcissism",
+            "Genetic and social narcissism"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "According to the video, what factors can contribute to narcissism?",
+          "options": [
+            "Only a person's diet and sleep habits",
+            "Reading too many Greek and Roman myths",
+            "Genetics, how parents treat their children, and culture"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Can people with narcissistic traits improve their behavior?",
+          "options": [
+            "Yes, through therapy and practicing compassion, though it is hard work",
+            "No, because personality traits can never change after childhood",
+            "Yes, easily, as soon as someone points out their mistakes"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Why is it difficult for people with narcissistic personality disorder to keep working on self-improvement?",
+        "options": [
+          "Because looking honestly at their own faults goes against their idealized view of themselves",
+          "Because psychologists do not have any treatments for personality disorders",
+          "Because only children can be diagnosed with narcissistic personality disorder"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "obsessed",
+          "meaning": "thinking about something all the time in an extreme way",
+          "at": 12
+        },
+        {
+          "word": "reflection",
+          "meaning": "an image seen in a mirror or water",
+          "at": 25
+        },
+        {
+          "word": "traits",
+          "meaning": "qualities that make up a person's character or personality",
+          "at": 49
+        },
+        {
+          "word": "self-centered",
+          "meaning": "caring only about oneself and not about other people",
+          "at": 167
+        },
+        {
+          "word": "compassion",
+          "meaning": "care and sympathy for people who are having problems",
+          "at": 279
+        }
+      ]
+    }
   },
   {
     "id": "teded_antibiotic_resistance",
@@ -196,7 +1132,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should doctors refuse antibiotics when patients request them unnecessarily?"
+    "flightQuestion": "Should doctors refuse antibiotics when patients request them unnecessarily?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 42,
+          "end": 52,
+          "question": "Are all the bacteria inside the human body dangerous?",
+          "options": [
+            "No, many are harmless or even help with digestion and immunity",
+            "Yes, every bacterium inside the body causes illness",
+            "No, because bacteria can only live on tables and skin"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Many of these bacteria are harmless or even beneficial, helping digestion and immunity."
+        },
+        {
+          "start": 94,
+          "end": 102,
+          "question": "Why are some antibiotics becoming less effective today?",
+          "options": [
+            "Factories have forgotten how to make strong medicines",
+            "The bacteria they were made to fight have changed",
+            "Human cells are destroying the antibiotics"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The problem is not with the antibiotics, but the bacteria they were made to fight."
+        },
+        {
+          "start": 108,
+          "end": 120,
+          "question": "What happens when a random mutation gives a bacterium an advantage?",
+          "options": [
+            "The bacterium becomes larger than plant and animal cells",
+            "The bacterium immediately dies",
+            "It helps the bacterium survive"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Many of these mutations are harmful or useless, but every now and then, one comes along that gives its organism an edge in survival."
+        },
+        {
+          "start": 213,
+          "end": 221,
+          "question": "What is the good news mentioned near the end of the video?",
+          "options": [
+            "Scientists are working to stay one step ahead of the bacteria",
+            "All super bacteria have already been destroyed",
+            "Hospitals no longer need to clean their equipment"
+          ],
+          "correctIndex": 0,
+          "keyLine": "But there is good news: scientists are working to stay one step ahead of the bacteria."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main topic of this video?",
+          "options": [
+            "How to cook fish safely in a kitchen",
+            "How bacteria evolve to survive antibiotics and how people can respond",
+            "Why all microorganisms disappeared from Earth"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How do antibiotics normally fight bacterial infections?",
+          "options": [
+            "By killing or stopping bacteria without harming human cells",
+            "By turning all bacteria into human cells",
+            "By heating up the body until the bacteria leave"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is one important way people can help slow down antibiotic resistance?",
+          "options": [
+            "Take antibiotics every day even when healthy",
+            "Stop washing hands in hospitals",
+            "Reduce unnecessary antibiotic use for minor infections that get better on their own"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How does using fewer unnecessary antibiotics help fight resistant 'super bacteria'?",
+        "options": [
+          "It keeps more non-resistant bacteria alive so they compete with resistant bacteria for space and resources",
+          "It makes the resistant bacteria forget how to share their DNA",
+          "It causes antibiotics to grow naturally inside the human body"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "harmless",
+          "meaning": "not able or likely to cause any damage or injury",
+          "at": 46
+        },
+        {
+          "word": "infections",
+          "meaning": "diseases caused by bacteria or viruses entering the body",
+          "at": 54
+        },
+        {
+          "word": "antibiotics",
+          "meaning": "medicines that cure infections by destroying bacteria",
+          "at": 69
+        },
+        {
+          "word": "mutations",
+          "meaning": "changes in the genes of a living thing",
+          "at": 109
+        },
+        {
+          "word": "vaccines",
+          "meaning": "substances given to protect people from getting a disease",
+          "at": 233
+        }
+      ]
+    }
   },
   {
     "id": "teded_how_to_practice_effectively",
@@ -216,7 +1269,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should short focused practice replace long unfocused sessions?"
+    "flightQuestion": "Should short focused practice replace long unfocused sessions?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 14,
+          "end": 22,
+          "question": "How does the narrator define practice?",
+          "options": [
+            "Repeating an action with the goal of getting better",
+            "Performing a skill in front of a large crowd",
+            "Testing how fast muscles can move without rest"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Practice is the repetition of an action with the goal of improvement."
+        },
+        {
+          "start": 109,
+          "end": 115,
+          "question": "What does the video say about 'muscle memory'?",
+          "options": [
+            "Muscles store memories better than the brain",
+            "Muscles themselves do not really have memory",
+            "Only athletes have muscle memory"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Muscles themselves don't really have memory."
+        },
+        {
+          "start": 161,
+          "end": 171,
+          "question": "What does the video suggest doing with a cell phone while practicing?",
+          "options": [
+            "Use it to check social media every six minutes",
+            "Keep the screen on to watch TV shows",
+            "Put it on airplane mode to avoid distractions"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Minimize potential distractions by turning off the computer or TV and putting your cell phone on airplane mode."
+        },
+        {
+          "start": 238,
+          "end": 248,
+          "question": "In the basketball experiment, how did Group B practice free throws?",
+          "options": [
+            "They only practiced them mentally in their minds",
+            "They practiced with two hands instead of one",
+            "They practiced for 60 hours per week on the court"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Group A physically practiced one-handed free throws, while Group B only mentally practiced them."
+        }
+      ],
+      "gist": [
+        {
+          "q": "How does practice change the brain to make someone better at a skill?",
+          "options": [
+            "It removes all the white matter from the brain",
+            "It builds thicker layers of myelin so signals travel faster and more efficiently",
+            "It creates new muscles inside the spinal cord"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What matters most when trying to master a skill?",
+          "options": [
+            "Not just the number of hours, but the quality and focus of the practice",
+            "Practicing for as many hours in a row as possible without breaks",
+            "Only practicing skills that are already easy"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which of these is one of the video's tips for effective practice?",
+          "options": [
+            "Start as fast as possible even if mistakes happen",
+            "Keep a laptop open to social media while studying",
+            "Start slowly, take breaks between short sessions, and imagine the movement in detail"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is it helpful to start practicing a physical motion slowly before speeding up?",
+        "options": [
+          "Because repetition builds coordination whether the movement is done right or wrong, so starting slowly helps build the right habit",
+          "Because myelin only grows when a person moves in slow motion",
+          "Because fast movements do not send any electrical signals from the brain"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "repetition",
+          "meaning": "doing the same thing many times",
+          "at": 16
+        },
+        {
+          "word": "confidence",
+          "meaning": "the feeling that one can do something well",
+          "at": 23
+        },
+        {
+          "word": "weaknesses",
+          "meaning": "areas where someone is not strong yet and needs to improve",
+          "at": 149
+        },
+        {
+          "word": "distractions",
+          "meaning": "things that take attention away from what someone is doing",
+          "at": 164
+        },
+        {
+          "word": "reinforced",
+          "meaning": "made stronger",
+          "at": 231
+        }
+      ]
+    }
   },
   {
     "id": "teded_immune_system",
