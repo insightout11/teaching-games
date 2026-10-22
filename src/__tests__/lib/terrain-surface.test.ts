@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceFromHighGround, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
+import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
 import { routeLengthKm, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 
@@ -20,6 +20,11 @@ describe('continuous elevation in the original flight frame', () => {
   it('keeps the feature off by default and converts real metres without changing the camera scale', () => {
     expect(realTerrain()).toBe(false);
     expect(8000 * HEIGHT_UNITS).toBe(3200);
+  });
+  it('keeps sun lighting relative to the plane heading and real elevation angle', () => {
+    expect(surfaceLightDirection(90, 0, 90)).toEqual([0, 1, 0]);
+    expect(surfaceLightDirection(180, 0, 90)[0]).toBeCloseTo(1);
+    expect(surfaceLightDirection(90, 90, 90)[2]).toBeCloseTo(1);
   });
   it('maps along and side coordinates back to the same great-circle coast frame', () => {
     const rad = Math.PI / 180;

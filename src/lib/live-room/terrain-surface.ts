@@ -15,6 +15,12 @@ export interface SurfaceGrid {
 export interface SurfaceTexture { pixels: Uint8ClampedArray; size: number; worldSize: number; mean: number[] }
 export type SurfaceTextures = Map<string, SurfaceTexture>;
 
+/** Direction to the actual sun/moon in the plane's right/forward/up axes. */
+export function surfaceLightDirection(azimuth: number, elevation: number, heading: number): [number, number, number] {
+  const r = Math.PI / 180, angle = (azimuth - heading) * r, height = elevation * r;
+  return [Math.sin(angle) * Math.cos(height), Math.cos(angle) * Math.cos(height), Math.sin(height)];
+}
+
 function bearing(a: LatLng, b: LatLng): number {
   const r = Math.PI / 180, d = (b.lng - a.lng) * r;
   return Math.atan2(Math.sin(d) * Math.cos(b.lat * r), Math.cos(a.lat * r) * Math.sin(b.lat * r) - Math.sin(a.lat * r) * Math.cos(b.lat * r) * Math.cos(d));
@@ -154,6 +160,7 @@ export interface SurfaceView {
   /** Along coordinate of the camera and world units per geographic km; both use the existing one-clock frame. */
   ahead: number; alongScale: number; sideScale: number; textureZ: number;
   far: number; near: number; sunX: number; sunY: number; dark: boolean;
+  sunDirection?: [number, number, number];
   haze: number[]; fallback: number[]; snow: number[]; cloudCover: number; seconds: number;
 }
 
@@ -162,8 +169,10 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   const { width: w, height: h, horizon, focal, cameraHeight, far, near } = view;
   pixels.fill(0); depth.fill(Infinity);
   const materials = g.materials.map(key => textures.get(key));
-  const sunUp = Math.max(0.15, 1 - view.sunY), sunSide = (view.sunX - 0.5) * 1.5;
-  const lightLength = Math.hypot(sunSide, 0.4, sunUp);
+  const snowTexture = textures.get('__snow');
+  const sunUp = Math.max(0.05, view.sunDirection?.[2] ?? 1 - view.sunY);
+  const sunSide = view.sunDirection?.[0] ?? (view.sunX - 0.5) * 1.5, sunAhead = view.sunDirection?.[1] ?? 0.4;
+  const lightLength = Math.hypot(sunSide, sunAhead, sunUp);
   let drawn = 0;
   for (let x = 0; x < w; x++) {
     let top = h;
@@ -186,7 +195,7 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const dx = ((g.height[i + 1] - g.height[i]) * (1 - fy) + (g.height[i + g.cols + 1] - g.height[i + g.cols]) * fy) / (g.step * 1000);
       const dz = (h1 - h0) / (g.step * 1000);
       // The source averages slopes over ~50 km. Enhance normals, not heights, to keep those real ridges legible.
-      const illumination = (-dx * 6 * sunSide - dz * 6 * 0.4 + sunUp) / (Math.hypot(dx * 6, dz * 6, 1) * lightLength);
+      const illumination = (-dx * 6 * sunSide - dz * 6 * sunAhead + sunUp) / (Math.hypot(dx * 6, dz * 6, 1) * lightLength);
       const cloud = 1 - view.cloudCover / 100 * 0.15 * (0.5 + 0.5 * Math.sin(ahead * 0.15 + side * 0.2));
       const light = (view.dark ? 0.38 : 0.55 + Math.max(0, illumination) * 0.55) * cloud;
       let red = 0, green = 0, blue = 0, total = 0;
@@ -231,10 +240,19 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       if (total < 0.01) { red = view.fallback[0]; green = view.fallback[1]; blue = view.fallback[2]; total = 1; }
       const snowline = (g.snowline[i] * (1 - fx) + g.snowline[i + 1] * fx) * (1 - fy) + (g.snowline[i + g.cols] * (1 - fx) + g.snowline[i + g.cols + 1] * fx) * fy;
       const snow = Math.max(0, Math.min(1, (heightM - snowline) / 250));
+      let snowRed = view.snow[0], snowGreen = view.snow[1], snowBlue = view.snow[2];
+      if (snow > 0 && snowTexture) {
+        const u = Math.floor(worldX * 64 / snowTexture.worldSize) & 63;
+        const v = Math.floor((view.textureZ + z) * 64 / snowTexture.worldSize) & 63;
+        const at = (v * 64 + u) * 4;
+        snowRed = snowRed * 0.4 + snowTexture.pixels[at] * 0.6;
+        snowGreen = snowGreen * 0.4 + snowTexture.pixels[at + 1] * 0.6;
+        snowBlue = snowBlue * 0.4 + snowTexture.pixels[at + 2] * 0.6;
+      }
       const fog = Math.min(0.96, Math.pow(z / far, 0.7) * 0.9);
-      const rr = ((red / total * (1 - snow) + view.snow[0] * snow) * light) * (1 - fog) + view.haze[0] * fog;
-      const gg = ((green / total * (1 - snow) + view.snow[1] * snow) * light) * (1 - fog) + view.haze[1] * fog;
-      const bb = ((blue / total * (1 - snow) + view.snow[2] * snow) * light) * (1 - fog) + view.haze[2] * fog;
+      const rr = ((red / total * (1 - snow) + snowRed * snow) * light) * (1 - fog) + view.haze[0] * fog;
+      const gg = ((green / total * (1 - snow) + snowGreen * snow) * light) * (1 - fog) + view.haze[1] * fog;
+      const bb = ((blue / total * (1 - snow) + snowBlue * snow) * light) * (1 - fog) + view.haze[2] * fog;
       for (let yy = y; yy < top; yy++) {
         const cell = yy * w + x, p = cell * 4;
         pixels[p] = rr; pixels[p + 1] = gg; pixels[p + 2] = bb; pixels[p + 3] = 255; depth[cell] = z;
