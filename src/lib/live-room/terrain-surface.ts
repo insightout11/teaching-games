@@ -208,7 +208,7 @@ export function textureChannel(tex: SurfaceTexture, u: number, v: number, channe
 const albedoCache = new WeakMap<SurfaceGrid, { sources: Array<SurfaceTexture | undefined>; color: Float32Array }>();
 /** Material filtering belongs to take-off/palette preparation, not to every visible ray sample. */
 function surfaceAlbedo(g: SurfaceGrid, textures: SurfaceTextures, fallback: number[]): Float32Array {
-  const sources = g.materials.map(key => textures.get(key)), old = albedoCache.get(g);
+  const sources = [...g.materials.map(key => textures.get(key)), textures.get('__rock'), textures.get('__forest')], old = albedoCache.get(g);
   if (old && old.sources.length === sources.length && sources.every((source, i) => source === old.sources[i])) return old.color;
   const color = new Float32Array(g.height.length * 3);
   for (let i = 0; i < g.height.length; i++) {
@@ -221,6 +221,15 @@ function surfaceAlbedo(g: SurfaceGrid, textures: SurfaceTextures, fallback: numb
     }
     if (total < 0.01) for (let c = 0; c < 3; c++) color[i * 3 + c] = fallback[c];
     else for (let c = 0; c < 3; c++) color[i * 3 + c] /= total;
+    const slope = Math.hypot(g.slopeX?.[i] ?? 0, g.slopeZ?.[i] ?? 0), height = g.height[i], line = g.snowline[i];
+    const rock = smooth01((height - (line - 1500)) / 1800) * smooth01(slope / 0.6) * 0.7;
+    const arid = /desert|salt-flats/.test(g.materials[g.kinds[i * 4]] ?? '');
+    const treeLine = Math.max(1700, line - 1600);
+    const forest = arid ? 0 : smooth01((height - 500) / 700) * (1 - smooth01((height - treeLine + 500) / 700)) * smooth01(slope / 0.3) * 0.45;
+    for (const [name, weight] of [['__forest', forest], ['__rock', rock]] as const) {
+      const tex = textures.get(name); if (!tex || weight < 0.001) continue;
+      for (let c = 0; c < 3; c++) color[i * 3 + c] = color[i * 3 + c] * (1 - weight) + textureChannel(tex, side * 280 * tex.size / tex.worldSize, ahead * 400 * tex.size / tex.worldSize, c) * weight;
+    }
   }
   albedoCache.set(g, { sources, color }); return color;
 }
@@ -284,17 +293,13 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const cloud = 1 - view.cloudCover / 100 * 0.15 * (0.5 + 0.5 * Math.sin(ahead * 0.15 + side * 0.2));
       const light = (view.dark ? 0.32 : 0.30 + Math.max(0, illumination) * 0.85) * cloud;
       const a = i * 3, b = a + 3, c0 = (i + g.cols) * 3, d = c0 + 3;
-      let red = (albedo[a] * (1 - fx) + albedo[b] * fx) * (1 - fy) + (albedo[c0] * (1 - fx) + albedo[d] * fx) * fy;
-      let green = (albedo[a + 1] * (1 - fx) + albedo[b + 1] * fx) * (1 - fy) + (albedo[c0 + 1] * (1 - fx) + albedo[d + 1] * fx) * fy;
-      let blue = (albedo[a + 2] * (1 - fx) + albedo[b + 2] * fx) * (1 - fy) + (albedo[c0 + 2] * (1 - fx) + albedo[d + 2] * fx) * fy;
-      let total = 1;
+      const red = (albedo[a] * (1 - fx) + albedo[b] * fx) * (1 - fy) + (albedo[c0] * (1 - fx) + albedo[d] * fx) * fy;
+      const green = (albedo[a + 1] * (1 - fx) + albedo[b + 1] * fx) * (1 - fy) + (albedo[c0 + 1] * (1 - fx) + albedo[d + 1] * fx) * fy;
+      const blue = (albedo[a + 2] * (1 - fx) + albedo[b + 2] * fx) * (1 - fy) + (albedo[c0 + 2] * (1 - fx) + albedo[d + 2] * fx) * fy;
+      const total = 1;
       const snowline = (g.snowline[i] * (1 - fx) + g.snowline[i + 1] * fx) * (1 - fy) + (g.snowline[i + g.cols] * (1 - fx) + g.snowline[i + g.cols + 1] * fx) * fy;
       // The snow test uses unexaggerated metres. Back-facing slopes retain exposed rock rather than a white blanket.
       const snow = surfaceSnow(heightM, snowline, Math.hypot(dx, dz), illumination);
-      const rock = Math.max(0, Math.min(0.9, (heightM - (snowline - 1600)) / 1200)) * Math.min(1, Math.hypot(dx, dz) * 3 + 0.25);
-      red = red / total * (1 - rock) + 126 * rock;
-      green = green / total * (1 - rock) + 119 * rock;
-      blue = blue / total * (1 - rock) + 107 * rock; total = 1;
       let snowRed = view.snow[0], snowGreen = view.snow[1], snowBlue = view.snow[2];
       if (snowTexture) {
         // The ice tile's broad colour survives; tiny unfiltered white texels must not sparkle in distant snowfields.

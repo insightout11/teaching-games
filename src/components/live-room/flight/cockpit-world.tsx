@@ -566,6 +566,10 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         if (texture) surfaceTextures.current.set(`${terrain}|${reg}`, texture);
         const snow = copySurfaceTexture(iceTexture(palette, night));
         if (snow) surfaceTextures.current.set('__snow', snow);
+        const rock = copySurfaceTexture(mountainTexture(palette, night, range.floor));
+        const forest = copySurfaceTexture(forestTexture(palette, night));
+        if (rock) surfaceTextures.current.set('__rock', rock);
+        if (forest) surfaceTextures.current.set('__forest', forest);
       }
       const tiny = rc.levels[rc.levels.length - 1]?.[rc.levels[rc.levels.length - 1].length - 1];
       const ground = tiny ? averageColour(tiny) : null;
