@@ -1,5 +1,6 @@
 import { elevationAt, loadElevation } from './elevation';
 import { loadTerrarium } from './terrarium';
+import { sharpenTerrainSummits } from './terrain-landmarks';
 import { snowlineM, type HighGround } from './elevation-ahead';
 import { smoothCoastRing, groundMixAt, type CoastStrip } from './coast-strip';
 import { greatCirclePoint, type LatLng } from './route-terrain';
@@ -94,7 +95,8 @@ export function loadSurfaceGrid(strip: CoastStrip): Promise<SurfaceGrid | null> 
     }, { step: 1, halfWidth: 160, behind: 40, beyond: 200 });
     grid.source = tiles.count === 0 ? 'coarse' : missing ? 'mixed' : 'terrarium';
     grid.tiles = tiles.count; grid.failedTiles = tiles.failed;
-    return grid;
+    sharpenTerrainSummits(grid, from!, to!, strip.routeKm);
+    return indexMax(grid);
   })();
   cache.set(strip, pending); return pending;
 }

@@ -81,6 +81,7 @@ export function drawSceneEvent(
   proj: (x: number, z: number, y?: number) => [number, number], scale: (z: number) => number,
   t: number, night: boolean, haze: RGB, fog: number, alpha: number,
   /** A volcano's summit height (world units): the plume rises from there. */ ventTop = 1700,
+  terrainPoint?: (x: number, z: number) => [number, number],
 ) {
   ctx.save();
   const sc = scale(z);
@@ -172,7 +173,7 @@ export function drawSceneEvent(
     ctx.drawImage(puff([230, 80, 30]), cx - sr, cy - sr * 0.5, sr * 2, sr);
     ctx.globalCompositeOperation = 'source-over';
     // lava: a few glowing streams down the slopes facing the plane, brightest near the crater
-    const R0 = ventTop * 1.4;   // the shared volcano's base radius (w / 2)
+    const R0 = terrainPoint ? 1600 : ventTop * 1.4;   // the shared volcano's base radius (w / 2)
     ctx.globalCompositeOperation = 'lighter';
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     for (let k = 0; k < 3; k++) {
@@ -184,7 +185,7 @@ export function drawSceneEvent(
         const hf = 0.97 - (j / 16) * (0.97 - reach);
         const a = a0 + Math.sin(j * 0.55 + k * 2.3) * 0.09;
         const r = (0.1 + 0.9 * (1 - Math.pow(hf, 1 / 1.25))) * R0 * 1.01;
-        pts.push(proj(x + Math.sin(a) * r, z - Math.cos(a) * r, hf * ventTop));
+        pts.push(terrainPoint ? terrainPoint(x + Math.sin(a) * r, z - Math.cos(a) * r) : proj(x + Math.sin(a) * r, z - Math.cos(a) * r, hf * ventTop));
       }
       const g = ctx.createLinearGradient(pts[0][0], pts[0][1], pts[16][0], pts[16][1]);
       const pulse = 0.9 + 0.1 * Math.sin(t * 0.5 + k);

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { CockpitSky, LIGHT_POS } from '@/components/live-room/flight/cockpit-sky';
-import type { WorldLandmark, WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
+import type { WorldLandmark } from '@/components/live-room/flight/world-landmarks';
 import type { SceneEvent } from '@/components/live-room/flight/event-art';
 import { CockpitWorld, type RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { realCoast, setRealCoast, realTerrain, setRealTerrain } from '@/components/live-room/flight/ground-texture';
@@ -11,10 +11,12 @@ import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { greatCirclePoint } from '@/lib/live-room/route-terrain';
+import { terrainRouteLandmarks } from '@/lib/live-room/terrain-landmarks';
 import { coastStrip, type CoastStrip } from '@/lib/live-room/coast-strip';
 
 /** Preview of the route coast strip (Oct 2026): Manila to Hanoi, the coast read at the plane's place on the route. */
 const ROUTES = [
+  { label: 'Tokyo to Osaka', from: { lat: 35.6762, lng: 139.6503 }, to: { lat: 34.6937, lng: 135.5023 } },
   { label: 'Kathmandu to Lhasa', from: { lat: 27.7172, lng: 85.324 }, to: { lat: 29.652, lng: 91.1721 } },
   { label: 'Zurich to Milan', from: { lat: 47.3769, lng: 8.5417 }, to: { lat: 45.4642, lng: 9.19 } },
   { label: 'Manila to Hanoi', from: { lat: 14.5995, lng: 120.9842 }, to: { lat: 21.0278, lng: 105.8342 } },
@@ -74,8 +76,14 @@ export function CoastStripGallery() {
   const alt = Math.max(0.2, Math.min(1, Number(query.get('alt') ?? '1') || 1));
   // Optional preview fixtures exercise the existing landmark/event art on an elevated surface.
   const demoKind = query.get('landmark');
-  const demoLandmarks = useMemo<WorldLandmark[]>(() => ['fuji', 'everest', 'pyramids', 'volcano'].includes(demoKind ?? '') && strip
-    ? [{ id: `surface-${demoKind}`, kind: demoKind as WorldLandmarkKind, ahead: 50, lateral: -12, along: strip.routeKm * 0.5 + 50 }] : [], [demoKind, strip]);
+  const demoLandmarks = useMemo<WorldLandmark[]>(() => {
+    if (!strip) return [];
+    const actual = terrainRouteLandmarks(route.from, route.to, strip.routeKm);
+    // The existing departure Look places Giza in front of the window. This explicit QA fixture uses that same
+    // scenic placement; Giza's real position is already behind the northbound route at t=0.01.
+    if (demoKind === 'pyramids') return [{ id: 'pyramids', kind: 'pyramids', ahead: 45, lateral: -9, along: strip.routeKm * 0.01 + 45 }];
+    return actual;
+  }, [strip, route, demoKind]);
   const demoEvent = query.get('event');
   const demoEvents = useMemo<SceneEvent[]>(() => demoEvent === 'fire' || demoEvent === 'storm' || demoEvent === 'volcano'
     ? [{ id: `surface-${demoEvent}`, kind: demoEvent, ahead: 55, lateral: 12 }] : [], [demoEvent]);
@@ -85,7 +93,7 @@ export function CoastStripGallery() {
     <div className="min-h-screen space-y-3 bg-[#070b14] p-4 text-white">
       <div className="flex flex-wrap items-center gap-1.5">
         <h1 className="mr-1 font-display text-xl">Coast strip</h1>
-        {ROUTES.map((r, i) => <button key={r.label} type="button" aria-pressed={ri === i} onClick={() => { setRi(i); setT(0.02); }} className={`rounded-full border px-2 py-1 text-xs ${ri === i ? 'border-amber-300/70 text-amber-100' : 'border-white/15 text-white/70'}`}>{r.label}</button>)}
+        {ROUTES.map((r, i) => <button key={r.label} type="button" aria-pressed={ri === i} onClick={() => { setStrip(null); setRi(i); setT(0.02); }} className={`rounded-full border px-2 py-1 text-xs ${ri === i ? 'border-amber-300/70 text-amber-100' : 'border-white/15 text-white/70'}`}>{r.label}</button>)}
         <button type="button" onClick={() => setPlaying((p) => !p)} className="rounded-full bg-amber-300 px-3 py-1 text-xs font-semibold text-[#1b2233]">{playing ? 'Pause' : `Fly (${minutes} min)`}</button>
         <select aria-label="Flight duration" value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="rounded bg-slate-900 px-2 py-1 text-xs"><option value={1}>1 min</option><option value={3}>3 min</option><option value={10}>10 min</option></select>
         <span className="font-mono text-xs text-white/60">{strip ? `${Math.round(t * strip.routeKm)} of ${Math.round(strip.routeKm)} km · ${strip.land.length} land outlines` : 'working out the coast…'}</span>
@@ -93,7 +101,7 @@ export function CoastStripGallery() {
       <input type="range" min={0} max={1} step={0.002} value={t} onChange={(e) => setT(Number(e.target.value))} className="w-full" aria-label="Place on the route" />
       <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-black">
         <CockpitSky palette={palette} timeOfDay={tod} altitude={alt} />
-        <CockpitWorld altitude={alt} surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain="farmland" region="Asia" palette={palette} night={tod === 'night'} speed={0.55} cloudCover={10} coastStrip={strip} routeClock={clock} highGround={ground} landmarks={demoLandmarks} events={demoEvents} />
+        <CockpitWorld key={route.label} altitude={alt} surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain="farmland" region="Asia" palette={palette} night={tod === 'night'} speed={0.55} cloudCover={10} coastStrip={strip} routeClock={clock} highGround={ground} landmarks={demoLandmarks} events={demoEvents} />
       </div>
     </div>
   );

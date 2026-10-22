@@ -22,6 +22,8 @@ import type { MoonPosition, SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
+import { naturalLandmark } from '@/lib/live-room/terrain-landmarks';
+import { realTerrain } from '@/components/live-room/flight/ground-texture';
 import { surfaceLightDirection } from '@/lib/live-room/terrain-surface';
 import { CockpitSky, LIGHT_POS, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
@@ -224,8 +226,8 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     // a landmark kept for the slow look (by the departure or arrival city) never shows in the normal scenery: it passed
     // at full speed in the climb from Manila (Pinatubo), before the slow look began
     const held = new Set([scenicLandmark?.id, arrivalScenic?.id, arrivalHoldId].filter(Boolean) as string[]);
-    const normal = (landmarks ?? []).filter((l) => !held.has(l.id));
-    if (!scenicOn || !scenic) return normal;
+    const normal = (landmarks ?? []).filter((l) => !held.has(l.id) || (realTerrain() && naturalLandmark(l.kind)));
+    if (!scenicOn || !scenic || (realTerrain() && naturalLandmark(scenic.kind))) return normal;
     const own = { id: scenic.id, kind: scenic.kind, ahead: SCENIC_AHEAD_KM, lateral: scenic.side === 'left' ? -9 : 9 };
     return [...normal, own];
   }, [scenicOn, scenic, landmarks, scenicLandmark?.id, arrivalScenic?.id, arrivalHoldId]);

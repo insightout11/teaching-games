@@ -12,6 +12,7 @@ import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { smoothCoastRing as smoothRing, clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
+import { naturalLandmark, photoLandmarkId, SUMMIT_NAMES } from '@/lib/live-room/terrain-landmarks';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realTerrain, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -1405,12 +1406,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       }
       const lms = Array.from(landmarkWorld.current.values()).filter((l) => l.z - camZ > Z_NEAR * 2 && l.z - camZ < Z_FAR);
       // Photo mode: the landmark in good view right now (close enough, inside the window), for the Take photo button
-      let chance: string | null = null, chanceZ = Infinity;
-      landmarkWorld.current.forEach((l, id) => {
-        const rz = l.z - camZ;
-        if (rz < Z_NEAR * 4 || rz > 44000 || Math.abs((l.x * F) / rz) > w * 0.42) return;
-        if (rz < chanceZ) { chance = id; chanceZ = rz; }
-      });
+      const chance = photoLandmarkId(landmarkWorld.current, camZ, F, w, Z_NEAR * 4);
+      canvas.dataset.photoChance = chance ?? '';
       if (chance !== photoChance.current) {
         photoChance.current = chance;
         window.dispatchEvent(new CustomEvent('lc-photo-chance', { detail: { id: chance } }));
@@ -1499,6 +1496,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         return [w / 2 + x * s, horizonY + (surfaceCamH - y) * s];
       };
       // smoke, ash and storm clouds are drawn after the horizon's haze band (it would cut a line through them)
+      const summitLabels: string[] = [];
       const lateEvents: (readonly [{ kind: EventKind; seed: number }, number, number, number])[] = [];
       for (const { p, layer, lm, cloud, ev } of all) {
         const rz = p.z - camZ;
@@ -1509,7 +1507,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const baseY = horizonY + (surfaceCamH - groundHeight) * s;
         if (ev) {
           // a volcano stands as the shared volcano landmark, its plume rising from the summit
-          if (ev.kind === 'volcano') { ctx.save(); clipSurface(rz); drawWorldLandmark(ctx, 'volcano', { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, groundProj, Math.pow(Math.min(1, rz / Z_FAR), 0.7), haze, Math.min(1, (Z_FAR - rz) / 8000)); ctx.restore(); }
+          if (ev.kind === 'volcano' && !surfaceActive) { ctx.save(); clipSurface(rz); drawWorldLandmark(ctx, 'volcano', { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, groundProj, Math.pow(Math.min(1, rz / Z_FAR), 0.7), haze, Math.min(1, (Z_FAR - rz) / 8000)); ctx.restore(); }
           const evArgs = [ev, p.x, p.z, rz] as const;
           lateEvents.push(evArgs);
           continue;
@@ -1523,6 +1521,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           continue;
         }
         if (lm) {
+          if (realTerrain() && naturalLandmark(lm)) {
+            const cx = w / 2 + p.x * s, cy = baseY;
+            if (surfaceDrawn && cx > 20 && cx < w - 20 && cy > 12 && cy < h - 20 && visibleOnSurface(cx, cy, rz)) {
+              ctx.save(); ctx.globalAlpha = Math.min(0.8, (1 - rz / Z_FAR) * 1.5);
+              ctx.font = '12px system-ui, sans-serif'; ctx.textAlign = 'center';
+              ctx.shadowColor = 'rgba(0,0,0,0.65)'; ctx.shadowBlur = 3;
+              ctx.fillStyle = dark ? '#cbd3df' : '#f4f4ec';
+              ctx.fillText(SUMMIT_NAMES[lm] ?? lm, cx, cy - 10); summitLabels.push(lm); ctx.restore();
+            }
+            continue;
+          }
           const lfog = Math.pow(Math.min(1, rz / Z_FAR), 0.7);
           const lfade = Math.min(1, (Z_FAR - rz) / 8000);
           // during the descent a landmark shrinks with the camera (as the mountains do), keeping its shape, so it
@@ -1530,7 +1539,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           const k = Math.min(1, (Math.max(200, surfaceCamH - groundHeight) * 0.85) / Math.max(1, LANDMARK_SIZE[lm].h));
           const lproj: typeof proj = k < 1 ? (x, z, y = 0) => proj(p.x + (x - p.x) * k, p.z + (z - p.z) * k, y * k + groundHeight) : groundProj;
           ctx.save(); clipSurface(rz);
-          drawWorldLandmark(ctx, lm, { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, lproj, lfog, haze, lfade);
+          drawWorldLandmark(ctx, lm, { night: layer.night, snow: layer.snow, leaf: layer.leaf, rock: layer.rock, light: surfaceActive ? live.current.surfaceSun?.direction ?? [(live.current.surfaceSun?.x ?? 0.3) - 0.5, 0.4, 1 - (live.current.surfaceSun?.y ?? 0.18)] : undefined }, { x: p.x, z: p.z, cx: w / 2 + p.x * s, baseY, s }, lproj, lfog, haze, lfade);
           ctx.restore();
           continue;
         }
@@ -1626,7 +1635,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const base = ev.kind === 'storm' ? 0 : onSurface(ex, ez);
         const eventProj: typeof proj = (x, z, y = 0) => proj(x, z, y + base);
         ctx.save(); if (ev.kind !== 'storm') clipSurface(rz);
-        drawSceneEvent(ctx, ev.kind, ev.seed, ex, ez, eventProj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000), LANDMARK_SIZE.volcano.h);
+        drawSceneEvent(ctx, ev.kind, ev.seed, ex, ez, eventProj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000), surfaceActive ? 0 : LANDMARK_SIZE.volcano.h, surfaceActive ? (x, z) => proj(x, z, onSurface(x, z) + 8) : undefined);
         ctx.restore();
       }
 
@@ -1635,7 +1644,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       if (profileSteps) window.dispatchEvent(new CustomEvent('coast-frame-profile', { detail: {
         steps: profileSteps, frameMs: performance.now() - profileStart, maskRefreshed: profileRefreshed,
         maskPixels: [coastMask.width, coastMask.height], canvasPixels: [canvas.width, canvas.height],
-        surface: { active: surfaceActive, drawn: surfaceDrawn, source: routeSurface ? 'route' : 'local', cameraHeight: surfaceCamH, targetHeight: cameraTarget, exaggeration: surfaceExaggeration, peakAhead: aheadPeak, peakBound: terrainGrid?.peak ?? 0, groundHeight: cameraGround, raster: [surfaceCanvas.width, surfaceCanvas.height] },
+        surface: { active: surfaceActive, drawn: surfaceDrawn, source: routeSurface ? 'route' : 'local', cameraHeight: surfaceCamH, targetHeight: cameraTarget, exaggeration: surfaceExaggeration, peakAhead: aheadPeak, peakBound: terrainGrid?.peak ?? 0, groundHeight: cameraGround, raster: [surfaceCanvas.width, surfaceCanvas.height], labels: summitLabels, ahead: surfaceAhead },
       } }));
       raf = requestAnimationFrame(frame);
     };
