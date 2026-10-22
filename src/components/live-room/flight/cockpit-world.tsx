@@ -1609,12 +1609,15 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       }
 
       // Soft band where the land meets the sky
-      const band = ctx.createLinearGradient(0, horizonY - 6, 0, horizonY + h * 0.06);
-      band.addColorStop(0, `rgba(${haze[0]},${haze[1]},${haze[2]},0)`);
-      band.addColorStop(0.4, `rgba(${haze[0]},${haze[1]},${haze[2]},0.55)`);
-      band.addColorStop(1, `rgba(${haze[0]},${haze[1]},${haze[2]},0)`);
-      ctx.fillStyle = band;
-      ctx.fillRect(0, horizonY - 6, w, h * 0.06 + 6);
+      // Raised land already receives distance fog. The flat-ground horizon veil must never cross its peaks.
+      if (!surfaceActive) {
+        const band = ctx.createLinearGradient(0, horizonY - 6, 0, horizonY + h * 0.06);
+        band.addColorStop(0, `rgba(${haze[0]},${haze[1]},${haze[2]},0)`);
+        band.addColorStop(0.4, `rgba(${haze[0]},${haze[1]},${haze[2]},0.55)`);
+        band.addColorStop(1, `rgba(${haze[0]},${haze[1]},${haze[2]},0)`);
+        ctx.fillStyle = band;
+        ctx.fillRect(0, horizonY - 6, w, h * 0.06 + 6);
+      }
       for (const [ev, ex, ez, rz] of lateEvents) {
         const base = ev.kind === 'storm' ? 0 : onSurface(ex, ez);
         const eventProj: typeof proj = (x, z, y = 0) => proj(x, z, y + base);
