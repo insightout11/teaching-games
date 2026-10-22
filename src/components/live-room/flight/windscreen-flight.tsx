@@ -22,7 +22,8 @@ import type { MoonPosition, SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
-import { CockpitSky, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
+import { surfaceLightDirection } from '@/lib/live-room/terrain-surface';
+import { CockpitSky, LIGHT_POS, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { CoastStrip } from '@/lib/live-room/coast-strip';
@@ -283,6 +284,8 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     return { x: parseFloat(spot.x) / 100, strength: isMoon ? 0.4 * (moon?.illumination ?? 0.5) : Math.max(0.4, Math.min(1, 1.1 - el / 60)), color: lightRgb };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spot?.x, spot?.visible, sun?.elevation, moon?.elevation, moon?.illumination, palette.light, palette.lightColor]);
+  const surfaceLight = palette.light === 'moon' ? moon : sun;
+  const surfaceDirection = surfaceLight && sun ? surfaceLightDirection(surfaceLight.azimuth, surfaceLight.elevation, sun.heading) : undefined;
   const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
   // the ground: close under the plane early in the climb, falling away to cruise height
   const groundAltitude = climbing ? Math.min(descentAltitude, 0.3 + 0.7 * Math.min(1, progress / CLIMB_OUT)) : descentAltitude;
@@ -332,7 +335,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.meteors && <MeteorStreaks />}
             {phase === 'cruise' && sky?.aurora && weather !== 'aurora' && <WindscreenWeather weather="aurora" />}
             {iss && phase === 'cruise' && <IssPass start={iss.start} side={iss.side} />}
-            <CockpitWorld altitude={groundAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={allLandmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} coastStrip={coastStrip} routeClock={routeClock} highGround={highGround} events={events} />
+            <CockpitWorld surfaceSun={{ x: parseFloat(spot?.x ?? LIGHT_POS[skyTime].x) / 100, y: parseFloat(spot?.y ?? LIGHT_POS[skyTime].y) / 100, direction: surfaceDirection }} altitude={groundAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={allLandmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} coastStrip={coastStrip} routeClock={routeClock} highGround={highGround} events={events} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}

@@ -949,6 +949,10 @@ export const realCoast = () => REAL_COAST;
 let REAL_RELIEF = true;
 export function setRealRelief(on: boolean) { REAL_RELIEF = on; }
 export const realRelief = () => REAL_RELIEF;
+/** Continuous real elevation surface: preview only until the owner enables it in classes. */
+let REAL_TERRAIN = false;
+export function setRealTerrain(on: boolean) { REAL_TERRAIN = on; }
+export const realTerrain = () => REAL_TERRAIN;
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
 export const groundRelief = () => GROUND_RELIEF;
 
