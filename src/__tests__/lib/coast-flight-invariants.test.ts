@@ -32,8 +32,8 @@ describe('texture colour sampling leaves live pattern sources unread', () => {
 });
 
 describe('coast rendering preserves flight behaviour', () => {
-  it('keeps real coastlines off by default in classes', () => {
-    expect(realCoast()).toBe(false);
+  it('real coastlines are on in classes (owner approved 22 Oct 2026)', () => {
+    expect(realCoast()).toBe(true);
   });
   it('keeps the original cruise speed and one route spread for slow flights', () => {
     expect(VIEW_UNITS_PER_SEC).toBe(0.55 * 4200);

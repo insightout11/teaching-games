@@ -939,9 +939,9 @@ export function setRealWaters(on: boolean) { REAL_WATERS = on; }
 export const realWaters = () => REAL_WATERS;
 
 /** Real coastlines (land and sea from closed land outlines; back on in the room, owner OK 20 Oct 2026). */
-// Off again 22 Oct 2026: the route coast strip still showed stair-stepped, shimmering edges and patchy colours in
-// class. Being rebuilt as smooth outlines on the preview page (/dev/coast-strip); back on only after owner approval.
-let REAL_COAST = false;
+// On 22 Oct 2026 (owner approved on /dev/coast-strip): smooth coast outlines from the whole-route strip, real land
+// colours, about 60 fps after the texture read-back fix.
+let REAL_COAST = true;
 export function setRealCoast(on: boolean) { REAL_COAST = on; }
 export const realCoast = () => REAL_COAST;
 
