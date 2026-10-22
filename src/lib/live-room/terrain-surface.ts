@@ -225,6 +225,11 @@ function surfaceAlbedo(g: SurfaceGrid, textures: SurfaceTextures, fallback: numb
   albedoCache.set(g, { sources, color }); return color;
 }
 
+const smooth01 = (value: number) => { const t = Math.max(0, Math.min(1, value)); return t * t * (3 - 2 * t); };
+export function surfaceSnow(height: number, line: number, slope: number, illumination: number): number {
+  return smooth01((height - line) / 1000) * smooth01((illumination + 0.15) / 0.85) * (1 - 0.55 * smooth01((slope - 0.4) / 0.8));
+}
+
 export interface SurfaceView {
   width: number; height: number; horizon: number; focal: number; cameraHeight: number;
   /** Along coordinate of the camera and world units per geographic km; both use the existing one-clock frame. */
@@ -285,19 +290,17 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       let total = 1;
       const snowline = (g.snowline[i] * (1 - fx) + g.snowline[i + 1] * fx) * (1 - fy) + (g.snowline[i + g.cols] * (1 - fx) + g.snowline[i + g.cols + 1] * fx) * fy;
       // The snow test uses unexaggerated metres. Back-facing slopes retain exposed rock rather than a white blanket.
-      const snow = Math.max(0, Math.min(1, (heightM - snowline) / 500)) * Math.max(0, Math.min(1, (illumination - 0.25) / 0.55));
+      const snow = surfaceSnow(heightM, snowline, Math.hypot(dx, dz), illumination);
       const rock = Math.max(0, Math.min(0.9, (heightM - (snowline - 1600)) / 1200)) * Math.min(1, Math.hypot(dx, dz) * 3 + 0.25);
       red = red / total * (1 - rock) + 126 * rock;
       green = green / total * (1 - rock) + 119 * rock;
       blue = blue / total * (1 - rock) + 107 * rock; total = 1;
       let snowRed = view.snow[0], snowGreen = view.snow[1], snowBlue = view.snow[2];
-      if (snow > 0 && snowTexture) {
-        const u = Math.floor(worldX * 64 / snowTexture.worldSize) & 63;
-        const v = Math.floor((view.textureZ + z) * 64 / snowTexture.worldSize) & 63;
-        const at = (v * 64 + u) * 4;
-        snowRed = snowRed * 0.4 + snowTexture.pixels[at] * 0.6;
-        snowGreen = snowGreen * 0.4 + snowTexture.pixels[at + 1] * 0.6;
-        snowBlue = snowBlue * 0.4 + snowTexture.pixels[at + 2] * 0.6;
+      if (snowTexture) {
+        // The ice tile's broad colour survives; tiny unfiltered white texels must not sparkle in distant snowfields.
+        snowRed = snowRed * 0.65 + snowTexture.mean[0] * 0.35;
+        snowGreen = snowGreen * 0.65 + snowTexture.mean[1] * 0.35;
+        snowBlue = snowBlue * 0.65 + snowTexture.mean[2] * 0.35;
       }
       const fog = Math.min(0.96, Math.pow(z / far, 0.7) * 0.9);
       const rr = ((red / total * (1 - snow) + snowRed * snow) * light) * (1 - fog) + view.haze[0] * fog;

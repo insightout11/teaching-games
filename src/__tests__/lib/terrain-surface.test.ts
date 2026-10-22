@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, textureChannel, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
+import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, textureChannel, surfaceSnow, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
 import { routeLengthKm, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
 
@@ -88,6 +88,13 @@ describe('voxel-space occlusion and rendering', () => {
       expect(texture.mean).toEqual([120, 120, 120]);
       expect(texture.worldSize).toBe(512 * 14);
     } finally { vi.unstubAllGlobals(); }
+  });
+  it('softens snow by real altitude, exposure and slope without a hard white threshold', () => {
+    expect(surfaceSnow(2400, 2500, 0.1, 1)).toBe(0);
+    expect(surfaceSnow(2501, 2500, 0.1, 1)).toBeLessThan(0.001);
+    expect(surfaceSnow(3000, 2500, 0.1, 1)).toBeCloseTo(0.5);
+    expect(surfaceSnow(4000, 2500, 1, 1)).toBeLessThan(surfaceSnow(4000, 2500, 0.1, 1));
+    expect(surfaceSnow(4000, 2500, 0.1, -0.3)).toBe(0);
   });
   it('filters texture texels continuously across wrapped boundaries', () => {
     const tex = { size: 2, worldSize: 2, mean: [0, 0, 0], pixels: new Uint8ClampedArray([0,0,0,255,100,0,0,255,200,0,0,255,100,0,0,255]) };
