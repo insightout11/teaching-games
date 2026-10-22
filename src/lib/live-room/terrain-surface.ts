@@ -1,4 +1,5 @@
 import { elevationAt, loadElevation } from './elevation';
+import { loadTerrarium } from './terrarium';
 import { snowlineM, type HighGround } from './elevation-ahead';
 import { smoothCoastRing, groundMixAt, type CoastStrip } from './coast-strip';
 import { greatCirclePoint, type LatLng } from './route-terrain';
@@ -8,6 +9,7 @@ export const HEIGHT_UNITS = 0.4;
 export interface SurfaceGrid {
   ahead0: number; side0: number; step: number; rows: number; cols: number;
   height: Float32Array; snowline: Float32Array;
+  source?: 'terrarium' | 'mixed' | 'coarse'; tiles?: number; failedTiles?: number;
   /** Four normalized material weights at each vertex, rather than nearest-cell colour changes. */
   materials: string[]; kinds: Uint16Array; weights: Float32Array;
   max: Float32Array; blockCols: number;
@@ -54,21 +56,37 @@ function emptyGrid(ahead0: number, side0: number, step: number, rows: number, co
 }
 
 const cache = new WeakMap<CoastStrip, Promise<SurfaceGrid | null>>();
-/** Reuse the bundled ETOPO elevation; no network, invented peaks, or change to the flight clock. */
+/** Load the sharper route band once at take-off; bundled elevation is an explicit offline fallback. */
 export function loadSurfaceGrid(strip: CoastStrip): Promise<SurfaceGrid | null> {
   const cached = cache.get(strip); if (cached) return cached;
   const pending = (async () => {
     if (!strip.origin || !strip.destination) return null;
     await loadElevation();
-    return buildSurfaceGrid(strip, elevationAt);
+    const from = strip.origin, to = strip.destination;
+    function* band() {
+      for (let a = -40; a <= strip.routeKm + 200; a += 12) for (let s = -160; s <= 160; s += 12)
+        yield surfacePoint(from!, to!, a, s, strip.routeKm);
+    }
+    const tiles = await loadTerrarium(band());
+    let missing = 0;
+    const grid = buildSurfaceGrid(strip, p => {
+      const height = tiles.sample(p);
+      if (height === null) { missing++; return elevationAt(p); }
+      return height;
+    }, { step: 1, halfWidth: 160, behind: 40, beyond: 200 });
+    grid.source = tiles.count === 0 ? 'coarse' : missing ? 'mixed' : 'terrarium';
+    grid.tiles = tiles.count; grid.failedTiles = tiles.failed;
+    return grid;
   })();
   cache.set(strip, pending); return pending;
 }
 
-/** The 4 km mesh resamples (does not add detail to) the roughly 50 km source data. */
-export function buildSurfaceGrid(strip: CoastStrip, elevation: (p: LatLng) => number): SurfaceGrid {
+/** A regular route mesh preserves source metres; exaggeration belongs to the view, never snow altitude. */
+export function buildSurfaceGrid(strip: CoastStrip, elevation: (p: LatLng) => number,
+  options = { step: 4, halfWidth: 220, behind: 200, beyond: 200 }): SurfaceGrid {
   if (!strip.origin || !strip.destination) throw new Error('Surface route has no coordinates');
-  const g = emptyGrid(-200, -220, 4, Math.ceil((strip.routeKm + 400) / 4) + 1, 111);
+  const { step, halfWidth, behind, beyond } = options;
+  const g = emptyGrid(-behind, -halfWidth, step, Math.ceil((strip.routeKm + behind + beyond) / step) + 1, Math.ceil(halfWidth * 2 / step) + 1);
   const land = new Uint8Array(g.height.length), distance = new Float32Array(g.height.length);
   const materials = new Map<string, number>();
   const landRings = strip.land.map(smoothCoastRing);
@@ -114,7 +132,7 @@ export function buildSurfaceGrid(strip: CoastStrip, elevation: (p: LatLng) => nu
     if (b >= 0 && b < g.rows) distance[i] = Math.min(distance[i], distance[i - direction * g.cols] + g.step);
   }
   for (let i = 0; i < land.length; i++) {
-    const t = Math.max(0, Math.min(1, (distance[i] - g.step) / 8));
+    const t = Math.max(0, Math.min(1, (distance[i] - g.step) / (g.step * 2)));
     g.height[i] *= t * t * (3 - 2 * t);
   }
   return indexMax(g);
@@ -161,6 +179,7 @@ export interface SurfaceView {
   ahead: number; alongScale: number; sideScale: number; textureZ: number;
   far: number; near: number; sunX: number; sunY: number; dark: boolean;
   sunDirection?: [number, number, number];
+  exaggeration?: number;
   haze: number[]; fallback: number[]; snow: number[]; cloudCover: number; seconds: number;
 }
 
@@ -173,6 +192,7 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   const sunUp = Math.max(0.05, view.sunDirection?.[2] ?? 1 - view.sunY);
   const sunSide = view.sunDirection?.[0] ?? (view.sunX - 0.5) * 1.5, sunAhead = view.sunDirection?.[1] ?? 0.4;
   const lightLength = Math.hypot(sunSide, sunAhead, sunUp);
+  const exaggeration = view.exaggeration ?? 1;
   let drawn = 0;
   for (let x = 0; x < w; x++) {
     let top = h;
@@ -185,7 +205,7 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const h0 = g.height[i] * (1 - fx) + g.height[i + 1] * fx;
       const h1 = g.height[i + g.cols] * (1 - fx) + g.height[i + g.cols + 1] * fx;
       const heightM = h0 * (1 - fy) + h1 * fy;
-      const y = Math.max(0, Math.floor(horizon + (cameraHeight - heightM * HEIGHT_UNITS) * focal / z));
+      const y = Math.max(0, Math.floor(horizon + (cameraHeight - heightM * HEIGHT_UNITS * exaggeration) * focal / z));
       if (y >= top) continue;
       if (heightM < 2) {
         // Near sea/flat ground occludes distant relief too. Keep its existing coast/sea pixels underneath.
@@ -194,10 +214,11 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       }
       const dx = ((g.height[i + 1] - g.height[i]) * (1 - fy) + (g.height[i + g.cols + 1] - g.height[i + g.cols]) * fy) / (g.step * 1000);
       const dz = (h1 - h0) / (g.step * 1000);
-      // The source averages slopes over ~50 km. Enhance normals, not heights, to keep those real ridges legible.
-      const illumination = (-dx * 6 * sunSide - dz * 6 * sunAhead + sunUp) / (Math.hypot(dx * 6, dz * 6, 1) * lightLength);
+      // Strong directional ridge/valley contrast, computed from real slopes before the display height scale.
+      const normalScale = exaggeration * 2;
+      const illumination = (-dx * normalScale * sunSide - dz * normalScale * sunAhead + sunUp) / (Math.hypot(dx * normalScale, dz * normalScale, 1) * lightLength);
       const cloud = 1 - view.cloudCover / 100 * 0.15 * (0.5 + 0.5 * Math.sin(ahead * 0.15 + side * 0.2));
-      const light = (view.dark ? 0.38 : 0.55 + Math.max(0, illumination) * 0.55) * cloud;
+      const light = (view.dark ? 0.32 : 0.30 + Math.max(0, illumination) * 0.85) * cloud;
       let red = 0, green = 0, blue = 0, total = 0;
       const a = i * 4, b = (i + 1) * 4, c0 = (i + g.cols) * 4, d = (i + g.cols + 1) * 4;
       const material = g.kinds[a];
@@ -239,7 +260,12 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       }
       if (total < 0.01) { red = view.fallback[0]; green = view.fallback[1]; blue = view.fallback[2]; total = 1; }
       const snowline = (g.snowline[i] * (1 - fx) + g.snowline[i + 1] * fx) * (1 - fy) + (g.snowline[i + g.cols] * (1 - fx) + g.snowline[i + g.cols + 1] * fx) * fy;
-      const snow = Math.max(0, Math.min(1, (heightM - snowline) / 250));
+      // The snow test uses unexaggerated metres. Back-facing slopes retain exposed rock rather than a white blanket.
+      const snow = Math.max(0, Math.min(1, (heightM - snowline) / 500)) * Math.max(0, Math.min(1, (illumination - 0.25) / 0.55));
+      const rock = Math.max(0, Math.min(0.9, (heightM - (snowline - 1600)) / 1200)) * Math.min(1, Math.hypot(dx, dz) * 3 + 0.25);
+      red = red / total * (1 - rock) + 126 * rock;
+      green = green / total * (1 - rock) + 119 * rock;
+      blue = blue / total * (1 - rock) + 107 * rock; total = 1;
       let snowRed = view.snow[0], snowGreen = view.snow[1], snowBlue = view.snow[2];
       if (snow > 0 && snowTexture) {
         const u = Math.floor(worldX * 64 / snowTexture.worldSize) & 63;

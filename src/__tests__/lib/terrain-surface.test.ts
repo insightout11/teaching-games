@@ -88,4 +88,16 @@ describe('voxel-space occlusion and rendering', () => {
     expect(left.some((v, i) => i % 4 === 3 && v === 255)).toBe(true);
     expect(left).not.toEqual(right);
   });
+  it('exaggerates the projected surface while retaining real metres for the snow threshold', () => {
+    const g = local(() => 1800); g.snowline.fill(2500);
+    const plain = new Uint8ClampedArray(view.width * view.height * 4), raised = new Uint8ClampedArray(plain.length);
+    const depth = new Float32Array(view.width * view.height);
+    drawSurface(g, new Map(), view, plain, depth);
+    drawSurface(g, new Map(), { ...view, exaggeration: 2.5 }, raised, depth);
+    expect(plain).not.toEqual(raised);
+    const alternateSnow = new Uint8ClampedArray(plain.length);
+    drawSurface(g, new Map(), { ...view, exaggeration: 2.5, snow: [255, 0, 255] }, alternateSnow, depth);
+    expect(raised).toEqual(alternateSnow);
+    expect(sampleHeight(g, 20, 0)).toBe(1800);
+  });
 });

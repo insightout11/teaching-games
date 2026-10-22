@@ -821,10 +821,11 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const routeSurface = terrainGrid && terrainGrid === surfaceGrid.current;
       const surfaceAlongScale = CITY_UNITS_PER_KM * (routeSurface ? spreadRef.current : 1);
       const surfaceAhead = routeSurface ? routeNowU.current / surfaceAlongScale : (camZ - (localSurface.current?.camZ ?? camZ)) / CITY_UNITS_PER_KM;
-      const surfaceHeight = (x: number, z: number) => terrainGrid ? sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)) * HEIGHT_UNITS : 0;
+      const surfaceExaggeration = terrainGrid?.source === 'terrarium' || terrainGrid?.source === 'mixed' ? 2.5 : 1;
+      const surfaceHeight = (x: number, z: number) => terrainGrid ? sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)) * HEIGHT_UNITS * surfaceExaggeration : 0;
       const surfaceActive = !!terrainGrid;
       const cameraGround = surfaceHeight(0, camZ);
-      const surfaceCamH = surfaceActive ? Math.max(camH, cameraGround + camH * (1 - Math.min(1, live.current.altitude))) : camH;
+      const surfaceCamH = surfaceActive ? Math.max(camH, cameraGround + Math.max(800, camH * (1 - Math.min(1, live.current.altitude)))) : camH;
       frameCamH = surfaceCamH;
       const horizonY = h * HORIZON;
       const F = w * 0.9;
@@ -836,6 +837,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       surfaceDrawn = false;
       canvas.dataset.terrain = surfaceActive ? 'ready' : realTerrain() ? 'loading' : 'off';
       canvas.dataset.surfaceSource = routeSurface ? 'route' : terrainGrid ? 'local' : 'none';
+      canvas.dataset.elevationSource = terrainGrid?.source ?? 'coarse';
+      canvas.dataset.elevationTiles = String(terrainGrid?.tiles ?? 0);
+      canvas.dataset.elevationFailures = String(terrainGrid?.failedTiles ?? 0);
       mark('camera');
 
       // Reuse the existing water art, projecting its vertices onto the heightfield when enabled.
@@ -1191,7 +1195,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const sun = live.current.surfaceSun ?? { x: live.current.glint?.x ?? 0.3, y: 0.18 };
         surfaceDrawn = drawSurface(terrainGrid, surfaceTextures.current, {
           width: surfaceCanvas.width, height: surfaceCanvas.height, horizon: horizonY * scale, focal: F * scale,
-          cameraHeight: surfaceCamH, ahead: surfaceAhead, alongScale: surfaceAlongScale, sideScale: CITY_UNITS_PER_KM * 0.7,
+          exaggeration: surfaceExaggeration, cameraHeight: surfaceCamH, ahead: surfaceAhead, alongScale: surfaceAlongScale, sideScale: CITY_UNITS_PER_KM * 0.7,
           textureZ: camZ, far: Z_FAR, near: Z_NEAR, sunX: sun.x, sunY: sun.y, sunDirection: live.current.surfaceSun?.direction, dark,
           haze, fallback: top?.ground ?? top?.land ?? [115, 126, 90], snow: top?.snow ?? [235, 239, 245],
           cloudCover: live.current.cloudCover ?? 0, seconds: now / 1000,
