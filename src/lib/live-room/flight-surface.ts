@@ -1,11 +1,13 @@
 import type { CoastStrip } from './coast-strip';
 import { loadSurfaceGrid, type SurfaceGrid } from './terrain-surface';
 
-export const FLIGHT_TERRAIN_TIMEOUT_MS = 6000;
+// A cold route needs hundreds of tiles through a six-request pool. Six seconds
+// only loaded 58 tiles in the live game, permanently selecting the old scenery.
+export const FLIGHT_TERRAIN_TIMEOUT_MS = 60000;
 type FlightSurface = { pending: Promise<SurfaceGrid | null>; startDeadline: () => void };
 const flights = new WeakMap<CoastStrip, FlightSurface>();
 
-/** Preload during boarding; at take-off allow at most six more seconds, then keep the old scenery. */
+/** Preload during boarding; at take-off allow at most a minute, then keep the old scenery. */
 export function flightSurface(strip: CoastStrip, takingOff = true): Promise<SurfaceGrid | null> {
   const previous = flights.get(strip);
   if (previous) { if (takingOff) previous.startDeadline(); return previous.pending; }
