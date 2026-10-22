@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CockpitSky } from '@/components/live-room/flight/cockpit-sky';
+import { CockpitSky, LIGHT_POS } from '@/components/live-room/flight/cockpit-sky';
 import { CockpitWorld } from '@/components/live-room/flight/cockpit-world';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
@@ -35,12 +35,13 @@ function WindowView({ kind, landmarkId, terrain, region, tod }: { landmarkId?: s
     return () => { stale = true; };
   }, [route]);
   const clock = useMemo<RouteClock | null>(() => strip ? { at: Date.now(), t: Math.max(0, 0.5 - 20 / strip.routeKm), perMs: 0, km: strip.routeKm, hold: true } : null, [strip]);
+  const light = LIGHT_POS[tod];
   const landmarks = useMemo(() => [{ id: route?.id ?? 'selfie', kind, ahead: 20, lateral: route ? 0 : 1.5, ...(strip ? { along: strip.routeKm * 0.5 } : {}) }], [kind, route, strip]);
   return (
     <div className="absolute inset-x-0" style={{ top: '-38%', height: '138%' }}>
       {/* looking down and out: the horizon sits high in a passenger window */}
       <CockpitSky palette={palette} timeOfDay={tod} altitude={0.85} />
-      <CockpitWorld terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={0.0001} altitude={0.85} cloudCover={5} coastStrip={strip} routeClock={clock} landmarks={landmarks} />
+      <CockpitWorld surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={0.0001} altitude={0.85} cloudCover={5} coastStrip={strip} routeClock={clock} landmarks={landmarks} />
       <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 h-[42%] w-full" aria-hidden>
         <defs><linearGradient id="selfie-wing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#e9eef4" /><stop offset="1" stopColor="#9aa7b6" /></linearGradient></defs>
         <path d="M0 38 L74 50 L80 47 L86 50 L84 53 L0 60 Z" fill="url(#selfie-wing)" />
