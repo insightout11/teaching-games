@@ -23,7 +23,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should Yellowstone reintroduce wolves to restore its ecosystem?"
+    "flightQuestion": "Should Yellowstone reintroduce wolves to restore its ecosystem?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 91,
+          "end": 103,
+          "question": "Besides killing some deer, what was the most significant effect the wolves had on them?",
+          "options": [
+            "They forced the deer to leave the national park completely.",
+            "They radically changed the behavior of the deer.",
+            "They taught the deer to hunt smaller animals."
+          ],
+          "correctIndex": 1,
+          "keyLine": "First, of course, they killed some of the deer, but that wasn't the major thing. Much more significantly, they radically changed the behavior of the deer."
+        },
+        {
+          "start": 127,
+          "end": 139,
+          "question": "Why did the beaver population start to increase after the wolves arrived?",
+          "options": [
+            "Because beavers like to eat the trees.",
+            "Because wolves protected beavers from bears.",
+            "Because winter became much warmer."
+          ],
+          "correctIndex": 0,
+          "keyLine": "The number of songbirds and migratory birds started to increase greatly. The number of beavers started to increase because beavers like to eat the trees."
+        },
+        {
+          "start": 148,
+          "end": 161,
+          "question": "What happened when the wolves killed coyotes?",
+          "options": [
+            "The deer population grew out of control.",
+            "Songbirds stopped nesting along the river.",
+            "The number of rabbits and mice began to rise."
+          ],
+          "correctIndex": 2,
+          "keyLine": "and fish and reptiles and amphibians. The wolves killed coyotes, and as a result of that, the number rabbits and mice began to rise,"
+        },
+        {
+          "start": 203,
+          "end": 221,
+          "question": "Why did the rivers meander less and stabilize their course?",
+          "options": [
+            "Humans built wooden dams along every river.",
+            "The regenerating forests stabilized the banks so that they collapsed less often.",
+            "The water dried up completely during the summer."
+          ],
+          "correctIndex": 1,
+          "keyLine": "The rivers changed in response to the wolves. And the reason was that the regenerating forests stabilized the banks so that they collapsed less often, so that the rivers became more fixed in their course."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main topic of the video?",
+          "options": [
+            "How the reintroduction of wolves restored the ecosystem and changed the rivers in Yellowstone",
+            "How bears and coyotes compete for territory in North American parks",
+            "Why deer populations need to be fed by humans during harsh winters"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What is a 'trophic cascade' according to the speaker?",
+          "options": [
+            "A fast waterfall formed by beaver dams",
+            "An ecological process that starts at the top of the food chain and affects all levels below",
+            "A disease that spreads among wild animals in winter"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How did vegetation in Yellowstone recover after wolves were introduced?",
+          "options": [
+            "Park rangers planted thousands of new trees every spring",
+            "Heavy rain caused rivers to flood the dry plains",
+            "Deer started avoiding valleys and gorges where they could be trapped easily"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the narrator state that the wolves transformed the 'physical geography' of Yellowstone?",
+        "options": [
+          "The wolves physically dug new channels through the mountains",
+          "Vegetation regrowth stabilized the soil and riverbanks, altering how rivers flowed and shaped the land",
+          "The wolves caused earthquakes by hunting in large packs"
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "cascade",
+          "meaning": "a process in which something triggers a series of other events or changes",
+          "at": 32
+        },
+        {
+          "word": "reintroduced",
+          "meaning": "brought back into an area where they previously lived",
+          "at": 50
+        },
+        {
+          "word": "vegetation",
+          "meaning": "plants and trees found in a particular area",
+          "at": 80
+        },
+        {
+          "word": "quintupled",
+          "meaning": "increased to five times the original amount or size",
+          "at": 114
+        },
+        {
+          "word": "meander",
+          "meaning": "to curve and wind back and forth instead of flowing in a straight line",
+          "at": 195
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-octopus-intelligence",
@@ -49,7 +166,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should clever sea animals be protected from captivity?"
+    "flightQuestion": "Should clever sea animals be protected from captivity?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 40,
+          "end": 58,
+          "question": "How many neurons does an octopus have in its nervous system?",
+          "options": [
+            "About as many neurons as that of a dog",
+            "Fewer neurons than an insect",
+            "More neurons than an adult human"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Greek for head-feet. Those heads contain impressively large brains, with a brain to body ratio similar to that of other intelligent animals, and a complex nervous system with about as many neurons as that of a dog."
+        },
+        {
+          "start": 71,
+          "end": 86,
+          "question": "Where are 60% of an octopus's neurons located?",
+          "options": [
+            "In its central brain",
+            "In its two optic lobes",
+            "In the tentacles"
+          ],
+          "correctIndex": 2,
+          "keyLine": "while the two huge optic lobes contain about 30%. The other 60% are in the tentacles, which for humans would be like our arms having minds of their own."
+        },
+        {
+          "start": 135,
+          "end": 146,
+          "question": "What does an octopus brain have instead of a body map?",
+          "options": [
+            "A rigid skeleton map",
+            "A behavior library",
+            "An internal compass"
+          ],
+          "correctIndex": 1,
+          "keyLine": "For an octopus, the process is quite different. Rather than a body map, the cephalopod brain has a behavior library."
+        },
+        {
+          "start": 194,
+          "end": 226,
+          "question": "What technological innovation has the octopus nervous system inspired?",
+          "options": [
+            "Flexible robots made of soft materials",
+            "Deep-sea submarine engines",
+            "Waterproof touchscreens for smartphones"
+          ],
+          "correctIndex": 0,
+          "keyLine": "changing the texture and the color of its skin to blend into the scenery, or even mimicking other creatures to scare away enemies. Cephalopods may have evolved complex brains long before our vertebrate relatives. And octopus intelligence isn't just useful for octopuses. Their radically different nervous system and autonomously thinking appendages have inspired new research in developing flexible robots made of soft materials."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What makes octopus intelligence unique compared to most intelligent vertebrates?",
+          "options": [
+            "Octopuses have no nervous system at all",
+            "Most of their neurons are distributed in their tentacles rather than concentrated in one brain",
+            "They only use their brain when they are sleeping"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why are octopus tentacles able to move in virtually unlimited directions?",
+          "options": [
+            "They have specialized ball joints in their bones",
+            "They use electric pulses from ocean currents",
+            "They have no bones at all"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "How does studying octopus intelligence benefit scientific research?",
+          "options": [
+            "It helps scientists design soft robotics and understand how intelligence can evolve along different paths",
+            "It shows scientists how to breed octopuses for ocean farming",
+            "It proves that all marine animals think in the exact same way"
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "When an octopus catches food, how does the nervous system coordinate the arm bending?",
+        "options": [
+          "Two waves of muscle activation meet halfway along the arm to determine the bend point",
+          "The central brain calculates the exact angle and sends a single command to the tip",
+          "The octopus must look at the arm continuously to steer it toward its mouth"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "mollusks",
+          "meaning": "soft-bodied invertebrate animals such as octopuses, snails, and clams",
+          "at": 37
+        },
+        {
+          "word": "ganglia",
+          "meaning": "groups of interconnected nerve cells that act as local nerve centers",
+          "at": 63
+        },
+        {
+          "word": "appendages",
+          "meaning": "projecting body parts attached to an animal's body, such as arms or tentacles",
+          "at": 216
+        },
+        {
+          "word": "mimicking",
+          "meaning": "imitating or copying the appearance or behavior of another organism",
+          "at": 200
+        },
+        {
+          "word": "divergent",
+          "meaning": "developing in different directions from a common ancestral point",
+          "at": 227
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-deep-ocean",
@@ -69,7 +303,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people spend more effort mapping the deep sea?"
+    "flightQuestion": "Should people spend more effort mapping the deep sea?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 44,
+          "end": 54,
+          "question": "Where is around 90% of the ocean's biomass concentrated?",
+          "options": [
+            "On the muddy abyssal plain",
+            "Inside underwater volcanic trenches",
+            "Close to the surface in the first 200 meters"
+          ],
+          "correctIndex": 2,
+          "keyLine": "And of that small percentage, around 90% is located close to the surface in the first 200 meters."
+        },
+        {
+          "start": 180,
+          "end": 190,
+          "question": "How do over 90% of creatures in the deep transition zone produce light?",
+          "options": [
+            "They use bioluminescence chemicals to create light.",
+            "They absorb electrical currents from underwater storms.",
+            "They collect sunlight on the surface and store it in their scales."
+          ],
+          "correctIndex": 0,
+          "keyLine": "Over 90% of the species indigenous to this deep environment use bioluminescence chemicals to create light."
+        },
+        {
+          "start": 227,
+          "end": 241,
+          "question": "What is 'marine snow' that deep-sea animals rely on for food?",
+          "options": [
+            "Frozen sea salt falling from surface icebergs",
+            "White, flaky organic matter constantly sinking from the surface",
+            "Fine dust blown into the water from coastal deserts"
+          ],
+          "correctIndex": 1,
+          "keyLine": "But most species living down here have to rely on an unlikely resource: marine snow. White flaky stuff that constantly sinks from the surface to the bottom of the ocean."
+        },
+        {
+          "start": 509,
+          "end": 519,
+          "question": "What is the name of the deepest point in the world's oceans?",
+          "options": [
+            "The Midnight Ridge",
+            "The Mariana Oasis",
+            "The Challenger Deep"
+          ],
+          "correctIndex": 2,
+          "keyLine": "This is it. The deepest point, the Challenger Deep. 11,000 meters below the surface."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What journey does the video illustrate?",
+          "options": [
+            "A submarine descent through the ocean layers down to the Challenger Deep at 11,000 meters",
+            "A voyage around the world following migrating humpback whales",
+            "A scientific drill mission exploring oil deposits beneath shallow waters"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why do many deep-sea creatures hover motionless or move very slowly?",
+          "options": [
+            "The water is frozen solid at abyssal depths",
+            "Food is rare in the darkness, so they must conserve as much energy as possible",
+            "Strong ocean currents prevent them from swimming forward"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What man-made object did scientists find even at the deepest trench on Earth?",
+          "options": [
+            "A sunken pirate ship with treasure",
+            "An abandoned satellite",
+            "Plastic bags"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How can thriving ecosystems survive near hydrothermal vents in total darkness without sunlight?",
+        "options": [
+          "Extremophile bacteria synthesize organic nutrients directly from heat and volcanic minerals",
+          "Creatures survive purely by eating glowing jellyfish that swim down from the surface",
+          "The vents emit special green light that supports normal plant photosynthesis"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "photosynthesis",
+          "meaning": "the process by which green plants and algae use sunlight to create nutrients",
+          "at": 59
+        },
+        {
+          "word": "bioluminescence",
+          "meaning": "the production of light by chemical reactions inside living organisms",
+          "at": 184
+        },
+        {
+          "word": "indigenous",
+          "meaning": "originating or occurring naturally in a particular region or environment",
+          "at": 182
+        },
+        {
+          "word": "extremophile",
+          "meaning": "a microorganism that thrives in conditions of extreme temperature, pressure, or chemistry",
+          "at": 445
+        },
+        {
+          "word": "abyssal",
+          "meaning": "relating to the vast, flat ocean floor between 3,000 and 6,000 meters deep",
+          "at": 364
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-elephants-memory",
@@ -95,7 +446,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people protect elephant families from being separated?"
+    "flightQuestion": "Should people protect elephant families from being separated?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 29,
+          "end": 42,
+          "question": "How many herd companions can an elephant recognize by sight or smell?",
+          "options": [
+            "Only 3 or 4 close relatives",
+            "As many as 30 companions",
+            "Up to 200 unfamiliar animals"
+          ],
+          "correctIndex": 1,
+          "keyLine": "is scientifically accurate. Elephants know every member in their herd, able to recognize as many as 30 companions by sight or smell."
+        },
+        {
+          "start": 139,
+          "end": 149,
+          "question": "Why do elephant clans led by older matriarchs have higher survival rates?",
+          "options": [
+            "Older matriarchs remember warning signs of dangers like severe droughts from their youth.",
+            "Older matriarchs run faster than younger elephants during lion attacks.",
+            "Older matriarchs require less food and water to stay healthy."
+          ],
+          "correctIndex": 0,
+          "keyLine": "to recognize its warning signs in adulthood, which is why clans with older matriarchs have higher survival rates."
+        },
+        {
+          "start": 185,
+          "end": 198,
+          "question": "How do elephants communicate over long distances?",
+          "options": [
+            "By clapping their ears loudly against their heads",
+            "By stomping on dry branches to make sharp cracking noises",
+            "Through infrasound rumbles that can be heard kilometers away"
+          ],
+          "correctIndex": 2,
+          "keyLine": "about their mental lives. Elephants communicate using everything from body signals and vocalizations, to infrasound rumbles that can be heard kilometers away."
+        },
+        {
+          "start": 225,
+          "end": 240,
+          "question": "What rare behavior do elephants display when another elephant dies?",
+          "options": [
+            "They immediately leave the region and never return.",
+            "They mourn their dead, perform burial rituals, and visit graves.",
+            "They choose a new matriarch through physical fighting."
+          ],
+          "correctIndex": 1,
+          "keyLine": "their sense of empathy, altruism, and justice. Elephants are the only non-human animals to mourn their dead, performing burial rituals and returning to visit graves."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What does the video show about elephant memory and intelligence?",
+          "options": [
+            "Elephants have great memory, but also remarkable empathy, problem-solving abilities, and emotional lives",
+            "Elephants can only remember simple survival routes to water holes",
+            "Elephants have large brains but cannot experience complex emotions"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Which brain structure aids elephant recollection by encoding emotional experiences into long-term memories?",
+          "options": [
+            "The optic lobe",
+            "The hippocampus",
+            "The olfactory nerve"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What major threats do elephants face today worldwide?",
+          "options": [
+            "Lack of grass in natural reserves",
+            "Extreme cold weather during winter migrations",
+            "Habitat destruction, ivory poaching, and mistreatment in captivity"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the narrator mention that elephants suffer from PTSD and sometimes attack villages after cullings?",
+        "options": [
+          "To demonstrate that their emotional memory causes long-lasting psychological trauma and retaliatory behavior",
+          "To argue that elephants should never be allowed near human settlements",
+          "To show that older elephants lose their memory after loud gunshots"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "benevolent",
+          "meaning": "well-meaning, kind, and helpful towards other beings",
+          "at": 25
+        },
+        {
+          "word": "matriarchs",
+          "meaning": "older female leaders who guide a family group or elephant herd",
+          "at": 144
+        },
+        {
+          "word": "infrasound",
+          "meaning": "low-frequency sound waves below the range of human hearing",
+          "at": 192
+        },
+        {
+          "word": "altruism",
+          "meaning": "selfless behavior intended to help others without personal benefit",
+          "at": 226
+        },
+        {
+          "word": "cullings",
+          "meaning": "the organized killing of wild animals to reduce or control their numbers",
+          "at": 260
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-how-volcanoes-work",
@@ -120,7 +588,124 @@
       "title": "A2 Teens: Everyday Science",
       "order": 4
     },
-    "flightQuestion": "Should people build homes near active volcanoes?"
+    "flightQuestion": "Should people build homes near active volcanoes?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 43,
+          "end": 55,
+          "question": "What percentage of the Earth's volcanoes are found in the Ring of Fire?",
+          "options": [
+            "About 25%",
+            "About 50%",
+            "About 75%"
+          ],
+          "correctIndex": 2,
+          "keyLine": "tectonic plates around the Pacific Ocean contains about 75 percent of the planet's volcanoes"
+        },
+        {
+          "start": 101,
+          "end": 117,
+          "question": "Why does magma rise upward through the Earth's mantle?",
+          "options": [
+            "Because it is lighter than the surrounding solid rock layer",
+            "Because ocean waves push it upward through cracks",
+            "Because high winds suck air into underground vents"
+          ],
+          "correctIndex": 0,
+          "keyLine": "heat melts some of the rock this molten rock or magma is lighter than the surrounding solid rock layer so it rises through the mantle"
+        },
+        {
+          "start": 119,
+          "end": 135,
+          "question": "What is magma called once it reaches the surface above ground?",
+          "options": [
+            "Ash",
+            "Lava",
+            "Mantle"
+          ],
+          "correctIndex": 1,
+          "keyLine": "[Music] now above ground this magma is referred to as lava and it can reach temperatures"
+        },
+        {
+          "start": 245,
+          "end": 261,
+          "question": "How do volcanic eruptions contribute positively to life on Earth?",
+          "options": [
+            "Volcanic ash provides nutrients to nearby soil, making the land fertile.",
+            "Lava heats up rivers to provide warm drinking water for animals.",
+            "Eruption clouds permanently cool global desert temperatures."
+          ],
+          "correctIndex": 0,
+          "keyLine": "also helped make life on Earth possible volcanic ash provides nutrients to nearby soil making the land fertile"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the primary focus of this National Geographic video?",
+          "options": [
+            "How volcanoes form, erupt, and shape the Earth's surface",
+            "How firefighters prevent lava from reaching residential houses",
+            "Why earthquakes only occur on volcanic islands"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Where do the majority of the world's volcanoes occur?",
+          "options": [
+            "In the middle of desert continents away from water",
+            "Where tectonic plates meet, especially around the Pacific Ocean",
+            "At the bottom of freshwater lakes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What tool do scientists use to classify and measure the strength of volcanic eruptions?",
+          "options": [
+            "The Beaufort wind scale",
+            "The Celsius temperature scale",
+            "The Volcanic Explosivity Index (VEI)"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What does it mean that the Volcanic Explosivity Index (VEI) increases logarithmically?",
+        "options": [
+          "Each whole number step represents an eruption 10 times more powerful than the previous one",
+          "Each eruption is measured solely by the number of days it stays active",
+          "The scale stops at a strict maximum limit of VEI 5"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "tectonic",
+          "meaning": "relating to the structure of the Earth's crust and the large moving plates that form it",
+          "at": 36
+        },
+        {
+          "word": "magma",
+          "meaning": "hot molten rock located beneath the Earth's surface",
+          "at": 106
+        },
+        {
+          "word": "pyroclastic",
+          "meaning": "relating to high-speed destructive avalanches of hot gas, ash, and rock fragments",
+          "at": 142
+        },
+        {
+          "word": "logarithmically",
+          "meaning": "increasing on a scale where each unit is multiplied by a fixed factor (like 10) rather than added",
+          "at": 181
+        },
+        {
+          "word": "caldera",
+          "meaning": "a massive volcanic crater formed when a volcano collapses into itself after an eruption",
+          "at": 71
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-human-brain",
@@ -140,7 +725,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should children learn more about how their brains change?"
+    "flightQuestion": "Should children learn more about how their brains change?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 11,
+          "end": 26,
+          "question": "According to the speaker, how much does science currently understand about the brain?",
+          "options": [
+            "About half a mile",
+            "About three inches",
+            "About three-quarters of a mile"
+          ],
+          "correctIndex": 1,
+          "keyLine": "the students how far had we walked in this mile? I got answers, 3/4 of a mile, half a mile, some said a quarter mile. And I said I think about 3 inches."
+        },
+        {
+          "start": 28,
+          "end": 43,
+          "question": "Why is there such a large gap in our knowledge about how brains work?",
+          "options": [
+            "Because we have no idea what they are actually made of at the finest level",
+            "Because modern microscopes cannot produce sharp color photographs",
+            "Because brain cells change their shapes every few minutes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "There's just this huge gap in our knowledge about how brains work, largely because we have no idea what they actually are made up of at the finest"
+        },
+        {
+          "start": 119,
+          "end": 130,
+          "question": "What fundamental question is the research team trying to understand?",
+          "options": [
+            "How blood vessels feed brain tissue during sleep",
+            "How medicines can quickly repair damaged nerves",
+            "How cells in the brain communicate with each other"
+          ],
+          "correctIndex": 2,
+          "keyLine": "What we're trying to understand is how cells in the brain communicate with each other."
+        },
+        {
+          "start": 207,
+          "end": 222,
+          "question": "Why do the scientists color different cell sections in their computer scans?",
+          "options": [
+            "To indicate the speed of electrical signals in each cell",
+            "To keep track of each object from section to section",
+            "To display which neurons are damaged by illness"
+          ],
+          "correctIndex": 1,
+          "keyLine": "to do is kind of color them in. So, every one of these colors have no meaning other than to keep track of each object from section to section."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main objective of the research project described in the video?",
+          "options": [
+            "To map every physical wire and connection between cells in the brain",
+            "To test new pharmaceutical medications on mouse behavior",
+            "To replace human laboratory technicians with automated computers"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why does the scientist use the metaphor of 'walking a mile'?",
+          "options": [
+            "To calculate how far electrical pulses travel along a single nerve",
+            "To illustrate how little we currently understand compared to all there is to discover",
+            "To show that scientists have almost reached the end of their research journey"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the laboratory prepare brain tissue for digital imaging?",
+          "options": [
+            "They dissolve brain tissue in acid and measure the remaining chemicals",
+            "They freeze whole brains and scan them with airport X-ray machines",
+            "They cut tissue into tens of thousands of microscopic slices on a tape reel"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is creating a complete brain 'wiring diagram' necessary to diagnose certain mental disorders?",
+        "options": [
+          "Because microscopic wiring defects may cause severe symptoms even when ordinary brain scans show nothing wrong",
+          "Because brain diseases only occur when neurons stop producing natural colors",
+          "Because doctors need to cut out abnormal wires during common clinical surgeries"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "unconventional",
+          "meaning": "not based on or conforming to what is generally done or believed",
+          "at": 25
+        },
+        {
+          "word": "manifestation",
+          "meaning": "an outward sign or symptom showing the presence of an illness or condition",
+          "at": 52
+        },
+        {
+          "word": "resolution",
+          "meaning": "the degree of detail visible in an image or scientific measurement",
+          "at": 128
+        },
+        {
+          "word": "dendrites",
+          "meaning": "branched extensions of a nerve cell that receive signals from other neurons",
+          "at": 200
+        },
+        {
+          "word": "sections",
+          "meaning": "extremely thin slices of biological tissue cut for examination under a microscope",
+          "at": 221
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-amazon-rainforest",
@@ -160,7 +862,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should protecting forests take priority over new farmland?"
+    "flightQuestion": "Should protecting forests take priority over new farmland?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 28,
+          "end": 38,
+          "question": "How much of the Amazon had humans deforested by the year 2022?",
+          "options": [
+            "17%",
+            "35%",
+            "52%"
+          ],
+          "correctIndex": 0,
+          "keyLine": "and its future is in peril. As of 2022, humans have deforested 17% of the Amazon."
+        },
+        {
+          "start": 83,
+          "end": 91,
+          "question": "How much water does the Amazon cycle each day through plant transpiration?",
+          "options": [
+            "Around 20 billion liters",
+            "Around 20 trillion liters",
+            "Around 200 million liters"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Through this, the Amazon cycles around 20 trillion liters of water daily."
+        },
+        {
+          "start": 139,
+          "end": 152,
+          "question": "What could happen to Argentina's agricultural center if 40% of the Amazon is lost?",
+          "options": [
+            "It would become flooded by overflowing tropical rivers",
+            "It would turn completely into a lush rainforest",
+            "It would suffer reduced rainfall despite being thousands of kilometers away"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Some models estimate that losing just 40% of the Amazon would reduce rainfall in the agricultural center of Argentina over 3,000 kilometers away."
+        },
+        {
+          "start": 200,
+          "end": 213,
+          "question": "What do researchers predict could happen if deforestation is replaced by sustainable practices?",
+          "options": [
+            "The region could generate even more wealth than it currently does",
+            "Local farmers would immediately lose all of their annual income",
+            "Crop production would completely halt across South America"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Yet by stopping deforestation and practicing fire management and sustainable agriculture, some researchers predict the region could generate even more wealth than it currently does."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the primary message of the video?",
+          "options": [
+            "Deforesting the Amazon risks triggering an irreversible tipping point with global environmental consequences",
+            "The pink river dolphin is the only endangered animal left in South America",
+            "Planting identical tree monocultures is the quickest way to solve climate change"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why is the Amazon rainforest referred to as 'Earth's air conditioner'?",
+          "options": [
+            "Its high elevation traps arctic winds from the South Pole",
+            "Its hundreds of billions of trees release moisture that cools the air and produces cloud cover",
+            "Its subterranean rivers pump cold glacial meltwater across the continent"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does indigenous land management compare to unmanaged rainforest areas?",
+          "options": [
+            "Indigenous lands rely entirely on mechanized logging to prevent wildfires",
+            "Indigenous lands emit twice as much carbon dioxide into the air",
+            "Indigenous lands absorb hundreds of millions of tons of carbon while unmanaged areas emit carbon from burning"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does widespread forest loss in the Amazon reduce precipitation in far-off places like California or Argentina?",
+        "options": [
+          "Deforestation disrupts large-scale atmospheric moisture currents that redistribute rainfall across entire continents",
+          "Fallen trees physically block major continental rivers from flowing north and south",
+          "Smoke from Amazon fires blocks the sun so severely that rain clouds can no longer condense"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "peril",
+          "meaning": "serious and immediate danger",
+          "at": 30
+        },
+        {
+          "word": "transpiration",
+          "meaning": "the process where plants absorb water through roots and give off water vapor through pores",
+          "at": 78
+        },
+        {
+          "word": "plummet",
+          "meaning": "to fall or drop rapidly and sharply",
+          "at": 120
+        },
+        {
+          "word": "dwindling",
+          "meaning": "gradually diminishing in size, amount, or strength",
+          "at": 166
+        },
+        {
+          "word": "stewardship",
+          "meaning": "the responsible planning and management of natural resources and ecosystems",
+          "at": 251
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-coral-reef-crisis",
@@ -180,7 +999,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people prioritize saving reefs that shelter marine species?"
+    "flightQuestion": "Should people prioritize saving reefs that shelter marine species?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 44,
+          "end": 56,
+          "question": "What term is used for the concept of connecting multiple small marine reserves like pearls on a string?",
+          "options": [
+            "Containment",
+            "Connectivity",
+            "Centralization"
+          ],
+          "correctIndex": 1,
+          "keyLine": "while leaving the rest unprotected, a better way is to create a system of protected areas nested together like pearls on a string. This idea is called connectivity."
+        },
+        {
+          "start": 72,
+          "end": 80,
+          "question": "How does a network of connected reserves provide 'insurance' if one park suffers an oil spill or bleaching?",
+          "options": [
+            "It can be reseeded with organisms from undamaged connected parks",
+            "Insurance companies compensate fishermen with brand new boats",
+            "Scientists drain the water and disinfect the reef floor"
+          ],
+          "correctIndex": 0,
+          "keyLine": "then because that park is part of a system, it can be reseeded from other parks that escaped the event."
+        },
+        {
+          "start": 91,
+          "end": 101,
+          "question": "Why is a system of smaller reserves fairer to coastal communities than one giant park?",
+          "options": [
+            "It guarantees that commercial fishing is allowed everywhere in all seasons",
+            "It allows individual villages to sell their fishing waters to foreign corporations",
+            "It avoids placing the entire economic burden of closed fishing grounds on a single village"
+          ],
+          "correctIndex": 2,
+          "keyLine": "This way, we don't unduly settle any particular village or group of people with the economic burden of having their fishing grounds off-limits."
+        },
+        {
+          "start": 119,
+          "end": 132,
+          "question": "How do scientists use genetics and DNA in studying reef reserves?",
+          "options": [
+            "To breed mutant fish that can survive heavily contaminated oil slicks",
+            "To see how closely related fish are and determine migration between reserves",
+            "To clone colorful fish species for commercial home aquariums"
+          ],
+          "correctIndex": 1,
+          "keyLine": "By looking at how closely related the fish in each one of these small reserves in Fiji are to each other, scientists can figure out how much migration is going on among the reserves within the system."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the primary conservation strategy advocated in the video?",
+          "options": [
+            "Establishing interconnected networks of smaller marine protected areas rather than isolated mega-parks",
+            "Banning all indigenous islanders from fishing in tropical waters permanently",
+            "Building artificial concrete walls around islands to block ocean waves"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What two major benefits does a connected network of reserves provide?",
+          "options": [
+            "Faster tourist transport and cheaper fuel prices",
+            "Biological insurance against local disasters and representative protection of multiple habitats",
+            "Guaranteed export profits and unlimited deep-sea industrial trawling"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What did genetic research reveal about fish movement in Fiji?",
+          "options": [
+            "All fish species remain confined to a single coral head their whole lives",
+            "Fish never lay eggs in protected reserves",
+            "Larval fish struggle to migrate from far-western islands to eastern islands, requiring reserves on both sides"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why must conservation biologists test multiple fish species when evaluating a reserve network?",
+        "options": [
+          "Because different species have distinct swimming ranges and larval dispersal patterns, so connectivity for one species does not guarantee connectivity for others",
+          "Because only carnivorous predator fish carry usable DNA strands",
+          "Because fishermen only respect regulations that protect valuable commercial tuna"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "vulnerable",
+          "meaning": "susceptible to physical or environmental harm and damage",
+          "at": 18
+        },
+        {
+          "word": "connectivity",
+          "meaning": "the state of being linked together in an interdependent network",
+          "at": 52
+        },
+        {
+          "word": "bleaching",
+          "meaning": "the whitening of coral polyps resulting from heat stress and loss of algae",
+          "at": 72
+        },
+        {
+          "word": "reseeded",
+          "meaning": "replenished or recolonized with new larvae or young organisms from another location",
+          "at": 75
+        },
+        {
+          "word": "migration",
+          "meaning": "the movement of animal populations from one habitat or reserve to another",
+          "at": 126
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-ancient-egypt",
@@ -205,7 +1141,124 @@
     },
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Can new technology reveal more about ancient Egyptian monuments?"
+    "flightQuestion": "Can new technology reveal more about ancient Egyptian monuments?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 117,
+          "end": 129,
+          "question": "What qualities made the Nile River so advantageous for ancient Egyptian civilization?",
+          "options": [
+            "It was stormy, unpredictable, and flooded without warning",
+            "It was regular, navigable, and benign, creating one of the safest agricultural areas",
+            "It flowed through freezing mountain ranges that prevented foreign invasions"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The Nile was regular, navigable, and benign, making for one of the safest and richest agricultural areas in the world. Each summer the river flooded the fields at precisely the right"
+        },
+        {
+          "start": 164,
+          "end": 181,
+          "question": "What simple agricultural technique did Egyptian farmers use to manage floodwaters?",
+          "options": [
+            "Basin irrigation",
+            "Wind-powered mechanical pumps",
+            "Deep underground pressurized pipelines"
+          ],
+          "correctIndex": 0,
+          "keyLine": "and labor-intensive hydraulic engineering projects to irrigate crops, the Nile was so chill that Egyptians could use a simple form of water management called basin irrigation, in which farmers used floodwaters to fill earthen basins and canals for irrigation."
+        },
+        {
+          "start": 284,
+          "end": 296,
+          "question": "For which pharaoh was the largest pyramid at Giza built?",
+          "options": [
+            "Pharaoh Tutankhamun",
+            "Pharaoh Khafre",
+            "Pharaoh Khufu"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The most famous pyramids were built between 2575 and 2465 BCE. The one with the Sphinx was for Khephren; the largest, the Great Pyramid, was built for the Pharaoh Khufu."
+        },
+        {
+          "start": 483,
+          "end": 496,
+          "question": "How did Pharaoh Hatshepsut primarily expand Egypt's power during her 22-year rule?",
+          "options": [
+            "Through expanding trade rather than through military might",
+            "By building massive walls to block the Red Sea",
+            "By launching naval invasions across the Mediterranean against Rome"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Probably the most expansive of the New Kingdom pharaohs was Hatshepsut, a woman who ruled Egypt for about 22 years. And who expanded Egypt not through military might, but through trade."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the central focus of John Green's exploration of ancient Egypt?",
+          "options": [
+            "How the reliable ecology of the Nile shaped a long-lasting, optimistic, and stable civilization",
+            "How tomb robbers managed to loot the treasures of every single pharaoh in the New Kingdom",
+            "Why hieroglyphics were exclusively designed for humorous jokes and theatre scripts"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How did ancient Egyptians view the afterlife compared to ancient Mesopotamians?",
+          "options": [
+            "They saw death as a terrifying punishment brought by malicious water demons",
+            "They saw the afterlife as a pleasant continuation of earthly life, burying useful possessions with the dead",
+            "They did not believe in an afterlife and practiced cremation exclusively"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why is King Tutankhamun so world-famous despite dying at a young age?",
+          "options": [
+            "He successfully conquered Persia, Greece, and Nubia in single combat",
+            "He invented the calendar, demotic script, and mathematics",
+            "His tomb was discovered in the 20th century almost entirely intact rather than ransacked in antiquity"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What did the massive pyramid construction during the Old Kingdom primarily demonstrate about Egyptian society?",
+        "options": [
+          "A remarkable degree of centralized political and social control capable of organizing vast surplus labor around the divine status of the pharaoh",
+          "A lack of skilled architects, forcing thousands of workers to move stones by trial and error",
+          "A democratic system where citizens voted on which burial monuments to construct"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "benign",
+          "meaning": "gentle, mild, and non-threatening",
+          "at": 120
+        },
+        {
+          "word": "silt",
+          "meaning": "fine sand, clay, or other material carried by running water and deposited as sediment",
+          "at": 128
+        },
+        {
+          "word": "irrigation",
+          "meaning": "the artificial supply of water to agricultural land to foster plant growth",
+          "at": 174
+        },
+        {
+          "word": "pantheon",
+          "meaning": "all the recognized gods of a particular religion or mythology collectively",
+          "at": 323
+        },
+        {
+          "word": "expansive",
+          "meaning": "covering a wide territory, broad in scope, or focused on geographic and commercial growth",
+          "at": 484
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-climate-change",
@@ -225,7 +1278,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Which climate effects should communities prepare for first?"
+    "flightQuestion": "Which climate effects should communities prepare for first?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 24,
+          "end": 38,
+          "question": "How do greenhouse gases function in Earth's atmosphere?",
+          "options": [
+            "They let the sun's light in, but keep some of the heat from escaping",
+            "They completely block solar radiation from entering the atmosphere",
+            "They instantly convert light into ice crystals in the upper stratosphere"
+          ],
+          "correctIndex": 0,
+          "keyLine": "chlorofluorocarbons let the sun's light in but keep some of the heat from escaping like the glass walls of a greenhouse the more greenhouse gases in"
+        },
+        {
+          "start": 42,
+          "end": 58,
+          "question": "By how much have human activities increased atmospheric CO2 since the Industrial Revolution?",
+          "options": [
+            "By less than ten percent",
+            "By more than a third",
+            "By exactly triple"
+          ],
+          "correctIndex": 1,
+          "keyLine": "burning of fossil fuels have increased the amount of co2 in the atmosphere by more than a third since the Industrial Revolution the rapid increase in"
+        },
+        {
+          "start": 127,
+          "end": 143,
+          "question": "Why does warmer urban weather worsen air pollution and smog?",
+          "options": [
+            "Because wind currents stop blowing altogether across the equator",
+            "Because automobile exhaust only forms when outside temperatures drop below freezing",
+            "Because smog contains ozone particles that increase rapidly at higher temperatures"
+          ],
+          "correctIndex": 2,
+          "keyLine": "environment that traps and increases the amount of smog this is because smog contains ozone particles which increase rapidly at higher temperatures exposure"
+        },
+        {
+          "start": 156,
+          "end": 172,
+          "question": "What is the primary action highlighted to help prevent the worst effects of climate change?",
+          "options": [
+            "Replacing fossil fuels with renewable energy sources like solar and wind",
+            "Moving major coastal cities inland behind large concrete levees",
+            "Spraying reflective white aerosols over oceans to shade polar bears"
+          ],
+          "correctIndex": 0,
+          "keyLine": "fuels with renewable energy sources like solar and wind which don't produce greenhouse gas emissions we might still be able to prevent some of the worst"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the primary objective of this video?",
+          "options": [
+            "To explain the causes of global warming, its impacts on oceans, weather, food, and health, and renewable solutions",
+            "To prove that global warming stopped after the Industrial Revolution ended",
+            "To encourage companies to drill for cleaner oil reserves in polar ice caps"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does global warming directly impact oceans and coastal settlements?",
+          "options": [
+            "Melting glaciers and ice sheets raise sea levels, causing coastal flooding",
+            "Oceans evaporate completely into the upper stratosphere within a decade",
+            "Tides stop moving due to rising temperatures"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does climate change directly threaten global food supplies?",
+          "options": [
+            "All agricultural crop varieties refuse to pollinate without artificial UV lighting",
+            "Farm livestock exclusively drink seawater during tropical cyclones",
+            "Severe droughts, shifting animal habitats, and diminished water supplies make growing crops harder"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is modern climate change significantly more concerning than natural climate fluctuations in the prehistoric past?",
+        "options": [
+          "Human greenhouse emissions have driven atmospheric CO2 to levels unseen in hundreds of thousands of years at an unprecedented rapid rate",
+          "Ancient greenhouse gases were completely harmless to plants and animals",
+          "Natural historical warm periods were confined only to small volcanic islands"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "phenomenon",
+          "meaning": "a remarkable, observable occurrence or event",
+          "at": 14
+        },
+        {
+          "word": "fluctuated",
+          "meaning": "shifted or varied irregularly over time",
+          "at": 61
+        },
+        {
+          "word": "diminished",
+          "meaning": "reduced in quantity, size, or importance",
+          "at": 116
+        },
+        {
+          "word": "smog",
+          "meaning": "dense, hazy air pollution containing smoke and ozone particles",
+          "at": 130
+        },
+        {
+          "word": "renewable",
+          "meaning": "capable of being replenished naturally without depleting finite resources",
+          "at": 157
+        }
+      ]
+    }
   },
   {
     "id": "natgeo-plastic-pollution",
