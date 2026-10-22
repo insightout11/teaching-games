@@ -1,0 +1,1 @@
+src/lib/sources/extractor.ts(1,29): error TS2307: Cannot find module '@mozilla/readability' or its corresponding type declarations.

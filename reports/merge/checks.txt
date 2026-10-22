@@ -1,0 +1,10 @@
+Commands executed in the terrain-surface worktree:
+node node_modules/next/dist/bin/next lint
+node node_modules/vitest/vitest.mjs run --maxWorkers=2
+node node_modules/typescript/bin/tsc --noEmit --incremental false
+
+Full test result: 1 failed | 268 passed | 1 skipped (270 files).
+Tests: 3674 passed | 3 skipped (3677).
+Only failed suite: src/__tests__/sources/source-extractor.test.ts.
+Failure: Cannot find package '@mozilla/readability' imported from src/lib/sources/extractor.ts.
+Full raw validation logs are retained locally under C:/Users/insig/Documents/Codex/_outputs/2026-10-23-terrain-merge/.
