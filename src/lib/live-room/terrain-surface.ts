@@ -196,6 +196,35 @@ export function copySurfaceTexture(source: HTMLCanvasElement): SurfaceTexture | 
   return { pixels, size: 64, worldSize: source.width * 14, mean };
 }
 
+export function textureChannel(tex: SurfaceTexture, u: number, v: number, channel: number): number {
+  const x = Math.floor(u), y = Math.floor(v), fx = u - x, fy = v - y, n = tex.size;
+  const a = (((y % n) + n) % n * n + ((x % n) + n) % n) * 4 + channel;
+  const b = (((y % n) + n) % n * n + (((x + 1) % n) + n) % n) * 4 + channel;
+  const c = (((((y + 1) % n) + n) % n) * n + ((x % n) + n) % n) * 4 + channel;
+  const d = (((((y + 1) % n) + n) % n) * n + (((x + 1) % n) + n) % n) * 4 + channel;
+  return (tex.pixels[a] * (1 - fx) + tex.pixels[b] * fx) * (1 - fy) + (tex.pixels[c] * (1 - fx) + tex.pixels[d] * fx) * fy;
+}
+
+const albedoCache = new WeakMap<SurfaceGrid, { sources: Array<SurfaceTexture | undefined>; color: Float32Array }>();
+/** Material filtering belongs to take-off/palette preparation, not to every visible ray sample. */
+function surfaceAlbedo(g: SurfaceGrid, textures: SurfaceTextures, fallback: number[]): Float32Array {
+  const sources = g.materials.map(key => textures.get(key)), old = albedoCache.get(g);
+  if (old && old.sources.length === sources.length && sources.every((source, i) => source === old.sources[i])) return old.color;
+  const color = new Float32Array(g.height.length * 3);
+  for (let i = 0; i < g.height.length; i++) {
+    const ahead = g.ahead0 + Math.floor(i / g.cols) * g.step, side = g.side0 + i % g.cols * g.step;
+    let total = 0;
+    for (let k = 0; k < 4; k++) {
+      const weight = g.weights[i * 4 + k]; if (weight < 0.005) continue;
+      const tex = sources[g.kinds[i * 4 + k]]; total += weight;
+      for (let c = 0; c < 3; c++) color[i * 3 + c] += weight * (tex ? textureChannel(tex, side * 280 * tex.size / tex.worldSize, ahead * 400 * tex.size / tex.worldSize, c) : fallback[c]);
+    }
+    if (total < 0.01) for (let c = 0; c < 3; c++) color[i * 3 + c] = fallback[c];
+    else for (let c = 0; c < 3; c++) color[i * 3 + c] /= total;
+  }
+  albedoCache.set(g, { sources, color }); return color;
+}
+
 export interface SurfaceView {
   width: number; height: number; horizon: number; focal: number; cameraHeight: number;
   /** Along coordinate of the camera and world units per geographic km; both use the existing one-clock frame. */
@@ -210,7 +239,7 @@ export interface SurfaceView {
 export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: SurfaceView, pixels: Uint8ClampedArray, depth: Float32Array): number {
   const { width: w, height: h, horizon, focal, cameraHeight, far, near } = view;
   pixels.fill(0); depth.fill(Infinity);
-  const materials = g.materials.map(key => textures.get(key));
+  const albedo = surfaceAlbedo(g, textures, view.fallback);
   const snowTexture = textures.get('__snow');
   const sunUp = Math.max(0.05, view.sunDirection?.[2] ?? 1 - view.sunY);
   const sunSide = view.sunDirection?.[0] ?? (view.sunX - 0.5) * 1.5, sunAhead = view.sunDirection?.[1] ?? 0.4;
@@ -218,10 +247,10 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   const exaggeration = view.exaggeration ?? 1;
   let drawn = 0;
   for (let x = 0; x < w; x++) {
-    let top = h;
+    let top = h, lastRed = 0, lastGreen = 0, lastBlue = 0, hasShade = false;
     // Fixed geographic planes: the camera slides continuously between samples instead of dragging the
-    // sampling lattice through every ridge. Half-cell spacing also prevents skipping narrow crests.
-    const march = g.step * 0.5;
+    // sampling lattice through every ridge. Sub-cell spacing also prevents skipping narrow crests.
+    const march = g.step * 0.75;
     const first = Math.ceil((view.ahead + near / view.alongScale) / march) * march;
     for (let plane = first; top > 0; plane += march) {
       const z = (plane - view.ahead) * view.alongScale;
@@ -234,11 +263,11 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const h0 = g.height[i] * (1 - fx) + g.height[i + 1] * fx;
       const h1 = g.height[i + g.cols] * (1 - fx) + g.height[i + g.cols + 1] * fx;
       const heightM = h0 * (1 - fy) + h1 * fy;
-      const y = Math.max(0, Math.floor(horizon + (cameraHeight - heightM * HEIGHT_UNITS * exaggeration) * focal / z));
+      const y = Math.max(0, horizon + (cameraHeight - heightM * HEIGHT_UNITS * exaggeration) * focal / z);
       if (y >= top) continue;
       if (heightM < 2) {
         // Near sea/flat ground occludes distant relief too. Keep its existing coast/sea pixels underneath.
-        for (let yy = y; yy < top; yy++) depth[yy * w + x] = z;
+        for (let yy = Math.ceil(y); yy < top; yy++) depth[yy * w + x] = z;
         top = y; continue;
       }
       const bilerp = (values: Float32Array) => (values[i] * (1 - fx) + values[i + 1] * fx) * (1 - fy) + (values[i + g.cols] * (1 - fx) + values[i + g.cols + 1] * fx) * fy;
@@ -249,46 +278,11 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const illumination = (-dx * normalScale * sunSide - dz * normalScale * sunAhead + sunUp) / (Math.hypot(dx * normalScale, dz * normalScale, 1) * lightLength);
       const cloud = 1 - view.cloudCover / 100 * 0.15 * (0.5 + 0.5 * Math.sin(ahead * 0.15 + side * 0.2));
       const light = (view.dark ? 0.32 : 0.30 + Math.max(0, illumination) * 0.85) * cloud;
-      let red = 0, green = 0, blue = 0, total = 0;
-      const a = i * 4, b = (i + 1) * 4, c0 = (i + g.cols) * 4, d = (i + g.cols + 1) * 4;
-      const material = g.kinds[a];
-      if (g.weights[a] > 0.999 && g.weights[b] > 0.999 && g.weights[c0] > 0.999 && g.weights[d] > 0.999 &&
-          material === g.kinds[b] && material === g.kinds[c0] && material === g.kinds[d]) {
-        // Most mountain/plains cells have one material. Sample it once, not at all four grid vertices.
-        const tex = materials[material];
-        if (tex) {
-          const u = Math.floor(worldX * tex.size / tex.worldSize) & 63;
-          const v = Math.floor((view.textureZ + z) * tex.size / tex.worldSize) & 63;
-          const p = (v * tex.size + u) * 4, detail = Math.min(0.65, 7000 / z);
-          red = tex.mean[0] + (tex.pixels[p] - tex.mean[0]) * detail;
-          green = tex.mean[1] + (tex.pixels[p + 1] - tex.mean[1]) * detail;
-          blue = tex.mean[2] + (tex.pixels[p + 2] - tex.mean[2]) * detail;
-          total = 1;
-        }
-      } else {
-        // Interpolate the four material mixtures at the surrounding vertices; texture phase stays world-anchored.
-        for (let vertex = 0; vertex < 4; vertex++) {
-          const at = i + (vertex >= 2 ? g.cols : 0) + vertex % 2;
-          const factor = (vertex >= 2 ? fy : 1 - fy) * (vertex % 2 ? fx : 1 - fx);
-          for (let k = 0; k < 4; k++) {
-            const weight = g.weights[at * 4 + k] * factor; if (weight < 0.005) continue;
-            const tex = materials[g.kinds[at * 4 + k]];
-            if (!tex) { red += view.fallback[0] * weight; green += view.fallback[1] * weight; blue += view.fallback[2] * weight; }
-            else {
-              const u = Math.floor(worldX * tex.size / tex.worldSize) & 63;
-              const v = Math.floor((view.textureZ + z) * tex.size / tex.worldSize) & 63;
-              const p = (v * tex.size + u) * 4;
-              // Mip-like distance attenuation keeps field patterns from sparkling at the horizon.
-              const detail = Math.min(0.65, 7000 / z);
-              red += (tex.mean[0] + (tex.pixels[p] - tex.mean[0]) * detail) * weight;
-              green += (tex.mean[1] + (tex.pixels[p + 1] - tex.mean[1]) * detail) * weight;
-              blue += (tex.mean[2] + (tex.pixels[p + 2] - tex.mean[2]) * detail) * weight;
-            }
-            total += weight;
-          }
-        }
-      }
-      if (total < 0.01) { red = view.fallback[0]; green = view.fallback[1]; blue = view.fallback[2]; total = 1; }
+      const a = i * 3, b = a + 3, c0 = (i + g.cols) * 3, d = c0 + 3;
+      let red = (albedo[a] * (1 - fx) + albedo[b] * fx) * (1 - fy) + (albedo[c0] * (1 - fx) + albedo[d] * fx) * fy;
+      let green = (albedo[a + 1] * (1 - fx) + albedo[b + 1] * fx) * (1 - fy) + (albedo[c0 + 1] * (1 - fx) + albedo[d + 1] * fx) * fy;
+      let blue = (albedo[a + 2] * (1 - fx) + albedo[b + 2] * fx) * (1 - fy) + (albedo[c0 + 2] * (1 - fx) + albedo[d + 2] * fx) * fy;
+      let total = 1;
       const snowline = (g.snowline[i] * (1 - fx) + g.snowline[i + 1] * fx) * (1 - fy) + (g.snowline[i + g.cols] * (1 - fx) + g.snowline[i + g.cols + 1] * fx) * fy;
       // The snow test uses unexaggerated metres. Back-facing slopes retain exposed rock rather than a white blanket.
       const snow = Math.max(0, Math.min(1, (heightM - snowline) / 500)) * Math.max(0, Math.min(1, (illumination - 0.25) / 0.55));
@@ -309,10 +303,22 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const rr = ((red / total * (1 - snow) + snowRed * snow) * light) * (1 - fog) + view.haze[0] * fog;
       const gg = ((green / total * (1 - snow) + snowGreen * snow) * light) * (1 - fog) + view.haze[1] * fog;
       const bb = ((blue / total * (1 - snow) + snowBlue * snow) * light) * (1 - fog) + view.haze[2] * fog;
-      for (let yy = y; yy < top; yy++) {
+      const span = Math.max(1, top - y);
+      for (let yy = Math.floor(y); yy < Math.ceil(top); yy++) {
+        if (yy < 0 || yy >= h) continue;
         const cell = yy * w + x, p = cell * 4;
-        pixels[p] = rr; pixels[p + 1] = gg; pixels[p + 2] = bb; pixels[p + 3] = 255; depth[cell] = z;
+        const coverage = Math.min(yy + 1, top) - Math.max(yy, y);
+        const previous = pixels[p + 3] / 255, add = Math.min(1 - previous, Math.max(0, coverage)), alpha = previous + add;
+        if (alpha < 0.001) continue;
+        // Blend sample colours down each projected segment, with fractional coverage at its skyline.
+        const blend = hasShade ? Math.max(0, Math.min(1, (yy + 0.5 - y) / span)) : 0;
+        const r = rr + (lastRed - rr) * blend, g = gg + (lastGreen - gg) * blend, b = bb + (lastBlue - bb) * blend;
+        pixels[p] = (pixels[p] * previous + r * add) / alpha;
+        pixels[p + 1] = (pixels[p + 1] * previous + g * add) / alpha;
+        pixels[p + 2] = (pixels[p + 2] * previous + b * add) / alpha;
+        pixels[p + 3] = alpha * 255; depth[cell] = Math.min(depth[cell], z);
       }
+      lastRed = rr; lastGreen = gg; lastBlue = bb; hasShade = true;
       drawn += top - y; top = y;
     }
   }

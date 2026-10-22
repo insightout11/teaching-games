@@ -680,7 +680,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // on half-pixels (overlaps doubled the haze into faint lines).
       rowH = 2 / dpr;
       hazeKey = ''; nextMaskAt = 0; cacheBase = NaN;
-      surfaceCanvas.width = Math.min(240, Math.ceil(w));
+      surfaceCanvas.width = Math.min(400, Math.ceil(w));
       surfaceCanvas.height = Math.max(1, Math.ceil(surfaceCanvas.width * h / w));
       surfaceImage = surfaceCtx?.createImageData(surfaceCanvas.width, surfaceCanvas.height) ?? null;
       surfaceDepth = new Float32Array(surfaceCanvas.width * surfaceCanvas.height);
