@@ -26,7 +26,7 @@ export interface SurfaceGrid {
   /** Unmodified source metres for snow; conservative median reference for the farthest skyline. */
   trueHeight?: Float32Array; distanceHeight?: [Float32Array, Float32Array];
   contourHeight?: Float32Array;
-  climateDryness?: Float32Array; snowSlope?: Float32Array; cellCeiling?: Float32Array;
+  climateDryness?: Float32Array; snowSlope?: Float32Array;
   source?: 'terrarium' | 'mixed' | 'coarse'; tiles?: number; failedTiles?: number;
   /** Four normalized material weights at each vertex, rather than nearest-cell colour changes. */
   materials: string[]; kinds: Uint16Array; weights: Float32Array;
@@ -74,16 +74,6 @@ function indexMax(g: SurfaceGrid) {
   g.peak = g.max.reduce((a, b) => Math.max(a, b), 0);
   g.distanceHeight = [g.height, medianElevation(g.height, g.rows, g.cols)];
   g.contourHeight = contourElevation(g.height, g.rows, g.cols);
-  // Hermite interpolation cannot overshoot its cell corners. Cache conservative display-height bounds
-  // including the far median field, so hidden rows need neither contour reads nor per-fragment work.
-  g.cellCeiling = new Float32Array(g.height.length);
-  const far = g.distanceHeight[1];
-  for (let r = 0; r < g.rows - 1; r++) for (let c = 0; c < g.cols - 1; c++) {
-    const i = r * g.cols + c;
-    const highest = Math.max(g.height[i], g.height[i + 1], g.height[i + g.cols], g.height[i + g.cols + 1],
-      far[i], far[i + 1], far[i + g.cols], far[i + g.cols + 1]);
-    g.cellCeiling[i] = terrainHeight(highest, 1) * HEIGHT_UNITS;
-  }
   return g;
 }
 
@@ -133,6 +123,7 @@ export function buildSurfaceGrid(strip: CoastStrip, elevation: (p: LatLng) => nu
   const { step, halfWidth, behind, beyond } = options;
   const g = emptyGrid(-behind, -halfWidth, step, Math.ceil((strip.routeKm + behind + beyond) / step) + 1, Math.ceil(halfWidth * 2 / step) + 1);
   g.climateDryness = new Float32Array(g.height.length); g.snowSlope = new Float32Array(g.height.length).fill(0.6);
+  const plateau = new Float32Array(g.height.length);
   const land = new Uint8Array(g.height.length), distance = new Float32Array(g.height.length);
   const materials = new Map<string, number>();
   const landRings = strip.land.map(smoothCoastRing);
@@ -161,7 +152,8 @@ export function buildSurfaceGrid(strip: CoastStrip, elevation: (p: LatLng) => nu
       p ??= surfacePoint(strip.origin, strip.destination, along, side, strip.routeKm);
       const regionalSnow = mountainSnowline(p.lat, p.lng);
       g.climateDryness[i] = mountainClimateAt(p);
-      if (p.lat >= 44 && p.lat <= 49 && p.lng >= 4 && p.lng <= 17) g.snowSlope[i] = 1.05;
+      if (p.lat <= 36 && p.lng >= 78 && p.lng <= 100) plateau[i] = smooth01((p.lat - 28.5) / 0.8);
+      if (p.lat >= 44 && p.lat <= 49 && p.lng >= 4 && p.lng <= 17) g.snowSlope[i] = 0.8;
       g.height[i] = Math.max(0, elevation(p));
       g.snowline[i] = (regionalSnow ?? snowlineM(p.lat)) + snowlineVariation(along, side) * (regionalSnow === null ? 1 : 0.4);
       const mix = groundMixAt(strip, along, side);
@@ -184,6 +176,20 @@ export function buildSurfaceGrid(strip: CoastStrip, elevation: (p: LatLng) => nu
   for (let i = 0; i < land.length; i++) {
     const t = Math.max(0, Math.min(1, (distance[i] - g.step) / (g.step * 2)));
     g.height[i] *= t * t * (3 - 2 * t);
+  }
+  // A high plateau is a local climate datum, not a whole snow-capped summit. Raise its snow limit
+  // above the broad 32km neighbourhood, leaving Nepal/Everest and the ranges rising above it snowy.
+  for (let r = 0; r < g.rows; r++) for (let c = 0; c < g.cols; c++) {
+    const i = r * g.cols + c; if (!land[i] || plateau[i] === 0) continue;
+    let total = 0, count = 0;
+    const stride = Math.max(1, Math.round(8 / g.step));
+    for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
+      const row = Math.max(0, Math.min(g.rows - 1, r + dr * stride)), col = Math.max(0, Math.min(g.cols - 1, c + dc * stride));
+      const j = row * g.cols + col; if (!land[j]) continue;
+      total += g.height[j]; count++;
+    }
+    const limit = count ? total / count + 700 : g.snowline[i];
+    g.snowline[i] += Math.max(0, limit - g.snowline[i]) * plateau[i];
   }
   return smoothElevation(g);
 }
@@ -293,7 +299,9 @@ for (let i = 0; i < displayHeight.length; i++) {
 }
 export function surfaceSnow(height: number, line: number, slope: number, _illumination: number, slopeLimit = 0.6): number {
   // Exposure changes snow colour, not its presence: shaded snow must not turn into dirty bare rock.
-  return smooth01((height - line) / 500) * (1 - smooth01((slope - 0.16) / (slopeLimit - 0.16)));
+  const alpine = slopeLimit > 0.6;
+  const cover = smooth01((height - line) / (alpine ? 190 : 500));
+  return cover * (1 - smooth01((slope - (alpine ? 0.22 : 0.16)) / (slopeLimit - (alpine ? 0.22 : 0.16))));
 }
 
 export interface SurfaceView {
@@ -325,9 +333,10 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   for (let ahead = first; ; ahead += march) {
     const z = (ahead - view.ahead) * view.alongScale;
     if (z >= far) break;
-    // Refine the close foreground only; the cached C1 interpolant keeps farther ridges smooth.
+    // Preserve full foreground refinement through 30km; only the distant planes use fewer samples.
     // Both sampling lattices remain anchored geographically while moving.
-    if (z > 18000 && Math.abs(ahead / coarseMarch - Math.round(ahead / coarseMarch)) > 0.01) continue;
+    if (z > 30000 && Math.abs(ahead / coarseMarch - Math.round(ahead / coarseMarch)) > 0.01) continue;
+    if (z > 36000 && Math.abs(ahead / (coarseMarch * 2) - Math.round(ahead / (coarseMarch * 2))) > 0.01) continue;
     const r = (ahead - g.ahead0) / g.step;
     if (r < 1 || r >= g.rows - 2) continue;
     const lod = smooth01((z / far - 0.65) / 0.35) * 0.22;
@@ -349,7 +358,6 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const side = g.side0 + c * g.step;
       if (c < 1 || c >= g.cols - 2) continue;
       const col = Math.floor(c), fx = c - col, i = row * g.cols + col;
-      if (g.cellCeiling && horizon + (cameraHeight - g.cellCeiling[i] * exaggeration) * projection >= top - 0.08) continue;
       // Preserve the ridge shape; apply only a light median contribution at the farthest horizon.
       const h0 = interiorSample(low, i, g.cols, fx, fy), h1 = low === high ? h0 : interiorSample(high, i, g.cols, fx, fy);
       const cc = c * CONTOUR_SCALE, contourCol = Math.floor(cc);

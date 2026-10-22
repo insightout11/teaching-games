@@ -11,7 +11,7 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { smoothCoastRing as smoothRing, clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
-import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, prepareSurfaceMaterials, type SurfaceGrid, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
+import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, prepareSurfaceMaterials, type SurfaceGrid, type SurfaceTexture, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
 import { terrainHeight } from '@/lib/live-room/terrain-filter';
 import { naturalLandmark, photoLandmarkId, SUMMIT_NAMES } from '@/lib/live-room/terrain-landmarks';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
@@ -245,17 +245,27 @@ const css = (c: RGB) => `rgb(${c[0]},${c[1]},${c[2]})`;
 
 /** The ground texture for a terrain (real land cover: rainforest is a deeper, denser canopy; savanna and rice paddies
  *  use the farm patterns made for them; open ground has its own texture). */
-function terrainCanvas(terrain: Terrain, reg: string | null, palette: ScenePalette, night: boolean, floor: RangeMix['floor']): HTMLCanvasElement {
+function terrainCanvas(terrain: Terrain, reg: string | null, palette: ScenePalette, night: boolean, floor: RangeMix['floor'], waterFeatures = true): HTMLCanvasElement {
   return terrain === 'desert' ? desertTexture(palette, night)
     : terrain === 'ocean' ? oceanTexture(palette, night)
       : terrain === 'mountains' ? mountainTexture(palette, night, floor)
-        : terrain === 'forest' ? forestTexture(palette, night)
-          : terrain === 'rainforest' ? deepCanopy(forestTexture({ ...palette, foliage: '#1d5a2c' }, night))
+        : terrain === 'forest' ? forestTexture(palette, night, waterFeatures)
+          : terrain === 'rainforest' ? deepCanopy(forestTexture({ ...palette, foliage: '#1d5a2c' }, night, waterFeatures))
             : terrain === 'ice' ? iceTexture(palette, night)
-              : terrain === 'savanna' ? farmTexture('Africa', palette, night)
-                : terrain === 'paddies' ? farmTexture('Asia', palette, night)
-                  : terrain === 'grassland' || terrain === 'tundra' || terrain === 'wetlands' || terrain === 'salt-flats' ? naturalTexture(terrain, palette, night)
-                    : farmTexture(reg, palette, night);
+              : terrain === 'savanna' ? farmTexture('Africa', palette, night, waterFeatures)
+                : terrain === 'paddies' ? farmTexture('Asia', palette, night, waterFeatures)
+                  : terrain === 'grassland' || terrain === 'tundra' || terrain === 'wetlands' || terrain === 'salt-flats' ? naturalTexture(terrain, palette, night, waterFeatures)
+                    : farmTexture(reg, palette, night, waterFeatures);
+}
+
+/** Surface-only materials omit illustrated water; real water is still drawn by the shared coast/water passes. */
+const surfaceLandCache = new Map<string, SurfaceTexture>();
+function surfaceLandTexture(terrain: Terrain, region: string | null, palette: ScenePalette, night: boolean): SurfaceTexture | null {
+  const key = `${terrain}|${region}|${night}|${JSON.stringify(palette)}`;
+  const cached = surfaceLandCache.get(key); if (cached) return cached;
+  const texture = copySurfaceTexture(terrainCanvas(terrain, region, palette, night, rangeFor(region).floor, false));
+  if (texture) surfaceLandCache.set(key, texture);
+  return texture;
 }
 
 /** The average colour of a (small) canvas: the ground texture's overall colour. */
@@ -522,7 +532,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const levels = textureCache.get(key) ?? ripChain(terrainCanvas(c.terrain, c.region, palette, night, rangeFor(c.region).floor));
       textureCache.set(key, levels);
       if (realTerrain()) {
-        const texture = copySurfaceTexture(levels.levels[0][0]);
+        const texture = surfaceLandTexture(c.terrain, c.region, palette, night);
         if (texture) surfaceTextures.current.set(k, texture);
       }
       stripRips.current.set(k, { w: levels.w, h: levels.h, levels: levels.levels.map((row) => row.flatMap((cv) => { const pat = ctx.createPattern(cv, 'repeat'); return pat ? [{ pat, w: cv.width, h: cv.height }] : []; })) });
@@ -569,13 +579,13 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // the ground's real colour (its smallest copy, averaged): mountains and hills take some of it, so a blue-grey
       // peak no longer stands on brown desert
       if (realTerrain()) {
-        const texture = copySurfaceTexture(rc.levels[0][0]);
+        const texture = surfaceLandTexture(terrain, reg, palette, night);
         if (texture) surfaceTextures.current.set(`${terrain}|${reg}`, texture);
         const snow = copySurfaceTexture(iceTexture(palette, night));
         if (snow) surfaceTextures.current.set('__snow', snow);
         // The alpine tile includes painted snow; exposed rock must not inherit snow below its real line.
         const rock = copySurfaceTexture(mountainTexture(palette, night, 'arid'));
-        const forest = copySurfaceTexture(forestTexture(palette, night));
+        const forest = surfaceLandTexture('forest', null, palette, night);
         if (rock) surfaceTextures.current.set('__rock', rock);
         if (forest) surfaceTextures.current.set('__forest', forest);
       }
@@ -692,7 +702,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // on half-pixels (overlaps doubled the haze into faint lines).
       rowH = 2 / dpr;
       hazeKey = ''; nextMaskAt = 0; cacheBase = NaN;
-      surfaceCanvas.width = Math.min(400, Math.ceil(w));
+      // Only the terrain overlay changes resolution; coast, sky and named drawings keep their existing buffers.
+      surfaceCanvas.width = Math.min(336, Math.ceil(w));
       surfaceCanvas.height = Math.max(1, Math.ceil(surfaceCanvas.width * h / w));
       surfaceImage = surfaceCtx?.createImageData(surfaceCanvas.width, surfaceCanvas.height) ?? null;
       surfaceDepth = new Float32Array(surfaceCanvas.width * surfaceCanvas.height);
