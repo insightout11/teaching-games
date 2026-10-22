@@ -1,0 +1,54 @@
+[
+  {
+    "route": "zurich-milan",
+    "version": "terrain-22",
+    "frames": 60,
+    "durationMs": 1059.5,
+    "scorePercent": 4.982994587329265,
+    "events": 43895,
+    "eligible": 880896,
+    "eligiblePercent": 23.916386477962835,
+    "meanExcessLuma": 0.7034128332137546,
+    "rawScreenPercent": 3.6785683943866476,
+    "meanSurfaceMs": 15.520000000546377
+  },
+  {
+    "route": "zurich-milan",
+    "version": "terrain-23",
+    "frames": 60,
+    "durationMs": 1002.5999999940395,
+    "scorePercent": 4.655443937110749,
+    "events": 41120,
+    "eligible": 883267,
+    "eligiblePercent": 23.980759289667336,
+    "meanExcessLuma": 0.5967388619806155,
+    "rawScreenPercent": 3.2123862646628245,
+    "meanSurfaceMs": 14.956666664530834
+  },
+  {
+    "route": "kathmandu-lhasa",
+    "version": "terrain-22",
+    "frames": 60,
+    "durationMs": 991.2000000029802,
+    "scorePercent": 0.2734491680363175,
+    "events": 1895,
+    "eligible": 692999,
+    "eligiblePercent": 18.814970113204925,
+    "meanExcessLuma": 0.009745002571974809,
+    "rawScreenPercent": 0.6077168291885044,
+    "meanSurfaceMs": 15.250000000248352
+  },
+  {
+    "route": "kathmandu-lhasa",
+    "version": "terrain-23",
+    "frames": 60,
+    "durationMs": 986.6000000089407,
+    "scorePercent": 0.19027080970481497,
+    "events": 1327,
+    "eligible": 697427,
+    "eligiblePercent": 18.935190615198824,
+    "meanExcessLuma": 0.0043827042029757676,
+    "rawScreenPercent": 0.14681592952835382,
+    "meanSurfaceMs": 15.284999999652307
+  }
+]

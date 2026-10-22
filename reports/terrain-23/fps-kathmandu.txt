@@ -1,0 +1,21 @@
+### Result
+{"durationMs":15012.299999994037,"frames":893,"fps":59.48455599743908,"oneSecondFps":[61.21642970020225,60.02164715143171,60,59.994000599940094,60,60.00393468424146,60,60.00393468424168,60,60,59,57.052921503049255,56,59],"hidden":false,"viewport":[1280,800],"data":{"terrain":"ready","surfaceSource":"route","elevationSource":"terrarium","elevationTiles":"132","elevationFailures":"0","photoChance":""},"tileRequests":0}
+### Ran Playwright code
+```js
+await (async page => {
+ await page.setViewportSize({width:1280,height:800});await page.goto('http://localhost:3100/dev/coast-strip?tod=day');await page.bringToFront();
+ await page.getByRole('button',{name:'Kathmandu to Lhasa',exact:true}).dispatchEvent('click');await page.getByText(/of 610 km/).waitFor();await page.locator('canvas[data-elevation-source="terrarium"]').waitFor({timeout:180000});
+ await page.getByRole('combobox').selectOption('3');await page.getByRole('slider').fill('0.25');
+ await page.evaluate(()=>new Promise(resolve=>{const start=performance.now();function tick(t){if(t-start>=12000)resolve();else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ let tileRequests=0;const track=request=>{if(/terrarium/.test(request.url()))tileRequests++;};page.on('request',track);
+ await page.getByRole('button',{name:'Fly (3 min)',exact:true}).click();
+ const result=await page.evaluate(()=>new Promise(resolve=>{const start=performance.now();let frames=0,hidden=false,binStart=start,binFrames=0;const bins=[];function tick(t){frames++;binFrames++;hidden ||=document.hidden;if(t-binStart>=1000){bins.push(binFrames*1000/(t-binStart));binStart=t;binFrames=0;}if(t-start>=15000)resolve({durationMs:t-start,frames,fps:frames*1000/(t-start),oneSecondFps:bins,hidden,viewport:[innerWidth,innerHeight],data:{...document.querySelector('canvas').dataset}});else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ await page.getByRole('button',{name:'Pause',exact:true}).click();page.off('request',track);return {...result,tileRequests};
+}
+
+
+
+)(page);
+```
+### Events
+- New console entries: ..\..\..\..\Documents\Codex\_outputs\2026-10-22-terrain-polish\.playwright-cli\console-2026-10-22T07-42-27-505Z.log#L950

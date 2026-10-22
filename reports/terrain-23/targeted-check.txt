@@ -1,0 +1,10 @@
+
+ RUN  v3.2.4 C:/Users/insig/.codex/worktrees/terrain-surface/teaching-games
+
+ ✓ src/__tests__/lib/terrain-surface.test.ts (15 tests) 271ms
+
+ Test Files  1 passed (1)
+      Tests  15 passed (15)
+   Start at  22:43:31
+   Duration  2.51s (transform 413ms, setup 0ms, collect 925ms, tests 271ms, environment 0ms, prepare 421ms)
+

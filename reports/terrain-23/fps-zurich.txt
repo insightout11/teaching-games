@@ -1,0 +1,24 @@
+### Result
+{"durationMs":15008.300000008938,"frames":842,"fps":56.10229006612998,"oneSecondFps":[60.485870103578705,60,57.99420057994209,59.02026362384427,58,58.03659256344666,57,57.04730992426474,54,55.168408826945566,53,53,53.11301268810855,53],"hidden":false,"viewport":[1280,800],"data":{"terrain":"ready","surfaceSource":"route","elevationSource":"terrarium","elevationTiles":"107","elevationFailures":"0","photoChance":""},"tileRequests":0}
+### Ran Playwright code
+```js
+await (async page => {
+ await page.setViewportSize({width:1280,height:800});await page.goto('http://localhost:3100/dev/coast-strip?tod=day');await page.bringToFront();
+ await page.getByRole('button',{name:'Zurich to Milan',exact:true}).dispatchEvent('click');await page.getByText(/of 218 km/).waitFor();await page.locator('canvas[data-elevation-source="terrarium"]').waitFor({timeout:180000});
+ await page.getByRole('combobox').selectOption('3');await page.getByRole('slider').fill('0.25');
+ await page.evaluate(()=>new Promise(resolve=>{const start=performance.now();function tick(t){if(t-start>=12000)resolve();else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ let tileRequests=0;const track=request=>{if(/terrarium/.test(request.url()))tileRequests++;};page.on('request',track);
+ await page.getByRole('button',{name:'Fly (3 min)',exact:true}).click();
+ const result=await page.evaluate(()=>new Promise(resolve=>{const start=performance.now();let frames=0,hidden=false,binStart=start,binFrames=0;const bins=[];function tick(t){frames++;binFrames++;hidden ||=document.hidden;if(t-binStart>=1000){bins.push(binFrames*1000/(t-binStart));binStart=t;binFrames=0;}if(t-start>=15000)resolve({durationMs:t-start,frames,fps:frames*1000/(t-start),oneSecondFps:bins,hidden,viewport:[innerWidth,innerHeight],data:{...document.querySelector('canvas').dataset}});else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ await page.getByRole('button',{name:'Pause',exact:true}).click();page.off('request',track);return {...result,tileRequests};
+}
+
+
+
+)(page);
+```
+### Page
+- Page URL: http://localhost:3100/dev/coast-strip?tod=day
+- Page Title: LessonCaptain — Interactive Classroom Games
+### Events
+- New console entries: ..\..\..\..\Documents\Codex\_outputs\2026-10-22-terrain-polish\.playwright-cli\console-2026-10-22T07-42-27-505Z.log#L949
