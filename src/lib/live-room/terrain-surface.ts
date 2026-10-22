@@ -343,29 +343,31 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   // geographic step otherwise creates large saw teeth even with a smooth height texture.
   const coarseMarch = Math.min(g.step * 0.5, 200 / view.alongScale), march = coarseMarch / 3;
   const first = Math.ceil((view.ahead + near / view.alongScale) / march) * march;
-  const planes: Array<{ z: number; projection: number; columnStep: number; ahead: number; row: number; fy: number; contourRow: number; contourFy: number; blend: number; low: Float32Array; high: Float32Array; fog: number; mountainFog: number }> = [];
+  const planes: Array<{ z: number; projection: number; contribution: number; columnStep: number; ahead: number; row: number; fy: number; contourRow: number; contourFy: number; blend: number; low: Float32Array; high: Float32Array; fog: number; mountainFog: number }> = [];
   for (let ahead = first; ; ahead += march) {
     const z = (ahead - view.ahead) * view.alongScale;
     if (z >= far) break;
-    // Preserve full foreground refinement through 30km; only the distant planes use fewer samples.
-    // Both sampling lattices remain anchored geographically while moving.
-    if (z > 30000 && Math.abs(ahead / coarseMarch - Math.round(ahead / coarseMarch)) > 0.01) continue;
-    if (z > 36000 && Math.abs(ahead / (coarseMarch * 2) - Math.round(ahead / (coarseMarch * 2))) > 0.01) continue;
+    // Geographic lattices do not move with the camera. Supplemental rows join their coarser
+    // neighbours continuously over 6,000 depth units, including their colour/depth history.
+    const coarse = Math.abs(ahead / coarseMarch - Math.round(ahead / coarseMarch)) < 0.01;
+    const farCoarse = Math.abs(ahead / (coarseMarch * 2) - Math.round(ahead / (coarseMarch * 2))) < 0.01;
+    const contribution = !coarse ? 1 - smooth01((z - 30000) / 6000) : !farCoarse ? 1 - smooth01((z - 36000) / 6000) : 1;
+    if (contribution === 0) continue;
     const r = (ahead - g.ahead0) / g.step;
     if (r < 1 || r >= g.rows - 2) continue;
     const lod = smooth01((z / far - 0.65) / 0.35) * 0.22;
-    planes.push({ z, projection: focal / z, columnStep: z / (focal * view.sideScale * g.step), ahead, row: Math.floor(r), fy: r - Math.floor(r), contourRow: Math.floor(r * CONTOUR_SCALE), contourFy: r * CONTOUR_SCALE - Math.floor(r * CONTOUR_SCALE), blend: lod,
+    planes.push({ z, contribution, projection: focal / z, columnStep: z / (focal * view.sideScale * g.step), ahead, row: Math.floor(r), fy: r - Math.floor(r), contourRow: Math.floor(r * CONTOUR_SCALE), contourFy: r * CONTOUR_SCALE - Math.floor(r * CONTOUR_SCALE), blend: lod,
       low: g.height, high: lod === 0 ? g.height : g.distanceHeight?.[1] ?? g.height,
       fog: view.dark || sunUp < 0.35 ? Math.min(0.96, 1 - Math.exp(-2.6 * z / far)) : Math.min(0.88, (z / far) ** 0.9 * 0.82), mountainFog: 1 - Math.exp(-1.3 * (Math.max(0, z / far - 0.12) / 0.88) ** 1.8) });
   }
   const contourCols = (g.cols - 1) * CONTOUR_SCALE + 1, skyline = new Float64Array(w).fill(h);
   let drawn = 0;
   const redColumn = new Float64Array(w), greenColumn = new Float64Array(w), blueColumn = new Float64Array(w);
-  const shadedColumn = new Float64Array(w).fill(h), hasShadeColumn = new Uint8Array(w);
+  const hasShadeColumn = new Uint8Array(w), accumulation = edges.accumulation;
   // Visit a geographic row across all columns: its projection/LOD settings are read once, and adjacent
   // rays share hot height-texture rows. Each column still receives exactly the same front-to-back samples.
   for (let plane = 0; plane < planes.length; plane++) {
-    const { z, projection, columnStep, ahead, row, fy, contourRow, contourFy, low, high, blend: blendLevel, fog, mountainFog } = planes[plane];
+    const { z, contribution, projection, columnStep, ahead, row, fy, contourRow, contourFy, low, high, blend: blendLevel, fog, mountainFog } = planes[plane];
     for (let x = 0; x < w; x++) {
       const top = skyline[x]; if (top <= 0) continue;
       const c = (x + 0.5 - w / 2) * columnStep - g.side0 / g.step;
@@ -379,21 +381,21 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const heightM = contour + (h1 - contour) * blendLevel;
       const heightIndex = Math.min(displayHeight.length - 2, heightM * 0.25), hi = Math.floor(heightIndex), hf = heightIndex - hi;
       const raised = (displayHeight[hi] + (displayHeight[hi + 1] - displayHeight[hi]) * hf) * exaggeration;
-      const y = Math.max(0, horizon + (cameraHeight - raised * HEIGHT_UNITS) * projection);
-      if (y >= top - 0.08) continue;
+      const projectedY = Math.max(0, horizon + (cameraHeight - raised * HEIGHT_UNITS) * projection);
+      if (projectedY >= top) continue;
+      const y = top + (projectedY - top) * contribution;
       if (heightM < 2) {
         // Near sea/flat ground occludes distant relief too. Keep its existing coast/sea pixels underneath.
         for (let yy = Math.ceil(y); yy < top; yy++) depth[yy * w + x] = z;
         edges.previous[x] = 0; skyline[x] = y; continue;
       }
-      // Keep all height/depth samples, but shade at most twice per internal pixel. Reusing
-      // colour for a sub-half-pixel advance preserves contour coverage without redundant lighting.
+      // Shade every contributing sample: no camera-subpixel threshold selects a stale colour.
       const lastRed = redColumn[x], lastGreen = greenColumn[x], lastBlue = blueColumn[x], hasShade = hasShadeColumn[x] !== 0;
       const previousDepth = edges.previous[x];
-      const ridgeEdge = hasShade && previousDepth > 0 && previousDepth < 30000 && z - previousDepth > Math.max(300, previousDepth * 0.045);
-      let shadedY = shadedColumn[x];
-      let rr = lastRed, gg = lastGreen, bb = lastBlue;
-      if (!hasShade || shadedY - y >= 0.5 || ridgeEdge) {
+      const gapThreshold = Math.max(300, previousDepth * 0.045);
+      const ridgeStrength = hasShade && previousDepth > 0 ? smooth01(((z - previousDepth) / gapThreshold - 0.6) / 0.8) * (1 - smooth01((previousDepth - 30000) / 6000)) * contribution : 0;
+      let rr: number, gg: number, bb: number;
+      {
         // CPU fragment equivalent: central differences at this visible height sample, not interpolated vertex normals.
         const xp = interiorSample(low, i + 1, g.cols, fx, fy), xm = interiorSample(low, i - 1, g.cols, fx, fy);
         const zp = interiorSample(low, i + g.cols, g.cols, fx, fy), zm = interiorSample(low, i - g.cols, g.cols, fx, fy);
@@ -445,32 +447,36 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
         rr = (red / total * light * (1 - air) + view.haze[0] * air) * (1 - snow) + (snowRed * (1 - snowAir) + view.haze[0] * snowAir) * snow;
         gg = (green / total * light * (1 - air) + view.haze[1] * air) * (1 - snow) + (snowGreen * (1 - snowAir) + view.haze[1] * snowAir) * snow;
         bb = (blue / total * light * (1 - air) + view.haze[2] * air) * (1 - snow) + (snowBlue * (1 - snowAir) + view.haze[2] * snowAir) * snow;
-        shadedY = y;
       }
-      if (ridgeEdge)
-        recordTerrainEdge(edges, x, top, previousDepth, z, lastRed, lastGreen, lastBlue, rr, gg, bb);
+      if (ridgeStrength > 0)
+        recordTerrainEdge(edges, x, top, previousDepth, z, lastRed, lastGreen, lastBlue, rr, gg, bb, ridgeStrength);
       const span = Math.max(1, top - y);
       for (let yy = Math.floor(y); yy < Math.ceil(top); yy++) {
         if (yy < 0 || yy >= h) continue;
         const cell = yy * w + x, p = cell * 4;
         const coverage = Math.min(yy + 1, top) - Math.max(yy, y);
-        const previous = pixels[p + 3] / 255, add = Math.min(1 - previous, Math.max(0, coverage)), alpha = previous + add;
+        const previous = accumulation[p + 3], add = Math.min(1 - previous, Math.max(0, coverage)), alpha = previous + add;
         if (add <= 0) continue;
         if (alpha < 0.001) continue;
         // Blend sample colours down each projected segment, with fractional coverage at its skyline.
         const blend = hasShade ? Math.max(0, Math.min(1, (yy + 0.5 - y) / span)) : 0;
         const r = rr + (lastRed - rr) * blend, g = gg + (lastGreen - gg) * blend, b = bb + (lastBlue - bb) * blend;
-        if (add === 1) { pixels[p] = r; pixels[p + 1] = g; pixels[p + 2] = b; }
-        else {
-          pixels[p] = (pixels[p] * previous + r * add) / alpha;
-          pixels[p + 1] = (pixels[p + 1] * previous + g * add) / alpha;
-          pixels[p + 2] = (pixels[p + 2] * previous + b * add) / alpha;
-        }
-        pixels[p + 3] = alpha * 255; depth[cell] = Math.min(depth[cell], z);
+        // Accumulate premultiplied colour in floats; round once when the complete pixel is known.
+        accumulation[p] += r * add; accumulation[p + 1] += g * add; accumulation[p + 2] += b * add;
+        accumulation[p + 3] = alpha; depth[cell] = Math.min(depth[cell], z);
       }
-      redColumn[x] = rr; greenColumn[x] = gg; blueColumn[x] = bb; hasShadeColumn[x] = 1; shadedColumn[x] = shadedY;
-      edges.previous[x] = z; drawn += top - y; skyline[x] = y;
+      redColumn[x] = hasShade ? lastRed + (rr - lastRed) * contribution : rr;
+      greenColumn[x] = hasShade ? lastGreen + (gg - lastGreen) * contribution : gg;
+      blueColumn[x] = hasShade ? lastBlue + (bb - lastBlue) * contribution : bb; hasShadeColumn[x] = 1;
+      edges.previous[x] = previousDepth > 0 ? previousDepth + (z - previousDepth) * contribution : z;
+      drawn += top - y; skyline[x] = y;
     }
+  }
+  for (let p = 0; p < pixels.length; p += 4) {
+    const alpha = accumulation[p + 3]; if (alpha <= 0) continue;
+    const scale = alpha >= 0.999999 ? 1 : 1 / alpha;
+    pixels[p] = accumulation[p] * scale; pixels[p + 1] = accumulation[p + 1] * scale;
+    pixels[p + 2] = accumulation[p + 2] * scale; pixels[p + 3] = alpha * 255;
   }
   coverTerrainEdges(edges, pixels);
   // Integrate the silhouette's pixel coverage across each column; no colour/height blur across ridges.
