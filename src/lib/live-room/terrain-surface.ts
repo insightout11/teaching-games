@@ -1,7 +1,7 @@
 import { elevationAt, loadElevation } from './elevation';
 import { loadTerrarium } from './terrarium';
 import { sharpenTerrainSummits } from './terrain-landmarks';
-import { blurElevation, interiorSample, terrainHeight, terrainGradient, TERRAIN_GAIN, snowlineVariation } from './terrain-filter';
+import { clampElevationSpikes, medianElevation, mountainSnowline, interiorSample, terrainHeight, terrainGradient, TERRAIN_GAIN, snowlineVariation } from './terrain-filter';
 import { snowlineM, type HighGround } from './elevation-ahead';
 import { smoothCoastRing, groundMixAt, type CoastStrip } from './coast-strip';
 import { greatCirclePoint, type LatLng } from './route-terrain';
@@ -22,7 +22,7 @@ export function safeExaggeration(camera: number, routePeak: number, altitude: nu
 export interface SurfaceGrid {
   ahead0: number; side0: number; step: number; rows: number; cols: number;
   height: Float32Array; snowline: Float32Array;
-  /** Unmodified source metres for snow; two prefiltered display levels for distant samples. */
+  /** Unmodified source metres for snow; conservative median reference for the farthest skyline. */
   trueHeight?: Float32Array; distanceHeight?: [Float32Array, Float32Array];
   source?: 'terrarium' | 'mixed' | 'coarse'; tiles?: number; failedTiles?: number;
   /** Four normalized material weights at each vertex, rather than nearest-cell colour changes. */
@@ -69,15 +69,13 @@ function indexMax(g: SurfaceGrid) {
     g.slopeZ[i] = (g.height[i + g.cols] - g.height[i - g.cols]) / (g.step * 2000);
   }
   g.peak = g.max.reduce((a, b) => Math.max(a, b), 0);
-  const blur = (values: Float32Array) => blurElevation(values, g.rows, g.cols);
-  const middle = blur(g.height);
-  g.distanceHeight = [middle, blur(blur(middle))];
+  g.distanceHeight = [g.height, medianElevation(g.height, g.rows, g.cols)];
   return g;
 }
 
 function smoothElevation(g: SurfaceGrid): SurfaceGrid {
   g.trueHeight = g.height.slice();
-  g.height = blurElevation(g.height, g.rows, g.cols);
+  g.height = clampElevationSpikes(g.height, g.rows, g.cols, 180 * g.step);
   return indexMax(g);
 }
 function emptyGrid(ahead0: number, side0: number, step: number, rows: number, cols: number): SurfaceGrid {
@@ -146,7 +144,9 @@ export function buildSurfaceGrid(strip: CoastStrip, elevation: (p: LatLng) => nu
       distance[i] = land[i] ? 1000 : 0;
       if (!land[i]) continue;
       p ??= surfacePoint(strip.origin, strip.destination, along, side, strip.routeKm);
-      g.height[i] = Math.max(0, elevation(p)); g.snowline[i] = snowlineM(p.lat) + snowlineVariation(along, side);
+      const regionalSnow = mountainSnowline(p.lat, p.lng);
+      g.height[i] = Math.max(0, elevation(p));
+      g.snowline[i] = (regionalSnow ?? snowlineM(p.lat)) + snowlineVariation(along, side) * (regionalSnow === null ? 1 : 0.4);
       const mix = groundMixAt(strip, along, side);
       mix.slice(0, 4).forEach((cell, k) => {
         const key = `${cell.terrain}|${cell.region}`;
@@ -243,15 +243,25 @@ export function prepareSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTexture
     const forest = arid ? 0 : smooth01((height - 500) / 700) * (1 - smooth01((height - treeLine + 500) / 700)) * smooth01(slope / 0.3) * 0.45;
     for (const [name, weight] of [['__forest', forest], ['__rock', rock]] as const) {
       const tex = textures.get(name); if (!tex || weight < 0.001) continue;
-      for (let c = 0; c < 3; c++) color[i * 3 + c] = color[i * 3 + c] * (1 - weight) + textureChannel(tex, side * 280 * tex.size / tex.worldSize, ahead * 400 * tex.size / tex.worldSize, c) * weight;
+      const u = side * 280 * tex.size / tex.worldSize, v = ahead * 400 * tex.size / tex.worldSize;
+      const neutral = name === '__rock' ? (textureChannel(tex, u, v, 0) + 2 * textureChannel(tex, u, v, 1) + textureChannel(tex, u, v, 2)) / 4 : 0;
+      const bare = name === '__rock' ? smooth01((height - 1800) / 1400) : 0;
+      for (let c = 0; c < 3; c++) {
+        const texel = textureChannel(tex, u, v, c), stone = neutral * [1.04, 1, 0.93][c];
+        color[i * 3 + c] = color[i * 3 + c] * (1 - weight) + (texel + (stone - texel) * bare) * weight;
+      }
     }
+    // High bare ground must not inherit orange/purple SVG patches. Preserve luminance/texture, not those hues.
+    const bare = smooth01((height - treeLine) / 800) * 0.85;
+    const luminance = (color[i * 3] + 2 * color[i * 3 + 1] + color[i * 3 + 2]) / 4;
+    for (let c = 0; c < 3; c++) color[i * 3 + c] += (luminance * [1.04, 1, 0.93][c] - color[i * 3 + c]) * bare;
   }
   albedoCache.set(g, { sources, color }); return color;
 }
 
 const smooth01 = (value: number) => { const t = Math.max(0, Math.min(1, value)); return t * t * (3 - 2 * t); };
 export function surfaceSnow(height: number, line: number, slope: number, illumination: number): number {
-  return smooth01((height - line) / 1000) * smooth01((illumination + 0.15) / 0.85) * (1 - smooth01((slope - 0.25) / 0.55));
+  return smooth01((height - line) / 1000) * smooth01((illumination + 0.15) / 0.85) * (1 - smooth01((slope - 0.16) / 0.44));
 }
 
 export interface SurfaceView {
@@ -277,18 +287,20 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   // Geographic planes share all depth-dependent work across columns. No heightfield rebuild during Fly.
   // Cap projected depth spacing too: short routes are stretched along the flight frame, so a fixed
   // geographic step otherwise creates large saw teeth even with a smooth height texture.
-  const march = Math.min(g.step * 0.5, 200 / view.alongScale);
+  const coarseMarch = Math.min(g.step * 0.5, 200 / view.alongScale), march = coarseMarch / 3;
   const first = Math.ceil((view.ahead + near / view.alongScale) / march) * march;
-  const planes: Array<{ z: number; ahead: number; row: number; fy: number; blend: number; low: Float32Array; high: Float32Array; fog: number }> = [];
+  const planes: Array<{ z: number; ahead: number; row: number; fy: number; blend: number; low: Float32Array; high: Float32Array; fog: number; mountainFog: number }> = [];
   for (let ahead = first; ; ahead += march) {
     const z = (ahead - view.ahead) * view.alongScale;
     if (z >= far) break;
+    // Only foreground receives the extra rows. Both lattices remain anchored geographically while moving.
+    if (z > 18000 && Math.abs(ahead / coarseMarch - Math.round(ahead / coarseMarch)) > 0.01) continue;
     const r = (ahead - g.ahead0) / g.step;
     if (r < 1 || r >= g.rows - 2) continue;
-    const lod = smooth01(z / far) * 2, level = Math.min(1, Math.floor(lod));
-    planes.push({ z, ahead, row: Math.floor(r), fy: r - Math.floor(r), blend: lod - level,
-      low: level === 0 ? g.height : g.distanceHeight?.[0] ?? g.height, high: g.distanceHeight?.[level] ?? g.height,
-      fog: Math.min(0.96, 1 - Math.exp(-2.6 * z / far)) });
+    const lod = smooth01((z / far - 0.65) / 0.35) * 0.22;
+    planes.push({ z, ahead, row: Math.floor(r), fy: r - Math.floor(r), blend: lod,
+      low: g.height, high: lod === 0 ? g.height : g.distanceHeight?.[1] ?? g.height,
+      fog: Math.min(0.96, 1 - Math.exp(-2.6 * z / far)), mountainFog: 1 - Math.exp(-1.7 * (z / far) ** 1.6) });
   }
   let drawn = 0;
   for (let x = 0; x < w; x++) {
@@ -296,13 +308,13 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
     // Fixed geographic planes: the camera slides continuously between samples instead of dragging the
     // sampling lattice through every ridge. Sub-cell spacing also prevents skipping narrow crests.
     for (let plane = 0; plane < planes.length && top > 0; plane++) {
-      const { z, ahead, row, fy, low, high, blend: blendLevel, fog } = planes[plane];
+      const { z, ahead, row, fy, low, high, blend: blendLevel, fog, mountainFog } = planes[plane];
       const worldX = (x + 0.5 - w / 2) * z / focal;
       const side = worldX / view.sideScale, c = (side - g.side0) / g.step;
       if (c < 1 || c >= g.cols - 2) continue;
       const col = Math.floor(c), fx = c - col, i = row * g.cols + col;
-      // Crossfade cached Gaussian levels continuously, never switch detail at a tile or row boundary.
-      const h0 = interiorSample(low, i, g.cols, fx, fy), h1 = interiorSample(high, i, g.cols, fx, fy);
+      // Preserve the ridge shape; apply only a light median contribution at the farthest horizon.
+      const h0 = interiorSample(low, i, g.cols, fx, fy), h1 = low === high ? h0 : interiorSample(high, i, g.cols, fx, fy);
       const heightM = h0 + (h1 - h0) * blendLevel;
       const y = Math.max(0, horizon + (cameraHeight - terrainHeight(heightM, exaggeration) * HEIGHT_UNITS) * focal / z);
       if (y >= top) continue;
@@ -312,17 +324,21 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
         top = y; continue;
       }
       // CPU fragment equivalent: central differences at this visible height sample, not interpolated vertex normals.
-      const dx0 = interiorSample(low, i + 1, g.cols, fx, fy) - interiorSample(low, i - 1, g.cols, fx, fy);
-      const dx1 = interiorSample(high, i + 1, g.cols, fx, fy) - interiorSample(high, i - 1, g.cols, fx, fy);
-      const dz0 = interiorSample(low, i + g.cols, g.cols, fx, fy) - interiorSample(low, i - g.cols, g.cols, fx, fy);
-      const dz1 = interiorSample(high, i + g.cols, g.cols, fx, fy) - interiorSample(high, i - g.cols, g.cols, fx, fy);
+      const xp = interiorSample(low, i + 1, g.cols, fx, fy), xm = interiorSample(low, i - 1, g.cols, fx, fy);
+      const zp = interiorSample(low, i + g.cols, g.cols, fx, fy), zm = interiorSample(low, i - g.cols, g.cols, fx, fy);
+      const dx0 = xp - xm, dz0 = zp - zm;
+      const dx1 = low === high ? dx0 : interiorSample(high, i + 1, g.cols, fx, fy) - interiorSample(high, i - 1, g.cols, fx, fy);
+      const dz1 = low === high ? dz0 : interiorSample(high, i + g.cols, g.cols, fx, fy) - interiorSample(high, i - g.cols, g.cols, fx, fy);
       const dx = (dx0 + (dx1 - dx0) * blendLevel) / (g.step * 2000);
       const dz = (dz0 + (dz1 - dz0) * blendLevel) / (g.step * 2000);
       const normalScale = terrainGradient(heightM, exaggeration) * 2;
       const slopeSquared = dx * dx + dz * dz;
       const illumination = (-dx * normalScale * sunSide - dz * normalScale * sunAhead + sunUp) / (Math.sqrt(slopeSquared * normalScale * normalScale + 1) * lightLength);
       const cloud = view.cloudCover > 0 ? 1 - view.cloudCover / 100 * 0.15 * (0.5 + 0.5 * Math.sin(ahead * 0.15 + side * 0.2)) : 1;
-      const light = (view.dark ? 0.32 : 0.30 + Math.max(0, illumination) * 0.85) * cloud;
+      const mountain = smooth01((heightM - 1800) / 1600);
+      const ridge = smooth01((4 * h0 - xp - xm - zp - zm) / 550) * Math.max(0, illumination) * 0.16;
+      const carved = 0.13 + Math.max(0, illumination) * 0.98 + ridge;
+      const light = (view.dark ? 0.32 : (0.30 + Math.max(0, illumination) * 0.85) * (1 - mountain) + carved * mountain) * cloud;
       const a = i * 3, b = a + 3, c0 = (i + g.cols) * 3, d = c0 + 3;
       const red = (albedo[a] * (1 - fx) + albedo[b] * fx) * (1 - fy) + (albedo[c0] * (1 - fx) + albedo[d] * fx) * fy;
       const green = (albedo[a + 1] * (1 - fx) + albedo[b + 1] * fx) * (1 - fy) + (albedo[c0 + 1] * (1 - fx) + albedo[d + 1] * fx) * fy;
@@ -331,7 +347,9 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
       const snowline = (g.snowline[i] * (1 - fx) + g.snowline[i + 1] * fx) * (1 - fy) + (g.snowline[i + g.cols] * (1 - fx) + g.snowline[i + g.cols + 1] * fx) * fy;
       // The snow test uses unexaggerated metres. Back-facing slopes retain exposed rock rather than a white blanket.
       const trueHeight = interiorSample(g.trueHeight ?? g.height, i, g.cols, fx, fy);
-      const snow = surfaceSnow(trueHeight, snowline, Math.sqrt(slopeSquared), illumination);
+      // At a sharp crest central differences can cancel to zero; adjacent face grades still shed snow.
+      const faceSlope = Math.max(Math.abs(xp - h0), Math.abs(xm - h0), Math.abs(zp - h0), Math.abs(zm - h0)) / (g.step * 1000);
+      const snow = surfaceSnow(trueHeight, snowline, Math.max(Math.sqrt(slopeSquared), faceSlope), illumination);
       let snowRed = view.snow[0], snowGreen = view.snow[1], snowBlue = view.snow[2];
       if (snowTexture) {
         // The ice tile's broad colour survives; tiny unfiltered white texels must not sparkle in distant snowfields.
@@ -339,9 +357,10 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
         snowGreen = snowGreen * 0.65 + snowTexture.mean[1] * 0.35;
         snowBlue = snowBlue * 0.65 + snowTexture.mean[2] * 0.35;
       }
-      const rr = ((red / total * (1 - snow) + snowRed * snow) * light) * (1 - fog) + Math.max(0, view.haze[0] - 8) * fog;
-      const gg = ((green / total * (1 - snow) + snowGreen * snow) * light) * (1 - fog) + view.haze[1] * fog;
-      const bb = ((blue / total * (1 - snow) + snowBlue * snow) * light) * (1 - fog) + Math.min(255, view.haze[2] + 10) * fog;
+      const air = fog + (mountainFog - fog) * mountain;
+      const rr = ((red / total * (1 - snow) + snowRed * snow) * light) * (1 - air) + Math.max(0, view.haze[0] - 8) * air;
+      const gg = ((green / total * (1 - snow) + snowGreen * snow) * light) * (1 - air) + view.haze[1] * air;
+      const bb = ((blue / total * (1 - snow) + snowBlue * snow) * light) * (1 - air) + Math.min(255, view.haze[2] + 10) * air;
       const span = Math.max(1, top - y);
       for (let yy = Math.floor(y); yy < Math.ceil(top); yy++) {
         if (yy < 0 || yy >= h) continue;

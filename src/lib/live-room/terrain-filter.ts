@@ -2,24 +2,57 @@
 export const TERRAIN_GAIN = 2.2 * (1 + 3000 / 18000);
 export const TERRAIN_ROLLOFF = 18000;
 export function terrainHeight(metres: number, gain = TERRAIN_GAIN): number {
-  return Math.max(0, metres) * gain / (1 + Math.max(0, metres) / TERRAIN_ROLLOFF);
+  const h = Math.max(0, metres);
+  if (h <= 3000) return h * gain / (1 + h / TERRAIN_ROLLOFF);
+  if (h >= 6000) return h * gain * (31 / 35) / (1 + h / 90000);
+  const t = (h - 3000) / 3000, blend = t * t * (3 - 2 * t);
+  const low = h * gain / (1 + h / TERRAIN_ROLLOFF);
+  const high = h * gain * (31 / 35) / (1 + h / 90000);
+  return low + (high - low) * blend;
 }
 export function terrainGradient(metres: number, gain: number): number {
-  return gain / (1 + Math.max(0, metres) / TERRAIN_ROLLOFF) ** 2;
+  const h = Math.max(0, metres);
+  if (h <= 3000) return gain / (1 + h / TERRAIN_ROLLOFF) ** 2;
+  if (h >= 6000) return gain * (31 / 35) / (1 + h / 90000) ** 2;
+  const t = (h - 3000) / 3000, blend = t * t * (3 - 2 * t);
+  const low = h * gain / (1 + h / TERRAIN_ROLLOFF), high = h * gain * (31 / 35) / (1 + h / 90000);
+  return gain / (1 + h / TERRAIN_ROLLOFF) ** 2 * (1 - blend) +
+    gain * (31 / 35) / (1 + h / 90000) ** 2 * blend + (high - low) * 6 * t * (1 - t) / 3000;
 }
 
-/** Small-sigma 3x3 Gaussian [1,6,1]^2 / 64, prepared once. Zero sea cells stay zero. */
-export function blurElevation(source: Float32Array, rows: number, cols: number): Float32Array {
-  const horizontal = new Float32Array(source.length), result = new Float32Array(source.length);
+/** Remove isolated needles, not connected ridges or valley edges. Take-off only; metres stay real. */
+export function clampElevationSpikes(source: Float32Array, rows: number, cols: number, rise = 180): Float32Array {
+  const result = source.slice();
   for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-    const i = r * cols + c;
-    horizontal[i] = (source[r * cols + Math.max(0, c - 1)] + 6 * source[i] + source[r * cols + Math.min(cols - 1, c + 1)]) / 8;
-  }
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-    const i = r * cols + c;
-    if (source[i] > 0) result[i] = (horizontal[Math.max(0, r - 1) * cols + c] + 6 * horizontal[i] + horizontal[Math.min(rows - 1, r + 1) * cols + c]) / 8;
+    let neighbour = 0;
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      if ((!dr && !dc) || r + dr < 0 || c + dc < 0 || r + dr >= rows || c + dc >= cols) continue;
+      neighbour = Math.max(neighbour, source[(r + dr) * cols + c + dc]);
+    }
+    result[r * cols + c] = Math.min(source[r * cols + c], neighbour + rise);
   }
   return result;
+}
+
+/** Conservative horizon-only median reference, never repeatedly blurred into the visible ridges. */
+export function medianElevation(source: Float32Array, rows: number, cols: number): Float32Array {
+  const result = source.slice(), window = new Float32Array(9);
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const i = r * cols + c;
+    if (source[i] === 0) continue;
+    let k = 0;
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++)
+      window[k++] = source[Math.max(0, Math.min(rows - 1, r + dr)) * cols + Math.max(0, Math.min(cols - 1, c + dc))];
+    window.sort(); result[i] = window[4];
+  }
+  return result;
+}
+
+/** Regional permanent snow limits, before display exaggeration. Other regions keep their existing limit. */
+export function mountainSnowline(lat: number, lng: number): number | null {
+  if (lat >= 26 && lat <= 36 && lng >= 72 && lng <= 100) return 4900;
+  if (lat >= 44 && lat <= 49 && lng >= 4 && lng <= 17) return 2800;
+  return null;
 }
 
 /** Bilinear field: there are no mesh triangles or diagonal-dependent normal discontinuities. */

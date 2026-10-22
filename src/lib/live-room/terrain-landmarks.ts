@@ -37,13 +37,14 @@ export function sharpenTerrainSummits(g: SurfaceGrid, from: LatLng, to: LatLng, 
       if (g.height[i] > high) { best = i; high = g.height[i]; }
     }
     if (best < 0 || high < 500) continue;
-    const br = Math.floor(best / g.cols), bc = best % g.cols, lift = Math.min(180, high * 0.04);
-    for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
-      const radius = Math.hypot(dr, dc) / 2;
+    const br = Math.floor(best / g.cols), bc = best % g.cols;
+    const everest = place.kind === 'everest', support = everest ? 3 : 2, lift = everest ? Math.min(650, high * 0.08) : Math.min(180, high * 0.04);
+    for (let dr = -support; dr <= support; dr++) for (let dc = -support; dc <= support; dc++) {
+      const radius = Math.hypot(dr, dc) / support;
       if (radius >= 1) continue;
       const r = br + dr, c = bc + dc;
-      if (r >= 0 && c >= 0 && r < g.rows && c < g.cols)
-        g.height[r * g.cols + c] += lift * (1 - radius) ** 2;
+      if (r >= 0 && c >= 0 && r < g.rows && c < g.cols && g.height[r * g.cols + c] > 0)
+        g.height[r * g.cols + c] += lift * (everest ? (1 - radius * radius) ** 2 : (1 - radius) ** 2);
     }
   }
 }

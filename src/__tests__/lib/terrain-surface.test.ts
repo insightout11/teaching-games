@@ -69,7 +69,7 @@ describe('continuous elevation in the original flight frame', () => {
     expect(g.trueHeight![i]).toBe(8000);
     expect(g.height[i]).toBeLessThan(g.trueHeight![i]);
     expect(g.distanceHeight![1][i]).toBeLessThan(g.distanceHeight![0][i]);
-    expect(g.distanceHeight![0][i]).toBeLessThan(g.height[i]);
+    expect(g.distanceHeight![0][i]).toBe(g.height[i]);
     expect(g.peak).toBe(g.height.reduce((max, value) => Math.max(max, value), 0));
   });
   it('keeps sea at zero and ramps the sampled land to the shoreline', () => {
