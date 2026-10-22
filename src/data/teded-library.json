@@ -1405,7 +1405,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people take more care to support their immune systems?"
+    "flightQuestion": "Should people take more care to support their immune systems?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 85,
+          "end": 93,
+          "question": "How fast do the bacteria double their numbers inside the wound?",
+          "options": [
+            "About every 20 minutes",
+            "About once every hour",
+            "About every five days"
+          ],
+          "correctIndex": 0,
+          "keyLine": "They start using up the body's resources and double their numbers about every 20 minutes."
+        },
+        {
+          "start": 111,
+          "end": 120,
+          "question": "How many intruders can each guard cell (macrophage) eat?",
+          "options": [
+            "Up to 21 intruders",
+            "Up to 100 intruders",
+            "Up to 1,000 intruders"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Most of the time, they alone can suffocate an attack because they can devour up to 100 intruders each."
+        },
+        {
+          "start": 146,
+          "end": 153,
+          "question": "What happens because the neutrophils fight so fiercely?",
+          "options": [
+            "They run out of water in the blood",
+            "They turn into memory cells right away",
+            "They kill healthy cells in the process"
+          ],
+          "correctIndex": 2,
+          "keyLine": "The neutrophils fight so furiously that they kill healthy cells in the process."
+        },
+        {
+          "start": 247,
+          "end": 255,
+          "question": "What does the B cell start doing after it duplicates rapidly?",
+          "options": [
+            "It travels to the skin to close the cut",
+            "It starts producing millions of little weapons",
+            "It collects pieces of bacteria from the blood"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The B cell duplicates rapidly and starts producing millions of little weapons."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main topic of this video?",
+          "options": [
+            "How different cells in the immune system work together to fight a bacterial infection",
+            "How doctors make new medicines to treat viruses and fungi",
+            "Why rusty nails are the most dangerous objects in nature"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How do antibodies help defeat the bacteria?",
+          "options": [
+            "They repair broken skin cells before bacteria can enter",
+            "They disable the bacteria and make them an easy target for killer cells and macrophages",
+            "They carry oxygen from the lungs to the lymph nodes"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why do memory cells stay behind after the infection is over?",
+          "options": [
+            "To help the skin grow back faster after a cut",
+            "To clean up dead red blood cells in the veins",
+            "To be ready to kill the same enemy quickly if it ever returns"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why do most immune cells die after the infection is wiped out, and why do B cells need signals from helper T cells to keep working?",
+        "options": [
+          "So the body does not waste energy or hurt itself when the fight is over",
+          "Because the bacteria destroy all the lymph nodes in the body",
+          "Because the body can only keep one type of cell alive at a time"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "bacteria",
+          "meaning": "very small living things, some of which can cause illness",
+          "at": 4
+        },
+        {
+          "word": "wound",
+          "meaning": "an injury where the skin is cut or broken",
+          "at": 85
+        },
+        {
+          "word": "swelling",
+          "meaning": "a part of the body becoming larger than normal because of fluid or injury",
+          "at": 134
+        },
+        {
+          "word": "samples",
+          "meaning": "small parts of something collected to study or test it",
+          "at": 172
+        },
+        {
+          "word": "exhaustion",
+          "meaning": "the state of being completely tired and having no energy left",
+          "at": 256
+        }
+      ]
+    }
   },
   {
     "id": "teded_what_is_kafkaesque",
@@ -1425,7 +1542,124 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Can confusing rules ever make a story more interesting?"
+    "flightQuestion": "Can confusing rules ever make a story more interesting?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 53,
+          "question": "How is the word 'Kafkaesque' commonly used in everyday language today?",
+          "options": [
+            "To describe unnecessarily complicated and frustrating experiences",
+            "To describe exciting stories about ancient Greek gods",
+            "To describe fast and efficient modern office systems"
+          ],
+          "correctIndex": 0,
+          "keyLine": "“Kafkaesque” has entered the vernacular to describe unnecessarily complicated and frustrating experiences; like being forced to navigate labyrinths of bureaucracy."
+        },
+        {
+          "start": 73,
+          "end": 86,
+          "question": "Who are many of the main characters in Franz Kafka's stories?",
+          "options": [
+            "Powerful judges who write laws for the government",
+            "Office workers compelled to struggle through a web of obstacles",
+            "Famous detectives who solve crimes in Prague"
+          ],
+          "correctIndex": 1,
+          "keyLine": "in early 20th century Prague. Many of his protagonists are office workers compelled to struggle through a web of obstacles in order to achieve their goals,"
+        },
+        {
+          "start": 152,
+          "end": 168,
+          "question": "In the story 'Metamorphosis', what is Gregor Samsa's biggest worry when he wakes up as a giant insect?",
+          "options": [
+            "How to hide from his family in his bedroom",
+            "How to find a doctor who can cure him",
+            "That he gets to work on time"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Take, for example, Kafka's most famous story, \"Metamorphosis.\" When Gregor Samsa awaken's one morning to find himself transformed into a giant insect, his greatest worry is that he gets to work on time."
+        },
+        {
+          "start": 238,
+          "end": 252,
+          "question": "Along with the dark mood of Kafka's stories, what else is found in his writing?",
+          "options": [
+            "A great deal of humor based on the strange logic of the situations",
+            "Detailed instructions on how to reform the legal system",
+            "Happy endings where the heroes defeat the government"
+          ],
+          "correctIndex": 0,
+          "keyLine": "would call \"tyranny without a tyrant.\" Yet accompanying the bleakness of Kafka's stories, there's a great deal of humor rooted in the nonsensical logic of the situations described."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main purpose of this video?",
+          "options": [
+            "To explain the deeper meaning of 'Kafkaesque' through Franz Kafka's life and stories",
+            "To give a history of Prague during the early 20th century",
+            "To compare ancient Greek mythology with modern science fiction"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "In Kafka's short story about Poseidon, why does the sea god never have time to explore the ocean?",
+          "options": [
+            "He is fighting a war against other Greek gods",
+            "He is too proud to let anyone else help him with his paperwork",
+            "He is lost in an underwater maze"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "According to the video's conclusion, why is it helpful that Kafka shows us our own faults?",
+          "options": [
+            "It proves that individuals have no power in modern society",
+            "It teaches us how to become better insurance clerks",
+            "It reminds us that we create the world we live in and have the power to change it for the better"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "According to the video, what makes a situation truly 'Kafkaesque' beyond just confusing rules and paperwork?",
+        "options": [
+          "The irony of how characters use circular thinking in reaction to absurd systems of power",
+          "The presence of supernatural monsters in every story",
+          "A single evil ruler who personally controls every citizen"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "protagonist",
+          "meaning": "the main character in a story or novel",
+          "at": 21
+        },
+        {
+          "word": "obstacles",
+          "meaning": "things that block your way or make it difficult to do something",
+          "at": 81
+        },
+        {
+          "word": "pointless",
+          "meaning": "having no purpose or meaning; not worth doing",
+          "at": 91
+        },
+        {
+          "word": "transformed",
+          "meaning": "changed completely in form or appearance",
+          "at": 160
+        },
+        {
+          "word": "shortcomings",
+          "meaning": "faults or weaknesses in a person's character or behavior",
+          "at": 278
+        }
+      ]
+    }
   },
   {
     "id": "teded_philosophy_of_stoicism",
@@ -1445,7 +1679,124 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Can Stoic ideas help people face a setback?"
+    "flightQuestion": "Can Stoic ideas help people face a setback?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 23,
+          "end": 39,
+          "question": "How did Zeno of Cyprus lose all of his wealth?",
+          "options": [
+            "He gave it away to philosophers in Rome",
+            "He was shipwrecked in Athens around 300 BCE",
+            "His bookshop burned down during a war"
+          ],
+          "correctIndex": 1,
+          "keyLine": "legacy the once wealthy merchants lost everything when he was shipwrecked in Athens around 300 BCE with not much else to do he wandered into a book shop"
+        },
+        {
+          "start": 69,
+          "end": 83,
+          "question": "What do people usually mean today when they call someone 'stoic'?",
+          "options": [
+            "Someone who remains calm under pressure and avoids extreme emotions",
+            "Someone who studies ancient Greek architecture",
+            "Someone who refuses to talk to other people"
+          ],
+          "correctIndex": 0,
+          "keyLine": "for discussion today we colloquially used the word stoic to mean someone who remains calm under pressure and avoids emotional extremes but while this"
+        },
+        {
+          "start": 132,
+          "end": 141,
+          "question": "How does Stoicism define the virtue of justice?",
+          "options": [
+            "Punishing people harshly when they break Roman law",
+            "Following every rule written by the emperor",
+            "Treating others with fairness even when they have done wrong"
+          ],
+          "correctIndex": 2,
+          "keyLine": "life justice treating others with fairness even when they have done wrong"
+        },
+        {
+          "start": 201,
+          "end": 218,
+          "question": "How did Marcus Aurelius's journals help Nelson Mandela?",
+          "options": [
+            "They helped him escape from prison after 19 years",
+            "They guided and comforted him during his 27 years in prison",
+            "They taught him how to translate ancient Greek books"
+          ],
+          "correctIndex": 1,
+          "keyLine": "of many of his children's centuries later Marcus's journals would guide and comfort Nelson Mandela through his 27 year imprisonment during his struggle for racial equality in South Africa"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main idea of Stoic philosophy regarding events in our lives?",
+          "options": [
+            "We cannot always control what happens to us, but we can control how we respond",
+            "We can control every event in the universe if we study hard enough",
+            "We should ignore other people and only care about our own wealth"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What are the four main virtues of Stoicism mentioned in the video?",
+          "options": [
+            "Wealth, power, fame, and strength",
+            "Practical wisdom, temperance, justice, and courage",
+            "Faith, charity, hope, and patience"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How has Stoicism influenced modern psychology?",
+          "options": [
+            "It proved that emotions are caused only by physical illness",
+            "It showed that people should never talk about their problems",
+            "Its idea that our judgments cause our suffering helped inspire modern therapies"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why does the video say that Stoicism is neither a selfish philosophy nor a passive one?",
+        "options": [
+          "Because Stoics believed that developing self-control and virtue in yourself is what allows you to treat others humanely and bring positive change",
+          "Because Stoics believed that everyone should join the Roman army and fight in wars",
+          "Because Stoics wanted to build a perfect imaginary society where no one ever had problems"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "possessions",
+          "meaning": "things that you own or have with you",
+          "at": 12
+        },
+        {
+          "word": "merchant",
+          "meaning": "a person whose job is to buy and sell goods",
+          "at": 27
+        },
+        {
+          "word": "self-control",
+          "meaning": "the ability to stay calm and control your feelings and actions",
+          "at": 56
+        },
+        {
+          "word": "fairness",
+          "meaning": "treating people equally and in a way that is right and reasonable",
+          "at": 137
+        },
+        {
+          "word": "willpower",
+          "meaning": "strong determination that allows you to do something difficult",
+          "at": 301
+        }
+      ]
+    }
   },
   {
     "id": "teded_how_memories_form",
@@ -1465,7 +1816,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Would forgetting some memories make life easier?"
+    "flightQuestion": "Would forgetting some memories make life easier?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 39,
+          "end": 49,
+          "question": "How long does information stay in short-term memory?",
+          "options": [
+            "From a few seconds to a couple of minutes",
+            "From a few hours to a couple of days",
+            "For about three weeks"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Information first lands in short term memory, where it's available from anywhere from a few seconds to a couple of minutes."
+        },
+        {
+          "start": 81,
+          "end": 93,
+          "question": "What happens to synapses in the brain as we get older?",
+          "options": [
+            "They communicate much faster than before",
+            "They begin to falter and weaken, making it harder to bring back memories",
+            "They double in number every ten years"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Age is one factor. As we get older, synapses begin to falter and weaken, affecting how easily we can retrieve memories."
+        },
+        {
+          "start": 115,
+          "end": 128,
+          "question": "When are memories recorded most strongly in the brain?",
+          "options": [
+            "When we are doing several tasks at the same time",
+            "When we are trying to forget sad events from the past",
+            "When we are paying attention, deeply interested, and the information is meaningful to us"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Age also affects our memory-making abilities. Memories are encoded most strongly when we're paying attention, when we're deeply engaged, and when information is meaningful to us."
+        },
+        {
+          "start": 221,
+          "end": 231,
+          "question": "Why does staying physically active help your brain keep memories?",
+          "options": [
+            "Because increased blood flow to the brain is helpful",
+            "Because exercise stops you from ever feeling stress",
+            "Because it makes your short-term memory last for weeks"
+          ],
+          "correctIndex": 0,
+          "keyLine": "to aid your brain in preserving your memories. Make sure you keep physically active. Increased blood flow to the brain is helpful."
+        }
+      ],
+      "gist": [
+        {
+          "q": "How does a new experience become a long-term memory?",
+          "options": [
+            "It is turned into an electrical signal, goes to short-term memory, and then moves to long-term storage through the hippocampus",
+            "It is stored immediately in the muscles and sent to the brain years later",
+            "It stays in short-term memory forever unless we experience stress"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What are the main causes of memory problems discussed in the video?",
+          "options": [
+            "Learning too many languages and reading too many books",
+            "Aging, chronic stress, depression, and social isolation",
+            "Sleeping too much and eating too many fruits and vegetables"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What three steps does the video recommend to help protect your memory?",
+          "options": [
+            "Work longer hours, spend more time alone, and avoid difficult tasks",
+            "Only memorize phone numbers, eat less food, and rest all day",
+            "Stay physically active, eat well, and give your brain challenges like learning a new language"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why do stress chemicals help us in a short crisis, but hurt our memory when stress lasts a long time?",
+        "options": [
+          "In a crisis they give us energy and alertness, but long-term stress floods the body with chemicals that destroy brain cells and stop new ones from forming",
+          "In a crisis they make us forget danger, but long-term stress makes us remember too many details",
+          "Stress chemicals only work when we are young and stop working completely after age twenty"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "vivid",
+          "meaning": "producing very clear, strong pictures in your mind",
+          "at": 8
+        },
+        {
+          "word": "fade",
+          "meaning": "to slowly disappear or become less clear and strong",
+          "at": 25
+        },
+        {
+          "word": "retrieve",
+          "meaning": "to find and bring back information stored in your memory",
+          "at": 89
+        },
+        {
+          "word": "overloaded",
+          "meaning": "given too much work or too many things to deal with at once",
+          "at": 140
+        },
+        {
+          "word": "nutrients",
+          "meaning": "substances in food that your body and brain need to stay healthy",
+          "at": 232
+        }
+      ]
+    }
   },
   {
     "id": "teded_plato_allegory_cave",
@@ -1485,7 +1953,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should Plato’s prisoners trust the shadows they see?"
+    "flightQuestion": "Should Plato’s prisoners trust the shadows they see?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 55,
+          "end": 65,
+          "question": "How long have the prisoners in the story been kept inside the cave?",
+          "options": [
+            "Since birth, with no knowledge of the outside world",
+            "Since they broke the laws of Athens",
+            "For twenty-four hundred years"
+          ],
+          "correctIndex": 0,
+          "keyLine": "In the allegory, a group of prisoners have been confined in a cavern since birth, with no knowledge of the outside world."
+        },
+        {
+          "start": 88,
+          "end": 95,
+          "question": "What happens when the freed prisoner first goes outside into the sunlight?",
+          "options": [
+            "He immediately understands that the sun is the source of life",
+            "The sunlight hurts his eyes and the new environment confuses him",
+            "He runs back into the cave to get his friends"
+          ],
+          "correctIndex": 1,
+          "keyLine": "The sunlight hurts his eyes and he finds the new environment disorienting."
+        },
+        {
+          "start": 121,
+          "end": 135,
+          "question": "How do the other prisoners react when the freed man returns to the cave?",
+          "options": [
+            "They ask him to lead them out into the sunlight",
+            "They make him their king because of his new knowledge",
+            "They think the journey made him stupid and blind, and they strongly resist being freed"
+          ],
+          "correctIndex": 2,
+          "keyLine": "and has a hard time seeing the shadows on the wall. The other prisoners think the journey has made him stupid and blind, and violently resist any attempts to free them."
+        },
+        {
+          "start": 143,
+          "end": 157,
+          "question": "What happened to the real-life philosopher Socrates?",
+          "options": [
+            "He became the ruler of the Athenian government",
+            "He was sentenced to death by the Athenian government for disturbing the social order",
+            "He hid in a cave outside Athens to write 'The Republic'"
+          ],
+          "correctIndex": 1,
+          "keyLine": "but hostile to anyone who points it out. In fact, the real life Socrates was sentenced to death by the Athenian government for disrupting the social order,"
+        }
+      ],
+      "gist": [
+        {
+          "q": "In Plato's story, what do the prisoners inside the cave believe is real?",
+          "options": [
+            "The shadows cast on the wall by objects passing in front of a fire",
+            "The reflections of ducks swimming in the water outside",
+            "The books written by philosopher kings"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What does the cave story represent about a philosopher trying to educate the public?",
+          "options": [
+            "That most people are eager to learn new truths right away",
+            "That people are often comfortable in their ignorance and angry at anyone who points it out",
+            "That philosophers should never share their ideas with anyone"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "How does the cave story connect to Plato's Theory of Forms?",
+          "options": [
+            "It argues that only shadows and darkness are truly real",
+            "It proves that physical objects last forever without changing",
+            "It suggests that things in the physical world are imperfect reflections of ideal concepts like beauty"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why did the freed prisoner have trouble convincing the other prisoners about the real world outside?",
+        "options": [
+          "His eyes were no longer used to the darkness, so he could not see the shadows well, making the others think his journey ruined his sight",
+          "He forgot how to speak the language of the other prisoners while he was outside",
+          "The people carrying the figures extinguised the fire before he came back"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "confined",
+          "meaning": "kept in a small or closed space and not allowed to leave",
+          "at": 59
+        },
+        {
+          "word": "faint",
+          "meaning": "weak and difficult to see or hear clearly",
+          "at": 69
+        },
+        {
+          "word": "illusions",
+          "meaning": "things that seem real to your eyes or mind but are not actually real",
+          "at": 81
+        },
+        {
+          "word": "adjust",
+          "meaning": "to get used to a new situation or condition",
+          "at": 104
+        },
+        {
+          "word": "ignorance",
+          "meaning": "a lack of knowledge or understanding about something",
+          "at": 143
+        }
+      ]
+    }
   },
   {
     "id": "teded_what_makes_a_hero",
@@ -1514,7 +2099,124 @@
       "title": "A2 Teens: Stories and Culture",
       "order": 2
     },
-    "flightQuestion": "Should a hero be judged by one brave act?"
+    "flightQuestion": "Should a hero be judged by one brave act?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 26,
+          "end": 37,
+          "question": "What did Joseph Campbell study from all over the world?",
+          "options": [
+            "Myths",
+            "Paintings",
+            "Languages"
+          ],
+          "correctIndex": 0,
+          "keyLine": "Joseph Campbell did. He studied myths from all over the world and published a book called \"The Hero with a Thousand Faces,\""
+        },
+        {
+          "start": 44,
+          "end": 53,
+          "question": "Where does the hero's journey begin and end?",
+          "options": [
+            "In a magical castle",
+            "In a hero's ordinary world",
+            "On a distant planet"
+          ],
+          "correctIndex": 1,
+          "keyLine": "Think of it as a cycle. The journey begins and ends in a hero's ordinary world,"
+        },
+        {
+          "start": 74,
+          "end": 83,
+          "question": "Who does the hero usually need help from?",
+          "options": [
+            "Someone younger and faster",
+            "A dangerous rival",
+            "Someone older, wiser"
+          ],
+          "correctIndex": 2,
+          "keyLine": "2:00: Assistance The hero needs some help, probably from someone older, wiser."
+        },
+        {
+          "start": 118,
+          "end": 129,
+          "question": "What does the hero claim after the crisis?",
+          "options": [
+            "Some treasure, special recognition, or power",
+            "A quiet retirement",
+            "An ancient spellbook"
+          ],
+          "correctIndex": 0,
+          "keyLine": "7:00: Treasure (Roar) As a result, the hero claims some treasure, special recognition, or power."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the main topic of this video?",
+          "options": [
+            "The narrative pattern shared by hero stories across cultures",
+            "How modern movie cameras create special effects",
+            "The history of ancient Greek warfare"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "According to Joseph Campbell, why do hero stories follow a cycle?",
+          "options": [
+            "Authors run out of new ideas",
+            "They reflect human growth through challenges in real life",
+            "Ancient laws forced storytellers to repeat the same plot"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does the video encourage the viewer to do?",
+          "options": [
+            "Write fantasy novels instead of attending school",
+            "Avoid taking any risks or leaving comfort zones",
+            "Recognize the hero's journey pattern in stories and in their own life"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is crossing the threshold into the special world essential for the hero?",
+        "options": [
+          "It forces them out of their comfort zone so they can grow and transform",
+          "It guarantees they will never return home again",
+          "It immediately grants them eternal wealth without danger"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "myths",
+          "meaning": "traditional stories about heroes, gods, or magical events",
+          "at": 18
+        },
+        {
+          "word": "ordinary",
+          "meaning": "normal, everyday, not special",
+          "at": 49
+        },
+        {
+          "word": "threshold",
+          "meaning": "the entrance point or boundary to a new place",
+          "at": 84
+        },
+        {
+          "word": "ordeal",
+          "meaning": "a very difficult, painful, or testing experience",
+          "at": 103
+        },
+        {
+          "word": "treasure",
+          "meaning": "a valuable prize, reward, or power gained",
+          "at": 124
+        }
+      ]
+    }
   },
   {
     "id": "teded_food_and_gut",
@@ -1537,7 +2239,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should people choose food for gut health over taste?"
+    "flightQuestion": "Should people choose food for gut health over taste?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 24,
+          "end": 31,
+          "question": "What can bacteria in our guts do with food the body cannot digest?",
+          "options": [
+            "Break it down",
+            "Store it forever",
+            "Turn it into plastic"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The bacteria in our guts can break down food the body can't digest,"
+        },
+        {
+          "start": 67,
+          "end": 83,
+          "question": "What is described as the best fuel for gut bacteria?",
+          "options": [
+            "Processed fast food",
+            "Dietary fiber from foods like fruits, vegetables, nuts, legumes, and whole grains",
+            "Artificial sweeteners"
+          ],
+          "correctIndex": 1,
+          "keyLine": "by paying attention to what we eat. Dietary fiber from foods like fruits, vegetables, nuts, legumes, and whole grains is the best fuel for gut bacteria."
+        },
+        {
+          "start": 139,
+          "end": 150,
+          "question": "What happens to gut bacteria when we eat low-fiber processed foods?",
+          "options": [
+            "They multiply twice as fast",
+            "They produce extra vitamins",
+            "Less fuel for the gut bacteria, essentially starving them until they die off"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Lower fiber means less fuel for the gut bacteria, essentially starving them until they die off."
+        },
+        {
+          "start": 168,
+          "end": 182,
+          "question": "What antioxidant compounds do foods like tea, fruits, and dark chocolate contain?",
+          "options": [
+            "Polyphenols",
+            "Antibiotics",
+            "Synthetic preservatives"
+          ],
+          "correctIndex": 0,
+          "keyLine": "were correlated with increased bacterial diversity. These foods contain polyphenols, which are naturally occurring antioxidant compounds."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is this video mostly about?",
+          "options": [
+            "How the foods we eat shape the bacteria in our gut",
+            "The history of surgical operations on the stomach",
+            "Why people should only drink milk"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why is dietary fiber important for the gut microbiome?",
+          "options": [
+            "It destroys all bacteria in the stomach",
+            "It feeds beneficial bacteria that protect our digestive health",
+            "It prevents our body from absorbing any nutrients"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What happens when someone eats a low-fiber, high-fat diet?",
+          "options": [
+            "Bacteria diversity increases significantly",
+            "Gut bacteria become immortal",
+            "Beneficial bacteria starve and inflammation can increase"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is a diverse community of gut bacteria beneficial for human health?",
+        "options": [
+          "Different species perform distinct tasks like breaking down foods and regulating immunity",
+          "It prevents a person from ever needing sleep",
+          "It turns all consumed sugar into muscle immediately"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "microbiome",
+          "meaning": "the community of microorganisms living in a particular environment",
+          "at": 19
+        },
+        {
+          "word": "nutrients",
+          "meaning": "substances in food that the body needs to live and grow",
+          "at": 30
+        },
+        {
+          "word": "fiber",
+          "meaning": "plant material that cannot be digested by human enzymes",
+          "at": 72
+        },
+        {
+          "word": "inflammation",
+          "meaning": "a painful, red, or swollen reaction in the body",
+          "at": 93
+        },
+        {
+          "word": "diversity",
+          "meaning": "having a wide variety of different types",
+          "at": 150
+        }
+      ]
+    }
   },
   {
     "id": "teded_what_is_dna",
@@ -1557,7 +2376,124 @@
     "genre": "expository",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Should children learn about DNA before they learn about inheritance?"
+    "flightQuestion": "Should children learn about DNA before they learn about inheritance?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 46,
+          "end": 61,
+          "question": "What are amino acids often referred to as?",
+          "options": [
+            "The building blocks of life",
+            "The main source of electricity",
+            "The waste products of digestion"
+          ],
+          "correctIndex": 0,
+          "keyLine": "let's first take a quick look at amino acids amino acids are tiny little chemicals inside our bodies that are so important they're often referred to as the building blocks of life"
+        },
+        {
+          "start": 133,
+          "end": 147,
+          "question": "How many different kinds of chemicals make up the steps of the DNA ladder?",
+          "options": [
+            "Twenty different kinds",
+            "Four different kinds of chemicals",
+            "Only one kind"
+          ],
+          "correctIndex": 1,
+          "keyLine": "this here is a simplified model of DNA it shows us that the steps of the ladder are made up of four different kinds of chemicals shown here by different colors and letters"
+        },
+        {
+          "start": 163,
+          "end": 174,
+          "question": "Where do amino acids live within the cell?",
+          "options": [
+            "Deep inside the nucleus",
+            "Attached to the outer cell wall",
+            "Outside the nucleus in what's called the cytoplasm"
+          ],
+          "correctIndex": 2,
+          "keyLine": "or the centerpiece of a cell amino acids however live outside the nucleus in what's called the cytoplasm"
+        },
+        {
+          "start": 200,
+          "end": 206,
+          "question": "What are ribosomes described as?",
+          "options": [
+            "Protein building machines",
+            "Waste disposal units",
+            "Oxygen transport tubes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "ribosomes are protein building machines"
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the primary function of DNA explained in the video?",
+          "options": [
+            "Acting as a molecular blueprint that instructs cells how to build proteins",
+            "Fighting bacterial infections in the bloodstream",
+            "Digesting food in the human stomach"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "How does the message in DNA reach the protein-building machinery?",
+          "options": [
+            "Through nerve signals sent from the brain",
+            "By creating partial RNA copies that travel to ribosomes in the cytoplasm",
+            "By dissolving the nucleus completely"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "According to the speaker, what is the ultimate basis of this biological process?",
+          "options": [
+            "Pure luck and random chance",
+            "Supernatural forces",
+            "It is entirely based in chemistry"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why must proteins be formed in an exact shape?",
+        "options": [
+          "If they are the wrong shape, they usually will not function properly",
+          "Their shape determines the color of a person's clothes",
+          "Only circular proteins can pass through cell walls"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "molecule",
+          "meaning": "a group of atoms bonded together",
+          "at": 13
+        },
+        {
+          "word": "proteins",
+          "meaning": "complex organic compounds made of amino acids that do work in cells",
+          "at": 71
+        },
+        {
+          "word": "nucleus",
+          "meaning": "the central, membrane-bound structure in a cell holding genetic material",
+          "at": 164
+        },
+        {
+          "word": "cytoplasm",
+          "meaning": "the jelly-like liquid filling the inside of a cell outside the nucleus",
+          "at": 171
+        },
+        {
+          "word": "ribosome",
+          "meaning": "a tiny cellular structure that makes proteins from RNA instructions",
+          "at": 201
+        }
+      ]
+    }
   },
   {
     "id": "teded_how_did_hitler_rise_to_power",
@@ -1596,7 +2532,124 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Should a team choose the fastest or fairest way across?"
+    "flightQuestion": "Should a team choose the fastest or fairest way across?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 40,
+          "end": 45,
+          "question": "How long does it take you to dash across the rope bridge?",
+          "options": [
+            "A minute",
+            "Five minutes",
+            "Ten minutes"
+          ],
+          "correctIndex": 0,
+          "keyLine": "You can dash across in a minute,"
+        },
+        {
+          "start": 48,
+          "end": 55,
+          "question": "How long does the old professor take to cross?",
+          "options": [
+            "Two minutes",
+            "A whole ten minutes",
+            "Fifteen minutes"
+          ],
+          "correctIndex": 1,
+          "keyLine": "and the professor takes a whole ten minutes,"
+        },
+        {
+          "start": 68,
+          "end": 75,
+          "question": "What is the maximum number of people the bridge can hold at once?",
+          "options": [
+            "Four people",
+            "Three people",
+            "Only two people at a time"
+          ],
+          "correctIndex": 2,
+          "keyLine": "Unfortunately, the bridge can only hold two people at a time."
+        },
+        {
+          "start": 132,
+          "end": 141,
+          "question": "What is the key strategy to solving the riddle within 17 minutes?",
+          "options": [
+            "Minimize the time wasted by the two slowest people by having them cross together",
+            "Have the fastest person run back and forth four times alone",
+            "Cut the bridge ropes before anyone crosses"
+          ],
+          "correctIndex": 0,
+          "keyLine": "The key is to minimize the time wasted by the two slowest people by having them cross together."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the central problem presented in this video?",
+          "options": [
+            "Getting four people across a bridge with one lantern in 17 minutes before zombies arrive",
+            "Building an escape raft from mountain trees",
+            "Finding a cure for infected laboratory workers"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why does the intuitive strategy of sending the fastest runner back each time fail?",
+          "options": [
+            "The lantern runs out of oil immediately",
+            "It takes 19 minutes because the two slowest runners make separate trips",
+            "The bridge breaks on the very first crossing"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What math or computer science concept does this puzzle illustrate?",
+          "options": [
+            "Geometry and triangle construction",
+            "Probability of weather changes",
+            "Optimization and why locally greedy choices are not always globally optimal"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "Why is having the professor and the janitor cross together the optimal strategy?",
+        "options": [
+          "Their crossing only counts as 10 minutes total instead of 15 minutes across two separate trips",
+          "They can carry the lantern together so it burns twice as bright",
+          "Zombies are afraid of older people and run away"
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "gorge",
+          "meaning": "a deep, narrow valley with steep rocky sides",
+          "at": 40
+        },
+        {
+          "word": "lantern",
+          "meaning": "a portable lamp with a protective case",
+          "at": 80
+        },
+        {
+          "word": "illuminate",
+          "meaning": "to light up or make bright",
+          "at": 81
+        },
+        {
+          "word": "minimize",
+          "meaning": "to reduce something to the smallest possible amount",
+          "at": 135
+        },
+        {
+          "word": "collapse",
+          "meaning": "to fall down or break apart suddenly",
+          "at": 208
+        }
+      ]
+    }
   },
   {
     "id": "teded_why_hard_to_cure_cancer",
@@ -1615,7 +2668,124 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Should cancer research focus on prevention or treatment first?"
+    "flightQuestion": "Should cancer research focus on prevention or treatment first?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 31,
+          "end": 41,
+          "question": "What do normal cells usually do when they detect DNA damage?",
+          "options": [
+            "They multiply into neighboring organs.",
+            "They either fix the damage or self-destruct.",
+            "They stop receiving blood and oxygen."
+          ],
+          "correctIndex": 1,
+          "keyLine": "Most of the time, cells can detect mutations or DNA damage and either fix them or self destruct."
+        },
+        {
+          "start": 56,
+          "end": 67,
+          "question": "Why is there no single cure that works for every cancer?",
+          "options": [
+            "There are more than 100 different types of cancer.",
+            "Doctors do not know how to remove tumors with surgery.",
+            "Cancer only occurs in cells grown in laboratories."
+          ],
+          "correctIndex": 0,
+          "keyLine": "It's not just one disease. There are more than 100 different types and we don't have a magic bullet that can cure all of them."
+        },
+        {
+          "start": 161,
+          "end": 173,
+          "question": "Why does clonal heterogeneity make cancer treatment difficult?",
+          "options": [
+            "Cancer cells become completely invisible to microscopes.",
+            "A drug that works on one subclone may have no effect on another.",
+            "Healthy cells destroy the medicine before it reaches the tumor."
+          ],
+          "correctIndex": 1,
+          "keyLine": "This is called clonal heterogeneity, and it makes treatment difficult because a drug that works on one subclone may have no effect on another."
+        },
+        {
+          "start": 205,
+          "end": 219,
+          "question": "What special property makes cancer stem cells so hard to eliminate?",
+          "options": [
+            "They cannot reproduce inside the human body.",
+            "They only live inside healthy blood vessels.",
+            "They have properties that make them resistant to chemotherapy and radiation."
+          ],
+          "correctIndex": 2,
+          "keyLine": "we'll need to figure out how to eradicate cancer stem cells. These are rare but seem to have special properties that make them resistant to chemotherapy and radiation."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the primary reason curing cancer is so challenging?",
+          "options": [
+            "Cancer is a complex, constantly evolving group of diseases with many variations.",
+            "Modern medicine does not have the tools to study cells under a microscope.",
+            "Cancer cells cannot survive outside of a laboratory environment."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why do new cancer drugs often work on lab-grown cells but fail in real patients?",
+          "options": [
+            "Real patients refuse combination treatments.",
+            "Lab-grown cells lack the complexity of a tumor inside an actual living organism.",
+            "Lab cells are grown from animals instead of human tissue."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What positive trend in cancer treatment has occurred since the 1970s?",
+          "options": [
+            "All aggressive cancers have been completely eradicated.",
+            "Surgery is no longer necessary to remove tumors.",
+            "The average mortality rate for most cancers has dropped significantly."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "How do tumors manipulate their surrounding environment to stay alive?",
+        "options": [
+          "They induce normal cells to build blood vessels and suppress the immune system.",
+          "They turn surrounding cells into protective bone tissue.",
+          "They absorb oxygen directly from the air without blood vessels."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "mutations",
+          "meaning": "Permanent alterations in the DNA sequence of a cell",
+          "at": 29
+        },
+        {
+          "word": "metastasize",
+          "meaning": "To spread from the primary site of origin to distant organs in the body",
+          "at": 45
+        },
+        {
+          "word": "heterogeneity",
+          "meaning": "The state of being composed of diverse and dissimilar parts",
+          "at": 162
+        },
+        {
+          "word": "suppress",
+          "meaning": "To prevent or stop an activity or biological process from functioning",
+          "at": 190
+        },
+        {
+          "word": "arsenal",
+          "meaning": "An array of resources, tools, or methods available for a specific task",
+          "at": 290
+        }
+      ]
+    }
   },
   {
     "id": "teded_is_light_particle_or_wave",
@@ -1640,7 +2810,124 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Is a useful model more important than a perfect description?"
+    "flightQuestion": "Is a useful model more important than a perfect description?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 51,
+          "end": 62,
+          "question": "According to the scientist Alhazen, how does human vision work?",
+          "options": [
+            "Eyes simply collect the light that falls into them.",
+            "Eyes emit invisible probes that touch distant objects.",
+            "Eyes shine bright beams of light onto dark surfaces."
+          ],
+          "correctIndex": 0,
+          "keyLine": "In Alhazen's picture, your eyes don't send out invisible, intelligence-gathering probes, they simply collect the light that falls into them."
+        },
+        {
+          "start": 112,
+          "end": 122,
+          "question": "What did Isaac Newton believe light was made of?",
+          "options": [
+            "Vibrating electrical waves.",
+            "Tiny, atom-like particles which he called corpuscles.",
+            "A continuous invisible liquid."
+          ],
+          "correctIndex": 1,
+          "keyLine": "Isaac Newton was one of the earliest. Newton believed that light is made up of tiny, atom-like particles, which he called corpuscles."
+        },
+        {
+          "start": 183,
+          "end": 192,
+          "question": "What phenomenon can only be produced by waves and not by particles?",
+          "options": [
+            "Traveling through empty space.",
+            "Reflecting off mirror surfaces.",
+            "Only waves make interference patterns; particles don't."
+          ],
+          "correctIndex": 2,
+          "keyLine": "are placed near each other. Only waves make interference patterns, particles don't."
+        },
+        {
+          "start": 225,
+          "end": 238,
+          "question": "What revolutionary scientific theory explained that light has both wave and particle properties?",
+          "options": [
+            "The theory of relativity.",
+            "Quantum mechanics.",
+            "The law of universal gravitation."
+          ],
+          "correctIndex": 1,
+          "keyLine": "This result, that light sometimes behaves like a particle and sometimes behaves like a wave, led to a revolutionary new physics theory called quantum mechanics."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the central scientific mystery discussed throughout the video?",
+          "options": [
+            "Whether light fundamentally behaves as a particle or as a wave.",
+            "Why sunlight takes millions of miles to reach the Earth.",
+            "How lasers are manufactured using artificial crystals."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "What happens when two beams of light cross paths in space?",
+          "options": [
+            "Their particles collide and bounce in random directions.",
+            "They pass right through each other without interacting.",
+            "They cancel each other out and create complete darkness."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What is the modern scientific consensus on what light is?",
+          "options": [
+            "Light is definitively proven to be only a wave.",
+            "Light is definitively proven to be only a particle.",
+            "Light shows properties of both particles and waves depending on the experiment."
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "harder": {
+        "q": "What happens when light shines on metal in 20th-century physics experiments?",
+        "options": [
+          "Light transfers its energy to atoms in discrete packets called quanta.",
+          "The light turns into solid matter and binds to the surface.",
+          "The light is absorbed only if the metal is completely transparent."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "refraction",
+          "meaning": "The bending of a beam of light as it passes between different substances",
+          "at": 126
+        },
+        {
+          "word": "corpuscles",
+          "meaning": "Tiny particle-like units of light proposed by Isaac Newton",
+          "at": 119
+        },
+        {
+          "word": "interference",
+          "meaning": "The wave interaction pattern formed when two wave patterns occupy the same space",
+          "at": 170
+        },
+        {
+          "word": "undulations",
+          "meaning": "Smooth, continuous wave-like motions or curves",
+          "at": 173
+        },
+        {
+          "word": "quanta",
+          "meaning": "Discrete, indivisible packets in which energy is transferred",
+          "at": 216
+        }
+      ]
+    }
   },
   {
     "id": "teded_what_is_entropy",
@@ -1666,7 +2953,124 @@
     "genre": "expository",
     "cefr": "B2",
     "ageBand": "teens",
-    "flightQuestion": "Can disorder ever be useful when making something new?"
+    "flightQuestion": "Can disorder ever be useful when making something new?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 26,
+          "end": 38,
+          "question": "How is entropy commonly described, even though that description is misleading?",
+          "options": [
+            "As the total weight of an atom.",
+            "As a measurement of disorder.",
+            "As the speed of heat moving through water."
+          ],
+          "correctIndex": 1,
+          "keyLine": "Entropy is often described as a measurement of disorder. That's a convenient image, but it's unfortunately misleading."
+        },
+        {
+          "start": 90,
+          "end": 101,
+          "question": "In the model of two solids, what is each individual way of arranging energy called?",
+          "options": [
+            "A microstate.",
+            "A macrobond.",
+            "A quantum jump."
+          ],
+          "correctIndex": 0,
+          "keyLine": "and still have the same total energy in each. Each of these options is called a microstate."
+        },
+        {
+          "start": 154,
+          "end": 164,
+          "question": "What is the difference between low entropy and high entropy in terms of energy?",
+          "options": [
+            "Low entropy means high heat; high entropy means zero temperature.",
+            "Low entropy destroys energy; high entropy creates energy.",
+            "Low entropy means the energy is concentrated. High entropy means it's spread out."
+          ],
+          "correctIndex": 2,
+          "keyLine": "Low entropy means the energy is concentrated. High entropy means it's spread out."
+        },
+        {
+          "start": 279,
+          "end": 291,
+          "question": "Why do physical systems naturally move toward higher entropy states?",
+          "options": [
+            "Higher entropy is always statistically more likely.",
+            "A mysterious cosmic force pushes molecules apart.",
+            "Chemical bonds stop vibrating after a few minutes."
+          ],
+          "correctIndex": 0,
+          "keyLine": "There's no mysterious force nudging the system towards higher entropy. It's just that higher entropy is always statistically more likely."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the most accurate way to understand entropy?",
+          "options": [
+            "As a measure of how clean a room is kept.",
+            "As a measure of how energy tends to spread out based on probability.",
+            "As the total amount of electricity stored inside a battery."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "Why does a hot cup of coffee cool down when left in a room?",
+          "options": [
+            "Cold air actively seeks out and pulls heat toward itself.",
+            "The coffee liquid evaporates completely within an hour.",
+            "There are far more ways for the thermal energy to spread out into the room."
+          ],
+          "correctIndex": 2
+        },
+        {
+          "q": "Why has entropy been called 'Time's Arrow'?",
+          "options": [
+            "Because natural processes spontaneously proceed toward states where energy is more spread out.",
+            "Because mechanical clocks run on thermodynamic entropy.",
+            "Because freezing an object can reverse the flow of time."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "Between a glass of crushed ice and a glass of room-temperature water, which state has lower entropy and why?",
+        "options": [
+          "The crushed ice, because its thermal energy is more concentrated than in the water.",
+          "The room-temperature water, because liquid molecules have fewer microstates.",
+          "Both have equal entropy because their chemical composition is the same."
+        ],
+        "correctIndex": 0
+      },
+      "words": [
+        {
+          "word": "entropy",
+          "meaning": "A thermodynamic property measuring the dispersal of energy and statistical probability",
+          "at": 22
+        },
+        {
+          "word": "probability",
+          "meaning": "The mathematical likelihood that a particular event or configuration will occur",
+          "at": 51
+        },
+        {
+          "word": "quanta",
+          "meaning": "Individual, indivisible units of energy stored in atomic bonds",
+          "at": 78
+        },
+        {
+          "word": "microstate",
+          "meaning": "A specific arrangement of energy quanta among the individual bonds of a system",
+          "at": 95
+        },
+        {
+          "word": "dispersed",
+          "meaning": "Spread out over a wide area or distributed among many components",
+          "at": 206
+        }
+      ]
+    }
   },
   {
     "id": "teded_how_memories_can_be_manipulated",
@@ -1706,7 +3110,124 @@
     "genre": "opinion",
     "cefr": "B1",
     "ageBand": "teens",
-    "flightQuestion": "Can limits make a creative idea stronger?"
+    "flightQuestion": "Can limits make a creative idea stronger?",
+    "listeningPack": {
+      "segments": [
+        {
+          "start": 41,
+          "end": 56,
+          "question": "What are creative constraints?",
+          "options": [
+            "Strict penalties imposed on inventors who make mistakes.",
+            "These factors are called creative constraints, and they're the requirements and limitations we have to address in order to accomplish a goal.",
+            "Rules that make artistic expression impossible."
+          ],
+          "correctIndex": 1,
+          "keyLine": "and unbreakable laws of physics. These factors are called creative constraints, and they're the requirements and limitations we have to address in order to accomplish a goal."
+        },
+        {
+          "start": 126,
+          "end": 140,
+          "question": "How did the Mars Pathfinder land without contaminating the soil with rocket thruster fuel?",
+          "options": [
+            "It cut its engines and fell into deep water.",
+            "It used huge wings to glide like an airplane.",
+            "The next Pathfinder mission used an airbag system to allow the rover to bounce and roll to a halt without burning contaminating fuel."
+          ],
+          "correctIndex": 2,
+          "keyLine": "The next Pathfinder mission used an airbag system to allow the rover to bounce and roll to a halt without burning contaminating fuel."
+        },
+        {
+          "start": 154,
+          "end": 163,
+          "question": "What innovative machine did engineers design to land the heavy Curiosity rover?",
+          "options": [
+            "In response, engineers had a wild idea: they'd design a sky crane.",
+            "A powerful underground drill.",
+            "A magnetic net in orbit around Mars."
+          ],
+          "correctIndex": 0,
+          "keyLine": "In response, engineers had a wild idea. They designed a skycrane."
+        },
+        {
+          "start": 281,
+          "end": 290,
+          "question": "According to the speaker, what is the true relationship between constraints and creativity?",
+          "options": [
+            "Constraints destroy any chance of creating new inventions.",
+            "Constraints aren't the boundaries of creativity, but the foundation of it.",
+            "Constraints are only important in building houses."
+          ],
+          "correctIndex": 1,
+          "keyLine": "Constraints aren't the boundaries of creativity, but the foundation of it."
+        }
+      ],
+      "gist": [
+        {
+          "q": "What is the primary message of this video about creativity?",
+          "options": [
+            "Limitations and constraints actually stimulate creative discovery rather than stopping it.",
+            "True innovation only occurs when there are no budget or material limits.",
+            "Space exploration has failed because engineers have too many rules."
+          ],
+          "correctIndex": 0
+        },
+        {
+          "q": "Why were rocket thrusters considered a problem for the Viking landers on Mars?",
+          "options": [
+            "They were too loud for astronauts to communicate.",
+            "They left chemical residues that contaminated the Martian soil samples.",
+            "They caused the lander to bounce off the planet into space."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "q": "What does Alexander Fleming's discovery of penicillin show about scientific breakthroughs?",
+          "options": [
+            "A serendipitous accident or failure in one area can solve a constraint in another.",
+            "Scientific experiments should never be conducted in petri dishes.",
+            "Antibiotics were planned and calculated decades before they were tested."
+          ],
+          "correctIndex": 0
+        }
+      ],
+      "harder": {
+        "q": "When Curiosity was too heavy for airbags, what constraint led to the invention of the sky crane?",
+        "options": [
+          "The rover had to land silently to avoid disturbing Martian wildlife.",
+          "Engineers needed to land a heavy rover while keeping thruster exhaust away from the soil.",
+          "The spacecraft had to return to Earth orbit immediately after dropping the rover."
+        ],
+        "correctIndex": 1
+      },
+      "words": [
+        {
+          "word": "constraints",
+          "meaning": "Limitations or restrictions that define the scope of a task or problem",
+          "at": 47
+        },
+        {
+          "word": "contaminating",
+          "meaning": "Making something impure or polluted by adding foreign substances",
+          "at": 116
+        },
+        {
+          "word": "iterative",
+          "meaning": "Characterized by repeating a process to make sequential, incremental improvements",
+          "at": 183
+        },
+        {
+          "word": "serendipitous",
+          "meaning": "Occurring or discovered by good fortune or unexpected coincidence",
+          "at": 247
+        },
+        {
+          "word": "antibiotic",
+          "meaning": "A chemical substance capable of killing or stopping the growth of bacteria",
+          "at": 259
+        }
+      ]
+    }
   },
   {
     "id": "teded_why_do_cats_act_so_weird",
