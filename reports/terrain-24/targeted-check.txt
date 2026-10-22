@@ -1,0 +1,10 @@
+RUN  v3.2.4 C:/Users/insig/.codex/worktrees/terrain-surface/teaching-games
+
+ ✓ src/__tests__/lib/terrain-materials.test.ts (4 tests) 8ms
+ ✓ src/__tests__/lib/terrain-surface.test.ts (17 tests) 691ms
+   ✓ voxel-space occlusion and rendering > conservative cached bounds produce identical pixels and depth to the uncullled contour renderer  424ms
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  23:28:59
+   Duration  2.44s (transform 530ms, setup 0ms, collect 1.09s, tests 699ms, environment 0ms, prepare 587ms)

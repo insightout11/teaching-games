@@ -1,0 +1,27 @@
+### Result
+[{"route":"Zurich to Milan","width":336,"durationMs":15011.099999999999,"frames":782,"fps":52.09478319376995,"oneSecondFps":[54.38544447740536,44,46,48.19988195947265,55,58.03088423330399,53.118237261459846,59,54.10190832185686,53.118237261459846,56,50.15735641227401,50,51.155927201180525],"hidden":false,"viewport":[1280,800],"tileRequests":0,"steps":{"camera":0.04622056986097953,"base-ground":0.2705080546854154,"coast-cache-refresh":0.41189591080652,"coast-pixel-reprojection":0.15526641899768304,"coast-composite":0.2888475836357367,"water-shade-haze":0.41833952894662835,"ground-compose-upload":0.33593556392000806,"terrain-surface":15.73630731086601,"terrain-water":0.011895910791748076,"scenery":0.14721189633178003},"raster":[336,189]},{"route":"Kathmandu to Lhasa","width":336,"durationMs":15013.799999994037,"frames":793,"fps":52.81807403857218,"oneSecondFps":[56.21301775180964,54,55.08557938225465,60.00393468424168,47,56.069250442652056,60,52,58.994100589940665,53.123462862764384,50.994900509949076,49.183553019870224,43,45],"hidden":false,"viewport":[1280,800],"tileRequests":0,"steps":{"camera":0.04883148826356304,"base-ground":0.31648216527619777,"coast-cache-refresh":0.0004920049273806451,"coast-composite":0.000246002445361711,"water-shade-haze":0.18597785923240517,"ground-compose-upload":0.0175891757414643,"terrain-surface":16.195694957345466,"terrain-water":0.012792127873624822,"scenery":0.15485854837287397},"raster":[336,189]}]
+### Ran Playwright code
+```js
+await (async page => {
+ const width=336, results=[];
+ for(const [route,km]of[['Zurich to Milan',218],['Kathmandu to Lhasa',610]]){
+  await page.setViewportSize({width:1280,height:800});await page.goto('http://localhost:3100/dev/coast-strip?profile=1&tod=day&terrainWidth='+width);await page.bringToFront();
+  await page.getByRole('button',{name:route,exact:true}).dispatchEvent('click');await page.getByText(new RegExp('of '+km+' km')).waitFor();await page.locator('canvas[data-elevation-source="terrarium"]').waitFor({timeout:180000});
+  await page.getByRole('combobox').selectOption('3');await page.getByRole('slider').fill('0.25');await page.waitForTimeout(12000);
+  await page.evaluate(()=>{window.__stepStats=[];window.__stepListener=e=>window.__stepStats.push(e.detail);addEventListener('coast-frame-profile',window.__stepListener);});
+  let tileRequests=0;const track=request=>{if(/terrarium/.test(request.url()))tileRequests++;};page.on('request',track);
+  await page.getByRole('button',{name:'Fly (3 min)',exact:true}).click();
+  const result=await page.evaluate(()=>new Promise(resolve=>{const start=performance.now();let frames=0,hidden=false,binStart=start,binFrames=0;const bins=[];function tick(t){frames++;binFrames++;hidden ||=document.hidden;if(t-binStart>=1000){bins.push(binFrames*1000/(t-binStart));binStart=t;binFrames=0;}if(t-start>=15000)resolve({durationMs:t-start,frames,fps:frames*1000/(t-start),oneSecondFps:bins,hidden,viewport:[innerWidth,innerHeight]});else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+  await page.getByRole('button',{name:'Pause',exact:true}).click();page.off('request',track);
+  const stats=await page.evaluate(()=>{removeEventListener('coast-frame-profile',window.__stepListener);const f=window.__stepStats;delete window.__stepStats;return{steps:Object.fromEntries(Object.keys(f[0].steps).map(k=>[k,f.reduce((s,v)=>s+v.steps[k],0)/f.length])),raster:f.at(-1).surface.raster};});
+  results.push({route,width,...result,tileRequests,...stats});
+ }
+ return results;
+}
+)(page);
+```
+### Page
+- Page URL: http://localhost:3100/dev/coast-strip?profile=1&tod=day&terrainWidth=336
+- Page Title: LessonCaptain — Interactive Classroom Games
+### Events
+- New console entries: .playwright-cli\console-2026-10-22T17-14-10-686Z.log#L2-L3

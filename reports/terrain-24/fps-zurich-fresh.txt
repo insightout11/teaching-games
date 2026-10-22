@@ -1,0 +1,25 @@
+### Result
+{"durationMs":15015.79999999106,"frames":902,"fps":60.070059537323154,"oneSecondFps":[61.029628901019436,60,60,60,59.99803285138209,59.998032851381666,60.00393468424168,60.00393468424168,60,59.998032851381666,60.00393468424168,60,60.00393468424168,60],"hidden":false,"viewport":[1280,800],"data":{"terrain":"ready","surfaceSource":"route","elevationSource":"terrarium","elevationTiles":"107","elevationFailures":"0","photoChance":""},"tileRequests":0,"steps":{"camera":0.049295774793185754,"base-ground":0.24821235090978483,"coast-cache-refresh":0.28342361861228427,"coast-pixel-reprojection":0.13477789829379172,"coast-composite":0.2453954494270705,"water-shade-haze":0.3905742144371551,"ground-compose-upload":0.3208017334713321,"terrain-surface":12.220801733781302,"terrain-water":0.006608884034926558,"scenery":0.10910075810916504}}
+### Ran Playwright code
+```js
+await (async page => {
+ await page.setViewportSize({width:1280,height:800});await page.goto('http://localhost:3100/dev/coast-strip?profile=1&tod=day');await page.bringToFront();
+ await page.getByRole('button',{name:'Zurich to Milan',exact:true}).dispatchEvent('click');await page.getByText(/of 218 km/).waitFor();await page.locator('canvas[data-elevation-source="terrarium"]').waitFor({timeout:180000});
+ await page.getByRole('combobox').selectOption('3');await page.getByRole('slider').fill('0.25');
+ await page.evaluate(()=>new Promise(resolve=>{const start=performance.now();function tick(t){if(t-start>=12000)resolve();else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ await page.evaluate(()=>{window.__stepStats=[];window.__stepListener=e=>window.__stepStats.push(e.detail);addEventListener('coast-frame-profile',window.__stepListener);});let tileRequests=0;const track=request=>{if(/terrarium/.test(request.url()))tileRequests++;};page.on('request',track);
+ await page.getByRole('button',{name:'Fly (3 min)',exact:true}).click();
+ const result=await page.evaluate(()=>new Promise(resolve=>{const start=performance.now();let frames=0,hidden=false,binStart=start,binFrames=0;const bins=[];function tick(t){frames++;binFrames++;hidden ||=document.hidden;if(t-binStart>=1000){bins.push(binFrames*1000/(t-binStart));binStart=t;binFrames=0;}if(t-start>=15000)resolve({durationMs:t-start,frames,fps:frames*1000/(t-start),oneSecondFps:bins,hidden,viewport:[innerWidth,innerHeight],data:{...document.querySelector('canvas').dataset}});else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
+ await page.getByRole('button',{name:'Pause',exact:true}).click();page.off('request',track);const steps=await page.evaluate(()=>{removeEventListener('coast-frame-profile',window.__stepListener);const f=window.__stepStats;delete window.__stepStats;return Object.fromEntries(Object.keys(f[0].steps).map(k=>[k,f.reduce((s,v)=>s+v.steps[k],0)/f.length]));});return {...result,tileRequests,steps};
+}
+
+
+
+
+)(page);
+```
+### Page
+- Page URL: http://localhost:3100/dev/coast-strip?profile=1&tod=day
+- Page Title: LessonCaptain — Interactive Classroom Games
+### Events
+- New console entries: .playwright-cli\console-2026-10-22T16-21-31-620Z.log#L2-L3
