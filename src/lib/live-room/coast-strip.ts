@@ -12,6 +12,60 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 
 export type StripPoint = [along: number, side: number];
 
+/** Reproject a cached ground row through the same camera after moving forward by dz world units. */
+export function coastCacheRow(y: number, horizon: number, focal: number, cachedHeight: number, height: number, dz: number): { y: number; scale: number } | null {
+  if (y <= horizon) return null;
+  const depth = cachedHeight * focal / (y - horizon), remaining = depth - dz;
+  if (remaining <= 0) return null;
+  return { y: horizon + height * focal / remaining, scale: depth / remaining };
+}
+
+/** Adjacent cached-image bands share a whole device-pixel edge, with no partially covered seams. */
+export function coastCacheBand(from: number, to: number, pixel: number): [number, number] {
+  return [Math.round(from / pixel) * pixel, Math.round(to / pixel) * pixel];
+}
+
+/** Clip a world-space (x, depth) polygon to the camera frustum before perspective division. */
+export function clipCoastView(ring: Array<[number, number]>, base: number, near: number, far: number, halfSlope: number): Array<[number, number]> {
+  let pts = ring;
+  const planes = [
+    ([, z]: [number, number]) => z - base - near,
+    ([, z]: [number, number]) => base + far - z,
+    ([x, z]: [number, number]) => (z - base) * halfSlope - x,
+    ([x, z]: [number, number]) => (z - base) * halfSlope + x,
+  ];
+  for (const distance of planes) {
+    const out: Array<[number, number]> = [];
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i], b = pts[(i + 1) % pts.length];
+      const da = distance(a), db = distance(b);
+      if (da >= 0) out.push(a);
+      if ((da >= 0) !== (db >= 0)) {
+        const t = da / (da - db);
+        out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+      }
+    }
+    pts = out;
+  }
+  return pts;
+}
+
+/** Clip only the original shore segment, never the artificial closing edges of a clipped land polygon. */
+export function clipCoastLine(a: [number, number], b: [number, number], base: number, near: number, far: number, halfSlope: number): Array<[number, number]> {
+  let lo = 0, hi = 1;
+  const depths = (p: [number, number]) => [p[1] - base - near, base + far - p[1], (p[1] - base) * halfSlope - p[0], (p[1] - base) * halfSlope + p[0]];
+  const da = depths(a), db = depths(b);
+  for (let i = 0; i < da.length; i++) {
+    if (da[i] < 0 && db[i] < 0) return [];
+    if ((da[i] < 0) !== (db[i] < 0)) {
+      const t = da[i] / (da[i] - db[i]);
+      if (da[i] < 0) lo = Math.max(lo, t); else hi = Math.min(hi, t);
+    }
+  }
+  if (lo > hi) return [];
+  return [lo, hi].map((t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+}
+
 export interface CoastStrip {
   /** The land as closed outlines, in route coordinates (km along, km to the right). */
   land: StripPoint[][];
@@ -78,6 +132,27 @@ export function groundAt(strip: CoastStrip, along: number, side: number): { terr
     if (b) return b;
   }
   return null;
+}
+
+/** Continuous land-kind weights between grid centres. Sea samples borrow nearby land, never add blue patches. */
+export function groundMixAt(strip: CoastStrip, along: number, side: number): Array<{ terrain: Terrain; region: string | null; weight: number }> {
+  const u = (along + BAND_KM) / GROUND_STEP_KM, v = (side + BAND_KM) / GROUND_SIDE_KM;
+  const i = Math.floor(u), j = Math.floor(v);
+  const smooth = (t: number) => t * t * (3 - 2 * t);
+  const fy = smooth(u - i), fx = smooth(v - j);
+  const kinds = new Map<string, { terrain: Terrain; region: string | null; weight: number }>();
+  let total = 0;
+  for (let di = 0; di < 2; di++) for (let dj = 0; dj < 2; dj++) {
+    const weight = (di ? fy : 1 - fy) * (dj ? fx : 1 - fx);
+    if (weight < 1e-6) continue;
+    const cell = groundAt(strip, (i + di) * GROUND_STEP_KM - BAND_KM, (j + dj) * GROUND_SIDE_KM - BAND_KM);
+    if (!cell) continue;
+    const key = `${cell.terrain}|${cell.region}`;
+    const found = kinds.get(key);
+    if (found) found.weight += weight; else kinds.set(key, { ...cell, weight });
+    total += weight;
+  }
+  return Array.from(kinds.values(), (cell) => ({ ...cell, weight: cell.weight / total }));
 }
 
 /** Side band kept around the route (km): wide enough for the window's view at any height. */

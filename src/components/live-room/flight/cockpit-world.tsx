@@ -10,7 +10,7 @@ import { drawWorldLandmark, LANDMARK_SIZE, type WorldLandmark, type WorldLandmar
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
-import { groundAt, type CoastStrip } from '@/lib/live-room/coast-strip';
+import { clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { drawSceneEvent, realEvents, type EventKind, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { desertTexture, farmTexture, forestTexture, groundRelief, nightLights, realCoast, realRelief, realWaters, softEdges, iceTexture, macroTexture, mountainTexture, naturalTexture, oceanTexture, rangeFor, reliefTexture, type RangeMix } from '@/components/live-room/flight/ground-texture';
@@ -268,17 +268,17 @@ function terrainCanvas(terrain: Terrain, reg: string | null, palette: ScenePalet
 }
 
 /** The average colour of a (small) canvas: the ground texture's overall colour. */
-function averageColour(c: HTMLCanvasElement): RGB | null {
+export function averageColour(c: HTMLCanvasElement): RGB | null {
   try {
-    // read from a throwaway copy: reading pixels back from the texture itself can push it off the graphics card,
-    // which slows every frame that draws with it
     if (!c.width || !c.height) return null;
-    const copy = document.createElement('canvas');
-    copy.width = c.width; copy.height = c.height;
-    const g = copy.getContext('2d', { willReadFrequently: true });
+    // Never read a live texture: Chrome can move its backing store to the CPU, slowing every pattern draw.
+    // Copy first and read only the disposable probe; the texture stays available to the GPU.
+    const probe = document.createElement('canvas');
+    probe.width = c.width; probe.height = c.height;
+    const g = probe.getContext('2d', { willReadFrequently: true });
     if (!g) return null;
     g.drawImage(c, 0, 0);
-    const d = g.getImageData(0, 0, c.width, c.height).data;
+    const d = g.getImageData(0, 0, probe.width, probe.height).data;
     let r = 0, gr = 0, b = 0, n = 0;
     for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 8) continue; r += d[i]; gr += d[i + 1]; b += d[i + 2]; n++; }
     return n ? [Math.round(r / n), Math.round(gr / n), Math.round(b / n)] : null;
@@ -309,7 +309,7 @@ function deepCanopy(c: HTMLCanvasElement): HTMLCanvasElement {
 }
 
 /** Is this point inside the real land outlines? (Counts the outline crossings to its left: odd is land.) */
-function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: number, z: number): boolean {
+export function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, x: number, z: number): boolean {
   let n = 0;
   for (const k of cw.buckets.get(Math.floor(z / COAST_BUCKET)) ?? []) {
     const x1 = cw.edges[k * 4], z1 = cw.edges[k * 4 + 1], x2 = cw.edges[k * 4 + 2], z2 = cw.edges[k * 4 + 3];
@@ -420,7 +420,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   }, [waters]);
   // Real coastline: the land outlines fixed on the ground (as the cities), with their edges filed by depth so each
   // strip of ground can find where it crosses the coast. A new set is taken only once the last one has mostly passed.
-  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number; route: boolean; routeKm: number } | null>(null);
+  const coastWorld = useRef<{ edges: number[]; buckets: Map<number, number[]>; landRings: Array<{ points: Array<[number, number]>; shore: boolean[]; minX: number; maxX: number; minZ: number; maxZ: number }>; rings: Array<Array<[number, number]>>; shores: number[][]; real: boolean[][]; zMin: number; zMax: number; route: boolean; routeKm: number } | null>(null);
   /** Build the land edges (filed by depth), the beach lines and which beach pieces are real, from points already in
    *  the world frame (x across, z along). */
   const buildCoast = (lineRings: Array<Array<[number, number]>>, lineShores: number[][], landPts: Array<Array<[number, number]>>) => {
@@ -454,7 +454,19 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const nx = (-dz / len) * d, nz = (dx / len) * d;
       return landAt(probe, mx + nx, mz + nz) !== landAt(probe, mx - nx, mz - nz);
     }));
-    return { edges, buckets, rings, shores, real };
+    const boundedLand = landRings.map((points) => ({ points,
+      shore: points.map(([x, z], i) => {
+        const [xb, zb] = points[(i + 1) % points.length];
+        const dx = xb - x, dz = zb - z, len = Math.hypot(dx, dz) || 1;
+        const mx = (x + xb) / 2, mz = (z + zb) / 2;
+        // Shared/internal outline edges and tiny collapsed rings have no beach.
+        const nx = -dz / len * 40, nz = dx / len * 40;
+        return landAt(probe, mx + nx, mz + nz) !== landAt(probe, mx - nx, mz - nz);
+      }),
+      minX: Math.min(...points.map(([x]) => x)), maxX: Math.max(...points.map(([x]) => x)),
+      minZ: Math.min(...points.map(([, z]) => z)), maxZ: Math.max(...points.map(([, z]) => z)),
+    }));
+    return { edges, buckets, landRings: boundedLand, rings, shores, real };
   };
   // The whole route's coast (worked out once at take-off): placed by km along the route, read at the plane's real place
   useEffect(() => {
@@ -611,6 +623,27 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const macro = sctx.createPattern(macroTexture(), 'repeat');
     const relief = sctx.createPattern(reliefTexture(), 'repeat');
 
+    // Cache geometry at quarter resolution; keep the textured land at the display resolution.
+    const terrainSurface = document.createElement('canvas'), mixedLand = document.createElement('canvas');
+    const tctx = terrainSurface.getContext('2d'), mctx = mixedLand.getContext('2d');
+    const landShade = document.createElement('canvas'), lsctx = landShade.getContext('2d');
+    const coastMask = document.createElement('canvas'), cmctx = coastMask.getContext('2d');
+    const coastGround = document.createElement('canvas'), cgctx = coastGround.getContext('2d');
+    const coastShade = document.createElement('canvas'), csctx = coastShade.getContext('2d');
+    const mask = document.createElement('canvas');
+    mask.width = 64; mask.height = 48;
+    const maskCtx = mask.getContext('2d');
+    if (!tctx || !mctx || !maskCtx || !lsctx || !cmctx || !cgctx || !csctx) return;
+    const weightMasks = new Map<string, { image: ImageData; terrain: Terrain; region: string | null; used: boolean; canvas: HTMLCanvasElement }>();
+    let groundCtx: CanvasRenderingContext2D = ctx, activeShadeCtx: CanvasRenderingContext2D = sctx;
+    let activeShadeCanvas = shade;
+    let nextMaskAt = 0;
+    let cacheWorld: typeof coastWorld.current = null;
+    let cacheLayer: Layer | null = null;
+    let cacheLook: typeof look.current | null = null;
+    let cacheBase = NaN, cacheHeight = 0, lastCoastRefresh = -Infinity, cachedVisibleLand = false;
+    let landPattern: CanvasPattern | null = null, coastPattern: CanvasPattern | null = null, shadePattern: CanvasPattern | null = null;
+
     let w = 0, h = 0, rowH = 2;
     // Camera height: eases toward the cruise height times `altitude` (the descent brings it down slowly).
     let camH = CAM_HEIGHT * Math.max(0.2, live.current.altitude);
@@ -628,11 +661,18 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // Rows exactly 2 device pixels tall, so neighbouring rows never overlap
       // on half-pixels (overlaps doubled the haze into faint lines).
       rowH = 2 / dpr;
-      hazeKey = '';
+      hazeKey = ''; nextMaskAt = 0; cacheBase = NaN;
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      for (const surface of [terrainSurface, mixedLand, coastGround]) { surface.width = canvas.width; surface.height = canvas.height; }
+      tctx.setTransform(dpr, 0, 0, dpr, 0, 0); mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cgctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       shade.width = Math.max(1, Math.ceil((w * dpr) / SHADE)); shade.height = Math.max(1, Math.ceil((h * dpr) / SHADE));
       sctx.setTransform(dpr / SHADE, 0, 0, dpr / SHADE, 0, 0);
+      for (const surface of [landShade, coastMask, coastShade]) { surface.width = shade.width; surface.height = shade.height; }
+      cmctx.setTransform(dpr / SHADE, 0, 0, dpr / SHADE, 0, 0);
+      csctx.setTransform(dpr / SHADE, 0, 0, dpr / SHADE, 0, 0);
+      lsctx.setTransform(dpr / SHADE, 0, 0, dpr / SHADE, 0, 0);
     };
     fit();
     const ro = new ResizeObserver(fit);
@@ -645,7 +685,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     let hazeScale = 1;
     let glintK = 0;
 
-    const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number, withMacro = true, patch?: { t: number; wz: number }, xr?: [number, number]) => {
+    const paintRow = (layer: Layer, y: number, z: number, F: number, camZ: number, alpha: number, withMacro = true, patch?: { t: number; wz: number }, xr?: [number, number], target = groundCtx, shadeTarget = activeShadeCtx) => {
       const x0 = xr ? Math.max(0, xr[0]) : 0, x1 = xr ? Math.min(w, xr[1]) : w;
       if (x1 <= x0) return;
       const rip = layer.rip;
@@ -668,7 +708,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // Offset sideways so the texture's wrap line (a farm lane) isn't dead ahead.
       mtx.e = w / 2 - 330 * s; mtx.f = y + v * ky;
       lv.pat.setTransform(mtx);
-      ctx.fillStyle = lv.pat;
+      target.fillStyle = lv.pat;
       if (patch) {
         // Inside a soft edge: the row in pieces, each showing the new ground where its patch has "arrived"
         const seg = w / PATCH_SEGMENTS;
@@ -677,14 +717,14 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           const n = patchNoise(wx / PATCH_WORLD, patch.wz / PATCH_WORLD);
           const a = Math.max(0, Math.min(1, (patch.t * 1.3 - 0.15 - n) * 5));
           if (a < 0.02) continue;
-          ctx.globalAlpha = a;
-          ctx.fillRect(k * seg, y, seg + 0.5, rowH);
+          target.globalAlpha = a;
+          target.fillRect(k * seg, y, seg + 0.5, rowH);
         }
       } else {
-        ctx.globalAlpha = alpha;
-        ctx.fillRect(x0, y, x1 - x0, rowH);
+        target.globalAlpha = alpha;
+        target.fillRect(x0, y, x1 - x0, rowH);
       }
-      ctx.globalAlpha = 1;
+      target.globalAlpha = 1;
       // light and shade: every fourth row, on the small canvas, four rows tall
       if (!withMacro || Math.round(y / rowH) % SHADE !== 0) return;
       const sh = rowH * SHADE;
@@ -692,20 +732,32 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const m = (F / z) * MACRO_WORLD;
         mtx.a = m; mtx.d = m; mtx.e = w / 2 + 3100 * (F / z); mtx.f = y - (((camZ + z) / MACRO_WORLD) % 256) * m;
         macro.setTransform(mtx);
-        sctx.globalAlpha = alpha * layer.macroAlpha;
-        sctx.fillStyle = macro;
-        sctx.fillRect(x0, y, x1 - x0, sh);
+        shadeTarget.globalAlpha = alpha * layer.macroAlpha;
+        shadeTarget.fillStyle = macro;
+        shadeTarget.fillRect(x0, y, x1 - x0, sh);
       }
       // Relief: hills and valleys lit from the sun's side, laid over all land (not open sea), shrinking with distance.
       if (relief && groundRelief() && layer.terrain !== 'ocean') {
         const m = (F / z) * RELIEF_WORLD;
         mtx.a = m; mtx.d = m; mtx.e = w / 2 + 1700 * (F / z); mtx.f = y - (((camZ + z) / RELIEF_WORLD) % 512) * m;
         relief.setTransform(mtx);
-        sctx.globalAlpha = alpha * (layer.terrain === 'mountains' ? 0.75 : layer.terrain === 'ice' ? 0.4 : 0.65) * (1 - Math.min(0.6, z / (Z_FAR * 1.2)));
-        sctx.fillStyle = relief;
-        sctx.fillRect(x0, y, x1 - x0, sh);
+        shadeTarget.globalAlpha = alpha * (layer.terrain === 'mountains' ? 0.75 : layer.terrain === 'ice' ? 0.4 : 0.65) * (1 - Math.min(0.6, z / (Z_FAR * 1.2)));
+        shadeTarget.fillStyle = relief;
+        shadeTarget.fillRect(x0, y, x1 - x0, sh);
       }
-      sctx.globalAlpha = 1;
+      shadeTarget.globalAlpha = 1;
+    };
+
+    // Opt-in local preview instrumentation; absent from normal flights and clean FPS runs.
+    const profileEnabled = process.env.NODE_ENV === 'development' && window.location.pathname === '/dev/coast-strip' &&
+      new URLSearchParams(window.location.search).get('profile') === '1';
+    const measureEnabled = process.env.NODE_ENV === 'development' && window.location.pathname === '/dev/coast-strip' &&
+      new URLSearchParams(window.location.search).get('measure') === '1';
+    let profileSteps: Record<string, number> | null = null;
+    let profileMark = 0, profileStart = 0, profileRefreshed = false;
+    const mark = (step: string) => {
+      if (!profileSteps) return;
+      const time = performance.now(); profileSteps[step] = time - profileMark; profileMark = time;
     };
 
     const frame = (now: number) => {
@@ -716,6 +768,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         raf = requestAnimationFrame(frame);
         return;
       }
+      if (profileEnabled) { profileSteps = {}; profileMark = profileStart = performance.now(); profileRefreshed = false; }
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       drawnSpeed += (live.current.speed - drawnSpeed) * Math.min(1, dt * 1.2);
@@ -746,16 +799,21 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const horizonY = h * HORIZON;
       const F = w * 0.9;
       ctx.clearRect(0, 0, w, h);
+      const cwVisible = realCoast() ? coastWorld.current : null;
+      groundCtx = cwVisible ? cgctx : ctx; activeShadeCtx = cwVisible ? csctx : sctx;
+      activeShadeCanvas = cwVisible ? coastShade : shade;
+      if (cwVisible) cgctx.clearRect(0, 0, w, h);
+      mark('camera');
 
       // ── Ground, row by row at its true depth ───────────────────────────
       if (L.length) {
         // mid-grey is "no change" when laid on with 'overlay'
-        sctx.globalAlpha = 1;
-        sctx.fillStyle = '#808080';
-        sctx.fillRect(0, 0, w, h);
+        activeShadeCtx.globalAlpha = 1;
+        activeShadeCtx.fillStyle = '#808080';
+        activeShadeCtx.fillRect(0, 0, w, h);
         const y0 = (Math.ceil((horizonY + 1) / rowH)) * rowH;
         // A real coast: land and sea from the closed land outlines (cut to a box wider than the view)
-        const cw0 = realCoast() ? coastWorld.current : null;
+        const cw0 = cwVisible;
         const routeU = routeUnits(cw0);
         for (let y = y0; y < h; y += rowH) {
           const z = (camH * F) / (y - horizonY);   // world depth of this row
@@ -767,35 +825,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           if (cw && seaRip.current && landRip.current && cz >= cw.zMin && cz <= cw.zMax) {
             const top = L[L.length - 1];
             const sea: Layer = { ...top, terrain: 'ocean', rip: seaRip.current, macroAlpha: 0.1 };
-            const land: Layer = { ...top, terrain: landRip.current.terrain, rip: landRip.current.rip, macroAlpha: 0.4 };
-            // where this strip crosses the land's outline
-            const xs: Array<{ x: number; land: boolean }> = [];
-            for (const k of cw.buckets.get(Math.floor(cz / COAST_BUCKET)) ?? []) {
-              const x1 = cw.edges[k * 4], z1 = cw.edges[k * 4 + 1], x2 = cw.edges[k * 4 + 2], z2 = cw.edges[k * 4 + 3];
-              if ((z1 <= cz && cz < z2) || (z2 <= cz && cz < z1)) xs.push({ x: x1 + ((cz - z1) * (x2 - x1)) / (z2 - z1), land: true });
-            }
-            xs.sort((a, b) => a.x - b.x);
-            // sea to the far left; each crossing of the land's outline switches between sea and land
-            let state = false;
-            const sx = F / z;
-            // distant land fades into the haze (far islands showed as hard golden stripes on the horizon) and firms up as
-            // it comes closer: fully there from about 60% of the view's depth
-            const farLand = Math.max(0.25, Math.min(1, 1 - (z / Z_FAR - 0.6) / 0.4 * 0.75));
             paintRow(sea, y, z, F, camZ, 1);
-            let from = -1e9;
-            // the land's real kind at this span (from the route strip), else the last land crossed
-            const landFor = (x0: number, x1: number): Layer => {
-              if (!cw.route || !coastStripRef.current) return land;
-              const g = groundAt(coastStripRef.current, cz / (CITY_UNITS_PER_KM * spreadRef.current), ((x0 + x1) / 2) / (CITY_UNITS_PER_KM * 0.7));
-              const rip = g ? stripRips.current.get(`${g.terrain}|${g.region}`) : undefined;
-              return rip && g ? { ...land, terrain: g.terrain, rip } : land;
-            };
-            for (const c of xs) {
-              if (state) paintRow(landFor(from, c.x), y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w / 2 + c.x * sx]);
-              from = c.x;
-              state = !state;
-            }
-            if (state) paintRow(landFor(from, from + 4000), y, z, F, camZ, farLand, true, undefined, [w / 2 + from * sx, w]);
             continue;
           }
           let i = L.length - 1;
@@ -812,45 +842,188 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             paintRow(L[i], y, z, F, camZ, 1);
           }
         }
-        // The shore: a band of turquoise shallow water just offshore, then a sandy beach along the coast (both opaque, so
-        // overlapping pieces do not show as blobs, and wide enough to cover the strips' stair-step edge)
-        const cwB = realCoast() ? coastWorld.current : null;
-        if (cwB) {
-          // three kinds of shore: white tropical sand with clear turquoise shallows, golden sand with mild shallows,
-          // dark rock and cliffs (no beach, no shallows)
-          const seaBase = mixRgb(look.current.water, [40, 120, 150], 0.35);
-          const night = (c: RGB): RGB => mixRgb(c, [10, 16, 30], 0.62);
-          const shallowOf = [mixRgb(seaBase, [110, 220, 215], 0.5), mixRgb(seaBase, [120, 200, 205], 0.28), seaBase];
-          const sandOf: RGB[] = [[214, 208, 184], [198, 182, 142], [92, 90, 96]];
-          ctx.save();
-          ctx.lineCap = 'round';
-          for (const pass of [0, 1] as const) {
-            for (let ri = 0; ri < cwB.rings.length; ri++) {
-              const ring = cwB.rings[ri], kinds = cwB.shores[ri] ?? [];
-              for (let i = 0; i + 1 < ring.length; i++) {
-                const kind = Math.max(0, Math.min(2, kinds[i] ?? 1));
-                if (pass === 0 && kind === 2) continue; // rocky shores: no shallow band
-                if (!cwB.real[ri]?.[i]) continue; // not on the land's real edge
-                const [xa, za] = ring[i], [xb, zb] = ring[i + 1];
-                const base = cwB.route ? routeUnits(cwB) : camZ;
-                const ra = za - base, rb = zb - base;
-                if (ra < Z_NEAR * 0.6 || rb < Z_NEAR * 0.6 || ra > Z_FAR || rb > Z_FAR) continue;
-                const rz = (ra + rb) / 2, s = F / rz;
-                const fog = Math.min(0.85, Math.max(0, rz / Z_FAR));
-                const wide = Math.max(0.4, Math.min(1.8, 45 * s)); // a hairline: a beach seen from 8 km up, never an outline
-                const col = pass === 0 ? shallowOf[kind] : sandOf[kind];
-                ctx.strokeStyle = css(mixRgb(dark ? night(col) : col, haze, fog * 0.7));
-                ctx.globalAlpha = (pass === 0 ? 0.3 : 0.45) * (1 - fog * 0.5);
-                ctx.lineWidth = pass === 0 ? wide * (kind === 0 ? 2.2 : 1.8) : wide * (kind === 2 ? 0.8 : 1);
-                ctx.beginPath();
-                ctx.moveTo(w / 2 + xa * (F / ra), horizonY + camH * (F / ra));
-                ctx.lineTo(w / 2 + xb * (F / rb), horizonY + camH * (F / rb));
-                ctx.stroke();
+        mark('base-ground');
+        const coastBase = cw0?.route ? routeU : camZ;
+        const delta = coastBase - cacheBase;
+        const horizonMove = Math.abs(camH * F / Math.max(1, Z_FAR - delta) - camH * F / Z_FAR);
+        const nearDepth = camH * F / (h - horizonY);
+        const refreshCoast = cw0 && (cacheWorld !== cw0 || cacheLayer !== L[L.length - 1] || cacheLook !== look.current ||
+          !Number.isFinite(cacheBase) || delta < 0 || delta > nearDepth * 0.2 || Math.abs(camH - cacheHeight) > 80 ||
+          (now - lastCoastRefresh >= 200 && horizonMove >= 0.15));
+        if (refreshCoast) {
+          profileRefreshed = true;
+          nextMaskAt = 0;
+          // Texture rows cover the whole view; a single projected path defines the coast, independently of rowH.
+          // The same smoothed outlines still supply landAt's depth buckets for peaks and town lights.
+          const landPath = new Path2D();
+          let visibleLand = false;
+          if (cw0 && landRip.current && seaRip.current) {
+            const near = Math.max(Z_NEAR * 0.6, camH * F / (h - horizonY));
+            const halfSlope = w / (2 * F);
+            for (const ring of cw0.landRings) {
+              if (ring.maxZ < coastBase + near || ring.minZ > coastBase + Z_FAR ||
+                  ring.minX > Z_FAR * halfSlope || ring.maxX < -Z_FAR * halfSlope) continue;
+              const pts = clipCoastView(ring.points, coastBase, near, Z_FAR, halfSlope);
+              if (pts.length < 3) continue;
+              pts.forEach(([x, z], i) => {
+                const scale = F / (z - coastBase);
+                const px = w / 2 + x * scale, py = horizonY + camH * scale;
+                if (i === 0) landPath.moveTo(px, py); else landPath.lineTo(px, py);
+              });
+              landPath.closePath();
+              visibleLand = true;
+            }
+            if (visibleLand) {
+              lsctx.fillStyle = '#808080';
+              lsctx.fillRect(0, 0, w, h);
+              const top = L[L.length - 1];
+              if (now >= nextMaskAt) {
+                nextMaskAt = now + 125;
+                for (const entry of Array.from(weightMasks.values())) { entry.image.data.fill(0); entry.used = false; }
+                const strip = cw0.route ? coastStripRef.current : null;
+                // Sample at pixel centres in the small mask, in the same world frame as the texture and coast.
+                for (let my = 0; my < mask.height; my++) {
+                  const py = y0 + (my + 0.5) / mask.height * (h - y0);
+                  const z = camH * F / (py - horizonY);
+                  if (z > Z_FAR) continue;
+                  for (let mx = 0; mx < mask.width; mx++) {
+                    const x = ((mx + 0.5) / mask.width * w - w / 2) * z / F;
+                    const along = (coastBase + z) / (CITY_UNITS_PER_KM * spreadRef.current);
+                    const side = x / (CITY_UNITS_PER_KM * 0.7);
+                    // A small world-anchored warp softens the grid's straight transition contours.
+                    const warp = (patchNoise(side / 35, along / 35) - 0.5) * 12;
+                    const weights = strip ? groundMixAt(strip, along + warp, side + warp) : [];
+                    if (!weights.length) weights.push({ terrain: landRip.current.terrain, region: top.region, weight: 1 });
+                    for (const cell of weights) {
+                      const key = `${cell.terrain}|${cell.region}`;
+                      let entry = weightMasks.get(key);
+                      if (!entry) {
+                        const canvas = document.createElement('canvas'); canvas.width = mask.width; canvas.height = mask.height;
+                        entry = { image: maskCtx.createImageData(mask.width, mask.height), terrain: cell.terrain, region: cell.region, used: false, canvas };
+                        weightMasks.set(key, entry);
+                      }
+                      const k = (my * mask.width + mx) * 4;
+                      entry.image.data[k] = entry.image.data[k + 1] = entry.image.data[k + 2] = 255;
+                      entry.image.data[k + 3] = Math.round(cell.weight * 255);
+                      entry.used = true;
+                    }
+                  }
+                }
+                for (const entry of Array.from(weightMasks.values())) {
+                  if (entry.used) entry.canvas.getContext('2d')?.putImageData(entry.image, 0, 0);
+                }
               }
+              mctx.clearRect(0, 0, w, h);
+              let shaded = false;
+              for (const [key, entry] of Array.from(weightMasks)) {
+                if (!entry.used) continue;
+                tctx.clearRect(0, 0, w, h);
+                const land: Layer = { ...top, terrain: entry.terrain, rip: stripRips.current.get(key) ?? landRip.current.rip, macroAlpha: 0.4 };
+                for (let y = y0; y < h; y += rowH) {
+                  const z = camH * F / (y - horizonY);
+                  if (z > Z_FAR) continue;
+                  const fogT = Math.max(0, Math.min(1, (z / Z_FAR - 0.5) * 2));
+                  const farLand = 1 - fogT * fogT * (3 - 2 * fogT);
+                  paintRow(land, y, z, F, camZ, farLand, !shaded, undefined, undefined, tctx, lsctx);
+                }
+                shaded = true;
+                tctx.globalCompositeOperation = 'destination-in';
+                tctx.drawImage(entry.canvas, 0, y0, w, h - y0);
+                tctx.globalCompositeOperation = 'source-over';
+                // Premultiplied weighted colours sum to one, avoiding dark seams between kinds.
+                mctx.globalCompositeOperation = 'lighter';
+                mctx.drawImage(terrainSurface, 0, 0, w, h);
+              }
+              mctx.globalCompositeOperation = 'source-over';
+              // This small raster mask is the only land clip; no full-size vector clip or per-frame ring scan.
+              cmctx.clearRect(0, 0, w, h);
+              cmctx.fillStyle = '#fff'; cmctx.fill(landPath, 'evenodd');
+              mctx.globalCompositeOperation = 'destination-in';
+              mctx.drawImage(coastMask, 0, 0, w, h);
+              mctx.globalCompositeOperation = 'source-over';
+              lsctx.globalCompositeOperation = 'destination-in';
+              lsctx.drawImage(coastMask, 0, 0, w, h);
+              lsctx.globalCompositeOperation = 'source-over';
             }
           }
-          ctx.restore();
+          // Sand and shallows follow the exact smoothed land boundary, never the separately sampled coast lines.
+          // Stroke original segments only: frustum clipping must not invent beaches along the horizon or window edge.
+          if (cw0 && visibleLand) {
+            const near = Math.max(Z_NEAR * 0.6, camH * F / (h - horizonY));
+            const seaBase = mixRgb(look.current.water, [110, 210, 205], 0.35);
+            const sand: RGB = dark ? [80, 78, 72] : [206, 196, 165];
+            tctx.clearRect(0, 0, w, h);
+            tctx.lineCap = 'round'; tctx.lineJoin = 'round';
+            // Nested faint strokes give the shallow band a soft outer edge; the land mask removes its inland half.
+            for (const pass of [0, 1, 2, 3]) {
+              for (const ring of cw0.landRings) {
+                if (ring.maxZ < coastBase + near || ring.minZ > coastBase + Z_FAR ||
+                    ring.minX > Z_FAR * w / (2 * F) || ring.maxX < -Z_FAR * w / (2 * F)) continue;
+                for (let i = 0; i < ring.points.length; i++) {
+                  if (!ring.shore[i]) continue;
+                  const pts = clipCoastLine(ring.points[i], ring.points[(i + 1) % ring.points.length], coastBase, near, Z_FAR, w / (2 * F));
+                  if (pts.length !== 2) continue;
+                  const rz = (pts[0][1] + pts[1][1]) / 2 - coastBase;
+                  const fadeT = Math.max(0, Math.min(1, (rz / Z_FAR - 0.5) * 2));
+                  const fade = 1 - fadeT * fadeT * (3 - 2 * fadeT);
+                  if (fade < 0.01) continue;
+                  const wide = Math.min(2, Math.max(0.35, 45 * F / rz));
+                  tctx.strokeStyle = css(mixRgb(pass === 3 ? sand : dark ? mixRgb(seaBase, [10, 16, 30], 0.62) : seaBase, haze, (1 - fade) * 0.7));
+                  tctx.globalAlpha = fade * (pass === 3 ? 0.5 : 0.065);
+                  tctx.lineWidth = wide * [6, 4, 2.5, 0.8][pass];
+                  tctx.beginPath();
+                  pts.forEach(([x, z], n) => {
+                    const scale = F / (z - coastBase);
+                    if (n === 0) tctx.moveTo(w / 2 + x * scale, horizonY + camH * scale);
+                    else tctx.lineTo(w / 2 + x * scale, horizonY + camH * scale);
+                  });
+                  tctx.stroke();
+                }
+              }
+            }
+            tctx.globalAlpha = 1;
+            tctx.globalCompositeOperation = 'destination-out';
+            tctx.drawImage(coastMask, 0, 0, w, h);
+            tctx.globalCompositeOperation = 'source-over';
+            mctx.drawImage(terrainSurface, 0, 0, w, h);
+          }
+          cacheWorld = cw0; cacheLayer = L[L.length - 1]; cacheLook = look.current;
+          cacheBase = coastBase; cacheHeight = camH; lastCoastRefresh = now; cachedVisibleLand = visibleLand;
+          // Patterns upload the cached image once and let the existing canvas shader resample it without drawImage copies.
+          if (visibleLand) {
+            landPattern = groundCtx.createPattern(mixedLand, 'no-repeat');
+            coastPattern = activeShadeCtx.createPattern(coastMask, 'no-repeat');
+            shadePattern = activeShadeCtx.createPattern(landShade, 'no-repeat');
+          }
         }
+        mark('coast-cache-refresh');
+        if (cw0 && cachedVisibleLand && landPattern && coastPattern && shadePattern) {
+          // The mask is baked into these cached patterns. Reproject pixels only; no rings or vector clips here.
+          const warp = (pattern: CanvasPattern, sw: number, sh: number, target: CanvasRenderingContext2D) => {
+            const dz = coastBase - cacheBase;
+            target.fillStyle = pattern;
+            if (Math.abs(dz) < 0.01 && Math.abs(camH - cacheHeight) < 0.01) {
+              mtx.a = w / sw; mtx.d = h / sh; mtx.e = 0; mtx.f = 0;
+              pattern.setTransform(mtx); target.fillRect(0, y0, w, h - y0); return;
+            }
+            for (let y = y0; y < h; y += 2) {
+              const end = Math.min(h, y + 2);
+              const a = coastCacheRow(y, horizonY, F, cacheHeight, camH, dz);
+              const b = coastCacheRow(end, horizonY, F, cacheHeight, camH, dz);
+              const mid = coastCacheRow((y + end) / 2, horizonY, F, cacheHeight, camH, dz);
+              if (!a || !b || !mid || a.y > h || b.y < y0) continue;
+              mtx.a = w / sw * mid.scale; mtx.d = (b.y - a.y) / ((end - y) * sh / h);
+              mtx.e = w / 2 * (1 - mid.scale); mtx.f = a.y - y * sh / h * mtx.d;
+              const [from, to] = coastCacheBand(a.y, b.y, rowH / 2);
+              pattern.setTransform(mtx); target.fillRect(0, from, w, to - from);
+            }
+          };
+          warp(landPattern, mixedLand.width, mixedLand.height, groundCtx);
+          mark('coast-pixel-reprojection');
+          activeShadeCtx.globalCompositeOperation = 'destination-out'; warp(coastPattern, coastMask.width, coastMask.height, activeShadeCtx);
+          activeShadeCtx.globalCompositeOperation = 'source-over'; warp(shadePattern, landShade.width, landShade.height, activeShadeCtx);
+        }
+        mark('coast-composite');
         // Real rivers and lakes on the ground: water in the scene's light, a pale shore, greying into the haze far off
         if (realWaters() && waterWorld.current.length) {
           // deep water (the palette's sea colour darkened), and a green strip of fields along the banks
@@ -864,9 +1037,9 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             const s = F / rz;
             return [w / 2 + x * s, horizonY + camH * s];
           };
-          ctx.save();
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
+          groundCtx.save();
+          groundCtx.lineCap = 'round';
+          groundCtx.lineJoin = 'round';
           const nowMs = performance.now();
           for (const wt of waterWorld.current) {
             const appear = Math.min(1, (nowMs - wt.born) / 4000);
@@ -877,17 +1050,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 if (pts.length < 3) continue;
                 const midZ = ring.reduce((t, [, z]) => t + z, 0) / ring.length - camZ;
                 const fog = Math.min(0.85, Math.max(0, midZ / Z_FAR));
-                ctx.beginPath();
-                pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-                ctx.closePath();
+                groundCtx.beginPath();
+                pts.forEach(([x, y], i) => (i ? groundCtx.lineTo(x, y) : groundCtx.moveTo(x, y)));
+                groundCtx.closePath();
                 // green shores fading out into the land in small steps (no hard pale edge), then deep water
                 const shoreW = Math.max(2, Math.min(18, (900 * F) / Math.max(Z_NEAR, midZ)));
-                ctx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
-                for (const k of [1, 0.75, 0.5, 0.3]) { ctx.globalAlpha = 0.1 * appear; ctx.lineWidth = shoreW * k; ctx.stroke(); }
-                ctx.globalAlpha = 0.9 * appear;
-                ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
-                ctx.fill();
-                ctx.globalAlpha = 1;
+                groundCtx.strokeStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
+                for (const k of [1, 0.75, 0.5, 0.3]) { groundCtx.globalAlpha = 0.1 * appear; groundCtx.lineWidth = shoreW * k; groundCtx.stroke(); }
+                groundCtx.globalAlpha = 0.9 * appear;
+                groundCtx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
+                groundCtx.fill();
+                groundCtx.globalAlpha = 1;
               }
               continue;
             }
@@ -918,32 +1091,32 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                 left.push([pts[n].x - dy * hw, pts[n].y + dx * hw]);
                 right.push([pts[n].x + dy * hw, pts[n].y - dx * hw]);
               }
-              ctx.beginPath();
-              left.forEach(([x, y], n) => (n ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-              for (let n = right.length - 1; n >= 0; n--) ctx.lineTo(right[n][0], right[n][1]);
-              ctx.closePath();
-              ctx.fill();
+              groundCtx.beginPath();
+              left.forEach(([x, y], n) => (n ? groundCtx.lineTo(x, y) : groundCtx.moveTo(x, y)));
+              for (let n = right.length - 1; n >= 0; n--) groundCtx.lineTo(right[n][0], right[n][1]);
+              groundCtx.closePath();
+              groundCtx.fill();
             };
             for (const r of runs) {
               const fog = r.reduce((t, p) => t + p.fog, 0) / r.length;
               // soft banks: a wide faint green fading into the land, a closer stronger green, then the water
               // banks fading out in many small steps (two hard bands looked like a road's verges)
-              ctx.fillStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
-              for (const k of [6, 4.8, 3.8, 3, 2.3, 1.7]) { ctx.globalAlpha = 0.09 * appear; ribbon(r, k); }
-              ctx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
-              ctx.globalAlpha = 0.45 * appear; ribbon(r, 1.25);
-              ctx.globalAlpha = 0.8 * appear; ribbon(r, 0.9);
-              ctx.globalAlpha = 1;
+              groundCtx.fillStyle = css(mixRgb(shoreCol, haze, fog * 0.6));
+              for (const k of [6, 4.8, 3.8, 3, 2.3, 1.7]) { groundCtx.globalAlpha = 0.09 * appear; ribbon(r, k); }
+              groundCtx.fillStyle = css(mixRgb(waterCol, haze, fog * 0.6));
+              groundCtx.globalAlpha = 0.45 * appear; ribbon(r, 1.25);
+              groundCtx.globalAlpha = 0.8 * appear; ribbon(r, 0.9);
+              groundCtx.globalAlpha = 1;
             }
           }
-          ctx.restore();
+          groundCtx.restore();
         }
-        ctx.globalCompositeOperation = 'overlay';
-        ctx.imageSmoothingEnabled = true;
+        groundCtx.globalCompositeOperation = 'overlay';
+        groundCtx.imageSmoothingEnabled = true;
         // the ground only (laid on the empty sky it would turn grey)
-        const sy0 = (y0 / h) * shade.height;
-        ctx.drawImage(shade, 0, sy0, shade.width, shade.height - sy0, 0, y0, w, h - y0);
-        ctx.globalCompositeOperation = 'source-over';
+        const sy0 = (y0 / h) * activeShadeCanvas.height;
+        groundCtx.drawImage(activeShadeCanvas, 0, sy0, activeShadeCanvas.width, activeShadeCanvas.height - sy0, 0, y0, w, h - y0);
+        groundCtx.globalCompositeOperation = 'source-over';
         // Aerial perspective, in one pass. At night the air is dark: lights shine through further.
         let under = L.length - 1;
         while (under > 0 && L[under].startZ > camZ) under--;
@@ -953,7 +1126,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         const key = `${haze.join(',')}|${dark}|${h}|${w}|${hazeScale.toFixed(2)}`;
         if (key !== hazeKey || !hazeFill) {
           hazeKey = key;
-          hazeFill = ctx.createLinearGradient(0, horizonY, 0, h);
+          hazeFill = groundCtx.createLinearGradient(0, horizonY, 0, h);
           const STOPS = 28;
           for (let k = 0; k <= STOPS; k++) {
             // Stops crowd toward the horizon, where the haze changes fastest.
@@ -963,13 +1136,17 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
             hazeFill.addColorStop(t, `rgba(${haze[0]},${haze[1]},${haze[2]},${Math.pow(fog, dark ? 1.1 : 0.55) * (dark ? 0.5 : 0.92) * hazeScale})`);
           }
         }
-        ctx.fillStyle = hazeFill;
-        ctx.fillRect(0, y0, w, h - y0);
+        groundCtx.fillStyle = hazeFill;
+        groundCtx.fillRect(0, y0, w, h - y0);
         const gl = live.current.glint;
-        if (gl && glintK > 0.02) drawSeaGlint(ctx, gl, glintK, now / 1000, w, h, horizonY);
+        if (gl && glintK > 0.02) drawSeaGlint(groundCtx, gl, glintK, now / 1000, w, h, horizonY);
       }
 
       // ── Night lights: towns and roads across the land ────────────────────────────────────────────────────────
+      mark('water-shade-haze');
+      // One upload for the complete coast ground pass, rather than synchronizing separate land/shade canvases.
+      if (cwVisible && L.length) ctx.drawImage(coastGround, 0, 0, w, h);
+      mark('ground-compose-upload');
       if (dark && nightLights() && L.length) {
         const layerAt = (wz: number) => { let i = L.length - 1; while (i > 0 && L[i].startZ > wz) i--; return L[i]; };
         // from just under the nose (towns stay lit until they slide off the bottom of the window) to the horizon
@@ -1324,6 +1501,12 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
         drawSceneEvent(ctx, ev.kind, ev.seed, ex, ez, proj, (zz) => F / Math.max(Z_NEAR, zz - camZ), now / 1000, dark, haze, Math.pow(Math.min(1, rz / Z_FAR), 0.8), Math.min(1, (Z_FAR - rz) / 8000), LANDMARK_SIZE.volcano.h);
       }
 
+      mark('scenery');
+      if (measureEnabled) window.dispatchEvent(new CustomEvent('coast-rendered-frame'));
+      if (profileSteps) window.dispatchEvent(new CustomEvent('coast-frame-profile', { detail: {
+        steps: profileSteps, frameMs: performance.now() - profileStart, maskRefreshed: profileRefreshed,
+        maskPixels: [coastMask.width, coastMask.height], canvasPixels: [canvas.width, canvas.height],
+      } }));
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
