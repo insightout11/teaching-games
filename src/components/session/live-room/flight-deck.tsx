@@ -12,7 +12,7 @@ import { markFirst, trackFunnel } from '@/lib/teacher-firsts';
 import { TestFlightCoach } from './test-flight-coach';
 import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType, type SecondScreens } from '@/lib/class-profile';
 import { classFitMarks, withFallback } from '@/lib/class-fit';
-import { flightClock } from '@/lib/live-room/flight-clock';
+import { flightClock, reanchorFlight, type FlightAnchor } from '@/lib/live-room/flight-clock';
 import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -318,6 +318,8 @@ export function FlightDeck({
   // After landing the room stays open as the arrivals hall until the teacher ends class.
   const [hall, setHall] = useState(false);
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
+  // Where the plane was when the class end last changed mid-flight (+5/-5): it flies on from there.
+  const [flightAnchor, setFlightAnchor] = useState<FlightAnchor | null>(null);
   // The class type sets up the room; "change for today" overrides it for this lesson only.
   const todayTypeKey = `lc-room-type-${sessionId}`;
   const [todayOverride, setTodayOverride] = useState<ClassType | null>(null);
@@ -384,7 +386,7 @@ export function FlightDeck({
   const [flightRestored, setFlightRestored] = useState(false);
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string; classStartAt?: number; classMinutes?: number } | null;
+      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string; classStartAt?: number; classMinutes?: number; anchor?: FlightAnchor } | null;
       if (saved?.classStartAt) setClassStartAt(Math.min(saved.classStartAt, saved.takeoffAt ?? saved.classStartAt));
       if (saved?.classMinutes) setClassMinutes(saved.classMinutes);
       else {
@@ -398,6 +400,8 @@ export function FlightDeck({
       if (saved?.lockedId) setLockedId((cur) => cur ?? saved.lockedId ?? null);
       if (saved?.stayHome) setStayHome(saved.stayHome);
       if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
+      const a = saved?.anchor;
+      if (a && typeof a.takeoffAt === 'number' && typeof a.at === 'number' && typeof a.t === 'number') setFlightAnchor(a);
     } catch { /* storage blocked */ }
     setFlightRestored(true);
     // Restore once per lesson; the class length read here is only a starting value.
@@ -406,10 +410,10 @@ export function FlightDeck({
   useEffect(() => {
     if (!flightRestored) return;
     try {
-      localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes }));
+      localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes, anchor: flightAnchor }));
       localStorage.setItem(CLASS_MINUTES_KEY, String(classMinutes));
     } catch { /* storage blocked */ }
-  }, [flightRestored, flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes]);
+  }, [flightRestored, flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes, flightAnchor]);
   const destination = useMemo<RouteCity>(
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
@@ -1006,12 +1010,12 @@ export function FlightDeck({
     setSkyTest(q.get('sky') === 'on');
   }, []);
   const [descentShift, setDescentShift] = useState(0);
-  const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
+  const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now, anchor: flightAnchor });
   useEffect(() => {
     if (!descentTest || descentShift || flightStage !== 'flying' || takeoffAt === null || rawClock.minutesLeft == null) return;
     setDescentShift(Math.max(0, (rawClock.minutesLeft - DESCENT_MINUTES - 0.4) * 60_000));
   }, [descentTest, descentShift, flightStage, takeoffAt, rawClock.minutesLeft]);
-  const clock = descentShift ? flightClock({ classStartAt, classMinutes, takeoffAt, now: now + descentShift }) : rawClock;
+  const clock = descentShift ? flightClock({ classStartAt, classMinutes, takeoffAt, now: now + descentShift, anchor: flightAnchor }) : rawClock;
   const { flightMs, routeT, minutesLeft } = clock;
   // Arrived (5 minutes before the end of class): the plane circles near the destination until you land.
   const holding = flightStage === 'flying' && clock.holding;
@@ -1021,6 +1025,8 @@ export function FlightDeck({
   // stays low once landing begins (it went back up to cruise height, climbing into the clouds for the dive)
   const descentAltitude = holding || flightStage === 'landing' ? 0.25 : descending ? 1 - 0.75 * (1 - (minutesLeft ?? 0) / DESCENT_MINUTES) : 1;
   const nudgeClass = (delta: number) => {
+    // Mid-flight: keep the plane where it is right now, so only its speed changes (it used to jump along the route).
+    if (flightStage === 'flying' && takeoffAt !== null) setFlightAnchor(reanchorFlight({ classStartAt, classMinutes, takeoffAt, now: Date.now() + descentShift, anchor: flightAnchor }));
     setClassMinutes((m) => Math.min(240, Math.max(15, m + delta)));
     flash(`Class now ends at ${new Date(clock.endAt + delta * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`);
   };
@@ -1051,7 +1057,7 @@ export function FlightDeck({
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [origin.id, destination.id]);
-  const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : 1 / Math.max(1, flightMs), km: routeKmTotal } : null), [flightStage, routeT, flightMs, holding, routeKmTotal]);
+  const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : clock.perMs, km: routeKmTotal } : null), [flightStage, routeT, clock.perMs, holding, routeKmTotal]);
   const [routeGround, setRouteGround] = useState<HighGround | undefined>(undefined);
   const watersStep = Math.floor(routeT * 400);
   useEffect(() => {
@@ -1083,8 +1089,8 @@ export function FlightDeck({
   const around = useMemo(() => citiesAround(below.point, heading, 150), [below.point, heading]);
   // Flying west about as fast as the sun appears to move: the sun hangs still while the ground passes into evening.
   const chasing = useMemo(
-    () => flightStage === 'flying' && !holding && sunChase(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 120_000 / flightMs)), new Date(now), 120_000),
-    [flightStage, holding, below.point, origin, destination, routeT, flightMs, now],
+    () => flightStage === 'flying' && !holding && sunChase(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 120_000 * clock.perMs)), new Date(now), 120_000),
+    [flightStage, holding, below.point, origin, destination, routeT, clock.perMs, now],
   );
   const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
   const voteCards = useMemo<VoteCityCard[]>(() => {

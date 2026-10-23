@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { averageColour, landAt, routeSpread, VIEW_UNITS_PER_SEC } from '@/components/live-room/flight/cockpit-world';
+import { averageColour, landAt, ROUTE_SCALE } from '@/components/live-room/flight/cockpit-world';
 import { realCoast } from '@/components/live-room/flight/ground-texture';
 
 describe('texture colour sampling leaves live pattern sources unread', () => {
@@ -35,14 +35,9 @@ describe('coast rendering preserves flight behaviour', () => {
   it('real coastlines are on in classes (owner approved 22 Oct 2026)', () => {
     expect(realCoast()).toBe(true);
   });
-  it('keeps the original cruise speed and one route spread for slow flights', () => {
-    expect(VIEW_UNITS_PER_SEC).toBe(0.55 * 4200);
-    const clock = { at: 0, t: 0.3, km: 1000, perMs: 1 / 7_200_000 };
-    const spread = routeSpread(clock);
-    expect(clock.km * 400 * clock.perMs * 1000 * spread).toBeCloseTo(VIEW_UNITS_PER_SEC);
-    expect(routeSpread({ ...clock, t: 0.9 })).toBe(spread);
-    expect(routeSpread({ ...clock, perMs: 1 / 60_000 })).toBe(1);
-    expect(routeSpread(null)).toBe(1);
+  it('keeps the land at real proportions whatever the class length or route speed', () => {
+    // A 50-minute Madrid to Berlin flight used to stretch the route ~9x, Zurich to Milan ~80x.
+    expect(ROUTE_SCALE).toBe(1);
   });
   it('keeps the land mask used by peaks and town lights consistent at holes and coast crossings', () => {
     const edges: number[] = [];

@@ -125,8 +125,8 @@ function emptyGrid(ahead0: number, side0: number, step: number, rows: number, co
 
 const cache = new WeakMap<CoastStrip, Promise<SurfaceGrid | null>>();
 /** Load the sharper route band once at take-off; bundled elevation is an explicit offline fallback. */
-export function loadSurfaceGrid(strip: CoastStrip, signal?: AbortSignal): Promise<SurfaceGrid | null> {
-  const cached = !signal && cache.get(strip); if (cached) return cached;
+export function loadSurfaceGrid(strip: CoastStrip, signal?: AbortSignal, options: { fresh?: boolean } = {}): Promise<SurfaceGrid | null> {
+  const cached = !signal && !options.fresh && cache.get(strip); if (cached) return cached;
   const pending = (async () => {
     if (!strip.origin || !strip.destination) return null;
     await loadElevation();
@@ -149,7 +149,12 @@ export function loadSurfaceGrid(strip: CoastStrip, signal?: AbortSignal): Promis
     sharpenTerrainSummits(grid, from!, to!, strip.routeKm);
     return indexMax(grid);
   })();
-  if (!signal) cache.set(strip, pending); return pending;
+  if (!signal) {
+    cache.set(strip, pending);
+    // A failed load must not stick to the route: a later call (or retry) tries again.
+    pending.catch(() => { if (cache.get(strip) === pending) cache.delete(strip); });
+  }
+  return pending;
 }
 
 /** A regular route mesh preserves source metres; exaggeration belongs to the view, never snow altitude. */
@@ -297,7 +302,7 @@ export function prepareSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTexture
       // Illustrated mountain/ice tiles carry painted white caps unrelated to this vertex's elevation.
       const green = dry < 0.5 && (height < 2200 || (height < 3000 && slope < 0.3));
       const tex = paintedSnow ? textures.get(green ? '__forest' : '__rock') : sources[id]; total += weight;
-      const u = tex ? side * 280 * tex.size / tex.worldSize : 0, v = tex ? ahead * 400 * tex.size / tex.worldSize : 0;
+      const u = tex ? side * 400 * tex.size / tex.worldSize : 0, v = tex ? ahead * 400 * tex.size / tex.worldSize : 0;
       const stone = tex && paintedSnow && !green ? (textureChannel(tex, u, v, 0) + 2 * textureChannel(tex, u, v, 1) + textureChannel(tex, u, v, 2)) / 4 : 0;
       for (let c = 0; c < 3; c++) color[i * 3 + c] += weight * (tex ? stone > 0 ? stone * [1.04 + dry * 0.2, 1 + dry * 0.06, 0.93 - dry * 0.15][c] : textureChannel(tex, u, v, c) : fallback[c]);
     }
@@ -310,7 +315,7 @@ export function prepareSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTexture
     const forest = arid ? 0 : (mountainCover ? 1 - smooth01(dry / 0.65) : 1) * smooth01((height - 180) / 500) * (1 - smooth01((height - treeLine + 300) / 600)) * (1 - steep) * 0.7;
     for (const [name, weight] of [['__forest', forest], ['__rock', rock]] as const) {
       const tex = textures.get(name); if (!tex || weight < 0.001) continue;
-      const u = side * 280 * tex.size / tex.worldSize, v = ahead * 400 * tex.size / tex.worldSize;
+      const u = side * 400 * tex.size / tex.worldSize, v = ahead * 400 * tex.size / tex.worldSize;
       const neutral = name === '__rock' ? (textureChannel(tex, u, v, 0) + 2 * textureChannel(tex, u, v, 1) + textureChannel(tex, u, v, 2)) / 4 : 0;
       const bare = name === '__rock' ? smooth01((height - 1800) / 1400) : 0;
       for (let c = 0; c < 3; c++) {

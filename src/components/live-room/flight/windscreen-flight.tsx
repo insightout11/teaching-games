@@ -30,8 +30,10 @@ import { CockpitSky, LIGHT_POS, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckT
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { CoastStrip } from '@/lib/live-room/coast-strip';
-import { CockpitWorld, type DistantCity, type SeaGlint, routeSpread, type RouteClock } from '@/components/live-room/flight/cockpit-world';
+import { CockpitWorld, type DistantCity, type SeaGlint, ROUTE_SCALE, VIEW_UNITS_PER_SEC, type RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
+/** Slowest the near clouds drift, as a share of the old cruise pace. */
+const NEAR_CLOUD_MIN_PACE = 0.35;
 
 /**
  * The Live Room windscreen as one flight (tuned in /dev/flight-lab).
@@ -302,7 +304,10 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
   const cloudSpeed = phase === 'climb' ? (inCloud > 0 ? 1.9 : 1.1) : scenicOn ? SCENIC_SPEED : diving ? 1.2 + progress * 3 : 0.55;
   // the clouds drifting past at eye level move with the ground: at the real plane's speed in a flight (the ground went
   // to real speed and these kept the old, faster speed)
-  const realFactor = phase === 'cruise' && routeClock?.km && routeClock.perMs ? Math.min(1, (routeClock.km * 400 * routeClock.perMs * 1000 * routeSpread(routeClock)) / (0.55 * 4200)) : 1;
+  // With the land at real proportions the ground can crawl (Zurich to Milan in a 50-minute class), so these near
+  // clouds keep a minimum pace: close to the plane they sweep past faster than the distant ground anyway. The clouds
+  // that cast shadows on the land stay fixed to it (CockpitWorld).
+  const realFactor = phase === 'cruise' && routeClock?.km && routeClock.perMs ? Math.min(1, Math.max(NEAR_CLOUD_MIN_PACE, (routeClock.km * 400 * routeClock.perMs * 1000 * ROUTE_SCALE) / VIEW_UNITS_PER_SEC)) : 1;
   const driftSpeed = cloudSpeed * realFactor;
   const whiteout = climbing ? (progress < CLIMB_THICK ? Math.pow(inCloud, 1.4) * 0.96 : inCloud * 0.96 * (1 - climbParting)) : phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
   const parting = climbing ? climbParting : phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;

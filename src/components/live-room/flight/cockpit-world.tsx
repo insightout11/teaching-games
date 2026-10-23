@@ -60,6 +60,8 @@ export interface DistantCity { id: string; ahead: number; lateral: number; size:
 
 /** World units per kilometre for cities: 150 km ahead sits at the far edge of the view, and the cruise height is about 8 km. */
 const CITY_UNITS_PER_KM = 400;
+/** World units per km across the route: the same as along it, so land keeps its real shape (it was squeezed to 0.7). */
+const SIDE_UNITS_PER_KM = CITY_UNITS_PER_KM;
 
 /** Sun (or moon) glitter on the sea: where the light is on the screen (0 to 1 across), how strong, and its colour. */
 export interface SeaGlint { x: number; strength: number; color: RGB }
@@ -326,16 +328,14 @@ export function landAt(cw: { edges: number[]; buckets: Map<number, number[]> }, 
 /** Where the plane really is along its route: `t` (0-1) at time `at`, advancing `perMs` per millisecond. */
 export interface RouteClock { /** Preview stills hold their exact geographic position. */ hold?: boolean; at: number; t: number; perMs: number; /** The route's length (km), for things placed along it. */ km?: number }
 
-/** The view's own pace (world units a second): the scenery's cruise speed as it always was (0.55 x CRUISE_SPEED). A
- *  lesson's flight is paced by the class, so the route (coast, landmarks, real mountains, rivers) is spread out to
- *  match this pace: everything moves together at the old speed and still arrives at the flight's real progress. */
+/** The view's old cruise pace (world units a second), kept for the cosmetic eye-level cloud drift. */
 export const VIEW_UNITS_PER_SEC = 0.55 * 4200;
-/** How much the route is spread out along the view (1 for a fast flight; more for a slow one). */
-export function routeSpread(rc: RouteClock | null | undefined): number {
-  if (!rc?.km || !rc.perMs) return 1;
-  const realUps = rc.km * CITY_UNITS_PER_KM * rc.perMs * 1000;
-  return Math.max(1, VIEW_UNITS_PER_SEC / Math.max(1e-6, realUps));
-}
+/**
+ * Along-route world scale: fixed at real distance for every flight. It used to stretch the route to keep the old
+ * scenery pace (about 9x for Madrid to Berlin in a 50-minute class, 80x for Zurich to Milan), which smeared real
+ * terrain lengthwise and changed with +5/-5. Class length now changes only how fast the ground moves, never its shape.
+ */
+export const ROUTE_SCALE = 1;
 
 /** How long newly arrived route terrain takes to fade in and rise. */
 const SURFACE_FADE_MS = 3000;
@@ -351,7 +351,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   const routeBase = useRef<number | null>(null);
   const routeNowU = useRef(0);
   const holdDrift = useRef(0);
-  const spreadRef = useRef(1);
+  const spreadRef = useRef(ROUTE_SCALE);
   const routeUnits = (cw: { route: boolean; routeKm: number } | null): number => (cw?.route && live.current.routeClock?.km ? routeNowU.current : 0);
   // The sea of clouds below: fixed in the world (they pass with the ground), as many as the cloud cover says.
   const skyCloudList = useRef<SkyCloud[]>([]);
@@ -363,7 +363,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const keep = new Set<string>();
     for (const c of cities ?? []) {
       keep.add(c.id);
-      if (!map.has(c.id)) map.set(c.id, { z: cam.current + c.ahead * CITY_UNITS_PER_KM * spreadRef.current, x: c.lateral * CITY_UNITS_PER_KM * 0.7, r: c.size * CITY_UNITS_PER_KM, dots: cityDots(c.id) });
+      if (!map.has(c.id)) map.set(c.id, { z: cam.current + c.ahead * CITY_UNITS_PER_KM * spreadRef.current, x: c.lateral * SIDE_UNITS_PER_KM, r: c.size * CITY_UNITS_PER_KM, dots: cityDots(c.id) });
     }
     for (const id of Array.from(map.keys())) if (!keep.has(id)) map.delete(id);
   }, [cities]);
@@ -375,7 +375,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const keep = new Set<string>();
     for (const l of landmarks ?? []) {
       keep.add(l.id);
-      if (!map.has(l.id)) map.set(l.id, { kind: l.kind, z: cam.current + l.ahead * CITY_UNITS_PER_KM * spreadRef.current, x: l.lateral * CITY_UNITS_PER_KM * 0.7, along: l.along });
+      if (!map.has(l.id)) map.set(l.id, { kind: l.kind, z: cam.current + l.ahead * CITY_UNITS_PER_KM * spreadRef.current, x: l.lateral * SIDE_UNITS_PER_KM, along: l.along });
     }
     // kept until the view has passed it: the scenery moves slower than the real flight, so the route list drops a
     // landmark (the plane is really over it) while it is still far ahead here (Fuji vanished after Tokyo)
@@ -388,7 +388,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     const keep = new Set<string>();
     for (const e of events ?? []) {
       keep.add(e.id);
-      if (!map.has(e.id)) map.set(e.id, { kind: e.kind, z: cam.current + e.ahead * CITY_UNITS_PER_KM * spreadRef.current, x: e.lateral * CITY_UNITS_PER_KM * 0.7, seed: (e.id.length * 97 + e.id.charCodeAt(0)) % 1000 });
+      if (!map.has(e.id)) map.set(e.id, { kind: e.kind, z: cam.current + e.ahead * CITY_UNITS_PER_KM * spreadRef.current, x: e.lateral * SIDE_UNITS_PER_KM, seed: (e.id.length * 97 + e.id.charCodeAt(0)) % 1000 });
     }
     for (const [id, e] of Array.from(map.entries())) if (!keep.has(id) && e.z < cam.current) map.delete(id);
   }, [events]);
@@ -403,7 +403,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     // drop what has fully passed under the plane
     for (let i = list.length - 1; i >= 0; i--) if (list[i].rings.every((r) => r.every(([, z]) => z < camZ))) list.splice(i, 1);
     const ahead = new Set(list.map((w) => `${w.lake ? 'L' : 'R'}:${w.name}`));
-    const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM * spreadRef.current];
+    const toWorld = ([a, side]: [number, number]): [number, number] => [side * SIDE_UNITS_PER_KM, camZ + a * CITY_UNITS_PER_KM * spreadRef.current];
     // new water comes in from the distance (never right in front of the plane) and fades in
     const nearest = camZ + Z_FAR * 0.55;
     const born = performance.now();
@@ -477,21 +477,20 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   // The whole route's coast (worked out once at take-off): placed by km along the route, read at the plane's real place
   useEffect(() => {
     if (!coastStrip) return;
-    const k = routeSpread(routeClock);
-    spreadRef.current = k;
-    const toWorld = ([along, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, along * CITY_UNITS_PER_KM * k];
+    const k = ROUTE_SCALE;
+    const toWorld = ([along, side]: [number, number]): [number, number] => [side * SIDE_UNITS_PER_KM, along * CITY_UNITS_PER_KM * k];
     if (!coastStrip.land.length && !coastStrip.lines.length) { coastWorld.current = null; return; }
     const built = buildCoast(coastStrip.lines.map((r) => r.map(toWorld)), coastStrip.shores, coastStrip.land.map((r) => r.map(toWorld)));
     coastWorld.current = { ...built, zMin: -400 * CITY_UNITS_PER_KM * k, zMax: (coastStrip.routeKm + 400) * CITY_UNITS_PER_KM * k, route: true, routeKm: coastStrip.routeKm };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coastStrip, Math.round(routeSpread(routeClock) * 4)]);
+  }, [coastStrip]);
   useEffect(() => {
     if (!coast || coastStrip) return;
     const camZ = cam.current;
     const cur = coastWorld.current;
     if (cur && cur.zMax - camZ > Z_FAR * 0.55) return; // the current stretch still fills the view
     if (!coast.rings.length) { coastWorld.current = null; return; }
-    const toWorld = ([a, side]: [number, number]): [number, number] => [side * CITY_UNITS_PER_KM * 0.7, camZ + a * CITY_UNITS_PER_KM * spreadRef.current];
+    const toWorld = ([a, side]: [number, number]): [number, number] => [side * SIDE_UNITS_PER_KM, camZ + a * CITY_UNITS_PER_KM * spreadRef.current];
     const built = buildCoast(coast.rings.map((r) => r.map(toWorld)), coast.shores ?? [], (coast.land ?? []).map((r) => r.map(toWorld)));
     coastWorld.current = { ...built, zMin: camZ - coast.reachKm * CITY_UNITS_PER_KM, zMax: camZ + coast.reachKm * CITY_UNITS_PER_KM * 0.95, route: false, routeKm: 0 };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -840,7 +839,6 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const rcNow = live.current.routeClock;
       let camZ: number;
       if (rcNow?.km) {
-        if (rcNow.perMs > 0) spreadRef.current = routeSpread(rcNow);
         const realU = Math.max(0, Math.min(1, rcNow.t + (Date.now() - rcNow.at) * rcNow.perMs)) * rcNow.km * CITY_UNITS_PER_KM * spreadRef.current;
         if (rcNow.hold) holdDrift.current = 0;
         if (rcNow.perMs === 0 && !rcNow.hold) holdDrift.current += drawnSpeed * CRUISE_SPEED * dt * 0.12;
@@ -872,7 +870,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       const riseT = routeSurface ? Math.min(1, (performance.now() - surfaceSince.current) / SURFACE_FADE_MS) : 1;
       const surfaceRise = riseT * riseT * (3 - 2 * riseT);
       const surfaceExaggeration = terrainGrid ? safeExaggeration(surfaceCamH, terrainGrid.peak ?? aheadPeak, live.current.altitude) * Math.max(0.02, surfaceRise) : 1;
-      const surfaceHeight = (x: number, z: number) => terrainGrid ? terrainHeight(sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (CITY_UNITS_PER_KM * 0.7)), surfaceExaggeration) * HEIGHT_UNITS : 0;
+      const surfaceHeight = (x: number, z: number) => terrainGrid ? terrainHeight(sampleHeight(terrainGrid, surfaceAhead + (z - camZ) / surfaceAlongScale, x / (SIDE_UNITS_PER_KM)), surfaceExaggeration) * HEIGHT_UNITS : 0;
       const cameraGround = surfaceHeight(0, camZ);
       frameCamH = surfaceCamH;
       const horizonY = h * HORIZON;
@@ -1065,7 +1063,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
                   for (let mx = 0; mx < mask.width; mx++) {
                     const x = ((mx + 0.5) / mask.width * w - w / 2) * z / F;
                     const along = (coastBase + z) / (CITY_UNITS_PER_KM * spreadRef.current);
-                    const side = x / (CITY_UNITS_PER_KM * 0.7);
+                    const side = x / (SIDE_UNITS_PER_KM);
                     // A small world-anchored warp softens the grid's straight transition contours.
                     const warp = (patchNoise(side / 35, along / 35) - 0.5) * 12;
                     const weights = strip ? groundMixAt(strip, along + warp, side + warp) : [];
@@ -1250,13 +1248,13 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       // One upload for the complete coast ground pass, rather than synchronizing separate land/shade canvases.
       if (cwVisible && L.length) ctx.drawImage(coastGround, 0, 0, w, h);
       mark('ground-compose-upload');
-      if (terrainGrid && surfaceCtx && surfaceImage && hasSurfaceRelief(terrainGrid, surfaceAhead, Z_FAR / surfaceAlongScale, Z_FAR / F * w / 2 / (CITY_UNITS_PER_KM * 0.7))) {
+      if (terrainGrid && surfaceCtx && surfaceImage && hasSurfaceRelief(terrainGrid, surfaceAhead, Z_FAR / surfaceAlongScale, Z_FAR / F * w / 2 / (SIDE_UNITS_PER_KM))) {
         const scale = surfaceCanvas.width / w;
         const top = L[L.length - 1];
         const sun = live.current.surfaceSun ?? { x: live.current.glint?.x ?? 0.3, y: 0.18 };
         surfaceDrawn = drawSurface(terrainGrid, surfaceTextures.current, {
           width: surfaceCanvas.width, height: surfaceCanvas.height, horizon: horizonY * scale, focal: F * scale,
-          exaggeration: surfaceExaggeration, cameraHeight: surfaceCamH, ahead: surfaceAhead, alongScale: surfaceAlongScale, sideScale: CITY_UNITS_PER_KM * 0.7,
+          exaggeration: surfaceExaggeration, cameraHeight: surfaceCamH, ahead: surfaceAhead, alongScale: surfaceAlongScale, sideScale: SIDE_UNITS_PER_KM,
           textureZ: camZ, far: Z_FAR, near: Z_NEAR, sunX: sun.x, sunY: sun.y, sunDirection: live.current.surfaceSun?.direction, dark,
           haze, fallback: top?.ground ?? top?.land ?? [115, 126, 90], snow: top?.snow ?? [235, 239, 245],
           cloudCover: live.current.cloudCover ?? 0, seconds: now / 1000,
@@ -1493,7 +1491,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           const half = ((w / 2) * (p.z - camZ)) / F;
           p.x = (Math.random() * 2 - 1) * (half * 1.25 + 2000);
           p.h = 0;
-          const cell = highGroundAt(hg.g, (p.z - hg.camZ) / CITY_UNITS_PER_KM, p.x / (CITY_UNITS_PER_KM * 0.7));
+          const cell = highGroundAt(hg.g, (p.z - hg.camZ) / CITY_UNITS_PER_KM, p.x / (SIDE_UNITS_PER_KM));
           if (!cell) return;
           // how mountainous: rising far above the ground around it, or simply very high
           const m = Math.max(Math.min(1, Math.max(0, (cell.rugged - 150) / 900)), Math.min(1, Math.max(0, (cell.height - 900) / 2200)) * 0.8);
