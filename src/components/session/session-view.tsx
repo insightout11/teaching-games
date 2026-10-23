@@ -39,6 +39,7 @@ import { getAllGames, getGame, GAME_CATEGORY_INFO } from '@/games/registry';
 import { hiddenForJunior, JUNIOR_HEADER } from '@/lib/junior';
 import { getAllActivities, getActivity, CATEGORY_INFO } from '@/activities/registry';
 import { isParticipantCompatible, participantRequirementLabel } from '@/lib/participant-compatibility';
+import { getQuickFireRoster } from '@/lib/quick-fire';
 import { createClient } from '@/lib/supabase/client';
 import { LessonCaptainFlightPlan } from '@/components/ui/flight-plan';
 import { buildRuntimeFlightPlanSteps, getFlightPlanActiveIndex, calculateSlotBudgets, getExpectedPacingIndex, inferLessonDuration, computeAltitude, computeEarthState } from '@/lib/flight-plan-helpers';
@@ -510,10 +511,10 @@ function pluginForKey(key: string) {
   return getGame(key) ?? getActivity(key);
 }
 
-function compatiblePoolKeys(pool: string[], participantCount: number): string[] {
-  const effectiveCount = Math.max(1, participantCount);
+function compatiblePoolKeys(pool: string[], participantCount: number, quickFireParticipantCount: number): string[] {
   const compatible = pool.filter((key) => {
     const plugin = pluginForKey(key);
+    const effectiveCount = Math.max(1, key === 'quick-fire' ? quickFireParticipantCount : participantCount);
     return plugin ? isParticipantCompatible(plugin, effectiveCount) : false;
   });
   return compatible.length > 0 ? compatible : [SAFE_SIMULTANEOUS_KEY];
@@ -651,6 +652,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   const settings = useSessionStore((s) => s.settings);
   const setSettings = useSessionStore((s) => s.setSettings);
   const addStudent = useSessionStore((s) => s.addStudent);
+  const devicelessStudents = useSessionStore((s) => s.devicelessStudents);
   const [viewMode, setViewMode] = useState<ViewMode>('selection');
   // Opened as a Live Room: a flight launched from it lands back in the room
   // instead of ending the session.
@@ -720,6 +722,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     } catch { setRemoveError('Could not remove student. Try again.'); }
   };
   const liveParticipantCount = sessionParticipants.length;
+  // Quick-fire is spoken aloud: count boarded students as well as joined devices.
+  const quickFireParticipantCount = useMemo(() => getQuickFireRoster(
+    sessionParticipants.map((p) => ({ id: p.student_id ?? p.client_id })),
+    devicelessStudents,
+  ).length, [sessionParticipants, devicelessStudents]);
+  const quickFireParticipantCountRef = useRef(quickFireParticipantCount);
+  quickFireParticipantCountRef.current = quickFireParticipantCount;
   // "Can this class do this?" for the swap drawer, swap suggestion, bonus vote and the next stage of a plan.
   const fitCtx = useMemo(() => ({
     students: Math.max(liveParticipantCount, students.length),
@@ -1516,12 +1525,13 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   };
 
   const handleSelectActivity = async (activity: ActivityPlugin) => {
-    if (!isParticipantCompatible(activity, Math.max(1, liveParticipantCountRef.current))) {
+    const participantCount = activity.key === 'quick-fire' ? quickFireParticipantCountRef.current : liveParticipantCountRef.current;
+    if (!isParticipantCompatible(activity, Math.max(1, participantCount))) {
       const fallback = getGame(SAFE_SIMULTANEOUS_KEY);
       if (fallback) {
         setCompatibilityNotice(
           `${activity.name} ${participantRequirementLabel(activity).toLowerCase()}. `
-          + `With ${liveParticipantCountRef.current} connected, Lesson Captain opened ${fallback.name} instead.`,
+          + `With ${participantCount} ${activity.key === 'quick-fire' ? 'on board' : 'connected'}, Lesson Captain opened ${fallback.name} instead.`,
         );
         handleSelectGame(fallback);
         return;
@@ -2775,7 +2785,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
           </div>
         ) : poolSpinning !== null ? (
           <PoolSpinner
-            pool={compatiblePoolKeys(poolSpinning.pool, liveParticipantCount)}
+            pool={compatiblePoolKeys(poolSpinning.pool, liveParticipantCount, quickFireParticipantCount)}
             stageLabel={poolSpinning.stageLabel}
             onResolved={handlePoolResolved}
           />
@@ -3397,7 +3407,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
                     <div className="space-y-1.5">
                       {catActivities.map((activity) => {
                         const ActivityIcon = activity.icon;
-                        const compatible = isParticipantCompatible(activity, Math.max(1, liveParticipantCount));
+                        const participantCount = activity.key === 'quick-fire' ? quickFireParticipantCount : liveParticipantCount;
+                        const compatible = isParticipantCompatible(activity, Math.max(1, participantCount));
                         return (
                           <button
                             key={activity.key}
