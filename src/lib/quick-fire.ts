@@ -4,7 +4,7 @@ export function getQuickFireRoster<T extends { id: string }>(students: readonly 
   for (const student of [...students, ...deviceless]) {
     if (!roster.has(student.id)) roster.set(student.id, student);
   }
-  return [...roster.values()];
+  return Array.from(roster.values());
 }
 
 /** Quick-fire fallback questions from the topic, so the warm-up never blocks on AI. */
