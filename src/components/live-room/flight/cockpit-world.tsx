@@ -13,7 +13,7 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import { smoothCoastRing as smoothRing, clipCoastLine, clipCoastView, coastCacheBand, coastCacheRow, groundMixAt, type CoastStrip } from '@/lib/live-room/coast-strip';
-import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, prepareSurfaceMaterials, type SurfaceGrid, type SurfaceTexture, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
+import { copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, loadSurfaceGrid, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, surfaceFromHighGround, type SurfaceGrid, type SurfaceTexture, type SurfaceTextures } from '@/lib/live-room/terrain-surface';
 import { terrainHeight } from '@/lib/live-room/terrain-filter';
 import { naturalLandmark, photoLandmarkId, SUMMIT_NAMES } from '@/lib/live-room/terrain-landmarks';
 import { highGroundAt, type HighGround } from '@/lib/live-room/elevation-ahead';
@@ -264,12 +264,95 @@ function terrainCanvas(terrain: Terrain, reg: string | null, palette: ScenePalet
 
 /** Surface-only materials omit illustrated water; real water is still drawn by the shared coast/water passes. */
 const surfaceLandCache = new Map<string, SurfaceTexture>();
+/** These ground kinds paint no water features, so the surface reuses the flat ground's picture. */
+const NO_WATER_FEATURES = new Set<Terrain>(['desert', 'ocean', 'mountains', 'ice']);
 function surfaceLandTexture(terrain: Terrain, region: string | null, palette: ScenePalette, night: boolean): SurfaceTexture | null {
   const key = `${terrain}|${region}|${night}|${JSON.stringify(palette)}`;
   const cached = surfaceLandCache.get(key); if (cached) return cached;
-  const texture = copySurfaceTexture(terrainCanvas(terrain, region, palette, night, rangeFor(region).floor, false));
-  if (texture) surfaceLandCache.set(key, texture);
+  const flat = NO_WATER_FEATURES.has(terrain) ? textureCache.get(groundKey(terrain, region, palette, night))?.levels[0]?.[0] : undefined;
+  const texture = copySurfaceTexture(flat ?? terrainCanvas(terrain, region, palette, night, rangeFor(region).floor, false));
+  if (texture) { surfaceLandCache.set(key, texture); trimCache(surfaceLandCache, 32); }
   return texture;
+}
+/** Snow and bare rock for the terrain surface (they were repainted every time the land below changed). */
+const surfaceExtraCache = new Map<string, SurfaceTexture>();
+function surfaceExtraTexture(kind: '__snow' | '__rock', palette: ScenePalette, night: boolean): SurfaceTexture | null {
+  const key = `${kind}|${night}|${JSON.stringify(palette)}`;
+  const cached = surfaceExtraCache.get(key); if (cached) return cached;
+  const texture = copySurfaceTexture(kind === '__snow' ? iceTexture(palette, night) : mountainTexture(palette, night, 'arid'));
+  if (texture) { surfaceExtraCache.set(key, texture); trimCache(surfaceExtraCache, 8); }
+  return texture;
+}
+function trimCache<K, V>(cache: Map<K, V>, max: number) {
+  while (cache.size > max) { const oldest = cache.keys().next().value; if (oldest === undefined) break; cache.delete(oldest); }
+}
+
+const groundKey = (terrain: Terrain, region: string | null, palette: ScenePalette, night: boolean) =>
+  `${terrain}|${region}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
+/** The flat ground's texture and its smaller copies for one kind of land (cached). Painting one takes a few hundred ms. */
+function groundRip(terrain: Terrain, region: string | null, palette: ScenePalette, night: boolean): RipCanvases {
+  const key = groundKey(terrain, region, palette, night);
+  const cached = textureCache.get(key); if (cached) return cached;
+  const levels = ripChain(terrain === 'ocean' ? oceanTexture(palette, night) : terrainCanvas(terrain, region, palette, night, rangeFor(region).floor));
+  textureCache.set(key, levels); trimCache(textureCache, 32);
+  return levels;
+}
+
+// ── Painting textures in idle time ─────────────────────────────────────────────────────────────────────────────
+// Painting every ground texture at once froze the page for ~6 s just after take-off (and again whenever the sun's
+// step changed the ground colours). Each texture is now painted in its own idle slot, the old ones stay on screen
+// until the new set is ready, and boarding paints them ahead (warmFlightTextures) so take-off finds them cached.
+const idleJobs: Array<() => void> = [];
+let idleRunning = false;
+const whenIdle = (fn: () => void) => { if (typeof requestIdleCallback === 'function') requestIdleCallback(() => fn(), { timeout: 500 }); else setTimeout(fn, 30); };
+function runIdleJob() {
+  const job = idleJobs.shift();
+  if (!job) { idleRunning = false; return; }
+  job();
+  whenIdle(runIdleJob);
+}
+/** Run `make` in its own idle slot, after the jobs already queued. */
+function inIdle<T>(make: () => T): Promise<T> {
+  return new Promise((resolve, reject) => {
+    idleJobs.push(() => { try { resolve(make()); } catch (error) { reject(error); } });
+    if (!idleRunning) { idleRunning = true; whenIdle(runIdleJob); }
+  });
+}
+/** The ground texture without blocking: cached, or painted then shrunk in two idle slots. */
+async function groundRipLater(terrain: Terrain, region: string | null, palette: ScenePalette, night: boolean): Promise<RipCanvases> {
+  const key = groundKey(terrain, region, palette, night);
+  const cached = textureCache.get(key); if (cached) return cached;
+  const canvas = await inIdle(() => textureCache.get(key)?.levels[0]?.[0] ?? (terrain === 'ocean' ? oceanTexture(palette, night) : terrainCanvas(terrain, region, palette, night, rangeFor(region).floor)));
+  return inIdle(() => {
+    const again = textureCache.get(key); if (again) return again;
+    const levels = ripChain(canvas);
+    textureCache.set(key, levels); trimCache(textureCache, 32);
+    return levels;
+  });
+}
+
+/**
+ * Boarding: paint the flight's ground textures in idle time before take-off, so the cockpit finds them cached.
+ * Returns a cancel function (route or light changed, or take-off happened).
+ */
+export function warmFlightTextures(o: { coastStrip: CoastStrip | null; terrain: Terrain; region: string | null; palette: ScenePalette; night: boolean; terrainEnabled: boolean }): () => void {
+  let cancelled = false;
+  const kinds = new Map<string, { terrain: Terrain; region: string | null }>([[`${o.terrain}|${o.region}`, { terrain: o.terrain, region: o.region }]]);
+  for (const row of o.coastStrip?.ground ?? []) for (const c of row) if (c) kinds.set(`${c.terrain}|${c.region}`, c);
+  void (async () => {
+    await groundRipLater('ocean', null, o.palette, o.night);
+    for (const c of Array.from(kinds.values())) {
+      if (cancelled) return;
+      await groundRipLater(c.terrain, c.region, o.palette, o.night);
+      if (cancelled) return;
+      if (o.terrainEnabled) await inIdle(() => (cancelled ? null : surfaceLandTexture(c.terrain, c.region, o.palette, o.night)));
+    }
+    if (!o.terrainEnabled || cancelled) return;
+    await inIdle(() => (cancelled ? null : surfaceExtraTexture('__snow', o.palette, o.night)));
+    await inIdle(() => (cancelled ? null : surfaceExtraTexture('__rock', o.palette, o.night)));
+    await inIdle(() => (cancelled ? null : surfaceLandTexture('forest', null, o.palette, o.night)));
+  })().catch(() => {});
+  return () => { cancelled = true; };
 }
 
 /** The average colour of a (small) canvas: the ground texture's overall colour. */
@@ -516,7 +599,6 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     let stale = false;
     void (terrainPreview ? loadSurfaceGrid(coastStrip) : flightSurface(coastStrip)).then(grid => {
       if (stale) return;
-      if (grid) prepareSurfaceMaterials(grid, surfaceTextures.current, layers.current.at(-1)?.ground ?? [115, 126, 90]);
       surfaceGrid.current = grid; surfaceSince.current = performance.now();
       surfaceState.current = grid ? 'ready' : 'fallback';
       live.current.onTerrainState?.(surfaceState.current); live.current.onTerrainReady?.();
@@ -535,21 +617,29 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
   // one texture per kind of land along the route, made when the route's coast strip arrives
   const stripRips = useRef(new Map<string, Rip>());
   useEffect(() => {
-    stripRips.current = new Map();
     const ctx = ref.current?.getContext('2d');
-    if (!coastStrip || !ctx) return;
+    if (!coastStrip || !ctx) { stripRips.current = new Map(); return; }
     const kinds = new Map<string, { terrain: Terrain; region: string | null }>();
     for (const row of coastStrip.ground) for (const c of row) if (c) kinds.set(`${c.terrain}|${c.region}`, c);
-    kinds.forEach((c, k) => {
-      const key = `${c.terrain}|${c.region}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
-      const levels = textureCache.get(key) ?? ripChain(terrainCanvas(c.terrain, c.region, palette, night, rangeFor(c.region).floor));
-      textureCache.set(key, levels);
-      if (terrainEnabled) {
-        const texture = surfaceLandTexture(c.terrain, c.region, palette, night);
-        if (texture) surfaceTextures.current.set(k, texture);
+    // Painted in idle time; the current textures stay until the whole new set is ready (missing kinds borrow the
+    // land below meanwhile), then swap in together so the terrain re-mixes its colours once.
+    let stale = false;
+    void (async () => {
+      const rips = new Map<string, Rip>(), land = new Map<string, SurfaceTexture>();
+      for (const [k, c] of Array.from(kinds)) {
+        const levels = await groundRipLater(c.terrain, c.region, palette, night);
+        if (stale) return;
+        rips.set(k, { w: levels.w, h: levels.h, levels: levels.levels.map((row) => row.flatMap((cv) => { const pat = ctx.createPattern(cv, 'repeat'); return pat ? [{ pat, w: cv.width, h: cv.height }] : []; })) });
+        if (terrainEnabled) {
+          const texture = await inIdle(() => (stale ? null : surfaceLandTexture(c.terrain, c.region, palette, night)));
+          if (stale) return;
+          if (texture) land.set(k, texture);
+        }
       }
-      stripRips.current.set(k, { w: levels.w, h: levels.h, levels: levels.levels.map((row) => row.flatMap((cv) => { const pat = ctx.createPattern(cv, 'repeat'); return pat ? [{ pat, w: cv.width, h: cv.height }] : []; })) });
-    });
+      stripRips.current = rips;
+      land.forEach((texture, k) => surfaceTextures.current.set(k, texture));
+    })().catch(() => {});
+    return () => { stale = true; };
   }, [coastStrip, palette, night, terrainEnabled]);
   // Terrains along the route, oldest first.
   const layers = useRef<Layer[]>([]);
@@ -587,20 +677,24 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     Object.assign(layer, style);
 
     // Texture: generated farmland/city, or the terrain's SVG tile; cached.
-    const key = `${terrain}|${reg}|${night}|${palette.terrainTop}|${palette.waterTop}|${palette.foliage}`;
+    const key = groundKey(terrain, reg, palette, night);
     const apply = (rc: RipCanvases) => {
       // the ground's real colour (its smallest copy, averaged): mountains and hills take some of it, so a blue-grey
       // peak no longer stands on brown desert
       if (terrainEnabled) {
-        const texture = surfaceLandTexture(terrain, reg, palette, night);
-        if (texture) surfaceTextures.current.set(`${terrain}|${reg}`, texture);
-        const snow = copySurfaceTexture(iceTexture(palette, night));
-        if (snow) surfaceTextures.current.set('__snow', snow);
-        // The alpine tile includes painted snow; exposed rock must not inherit snow below its real line.
-        const rock = copySurfaceTexture(mountainTexture(palette, night, 'arid'));
-        const forest = surfaceLandTexture('forest', null, palette, night);
-        if (rock) surfaceTextures.current.set('__rock', rock);
-        if (forest) surfaceTextures.current.set('__forest', forest);
+        // Painted in idle time and set together (cached after the first flight in this light).
+        void (async () => {
+          const texture = await inIdle(() => (stale ? null : surfaceLandTexture(terrain, reg, palette, night)));
+          const snow = await inIdle(() => (stale ? null : surfaceExtraTexture('__snow', palette, night)));
+          // The alpine tile includes painted snow; exposed rock must not inherit snow below its real line.
+          const rock = await inIdle(() => (stale ? null : surfaceExtraTexture('__rock', palette, night)));
+          const forest = await inIdle(() => (stale ? null : surfaceLandTexture('forest', null, palette, night)));
+          if (stale) return;
+          if (texture) surfaceTextures.current.set(`${terrain}|${reg}`, texture);
+          if (snow) surfaceTextures.current.set('__snow', snow);
+          if (rock) surfaceTextures.current.set('__rock', rock);
+          if (forest) surfaceTextures.current.set('__forest', forest);
+        })().catch(() => {});
       }
       const tiny = rc.levels[rc.levels.length - 1]?.[rc.levels[rc.levels.length - 1].length - 1];
       const ground = tiny ? averageColour(tiny) : null;
@@ -620,25 +714,28 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       };
     };
     // the sea for real coasts (always), and this land as the coast's land side
-    const seaKey = `ocean|${night}|${palette.waterTop}`;
     const toRip = (rc: RipCanvases): Rip => ({ w: rc.w, h: rc.h, levels: rc.levels.map((row) => row.flatMap((c) => { const pat = ctx.createPattern(c, 'repeat'); return pat ? [{ pat, w: c.width, h: c.height }] : []; })) });
-    const seaLevels = textureCache.get(seaKey) ?? ripChain(oceanTexture(palette, night));
-    textureCache.set(seaKey, seaLevels);
-    seaRip.current = toRip(seaLevels);
-    if (!landRip.current && terrain === 'ocean') landRip.current = { rip: toRip(ripChain(farmTexture(reg, palette, night))), terrain: 'farmland' };
+    // Cached textures apply at once. Otherwise they are painted in idle time while the old ones stay on screen;
+    // only the very first ground (nothing to show meanwhile) is painted straight away.
+    let stale = false;
+    const seaCached = textureCache.get(groundKey('ocean', null, palette, night));
+    if (seaCached || !seaRip.current) seaRip.current = toRip(seaCached ?? groundRip('ocean', null, palette, night));
+    else void groundRipLater('ocean', null, palette, night).then((rc) => { if (!stale) seaRip.current = toRip(rc); }).catch(() => {});
+    if (!landRip.current && terrain === 'ocean') void groundRipLater('farmland', reg, palette, night).then((rc) => { if (!stale && !landRip.current) landRip.current = { rip: toRip(rc), terrain: 'farmland' }; }).catch(() => {});
     const cached = textureCache.get(key);
-    if (cached) apply(cached);
-    else {
+    const stand = layer.rip ?? newest?.rip ?? landRip.current?.rip ?? null;
+    if (cached || !stand) {
       // Real land cover: rainforest is a deeper, denser canopy; savanna and rice paddies use the farm patterns made
       // for them; open ground (steppe, tundra, wetlands, salt flats) has its own texture.
-      const levels = ripChain(terrainCanvas(terrain, reg, palette, night, range.floor));
-      textureCache.set(key, levels);
-      apply(levels);
-    }
-    if (terrain !== 'ocean' && layer.rip) landRip.current = { rip: layer.rip, terrain };
-    if (textureCache.size > 24) {
-      const oldest = textureCache.keys().next().value;
-      if (oldest) textureCache.delete(oldest);
+      apply(cached ?? groundRip(terrain, reg, palette, night));
+      if (terrain !== 'ocean' && layer.rip) landRip.current = { rip: layer.rip, terrain };
+    } else {
+      layer.rip = stand;
+      void groundRipLater(terrain, reg, palette, night).then((rc) => {
+        if (stale) return;
+        apply(rc);
+        if (terrain !== 'ocean' && layer.rip) landRip.current = { rip: layer.rip, terrain };
+      }).catch(() => {});
     }
 
     if (!same) {
@@ -654,6 +751,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
       }
       layers.current.push(layer);
     }
+    return () => { stale = true; };
   }, [terrain, region, palette, night, terrainEnabled]);
 
   // ── One continuous render loop ─────────────────────────────────────────
@@ -1257,7 +1355,7 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
           exaggeration: surfaceExaggeration, cameraHeight: surfaceCamH, ahead: surfaceAhead, alongScale: surfaceAlongScale, sideScale: SIDE_UNITS_PER_KM,
           textureZ: camZ, far: Z_FAR, near: Z_NEAR, sunX: sun.x, sunY: sun.y, sunDirection: live.current.surfaceSun?.direction, dark,
           haze, fallback: top?.ground ?? top?.land ?? [115, 126, 90], snow: top?.snow ?? [235, 239, 245],
-          cloudCover: live.current.cloudCover ?? 0, seconds: now / 1000,
+          cloudCover: live.current.cloudCover ?? 0, seconds: now / 1000, progressiveMaterials: true,
         }, surfaceImage.data, surfaceDepth) > 0;
         if (surfaceDrawn) {
           surfaceCtx.putImageData(surfaceImage, 0, 0);

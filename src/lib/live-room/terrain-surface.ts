@@ -284,13 +284,14 @@ export function textureChannel(tex: SurfaceTexture, u: number, v: number, channe
   return (tex.pixels[a] * (1 - fx) + tex.pixels[b] * fx) * (1 - fy) + (tex.pixels[c] * (1 - fx) + tex.pixels[d] * fx) * fy;
 }
 
-const albedoCache = new WeakMap<SurfaceGrid, { sources: Array<SurfaceTexture | undefined>; color: Float32Array }>();
-/** Material filtering belongs to take-off/palette preparation, not to every visible ray sample. */
-export function prepareSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTextures, fallback: number[]): Float32Array {
-  const sources = [...g.materials.map(key => textures.get(key)), textures.get('__rock'), textures.get('__forest')], old = albedoCache.get(g);
-  if (old && old.sources.length === sources.length && sources.every((source, i) => source === old.sources[i])) return old.color;
-  const color = new Float32Array(g.height.length * 3);
-  for (let i = 0; i < g.height.length; i++) {
+type MaterialSources = Array<SurfaceTexture | undefined>;
+const materialSources = (g: SurfaceGrid, textures: SurfaceTextures): MaterialSources =>
+  [...g.materials.map(key => textures.get(key)), textures.get('__rock'), textures.get('__forest')];
+const sameSources = (a: MaterialSources, b: MaterialSources) => a.length === b.length && a.every((source, i) => source === b[i]);
+
+/** Mix the material colours of vertices [from, to). `textures` must hold the same textures as `sources`. */
+function fillAlbedo(g: SurfaceGrid, textures: SurfaceTextures, sources: MaterialSources, fallback: number[], color: Float32Array, from: number, to: number) {
+  for (let i = from; i < to; i++) {
     const ahead = g.ahead0 + Math.floor(i / g.cols) * g.step, side = g.side0 + i % g.cols * g.step;
     const dry = g.climateDryness?.[i] ?? 0;
     const height = g.height[i], line = g.snowline[i], treeLine = Math.max(1800, line - 1600);
@@ -328,7 +329,52 @@ export function prepareSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTexture
     const luminance = (color[i * 3] + 2 * color[i * 3 + 1] + color[i * 3 + 2]) / 4;
     for (let c = 0; c < 3; c++) color[i * 3 + c] += (luminance * [1.04, 1, 0.93][c] - color[i * 3 + c]) * bare;
   }
+}
+
+const albedoCache = new WeakMap<SurfaceGrid, { sources: MaterialSources; color: Float32Array }>();
+/** Material filtering belongs to take-off/palette preparation, not to every visible ray sample. */
+export function prepareSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTextures, fallback: number[]): Float32Array {
+  const sources = materialSources(g, textures), old = albedoCache.get(g);
+  if (old && sameSources(old.sources, sources)) return old.color;
+  const color = new Float32Array(g.height.length * 3);
+  fillAlbedo(g, textures, sources, fallback, color, 0, g.height.length);
   albedoCache.set(g, { sources, color }); return color;
+}
+
+/**
+ * The same colours without a freeze: when the textures change (they arrive in idle time after take-off, and again
+ * when the light changes), the whole route is re-mixed in short slices while the previous colours stay on screen.
+ * Mixing it in one go took 0.3-0.4 s on a long route. Before the first mix the ground uses the fallback colour.
+ */
+const progressive = new WeakMap<SurfaceGrid, { sources: MaterialSources; color: Float32Array; job?: { sources: MaterialSources } }>();
+export function progressiveSurfaceMaterials(g: SurfaceGrid, textures: SurfaceTextures, fallback: number[]): Float32Array {
+  const sources = materialSources(g, textures);
+  let state = progressive.get(g);
+  if (!state) {
+    const flat = new Float32Array(g.height.length * 3);
+    for (let i = 0; i < flat.length; i += 3) { flat[i] = fallback[0]; flat[i + 1] = fallback[1]; flat[i + 2] = fallback[2]; }
+    state = { sources: [], color: flat };
+    progressive.set(g, state);
+  }
+  if (sameSources(state.sources, sources) || (state.job && sameSources(state.job.sources, sources))) return state.color;
+  // Snapshot the textures: the caller's map keeps changing while the slices run.
+  const snapshot: SurfaceTextures = new Map(textures);
+  const job = { sources }, color = new Float32Array(g.height.length * 3), st = state;
+  st.job = job;
+  let next = 0;
+  const slice = () => {
+    if (st.job !== job) return; // superseded by a newer texture set
+    const until = performance.now() + 8;
+    while (next < g.height.length && performance.now() < until) {
+      const to = Math.min(g.height.length, next + 4096);
+      fillAlbedo(g, snapshot, sources, fallback, color, next, to);
+      next = to;
+    }
+    if (next < g.height.length) { setTimeout(slice, 0); return; }
+    st.sources = sources; st.color = color; st.job = undefined;
+  };
+  setTimeout(slice, 0);
+  return st.color;
 }
 
 const smooth01 = (value: number) => { const t = Math.max(0, Math.min(1, value)); return t * t * (3 - 2 * t); };
@@ -348,6 +394,8 @@ export interface SurfaceView {
   sunDirection?: [number, number, number];
   exaggeration?: number;
   haze: number[]; fallback: number[]; snow: number[]; cloudCover: number; seconds: number;
+  /** Re-mix material colours in slices (live flights) instead of all at once when textures change. */
+  progressiveMaterials?: boolean;
 }
 
 /** Front-to-back voxel-space columns. The caller uploads only this reduced-resolution result. */
@@ -355,7 +403,7 @@ export function drawSurface(g: SurfaceGrid, textures: SurfaceTextures, view: Sur
   const { width: w, height: h, horizon, focal, cameraHeight, far, near } = view;
   pixels.fill(0); depth.fill(Infinity);
   const edges = beginTerrainEdges(pixels, w, h);
-  const albedo = prepareSurfaceMaterials(g, textures, view.fallback);
+  const albedo = view.progressiveMaterials ? progressiveSurfaceMaterials(g, textures, view.fallback) : prepareSurfaceMaterials(g, textures, view.fallback);
   const materialCoverage = beginMaterialCoverage(pixels), attributes = materialCoverage.attributes;
   const sunUp = Math.max(0.05, view.sunDirection?.[2] ?? 1 - view.sunY);
   const sunSide = view.sunDirection?.[0] ?? (view.sunX - 0.5) * 1.5, sunAhead = view.sunDirection?.[1] ?? 0.4;

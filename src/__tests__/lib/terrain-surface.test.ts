@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { buildSurfaceGrid, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, textureChannel, surfaceSnow, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
+import { buildSurfaceGrid, prepareSurfaceMaterials, progressiveSurfaceMaterials, copySurfaceTexture, drawSurface, hasSurfaceRelief, HEIGHT_UNITS, sampleHeight, surfaceCameraHeight, easeSurfaceHeight, safeExaggeration, surfacePeakAhead, textureChannel, surfaceSnow, surfaceFromHighGround, surfaceLightDirection, surfacePoint, type SurfaceView } from '@/lib/live-room/terrain-surface';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
 import { terrainHeight } from '@/lib/live-room/terrain-filter';
 import { routeLengthKm, toRoute, type CoastStrip } from '@/lib/live-room/coast-strip';
@@ -57,6 +57,19 @@ describe('continuous elevation in the original flight frame', () => {
     expect(sampleHeight(g, 32.25, 11.5)).toBeCloseTo(2000 + 32.25 * 3 + 11.5 * 2);
     expect(sampleHeight(g, 34.999, 11.5)).toBeCloseTo(sampleHeight(g, 35.001, 11.5), 1);
     expect(sampleHeight(g, 500, 0)).toBe(0);
+  });
+  it('re-mixes material colours in slices, keeping the old ones until the new set is complete', async () => {
+    vi.useFakeTimers();
+    try {
+      const g = buildSurfaceGrid(strip, (p) => 400 + p.lat * 10);
+      const pixels = new Uint8ClampedArray(4 * 4 * 4).fill(200);
+      const textures = new Map([['farmland|Europe', { size: 4, worldSize: 4, pixels }]]) as unknown as Parameters<typeof prepareSurfaceMaterials>[1];
+      const first = progressiveSurfaceMaterials(g, textures, [120, 130, 90]);
+      expect(Array.from(first.slice(0, 3))).toEqual([120, 130, 90]); // fallback until the first mix is done
+      await vi.runAllTimersAsync();
+      const done = progressiveSurfaceMaterials(g, textures, [120, 130, 90]);
+      expect(done).toEqual(prepareSurfaceMaterials(g, textures, [120, 130, 90]));
+    } finally { vi.useRealTimers(); }
   });
   it('does not erase inland mountain routes that have no nearby coastline ring', () => {
     const g = buildSurfaceGrid(strip, () => 3000);

@@ -30,7 +30,7 @@ import { CockpitSky, LIGHT_POS, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckT
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { CoastStrip } from '@/lib/live-room/coast-strip';
-import { CockpitWorld, type DistantCity, type SeaGlint, ROUTE_SCALE, VIEW_UNITS_PER_SEC, type RouteClock } from '@/components/live-room/flight/cockpit-world';
+import { CockpitWorld, type DistantCity, type SeaGlint, ROUTE_SCALE, VIEW_UNITS_PER_SEC, warmFlightTextures, type RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
 /** Slowest the near clouds drift, as a share of the old cruise pace. */
 const NEAR_CLOUD_MIN_PACE = 0.35;
@@ -271,6 +271,11 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
     // Only when the stepped sun height, morning/evening or the destination changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [groundSun, sun ? sun.azimuth < 180 : null, destination, sun ? null : palette],
+  );
+  // Boarding: paint this flight's ground textures in idle time, so the take-off doesn't freeze painting them all at once.
+  useEffect(
+    () => warmFlightTextures({ coastStrip, terrain, region, palette: groundPalette, night: skyTime === 'night', terrainEnabled }),
+    [coastStrip, terrain, region, groundPalette, skyTime, terrainEnabled],
   );
   const cover = cloudCover ?? (weather === 'clear' || weather === 'aurora' ? 25 : 85);
   const cloudDensity = diving ? 1 : scenicOn ? 0.18 : Math.min(1, 0.3 + (cover / 100) * 0.8);
