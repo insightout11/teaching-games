@@ -21,6 +21,9 @@ const hash = (n: number) => { const s = Math.sin(n * 127.1) * 43758.5453; return
 const mix = (a: RGB, b: RGB, t: number): RGB => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 
 const PIC_W = 220, PIC_H = 110, KINDS = 8;
+/** Empty margin around each picture: the biggest puffs reach past 220 x 110 and were sliced flat at the top,
+ *  bottom and sides. Drawing places the padded picture so the cloud keeps its size and position. */
+const PAD = 26;
 const pics = new Map<string, HTMLCanvasElement>();
 
 /** One cloud seen from above and a little to the side: overlapping puffs, sunlit tops, a shaded lower edge. */
@@ -29,9 +32,10 @@ function cloudPicture(kind: number, lit: RGB, shade: RGB): HTMLCanvasElement {
   const hit = pics.get(key);
   if (hit) return hit;
   const c = document.createElement('canvas');
-  c.width = PIC_W; c.height = PIC_H;
+  c.width = PIC_W + PAD * 2; c.height = PIC_H + PAD * 2;
   const g = c.getContext('2d');
   if (!g) return c;
+  g.translate(PAD, PAD);
   const puffs = 7 + Math.floor(hash(kind * 3.1) * 6);
   const css = (col: RGB, a: number) => `rgba(${col[0] | 0},${col[1] | 0},${col[2] | 0},${a})`;
   const blobs = Array.from({ length: puffs }, (_, i) => {
@@ -117,15 +121,18 @@ export function drawSkyCloud(
     const [gx, gy] = proj(c.x + c.size * 0.35, c.z, 0);
     const flat = Math.max(0.16, Math.min(0.5, (3200 * s) / (F * 0.5)));
     ctx.globalAlpha = alpha * (night ? 0.16 : 0.3) * (1 - fog);
-    ctx.drawImage(shadowOf(pic), gx - w * 0.5, gy - h * flat * 0.5, w, h * flat);
+    const px = PAD * w / PIC_W, py = PAD * h * flat / PIC_H;
+    ctx.drawImage(shadowOf(pic), gx - w * 0.5 - px, gy - h * flat * 0.5 - py, w + px * 2, h * flat + py * 2);
   }
   // the cloud (one picture per shape and light, reused), then the haze laid over it with distance: remaking the
   // picture for every distance was what made the sky slow
   ctx.globalAlpha = alpha * (1 - fog * 0.35);
-  ctx.drawImage(pic, cx - w / 2, cy - h * 0.6, w, h);
+  const px = PAD * w / PIC_W, py = PAD * h / PIC_H;
+  const left = cx - w / 2 - px, top = cy - h * 0.6 - py, dw = w + px * 2, dh = h + py * 2;
+  ctx.drawImage(pic, left, top, dw, dh);
   if (fog > 0.05) {
     ctx.globalAlpha = alpha * (1 - fog * 0.35) * fog * 0.75;
-    ctx.drawImage(hazeVeil(pic, haze), cx - w / 2, cy - h * 0.6, w, h);
+    ctx.drawImage(hazeVeil(pic, haze), left, top, dw, dh);
   }
   ctx.restore();
 }
