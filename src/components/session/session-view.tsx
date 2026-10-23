@@ -83,6 +83,8 @@ import {
 } from '@/lib/world-flight/destination-briefing-state';
 import { distanceKm } from '@/lib/world-flight/geo';
 import { arrivalHour, clockHourAt, timeOfDay } from '@/lib/world-flight/flight-time';
+import { sunPosition } from '@/lib/live-room/sun';
+import { skyForSun } from '@/components/live-room/flight/sun-sky';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { UserX, AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Lock, Maximize2, Minimize2, PlaneLanding, PlaneTakeoff, QrCode, Settings, Smartphone, Star, Wind } from 'lucide-react';
 
@@ -1844,9 +1846,15 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
   }, [pacingTick, lesson.currentSlotIndex, slotBudgets]);
 
   if (ended) {
-    // Flight Plan destination first; otherwise the Live Room's own landing city.
-    const roomArrival = !wfDestination && roomArrivalId ? getDestinationById(roomArrivalId) : undefined;
-    const arrival = wfDestination ?? roomArrival;
+    // Where the Live Room actually landed comes first: a lesson plan's saved destination (an earlier plan's Cairo)
+    // used to win over the city the class flew to. Lessons without the room use the plan's destination.
+    const roomArrival = roomArrivalId ? getDestinationById(roomArrivalId) : undefined;
+    const arrival = roomArrival ?? wfDestination;
+    // The room's city in its real light right now, as during the flight (the plan's distance-based clock made
+    // every long route land at night). Lessons without the room keep their flight-clock light.
+    const arrivalTimeOfDay = roomArrival?.scene
+      ? skyForSun(sunPosition(roomArrival, new Date()), roomArrival.scene).timeOfDay
+      : wfDestination ? wfArrivalTimeOfDay : homeBaseTod;
     return (
       <div className="relative h-screen overflow-hidden -m-6 lg:-m-8 theme-Midnight hud-bg">
         {arrival ? (
@@ -1857,7 +1865,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
             scene={arrival.scene}
             weatherState="landing"
             altitude={0}
-            timeOfDay={wfDestination ? wfArrivalTimeOfDay : homeBaseTod}
+            timeOfDay={arrivalTimeOfDay}
             planeKey={selectedPlaneKey}
             isFullScreen={isFullScreen}
           />
