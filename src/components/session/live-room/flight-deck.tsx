@@ -13,6 +13,7 @@ import { TestFlightCoach } from './test-flight-coach';
 import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType, type SecondScreens } from '@/lib/class-profile';
 import { classFitMarks, withFallback } from '@/lib/class-fit';
 import { flightClock, reanchorFlight, type FlightAnchor } from '@/lib/live-room/flight-clock';
+import { SceneryStatus } from '@/components/live-room/flight/scenery-status';
 import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -2491,6 +2492,7 @@ export function FlightDeck({
           {flightStage === 'gate' && stayHomeCity && (
             <p className="text-sm text-amber-100">City lesson: {stayHomeCity.city}. The class stays in {origin.city}.</p>
           )}
+          {flightStage === 'gate' && !stayHome && <SceneryStatus coastStrip={coastStripData} />}
           {flightStage === 'gate' && !stayHome && (
             <button
               type="button"
@@ -2735,9 +2737,12 @@ export function FlightDeck({
                 />
               ) : <span />}
               {!stayHome && !cardIsFar && (
-                <button type="button" onClick={() => takeOff()} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
-                  Take off to {destination.city}
-                </button>
+                <div className="flex flex-col items-end gap-1">
+                  <SceneryStatus coastStrip={coastStripData} />
+                  <button type="button" onClick={() => takeOff()} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
+                    Take off to {destination.city}
+                  </button>
+                </div>
               )}
             </div>
           </>
