@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { ActivityProps } from '../types';
 import type { SpeakingFrameCard } from '../shared/speaking-turns';
-import { fallbackQuickFire } from '@/lib/quick-fire';
+import { fallbackQuickFire, getQuickFireRoster } from '@/lib/quick-fire';
 
 // Quick-fire chain (Speak v2 warm-up): one fun question, everyone answers in a short turn (10, 20 or 30 seconds, +10 when needed), the turn
 // passes on. Fair order (least-featured first), a visible countdown that moves on by itself just
@@ -26,7 +26,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
 
   // Everyone takes a turn: phones, and students on the plane without a device (from the room's seat map)
   const deviceless = useSessionStore((s) => s.devicelessStudents);
-  const everyone = useMemo(() => [...students, ...deviceless.filter((d) => !students.some((s) => s.id === d.id || s.name === d.name))], [students, deviceless]);
+  const everyone = useMemo(() => getQuickFireRoster(students, deviceless), [students, deviceless]);
   const rosterKey = everyone.map((s) => s.id).join(',');
   const rosterRef = useRef(everyone); rosterRef.current = everyone;
   const order = useMemo<Array<Student | null>>(() => {
