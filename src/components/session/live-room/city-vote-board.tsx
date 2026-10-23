@@ -78,7 +78,7 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
           {!revealed && <button type="button" onClick={onReveal} className="rounded-full bg-amber-300 px-4 py-2 text-sm font-semibold text-[#1a1204]">Close the vote</button>}
           {winner && (
             <button type="button" onClick={() => onTakeOff(winner.id)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-5 py-2 text-sm font-semibold text-[#1a1204]">
-              <Plane className="h-4 w-4" /> Take off to {winner.city}
+              <Plane className="h-4 w-4" /> Fly to {winner.city}
             </button>
           )}
           <button type="button" onClick={onCancel} aria-label="Stop the vote" title="Stop the vote" className="p-1 text-white/45 hover:text-white"><X className="h-4 w-4" /></button>
@@ -96,7 +96,7 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
               role={revealed ? 'button' : undefined}
               tabIndex={revealed ? 0 : undefined}
               onClick={revealed ? () => onTakeOff(c.id) : undefined}
-              title={revealed ? `Take off to ${c.city}` : undefined}
+              title={revealed ? `Fly to ${c.city}` : undefined}
               className={`overflow-hidden rounded-2xl border bg-slate-900/80 ${revealed ? 'cursor-pointer hover:border-amber-300/60' : ''} ${isWinner ? 'border-amber-300 shadow-[0_0_24px_rgba(252,211,77,0.45)]' : 'border-white/10'}`}
             >
               <CityPicture sessionId={sessionId} city={c.city} />

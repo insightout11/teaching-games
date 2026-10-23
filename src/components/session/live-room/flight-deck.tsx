@@ -13,7 +13,10 @@ import { TestFlightCoach } from './test-flight-coach';
 import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType, type SecondScreens } from '@/lib/class-profile';
 import { classFitMarks, withFallback } from '@/lib/class-fit';
 import { flightClock, reanchorFlight, type FlightAnchor } from '@/lib/live-room/flight-clock';
-import { SceneryStatus } from '@/components/live-room/flight/scenery-status';
+import { SceneryStatus, useSceneryState } from '@/components/live-room/flight/scenery-status';
+import { PreflightBriefing } from '@/components/session/live-room/preflight-briefing';
+import { actualAnswer, pickPrediction, type FlightPrediction } from '@/lib/live-room/flight-prediction';
+import { DESTINATION_TIME_ZONES } from '@/data/world-flight/time-zones';
 import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -488,6 +491,12 @@ export function FlightDeck({
   };
   // Take off to the winner once the destination has switched to it.
   const [pendingTakeoff, setPendingTakeoff] = useState<string | null>(null);
+  // The pre-flight briefing between the vote and take-off: the captain's welcome and a prediction on the phones,
+  // while the route's scenery prepares. `prediction` rides along into the flight, which reveals the answer.
+  const [briefing, setBriefing] = useState<{ cityId: string; pollId: string | null; prediction: FlightPrediction | null; asked: boolean } | null>(null);
+  const [prediction, setPrediction] = useState<{ p: FlightPrediction; pollId: string | null; revealed: boolean } | null>(null);
+  const [predictionCard, setPredictionCard] = useState<{ text: string; right: number; total: number } | null>(null);
+  const { tallies: predictionTallies, votes: predictionVotes } = usePollVotes(briefing?.pollId ?? prediction?.pollId ?? null);
   // After landing: where to next time? The cities in range of where the class has just landed.
   const nextReachable = useMemo<RouteCity[]>(() => {
     const here = SCENE_CITIES.find((c) => c.id === destination.id);
@@ -1124,6 +1133,57 @@ export function FlightDeck({
       };
     });
   }, [cityVote, reachable, origin, countries, visitedIds, landingRecord]);
+
+  // The vote's winner is known once it is revealed: start preparing its route then, so the scenery loads while the
+  // class explains its choices and during the briefing.
+  useEffect(() => {
+    if (!cityVote?.revealed || briefing || flightStage !== 'gate') return;
+    const top = [...voteCards].sort((a, b) => (cityTallies[b.city] ?? 0) - (cityTallies[a.city] ?? 0))[0];
+    if (top && (cityTallies[top.city] ?? 0) > 0 && chosenId !== top.id) setChosenId(top.id);
+  }, [cityVote?.revealed, briefing, flightStage, voteCards, cityTallies, chosenId]);
+  const briefingScenery = useSceneryState(coastStripData);
+  // The briefing's prediction: picked once the destination has switched to the chosen city, then opened on the phones.
+  useEffect(() => {
+    if (!briefing || briefing.asked || destination.id !== briefing.cityId || !countries) return;
+    const cityId = briefing.cityId;
+    const p = pickPrediction({
+      origin, destination, countries, destinationZone: DESTINATION_TIME_ZONES[destination.id] ?? null,
+      landAt: clock.landAt, seed: Math.floor(Date.now() / 86_400_000),
+    });
+    setBriefing((b) => (b && b.cityId === cityId ? { ...b, prediction: p, asked: true } : b));
+    if (!p || isMockMode()) return;
+    void (async () => {
+      const supabase = createClient();
+      await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+      const { data } = await supabase.from('polls')
+        .insert({ session_id: sessionId, question: p.question, options: p.options, is_active: true, metadata: { purpose: 'flight-prediction' } })
+        .select('id').single();
+      if (data) setBriefing((b) => (b && b.cityId === cityId ? { ...b, pollId: (data as { id: string }).id } : b));
+    })();
+  }, [briefing, destination, countries, origin, clock.landAt, sessionId]);
+  const finishBriefing = (go: boolean) => {
+    const b = briefing;
+    if (!b) return;
+    if (b.pollId && !isMockMode()) void createClient().from('polls').update({ is_active: false }).eq('id', b.pollId);
+    setBriefing(null);
+    if (!go) return;
+    if (b.prediction) setPrediction({ p: b.prediction, pollId: b.pollId, revealed: false });
+    setPendingTakeoff(b.cityId);
+  };
+  // The flight answers the prediction: at the border crossing, or as the descent begins for the landing time.
+  useEffect(() => {
+    if (!prediction || prediction.revealed || flightStage !== 'flying') return;
+    const due = prediction.p.revealAt !== null ? routeT >= prediction.p.revealAt : descending || holding;
+    if (!due) return;
+    setPrediction({ ...prediction, revealed: true });
+    const { answer, reveal } = actualAnswer(prediction.p, destination, clock.landAt);
+    setPredictionCard({ text: reveal, right: predictionTallies[answer] ?? 0, total: predictionVotes.length });
+  }, [prediction, flightStage, routeT, descending, holding, predictionTallies, predictionVotes.length, destination, clock.landAt]);
+  useEffect(() => {
+    if (!predictionCard) return;
+    const timer = window.setTimeout(() => setPredictionCard(null), 15_000);
+    return () => window.clearTimeout(timer);
+  }, [predictionCard]);
   // Today's route, shown to the class on the route map before and during the flight.
   const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
   const minutesFlown = clock.minutesFlown;
@@ -2394,7 +2454,22 @@ export function FlightDeck({
 
   // ── windscreen content ───────────────────────────────────────────────────
   let scene: ReactNode;
-  if (view === 'boarding' && cityVote && flightStage === 'gate') {
+  if (view === 'boarding' && briefing && flightStage === 'gate') {
+    scene = (
+      <PreflightBriefing
+        joinUrl={joinUrl}
+        city={destination.city}
+        km={Math.round(routeKmTotal)}
+        minutes={Math.max(1, Math.round(flightMs / 60_000))}
+        prediction={briefing.prediction}
+        tallies={predictionTallies}
+        totalVotes={predictionVotes.length}
+        scenery={briefingScenery}
+        onTakeOff={() => void finishBriefing(true)}
+        onCancel={() => void finishBriefing(false)}
+      />
+    );
+  } else if (view === 'boarding' && cityVote && flightStage === 'gate') {
     scene = (
       <CityVoteBoard
         sessionId={sessionId}
@@ -2405,7 +2480,7 @@ export function FlightDeck({
         tallies={cityTallies}
         reasons={cityReasons}
         onReveal={() => void closeCityVote(true)}
-        onTakeOff={(id) => { setChosenId(id); setPendingTakeoff(id); }}
+        onTakeOff={(id) => { setChosenId(id); setPrediction(null); setBriefing({ cityId: id, pollId: null, prediction: null, asked: false }); }}
         onCancel={() => void closeCityVote(false)}
       />
     );
@@ -4024,6 +4099,14 @@ export function FlightDeck({
           }}
           onEnd={endTestFlight}
         />
+      )}
+      {predictionCard && (
+        <div role="status" className="fixed left-1/2 top-32 z-[70] w-max max-w-[90vw] -translate-x-1/2 rounded-2xl border border-amber-300/50 bg-[#0a101c]/95 px-6 py-4 text-center text-white shadow-2xl">
+          <button type="button" onClick={() => setPredictionCard(null)} aria-label="Close" className="absolute right-2 top-2 p-1 text-white/40 hover:text-white"><X className="h-3.5 w-3.5" /></button>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-amber-300">Our prediction</p>
+          <p className="mt-1 font-display text-2xl">{predictionCard.text}</p>
+          {predictionCard.total > 0 && <p className="mt-1 text-sm text-white/70">{predictionCard.right} of {predictionCard.total} guessed right</p>}
+        </div>
       )}
       {toast && (
         <div role="status" className="fixed left-1/2 top-16 z-[70] -translate-x-1/2 rounded-xl border border-amber-300/50 bg-[#0a101c]/95 px-4 py-2.5 text-sm text-white shadow-2xl">
