@@ -16,9 +16,9 @@ const flights = new WeakMap<CoastStrip, Promise<SurfaceGrid | null>>();
  * One terrain load per route, started during boarding and shared with the cockpit. It never gives up on a
  * timer: on slow connections (school wifi, Zoom running) the old scenery shows until the terrain is ready,
  * then the cockpit fades the terrain in, even mid-flight. A one-minute cutoff used to abort the download and
- * keep the old scenery for the whole flight. `_takingOff` is kept for callers; it no longer changes anything.
+ * keep the old scenery for the whole flight.
  */
-export function flightSurface(strip: CoastStrip, _takingOff = true): Promise<SurfaceGrid | null> {
+export function flightSurface(strip: CoastStrip): Promise<SurfaceGrid | null> {
   const previous = flights.get(strip); if (previous) return previous;
   const pending = loadSurfaceGrid(strip).then(grid => {
     if (process.env.NODE_ENV === 'development') console.info('[flight terrain]', { source: grid?.source, tiles: grid?.tiles, failed: grid?.failedTiles });

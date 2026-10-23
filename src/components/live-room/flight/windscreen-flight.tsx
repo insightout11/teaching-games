@@ -131,8 +131,8 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
   const [terrainReady, setTerrainReady] = useState(false);
   const onTerrainState = useCallback((state: 'off' | 'loading' | 'ready' | 'fallback') => setTerrainReady(state === 'ready'), []);
   useEffect(() => {
-    if (terrainEnabled && coastStrip) void flightSurface(coastStrip, stage !== 'gate');
-  }, [coastStrip, terrainEnabled, stage]);
+    if (terrainEnabled && coastStrip) void flightSurface(coastStrip);
+  }, [coastStrip, terrainEnabled]);
   const terrainOnSurface = terrainEnabled && terrainReady;
   const lurch = useCabinShake(turbulence, 1.6);
   const landedRef = useRef(onLanded);

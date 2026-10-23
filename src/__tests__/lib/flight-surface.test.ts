@@ -19,7 +19,7 @@ describe('flight terrain decision', () => {
   });
   it('shares a boarding preload with the cockpit at take-off', async () => {
     const strip = route(), complete = grid(); vi.mocked(loadSurfaceGrid).mockResolvedValue(complete);
-    const preload = flightSurface(strip, false);
+    const preload = flightSurface(strip);
     expect(flightSurface(strip)).toBe(preload); expect(await preload).toBe(complete); expect(loadSurfaceGrid).toHaveBeenCalledTimes(1);
   });
   it('never gives up on a slow connection: a grid that arrives minutes after take-off is still used', async () => {
