@@ -1100,6 +1100,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (res.ok) {
         setLastParticipationSuccessAt(Date.now());
         setSubmittedPollIds(prev => new Set(prev).add(activePoll.pollId));
+        // A flight prediction locks in: after a moment to see it was sent, it leaves the phone (the flight reveals it).
+        if (activePoll.metadata?.purpose === 'flight-prediction') {
+          const pollId = activePoll.pollId;
+          window.setTimeout(() => setHiddenPollIds(prev => new Set(prev).add(pollId)), 1500);
+        }
       } else if (res.status === 429) {
         // Changing answers quickly: keep the poll, just ask them to wait a moment.
         setPollNote('One second… then try again.');

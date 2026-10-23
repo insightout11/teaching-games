@@ -28,6 +28,8 @@ export interface WidgetDefinition {
   component: ComponentType<any>;
   getProps?: (ctx: WidgetContext) => Record<string, unknown>;
   defaultOpen?: boolean;
+  /** No longer offered in toolbars and launchers (still renders if a saved layout has it open). */
+  retired?: boolean;
 }
 
 export const WIDGET_ICON_PATHS: Record<string, string> = {
@@ -81,6 +83,8 @@ export const WIDGET_REGISTRY: WidgetDefinition[] = [
     iconPath: WIDGET_ICON_PATHS['word-cloud'],
     component: WordCloudContent,
     defaultOpen: false,
+    // Merged into the Class Board (its Cloud view).
+    retired: true,
     getProps: (ctx) => ({ sessionId: ctx.sessionId }),
   },
   {

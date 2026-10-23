@@ -4017,7 +4017,7 @@ export function FlightDeck({
             </span>
           </p>
           <div className={zoomLayout ? 'flex shrink-0 gap-1.5' : 'flex flex-wrap gap-2'}>
-            {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker').map((w) => {
+            {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker' && !w.retired).map((w) => {
               const waitingCount = w.id === 'class-questions' ? waitingMessages : w.id === 'class-board' ? waitingCards : 0;
               const calling = waitingCount > 0;
               return (
@@ -4026,8 +4026,6 @@ export function FlightDeck({
                   type="button"
                   onClick={(e) => (w.id === 'class-questions' ? openMessages(e.clientX, e.clientY)
                     : w.id === 'class-board' && calling ? openBoardApprovals(e.clientX, e.clientY)
-                      // the Word Cloud is now the Class Board's Cloud view (one set of answers, two ways to show them)
-                      : w.id === 'word-cloud' ? (openTool('class-board', e.clientX, e.clientY), window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-view', { detail: { view: 'cloud' } })), 150))
                       : openTool(w.id, e.clientX, e.clientY))}
                   title={calling ? (w.id === 'class-board' ? `${waitingCount} card${waitingCount === 1 ? '' : 's'} waiting for approval` : `${waitingCount} new message${waitingCount === 1 ? '' : 's'} from students`) : undefined}
                   className={[
@@ -4135,7 +4133,7 @@ const SCREEN_TEMPLATES: ScreenTemplate[] = [
   { name: 'Clear', hint: 'Close every widget', widgets: {} },
   { name: 'Timed task', hint: 'Timer in the top-right corner', widgets: { timer: 'tr' } },
   { name: 'Vote', hint: 'Poll bottom-left, timer top-right', widgets: { poll: 'bl', timer: 'tr' } },
-  { name: 'Brainstorm', hint: 'Word cloud bottom-left, class questions bottom-right', widgets: { 'word-cloud': 'bl', 'class-questions': 'br' } },
+  { name: 'Brainstorm', hint: 'Class board bottom-left (Cloud shows a word cloud), class questions bottom-right', widgets: { 'class-board': 'bl', 'class-questions': 'br' } },
 ];
 
 interface FocusBrief {
