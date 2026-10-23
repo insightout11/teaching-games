@@ -606,7 +606,7 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
   const defaultZoneLabel = baseZones[0]?.label;
   const question = customQuestion ?? (single && zones[0] && zones[0].label !== defaultZoneLabel
     ? zones[0].label
-    : single ? (topic && topic !== 'General' ? `What do you think about ${topic}?` : 'What do you think?') : preset.title);
+    : single ? (preset.question ?? (topic && topic !== 'General' ? `What do you think about ${topic}?` : 'What do you think?')) : preset.title);
   // Put a question on the board and on the phones (in the layout that suits it)
   const applyQuestion = (q: string, layout?: string) => {
     if (layout && CLASS_BOARD_PRESETS[layout] && layout !== selectedPresetKey && !templateLocked) { setPendingIdea({ question: q, layout }); pickLayout(layout); return; }
