@@ -9,6 +9,7 @@ import { DEP_CITY_LEAD, departureCameraPan } from './cinematic-motion';
 import { randRange, seededRand } from './seed';
 import { resolveLandmark } from './scene-registry';
 import { AtmosphereLayer } from './layers/atmosphere-layer';
+import { NearForegroundLayer } from './layers/near-foreground-layer';
 import { TerrainBaseLayer, TerrainSilhouetteLayer } from './layers/terrain-layer';
 import { SkylineLayer, HomeBaseBackdrop } from './layers/skyline-layer';
 import { VegetationLayer } from './layers/vegetation-layer';
@@ -271,6 +272,8 @@ export function DestinationArrivalScene({
       <g transform={focalAt(0.9)}><Windsock {...propsFor('windsock')} /></g>
       {/* Focal plane — the tracking camera holds it near centre; not panned */}
       <g transform={focal}><PlaneLayer {...propsFor('plane')} planeKey={planeKey} /></g>
+      {/* Nearest layer: grass, edge lights and posts at the bottom edge, moving faster than the runway */}
+      <g transform={canvasAt(1.35)}>{drift(1.35, <NearForegroundLayer palette={palette} rand={seededRand(`${destinationId}:near`)} idPrefix={idPrefix} />)}</g>
       {/* Weather: precipitation + lightning, full-canvas, in front of the scene */}
       <WeatherLayer {...propsFor('weather')} />
       </g>
