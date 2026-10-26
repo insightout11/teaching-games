@@ -1,5 +1,6 @@
 'use client';
 
+import { FlyPast } from '@/components/quiz/fly-past';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plane, Sun, Stamp } from 'lucide-react';
@@ -132,9 +133,9 @@ export function OldLandingOrder() {
 }
 
 export function QuizLookMockup() {
-  const [view, setView] = useState<'race' | 'question' | 'reveal' | 'landing' | 'junior'>('race');
+  const [view, setView] = useState<'race' | 'question' | 'reveal' | 'landing' | 'flypast' | 'junior'>('race');
   const [nonce, setNonce] = useState(0);
-  const tabs: Array<[typeof view, string]> = [['race', 'Sky race (scores)'], ['question', 'Question: departure board'], ['reveal', 'Reveal: cleared stamp'], ['landing', 'Landing order (podium)'], ['junior', 'Junior landing']];
+  const tabs: Array<[typeof view, string]> = [['race', 'Sky race (scores)'], ['question', 'Question: departure board'], ['reveal', 'Reveal: cleared stamp'], ['landing', 'Landing order (podium)'], ['flypast', 'Fly-past (podium)'], ['junior', 'Junior landing']];
   return (
     <div className="min-h-screen bg-[#05070d] p-6 text-white">
       <div className="mb-4 flex flex-wrap gap-2">
@@ -146,6 +147,7 @@ export function QuizLookMockup() {
         {view === 'question' && <DepartureQuestion reveal={false} />}
         {view === 'reveal' && <DepartureQuestion reveal />}
         {view === 'junior' && <RealLanding junior pilots={PILOTS.map((p) => ({ ...p, id: p.name }))} />}
+        {view === 'flypast' && <FlyPast pilots={PILOTS.map((p) => ({ ...p, id: p.name }))} />}
         {view === 'landing' && <RealLanding pilots={PILOTS.map((p) => ({ ...p, id: p.name }))} />}
       </div>
     </div>

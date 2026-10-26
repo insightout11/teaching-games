@@ -24,7 +24,7 @@ function cloudLayer(seed: number, alpha: number) {
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 }
 
-function Clouds({ top, height, seed, alpha = 1, speed = 90, className = '' }: { top: string; height: number; seed: number; alpha?: number; speed?: number; className?: string }) {
+export function Clouds({ top, height, seed, alpha = 1, speed = 90, className = '' }: { top: string; height: number; seed: number; alpha?: number; speed?: number; className?: string }) {
   const img = useMemo(() => cloudLayer(seed, alpha), [seed, alpha]);
   return (
     <motion.div

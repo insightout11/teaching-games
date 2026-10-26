@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FreePictureCard } from '@/components/ui/free-picture';
 import { SkyRace, LandingOrder, type SkyPilot } from '@/components/quiz/sky-race';
+import { FlyPast } from '@/components/quiz/fly-past';
 import { Flag, Image as ImageIcon, Landmark, Lightbulb, Map as MapIcon, MapPin, MessageCircle, Plane, Scale, Shuffle, Stamp, Castle, UtensilsCrossed, PawPrint } from 'lucide-react';
 import { WorldLensMap, type WorldLensGuess } from '../world-lens/world-lens-map';
 import { parseWorldLensGuess } from '../world-lens/scoring';
@@ -215,7 +216,7 @@ export function WorldQuizGame({ sessionId, students, onScore, sessionSettings, o
     const pilots: SkyPilot[] = ranked.map((s) => ({ id: s.id, name: s.name, points: s.points, seed: students.find((st) => st.id === s.id)?.avatar_seed }));
     return (
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 p-8 text-white">
-        <div className="w-full"><LandingOrder pilots={junior ? [{ id: 'class', name: 'Our class', points: classRight }] : pilots} junior={junior} /></div>
+        <div className="w-full">{junior ? <LandingOrder pilots={[{ id: 'class', name: 'Our class', points: classRight }]} junior /> : <FlyPast pilots={pilots} />}</div>
         {junior ? (
           <>
             <p className="font-display text-4xl">Great flying, class!</p>
