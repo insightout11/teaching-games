@@ -54,3 +54,20 @@ export async function POST(request: Request, { params }: { params: { sessionId: 
   if (!saved.ok) return NextResponse.json({ error: 'Could not save the photo yet' }, { status: 503 });
   return NextResponse.json({ ok: true, rare: saved.rare });
 }
+
+// Best discovery (Oct 2026): the class's photo of the winning landmark becomes this flight's album cover.
+export async function PATCH(request: Request, { params }: { params: { sessionId: string } }) {
+  const body = await request.json().catch(() => null) as { coverLandmarkId?: unknown } | null;
+  const landmarkId = clean(body?.coverLandmarkId, 80);
+  if (!LANDMARK_CATALOG.some((l) => l.id === landmarkId)) return NextResponse.json({ error: 'Unknown landmark' }, { status: 400 });
+  const { teacher, error } = await requireAuth();
+  if (error) return error;
+  if (!teacher) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const owned = await verifyTeacherOwnsSession(params.sessionId, teacher.id);
+  if (owned.error) return owned.error;
+  const service = createServiceClient();
+  await service.from('class_landmark_photos').update({ flight_cover: false }).eq('session_id', params.sessionId);
+  const { error: e } = await service.from('class_landmark_photos').update({ flight_cover: true }).eq('session_id', params.sessionId).eq('landmark_id', landmarkId);
+  if (e) return NextResponse.json({ error: 'Could not save' }, { status: 500 });
+  return NextResponse.json({ saved: true });
+}

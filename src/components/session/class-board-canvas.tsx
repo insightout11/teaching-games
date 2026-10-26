@@ -454,8 +454,34 @@ export function ClassBoardCanvas({ sessionId, boardKey, presetKey, questionWall 
       setBoardQuestion(q.slice(0, 160));
     };
     window.addEventListener('lc-board-question', on);
-    return () => window.removeEventListener('lc-board-question', on);
+    // "Best discovery" (Oct 2026): the same open board, pre-filled with cards the class votes on with its dots
+    const onSeed = (e: Event) => {
+      const d = (e as CustomEvent<{ question?: string; items?: string[] }>).detail;
+      const q = d?.question?.trim();
+      if (!q || templateLocked || !d?.items?.length) return;
+      seedRef.current = { round: questionRoundOf(q.slice(0, 160)), items: d.items.slice(0, 10) };
+      on(new CustomEvent('lc-board-question', { detail: { question: q } }));
+    };
+    window.addEventListener('lc-board-seed', onSeed);
+    return () => { window.removeEventListener('lc-board-question', on); window.removeEventListener('lc-board-seed', onSeed); };
   }, [templateLocked]);
+  const seedRef = useRef<{ round: string; items: string[] } | null>(null);
+  useEffect(() => {
+    const seed = seedRef.current;
+    if (!seed || questionRound !== seed.round) return;
+    seedRef.current = null;
+    const zoneKey = baseZones[0]?.key ?? 'main';
+    void (async () => {
+      for (let k = 0; k < seed.items.length; k++) {
+        const content = seed.items[k];
+        await fetch('/api/class-board/submit', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId, boardKey: activeBoardKey, authorType: 'teacher', displayName: 'Teacher', content, category: preset.defaultCategory, zoneKey, visibility: 'visible', position: k + 1 }),
+        }).catch(() => {});
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questionRound, activeBoardKey]);
   useEffect(() => {
     if (!boardQuestion || preset.key !== 'open-board') return;
     const labels = { [baseZones[0]?.key ?? 'main']: boardQuestion };

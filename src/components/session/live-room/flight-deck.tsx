@@ -1294,11 +1294,43 @@ export function FlightDeck({
     });
   }, [origin, destination, preview, moments]);
   const [momentsShown, setMomentsShown] = useState<string[]>([]);
+  // The flight's discoveries (Oct 2026): what the class opened, photographed or talked about. At landing the class
+  // spends its 3 dots on them on the Class Board; the winner is the flight's headline (and album cover if photographed).
+  const [discoveries, setDiscoveries] = useState<Array<{ title: string; landmarkId?: string; photographed?: boolean }>>([]);
+  function addDiscovery(title: string, landmarkId?: string, photographed = false) {
+    setDiscoveries((xs) => {
+      const i = xs.findIndex((x) => x.title === title);
+      if (i < 0) return [...xs, { title, landmarkId, photographed }];
+      if (!photographed || xs[i].photographed) return xs;
+      return xs.map((x, k) => (k === i ? { ...x, photographed: true } : x));
+    });
+  }
+  const [bestDiscovery, setBestDiscovery] = useState<{ asked: boolean; winner: string | null }>({ asked: false, winner: null });
+  const discoveryLabel = (d: { title: string; landmarkId?: string }) => {
+    const r = d.landmarkId ? rarityOf(d.landmarkId) : null;
+    return `${d.title.replace(/^the /, 'The ')}${r ? ` (${r})` : ''}`;
+  };
+  const askBestDiscovery = () => {
+    if (discoveries.length < 2) { flash('Open or photograph at least two things on the flight first.'); return; }
+    openTool('class-board', window.innerWidth / 2, window.innerHeight * 0.8);
+    window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-seed', { detail: { question: 'What was the best discovery of our flight? Spend your 3 dots!', items: discoveries.slice(0, 10).map(discoveryLabel) } })), 150);
+    setBestDiscovery({ asked: true, winner: null });
+    flash('Everyone votes with their 3 dots. Reveal the dots on the board, then crown the winner here.');
+  };
+  const crownDiscovery = (d: { title: string; landmarkId?: string; photographed?: boolean }) => {
+    setBestDiscovery({ asked: true, winner: d.title });
+    recordTopic(`Best discovery: ${d.title}`, 'discovery');
+    if (d.photographed && d.landmarkId && !isMockMode()) {
+      void fetch(`/api/session/${sessionId}/album`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ coverLandmarkId: d.landmarkId }) }).catch(() => {});
+    }
+    flash(`Best discovery of the flight: ${d.title}!`);
+  };
   const [momentCard, setMomentCard] = useState<{ moment: Moment; facts: string[]; picture: FreePicture | null; loading: boolean } | null>(null);
   const momentUpcoming = minutesFlown == null ? null : moments.find((m) => !momentsShown.includes(m.id) && m.at - minutesFlown > 0 && m.at - minutesFlown <= 3) ?? null;
   const momentDue = minutesFlown == null ? null : moments.find((m) => !momentsShown.includes(m.id) && minutesFlown >= m.at && minutesFlown <= m.at + 8) ?? null;
   const openMoment = (m: Moment) => {
     setMomentsShown((x) => [...x, m.id]);
+    addDiscovery(m.title, m.kind === 'landmark' ? LANDMARK_CATALOG.find((l) => l.name === m.title)?.id : undefined);
     // Showing the class Saturn or the ISS unlocks a mascot part (the class really saw it)
     if (m.id === 'planet:Saturn') earnUnlock('mascot:alien');
     if (m.id.startsWith('iss:')) earnUnlock('mascot:astronaut');
@@ -1392,6 +1424,7 @@ export function FlightDeck({
     earnUnlock(countryUnlockId(itemNow.country));
     setItemsToday((t) => (t.includes(itemNow.country) ? t : [...t, itemNow.country]));
     recordTopic(itemNow.country, 'country');
+    addDiscovery(itemNow.country);
     flash(`${itemNow.country} added to Talked about. Your class earned: ${itemNow.item}!`);
   };
   // The class mascot (Oct 2026): one flies per flight, standing beside the cabin. Made by class vote or picked from
@@ -1531,6 +1564,7 @@ export function FlightDeck({
     photoId.current = photoLandmark.id;
     window.dispatchEvent(new Event('lc-take-photo'));
     earnUnlock('mascot:camera');
+    addDiscovery(photoLandmark.name, photoLandmark.id, true);
   };
   // Window selfies (Oct 2026): while a landmark is in good view, the phones are told, so each student can take one
   const windowChannel = useRef<ReturnType<typeof openWindowViewChannel> | null>(null);
@@ -3609,6 +3643,18 @@ export function FlightDeck({
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Today&apos;s flight · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'} so far</p>
             <WorldFlightMap still className="mt-1 h-44 w-[min(420px,70vw)] overflow-hidden rounded-xl" origin={destination} rangeKm={0} visitedIds={visitedList} journey={landingJourney} selectedId={null} souvenirs={mapSouvenirs} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
+            {bestDiscovery.winner ? (
+              <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/40 px-3 py-2 text-sm"><Stamp className="h-4 w-4" /><span><b>Best discovery:</b> {bestDiscovery.winner}</span></p>
+            ) : bestDiscovery.asked && (
+              <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Crown the best discovery (top of the board)</p>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {discoveries.slice(0, 10).map((d) => (
+                    <button key={d.title} type="button" onClick={() => crownDiscovery(d)} className="rounded-full border border-[#1b2233]/25 px-2.5 py-0.5 text-xs hover:bg-[#1b2233]/10">{d.title}</button>
+                  ))}
+                </div>
+              </div>
+            )}
             {predictionCard && (
               <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our prediction</p>
@@ -3639,8 +3685,7 @@ export function FlightDeck({
               {landingRecord?.landing?.after.claimableTier != null && <button type="button" onClick={() => setRecordTab('hangar')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Hangar</button>}
               <button type="button" onClick={() => setRecordTab('passport')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Passport</button>
               <button type="button" onClick={() => setHall(true)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Arrivals hall</button>
-              {/* Talk about the city first; the recap quiz waits for the teacher (pilot 001: the arrival felt rushed). */}
-              <button type="button" onClick={() => launch('world-quiz', null)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Recap quiz</button>
+              {!bestDiscovery.asked && discoveries.length >= 2 && <button type="button" onClick={askBestDiscovery} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Best discovery?</button>}
               <button type="button" onClick={() => onCompleteSession(destination.id)} className="rounded-full bg-[#1b2233] px-4 py-1.5 text-sm text-[#f4efe3] hover:bg-[#1b2233]/85">End class</button>
             </div>
           </motion.div>
