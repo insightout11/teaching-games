@@ -1,7 +1,11 @@
-# LessonCaptain art direction (DRAFT for Matt)
+# LessonCaptain art direction
 
 Written 26 October 2026 by Claude from Matt's direction: **dreamy, soft, very atmospheric**, one look across
-everything. A draft to react to, not a decision. Matt edits this; agents read it before any visual work.
+everything. Matt edits this; agents read it before any visual work.
+
+**Decided by Matt (26 Oct 2026):** an **illustrated travel poster**, not a photo: simplified shapes, flat-ish colour in
+soft layers, strong atmosphere, warm light. **Night is dreamy blue and soft**: deep blue skies, gentle moonlight on
+land and sea, warm town lights, stars present but not harsh, never black.
 
 ## The feeling
 
@@ -41,6 +45,4 @@ travelling together, not playing a video game.
 
 ## Open questions for Matt
 
-1. Should night be dreamy-blue and soft, or darker and starrier?
-2. How far from realism: "a beautiful real photo" or "an illustrated travel poster"?
-3. Any reference images (films, games, illustrators) that capture the feeling? They would help agents a lot.
+1. Any reference images (films, games, illustrators, travel posters) that capture the feeling? They would help agents.

@@ -51,7 +51,8 @@ Add `&terrainStyle=` with six looks, all on the same GPU terrain and data, chang
 
 Matt's direction (26 Oct): LessonCaptain should be **dreamy, soft and very atmospheric** overall, with one art
 direction across the cockpit, the arrival scenes and the rest. Styles 5 and 6 are the main candidates; 1-4 are for
-comparison. Read `docs/art-direction.md` first.
+comparison. Matt has since decided: **illustrated travel poster, not photographic**, and **night is dreamy blue and soft**
+(deep blue, gentle moonlight, warm town lights, never black). Add a night row to the style grid for styles 5 and 6. Read `docs/art-direction.md` first.
 
 Same rules everywhere (no Everest-only tuning). Snow stays based on real metres and slope. Keep the existing sun
 direction, time-of-day palette and haze curves as the base; styles adjust them.
