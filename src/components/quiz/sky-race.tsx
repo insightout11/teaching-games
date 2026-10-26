@@ -124,7 +124,9 @@ export function LandingOrder({ pilots, junior = false, title }: { pilots: SkyPil
         if (!landed && !approaching) return null;
         return (
           <motion.div key={p.id} className="absolute z-[3] flex -translate-x-1/2 flex-col items-center" initial={{ left: '-10%', bottom: 240 }} animate={{ left: `${slotX(place)}%`, bottom: 66 }} transition={{ duration: 2.4, ease: [0.3, 0.7, 0.4, 1] }}>
-            <span className="mb-1 whitespace-nowrap rounded-full bg-black/55 px-2 text-sm font-bold text-white">{landed ? `${place + 1}. ${p.name}` : `Plane ${place + 1}…`}</span>
+            {/* once down, the pilot steps out: avatar, place and points (pilot 001 asked for a better scoreboard) */}
+            {landed && <motion.span initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}><CrewAvatar seed={p.seed ?? p.id} name={p.name} size={48} /></motion.span>}
+            <span className="mb-1 whitespace-nowrap rounded-full bg-black/55 px-2 text-sm font-bold text-white">{landed ? `${place + 1}. ${p.name} · ${p.points}` : `Plane ${place + 1}…`}</span>
             <Plane className="h-11 w-11 rotate-[6deg]" style={{ color: colorOf(p, place), fill: colorOf(p, place) }} />
             {landed && <motion.span initial={{ opacity: 0.8, scale: 0.4 }} animate={{ opacity: 0, scale: 2.2 }} transition={{ duration: 1.2 }} className="absolute -bottom-1 h-5 w-14 rounded-full bg-white/70 blur-md" />}
           </motion.div>
@@ -155,7 +157,7 @@ export function LandingOrder({ pilots, junior = false, title }: { pilots: SkyPil
           <motion.div className="absolute z-[3] flex -translate-x-1/2 flex-col items-center" initial={{ left: '-10%', bottom: 260 }} animate={{ left: `${slotX(0)}%`, bottom: 66 }} transition={{ duration: 2.2, ease: [0.3, 0.7, 0.4, 1] }}>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.2 }} className="mb-1 flex flex-col items-center">
               {!junior && <CrewAvatar seed={winner.seed ?? winner.id} name={winner.name} captain size={72} />}
-              <span className="mt-1 whitespace-nowrap rounded-full bg-amber-300 px-3 py-0.5 font-display text-xl text-[#1b2233]">{junior ? 'We made it!' : winner.name}</span>
+              <span className="mt-1 whitespace-nowrap rounded-full bg-amber-300 px-3 py-0.5 font-display text-xl text-[#1b2233]">{junior ? 'We made it!' : `${winner.name} · ${winner.points}`}</span>
             </motion.div>
             <Plane className="h-14 w-14 rotate-[6deg]" style={{ color: colorOf(winner, 0), fill: colorOf(winner, 0) }} />
           </motion.div>

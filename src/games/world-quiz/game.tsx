@@ -211,7 +211,7 @@ export function WorldQuizGame({ sessionId, students, onScore, sessionSettings, o
   }
 
   if (phase === 'end') {
-    const ranked = Array.from(scores.entries()).map(([id, s]) => ({ id, ...s })).sort((a, b) => b.points - a.points).slice(0, 5);
+    const ranked = Array.from(scores.entries()).map(([id, s]) => ({ id, ...s })).sort((a, b) => b.points - a.points).slice(0, 6);
     const pilots: SkyPilot[] = ranked.map((s) => ({ id: s.id, name: s.name, points: s.points, seed: students.find((st) => st.id === s.id)?.avatar_seed }));
     return (
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 p-8 text-white">
@@ -223,13 +223,13 @@ export function WorldQuizGame({ sessionId, students, onScore, sessionSettings, o
           </>
         ) : (
           <>
-            <p className="font-display text-3xl">World Quiz champions</p>
+            {/* the top three are on the runway above; the list carries on from fourth */}
             <div className="w-full space-y-2">
-              {ranked.map((s, i) => (
+              {ranked.slice(3).map((s, k) => { const i = k + 3; return (
                 <div key={s.name + i} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-lg">
                   <span><b className="mr-3 text-amber-300">{i + 1}</b>{s.name}</span><span className="text-white/70">{s.points}</span>
                 </div>
-              ))}
+              ); })}
             </div>
           </>
         )}
