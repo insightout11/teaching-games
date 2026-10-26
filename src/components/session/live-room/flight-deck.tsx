@@ -27,7 +27,7 @@ import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
-import { cabinSeatLabel } from '@/lib/live-room/seats';
+import { assignSeats, cabinSeatLabel } from '@/lib/live-room/seats';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
 import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
@@ -160,6 +160,8 @@ export interface DeckParticipant {
   display_name: string;
   avatar_seed: string | null;
   joined_at: string;
+  /** The seat the student picked on the phone (migration 069); null = seated in boarding order. */
+  seat?: number | null;
   /** On the class list but not on a device: the teacher speaks and taps for them. */
   deviceless?: boolean;
 }
@@ -1945,7 +1947,10 @@ export function FlightDeck({
     return new Set(scores.filter((s) => new Date(s.created_at).getTime() >= since).map((s) => s.student_id || s.client_id || ''));
   }, [scores, runningKey]);
   // Always at least one empty seat, so a trial student can be added in one tap.
-  const seatCount = Math.max(12, Math.ceil((allSeats.length + 1) / 4) * 4);
+  // Picked seats stay put; everyone else fills the free seats in boarding order (same rule as the phones).
+  const cabin = useMemo(() => assignSeats(allSeats), [allSeats]);
+  const firstFreeSeat = useMemo(() => { let i = 0; while (cabin[i]) i++; return i; }, [cabin]);
+  const seatCount = Math.max(12, Math.ceil((Math.max(cabin.length, firstFreeSeat) + 1) / 4) * 4);
 
   // Boarding walk-up: students who join after the room opens walk across the
   // tarmac and up the airstairs; their seat lights up as they step inside.
@@ -3894,7 +3899,7 @@ export function FlightDeck({
             <div key={r} className="grid grid-cols-[1fr_1fr_12px_1fr_1fr] items-center gap-1.5">
               {[0, 1, -1, 2, 3].map((c) => {
                 if (c === -1) return <span key="aisle" className="text-center font-mono text-[8px] text-white/30">{r + 1}</span>;
-                const occupant = allSeats[r * 4 + c];
+                const occupant = cabin[r * 4 + c];
                 // Still walking up the airstairs: the seat lights up when they step inside.
                 const p = occupant && !walkingIds.has(occupant.id) ? occupant : undefined;
                 const k = p ? keyOf(p) : '';
@@ -3928,7 +3933,7 @@ export function FlightDeck({
                       >
                         <span className="block"><CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={40} /></span>
                       </motion.button>
-                    ) : onAddStudent && r * 4 + c === allSeats.length ? (
+                    ) : onAddStudent && r * 4 + c === firstFreeSeat ? (
                       <button type="button" onClick={() => setAdding(true)} title="Add a student (a trial student, someone new)" aria-label="Add a student" className="grid h-full w-full place-items-center rounded-[9px_9px_5px_5px] text-white/40 hover:bg-white/5 hover:text-amber-200">
                         <UserPlus className="h-4 w-4" />
                       </button>

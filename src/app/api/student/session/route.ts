@@ -1,3 +1,4 @@
+import { assignSeats } from '@/lib/live-room/seats';
 import { NextRequest, NextResponse } from 'next/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { mockStore } from '@/lib/mock/data';
@@ -255,7 +256,7 @@ export async function GET(request: NextRequest) {
         debriefToken: null,
         seatIndex: (() => {
           const seated = [...mockStore.getSessionParticipants(sessionId)].sort((a, b) => a.joined_at.localeCompare(b.joined_at));
-          const i = seated.findIndex((p) => p.client_id === clientId);
+          const i = assignSeats(seated).findIndex((p) => p?.client_id === clientId);
           return i >= 0 ? i : null;
         })(),
       };
@@ -327,23 +328,16 @@ export async function GET(request: NextRequest) {
       }
       studentId = (participant?.student_id as string | undefined) ?? null;
       debriefToken = (participant?.debrief_token as string | undefined) ?? null;
-      // Cabin seat = join order (the Live Room cabin seats crew by joined_at).
+      // Cabin seat: the seat picked on the phone, else boarding order around the picked seats (same as the room).
       if (participant && searchParams.get('seat') === '1') {
         try {
-          const { data: mine } = await supabase
-            .from('session_participants')
-            .select('joined_at')
-            .eq('session_id', sessionId)
-            .eq('client_id', clientId)
-            .maybeSingle();
-          if (mine?.joined_at) {
-            const { count } = await supabase
-              .from('session_participants')
-              .select('id', { count: 'exact', head: true })
-              .eq('session_id', sessionId)
-              .lt('joined_at', mine.joined_at as string);
-            if (typeof count === 'number') seatIndex = count;
-          }
+          const read = (columns: string) => supabase.from('session_participants').select(columns).eq('session_id', sessionId);
+          let { data: rows, error: rowsError } = await read('client_id, joined_at, seat');
+          if (rowsError) ({ data: rows, error: rowsError } = await read('client_id, joined_at')); // before migration 069
+          const list = ((rows ?? []) as unknown as Array<{ client_id: string; joined_at: string; seat?: number | null }>)
+            .sort((x, y) => x.joined_at.localeCompare(y.joined_at));
+          const i = assignSeats(list).findIndex((p) => p?.client_id === clientId);
+          seatIndex = i >= 0 ? i : null;
         } catch {
           seatIndex = null;
         }

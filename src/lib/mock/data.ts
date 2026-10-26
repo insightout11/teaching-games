@@ -8,6 +8,8 @@ export interface MockSessionParticipant {
   display_name: string;
   avatar_seed: string | null;
   joined_at: string;
+  /** Cabin seat the student picked on the phone (migration 069). */
+  seat?: number | null;
 }
 
 // Mock user

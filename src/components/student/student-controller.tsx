@@ -38,6 +38,7 @@ import { BrandMomentOverlay } from '@/components/ui/brand-moment';
 import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/components/student/phone-shell';
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
+import { SeatPicker } from '@/components/student/seat-picker';
 import { Phrasebook } from '@/components/student/phrase-card';
 import { LandingCard } from '@/components/student/landing-card';
 import { useScreenWakeLock } from '@/components/student/use-screen-wake-lock';
@@ -1497,6 +1498,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       />
 
       <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} />
+      <SeatPicker sessionId={sessionId} clientId={studentSession.clientId} onSeat={setSeatIndex} />
 
       {grammarTarget
         ? <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} target={grammarTarget} />

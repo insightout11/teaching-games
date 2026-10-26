@@ -470,6 +470,8 @@ export interface SessionParticipant {
   display_name: string;
   avatar_seed: string | null;
   joined_at: string;
+  /** Cabin seat picked on the phone (migration 069). */
+  seat?: number | null;
 }
 import type { GamePlugin } from '@/games/types';
 import type { ActivityPlugin, ActivityGeneratedContent, GameGeneratedContent } from '@/activities/types';
@@ -1328,7 +1330,7 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
       const data = body.participants ?? [];
       if (cancelled) return;
       setSessionParticipants((prev) => {
-        if (data.length === prev.length && data.every((p, i) => p.id === prev[i]?.id)) return prev;
+        if (data.length === prev.length && data.every((p, i) => p.id === prev[i]?.id && (p.seat ?? null) === (prev[i]?.seat ?? null))) return prev;
         return data;
       });
     };

@@ -21,13 +21,14 @@ export async function GET(request: NextRequest) {
 
     const participants = mockStore
       .getSessionParticipants(sessionId)
-      .map(({ id, student_id, client_id, display_name, avatar_seed, joined_at }) => ({
+      .map(({ id, student_id, client_id, display_name, avatar_seed, joined_at, seat }) => ({
         id,
         student_id,
         client_id,
         display_name,
         avatar_seed,
         joined_at,
+        seat: seat ?? null,
       }));
 
     return NextResponse.json({ participants }, {
@@ -43,11 +44,10 @@ export async function GET(request: NextRequest) {
   if (ownership.error) return ownership.error;
 
   const service = createServiceClient();
-  const { data, error } = await service
-    .from('session_participants')
-    .select('id, student_id, client_id, display_name, avatar_seed, joined_at')
-    .eq('session_id', sessionId)
-    .order('joined_at');
+  const read = (columns: string) => service.from('session_participants').select(columns).eq('session_id', sessionId).order('joined_at');
+  let { data, error } = await read('id, student_id, client_id, display_name, avatar_seed, joined_at, seat');
+  // Before migration 069 is applied there is no seat column: fall back to boarding order.
+  if (error) ({ data, error } = await read('id, student_id, client_id, display_name, avatar_seed, joined_at'));
 
   if (error) {
     console.error('[api/student/participants] participant read failed:', error);
