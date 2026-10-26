@@ -40,6 +40,7 @@ import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/compo
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { SeatPicker } from '@/components/student/seat-picker';
+import { StudentOnboarding } from '@/components/student/student-onboarding';
 import { CityResearch, cityResearchOf } from '@/components/student/city-research';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { parseMascotLook, type MascotLook } from '@/lib/mascot';
@@ -1524,6 +1525,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           <p className="mt-2 text-xs text-white/55">Tell the captain{seatIndex !== null ? ` · Seat ${cabinSeatLabel(seatIndex)}` : ''}</p>
         </div>
       )}
+      {brandDone && <StudentOnboarding name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} hasShelf={shelf.length > 0} />}
       <SeatPicker sessionId={sessionId} clientId={studentSession.clientId} onSeat={setSeatIndex} />
       {(classMascot?.look || shelf.length > 0) && (
         <div className="mb-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-lc-card p-3">

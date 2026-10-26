@@ -59,6 +59,7 @@ Then: teach, write class notes, fix.
 | L4 | **Copilot moment** ("Speak what you see / Say what you think / Take over the plane"): a student picks when to reveal, which view, when to snap. Views depend on L1 | Claude, after L3 |
 | L5 | Other natural landmarks on the L1 pipeline (Fuji, Matterhorn, Kilimanjaro, volcanoes) | Codex, if L1 says go |
 | L6 | Album: photos vary by time of day and weather; rarity shown | Claude |
+| L8 | **Clouds and landmarks** (owner idea, 26 Oct): default "clouds part" as a landmark comes into view (reliable photo moment, doubles as the cloud reveal); a live label "Weather at Mount Everest now: cloudy, -23 C"; a teacher switch **Real weather mode** (hard mode: clouds match the real weather at the landmark, a clear photo becomes special). Ask a class which they prefer, maybe as a quick vote at take-off | Claude, with L3 |
 | L7 | **Wayfinding labels** beyond landmarks: islands and coasts coming up, borders, seas, Saturn/ISS in the sky. One label at a time, only what is about to appear, quiet styling, never in photos; teacher can turn them off | Claude, after the label fix in L1 |
 
 ## Phase B: the flight as a place students return to
