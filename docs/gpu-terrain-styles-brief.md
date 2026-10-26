@@ -28,7 +28,7 @@ Routes (all real, from the route-rarity data):
 
 ## Part A: styles (one switch, same views)
 
-Add `&terrainStyle=` with four looks, all on the same GPU terrain and data, changing only shading and materials:
+Add `&terrainStyle=` with six looks, all on the same GPU terrain and data, changing only shading and materials:
 
 1. **painted** - closest to today's class look: soft light, gentle contrast, painted land colours, soft snow edges,
    stronger haze with distance. The "it still looks like LessonCaptain" option.
@@ -37,6 +37,21 @@ Add `&terrainStyle=` with four looks, all on the same GPU terrain and data, chan
 3. **crisp** - today's GPU test look, kept as the reference (sharp, high contrast).
 4. **golden** - natural, but tuned for warm, flattering light (soft shadows, warm snow), as the "photo moment" option.
    Day and dusk must both work.
+
+5. **arrival** - matches the 50 city arrival scenes (`src/components/world-flight/arrival-scene/`, gallery at
+   `/dev/arrival-gallery`). Those scenes are layered, flat-colour illustrations driven by `composeTimedPalette` (the
+   cockpit already receives the same palette). Take the terrain's colours from that palette: sky-tinted haze, land and
+   rock tones from it, light in a few soft bands (stepped, like layered paper) rather than smooth photographic
+   shading, distance as separate paler layers. Goal: cutting from the cockpit to an arrival scene feels like the same
+   world.
+6. **dreamy** - Matt's original intention for LessonCaptain: soft, atmospheric, a little dreamlike. Strong aerial
+   perspective (distance fades into the sky colour quickly), soft edges, gentle bloom on bright snow and sunlit
+   slopes, pastel light, low contrast in the distance and only modest contrast up close, a hint of mist in valleys.
+   Landmarks still readable. Combine with the arrival palette where it helps.
+
+Matt's direction (26 Oct): LessonCaptain should be **dreamy, soft and very atmospheric** overall, with one art
+direction across the cockpit, the arrival scenes and the rest. Styles 5 and 6 are the main candidates; 1-4 are for
+comparison. Read `docs/art-direction.md` first.
 
 Same rules everywhere (no Everest-only tuning). Snow stays based on real metres and slope. Keep the existing sun
 direction, time-of-day palette and haze curves as the base; styles adjust them.
@@ -75,9 +90,11 @@ For Everest, Fuji and the Matterhorn (catalogue ids `everest`, `fuji`, `matterho
 Save under `C:\Users\insig\Documents\Codex\_outputs\2026-10-27-gpu-terrain-styles`.
 
 1. Files changed.
-2. **Style grid:** 4 styles x (Everest Suggested day, Everest Suggested dusk, Fuji, Matterhorn, the hills stretch), with
-   landmark detail on. One clearly labelled column per style, so Matt can pick.
-3. **Landmark grid:** Everest, Fuji, Matterhorn x landmark detail off / on, in the `natural` style, Suggested view and
+2. **Style grid:** 6 styles x (Everest Suggested day, Everest Suggested dusk, Fuji, Matterhorn, the hills stretch), with
+   landmark detail on. One clearly labelled column per style, so Matt can pick. Add one row pairing each style with
+   the arrival scene of the route's destination (Hong Kong, Tokyo, Rome) side by side, to show whether they feel like
+   one world.
+3. **Landmark grid:** Everest, Fuji, Matterhorn x landmark detail off / on, in the `dreamy` style, Suggested view and
    Approach, day.
 4. Unlabelled copies of the Everest, Fuji and Matterhorn "detail on" images for the blind check.
 5. Frame times, moving pass, data sizes and load times.
