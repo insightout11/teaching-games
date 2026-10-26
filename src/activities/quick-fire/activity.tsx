@@ -6,7 +6,7 @@ import { useSessionStore } from '@/stores/session-store';
 import type { Student } from '@/lib/supabase/types';
 import type { ActivityProps } from '../types';
 import type { SpeakingFrameCard } from '../shared/speaking-turns';
-import { fallbackQuickFire, getQuickFireRoster } from '@/lib/quick-fire';
+import { fallbackQuickFire, getQuickFireRoster, mixedQuickFire } from '@/lib/quick-fire';
 
 // Quick-fire chain (Speak v2 warm-up): one fun question, everyone answers in a short turn (10, 20 or 30 seconds, +10 when needed), the turn
 // passes on. Fair order (least-featured first), a visible countdown that moves on by itself just
@@ -45,10 +45,14 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
   const [turnTotal, setTurnTotal] = useState<number>(20);
   const [left, setLeft] = useState(20);
   const [paused, setPaused] = useState(false);
+  // "Same question" (the chain) or "Mix it up": a different random question for each student, one round
+  const [mix, setMix] = useState(false);
+  const [mixed, setMixed] = useState<string[]>([]);
   const speaker = order[turn] ?? null;
   const next = order[turn + 1] ?? null;
   const lastTurn = turn + 1 >= order.length;
-  const lastQuestion = q + 1 >= questions.length;
+  const lastQuestion = mix || q + 1 >= questions.length;
+  const question = mix ? (mixed[turn] ?? questions[0]) : questions[q];
 
   // Phones: the question for everyone, "Your turn!" for the speaker, "You're next" for the next one.
   useEffect(() => {
@@ -58,7 +62,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
       const card: SpeakingFrameCard = {
         role: 'speaking-frame',
         title: s.id === speaker?.id ? `Your turn! ${turnTotal} seconds` : s.id === next?.id ? 'You’re next: get ready' : 'Quick-fire',
-        prompt: questions[q],
+        prompt: question,
         helpers: [{ label: 'Start with', items: ['I think…', 'For me,…', 'Probably…', 'Definitely…'] }],
         yourTurn: s.id === speaker?.id,
       };
@@ -66,7 +70,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
       per[s.name] = card;
     });
     onSetInputSpec?.({ type: 'confirm', gameKey: 'quick-fire', prompt: 'Quick-fire', perStudentData: per, stableInput: true });
-  }, [phase, q, speaker, next, students, questions, onSetInputSpec, turnTotal]);
+  }, [phase, speaker, next, students, question, onSetInputSpec, turnTotal]);
   useEffect(() => () => onSetInputSpec?.(null), [onSetInputSpec]);
 
   const advance = useCallback(() => {
@@ -95,7 +99,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
   }, [phase, paused, left]);
 
   const addTime = () => { setLeft((x) => Math.max(0, x) + ADD_SECONDS); setTurnTotal((t) => Math.max(t, 0) + ADD_SECONDS); };
-  const start = () => { setQ(0); setTurn(0); setLeft(turnSeconds); setTurnTotal(turnSeconds); setPaused(false); setPhase('chain'); onPhaseChange?.('chain'); };
+  const start = () => { setMixed(mix ? mixedQuickFire(questions, order.length) : []); setQ(0); setTurn(0); setLeft(turnSeconds); setTurnTotal(turnSeconds); setPaused(false); setPhase('chain'); onPhaseChange?.('chain'); };
 
   if (phase === 'idle') {
     return (
@@ -104,7 +108,12 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-300/80">Quick-fire</p>
           <h3 className="mt-2 text-3xl font-game text-white">Everyone, {turnSeconds} seconds each</h3>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-slate-300">One question, then the turn passes on. Short answers are fine. Just keep it moving!</p>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-slate-300">{mix ? 'A different question for each person. Short answers are fine. Just keep it moving!' : 'One question, then the turn passes on. Short answers are fine. Just keep it moving!'}</p>
+        </div>
+        <div className="flex items-center gap-2" role="group" aria-label="Questions">
+          <span className="text-sm text-slate-400">Questions</span>
+          <button type="button" onClick={() => setMix(false)} className={`rounded-full border px-3 py-1 text-sm ${!mix ? 'border-amber-300/70 bg-amber-300/15 text-amber-100' : 'border-white/15 text-slate-300 hover:text-white'}`}>Same for everyone</button>
+          <button type="button" onClick={() => setMix(true)} className={`rounded-full border px-3 py-1 text-sm ${mix ? 'border-amber-300/70 bg-amber-300/15 text-amber-100' : 'border-white/15 text-slate-300 hover:text-white'}`}>Mix it up</button>
         </div>
         <div className="flex items-center gap-2" role="group" aria-label="Seconds per turn">
           <span className="text-sm text-slate-400">Each turn</span>
@@ -122,7 +131,7 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-3 text-center">
         <Zap className="h-12 w-12 text-amber-300" />
         <h3 className="text-2xl font-game text-white">Everyone’s warmed up</h3>
-        <p className="max-w-md text-sm text-slate-300">{order.filter(Boolean).length} voices, {questions.length} questions.</p>
+        <p className="max-w-md text-sm text-slate-300">{order.filter(Boolean).length} voices, {mix ? order.filter(Boolean).length : questions.length} questions.</p>
       </div>
     );
   }
@@ -131,11 +140,11 @@ export function QuickFireActivity({ students, generatedContent, onSetInputSpec, 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-300/80">Quick-fire · question {q + 1} of {questions.length}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.24em] text-amber-300/80">{mix ? 'Quick-fire · mix it up' : `Quick-fire · question ${q + 1} of ${questions.length}`}</p>
         <span className="text-sm text-slate-400">turn {Math.min(turn + 1, order.length)} of {order.length}</span>
       </div>
       <div className="rounded-2xl border-2 border-amber-400/30 bg-amber-500/[0.08] p-6 text-center">
-        <p className="text-2xl font-game text-white">{questions[q]}</p>
+        <p className="text-2xl font-game text-white">{question}</p>
       </div>
       <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/40 p-6 text-center">
         <p className="text-5xl font-game text-white">{speaker ? speaker.name : 'Everyone'}</p>

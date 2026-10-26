@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getQuickFireRoster } from '@/lib/quick-fire';
+import { mixedQuickFire } from '@/lib/quick-fire';
 import { isParticipantCompatible } from '@/lib/participant-compatibility';
 
 describe('Quick-fire flight roster', () => {
@@ -25,5 +26,14 @@ describe('Quick-fire flight roster', () => {
     const connected = { id: '1', name: 'Alex' };
     const deviceless = { id: '2', name: 'Alex' };
     expect(getQuickFireRoster([connected], [deviceless])).toEqual([connected, deviceless]);
+  });
+});
+
+describe('mixedQuickFire', () => {
+  it('gives every turn a question, topic questions included, no repeats while there are enough', () => {
+    const out = mixedQuickFire(['Topic A?', 'Topic B?'], 8);
+    expect(out).toHaveLength(8);
+    expect(new Set(out).size).toBe(8);
+    expect(out).toEqual(expect.arrayContaining(['Topic A?', 'Topic B?']));
   });
 });
