@@ -100,6 +100,15 @@ Save under `C:\Users\insig\Documents\Codex\_outputs\2026-10-27-gpu-terrain-style
 4. Unlabelled copies of the Everest, Fuji and Matterhorn "detail on" images for the blind check.
 5. Frame times, moving pass, data sizes and load times.
 6. What still looks wrong, and your honest view of which style works best and why.
+7. **A phone-friendly comparison package for Matt** (he reviews on his phone):
+   - One folder `phone/` with **one image per scene**, portrait-friendly: the six styles stacked vertically
+     (one per row, full width, about 1080 px wide), each row labelled in large text (style name, 40 px or bigger).
+     Scenes: Everest day, Everest dusk, Everest night, Fuji, Matterhorn, the hills, and the arrival pairing.
+   - Also one **single-scene swipe set**: `phone/everest-day-1-painted.jpg`, `-2-natural.jpg` and so on, so the same
+     view can be flipped through image by image.
+   - A `phone/index.html` that works offline on a phone: one scene per screen, swipe or tap left/right to change style,
+     the style name always visible, big tap targets, no tiny thumbnails.
+   - JPEG at good quality, each image under 1 MB.
 
 Do not claim it works in a real class. After your report: Claude reviews, a separate model does a blind
 recognisability check, then Matt picks a style.
