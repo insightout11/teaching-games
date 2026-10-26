@@ -10,6 +10,7 @@ import { randRange, seededRand } from './seed';
 import { resolveLandmark } from './scene-registry';
 import { AtmosphereLayer } from './layers/atmosphere-layer';
 import { NearForegroundLayer } from './layers/near-foreground-layer';
+import { MistLayer } from './layers/mist-layer';
 import { TerrainBaseLayer, TerrainSilhouetteLayer } from './layers/terrain-layer';
 import { SkylineLayer, HomeBaseBackdrop } from './layers/skyline-layer';
 import { VegetationLayer } from './layers/vegetation-layer';
@@ -240,6 +241,7 @@ export function DestinationArrivalScene({
       <g transform={focalAt(0.22)}>{drift(0.22, <TerrainSilhouetteLayer {...propsFor('terrain')} />)}</g>
       {/* far haze: between the far hills and the city */}
       <g transform={canvasAt(0.26)}>{drift(0.26, haze('haze-far', 430, 640, 0.32))}</g>
+      <g transform={canvasAt(0.28)}><MistLayer palette={palette} rand={seededRand(`${destinationId}:mist-far`)} idPrefix={idPrefix} moving={ambient} band="far" /></g>
       {/* Distant skyline in the side bleed (own RNG — does not perturb focal).
           The home base fills its own overflow (mountains + city span the full
           canvas in the skyline layer), so it skips the generic bleed. */}
@@ -258,6 +260,7 @@ export function DestinationArrivalScene({
       <g transform={focalAt(0.5)}>{drift(0.5, <SkylineLayer {...propsFor('skyline')} />)}</g>
       {/* near haze: a thin veil at the foot of the city, so the trees in front stand clear of it */}
       <g transform={canvasAt(0.6)}>{drift(0.6, haze('haze-near', 560, 700, 0.16))}</g>
+      <g transform={canvasAt(0.62)}><MistLayer palette={palette} rand={seededRand(`${destinationId}:mist-near`)} idPrefix={idPrefix} moving={ambient} band="near" /></g>
       <g transform={focalAt(0.75)}>{drift(0.75, landmarkAt('foreground'))}</g>
       <g transform={focalAt(1)}>{drift(1, <VegetationLayer {...propsFor('vegetation')} />)}</g>
       {/* Focal ambient life (birds / light flickers / beacon) — renders only when
