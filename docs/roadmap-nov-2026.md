@@ -98,6 +98,9 @@ Then: teach, write class notes, fix.
 - GPU cockpit question: only if L1 shows WebGL clearly helps.
 - Live memory: recap and next-lesson suggestions from "Talked about".
 - Junior mode on phones.
+- **Fact checker (Pro idea, owner 27 Oct):** (1) every fact shows its source and a quality label (encyclopedia,
+  official, news, AI summary), basic source for all, deeper check in Pro; (2) a class activity: pick a claim, pull 2-3
+  real sources, students judge them (who, when, why, do they agree) and give a verdict. Media literacy + discussion.
 
 ## Ongoing
 
