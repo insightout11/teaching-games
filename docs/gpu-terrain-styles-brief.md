@@ -1,0 +1,87 @@
+# GPU terrain: style tests and sharp signature landmarks (brief for Sol)
+
+Written 26 October 2026 by Claude for Matt (the owner). **Dev pages only. No class-facing change.** Claude reviews
+afterwards; report honestly.
+
+## Where we are
+
+Your GPU terrain band test was a clear win: 1.2-2.3 ms CPU per frame against 9.7-13.9 ms today, no frames over 33 ms
+in the moving pass, and no pasted-on patch because the surroundings share the detail. Matt opened it and found it far
+smoother. Two open questions before planning the full move:
+
+1. **Style.** The current GPU look is harsh and busy (strong rock/snow contrast, relief-map feel). Matt wants to choose
+   between styles from side-by-side images before deciding.
+2. **Landmarks must always look distinct.** Everest is now one sharp peak among many. Signature landmarks need extra
+   local detail and emphasis inside the same terrain, so they stand out without looking like inserts.
+
+## Worktree and gallery (unchanged)
+
+`C:\Users\insig\.codex\worktrees\landmark-route-gallery\teaching-games` (detached at `5b22e16382d1`; keep all existing
+uncommitted work: the gallery, both Everest rounds, the GPU band). Dev server and gallery as before, with
+`&terrain=gpu`. Real routes only. Never install anything; never print the env file.
+
+Routes (all real, from the route-rarity data):
+- **Everest:** Delhi to Hong Kong and Hong Kong to Delhi (Suggested view and Approach).
+- **Fuji:** Seoul to Tokyo and Tokyo to Shanghai.
+- **Matterhorn:** Paris to Rome and Rome to Paris.
+- **A non-mountain stretch:** Delhi to Hong Kong at t = 0.5 (the hills), to check each style holds on ordinary land.
+
+## Part A: styles (one switch, same views)
+
+Add `&terrainStyle=` with four looks, all on the same GPU terrain and data, changing only shading and materials:
+
+1. **painted** - closest to today's class look: soft light, gentle contrast, painted land colours, soft snow edges,
+   stronger haze with distance. The "it still looks like LessonCaptain" option.
+2. **natural** - realistic but calm: moderate contrast, believable rock/snow split by slope, land colours from the
+   existing material data, atmospheric haze like a real flight photo.
+3. **crisp** - today's GPU test look, kept as the reference (sharp, high contrast).
+4. **golden** - natural, but tuned for warm, flattering light (soft shadows, warm snow), as the "photo moment" option.
+   Day and dusk must both work.
+
+Same rules everywhere (no Everest-only tuning). Snow stays based on real metres and slope. Keep the existing sun
+direction, time-of-day palette and haze curves as the base; styles adjust them.
+
+## Part B: signature landmark detail (inside the same terrain)
+
+For Everest, Fuji and the Matterhorn (catalogue ids `everest`, `fuji`, `matterhorn`):
+
+- **Finer local data:** within about 12 km of each summit, higher-resolution elevation (Terrarium z12 or finer where
+  available; reuse your round-1 bake approach if useful) feeding the same GPU terrain as an extra detail level. It must
+  blend into the 250 m band with no ring, crack or style change.
+- **Emphasis, restrained:** a small summit lift and sharpening that keeps the real shape (no cones), a clean snow cap
+  and crest rim, slightly lower haze on the landmark so it reads clearly against its neighbours. Real coordinates and
+  photo identity unchanged.
+- **Switch:** `&landmarkDetail=on|off` so the effect can be compared directly.
+- A small data budget: report the bytes per landmark.
+
+## Measure
+
+- Frame time (CPU median and p95, 180 warmed frames) at 1600 px for each style with landmark detail on, plus today's
+  CPU surface as the baseline, in the same run.
+- One 60 s moving pass past Everest with the chosen-for-review style (your pick) and landmark detail on.
+- Load time for the landmark detail data.
+
+## Rules
+
+- Edit only the GPU terrain files, `cockpit-world.tsx` behind the gallery switches, the gallery files and tests. Do not
+  change class defaults, the class CPU surface path or class loaders.
+- No installs, paid services, settings changes, staging, commits, pushes, PRs or deployments.
+- Checks: your tests plus the earlier suites; `node node_modules/typescript/bin/tsc --noEmit --incremental false`
+  (missing `@mozilla/readability` is known).
+- Look at the rendered result in a visible browser window before claiming anything.
+
+## Report back
+
+Save under `C:\Users\insig\Documents\Codex\_outputs\2026-10-27-gpu-terrain-styles`.
+
+1. Files changed.
+2. **Style grid:** 4 styles x (Everest Suggested day, Everest Suggested dusk, Fuji, Matterhorn, the hills stretch), with
+   landmark detail on. One clearly labelled column per style, so Matt can pick.
+3. **Landmark grid:** Everest, Fuji, Matterhorn x landmark detail off / on, in the `natural` style, Suggested view and
+   Approach, day.
+4. Unlabelled copies of the Everest, Fuji and Matterhorn "detail on" images for the blind check.
+5. Frame times, moving pass, data sizes and load times.
+6. What still looks wrong, and your honest view of which style works best and why.
+
+Do not claim it works in a real class. After your report: Claude reviews, a separate model does a blind
+recognisability check, then Matt picks a style.
