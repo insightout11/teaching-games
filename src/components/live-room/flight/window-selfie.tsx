@@ -8,6 +8,7 @@ import type { WorldLandmarkKind } from '@/components/live-room/flight/world-land
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { CrewExpression } from '@/components/ui/crew-character';
 import { MascotFigure } from '@/components/ui/mascot-figure';
+import { countryItemFor } from '@/data/world-flight/country-items';
 import type { MascotLook } from '@/lib/mascot';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
@@ -55,8 +56,9 @@ function WindowView({ kind, landmarkId, terrain, region, tod }: { landmarkId?: s
   );
 }
 
-export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay, seed, name, title, caption, expression, mascot }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string; expression?: CrewExpression; mascot?: { name: string; look: MascotLook } | null }) {
+export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay, seed, name, title, caption, expression, mascot, item }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string; expression?: CrewExpression; mascot?: { name: string; look: MascotLook } | null; item?: string | null }) {
   const tod = asTime(timeOfDay);
+  const heldItem = countryItemFor(item);
   return (
     <div className="w-[284px] rounded-sm bg-white p-2 pb-3 text-[#1b2233] shadow-xl">
       <div className="relative h-[300px] overflow-hidden" style={{ background: 'linear-gradient(180deg,#e7e2d8,#cfc8bb)' }}>
@@ -67,6 +69,11 @@ export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay,
           </div>
         </div>
         <div className="absolute -left-6 bottom-[-14px]"><CrewAvatar seed={seed ?? name} name={name} size={170} expression={expression} /></div>
+        {/* a souvenir from the class shelf, held up beside the student */}
+        {heldItem && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={`/stickers/${heldItem.sticker}.webp`} alt={heldItem.item} className="absolute bottom-6 left-[118px] h-16 w-16 rotate-[-10deg] drop-shadow-[0_3px_4px_rgba(0,0,0,0.35)]" />
+        )}
         {/* the class mascot squeezes into the photo, in front of the window */}
         {mascot && <div className="absolute -right-4 bottom-[-10px]"><MascotFigure look={mascot.look} size={136} title={mascot.name} /></div>}
       </div>

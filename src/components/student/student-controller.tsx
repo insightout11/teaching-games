@@ -1514,7 +1514,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         onLeave={onLeave}
       />
 
-      <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} />
+      <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} classShelf={shelf} />
       {checkInMe && (
         <div className="mb-3 rounded-2xl border border-amber-300/50 bg-amber-300/10 p-4 text-center">
           <p className="flex items-center justify-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-amber-300"><Ticket className="h-3.5 w-3.5" /> You&apos;re at the check-in desk</p>
