@@ -5,6 +5,7 @@ import { Lock, Shuffle } from 'lucide-react';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { CREW_EXPRESSIONS } from '@/components/ui/crew-character';
 import {
   DEFAULT_MASCOT, MASCOT_BODIES, MASCOT_COLORS, MASCOT_EXTRAS, MASCOT_EYES, MASCOT_HEADS, MASCOT_LABELS, MASCOT_LOCKED,
   randomMascot, type MascotLook,
@@ -56,6 +57,16 @@ export function MascotGallery() {
           <button type="button" onClick={() => setSeed((s) => s + 1)} className="flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1 text-xs hover:bg-white/10"><Shuffle className="h-3.5 w-3.5" /> More</button>
         </div>
         <div className="flex flex-wrap gap-3">{randoms.map((l, i) => <MascotFigure key={i} look={l} size={120} />)}</div>
+      </section>
+      <section className="space-y-2">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-300">Selfie faces (crew avatars)</h2>
+        <div className="flex flex-wrap gap-4">
+          {['Mai', 'Ken', 'Lina'].map((n) => (
+            <div key={n} className="flex gap-2 rounded-xl bg-white/[0.04] p-2">
+              {CREW_EXPRESSIONS.map((e) => <figure key={e} className="flex flex-col items-center"><CrewAvatar seed={n} name={n} size={64} expression={e} /><figcaption className="text-[10px] text-white/60">{e}</figcaption></figure>)}
+            </div>
+          ))}
+        </div>
       </section>
       <section className="space-y-2">
         <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-300">Beside the cabin (twice an avatar)</h2>

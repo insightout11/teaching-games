@@ -33,7 +33,7 @@ export function openWindowViewChannel(sessionId: string, onView?: (v: WindowView
 }
 
 /** A window selfie the student kept: the scene is redrawn from these, so nothing heavy is stored. */
-export interface KeptSelfie extends WindowView { sessionId: string; seat: string | null; takenAt: number }
+export interface KeptSelfie extends WindowView { sessionId: string; seat: string | null; takenAt: number; expression?: string }
 
 const KEY = 'lc-window-selfies';
 export function keptSelfies(): KeptSelfie[] {

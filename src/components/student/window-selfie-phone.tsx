@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Camera, Images, X } from 'lucide-react';
 import { WindowSelfieCard } from '@/components/live-room/flight/window-selfie';
+import { CrewAvatar } from '@/components/ui/crew-avatar';
+import { CREW_EXPRESSIONS, type CrewExpression } from '@/components/ui/crew-character';
 import { keepSelfie, keptSelfies, openWindowViewChannel, WINDOW_VIEW_STALE_MS, type KeptSelfie, type WindowView } from '@/lib/live-room/window-view';
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -16,6 +18,8 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
   const [open, setOpen] = useState<KeptSelfie | null>(null);
   const [mine, setMine] = useState<KeptSelfie[]>([]);
   const [shelf, setShelf] = useState(false);
+  // Pick a face before the snap (pilot 001: students wanted more say in their selfie)
+  const [face, setFace] = useState<CrewExpression>('smile');
   useEffect(() => { setMine(keptSelfies().filter((s) => s.sessionId === sessionId)); }, [sessionId]);
   useEffect(() => {
     const ch = openWindowViewChannel(sessionId, (v) => { seenAt.current = Date.now(); setView(v); });
@@ -25,7 +29,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
 
   const take = () => {
     if (!view) return;
-    const s: KeptSelfie = { ...view, sessionId, seat, takenAt: Date.now() };
+    const s: KeptSelfie = { ...view, sessionId, seat, takenAt: Date.now(), expression: face };
     setMine(keepSelfie(s).filter((x) => x.sessionId === sessionId));
     setOpen(s);
   };
@@ -33,6 +37,15 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
 
   return (
     <>
+      {view && !already && (
+        <div className="mb-2 flex items-center justify-center gap-1.5" role="radiogroup" aria-label="Your face in the selfie">
+          {CREW_EXPRESSIONS.map((e) => (
+            <button key={e} type="button" role="radio" aria-checked={face === e} aria-label={e} onClick={() => setFace(e)} className={`rounded-full p-0.5 ${face === e ? 'bg-amber-300' : 'bg-white/10'}`}>
+              <CrewAvatar seed={seed ?? name} name={name} size={40} expression={e} />
+            </button>
+          ))}
+        </div>
+      )}
       {view && !already && (
         <button type="button" onClick={take} className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-300 px-4 py-3 text-base font-bold text-[#1b2233] shadow-lg">
           <Camera className="h-5 w-5" /> Take my window selfie: {cap(view.name)}
@@ -47,7 +60,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 overflow-y-auto bg-slate-950/90 p-4 backdrop-blur">
           <button type="button" onClick={() => { setOpen(null); setShelf(false); }} aria-label="Close" className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white"><X className="h-5 w-5" /></button>
           {(open ? [open] : mine).map((s) => (
-            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} landmarkId={s.landmarkId} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} />
+            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} landmarkId={s.landmarkId} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} expression={CREW_EXPRESSIONS.includes(s.expression as CrewExpression) ? s.expression as CrewExpression : undefined} />
           ))}
           {open && <p className="text-center text-sm text-white/70">Kept on your boarding pass.</p>}
         </div>

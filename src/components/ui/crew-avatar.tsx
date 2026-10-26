@@ -1,4 +1,4 @@
-import { CrewCharacter } from '@/components/ui/crew-character';
+import { CrewCharacter, type CrewExpression } from '@/components/ui/crew-character';
 import { resolveLook } from '@/lib/crew-look';
 
 const WINGS_INSIGNIA_URL = '/avatars/insignia-captain-wings.png';
@@ -14,6 +14,8 @@ interface CrewAvatarProps {
   size?: number;
   /** Extra classes on the avatar (kept for callers; characters carry their own sticker outline). */
   className?: string;
+  /** A face for the window selfie; the usual smile otherwise. */
+  expression?: CrewExpression;
 }
 
 /**
@@ -21,10 +23,10 @@ interface CrewAvatarProps {
  * of truth for rendering crew avatars so the look is the same everywhere it appears. Old seeds
  * (flight helmets, captain caps) render as a character wearing that headgear.
  */
-export function CrewAvatar({ seed, name = '', captain = false, size = 40, className }: CrewAvatarProps) {
+export function CrewAvatar({ seed, name = '', captain = false, size = 40, className, expression }: CrewAvatarProps) {
   return (
     <span className="relative inline-block shrink-0" style={{ width: size, height: size }}>
-      <CrewCharacter look={resolveLook(seed, name)} size={size} className={className?.replace(/\brounded\S*/g, '').trim() || undefined} title={name || undefined} />
+      <CrewCharacter look={resolveLook(seed, name)} size={size} expression={expression} className={className?.replace(/\brounded\S*/g, '').trim() || undefined} title={name || undefined} />
       {captain && (
         // eslint-disable-next-line @next/next/no-img-element
         <img

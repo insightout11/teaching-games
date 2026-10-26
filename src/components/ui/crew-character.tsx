@@ -173,7 +173,11 @@ function eyewear(look: CrewLook): ReactNode {
   return null;
 }
 
-export function CrewCharacter({ look, size = 48, className, title }: { look: CrewLook; size?: number; className?: string; title?: string }) {
+/** Faces for the window selfie (Oct 2026, pilot 001: students wanted more say in their selfie). */
+export const CREW_EXPRESSIONS = ['smile', 'grin', 'wow', 'wink', 'cool', 'silly'] as const;
+export type CrewExpression = (typeof CREW_EXPRESSIONS)[number];
+
+export function CrewCharacter({ look, size = 48, className, title, expression = 'smile' }: { look: CrewLook; size?: number; className?: string; title?: string; expression?: CrewExpression }) {
   // Deterministic id (no hooks: this also renders in server components). Same look = same gradient.
   const grad = `rb-${encodeLook(look)}`;
   const skin = SKIN_TONES[look.skin] ?? SKIN_TONES[0];
@@ -220,17 +224,46 @@ export function CrewCharacter({ look, size = 48, className, title }: { look: Cre
       {!hijab && <circle cx="73" cy="50" r="5" fill={darker(skin, 0.06)} />}
       <circle cx="50" cy="48" r="23" fill={skin} />
       {/* face */}
-      {look.eyewear !== 'aviators' && (
-        <>
-          <ellipse cx="41" cy="50" rx="3.2" ry="3.8" fill={INK} />
-          <ellipse cx="59" cy="50" rx="3.2" ry="3.8" fill={INK} />
-          <circle cx="42.2" cy="48.8" r="1.1" fill="#fff" />
-          <circle cx="60.2" cy="48.8" r="1.1" fill="#fff" />
-        </>
+      {look.eyewear !== 'aviators' && expression !== 'cool' && (
+        expression === 'wink' ? (
+          <>
+            <ellipse cx="41" cy="50" rx="3.2" ry="3.8" fill={INK} />
+            <circle cx="42.2" cy="48.8" r="1.1" fill="#fff" />
+            <path d="M55 51 Q59 47 63 51" stroke={INK} strokeWidth="2.6" fill="none" strokeLinecap="round" />
+          </>
+        ) : expression === 'wow' ? (
+          <>
+            <circle cx="41" cy="49" r="4.6" fill="#fff" stroke={INK} strokeWidth="1.6" /><circle cx="41" cy="49" r="2.2" fill={INK} />
+            <circle cx="59" cy="49" r="4.6" fill="#fff" stroke={INK} strokeWidth="1.6" /><circle cx="59" cy="49" r="2.2" fill={INK} />
+          </>
+        ) : expression === 'silly' ? (
+          <>
+            <circle cx="41" cy="49" r="4" fill="#fff" stroke={INK} strokeWidth="1.4" /><circle cx="43" cy="50.5" r="2" fill={INK} />
+            <circle cx="59" cy="49" r="4" fill="#fff" stroke={INK} strokeWidth="1.4" /><circle cx="57" cy="47.5" r="2" fill={INK} />
+          </>
+        ) : (
+          <>
+            <ellipse cx="41" cy="50" rx="3.2" ry="3.8" fill={INK} />
+            <ellipse cx="59" cy="50" rx="3.2" ry="3.8" fill={INK} />
+            <circle cx="42.2" cy="48.8" r="1.1" fill="#fff" />
+            <circle cx="60.2" cy="48.8" r="1.1" fill="#fff" />
+          </>
+        )
       )}
       <circle cx="34" cy="58" r="4" fill="#f59e9e" opacity=".55" />
       <circle cx="66" cy="58" r="4" fill="#f59e9e" opacity=".55" />
-      <path d="M43 60 Q50 66 57 60" stroke={INK} strokeWidth="2.6" fill="none" strokeLinecap="round" />
+      {expression === 'grin' ? (
+        <path d="M41 58 Q50 70 59 58Z" fill={INK} stroke={INK} strokeWidth="2" strokeLinejoin="round" />
+      ) : expression === 'wow' ? (
+        <ellipse cx="50" cy="62" rx="3.6" ry="4.4" fill={INK} />
+      ) : expression === 'silly' ? (
+        <>
+          <path d="M43 60 Q50 65 57 60" stroke={INK} strokeWidth="2.6" fill="none" strokeLinecap="round" />
+          <path d="M47 62 Q50 70 53 62Z" fill="#f472b6" />
+        </>
+      ) : (
+        <path d="M43 60 Q50 66 57 60" stroke={INK} strokeWidth="2.6" fill="none" strokeLinecap="round" />
+      )}
       {hairFront(look, hair, hatted)}
       {hijab && (
         <>
@@ -240,7 +273,7 @@ export function CrewCharacter({ look, size = 48, className, title }: { look: Cre
         </>
       )}
       {headgear(look, gear, false)}
-      {eyewear(look)}
+      {eyewear(expression === 'cool' && look.eyewear !== 'aviators' ? { ...look, eyewear: 'aviators' } : look)}
     </svg>
   );
 }
