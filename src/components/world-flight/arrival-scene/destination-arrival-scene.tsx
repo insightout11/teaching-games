@@ -188,6 +188,27 @@ export function DestinationArrivalScene({
     return x || y ? `translate(${x},${y})` : undefined;
   };
 
+  // Once landed, the scene keeps breathing while the class talks: each depth drifts slowly side to side, near layers
+  // more than far ones (Oct 2026, owner: more parallax, dreamy and atmospheric). A CSS animation on an inner group, so
+  // it never fights the SVG transforms above. Off for still frames and reduced motion.
+  const breathing = ambient && phase === 'landed' && mode === 'arrival';
+  const drift = (depth: number, children: React.ReactNode) => breathing
+    ? <g className="lc-drift" style={{ ['--d' as string]: depth } as React.CSSProperties}>{children}</g>
+    : children;
+  // Soft haze bands between depths, in the palette's own horizon colour: distance reads as paler layers.
+  const haze = (id: string, y0: number, y1: number, opacity: number) => (
+    <g aria-hidden>
+      <defs>
+        <linearGradient id={`${idPrefix}-${id}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={palette.horizonGlow} stopOpacity="0" />
+          <stop offset="0.55" stopColor={palette.horizonGlow} stopOpacity={opacity} />
+          <stop offset="1" stopColor={palette.horizonGlow} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <rect x={-200} y={y0} width={VIEWBOX.w + 400} height={y1 - y0} fill={`url(#${idPrefix}-${id})`} />
+    </g>
+  );
+
   return (
     <svg
       viewBox={`0 0 ${VIEWBOX.w} ${VIEWBOX.h}`}
@@ -202,6 +223,7 @@ export function DestinationArrivalScene({
       {/* Landing overscan: the landing camera tilts, zooms and pans after the plane, and on a wide window the
           canvas already fills the width, so the moves pulled the canvas edge into view (a bare strip at the side).
           A slight extra zoom keeps scene beyond every edge. */}
+      {breathing && <style>{'@keyframes lc-drift{0%,100%{transform:translateX(calc(var(--d) * -14px))}50%{transform:translateX(calc(var(--d) * 14px))}}.lc-drift{animation:lc-drift 26s ease-in-out infinite}'}</style>}
       <g transform={mode === 'arrival' ? `translate(${VIEWBOX.w / 2} ${VIEWBOX.h * 0.62}) scale(1.09) translate(${-VIEWBOX.w / 2} ${-VIEWBOX.h * 0.62})` : undefined}>
       <g transform={cameraTransform} data-cinematic-camera>
       {/* Full-canvas: sky (tier 1) */}
@@ -209,12 +231,14 @@ export function DestinationArrivalScene({
       {/* Sun rays: behind the city and the ground, so buildings and hills stand in front of them */}
       <SunRays {...propsFor('sunrays')} />
       {/* Focal background landmark — farthest, pans least on takeoff */}
-      <g transform={focalAt(0.18)}>{landmarkAt('background')}</g>
+      <g transform={focalAt(0.18)}>{drift(0.18, landmarkAt('background'))}</g>
       {/* Terrain base bands — full-canvas, FIXED (flat colour, no pan reference) */}
       <TerrainBaseLayer {...propsFor('terrain')} />
       {/* Terrain silhouettes (hills/dunes/island/headland) — far depth, so they
           pan WITH the world on takeoff and pick up arrival parallax. */}
-      <g transform={focalAt(0.22)}><TerrainSilhouetteLayer {...propsFor('terrain')} /></g>
+      <g transform={focalAt(0.22)}>{drift(0.22, <TerrainSilhouetteLayer {...propsFor('terrain')} />)}</g>
+      {/* far haze: between the far hills and the city */}
+      <g transform={canvasAt(0.26)}>{drift(0.26, haze('haze-far', 430, 640, 0.32))}</g>
       {/* Distant skyline in the side bleed (own RNG — does not perturb focal).
           The home base fills its own overflow (mountains + city span the full
           canvas in the skyline layer), so it skips the generic bleed. */}
@@ -229,10 +253,12 @@ export function DestinationArrivalScene({
         <g transform={focalAt(0.2)}><HomeBaseBackdrop {...propsFor('homebase-backdrop')} /></g>
       )}
       {/* Focal city + accents — pan amplitude grows toward the viewer */}
-      <g transform={focalAt(0.4)}>{landmarkAt('midground')}</g>
-      <g transform={focalAt(0.5)}><SkylineLayer {...propsFor('skyline')} /></g>
-      <g transform={focalAt(0.75)}>{landmarkAt('foreground')}</g>
-      <g transform={focalAt(1)}><VegetationLayer {...propsFor('vegetation')} /></g>
+      <g transform={focalAt(0.4)}>{drift(0.4, landmarkAt('midground'))}</g>
+      <g transform={focalAt(0.5)}>{drift(0.5, <SkylineLayer {...propsFor('skyline')} />)}</g>
+      {/* near haze: a thin veil at the foot of the city, so the trees in front stand clear of it */}
+      <g transform={canvasAt(0.6)}>{drift(0.6, haze('haze-near', 560, 700, 0.16))}</g>
+      <g transform={focalAt(0.75)}>{drift(0.75, landmarkAt('foreground'))}</g>
+      <g transform={focalAt(1)}>{drift(1, <VegetationLayer {...propsFor('vegetation')} />)}</g>
       {/* Focal ambient life (birds / light flickers / beacon) — renders only when
           ambient (animated + not reduced-motion); still frames show nothing. */}
       <g transform={focalAt(0.5)}><AmbientLayer {...propsFor('ambient')} /></g>
