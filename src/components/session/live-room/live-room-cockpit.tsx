@@ -284,7 +284,7 @@ export function LiveRoomCockpit({
   }, [students, scores]);
 
   const widgetSlots = useMemo<WidgetSlot[]>(
-    () => WIDGET_REGISTRY.map((w) => ({ id: w.id as WidgetSlot['id'], label: w.label, iconPath: w.iconPath, availability: 'local' as const })),
+    () => WIDGET_REGISTRY.filter((w) => !w.retired).map((w) => ({ id: w.id as WidgetSlot['id'], label: w.label, iconPath: w.iconPath, availability: 'local' as const })),
     [],
   );
   const widgetBodies = useMemo(() => {

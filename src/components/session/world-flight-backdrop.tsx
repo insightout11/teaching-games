@@ -51,7 +51,9 @@ export function WorldFlightArrivalBackdrop({
           scene={scene}
           phase="landed"
           progress={1}
-          transparentSky
+          // The scene's own sky by day, dawn and dusk; the app's night sky (with the moon) shows through at night.
+          // Always transparent, the landed city sat under a night sky whatever the time there.
+          transparentSky={timeOfDay === 'night' || !timeOfDay}
           fit="slice"
           timeOfDay={timeOfDay}
           planeKey={planeKey}

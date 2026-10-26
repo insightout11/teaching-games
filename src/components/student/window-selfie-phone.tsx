@@ -47,7 +47,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 overflow-y-auto bg-slate-950/90 p-4 backdrop-blur">
           <button type="button" onClick={() => { setOpen(null); setShelf(false); }} aria-label="Close" className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white"><X className="h-5 w-5" /></button>
           {(open ? [open] : mine).map((s) => (
-            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} />
+            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} landmarkId={s.landmarkId} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} />
           ))}
           {open && <p className="text-center text-sm text-white/70">Kept on your boarding pass.</p>}
         </div>

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isMockMode } from '@/lib/mock/auth';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { captureBetaConversionEvent } from '@/lib/analytics/posthog-server';
@@ -23,6 +24,8 @@ type BetaStatusRow = {
 // eligible for delivery retries; the client supplies a deterministic PostHog UUID
 // derived from the application ID, so those retries are deduplicated at ingestion.
 export async function POST(request: Request) {
+  // Demo users have no beta application or privileged database configuration.
+  if (isMockMode()) return NextResponse.json({ claimed: false });
   const supabase = createServerSupabase();
   const { data: authData } = await supabase.auth.getUser();
   const teacherId = authData.user?.id;

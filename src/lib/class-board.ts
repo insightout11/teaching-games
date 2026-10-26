@@ -18,6 +18,8 @@ export interface ClassBoardPreset {
   key: string;
   title: string;
   prompt: string;
+  /** Heading on a single-section board before the teacher asks their own question (default: "What do you think?"). */
+  question?: string;
   layout: ClassBoardLayout;
   categories: ClassBoardCategory[];
   zones: ClassBoardZone[];
@@ -44,6 +46,24 @@ export const CLASS_BOARD_PRESETS: Record<string, ClassBoardPreset> = {
     ],
     zones: [{ key: 'main', label: 'Board' }],
     defaultCategory: 'idea',
+    defaultZone: 'main',
+    allowVotes: true,
+    rankable: false,
+    studentVisibility: 'pending',
+  },
+  // Collect topic ideas through the class (the teacher or students add them; votes show favourites). The board
+  // keeps its own cards, so switching to another layout and back later in the lesson keeps the list.
+  'topics': {
+    key: 'topics',
+    title: 'Topics',
+    prompt: 'Suggest a topic we could talk about.',
+    question: 'What topics should we talk about?',
+    layout: 'list',
+    categories: [
+      { key: 'topic', label: 'Topic', tone: 'violet' },
+    ],
+    zones: [{ key: 'main', label: 'Topic ideas' }],
+    defaultCategory: 'topic',
     defaultZone: 'main',
     allowVotes: true,
     rankable: false,

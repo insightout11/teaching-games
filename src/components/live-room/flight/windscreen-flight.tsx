@@ -1,5 +1,6 @@
 'use client';
 
+import { flightSurface } from '@/lib/live-room/flight-surface';
 import { IssPass } from '@/components/live-room/flight/iss-pass';
 import { composeWindscreen } from '@/components/live-room/flight/photo-moment';
 import { MeteorStreaks, PlanetPoint } from '@/components/live-room/flight/sky-extras';
@@ -8,7 +9,7 @@ import type { Waters } from '@/lib/live-room/waters-ahead';
 import type { Coast } from '@/lib/live-room/coast-ahead';
 import type { HighGround } from '@/lib/live-room/elevation-ahead';
 import type { WorldLandmark } from '@/components/live-room/flight/world-landmarks';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import { A_TOUCHDOWN_END, arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
@@ -22,13 +23,17 @@ import type { MoonPosition, SunPosition } from '@/lib/live-room/sun';
 import type { DestinationScene } from '@/lib/world-flight/types';
 import { CockpitClouds } from '@/components/live-room/flight/cockpit-clouds';
 import { CloudDeck } from '@/components/live-room/flight/cloud-deck';
+import { naturalLandmark } from '@/lib/live-room/terrain-landmarks';
+import { realTerrain } from '@/components/live-room/flight/ground-texture';
 import { surfaceLightDirection } from '@/lib/live-room/terrain-surface';
 import { CockpitSky, LIGHT_POS, cockpitCloudTint, hexToRgb, mixRgb, weatherDeckTint, weatherUndercast } from '@/components/live-room/flight/cockpit-sky';
 import { useEased, useEasedVector } from '@/components/live-room/flight/use-eased';
 import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { CoastStrip } from '@/lib/live-room/coast-strip';
-import { CockpitWorld, type DistantCity, type SeaGlint, routeSpread, type RouteClock } from '@/components/live-room/flight/cockpit-world';
+import { CockpitWorld, type DistantCity, type SeaGlint, ROUTE_SCALE, VIEW_UNITS_PER_SEC, warmFlightTextures, type RouteClock } from '@/components/live-room/flight/cockpit-world';
 import { useCabinShake } from '@/components/session/turbulence-beat';
+/** Slowest the near clouds drift, as a share of the old cruise pace. */
+const NEAR_CLOUD_MIN_PACE = 0.35;
 
 /**
  * The Live Room windscreen as one flight (tuned in /dev/flight-lab).
@@ -67,6 +72,7 @@ export function timeOfDayNow(date = new Date()): TimeOfDay {
 
 export interface WindscreenFlightProps {
   stage: FlightStage;
+  terrainEnabled?: boolean;
   origin: FlightCity;
   destination: FlightCity;
   timeOfDay: TimeOfDay;
@@ -121,9 +127,15 @@ export interface WindscreenFlightProps {
   altitude?: number;
 }
 
-export function WindscreenFlight({ stage, origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, arrivalScenic = null, arrivalHoldId = null, waters, coast, coastStrip = null, routeClock = null, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
+export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin, destination, timeOfDay, weather = 'clear', terrain, region = null, sun, moon, cities, landmarks, scenicLandmark = null, arrivalScenic = null, arrivalHoldId = null, waters, coast, coastStrip = null, routeClock = null, highGround, events, iss = null, sky, cloudCover, calm = false, turbulence = false, paused = false, planeKey = null, onLanded, onCinematic, altitude: descentAltitude = 1 }: WindscreenFlightProps) {
   const [phase, setPhase] = useState<Phase>(stage === 'landing' ? 'descent' : stage === 'flying' ? 'cruise' : 'gate');
   const [progress, setProgress] = useState(0);
+  const [terrainReady, setTerrainReady] = useState(false);
+  const onTerrainState = useCallback((state: 'off' | 'loading' | 'ready' | 'fallback') => setTerrainReady(state === 'ready'), []);
+  useEffect(() => {
+    if (terrainEnabled && coastStrip) void flightSurface(coastStrip);
+  }, [coastStrip, terrainEnabled]);
+  const terrainOnSurface = terrainEnabled && terrainReady;
   const lurch = useCabinShake(turbulence, 1.6);
   const landedRef = useRef(onLanded);
   landedRef.current = onLanded;
@@ -224,11 +236,11 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     // a landmark kept for the slow look (by the departure or arrival city) never shows in the normal scenery: it passed
     // at full speed in the climb from Manila (Pinatubo), before the slow look began
     const held = new Set([scenicLandmark?.id, arrivalScenic?.id, arrivalHoldId].filter(Boolean) as string[]);
-    const normal = (landmarks ?? []).filter((l) => !held.has(l.id));
-    if (!scenicOn || !scenic) return normal;
+    const normal = (landmarks ?? []).filter((l) => !held.has(l.id) || (terrainOnSurface && naturalLandmark(l.kind)));
+    if (!scenicOn || !scenic || (terrainOnSurface && naturalLandmark(scenic.kind))) return normal;
     const own = { id: scenic.id, kind: scenic.kind, ahead: SCENIC_AHEAD_KM, lateral: scenic.side === 'left' ? -9 : 9 };
     return [...normal, own];
-  }, [scenicOn, scenic, landmarks, scenicLandmark?.id, arrivalScenic?.id, arrivalHoldId]);
+  }, [scenicOn, scenic, landmarks, scenicLandmark?.id, arrivalScenic?.id, arrivalHoldId, terrainOnSurface]);
   // The climb through the clouds: how deep in cloud the plane is (0 clear, 1 thick), and when it breaks out on top
   const climbing = phase === 'climb';
   const inCloud = !climbing ? 0 : progress < CLIMB_IN ? 0 : progress < CLIMB_THICK ? (progress - CLIMB_IN) / (CLIMB_THICK - CLIMB_IN) : progress < CLIMB_OUT ? 1 : 0;
@@ -259,6 +271,11 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
     // Only when the stepped sun height, morning/evening or the destination changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [groundSun, sun ? sun.azimuth < 180 : null, destination, sun ? null : palette],
+  );
+  // Boarding: paint this flight's ground textures in idle time, so the take-off doesn't freeze painting them all at once.
+  useEffect(
+    () => warmFlightTextures({ coastStrip, terrain, region, palette: groundPalette, night: skyTime === 'night', terrainEnabled }),
+    [coastStrip, terrain, region, groundPalette, skyTime, terrainEnabled],
   );
   const cover = cloudCover ?? (weather === 'clear' || weather === 'aurora' ? 25 : 85);
   const cloudDensity = diving ? 1 : scenicOn ? 0.18 : Math.min(1, 0.3 + (cover / 100) * 0.8);
@@ -292,7 +309,10 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
   const cloudSpeed = phase === 'climb' ? (inCloud > 0 ? 1.9 : 1.1) : scenicOn ? SCENIC_SPEED : diving ? 1.2 + progress * 3 : 0.55;
   // the clouds drifting past at eye level move with the ground: at the real plane's speed in a flight (the ground went
   // to real speed and these kept the old, faster speed)
-  const realFactor = phase === 'cruise' && routeClock?.km && routeClock.perMs ? Math.min(1, (routeClock.km * 400 * routeClock.perMs * 1000 * routeSpread(routeClock)) / (0.55 * 4200)) : 1;
+  // With the land at real proportions the ground can crawl (Zurich to Milan in a 50-minute class), so these near
+  // clouds keep a minimum pace: close to the plane they sweep past faster than the distant ground anyway. The clouds
+  // that cast shadows on the land stay fixed to it (CockpitWorld).
+  const realFactor = phase === 'cruise' && routeClock?.km && routeClock.perMs ? Math.min(1, Math.max(NEAR_CLOUD_MIN_PACE, (routeClock.km * 400 * routeClock.perMs * 1000 * ROUTE_SCALE) / VIEW_UNITS_PER_SEC)) : 1;
   const driftSpeed = cloudSpeed * realFactor;
   const whiteout = climbing ? (progress < CLIMB_THICK ? Math.pow(inCloud, 1.4) * 0.96 : inCloud * 0.96 * (1 - climbParting)) : phase !== 'descent' ? 0 : diving ? Math.pow(progress / DIVE, 1.6) * 0.96 : Math.max(0, 1 - (progress - DIVE) / CLEAR) * 0.96;
   const parting = climbing ? climbParting : phase === 'descent' && !diving ? Math.min(1, (progress - DIVE) / CLEAR) : 0;
@@ -335,7 +355,7 @@ export function WindscreenFlight({ stage, origin, destination, timeOfDay, weathe
             {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.meteors && <MeteorStreaks />}
             {phase === 'cruise' && sky?.aurora && weather !== 'aurora' && <WindscreenWeather weather="aurora" />}
             {iss && phase === 'cruise' && <IssPass start={iss.start} side={iss.side} />}
-            <CockpitWorld surfaceSun={{ x: parseFloat(spot?.x ?? LIGHT_POS[skyTime].x) / 100, y: parseFloat(spot?.y ?? LIGHT_POS[skyTime].y) / 100, direction: surfaceDirection }} altitude={groundAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={allLandmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} coastStrip={coastStrip} routeClock={routeClock} highGround={highGround} events={events} />
+            <CockpitWorld terrainEnabled={terrainEnabled} terrainRouteRequired onTerrainState={onTerrainState} surfaceSun={{ x: parseFloat(spot?.x ?? LIGHT_POS[skyTime].x) / 100, y: parseFloat(spot?.y ?? LIGHT_POS[skyTime].y) / 100, direction: surfaceDirection }} altitude={groundAltitude} terrain={terrain} region={region} palette={groundPalette} night={skyTime === 'night'} speed={cloudSpeed} paused={paused} cities={cities} landmarks={allLandmarks} glint={seaGlint} cloudCover={cover} waters={waters} coast={coast} coastStrip={coastStrip} routeClock={routeClock} highGround={highGround} events={events} />
             <div
               className="absolute inset-x-0 bottom-0"
               style={{ top: '57%', background: `radial-gradient(ellipse 30% 12% at 20% 30%, rgba(${tint},0.7), transparent 70%), radial-gradient(ellipse 26% 10% at 70% 22%, rgba(${tint},0.6), transparent 70%), radial-gradient(ellipse 40% 16% at 45% 75%, rgba(${tint},0.45), transparent 70%)` }}

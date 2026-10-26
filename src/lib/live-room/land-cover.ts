@@ -42,6 +42,33 @@ export function landCoverAt(p: LatLng): LandCover {
   return LAND_COVER_LEGEND[grid[y * LAND_COVER_WIDTH + x] as keyof typeof LAND_COVER_LEGEND];
 }
 
+const mountainClimateCache = new Map<number, number>();
+const coverDryness: Partial<Record<LandCover, number>> = {
+  desert: 1, 'salt-flats': 1, tundra: 0.85, grassland: 0.65, savanna: 0.65,
+  farmland: 0.15, 'rice-paddies': 0, forest: 0, 'boreal-forest': 0, rainforest: 0, wetlands: 0,
+};
+/** Mountain is a relief refinement, not a climate. Borrow nearby MODIS cover once per source cell. */
+export function mountainClimateAt(p: LatLng): number {
+  const point = normalise(p), cover = landCoverAt(point);
+  if (cover !== 'mountains') return coverDryness[cover] ?? 0;
+  const x = Math.floor((point.lng + 180) / LAND_COVER_RESOLUTION);
+  const y = Math.min(LAND_COVER_HEIGHT - 1, Math.floor((90 - point.lat) / LAND_COVER_RESOLUTION));
+  const key = y * LAND_COVER_WIDTH + x, cached = mountainClimateCache.get(key);
+  if (cached !== undefined) return cached;
+  let dry = 0, total = 0;
+  // Fixed cell centres avoid a climate change within one categorical MODIS cell. Ignore water/ice/cities.
+  for (let dy = -6; dy <= 6; dy++) for (let dx = -6; dx <= 6; dx++) {
+    if ((!dx && !dy) || y + dy < 0 || y + dy >= LAND_COVER_HEIGHT) continue;
+    const neighbour = landCoverAt({lat: 90 - (y + dy + 0.5) * LAND_COVER_RESOLUTION,
+      lng: (x + dx + 0.5) * LAND_COVER_RESOLUTION - 180});
+    const value = coverDryness[neighbour]; if (value === undefined) continue;
+    const distance = dx * dx + dy * dy, weight = 1 / (distance * distance);
+    dry += value * weight; total += weight;
+  }
+  const result = total ? dry / total : 0.5;
+  mountainClimateCache.set(key, result); return result;
+}
+
 const SCENE_TERRAIN: Record<LandCover, Terrain> = {
   ocean: 'ocean', ice: 'ice', tundra: 'farmland', 'boreal-forest': 'forest',
   forest: 'forest', rainforest: 'forest', savanna: 'farmland', grassland: 'farmland',

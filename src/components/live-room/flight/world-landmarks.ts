@@ -29,7 +29,7 @@ export const LANDMARK_SIZE: Record<WorldLandmarkKind, { h: number; w: number; cl
 /** The cockpit's projection for this frame: world point (sideways x, depth ahead z, height y) to the screen. */
 export interface Projector { (x: number, z: number, y?: number): [number, number] }
 
-export interface LandmarkLook { night: boolean; snow: RGB; leaf: RGB; rock: RGB }
+export interface LandmarkLook { light?: [number, number, number]; night: boolean; snow: RGB; leaf: RGB; rock: RGB }
 
 const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
 const mix = (a: RGB, b: RGB, t: number): RGB => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
@@ -370,6 +370,11 @@ function drawVolcano(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: numbe
 // ── Niagara Falls: the river, Goat Island, the curved Horseshoe Falls, the straight American Falls, and the mist ──────
 
 function drawNiagara(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: number, Z: number, proj: Projector, fog: number, haze: RGB, alpha: number) {
+  if (look.light) {
+    const gain = 0.65 + Math.max(0, look.light[2]) * 0.35;
+    const shade = (color: RGB): RGB => color.map(c => c * gain) as RGB;
+    look = { ...look, snow: shade(look.snow), leaf: shade(look.leaf), rock: shade(look.rock) };
+  }
   // From a plane, Niagara is a river with a white horseshoe and, above all, the column of mist rising out of the gorge:
   // that mist is what you spot first, from far away. All at ground level (only the falls themselves have height).
   const { w } = LANDMARK_SIZE.niagara;
@@ -457,6 +462,8 @@ const LIGHT = { x: -0.62, y: 0.7, z: 0.36 };                      // towards the
 const LN = Math.hypot(LIGHT.x, LIGHT.y, LIGHT.z);
 
 function drawPyramids(ctx: CanvasRenderingContext2D, look: LandmarkLook, X: number, Z: number, proj: Projector, airFog: number, haze: RGB, alpha: number) {
+  const LIGHT = look.light ? { x: look.light[0], y: Math.max(0.1, look.light[2]), z: look.light[1] } : { x: -0.62, y: 0.7, z: 0.36 };
+  const LN = Math.hypot(LIGHT.x, LIGHT.y, LIGHT.z);
   const { h, w } = LANDMARK_SIZE.pyramids;
   const fog = airFog * 0.6; // big, pale stone: it shows through more of the haze than the ground does
   const sandLit: RGB = look.night ? [112, 120, 156] : [234, 202, 150];

@@ -70,6 +70,7 @@ export function WidgetLauncher({ sessionId }: WidgetLauncherProps) {
   }, []);
 
   const closedWidgets = WIDGET_REGISTRY.filter((w) => {
+    if (w.retired) return false;
     const entry = widgets[w.id];
     return entry ? !entry.isOpen : w.defaultOpen === false;
   });

@@ -83,7 +83,7 @@ function wrapped(S: number, x: number, y: number, r: number, draw: (x: number, y
   }
 }
 
-export function farmTexture(region: string | null | undefined, palette: ScenePalette, night: boolean): HTMLCanvasElement {
+export function farmTexture(region: string | null | undefined, palette: ScenePalette, night: boolean, waterFeatures = true): HTMLCanvasElement {
   const S = FARM_TEXTURE_SIZE;
   const style = farmStyleFor(region);
   const R = rng(hash(`${region ?? ''}|${style}`));
@@ -95,7 +95,7 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
   const canvas = document.createElement('canvas');
   canvas.width = S; canvas.height = S;
   const g = canvas.getContext('2d')!;
-  if (style === 'city') return cityTexture((region ?? '').slice(5), palette, night, (region ?? '').startsWith('town:'));
+  if (style === 'city') return cityTexture((region ?? '').slice(5), palette, night, (region ?? '').startsWith('town:'), waterFeatures);
   g.fillStyle = css(tint(CROPS[style][0]));
   g.fillRect(0, 0, S, S);
 
@@ -118,7 +118,7 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
       g.stroke();
     }
     // paddies catch the sky
-    if (style === 'paddies' && R() < 0.3) {
+    if (style === 'paddies' && R() < 0.3 && waterFeatures) {
       g.fillStyle = css(dim(mixRgb(water, c, 0.45)), 0.75);
       g.fillRect(x + 2, y + 2, w - 4, h - 4);
     }
@@ -154,7 +154,7 @@ export function farmTexture(region: string | null | undefined, palette: ScenePal
     const y = riverY + Math.sin(x * k + phase) * amp + Math.sin(x * k * 3 + phase * 2) * amp * 0.25;
     if (x < 0) g.moveTo(x, y); else g.lineTo(x, y);
   }
-  g.stroke();
+  if (waterFeatures) g.stroke();
 
   // Road: straighter, crossing the other way.
   const roadX = S * (0.15 + R() * 0.7);
@@ -218,7 +218,7 @@ function cityPlanFor(continent: string): CityPlan {
  * cities, twisting grids for European ones, tight small blocks for Asian ones), with a ring road, two highways and
  * a river. Lit from the upper left; at night the streets and windows glow. Tiles seamlessly.
  */
-function cityTexture(place: string, palette: ScenePalette, night: boolean, town = false): HTMLCanvasElement {
+function cityTexture(place: string, palette: ScenePalette, night: boolean, town = false, waterFeatures = true): HTMLCanvasElement {
   const N = 512, S = FARM_TEXTURE_SIZE;
   // `place` is "Name|Continent": the name only seeds this city's own layout; the continent picks the street plan.
   const [name, continent = ''] = place.split('|');
@@ -337,8 +337,10 @@ function cityTexture(place: string, palette: ScenePalette, night: boolean, town 
     g.strokeStyle = color; g.lineWidth = width;
     copies((ox, oy) => { g.beginPath(); pts.forEach(([px, py], i) => (i ? g.lineTo(px + ox, py + oy) : g.moveTo(px + ox, py + oy))); g.stroke(); });
   };
-  strokeLine(riverPts, css(dim([200, 196, 176])), 34);
-  strokeLine(riverPts, css(water), 24);
+  if (waterFeatures) {
+    strokeLine(riverPts, css(dim([200, 196, 176])), 34);
+    strokeLine(riverPts, css(water), 24);
+  }
   const highway = (angle: number) => {
     const pts: Array<[number, number]> = [[cu * S, cv * S]];
     let px = cu * S, py = cv * S, a = angle;
@@ -545,7 +547,7 @@ export function oceanTexture(palette: ScenePalette, night: boolean): HTMLCanvasE
  * and shade (lit from the upper left), darker damp valleys, clearings with fields, a few lakes and a winding river
  * with pale banks. Tiles seamlessly.
  */
-export function forestTexture(palette: ScenePalette, night: boolean): HTMLCanvasElement {
+export function forestTexture(palette: ScenePalette, night: boolean, waterFeatures = true): HTMLCanvasElement {
   const N = 512, S = FARM_TEXTURE_SIZE;
   const leaf = hexToRgb(palette.foliage);
   const deepC: RGB = mixRgb(leaf, [22, 52, 34], 0.82);
@@ -586,7 +588,7 @@ export function forestTexture(palette: ScenePalette, night: boolean): HTMLCanvas
     const cl = step(0.74, 0.8, clear(u, v));
     if (cl > 0) c = mixRgb(c, (fine > 0 ? fieldA : fieldB), cl * 0.85);
     // Lakes with a lighter shallow rim.
-    const lk = lakes(u + 0.2, v + 0.6);
+    const lk = waterFeatures ? lakes(u + 0.2, v + 0.6) : 0;
     if (lk > 0.84) c = mixRgb(c, mixRgb(lake, [110, 160, 170], step(0.84, 0.86, 1 - lk + 0.84) * 0.6), step(0.84, 0.86, lk));
     const l = 1 + Math.max(-0.45, Math.min(0.45, lit)) * 0.75 + lump * 0.42 * (1 - cl) + fine * 0.2;
     const p = (y * N + x) * 4;
@@ -612,8 +614,10 @@ export function forestTexture(palette: ScenePalette, night: boolean): HTMLCanvas
       g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x + ox, y + oy) : g.moveTo(x + ox, y + oy))); g.stroke();
     }
   };
-  draw('rgba(196,204,170,0.7)', 16);
-  draw(`rgb(${Math.round(lake[0])},${Math.round(lake[1])},${Math.round(lake[2])})`, 9);
+  if (waterFeatures) {
+    draw('rgba(196,204,170,0.7)', 16);
+    draw(`rgb(${Math.round(lake[0])},${Math.round(lake[1])},${Math.round(lake[2])})`, 9);
+  }
   if (night) {
     g.fillStyle = 'rgba(8,12,26,0.6)';
     g.fillRect(0, 0, S, S);
@@ -857,7 +861,7 @@ export type NaturalGround = 'grassland' | 'tundra' | 'wetlands' | 'salt-flats';
  * Open natural ground from the air (real land cover, NASA MODIS): steppe grass with wind streaks, tundra with lichen
  * and small ponds, wetlands threaded with channels, salt flats with pale polygon cracks. Tiles seamlessly.
  */
-export function naturalTexture(kind: NaturalGround, palette: ScenePalette, night: boolean): HTMLCanvasElement {
+export function naturalTexture(kind: NaturalGround, palette: ScenePalette, night: boolean, waterFeatures = true): HTMLCanvasElement {
   const N = 512, S = FARM_TEXTURE_SIZE;
   const land = hexToRgb(palette.terrainTop);
   const water = mixRgb(hexToRgb(palette.waterTop), [40, 92, 116], 0.6);
@@ -880,7 +884,7 @@ export function naturalTexture(kind: NaturalGround, palette: ScenePalette, night
     col = mixRgb(col, c, Math.max(0, n8(u, v + w) - 0.45) * 1.4);
     if (kind === 'grassland') col = mixRgb(col, b, Math.max(0, Math.sin((u * 3 + v * 9 + w * 4) * Math.PI * 2)) * 0.18);
     if (kind === 'tundra') col = mixRgb(col, [200, 196, 170], Math.max(0, n24(u, v) - 0.62) * 1.6);
-    if (pond > 0 && ponds(u + w * 0.5, v) > 1 - pond) col = mixRgb(col, water, 0.85);
+    if (waterFeatures && pond > 0 && ponds(u + w * 0.5, v) > 1 - pond) col = mixRgb(col, water, 0.85);
     const l = 1 + (grain(u, v) - 0.5) * 0.08;
     const p = (y * N + x) * 4;
     img.data[p] = Math.min(255, col[0] * l); img.data[p + 1] = Math.min(255, col[1] * l); img.data[p + 2] = Math.min(255, col[2] * l); img.data[p + 3] = 255;
@@ -949,10 +953,10 @@ export const realCoast = () => REAL_COAST;
 let REAL_RELIEF = true;
 export function setRealRelief(on: boolean) { REAL_RELIEF = on; }
 export const realRelief = () => REAL_RELIEF;
-/** Continuous real elevation surface: preview only until the owner enables it in classes. */
-let REAL_TERRAIN = false;
+/** Continuous real elevation surface, enabled by default in live flights. */
+let REAL_TERRAIN = true;
 export function setRealTerrain(on: boolean) { REAL_TERRAIN = on; }
-export const realTerrain = () => REAL_TERRAIN;
+export function realTerrain() { return REAL_TERRAIN; }
 export function setGroundRelief(on: boolean) { GROUND_RELIEF = on; }
 export const groundRelief = () => GROUND_RELIEF;
 

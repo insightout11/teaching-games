@@ -12,7 +12,11 @@ import { markFirst, trackFunnel } from '@/lib/teacher-firsts';
 import { TestFlightCoach } from './test-flight-coach';
 import { CLASS_TYPES, classTypeName, type ClassProfile, type ClassType, type SecondScreens } from '@/lib/class-profile';
 import { classFitMarks, withFallback } from '@/lib/class-fit';
-import { flightClock } from '@/lib/live-room/flight-clock';
+import { flightClock, reanchorFlight, type FlightAnchor } from '@/lib/live-room/flight-clock';
+import { SceneryStatus, useSceneryState } from '@/components/live-room/flight/scenery-status';
+import { PreflightBriefing } from '@/components/session/live-room/preflight-briefing';
+import { actualAnswer, pickPrediction, type FlightPrediction } from '@/lib/live-room/flight-prediction';
+import { DESTINATION_TIME_ZONES } from '@/data/world-flight/time-zones';
 import { fairPick } from '@/lib/fair-pick';
 import { preparedFocusKey } from '@/lib/prepared-lesson';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -55,7 +59,7 @@ import { coastStrip, routeLengthKm, type CoastStrip } from '@/lib/live-room/coas
 import { drawnKindOf, drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
 import { openWindowViewChannel, WINDOW_VIEW_HEARTBEAT_MS, type WindowView } from '@/lib/live-room/window-view';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
-import { realCoast, realRelief, realWaters, setRealCoast } from '@/components/live-room/flight/ground-texture';
+import { realCoast, realRelief, realWaters, setRealCoast, realTerrain } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
 import { eventKind, realEvents, type SceneEvent } from '@/components/live-room/flight/event-art';
 import { ISS_PASS_MS } from '@/components/live-room/flight/iss-pass';
@@ -318,6 +322,8 @@ export function FlightDeck({
   // After landing the room stays open as the arrivals hall until the teacher ends class.
   const [hall, setHall] = useState(false);
   const [takeoffAt, setTakeoffAt] = useState<number | null>(null);
+  // Where the plane was when the class end last changed mid-flight (+5/-5): it flies on from there.
+  const [flightAnchor, setFlightAnchor] = useState<FlightAnchor | null>(null);
   // The class type sets up the room; "change for today" overrides it for this lesson only.
   const todayTypeKey = `lc-room-type-${sessionId}`;
   const [todayOverride, setTodayOverride] = useState<ClassType | null>(null);
@@ -384,7 +390,7 @@ export function FlightDeck({
   const [flightRestored, setFlightRestored] = useState(false);
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string; classStartAt?: number; classMinutes?: number } | null;
+      const saved = JSON.parse(localStorage.getItem(flightKey) ?? 'null') as { stage?: string; takeoffAt?: number; chosenId?: string; lockedId?: string; stayHome?: string; classStartAt?: number; classMinutes?: number; anchor?: FlightAnchor } | null;
       if (saved?.classStartAt) setClassStartAt(Math.min(saved.classStartAt, saved.takeoffAt ?? saved.classStartAt));
       if (saved?.classMinutes) setClassMinutes(saved.classMinutes);
       else {
@@ -398,6 +404,8 @@ export function FlightDeck({
       if (saved?.lockedId) setLockedId((cur) => cur ?? saved.lockedId ?? null);
       if (saved?.stayHome) setStayHome(saved.stayHome);
       if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
+      const a = saved?.anchor;
+      if (a && typeof a.takeoffAt === 'number' && typeof a.at === 'number' && typeof a.t === 'number') setFlightAnchor(a);
     } catch { /* storage blocked */ }
     setFlightRestored(true);
     // Restore once per lesson; the class length read here is only a starting value.
@@ -406,10 +414,10 @@ export function FlightDeck({
   useEffect(() => {
     if (!flightRestored) return;
     try {
-      localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes }));
+      localStorage.setItem(flightKey, JSON.stringify({ stage: flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes, anchor: flightAnchor }));
       localStorage.setItem(CLASS_MINUTES_KEY, String(classMinutes));
     } catch { /* storage blocked */ }
-  }, [flightRestored, flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes]);
+  }, [flightRestored, flightKey, flightStage, takeoffAt, chosenId, lockedId, stayHome, classStartAt, classMinutes, flightAnchor]);
   const destination = useMemo<RouteCity>(
     () => reachable.find((c) => c.id === chosenId) ?? reachable[hashOf(sessionId) % Math.max(1, reachable.length)] ?? HOME,
     [reachable, chosenId, sessionId],
@@ -483,6 +491,12 @@ export function FlightDeck({
   };
   // Take off to the winner once the destination has switched to it.
   const [pendingTakeoff, setPendingTakeoff] = useState<string | null>(null);
+  // The pre-flight briefing between the vote and take-off: the captain's welcome and a prediction on the phones,
+  // while the route's scenery prepares. `prediction` rides along into the flight, which reveals the answer.
+  const [briefing, setBriefing] = useState<{ cityId: string; pollId: string | null; prediction: FlightPrediction | null; asked: boolean } | null>(null);
+  const [prediction, setPrediction] = useState<{ p: FlightPrediction; pollId: string | null; revealed: boolean } | null>(null);
+  const [predictionCard, setPredictionCard] = useState<{ text: string; right: number; total: number } | null>(null);
+  const { tallies: predictionTallies, votes: predictionVotes } = usePollVotes(briefing?.pollId ?? prediction?.pollId ?? null);
   // After landing: where to next time? The cities in range of where the class has just landed.
   const nextReachable = useMemo<RouteCity[]>(() => {
     const here = SCENE_CITIES.find((c) => c.id === destination.id);
@@ -1006,12 +1020,12 @@ export function FlightDeck({
     setSkyTest(q.get('sky') === 'on');
   }, []);
   const [descentShift, setDescentShift] = useState(0);
-  const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now });
+  const rawClock = flightClock({ classStartAt, classMinutes, takeoffAt, now, anchor: flightAnchor });
   useEffect(() => {
     if (!descentTest || descentShift || flightStage !== 'flying' || takeoffAt === null || rawClock.minutesLeft == null) return;
     setDescentShift(Math.max(0, (rawClock.minutesLeft - DESCENT_MINUTES - 0.4) * 60_000));
   }, [descentTest, descentShift, flightStage, takeoffAt, rawClock.minutesLeft]);
-  const clock = descentShift ? flightClock({ classStartAt, classMinutes, takeoffAt, now: now + descentShift }) : rawClock;
+  const clock = descentShift ? flightClock({ classStartAt, classMinutes, takeoffAt, now: now + descentShift, anchor: flightAnchor }) : rawClock;
   const { flightMs, routeT, minutesLeft } = clock;
   // Arrived (5 minutes before the end of class): the plane circles near the destination until you land.
   const holding = flightStage === 'flying' && clock.holding;
@@ -1021,6 +1035,8 @@ export function FlightDeck({
   // stays low once landing begins (it went back up to cruise height, climbing into the clouds for the dive)
   const descentAltitude = holding || flightStage === 'landing' ? 0.25 : descending ? 1 - 0.75 * (1 - (minutesLeft ?? 0) / DESCENT_MINUTES) : 1;
   const nudgeClass = (delta: number) => {
+    // Mid-flight: keep the plane where it is right now, so only its speed changes (it used to jump along the route).
+    if (flightStage === 'flying' && takeoffAt !== null) setFlightAnchor(reanchorFlight({ classStartAt, classMinutes, takeoffAt, now: Date.now() + descentShift, anchor: flightAnchor }));
     setClassMinutes((m) => Math.min(240, Math.max(15, m + delta)));
     flash(`Class now ends at ${new Date(clock.endAt + delta * 60_000).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`);
   };
@@ -1045,13 +1061,13 @@ export function FlightDeck({
   const [coastStripData, setCoastStripData] = useState<CoastStrip | null>(null);
   useEffect(() => {
     setCoastStripData(null);
-    if (!realCoast() || flightStage === 'gate' || origin.id === destination.id) return;
+    if (!(realCoast() || realTerrain()) || origin.id === destination.id) return;
     let live = true;
     void coastStrip(origin, destination).then((c) => { if (live) setCoastStripData(c); }).catch(() => {});
     return () => { live = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [origin.id, destination.id, flightStage === 'gate']);
-  const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : 1 / Math.max(1, flightMs), km: routeKmTotal } : null), [flightStage, routeT, flightMs, holding, routeKmTotal]);
+  }, [origin.id, destination.id]);
+  const routeClock = useMemo(() => (flightStage === 'flying' ? { at: Date.now(), t: routeT, perMs: holding ? 0 : clock.perMs, km: routeKmTotal } : null), [flightStage, routeT, clock.perMs, holding, routeKmTotal]);
   const [routeGround, setRouteGround] = useState<HighGround | undefined>(undefined);
   const watersStep = Math.floor(routeT * 400);
   useEffect(() => {
@@ -1083,8 +1099,8 @@ export function FlightDeck({
   const around = useMemo(() => citiesAround(below.point, heading, 150), [below.point, heading]);
   // Flying west about as fast as the sun appears to move: the sun hangs still while the ground passes into evening.
   const chasing = useMemo(
-    () => flightStage === 'flying' && !holding && sunChase(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 120_000 / flightMs)), new Date(now), 120_000),
-    [flightStage, holding, below.point, origin, destination, routeT, flightMs, now],
+    () => flightStage === 'flying' && !holding && sunChase(below.point, greatCirclePoint(origin, destination, Math.min(1, routeT + 120_000 * clock.perMs)), new Date(now), 120_000),
+    [flightStage, holding, below.point, origin, destination, routeT, clock.perMs, now],
   );
   const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
   const voteCards = useMemo<VoteCityCard[]>(() => {
@@ -1117,6 +1133,57 @@ export function FlightDeck({
       };
     });
   }, [cityVote, reachable, origin, countries, visitedIds, landingRecord]);
+
+  // The vote's winner is known once it is revealed: start preparing its route then, so the scenery loads while the
+  // class explains its choices and during the briefing.
+  useEffect(() => {
+    if (!cityVote?.revealed || briefing || flightStage !== 'gate') return;
+    const top = [...voteCards].sort((a, b) => (cityTallies[b.city] ?? 0) - (cityTallies[a.city] ?? 0))[0];
+    if (top && (cityTallies[top.city] ?? 0) > 0 && chosenId !== top.id) setChosenId(top.id);
+  }, [cityVote?.revealed, briefing, flightStage, voteCards, cityTallies, chosenId]);
+  const briefingScenery = useSceneryState(coastStripData);
+  // The briefing's prediction: picked once the destination has switched to the chosen city, then opened on the phones.
+  useEffect(() => {
+    if (!briefing || briefing.asked || destination.id !== briefing.cityId || !countries) return;
+    const cityId = briefing.cityId;
+    const p = pickPrediction({
+      origin, destination, countries, destinationZone: DESTINATION_TIME_ZONES[destination.id] ?? null,
+      landAt: clock.landAt, seed: Math.floor(Date.now() / 86_400_000),
+    });
+    setBriefing((b) => (b && b.cityId === cityId ? { ...b, prediction: p, asked: true } : b));
+    if (!p || isMockMode()) return;
+    void (async () => {
+      const supabase = createClient();
+      await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+      const { data } = await supabase.from('polls')
+        .insert({ session_id: sessionId, question: p.question, options: p.options, is_active: true, metadata: { purpose: 'flight-prediction' } })
+        .select('id').single();
+      if (data) setBriefing((b) => (b && b.cityId === cityId ? { ...b, pollId: (data as { id: string }).id } : b));
+    })();
+  }, [briefing, destination, countries, origin, clock.landAt, sessionId]);
+  const finishBriefing = (go: boolean) => {
+    const b = briefing;
+    if (!b) return;
+    if (b.pollId && !isMockMode()) void createClient().from('polls').update({ is_active: false }).eq('id', b.pollId);
+    setBriefing(null);
+    if (!go) return;
+    if (b.prediction) setPrediction({ p: b.prediction, pollId: b.pollId, revealed: false });
+    setPendingTakeoff(b.cityId);
+  };
+  // The flight answers the prediction: at the border crossing, or as the descent begins for the landing time.
+  useEffect(() => {
+    if (!prediction || prediction.revealed || flightStage !== 'flying') return;
+    const due = prediction.p.revealAt !== null ? routeT >= prediction.p.revealAt : descending || holding;
+    if (!due) return;
+    setPrediction({ ...prediction, revealed: true });
+    const { answer, reveal } = actualAnswer(prediction.p, destination, clock.landAt);
+    setPredictionCard({ text: reveal, right: predictionTallies[answer] ?? 0, total: predictionVotes.length });
+  }, [prediction, flightStage, routeT, descending, holding, predictionTallies, predictionVotes.length, destination, clock.landAt]);
+  useEffect(() => {
+    if (!predictionCard) return;
+    const timer = window.setTimeout(() => setPredictionCard(null), 15_000);
+    return () => window.clearTimeout(timer);
+  }, [predictionCard]);
   // Today's route, shown to the class on the route map before and during the flight.
   const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
   const minutesFlown = clock.minutesFlown;
@@ -2387,7 +2454,22 @@ export function FlightDeck({
 
   // ── windscreen content ───────────────────────────────────────────────────
   let scene: ReactNode;
-  if (view === 'boarding' && cityVote && flightStage === 'gate') {
+  if (view === 'boarding' && briefing && flightStage === 'gate') {
+    scene = (
+      <PreflightBriefing
+        joinUrl={joinUrl}
+        city={destination.city}
+        km={Math.round(routeKmTotal)}
+        minutes={Math.max(1, Math.round(flightMs / 60_000))}
+        prediction={briefing.prediction}
+        tallies={predictionTallies}
+        totalVotes={predictionVotes.length}
+        scenery={briefingScenery}
+        onTakeOff={() => void finishBriefing(true)}
+        onCancel={() => void finishBriefing(false)}
+      />
+    );
+  } else if (view === 'boarding' && cityVote && flightStage === 'gate') {
     scene = (
       <CityVoteBoard
         sessionId={sessionId}
@@ -2398,7 +2480,7 @@ export function FlightDeck({
         tallies={cityTallies}
         reasons={cityReasons}
         onReveal={() => void closeCityVote(true)}
-        onTakeOff={(id) => { setChosenId(id); setPendingTakeoff(id); }}
+        onTakeOff={(id) => { setChosenId(id); setPrediction(null); setBriefing({ cityId: id, pollId: null, prediction: null, asked: false }); }}
         onCancel={() => void closeCityVote(false)}
       />
     );
@@ -2485,6 +2567,7 @@ export function FlightDeck({
           {flightStage === 'gate' && stayHomeCity && (
             <p className="text-sm text-amber-100">City lesson: {stayHomeCity.city}. The class stays in {origin.city}.</p>
           )}
+          {flightStage === 'gate' && !stayHome && <SceneryStatus coastStrip={coastStripData} />}
           {flightStage === 'gate' && !stayHome && (
             <button
               type="button"
@@ -2729,9 +2812,12 @@ export function FlightDeck({
                 />
               ) : <span />}
               {!stayHome && !cardIsFar && (
-                <button type="button" onClick={() => takeOff()} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
-                  Take off to {destination.city}
-                </button>
+                <div className="flex flex-col items-end gap-1">
+                  <SceneryStatus coastStrip={coastStripData} />
+                  <button type="button" onClick={() => takeOff()} className="rounded-2xl bg-gradient-to-r from-amber-300 to-orange-400 px-5 py-2.5 font-display text-base text-[#1a1204] shadow-[0_10px_30px_rgba(255,160,60,.35)] hover:brightness-105">
+                    Take off to {destination.city}
+                  </button>
+                </div>
               )}
             </div>
           </>
@@ -3931,7 +4017,7 @@ export function FlightDeck({
             </span>
           </p>
           <div className={zoomLayout ? 'flex shrink-0 gap-1.5' : 'flex flex-wrap gap-2'}>
-            {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker').map((w) => {
+            {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker' && !w.retired).map((w) => {
               const waitingCount = w.id === 'class-questions' ? waitingMessages : w.id === 'class-board' ? waitingCards : 0;
               const calling = waitingCount > 0;
               return (
@@ -3940,8 +4026,6 @@ export function FlightDeck({
                   type="button"
                   onClick={(e) => (w.id === 'class-questions' ? openMessages(e.clientX, e.clientY)
                     : w.id === 'class-board' && calling ? openBoardApprovals(e.clientX, e.clientY)
-                      // the Word Cloud is now the Class Board's Cloud view (one set of answers, two ways to show them)
-                      : w.id === 'word-cloud' ? (openTool('class-board', e.clientX, e.clientY), window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-view', { detail: { view: 'cloud' } })), 150))
                       : openTool(w.id, e.clientX, e.clientY))}
                   title={calling ? (w.id === 'class-board' ? `${waitingCount} card${waitingCount === 1 ? '' : 's'} waiting for approval` : `${waitingCount} new message${waitingCount === 1 ? '' : 's'} from students`) : undefined}
                   className={[
@@ -4014,6 +4098,14 @@ export function FlightDeck({
           onEnd={endTestFlight}
         />
       )}
+      {predictionCard && (
+        <div role="status" className="fixed left-1/2 top-32 z-[70] w-max max-w-[90vw] -translate-x-1/2 rounded-2xl border border-amber-300/50 bg-[#0a101c]/95 px-6 py-4 text-center text-white shadow-2xl">
+          <button type="button" onClick={() => setPredictionCard(null)} aria-label="Close" className="absolute right-2 top-2 p-1 text-white/40 hover:text-white"><X className="h-3.5 w-3.5" /></button>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-amber-300">Our prediction</p>
+          <p className="mt-1 font-display text-2xl">{predictionCard.text}</p>
+          {predictionCard.total > 0 && <p className="mt-1 text-sm text-white/70">{predictionCard.right} of {predictionCard.total} guessed right</p>}
+        </div>
+      )}
       {toast && (
         <div role="status" className="fixed left-1/2 top-16 z-[70] -translate-x-1/2 rounded-xl border border-amber-300/50 bg-[#0a101c]/95 px-4 py-2.5 text-sm text-white shadow-2xl">
           {toast}
@@ -4041,7 +4133,7 @@ const SCREEN_TEMPLATES: ScreenTemplate[] = [
   { name: 'Clear', hint: 'Close every widget', widgets: {} },
   { name: 'Timed task', hint: 'Timer in the top-right corner', widgets: { timer: 'tr' } },
   { name: 'Vote', hint: 'Poll bottom-left, timer top-right', widgets: { poll: 'bl', timer: 'tr' } },
-  { name: 'Brainstorm', hint: 'Word cloud bottom-left, class questions bottom-right', widgets: { 'word-cloud': 'bl', 'class-questions': 'br' } },
+  { name: 'Brainstorm', hint: 'Class board bottom-left (Cloud shows a word cloud), class questions bottom-right', widgets: { 'class-board': 'bl', 'class-questions': 'br' } },
 ];
 
 interface FocusBrief {

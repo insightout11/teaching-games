@@ -29,14 +29,16 @@ export interface CockpitCloudsProps {
 interface Cloud { x: number; y: number; z: number; size: number; sprite: number; rank: number; show: number }
 
 const SPRITES = 6;
+const SPRITE_H = 160;
 const FOCAL = 0.6;
 
 function makeSprite(tint: [number, number, number], seed: number): HTMLCanvasElement {
   // A cumulus in the house style: a flat base, a few overlapping domes on top,
   // heavily softened so it reads as vapour rather than bubbles.
   const c = document.createElement('canvas');
+  // Tall enough for the blurred base (it reached the bottom edge and was cut flat).
   c.width = 320;
-  c.height = 140;
+  c.height = SPRITE_H;
   const g = c.getContext('2d')!;
   let r = seed * 7919;
   const rnd = () => ((r = (r * 9301 + 49297) % 233280) / 233280);
@@ -64,7 +66,7 @@ function makeSprite(tint: [number, number, number], seed: number): HTMLCanvasEle
   shade.addColorStop(0.55, 'rgba(255,255,255,0)');
   shade.addColorStop(1, 'rgba(60,72,104,0.28)');
   g.fillStyle = shade;
-  g.fillRect(0, 0, 320, 140);
+  g.fillRect(0, 0, 320, SPRITE_H);
   return c;
 }
 
@@ -156,7 +158,7 @@ export function CockpitClouds({ speed, tint, density = 1, horizon = 0.55, dive =
         if (c.show < 0.01) continue;
         const scale = F / c.z;
         const sw = c.size * scale * 2;
-        const sh = sw * (140 / 320);
+        const sh = sw * (SPRITE_H / 320);
         const px = cx + c.x * scale - sw / 2;
         const py = cy + c.y * scale - sh / 2;
         if (px > w || px + sw < 0) continue;

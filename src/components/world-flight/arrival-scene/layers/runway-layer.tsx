@@ -205,7 +205,7 @@ export function RunwayLayer(props: SceneLayerProps) {
       {ambient ? (
         <>
           {[0, 1, 2, 3].map((d) => (
-            <motion.circle key={`d${d}`} r={2.2} fill={water} initial={{ opacity: 0 }} animate={{ cx: spoutXs, cy: spoutYs, opacity: [0, 1, 1, 0.8, 0] }} transition={{ duration: 1.1, repeat: Infinity, ease: 'easeIn', delay: d * 0.27 }} />
+            <motion.circle key={`d${d}`} r={2.2} fill={water} initial={{ cx: spoutXs[0], cy: spoutYs[0], opacity: 0 }} animate={{ cx: spoutXs, cy: spoutYs, opacity: [0, 1, 1, 0.8, 0] }} transition={{ duration: 1.1, repeat: Infinity, ease: 'easeIn', delay: d * 0.27 }} />
           ))}
           {[0, 1].map((r) => (
             <motion.ellipse key={`r${r}`} cx={landX} cy={landY} fill="none" stroke={water} strokeWidth={1} initial={{ rx: 2, ry: 1, opacity: 0.8 }} animate={{ rx: [2, 16], ry: [1, 5], opacity: [0.8, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeOut', delay: r * 0.7 }} />
