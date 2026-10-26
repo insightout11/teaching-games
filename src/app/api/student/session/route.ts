@@ -121,6 +121,9 @@ interface SessionPayload {
   debriefToken: string | null;
   /** 0-based cabin seat (join order); only when the phone asks with seat=1. */
   seatIndex?: number | null;
+  /** The class mascot flying this session, and the class's country items (migration 070). */
+  mascot?: { name: string; look: unknown } | null;
+  shelf?: string[];
 }
 
 interface SessionLightweightPayload {
@@ -301,6 +304,8 @@ export async function GET(request: NextRequest) {
     let studentId: string | null = null;
     let debriefToken: string | null = null;
     let seatIndex: number | null = null;
+    let mascot: { name: string; look: unknown } | null | undefined;
+    let shelf: string[] | undefined;
     if (clientId) {
       const { data: deviceParticipant, error: participantError } = await supabase
         .from('session_participants')
@@ -340,6 +345,20 @@ export async function GET(request: NextRequest) {
           seatIndex = i >= 0 ? i : null;
         } catch {
           seatIndex = null;
+        }
+      }
+      // The class mascot and cabin shelf on the boarding pass: only on the phone's full refresh (about once a minute)
+      if (participant && searchParams.get('extras') === '1') {
+        try {
+          const { data: m } = await supabase.from('class_mascots').select('name, look').eq('session_id', sessionId).limit(1).maybeSingle();
+          mascot = m ? { name: (m as { name: string }).name, look: (m as { look: unknown }).look } : null;
+          const { data: sess } = await supabase.from('sessions').select('class_id').eq('id', sessionId).maybeSingle();
+          if (sess?.class_id) {
+            const { data: u } = await supabase.from('class_unlocks').select('unlock_id').eq('class_id', sess.class_id as string).like('unlock_id', 'country:%');
+            shelf = ((u ?? []) as Array<{ unlock_id: string }>).map((r) => r.unlock_id.slice('country:'.length));
+          }
+        } catch {
+          // before migration 070
         }
       }
     }
@@ -860,6 +879,8 @@ export async function GET(request: NextRequest) {
       heldCard,
       offeredCards,
       seatIndex,
+      mascot,
+      shelf,
       debriefToken,
     };
 

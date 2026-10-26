@@ -45,3 +45,12 @@ export function randomMascot(rand: () => number = Math.random): MascotLook {
   const pick = <T,>(list: readonly T[]) => list[Math.floor(rand() * list.length)];
   return { body: pick(MASCOT_BODIES), color: pick(MASCOT_COLORS), eyes: pick(MASCOT_EYES), head: pick(MASCOT_HEADS), extra: pick(MASCOT_EXTRAS) };
 }
+
+/** A saved look from the database or a request, checked part by part; null if anything is unknown. */
+export function parseMascotLook(raw: unknown): MascotLook | null {
+  const v = raw as Partial<Record<keyof MascotLook, unknown>> | null;
+  if (!v || typeof v !== 'object') return null;
+  const ok = <T extends string>(list: readonly T[], x: unknown): x is T => typeof x === 'string' && (list as readonly string[]).includes(x);
+  if (!ok(MASCOT_BODIES, v.body) || !ok(MASCOT_COLORS, v.color) || !ok(MASCOT_EYES, v.eyes) || !ok(MASCOT_HEADS, v.head) || !ok(MASCOT_EXTRAS, v.extra)) return null;
+  return { body: v.body, color: v.color, eyes: v.eyes, head: v.head, extra: v.extra };
+}

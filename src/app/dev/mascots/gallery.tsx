@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Lock, Shuffle } from 'lucide-react';
 import { MascotFigure } from '@/components/ui/mascot-figure';
+import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import {
   DEFAULT_MASCOT, MASCOT_BODIES, MASCOT_COLORS, MASCOT_EXTRAS, MASCOT_EYES, MASCOT_HEADS, MASCOT_LABELS, MASCOT_LOCKED,
@@ -12,6 +13,8 @@ import {
 /** Every part on its own, then random mascots, then one next to crew avatars for scale (twice their size). */
 export function MascotGallery() {
   const [seed, setSeed] = useState(0);
+  const [building, setBuilding] = useState(false);
+  const [made, setMade] = useState<{ look: MascotLook; name: string } | null>(null);
   const randoms = Array.from({ length: 12 }, (_, i) => {
     let s = (seed * 97 + i * 31 + 7) % 2147483647;
     const rand = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
@@ -36,7 +39,12 @@ export function MascotGallery() {
   );
   return (
     <main className="min-h-screen space-y-8 bg-[#0b1220] p-6 text-white">
-      <h1 className="font-display text-3xl">Class mascot parts</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="font-display text-3xl">Class mascot parts</h1>
+        <button type="button" onClick={() => setBuilding(true)} className="rounded-full bg-amber-300 px-4 py-1.5 text-sm font-semibold text-slate-950">Try the class vote</button>
+        {made && <span className="flex items-center gap-2 text-sm"><MascotFigure look={made.look} size={48} /> {made.name} boarded</span>}
+      </div>
+      {building && <div className="relative h-[460px]"><MascotBuilder sessionId="00000000-0000-4000-8000-000000000000" unlocks={new Set()} onClose={() => setBuilding(false)} onDone={(look, name) => { setMade({ look, name }); setBuilding(false); }} /></div>}
       {row('1. Body', MASCOT_BODIES, (v) => ({ ...DEFAULT_MASCOT, body: v as MascotLook['body'] }))}
       {row('2. Colour', MASCOT_COLORS, (v) => ({ ...DEFAULT_MASCOT, color: v }))}
       {row('3. Eyes', MASCOT_EYES, (v) => ({ ...DEFAULT_MASCOT, eyes: v as MascotLook['eyes'] }))}

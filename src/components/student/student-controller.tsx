@@ -40,6 +40,9 @@ import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/compo
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { SeatPicker } from '@/components/student/seat-picker';
+import { MascotFigure } from '@/components/ui/mascot-figure';
+import { parseMascotLook, type MascotLook } from '@/lib/mascot';
+import { countryItemFor } from '@/data/world-flight/country-items';
 import { Phrasebook } from '@/components/student/phrase-card';
 import { LandingCard } from '@/components/student/landing-card';
 import { useScreenWakeLock } from '@/components/student/use-screen-wake-lock';
@@ -448,6 +451,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // Raise hand: joins the teacher's speaking queue in the cabin.
   const [handRaised, setHandRaised] = useState(false);
   const [seatIndex, setSeatIndex] = useState<number | null>(null);
+  // The class mascot and cabin shelf, shown on the boarding pass (Oct 2026)
+  const [classMascot, setClassMascot] = useState<{ name: string; look: MascotLook | null } | null>(null);
+  const [shelf, setShelf] = useState<string[]>([]);
   const handAt = useRef(0);
   const handChannel = useRef<ReturnType<typeof openHandChannel> | null>(null);
   useEffect(() => {
@@ -582,6 +588,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (studentSession.studentId) params.set('studentId', studentSession.studentId);
       params.set('seat', '1');
       const allowUnchanged = !options?.forceFull && Date.now() - lastFullSessionPollAtRef.current < 60_000;
+      if (!allowUnchanged) params.set('extras', '1');
       if (allowUnchanged && inputSpecRevisionRef.current) {
         params.set('inputSpecRevision', inputSpecRevisionRef.current);
       }
@@ -700,6 +707,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       setPersonalResults(data.personalResults ?? null);
       setDebriefToken(data.debriefToken ?? null);
       if (typeof data.seatIndex === 'number') setSeatIndex(data.seatIndex);
+      if (data.mascot !== undefined) setClassMascot(data.mascot ? { name: data.mascot.name, look: parseMascotLook(data.mascot.look) } : null);
+      if (Array.isArray(data.shelf)) setShelf(data.shelf);
       setLastResult(data.lastResult ?? null);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
       if (typeof data.responseCount === 'number') {
@@ -1515,6 +1524,22 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         </div>
       )}
       <SeatPicker sessionId={sessionId} clientId={studentSession.clientId} onSeat={setSeatIndex} />
+      {(classMascot?.look || shelf.length > 0) && (
+        <div className="mb-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-lc-card p-3">
+          {classMascot?.look && <MascotFigure look={classMascot.look} size={64} title={classMascot.name} />}
+          <div className="min-w-0 flex-1">
+            {classMascot?.look && <p className="font-display text-lg text-white">{classMascot.name} <span className="text-xs font-normal text-white/55">is flying with us</span></p>}
+            {shelf.length > 0 && (
+              <div className="mt-1 flex flex-wrap gap-1">
+                {shelf.map((c) => { const it = countryItemFor(c); return it ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={c} src={`/stickers/${it.sticker}.webp`} alt={`${it.item} (${c})`} title={`${it.item} · ${c}`} className="h-7 w-7 rounded-md bg-white/90 p-0.5" />
+                ) : null; })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {grammarTarget
         ? <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} target={grammarTarget} />

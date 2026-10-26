@@ -29,6 +29,9 @@ import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/cop
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { assignSeats, cabinSeatLabel } from '@/lib/live-room/seats';
 import { COUNTRY_ITEMS, countryItemFor, countryUnlockId } from '@/data/world-flight/country-items';
+import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
+import { MascotFigure } from '@/components/ui/mascot-figure';
+import { MASCOT_LABELS, MASCOT_LOCKED, type MascotLook } from '@/lib/mascot';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
 import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
@@ -1263,6 +1266,9 @@ export function FlightDeck({
   const momentDue = minutesFlown == null ? null : moments.find((m) => !momentsShown.includes(m.id) && minutesFlown >= m.at && minutesFlown <= m.at + 8) ?? null;
   const openMoment = (m: Moment) => {
     setMomentsShown((x) => [...x, m.id]);
+    // Showing the class Saturn or the ISS unlocks a mascot part (the class really saw it)
+    if (m.id === 'planet:Saturn') earnUnlock('mascot:alien');
+    if (m.id.startsWith('iss:')) earnUnlock('mascot:astronaut');
     setMomentCard({ moment: m, facts: m.fact ? [m.fact] : [], picture: null, loading: true });
     void fetch('/api/live-room/moment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: m.title, kind: m.kind, ...(lensRef.current ? { lens: lensRef.current, where: m.where } : {}) }) })
       .then((r) => (r.ok ? r.json() : null))
@@ -1341,14 +1347,45 @@ export function FlightDeck({
   }, [sessionId]);
   const itemNow = countryItemFor(crossingNow?.name ?? countryNow ?? place.country ?? null);
   const itemNowEarned = Boolean(itemNow && unlocks.has(countryUnlockId(itemNow.country)));
+  /** Earn something once per class (a country item, a mascot part). Mascot parts get a quiet toast. */
+  function earnUnlock(id: string) {
+    if (unlocks.has(id)) return;
+    setUnlocks((u) => new Set(u).add(id));
+    const part = Object.entries(MASCOT_LOCKED).find(([, v]) => v?.unlockId === id)?.[0];
+    if (part) flash(`Unlocked for your mascot: ${MASCOT_LABELS[part] ?? part}!`);
+    if (!isMockMode()) void fetch(`/api/session/${sessionId}/unlocks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ unlockId: id }) }).catch(() => {});
+  }
   const earnCountry = () => {
     if (!itemNow || itemNowEarned) return;
-    const id = countryUnlockId(itemNow.country);
-    setUnlocks((u) => new Set(u).add(id));
+    earnUnlock(countryUnlockId(itemNow.country));
     setItemsToday((t) => (t.includes(itemNow.country) ? t : [...t, itemNow.country]));
     recordTopic(itemNow.country, 'country');
     flash(`${itemNow.country} added to Talked about. Your class earned: ${itemNow.item}!`);
-    if (!isMockMode()) void fetch(`/api/session/${sessionId}/unlocks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ unlockId: id }) }).catch(() => {});
+  };
+  // The class mascot (Oct 2026): one flies per flight, standing beside the cabin. Made by class vote or picked from
+  // the class collection.
+  const [mascot, setMascot] = useState<{ id?: string; name: string; look: MascotLook } | null>(null);
+  const [mascots, setMascots] = useState<Array<{ id: string; name: string; look: MascotLook }>>([]);
+  const [mascotBuilder, setMascotBuilder] = useState(false);
+  const [mascotPicker, setMascotPicker] = useState(false);
+  useEffect(() => {
+    if (isMockMode()) return;
+    let live = true;
+    fetch(`/api/session/${sessionId}/mascot`).then((r) => (r.ok ? r.json() : null)).then((d: { mascots?: Array<{ id: string; name: string; look: MascotLook }>; current?: { id: string; name: string; look: MascotLook } | null } | null) => {
+      if (!live || !d) return;
+      setMascots(d.mascots ?? []);
+      if (d.current) setMascot(d.current);
+    }).catch(() => {});
+    return () => { live = false; };
+  }, [sessionId]);
+  const boardMascot = (m: { id?: string; name: string; look: MascotLook }) => {
+    setMascot(m); setMascotBuilder(false); setMascotPicker(false);
+    flash(`${m.name} is boarding!`);
+    if (isMockMode()) return;
+    void fetch(`/api/session/${sessionId}/mascot`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(m.id ? { id: m.id } : { name: m.name, look: m.look }) })
+      .then((r) => (r.ok ? r.json() : null)).then((d: { mascot?: { id: string; name: string; look: MascotLook } } | null) => {
+        if (d?.mascot) { setMascot(d.mascot); setMascots((all) => [d.mascot!, ...all.filter((x) => x.id !== d.mascot!.id)]); }
+      }).catch(() => {});
   };
   const shelfItems = COUNTRY_ITEMS.filter((i) => unlocks.has(countryUnlockId(i.country)));
   const crossedCountries = Array.from(new Set(preview.filter((st) => st.crossing).map((st) => st.text.replace(/^Cross into /, ''))));
@@ -1451,6 +1488,7 @@ export function FlightDeck({
     photoName.current = photoLandmark.name;
     photoId.current = photoLandmark.id;
     window.dispatchEvent(new Event('lc-take-photo'));
+    earnUnlock('mascot:camera');
   };
   // Window selfies (Oct 2026): while a landmark is in good view, the phones are told, so each student can take one
   const windowChannel = useRef<ReturnType<typeof openWindowViewChannel> | null>(null);
@@ -3448,6 +3486,9 @@ export function FlightDeck({
         </div>
       )}
 
+      {mascotBuilder && (
+        <MascotBuilder sessionId={sessionId} unlocks={unlocks} onClose={() => setMascotBuilder(false)} onDone={(look, name) => boardMascot({ look, name })} />
+      )}
       {checkInP && checkIn && (
         <div className="absolute left-1/2 top-4 z-20 w-[min(560px,90%)] -translate-x-1/2">
           <motion.div key={checkInP.id} initial={reduce ? false : { y: -16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="overflow-hidden rounded-2xl bg-[#f4efe3] text-[#1b2233] shadow-2xl">
@@ -3483,7 +3524,10 @@ export function FlightDeck({
       {landed && !hall && (
         <div className="absolute inset-x-0 top-10 z-20 flex justify-center">
           <motion.div initial={reduce ? false : { y: -20, rotate: -6, opacity: 0 }} animate={{ y: 0, rotate: -2, opacity: 1 }} className="rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl">
-            <p className="font-display text-3xl">Welcome to {destination.city}</p>
+            <div className="flex items-center justify-between gap-3">
+              <p className="font-display text-3xl">Welcome to {destination.city}</p>
+              {mascot && <MascotFigure look={mascot.look} size={64} title={mascot.name} />}
+            </div>
             {/* Local time and the real weather there right now, big enough to read from the back. */}
             <p className="mt-1 font-mono text-sm text-[#1b2233]/75">
               {liveWx?.utcOffsetSeconds !== undefined ? offsetClock(liveWx.utcOffsetSeconds, new Date(now)) : skyNow.clock} local time
@@ -3927,6 +3971,36 @@ export function FlightDeck({
         <button type="button" onClick={spinRoulette} disabled={seated.length === 0 || !!roulette} className="flex items-center justify-center gap-1.5 rounded-xl border border-amber-300/50 bg-amber-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-300 hover:bg-amber-300/20 disabled:opacity-40">
           <Shuffle className="h-3.5 w-3.5" /> Pick a student
         </button>
+        {/* the class mascot stands beside the cabin, twice the size of an avatar */}
+        {mascot ? (
+          <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-1.5">
+            <MascotFigure look={mascot.look} size={80} title={mascot.name} />
+            <div className="min-w-0 flex-1">
+              <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/45">Our mascot</p>
+              <p className="truncate font-display text-lg text-white">{mascot.name}</p>
+              {!landed && <button type="button" onClick={() => setMascotPicker((v) => !v)} className="text-[11px] text-sky-200/80 hover:text-sky-100">Change</button>}
+            </div>
+          </div>
+        ) : !landed && (
+          <button type="button" onClick={() => (mascots.length ? setMascotPicker((v) => !v) : setMascotBuilder(true))} className="flex items-center justify-center gap-1.5 rounded-xl border border-fuchsia-300/40 bg-fuchsia-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-fuchsia-200 hover:bg-fuchsia-300/20">
+            Class mascot
+          </button>
+        )}
+        {mascotPicker && (
+          <div className="space-y-1.5 rounded-xl border border-fuchsia-300/30 bg-fuchsia-300/[0.05] p-2">
+            <button type="button" onClick={() => { setMascotPicker(false); setMascotBuilder(true); }} className="w-full rounded-lg bg-fuchsia-300/20 py-1 text-xs font-semibold text-fuchsia-100 hover:bg-fuchsia-300/30">Make a new mascot</button>
+            {mascots.length > 0 && (
+              <div className="flex flex-wrap gap-1">
+                {mascots.map((m) => (
+                  <button key={m.id} type="button" onClick={() => boardMascot(m)} title={`Board ${m.name}`} className="flex flex-col items-center rounded-lg p-0.5 hover:bg-white/10">
+                    <MascotFigure look={m.look} size={44} />
+                    <span className="max-w-[56px] truncate text-[10px] text-white/75">{m.name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         {flightStage === 'gate' && !landed && seated.length > 0 && !checkIn && (
           <button type="button" onClick={startCheckIn} className="flex items-center justify-center gap-1.5 rounded-xl border border-sky-300/50 bg-sky-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-sky-200 hover:bg-sky-300/20">
             <Ticket className="h-3.5 w-3.5" /> Passenger check-in
