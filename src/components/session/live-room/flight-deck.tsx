@@ -1170,20 +1170,14 @@ export function FlightDeck({
     if (b.prediction) setPrediction({ p: b.prediction, pollId: b.pollId, revealed: false });
     setPendingTakeoff(b.cityId);
   };
-  // The flight answers the prediction: at the border crossing, or as the descent begins for the landing time.
+  // The prediction is answered on the landing card, never mid-flight: in pilot 001 (Oct 2026) the pop-up landed in
+  // the middle of a good conversation and was skipped.
   useEffect(() => {
-    if (!prediction || prediction.revealed || flightStage !== 'flying') return;
-    const due = prediction.p.revealAt !== null ? routeT >= prediction.p.revealAt : descending || holding;
-    if (!due) return;
+    if (!prediction || prediction.revealed || !landed) return;
     setPrediction({ ...prediction, revealed: true });
     const { answer, reveal } = actualAnswer(prediction.p, destination, clock.landAt);
     setPredictionCard({ text: reveal, right: predictionTallies[answer] ?? 0, total: predictionVotes.length });
-  }, [prediction, flightStage, routeT, descending, holding, predictionTallies, predictionVotes.length, destination, clock.landAt]);
-  useEffect(() => {
-    if (!predictionCard) return;
-    const timer = window.setTimeout(() => setPredictionCard(null), 15_000);
-    return () => window.clearTimeout(timer);
-  }, [predictionCard]);
+  }, [prediction, landed, predictionTallies, predictionVotes.length, destination, clock.landAt]);
   // Today's route, shown to the class on the route map before and during the flight.
   const preview = useMemo(() => routePreview(origin, destination, countries, flightMs / 60_000), [origin, destination, countries, flightMs]);
   const minutesFlown = clock.minutesFlown;
@@ -3408,12 +3402,21 @@ export function FlightDeck({
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Today&apos;s flight · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'} so far</p>
             <WorldFlightMap still className="mt-1 h-44 w-[min(420px,70vw)] overflow-hidden rounded-xl" origin={destination} rangeKm={0} visitedIds={visitedList} journey={landingJourney} selectedId={null} souvenirs={mapSouvenirs} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
+            {predictionCard && (
+              <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our prediction</p>
+                <p className="font-display text-lg">{predictionCard.text}</p>
+                {predictionCard.total > 0 && <p className="text-sm text-[#1b2233]/70">{predictionCard.right} of {predictionCard.total} guessed right</p>}
+              </div>
+            )}
             {landingMilestone && <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/30 px-3 py-2 text-sm font-semibold text-[#1b2233]"><Plane className="h-4 w-4" />Milestone: {landingMilestone.text}!</p>}
             <div className="mt-4 flex flex-wrap justify-end gap-2">
               {nextReachable.length > 1 && <button type="button" onClick={() => void startNextCityPoll()} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Vote: where next?</button>}
               {landingRecord?.landing?.after.claimableTier != null && <button type="button" onClick={() => setRecordTab('hangar')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Hangar</button>}
               <button type="button" onClick={() => setRecordTab('passport')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Passport</button>
               <button type="button" onClick={() => setHall(true)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Arrivals hall</button>
+              {/* Talk about the city first; the recap quiz waits for the teacher (pilot 001: the arrival felt rushed). */}
+              <button type="button" onClick={() => launch('world-quiz', null)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Recap quiz</button>
               <button type="button" onClick={() => onCompleteSession(destination.id)} className="rounded-full bg-[#1b2233] px-4 py-1.5 text-sm text-[#f4efe3] hover:bg-[#1b2233]/85">End class</button>
             </div>
           </motion.div>
@@ -4097,14 +4100,6 @@ export function FlightDeck({
           }}
           onEnd={endTestFlight}
         />
-      )}
-      {predictionCard && (
-        <div role="status" className="fixed left-1/2 top-32 z-[70] w-max max-w-[90vw] -translate-x-1/2 rounded-2xl border border-amber-300/50 bg-[#0a101c]/95 px-6 py-4 text-center text-white shadow-2xl">
-          <button type="button" onClick={() => setPredictionCard(null)} aria-label="Close" className="absolute right-2 top-2 p-1 text-white/40 hover:text-white"><X className="h-3.5 w-3.5" /></button>
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-amber-300">Our prediction</p>
-          <p className="mt-1 font-display text-2xl">{predictionCard.text}</p>
-          {predictionCard.total > 0 && <p className="mt-1 text-sm text-white/70">{predictionCard.right} of {predictionCard.total} guessed right</p>}
-        </div>
       )}
       {toast && (
         <div role="status" className="fixed left-1/2 top-16 z-[70] -translate-x-1/2 rounded-xl border border-amber-300/50 bg-[#0a101c]/95 px-4 py-2.5 text-sm text-white shadow-2xl">

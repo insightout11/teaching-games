@@ -11,6 +11,7 @@ import { WHICH_IS_BIGGER } from '@/data/world-quiz/which-is-bigger';
 import { CAPITAL_QUESTIONS } from '@/data/world-quiz/capitals';
 import { HELLO_QUESTIONS } from '@/data/world-quiz/hello';
 import { getFlightLog } from '@/lib/world-quiz/flight-log';
+import { LANDMARK_CATALOG } from '@/data/world/landmark-catalog';
 import { LANDMARK_QUESTIONS } from '@/data/world-quiz/landmarks';
 import { FOOD_QUESTIONS } from '@/data/world-quiz/food';
 import { ANIMAL_QUESTIONS } from '@/data/world-quiz/animals';
@@ -197,12 +198,14 @@ function ourFlight(count: number): WorldQuestion[] {
     const options = shuffle([c.name, ...wrong]);
     out.push({ kind: 'flag', country: c, options, correctIndex: options.indexOf(c.name), prompt: 'We flew over this country today. Which one is it?', fact: `We flew over ${c.name}.` });
   }
-  // a place we passed
-  const place = shuffle(f.places)[0];
+  // a landmark we passed. The wrong answers are other real landmarks, so the right one is never the odd one out, and
+  // there is no "on our way from A to B" hint (pilot 001, Oct 2026: a student said the quiz gave the answer away).
+  const landmarkNames = new Set(LANDMARK_CATALOG.map((l) => l.name));
+  const place = shuffle(f.places.filter((n) => landmarkNames.has(n)))[0];
   if (place) {
-    const others = shuffle([...PIN_DROP_PLACES.map((p) => p.name)].filter((n) => !f.places.includes(n))).slice(0, 3);
+    const others = shuffle(LANDMARK_CATALOG.map((l) => l.name).filter((n) => !f.places.includes(n))).slice(0, 3);
     const options = shuffle([place, ...others]);
-    out.push({ kind: 'clues', country: cityName(undefined, ''), options, correctIndex: options.indexOf(place), prompt: 'Which of these did we pass on our flight today?', clues: [`It was on our way from ${f.origin.name} to ${f.destination.name}.`], fact: `We passed ${place}.` });
+    out.push({ kind: 'clues', country: cityName(undefined, ''), options, correctIndex: options.indexOf(place), prompt: 'Which of these did we see from the plane today?', clues: ['Think back to what we saw out of the window.'], fact: `We passed ${place}.` });
   }
   return out.slice(0, count);
 }
