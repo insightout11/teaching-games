@@ -5,6 +5,8 @@ import { Camera, Images, X } from 'lucide-react';
 import { WindowSelfieCard } from '@/components/live-room/flight/window-selfie';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { CREW_EXPRESSIONS, type CrewExpression } from '@/components/ui/crew-character';
+import { MascotFigure } from '@/components/ui/mascot-figure';
+import { parseMascotLook, type MascotLook } from '@/lib/mascot';
 import { keepSelfie, keptSelfies, openWindowViewChannel, WINDOW_VIEW_STALE_MS, type KeptSelfie, type WindowView } from '@/lib/live-room/window-view';
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -12,7 +14,7 @@ const titleOf = (v: WindowView) => `Over ${v.name}`;
 const captionOf = (v: KeptSelfie) => [v.from && v.to ? `${v.from} to ${v.to}` : '', new Date(v.takenAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }), v.seat ? `seat ${v.seat}` : ''].filter(Boolean).join(' · ');
 
 /** On the phone: "Take my window selfie" while the room says a landmark is in view; kept selfies on the boarding pass. */
-export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: string; name: string; seed: string | null; seat: string | null }) {
+export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot }: { sessionId: string; name: string; seed: string | null; seat: string | null; mascot?: { name: string; look: MascotLook } | null }) {
   const [view, setView] = useState<WindowView | null>(null);
   const seenAt = useRef(0);
   const [open, setOpen] = useState<KeptSelfie | null>(null);
@@ -20,6 +22,8 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
   const [shelf, setShelf] = useState(false);
   // Pick a face before the snap (pilot 001: students wanted more say in their selfie)
   const [face, setFace] = useState<CrewExpression>('smile');
+  // Bring the class mascot into the selfie (on by default when the class has one)
+  const [withMascot, setWithMascot] = useState(true);
   useEffect(() => { setMine(keptSelfies().filter((s) => s.sessionId === sessionId)); }, [sessionId]);
   useEffect(() => {
     const ch = openWindowViewChannel(sessionId, (v) => { seenAt.current = Date.now(); setView(v); });
@@ -29,7 +33,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
 
   const take = () => {
     if (!view) return;
-    const s: KeptSelfie = { ...view, sessionId, seat, takenAt: Date.now(), expression: face };
+    const s: KeptSelfie = { ...view, sessionId, seat, takenAt: Date.now(), expression: face, mascot: mascot && withMascot ? mascot : null };
     setMine(keepSelfie(s).filter((x) => x.sessionId === sessionId));
     setOpen(s);
   };
@@ -46,6 +50,11 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
           ))}
         </div>
       )}
+      {view && !already && mascot && (
+        <button type="button" onClick={() => setWithMascot((v) => !v)} aria-pressed={withMascot} className={`mb-2 flex w-full items-center justify-center gap-2 rounded-full border px-3 py-1 text-sm ${withMascot ? 'border-fuchsia-300/60 bg-fuchsia-300/15 text-fuchsia-100' : 'border-white/15 text-white/60'}`}>
+          <MascotFigure look={mascot.look} size={28} /> {withMascot ? `${mascot.name} is in the photo` : `Add ${mascot.name} to the photo`}
+        </button>
+      )}
       {view && !already && (
         <button type="button" onClick={take} className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-300 px-4 py-3 text-base font-bold text-[#1b2233] shadow-lg">
           <Camera className="h-5 w-5" /> Take my window selfie: {cap(view.name)}
@@ -60,7 +69,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat }: { sessionId: 
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 overflow-y-auto bg-slate-950/90 p-4 backdrop-blur">
           <button type="button" onClick={() => { setOpen(null); setShelf(false); }} aria-label="Close" className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white"><X className="h-5 w-5" /></button>
           {(open ? [open] : mine).map((s) => (
-            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} landmarkId={s.landmarkId} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} expression={CREW_EXPRESSIONS.includes(s.expression as CrewExpression) ? s.expression as CrewExpression : undefined} />
+            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} landmarkId={s.landmarkId} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} expression={CREW_EXPRESSIONS.includes(s.expression as CrewExpression) ? s.expression as CrewExpression : undefined} mascot={s.mascot ? (() => { const look = parseMascotLook(s.mascot.look); return look ? { name: s.mascot.name, look } : null; })() : null} />
           ))}
           {open && <p className="text-center text-sm text-white/70">Kept on your boarding pass.</p>}
         </div>

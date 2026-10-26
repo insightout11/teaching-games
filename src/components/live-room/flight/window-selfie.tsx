@@ -7,6 +7,8 @@ import type { Terrain } from '@/components/live-room/flight/cockpit-ground';
 import type { WorldLandmarkKind } from '@/components/live-room/flight/world-landmarks';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { CrewExpression } from '@/components/ui/crew-character';
+import { MascotFigure } from '@/components/ui/mascot-figure';
+import type { MascotLook } from '@/lib/mascot';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
@@ -53,7 +55,7 @@ function WindowView({ kind, landmarkId, terrain, region, tod }: { landmarkId?: s
   );
 }
 
-export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay, seed, name, title, caption, expression }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string; expression?: CrewExpression }) {
+export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay, seed, name, title, caption, expression, mascot }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string; expression?: CrewExpression; mascot?: { name: string; look: MascotLook } | null }) {
   const tod = asTime(timeOfDay);
   return (
     <div className="w-[284px] rounded-sm bg-white p-2 pb-3 text-[#1b2233] shadow-xl">
@@ -65,6 +67,8 @@ export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay,
           </div>
         </div>
         <div className="absolute -left-6 bottom-[-14px]"><CrewAvatar seed={seed ?? name} name={name} size={170} expression={expression} /></div>
+        {/* the class mascot squeezes into the photo, in front of the window */}
+        {mascot && <div className="absolute -right-4 bottom-[-10px]"><MascotFigure look={mascot.look} size={136} title={mascot.name} /></div>}
       </div>
       <p className="mt-2 font-display text-lg leading-tight">{title}</p>
       <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#1b2233]/55">{caption}</p>

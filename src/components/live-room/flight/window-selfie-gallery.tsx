@@ -95,6 +95,7 @@ export function WindowSelfieGallery() {
         <div><p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-white/55">A · in my seat, a print</p><SelfieA tod={tod} /></div>
         <div><p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-white/55">B · leaning into the window</p><SelfieB tod={tod} /></div>
         <div><p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-white/55">Built (what phones show)</p><WindowSelfieCard kind="fuji" terrain="farmland" region="Asia" timeOfDay={tod} seed="ken-demo" name="Ken" title="Over Mount Fuji" caption="Tokyo to Shanghai · 21 Oct · seat 3C" /></div>
+        <div><p className="mb-2 font-mono text-xs uppercase tracking-[0.16em] text-white/55">With the class mascot</p><WindowSelfieCard kind="fuji" terrain="farmland" region="Asia" timeOfDay={tod} seed="ken-demo" name="Ken" title="Over Mount Fuji" caption="Tokyo to Shanghai · 21 Oct · seat 3C" expression="grin" mascot={{ name: 'Captain Crumbs', look: { body: 'robot', color: '#a78bfa', eyes: 'sleepy', head: 'horns', extra: 'jetpack' } }} /></div>
       </div>
     </div>
   );
