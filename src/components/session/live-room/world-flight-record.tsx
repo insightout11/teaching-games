@@ -1,5 +1,6 @@
 'use client';
 
+import { rarityOfName } from '@/lib/live-room/landmark-rarity';
 import { useEffect, useState } from 'react';
 import { Check, Compass, Loader2, Mail, Plane, Search, Stamp, Star, X } from 'lucide-react';
 import { souvenirIcon } from '@/components/session/live-room/souvenir-icons';
@@ -156,7 +157,7 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
                           ? <img src={ph.url} alt={ph.name} className="aspect-[16/10] w-full object-cover" />
                           : <div className="aspect-[16/10] w-full bg-slate-200" />}
                         <figcaption className="mt-1 px-0.5 text-[11px] leading-tight">
-                          <span className="flex items-center justify-between gap-1 font-semibold capitalize">{ph.name}{ph.rare && <span className="rounded-full bg-amber-300 px-1.5 text-[9px] uppercase tracking-wide">Rare</span>}</span>
+                          <span className="flex items-center justify-between gap-1 font-semibold capitalize">{ph.name}<span className="flex gap-1">{rarityOfName(ph.name) && <span className={`rounded-full px-1.5 text-[9px] uppercase tracking-wide ${rarityOfName(ph.name) === 'very rare' ? 'bg-amber-300' : 'bg-[#1b2233]/10'}`}>{rarityOfName(ph.name)}</span>}{ph.rare && <span className="rounded-full bg-sky-200 px-1.5 text-[9px] uppercase tracking-wide" title="Taken at dawn, dusk or night, or in snow, a storm or the northern lights">Special sky</span>}</span></span>
                           <span className="text-[#1b2233]/60">{day(ph.takenAt)} · {ph.timeOfDay}{ph.weather ? ` · ${ph.weather}` : ''}{ph.fromCity && ph.toCity ? ` · ${ph.fromCity} to ${ph.toCity}` : ''}</span>
                         </figcaption>
                       </figure>
@@ -334,7 +335,7 @@ export function LandingRewards({ landing, sessionId, onPostcardSaved }: { landin
             // eslint-disable-next-line @next/next/no-img-element
             ph.url ? <img key={ph.id} src={ph.url} alt={ph.name} className="h-10 w-16 rotate-[-2deg] rounded-[2px] border-2 border-white object-cover shadow" /> : null
           ))}
-          <span><span className="font-semibold">New in our album:</span> {landing.photos!.map((ph) => `${ph.name}${ph.timeOfDay ? ` at ${ph.timeOfDay}` : ''}${ph.rare ? ' (rare!)' : ''}`).join(', ')}</span>
+          <span><span className="font-semibold">New in our album:</span> {landing.photos!.map((ph) => `${ph.name}${ph.timeOfDay ? ` at ${ph.timeOfDay}` : ''}${rarityOfName(ph.name) ? ` (${rarityOfName(ph.name)})` : ''}${ph.rare ? ', special sky' : ''}`).join(', ')}</span>
         </div>
       )}
       {(landing.souvenirs?.length ?? 0) > 0 && (

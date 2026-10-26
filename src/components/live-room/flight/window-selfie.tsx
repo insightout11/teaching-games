@@ -9,6 +9,7 @@ import { CrewAvatar } from '@/components/ui/crew-avatar';
 import type { CrewExpression } from '@/components/ui/crew-character';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { countryItemFor } from '@/data/world-flight/country-items';
+import { rarityOf } from '@/lib/live-room/landmark-rarity';
 import type { MascotLook } from '@/lib/mascot';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
@@ -77,7 +78,7 @@ export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay,
         {/* the class mascot squeezes into the photo, in front of the window */}
         {mascot && <div className="absolute -right-4 bottom-[-10px]"><MascotFigure look={mascot.look} size={136} title={mascot.name} /></div>}
       </div>
-      <p className="mt-2 font-display text-lg leading-tight">{title}</p>
+      <p className="mt-2 flex items-center justify-between gap-2 font-display text-lg leading-tight">{title}{rarityOf(landmarkId) && <span className={`shrink-0 rounded-full px-1.5 font-sans text-[9px] font-semibold uppercase tracking-wide ${rarityOf(landmarkId) === 'very rare' ? 'bg-amber-300 text-slate-950' : 'bg-[#1b2233]/10 text-[#1b2233]/70'}`}>{rarityOf(landmarkId)}</span>}</p>
       <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#1b2233]/55">{caption}</p>
     </div>
   );

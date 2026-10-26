@@ -32,6 +32,7 @@ import { COUNTRY_ITEMS, countryItemFor, countryUnlockId } from '@/data/world-fli
 import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { MASCOT_LABELS, MASCOT_LOCKED, type MascotLook } from '@/lib/mascot';
+import { landmarksOnRoute, rarityOf, RARITY_STYLE } from '@/lib/live-room/landmark-rarity';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
 import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
@@ -1162,6 +1163,7 @@ export function FlightDeck({
         id: c.id,
         city: c.city,
         onTheWay: routePreview(origin, c, countries, 60).filter((st) => !st.text.startsWith('Land in')).slice(0, 2).map((st) => st.text.replace(/^(Cross into|Over|Fly over) /, '')),
+        sights: landmarksOnRoute(origin.id, c.id).slice(0, 3).map((l) => ({ name: l.name, rarity: l.rarity })),
         newStamp: !visitedIds.has(c.id),
         souvenir: next?.name ?? null,
         souvenirRare: next?.earn.type === 'rare',
@@ -1483,6 +1485,16 @@ export function FlightDeck({
     return () => { window.removeEventListener('lc-photo-chance', onChance); window.removeEventListener('lc-photo-taken', onTaken); };
   }, [addItem, sessionId]);
   const photoLandmark = photoChance ? LANDMARK_CATALOG.find((l) => l.id === photoChance) ?? null : null;
+  // A very rare landmark in view: a gold banner, once per landmark per lesson (owner, Oct 2026)
+  const [veryRare, setVeryRare] = useState<string | null>(null);
+  const veryRareShown = useRef(new Set<string>());
+  useEffect(() => {
+    if (!photoLandmark || rarityOf(photoLandmark.id) !== 'very rare' || veryRareShown.current.has(photoLandmark.id)) return;
+    veryRareShown.current.add(photoLandmark.id);
+    setVeryRare(photoLandmark.name);
+    const t = window.setTimeout(() => setVeryRare(null), 9000);
+    return () => window.clearTimeout(t);
+  }, [photoLandmark]);
   const takePhoto = () => {
     if (!photoLandmark) return;
     photoName.current = photoLandmark.name;
@@ -3486,6 +3498,13 @@ export function FlightDeck({
         </div>
       )}
 
+      {veryRare && (
+        <motion.div initial={reduce ? false : { y: -30, opacity: 0, scale: 0.9 }} animate={{ y: 0, opacity: 1, scale: 1 }} className="pointer-events-none absolute left-1/2 top-16 z-20 -translate-x-1/2 rounded-2xl border-2 border-amber-200 bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-300 px-6 py-3 text-center text-slate-950 shadow-[0_0_40px_rgba(252,211,77,0.55)]">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.2em]">Very rare sighting</p>
+          <p className="font-display text-2xl">{veryRare}</p>
+          <p className="text-xs">Only a few routes in the world pass it. Take the photo!</p>
+        </motion.div>
+      )}
       {mascotBuilder && (
         <MascotBuilder sessionId={sessionId} unlocks={unlocks} onClose={() => setMascotBuilder(false)} onDone={(look, name) => boardMascot({ look, name })} />
       )}
@@ -3711,7 +3730,7 @@ export function FlightDeck({
         </button>
         {photoLandmark && flightStage === 'flying' && !photo && (
           <button type="button" onClick={takePhoto} title="Take the class photo of this landmark (it goes into this lesson's cargo)" className="flex animate-pulse items-center gap-1.5 rounded-lg border border-amber-300/70 bg-amber-300/15 px-2.5 py-1.5 text-xs font-semibold text-amber-100 hover:bg-amber-300/25">
-            <Camera className="h-3.5 w-3.5" /> Take photo: {photoLandmark.name}
+            <Camera className="h-3.5 w-3.5" /> Take photo: {photoLandmark.name}{rarityOf(photoLandmark.id) && <span className={`rounded-full px-1.5 text-[9px] uppercase tracking-wide ${RARITY_STYLE[rarityOf(photoLandmark.id)!]}`}>{rarityOf(photoLandmark.id)}</span>}
           </button>
         )}
         {view === 'talk' && (

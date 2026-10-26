@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Compass, Gift, MessageSquareQuote, Plane, Route, Stamp, X } from 'lucide-react';
+import { Compass, Gift, MessageSquareQuote, Plane, Route, Stamp, X, Mountain } from 'lucide-react';
+import { RARITY_STYLE, type Rarity } from '@/lib/live-room/landmark-rarity';
 import { QRCodeSVG } from 'qrcode.react';
 import type { FreePicture } from '@/lib/sources/wikimedia-images';
 
@@ -16,6 +17,8 @@ export interface VoteCityCard {
   souvenirRare: boolean;
   /** "Stop 3 of 5 on your expedition", "Gets you closer to Tokyo". */
   strategy: string | null;
+  /** Landmarks the route passes, with their rarity word (most special first). */
+  sights?: Array<{ name: string; rarity: Rarity }>;
 }
 
 // One picture per city, fetched once per page (free Wikimedia pictures).
@@ -108,6 +111,13 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
                   </span>
                 </div>
                 {c.onTheWay.length > 0 && <p className="flex gap-1.5"><Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-300" />On the way: {c.onTheWay.join(', ')}</p>}
+                {c.sights && c.sights.length > 0 && (
+                  <p className="flex flex-wrap items-center gap-1"><Mountain className="h-3.5 w-3.5 shrink-0 text-violet-300" />Sights:{' '}
+                    {c.sights.map((s) => (
+                      <span key={s.name} className="whitespace-nowrap">{s.name} <span className={`rounded-full px-1.5 text-[10px] font-semibold uppercase tracking-wide ${RARITY_STYLE[s.rarity]}`}>{s.rarity}</span></span>
+                    ))}
+                  </p>
+                )}
                 {c.souvenir && <p className="flex gap-1.5"><Gift className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-300" />Souvenir: {c.souvenir}{c.souvenirRare ? ' (rare)' : ''}</p>}
                 {c.strategy && <p className="flex gap-1.5 text-emerald-200"><Compass className="mt-0.5 h-3.5 w-3.5 shrink-0" />{c.strategy}</p>}
                 {/* Live counts while voting (owner, Oct 2026): students see where the class is leaning and argue for
