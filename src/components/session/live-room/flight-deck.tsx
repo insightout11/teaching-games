@@ -28,6 +28,7 @@ import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { assignSeats, cabinSeatLabel } from '@/lib/live-room/seats';
+import { COUNTRY_ITEMS, countryItemFor, countryUnlockId } from '@/data/world-flight/country-items';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
 import { CityLessonsCard } from '@/components/session/live-room/city-lessons-card';
@@ -1326,6 +1327,31 @@ export function FlightDeck({
     ...(place.offText ? [{ text: place.offText, topic: place.offTopic }] : []),
   ];
   if (belowItems.length === 0 && place.fallback) belowItems.push({ text: place.fallback, topic: place.fallback });
+  // Country items (Oct 2026): fly over a country AND talk about it, and the class earns its item, once ever. The
+  // teacher's one click is the proof it was discussed; it also goes into Talked about, so the Recap quiz can use it.
+  const [unlocks, setUnlocks] = useState<Set<string>>(new Set());
+  const [itemsToday, setItemsToday] = useState<string[]>([]);
+  useEffect(() => {
+    if (isMockMode()) return;
+    let live = true;
+    fetch(`/api/session/${sessionId}/unlocks`).then((r) => (r.ok ? r.json() : { unlocks: [] })).then((d: { unlocks?: Array<{ unlock_id: string }> }) => {
+      if (live) setUnlocks(new Set((d.unlocks ?? []).map((u) => u.unlock_id)));
+    }).catch(() => {});
+    return () => { live = false; };
+  }, [sessionId]);
+  const itemNow = countryItemFor(crossingNow?.name ?? countryNow ?? place.country ?? null);
+  const itemNowEarned = Boolean(itemNow && unlocks.has(countryUnlockId(itemNow.country)));
+  const earnCountry = () => {
+    if (!itemNow || itemNowEarned) return;
+    const id = countryUnlockId(itemNow.country);
+    setUnlocks((u) => new Set(u).add(id));
+    setItemsToday((t) => (t.includes(itemNow.country) ? t : [...t, itemNow.country]));
+    recordTopic(itemNow.country, 'country');
+    flash(`${itemNow.country} added to Talked about. Your class earned: ${itemNow.item}!`);
+    if (!isMockMode()) void fetch(`/api/session/${sessionId}/unlocks`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ unlockId: id }) }).catch(() => {});
+  };
+  const shelfItems = COUNTRY_ITEMS.filter((i) => unlocks.has(countryUnlockId(i.country)));
+  const crossedCountries = Array.from(new Set(preview.filter((st) => st.crossing).map((st) => st.text.replace(/^Cross into /, ''))));
   // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
   const distantCities = useMemo(
     () => around.map((c) => ({ id: c.id, ahead: c.ahead, lateral: c.lateral, size: 9 + (c.name.length * 7) % 12 })),
@@ -3204,6 +3230,13 @@ export function FlightDeck({
           <PlaneLanding className="h-3.5 w-3.5" /> Descending · arrival in {Math.max(1, Math.ceil(minutesLeft ?? 0))} min
         </p>
       )}
+      {flightStage === 'flying' && !cinematic && !holding && view !== 'map' && itemNow && !itemNowEarned && (
+        <button type="button" onClick={earnCountry} title={`Earns the class: ${itemNow.item}`} className="absolute bottom-12 left-4 z-[5] flex items-center gap-2 rounded-full border border-amber-300/60 bg-slate-950/70 py-1 pl-1 pr-3 text-xs font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/15">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`/stickers/${itemNow.sticker}.webp`} alt="" className="h-6 w-6 rounded-full bg-white/90 p-0.5" />
+          We talked about {itemNow.country}
+        </button>
+      )}
       {flightStage === 'flying' && !cinematic && below.name && view !== 'map' && (
         <p className="absolute bottom-3 left-4 z-[5] max-w-[88%] truncate rounded-full border border-white/20 bg-slate-950/55 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
           {holding ? `Holding over ${destination.city}` : (
@@ -3466,6 +3499,23 @@ export function FlightDeck({
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Our prediction</p>
                 <p className="font-display text-lg">{predictionCard.text}</p>
                 {predictionCard.total > 0 && <p className="text-sm text-[#1b2233]/70">{predictionCard.right} of {predictionCard.total} guessed right</p>}
+              </div>
+            )}
+            {(itemsToday.length > 0 || crossedCountries.some((c) => countryItemFor(c))) && (
+              <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Items earned today</p>
+                <div className="mt-1 flex flex-wrap items-center gap-2">
+                  {itemsToday.map((c) => { const it = countryItemFor(c)!; return (
+                    <span key={c} className="flex items-center gap-1.5 text-sm">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={`/stickers/${it.sticker}.webp`} alt="" className="h-7 w-7" />{it.item} <span className="text-[#1b2233]/55">({c})</span>
+                    </span>
+                  ); })}
+                  {itemsToday.length === 0 && <span className="text-sm text-[#1b2233]/60">None yet: talk about a country as you fly over it.</span>}
+                </div>
+                {crossedCountries.filter((c) => countryItemFor(c) && !unlocks.has(countryUnlockId(countryItemFor(c)!.country))).length > 0 && (
+                  <p className="mt-1 text-xs text-[#1b2233]/55">Not discussed: {crossedCountries.filter((c) => countryItemFor(c) && !unlocks.has(countryUnlockId(countryItemFor(c)!.country))).join(', ')}</p>
+                )}
               </div>
             )}
             {landingMilestone && <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/30 px-3 py-2 text-sm font-semibold text-[#1b2233]"><Plane className="h-4 w-4" />Milestone: {landingMilestone.text}!</p>}
@@ -3881,6 +3931,17 @@ export function FlightDeck({
           <button type="button" onClick={startCheckIn} className="flex items-center justify-center gap-1.5 rounded-xl border border-sky-300/50 bg-sky-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-sky-200 hover:bg-sky-300/20">
             <Ticket className="h-3.5 w-3.5" /> Passenger check-in
           </button>
+        )}
+        {shelfItems.length > 0 && (
+          <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">
+            <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/45">Cabin shelf · {shelfItems.length}</p>
+            <div className="mt-1 flex flex-wrap gap-1">
+              {shelfItems.map((i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={i.country} src={`/stickers/${i.sticker}.webp`} alt={i.item} title={`${i.item} · ${i.country}: ${i.fact}`} className="h-8 w-8 rounded-lg bg-white/90 p-0.5" />
+              ))}
+            </div>
+          </div>
         )}
         {handQueue.length > 0 && (
           <div className="rounded-xl border border-amber-300/40 bg-amber-300/[0.07] p-2">
