@@ -88,7 +88,8 @@ export function CityLighting(props: SceneLayerProps) {
   const { palette, idPrefix, sun } = props;
   const { time, warm, open } = mood(props);
   const night = time === 'night';
-  const top = LAYOUT.horizonY - 400;
+  // from the very top of the sky: the wash's glow reaches above the old line at horizon - 400 and left a hard edge
+  const top = 0;
   const base = LAYOUT.apronY;
 
   return (

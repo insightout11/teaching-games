@@ -37,7 +37,7 @@ export function CinematicOverlay({ mode, phase, progress, idPrefix }: SceneLayer
       )}
 
       <rect width={VIEWBOX.w} height={VIEWBOX.h} fill={`url(#${vignetteId})`} opacity={0.42} />
-      <rect width={VIEWBOX.w} height={72} fill={`url(#${edgeId})`} />
+      {/* (no dark band across the top: it read as a cut-off filter on every scene; owner, Oct 2026) */}
       <rect y={VIEWBOX.h - 58} width={VIEWBOX.w} height={58} fill={`url(#${edgeId})`} transform={`rotate(180 ${VIEWBOX.w / 2} ${VIEWBOX.h - 29})`} opacity={0.72} />
     </g>
   );

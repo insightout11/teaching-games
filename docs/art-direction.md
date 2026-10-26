@@ -7,6 +7,11 @@ everything. Matt edits this; agents read it before any visual work.
 soft layers, strong atmosphere, warm light. **Night is dreamy blue and soft**: deep blue skies, gentle moonlight on
 land and sea, warm town lights, stars present but not harsh, never black.
 
+**Nostalgia (Matt, 26 Oct 2026):** the look is a **vintage travel poster** and should ooze nostalgia. The planes are
+already picked from that world. Think golden-age air travel posters: bold simple shapes, limited warm palettes, soft
+paper grain, sunlit haze, confident lettering. This can reach the UI too in places (boarding passes, stamps, postcards,
+destination titles, the landing card, the fly-past), while everyday controls stay clean and readable.
+
 ## The feeling
 
 A calm, glowing window seat on a long flight. The world below is real but softened, as if seen through a slightly
@@ -42,6 +47,14 @@ travelling together, not playing a video game.
 - **Landmark reveals and photos:** the most atmospheric moments (golden light, clouds parting).
 - **Phones and the teacher screen:** soft night-sky backgrounds, paper cards, warm accents (amber), calm motion.
 - **Marketing:** product imagery first, the same mood.
+
+## Next: a UI pass (proposal)
+
+Where the vintage poster look could reach the screens, without hurting readability:
+- Destination titles and the landing card in a poster-style display face and layout ("Welcome to Tokyo" as a poster).
+- Boarding passes, stamps, postcards and souvenirs with paper texture and slightly worn print.
+- Flight moments (the fly-past, the very-rare banner, the reveal title) as poster banners.
+- Buttons, lists and settings stay clean and modern.
 
 ## Open questions for Matt
 
