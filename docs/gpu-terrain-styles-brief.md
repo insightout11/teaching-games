@@ -70,6 +70,19 @@ For Everest, Fuji and the Matterhorn (catalogue ids `everest`, `fuji`, `matterho
 - **Switch:** `&landmarkDetail=on|off` so the effect can be compared directly.
 - A small data budget: report the bytes per landmark.
 
+## Part C: bank and turn (camera test)
+
+Add roll (bank) and heading (turn) to the GPU terrain camera, gallery only:
+
+- `&bank=reveal`: approaching the selected landmark, the plane banks gently (about 10-20 degrees) and turns a few
+  degrees toward it so it slides toward the centre of the view, holds, then levels out and turns back onto the route.
+  The plane's position stays on its real route; only the view's roll and heading change.
+- `&bank=landing`: the final approach as a turn onto the runway: a slow banked turn that sweeps the destination's
+  surroundings across the view (for Cairo this is where the pyramids would be seen), then levels for touchdown.
+- Smooth and calm (ease in and out over several seconds), per `docs/art-direction.md`. Existing overlays (clouds,
+  labels, towns) may not follow the turn yet; note what breaks.
+- Report a short screen recording or a strip of 6 frames for each, plus frame times while banking.
+
 ## Measure
 
 - Frame time (CPU median and p95, 180 warmed frames) at 1600 px for each style with landmark detail on, plus today's
