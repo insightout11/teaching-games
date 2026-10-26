@@ -33,6 +33,9 @@ export function SoloArrivalScene() {
   const [motion, setMotion] = useState<ArrivalMotion>('animated');
   const [tod, setTod] = useState<TimeOfDay | undefined>(undefined);
   const [planeKey, setPlaneKey] = useState('starter-biplane');
+  // Draw only in the browser: without ?tod the scene takes the time of day from the clock, and the server's clock
+  // (UTC) and the browser's differ, which made the page fail to hydrate.
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -48,11 +51,13 @@ export function SoloArrivalScene() {
     if (mo === 'static' || mo === 'animated') setMotion(mo);
     if (td && TIMES.includes(td)) setTod(td);
     if (p) setPlaneKey(getPlaneAsset(p).key);
+    setReady(true);
   }, [byId]);
 
   const scene = byId.get(city) ?? byId.get('tokyo')!;
   const planeChoices = PLANE_TIERS.flatMap((tier) => tier.choices);
 
+  if (!ready) return <div style={{ width: '100vw', height: '100vh', background: '#000' }} />;
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}>
       <DestinationArrivalScene destinationId={city} scene={scene} phase={phase} progress={progress} motion={motion} timeOfDay={tod} planeKey={planeKey} />
