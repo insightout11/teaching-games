@@ -43,8 +43,8 @@ function CityPicture({ sessionId, city }: { sessionId: string; city: string }) {
 }
 
 /**
- * The where-next vote at the start of the lesson, on the big screen while students board. Results stay hidden
- * until the teacher closes the vote; then the winner, the counts and the students' reasons appear, and take-off
+ * The where-next vote at the start of the lesson, on the big screen while students board. Counts show live; the
+ * winner and the students' reasons appear when the teacher closes the vote, and take-off
  * goes there. Every flight lasts the class, so no flight time is shown.
  */
 export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed, tallies, reasons, onReveal, onTakeOff, onCancel }: {
@@ -70,7 +70,7 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
           <span className="rounded-xl bg-white p-1.5"><QRCodeSVG value={joinUrl} size={64} level="M" /></span>
           <div>
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Now boarding · where should we fly?</p>
-            <p className="font-display text-3xl leading-tight text-white">{winner ? `We're flying to ${winner.city}!` : 'Vote on your phone, and say why'}</p>
+            <p className="font-display text-3xl leading-tight text-white">{winner ? `We're flying to ${winner.city}!` : 'Vote on your phone, and say why. You can change your mind!'}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -110,9 +110,14 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
                 {c.onTheWay.length > 0 && <p className="flex gap-1.5"><Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-300" />On the way: {c.onTheWay.join(', ')}</p>}
                 {c.souvenir && <p className="flex gap-1.5"><Gift className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-300" />Souvenir: {c.souvenir}{c.souvenirRare ? ' (rare)' : ''}</p>}
                 {c.strategy && <p className="flex gap-1.5 text-emerald-200"><Compass className="mt-0.5 h-3.5 w-3.5 shrink-0" />{c.strategy}</p>}
-                {revealed && (
-                  <p className="pt-1 font-mono text-sm font-semibold text-amber-200">{n} vote{n === 1 ? '' : 's'}</p>
-                )}
+                {/* Live counts while voting (owner, Oct 2026): students see where the class is leaning and argue for
+                    their city; they can change their vote on the phone until the teacher closes it. */}
+                <div className="pt-1">
+                  <p className="font-mono text-sm font-semibold text-amber-200">{n} vote{n === 1 ? '' : 's'}</p>
+                  {!revealed && totalVotes > 0 && (
+                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-amber-300 transition-all duration-500" style={{ width: `${Math.round((n / totalVotes) * 100)}%` }} /></div>
+                  )}
+                </div>
                 {why.map((r) => (
                   <p key={r.name + r.reason} className="flex gap-1.5 text-xs text-white/85"><MessageSquareQuote className="mt-0.5 h-3 w-3 shrink-0 text-amber-300" /><span><b className="font-semibold text-white">{r.name}:</b> {r.reason}</span></p>
                 ))}
