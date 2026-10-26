@@ -15,6 +15,7 @@ import {
   inputSpecChannelName,
   INPUT_SPEC_REALTIME_EVENT,
   ROOM_LAUNCH_EVENT,
+  CHECK_IN_EVENT,
   SESSION_REFRESH_EVENT,
   shouldApplyActivityInstanceUpdate,
   type ActivityInstanceIdentity,
@@ -29,7 +30,7 @@ import { DebatePrepPanel } from './debate-prep-panel';
 import { VALIDATION } from '@/lib/config/rate-limits';
 import { buildStandbyTipPool } from '@/lib/standby-tips';
 import { grammarReference } from '@/lib/grammar';
-import { Plane, PlaneLanding, Send, Zap, Award, Wind, RadioTower, ClipboardCheck, Check, ChevronRight } from 'lucide-react';
+import { Plane, PlaneLanding, Send, Zap, Award, Wind, RadioTower, ClipboardCheck, Check, ChevronRight, Ticket } from 'lucide-react';
 import { openHandChannel, HAND_HEARTBEAT_MS } from '@/lib/live-room/hands';
 import { openWordBankChannel } from '@/lib/live-room/word-bank';
 import { SIDE_CHANNEL_GAME_KEY, type SideChannelItem } from '@/lib/side-channel';
@@ -281,6 +282,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   }, [inputSpec, juniorClass, sessionId]);
   // Live Room launch notice: "Get ready: <activity>" while its content generates.
   const [roomLaunch, setRoomLaunch] = useState<{ name: string; at: number } | null>(null);
+  // Passenger check-in: this student is at the desk (the room's prompt for their weekly chat).
+  const [checkInMe, setCheckInMe] = useState<{ prompt: string; where: boolean } | null>(null);
   useEffect(() => {
     if (inputSpec) setRoomLaunch(null);
   }, [inputSpec]);
@@ -802,6 +805,11 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           void checkSessionRef.current({ forceFull: true, source: 'database-change' });
           window.setTimeout(() => void checkSessionRef.current({ forceFull: true, source: 'database-change' }), 2500);
         })
+        .on('broadcast', { event: CHECK_IN_EVENT }, ({ payload }: { payload: unknown }) => {
+          const data = payload as { clientId?: unknown; prompt?: unknown; where?: unknown };
+          setCheckInMe(data.clientId === studentSession.clientId && typeof data.prompt === 'string'
+            ? { prompt: data.prompt.slice(0, 160), where: data.where === true } : null);
+        })
         .on('broadcast', { event: ROOM_LAUNCH_EVENT }, ({ payload }: { payload: unknown }) => {
           const data = payload as { name?: unknown; at?: unknown };
           if (typeof data.name === 'string' && data.name) {
@@ -815,7 +823,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       },
       onHealth: setRealtimeHealth,
     });
-  }, [sessionId, checkSession, applyAuthoritativeInputSpec]);
+  }, [sessionId, checkSession, applyAuthoritativeInputSpec, studentSession.clientId]);
 
   const effectiveRealtimeHealth = getEffectiveRealtimeHealth(realtimeHealth, canonicalReady);
 
@@ -1498,6 +1506,14 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       />
 
       <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} />
+      {checkInMe && (
+        <div className="mb-3 rounded-2xl border border-amber-300/50 bg-amber-300/10 p-4 text-center">
+          <p className="flex items-center justify-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-amber-300"><Ticket className="h-3.5 w-3.5" /> You&apos;re at the check-in desk</p>
+          <p className="mt-2 font-display text-2xl text-white">{checkInMe.prompt}</p>
+          {checkInMe.where && <p className="mt-1 text-sm text-white/80">And where would you like to fly today? Why?</p>}
+          <p className="mt-2 text-xs text-white/55">Tell the captain{seatIndex !== null ? ` · Seat ${cabinSeatLabel(seatIndex)}` : ''}</p>
+        </div>
+      )}
       <SeatPicker sessionId={sessionId} clientId={studentSession.clientId} onSeat={setSeatIndex} />
 
       {grammarTarget

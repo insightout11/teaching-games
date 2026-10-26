@@ -172,6 +172,8 @@ export interface InputSpec {
 export const INPUT_SPEC_REALTIME_EVENT = 'input-spec';
 /** Live Room: sent the moment the teacher launches an activity, before its content is ready. */
 export const ROOM_LAUNCH_EVENT = 'room-launch';
+/** Live Room passenger check-in: which student is at the desk (their phone shows the prompt). */
+export const CHECK_IN_EVENT = 'check-in';
 /** Session details phones show (topic, phrasebook words) changed: fetch them now instead of on the next minute poll. */
 export const SESSION_REFRESH_EVENT = 'session-refresh';
 

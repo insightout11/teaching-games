@@ -23,7 +23,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone, Ticket } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -144,6 +144,8 @@ function hashOf(text: string) {
   for (const ch of text) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
   return h;
 }
+/** Check-in desk prompts, one per passenger in turn: suggestions only, the teacher just talks. */
+const CHECK_IN_PROMPTS = ['How was your week?', 'Anything exciting coming up?', 'What did you do last weekend?', 'Any exams or big days this week?', 'What was the best part of your week?', 'Any plans for the weekend?'];
 const DEFAULT_STAMPS = ['flash-quiz', 'hot-take-arena', 'vocab-sprint', 'fact-detective', 'conversation-rounds'];
 // Each class type's quick bar (after the class's own favourites and recent activities).
 const TYPE_STAMPS: Record<ClassType, string[]> = {
@@ -1001,6 +1003,34 @@ export function FlightDeck({
     if (rosterId) setCurrentStudent(rosterId);
   }, [allSeats, setCurrentStudent]);
   const [roulette, setRoulette] = useState<string | null>(null);
+  // Passenger check-in (Oct 2026): before take-off the teacher calls each student to the desk, in seat order, for
+  // their weekly chat and where they would like to fly. Their seat lights up and their phone shows the prompt.
+  const [checkIn, setCheckIn] = useState<{ order: string[]; i: number } | null>(null);
+  const checkInP = checkIn ? allSeats.find((p) => p.id === checkIn.order[checkIn.i]) ?? null : null;
+  const checkInPrompt = checkIn ? CHECK_IN_PROMPTS[checkIn.i % CHECK_IN_PROMPTS.length] : '';
+  const checkInWhere = Boolean(cityVote && !cityVote.revealed);
+  const sendCheckIn = useCallback((clientId: string | null, prompt: string, where: boolean) => {
+    if (isMockMode()) return;
+    void fetch('/api/session/check-in', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId, clientId, prompt, where }) }).catch(() => {});
+  }, [sessionId]);
+  useEffect(() => {
+    if (!checkIn) return;
+    if (!checkInP) { setCheckIn(null); return; }
+    setSpotlightId(checkInP.id);
+    sendCheckIn(checkInP.deviceless ? null : checkInP.client_id, checkInPrompt, checkInWhere);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkIn?.i, checkInP?.id]);
+  const startCheckIn = () => {
+    const order = cabin.flatMap((p) => (p ? [p.id] : []));
+    if (order.length) setCheckIn({ order, i: 0 });
+  };
+  const endCheckIn = () => { setCheckIn(null); setSpotlightId(null); sendCheckIn(null, '', false); };
+  const moveCheckIn = (step: number) => setCheckIn((c) => {
+    if (!c) return c;
+    const i = c.i + step;
+    if (i >= c.order.length) { window.setTimeout(endCheckIn, 0); return c; }
+    return { ...c, i: Math.max(0, i) };
+  });
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
   // Test switch: ?descent=on jumps a flight to just before its descent, to preview the approach to a city (Fuji on
@@ -3385,7 +3415,31 @@ export function FlightDeck({
         </div>
       )}
 
-      {spotlightP && (
+      {checkInP && checkIn && (
+        <div className="absolute left-1/2 top-4 z-20 w-[min(560px,90%)] -translate-x-1/2">
+          <motion.div key={checkInP.id} initial={reduce ? false : { y: -16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="overflow-hidden rounded-2xl bg-[#f4efe3] text-[#1b2233] shadow-2xl">
+            <div className="flex items-center justify-between bg-[#1b2233] px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-amber-200">
+              <span className="flex items-center gap-1.5"><Ticket className="h-3.5 w-3.5" /> Check-in desk</span>
+              <span>Passenger {checkIn.i + 1} of {checkIn.order.length}</span>
+            </div>
+            <div className="flex items-center gap-4 px-5 py-4">
+              <CrewAvatar seed={checkInP.avatar_seed ?? checkInP.display_name} name={checkInP.display_name} size={72} />
+              <div className="min-w-0 flex-1">
+                <p className="font-display text-3xl leading-tight">{checkInP.display_name}</p>
+                <p className="font-mono text-xs text-[#1b2233]/60">Seat {cabinSeatLabel(cabin.indexOf(checkInP))}</p>
+                <p className="mt-2 text-lg">{checkInPrompt}</p>
+                {checkInWhere && <p className="mt-1 text-base text-[#1b2233]/75">Where would you like to fly today, and why?</p>}
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-2 border-t border-dashed border-[#1b2233]/20 px-4 py-2">
+              {checkIn.i > 0 && <button type="button" onClick={() => moveCheckIn(-1)} className="rounded-full border border-[#1b2233]/25 px-3 py-1 text-sm hover:bg-[#1b2233]/5">Back</button>}
+              <button type="button" onClick={endCheckIn} className="rounded-full border border-[#1b2233]/25 px-3 py-1 text-sm hover:bg-[#1b2233]/5">End check-in</button>
+              <button type="button" onClick={() => moveCheckIn(1)} className="rounded-full bg-[#1b2233] px-4 py-1 text-sm text-[#f4efe3]">{checkIn.i + 1 < checkIn.order.length ? 'Next passenger' : 'Done'}</button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+      {spotlightP && !checkIn && (
         <div className="absolute left-1/2 top-4 z-10 flex -translate-x-1/2 items-center gap-3 rounded-full border border-amber-300/60 bg-slate-950/75 py-1.5 pl-1.5 pr-4 backdrop-blur-md">
           <CrewAvatar seed={spotlightP.avatar_seed ?? spotlightP.display_name} name={spotlightP.display_name} size={34} className="rounded-full" />
           <span className="font-display text-lg text-white">{spotlightP.display_name}</span>
@@ -3823,6 +3877,11 @@ export function FlightDeck({
         <button type="button" onClick={spinRoulette} disabled={seated.length === 0 || !!roulette} className="flex items-center justify-center gap-1.5 rounded-xl border border-amber-300/50 bg-amber-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-300 hover:bg-amber-300/20 disabled:opacity-40">
           <Shuffle className="h-3.5 w-3.5" /> Pick a student
         </button>
+        {flightStage === 'gate' && !landed && seated.length > 0 && !checkIn && (
+          <button type="button" onClick={startCheckIn} className="flex items-center justify-center gap-1.5 rounded-xl border border-sky-300/50 bg-sky-300/10 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-sky-200 hover:bg-sky-300/20">
+            <Ticket className="h-3.5 w-3.5" /> Passenger check-in
+          </button>
+        )}
         {handQueue.length > 0 && (
           <div className="rounded-xl border border-amber-300/40 bg-amber-300/[0.07] p-2">
             <div className="flex items-center justify-between gap-2">
