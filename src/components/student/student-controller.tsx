@@ -40,6 +40,7 @@ import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/compo
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { SeatPicker } from '@/components/student/seat-picker';
+import { CityResearch, cityResearchOf } from '@/components/student/city-research';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { parseMascotLook, type MascotLook } from '@/lib/mascot';
 import { countryItemFor } from '@/data/world-flight/country-items';
@@ -1565,6 +1566,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           {activePoll.metadata?.poll_type !== 'bonus_vote' && (
             <div className="mb-3"><PhonePrompt>{activePoll.question}</PhonePrompt></div>
           )}
+          {cityResearchOf(activePoll.metadata) ? (
+            <CityResearch data={cityResearchOf(activePoll.metadata)!} selected={selectedChoice} busy={isVoting} onVote={(city) => handleVote(city)} />
+          ) : (
           <div className="space-y-2">
             {activePoll.options.map((option, i) => (
               <button
@@ -1577,6 +1581,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               </button>
             ))}
           </div>
+          )}
           {selectedChoice && submittedPollIds.has(activePoll.pollId) && (
             <p className="text-xs text-cyan-400 text-center mt-3">
               {activePoll.metadata?.poll_type === 'bonus_vote'

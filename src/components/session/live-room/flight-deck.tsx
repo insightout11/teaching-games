@@ -465,7 +465,10 @@ export function FlightDeck({
     flash(opened);
   };
   // The where-next vote at the start: the vote board on the big screen while students board (Phase 3.1).
-  const [cityVote, setCityVote] = useState<{ pollId: string; revealed: boolean } | null>(null);
+  // What the class has earned (country items, mascot parts): class_unlocks, loaded below
+  const [unlocks, setUnlocks] = useState<Set<string>>(new Set());
+  // kind 'next': the vote after landing for the next lesson (same board and cards, saves the next destination)
+  const [cityVote, setCityVote] = useState<{ pollId: string; revealed: boolean; kind?: 'next' } | null>(null);
   const [cityReasons, setCityReasons] = useState<Array<{ name: string; choice: string; reason: string }>>([]);
   const { tallies: cityTallies, votes: cityVotes } = usePollVotes(cityVote?.pollId ?? null);
   const startCityPoll = async () => {
@@ -476,7 +479,7 @@ export function FlightDeck({
     const supabase = createClient();
     await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
     const { data, error } = await supabase.from('polls')
-      .insert({ session_id: sessionId, question: 'Where should we fly next, and why?', options, is_active: true, metadata: { askWhy: true, purpose: 'next-city' } })
+      .insert({ session_id: sessionId, question: 'Where should we fly next, and why?', options, is_active: true, metadata: { askWhy: true, purpose: 'next-city', research: researchFor(origin, reachable) } })
       .select('id').single();
     if (error || !data) { flash('Could not start the vote.'); return; }
     setCityVote({ pollId: (data as { id: string }).id, revealed: false });
@@ -512,10 +515,20 @@ export function FlightDeck({
     if (!here) return [];
     return destinationsWithinRange(here, SCENE_CITIES, position?.rangeKm ?? STARTER_PLANE_RANGE_KM).map((r) => toRouteCity(r.destination)).slice(0, 8);
   }, [destination.id, position]);
+  // After landing: the same vote board and city cards as at boarding, for the next lesson's flight
   const startNextCityPoll = async () => {
     const options = Array.from(new Set(nextReachable.map((c) => c.city)));
     if (options.length < 2) { flash('Only one city is in range from here.'); return; }
-    await startPoll('Where should we fly next time, and why?', options, { askWhy: true, purpose: 'next-city' }, 'Vote open on phones: where next time?');
+    if (isMockMode()) { setCityVote({ pollId: 'mock-next-vote', revealed: false, kind: 'next' }); return; }
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { data, error } = await supabase.from('polls')
+      .insert({ session_id: sessionId, question: 'Where should we fly next time, and why?', options, is_active: true, metadata: { askWhy: true, purpose: 'next-city', research: researchFor(destination, nextReachable) } })
+      .select('id').single();
+    if (error || !data) { flash('Could not start the vote.'); return; }
+    setCityVote({ pollId: (data as { id: string }).id, revealed: false, kind: 'next' });
+    setCityReasons([]);
+    flash('Vote open on phones: where next time?');
   };
 
   // One journey: the flight plan rides on the room's flight. Leaving the first stage at the gate is
@@ -1140,15 +1153,18 @@ export function FlightDeck({
     [flightStage, holding, below.point, origin, destination, routeT, clock.perMs, now],
   );
   const countryNow = useMemo(() => (countries ? countryAt(countries, below.point) : null), [countries, below.point]);
-  const voteCards = useMemo<VoteCityCard[]>(() => {
-    if (!cityVote) return [];
+  // One set of city cards for the big-screen board AND the phones (sent with the vote), so everyone sees the same
+  const buildCards = (from: { id: string; lat: number; lng: number }, list: RouteCity[]): VoteCityCard[] => {
     const exp = landingRecord?.expedition ?? null;
     const km = (a: LatLng, b: LatLng) => {
       const r = Math.PI / 180;
       const h = Math.sin(((b.lat - a.lat) * r) / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(((b.lng - a.lng) * r) / 2) ** 2;
       return 12742 * Math.asin(Math.min(1, Math.sqrt(h)));
     };
-    return reachable.map((c) => {
+    return list.map((c) => {
+      const pack = getDestinationById(c.id);
+      const route = routePreview(from as typeof origin, c, countries, 60);
+      const crossed = route.filter((st) => st.crossing).map((st) => st.text.replace(/^Cross into /, ''));
       const owned = new Set((landingRecord?.souvenirShelf ?? []).find((x) => x.destinationId === c.id)?.items.filter((i) => i.owned).map((i) => i.id) ?? []);
       const next = citySouvenirs(c.id).find((sv) => !owned.has(sv.id)) ?? null;
       let strategy: string | null = null;
@@ -1156,21 +1172,36 @@ export function FlightDeck({
         if (exp.remaining.includes(c.city)) strategy = `Stop ${exp.done + 1} of ${exp.needed} on your expedition`;
         else {
           const target = exp.remaining.map((n) => SCENE_CITIES.find((x) => x.city === n)).find((x) => !!x);
-          if (target && km(c, target) < km(origin, target) - 500) strategy = `Gets you closer to ${target.city}`;
+          if (target && km(c, target) < km(from, target) - 500) strategy = `Gets you closer to ${target.city}`;
         }
       }
       return {
         id: c.id,
         city: c.city,
-        onTheWay: routePreview(origin, c, countries, 60).filter((st) => !st.text.startsWith('Land in')).slice(0, 2).map((st) => st.text.replace(/^(Cross into|Over|Fly over) /, '')),
-        sights: landmarksOnRoute(origin.id, c.id).slice(0, 3).map((l) => ({ name: l.name, rarity: l.rarity })),
+        country: pack?.country ?? '',
+        lat: c.lat,
+        lng: c.lng,
+        knownFor: [pack?.travelAnchors?.attractions?.[0]?.name, pack?.travelAnchors?.dishes?.[0]?.name].filter((x): x is string => !!x),
+        onTheWay: route.filter((st) => !st.text.startsWith('Land in')).slice(0, 2).map((st) => st.text.replace(/^(Cross into|Over|Fly over) /, '')),
+        sights: landmarksOnRoute(from.id, c.id).slice(0, 3).map((l) => ({ name: l.name, rarity: l.rarity })),
+        items: crossed.flatMap((n) => { const it = countryItemFor(n); return it && !unlocks.has(countryUnlockId(it.country)) ? [{ item: it.item, sticker: it.sticker, country: it.country }] : []; }).slice(0, 4),
         newStamp: !visitedIds.has(c.id),
         souvenir: next?.name ?? null,
         souvenirRare: next?.earn.type === 'rare',
         strategy,
       };
     });
-  }, [cityVote, reachable, origin, countries, visitedIds, landingRecord]);
+  };
+  // What the phones get with the vote: the same cards, plus the map (where the class is, range, visited cities)
+  const researchFor = (from: { id: string; lat: number; lng: number; city: string }, list: RouteCity[]) => ({
+    cards: buildCards(from, list),
+    map: { origin: { id: from.id, lat: from.lat, lng: from.lng, city: from.city }, rangeKm: position?.rangeKm ?? 0, visitedIds: Array.from(visitedIds), journey: position?.journey ?? [] },
+  });
+  const voteCards = useMemo<VoteCityCard[]>(
+    () => (!cityVote ? [] : cityVote.kind === 'next' ? buildCards(destination, nextReachable) : buildCards(origin, reachable)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- buildCards reads exactly these
+    [cityVote?.pollId, cityVote?.kind, reachable, nextReachable, origin, destination, countries, visitedIds, landingRecord, unlocks],
+  );
 
   // The vote's winner is known once it is revealed: start preparing its route then, so the scenery loads while the
   // class explains its choices and during the briefing.
@@ -1337,7 +1368,6 @@ export function FlightDeck({
   if (belowItems.length === 0 && place.fallback) belowItems.push({ text: place.fallback, topic: place.fallback });
   // Country items (Oct 2026): fly over a country AND talk about it, and the class earns its item, once ever. The
   // teacher's one click is the proof it was discussed; it also goes into Talked about, so the Recap quiz can use it.
-  const [unlocks, setUnlocks] = useState<Set<string>>(new Set());
   const [itemsToday, setItemsToday] = useState<string[]>([]);
   useEffect(() => {
     if (isMockMode()) return;
@@ -2574,6 +2604,28 @@ export function FlightDeck({
         onCancel={() => void finishBriefing(false)}
       />
     );
+  } else if (landed && cityVote?.kind === 'next') {
+    scene = (
+      <CityVoteBoard
+        sessionId={sessionId}
+        joinUrl={joinUrl}
+        cards={voteCards}
+        totalVotes={cityVotes.length}
+        revealed={cityVote.revealed}
+        tallies={cityTallies}
+        reasons={cityReasons}
+        mode="next"
+        onReveal={() => void closeCityVote(true)}
+        onTakeOff={(id) => {
+          const c = nextReachable.find((x) => x.id === id);
+          if (!isMockMode()) void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nextDestinationId: id }) }).catch(() => {});
+          setPosition((p) => (p ? { ...p, nextDestinationId: id } : p));
+          setCityVote(null);
+          flash(`Next time we fly to ${c?.city ?? 'there'}!`);
+        }}
+        onCancel={() => void closeCityVote(false)}
+      />
+    );
   } else if (view === 'boarding' && cityVote && flightStage === 'gate') {
     scene = (
       <CityVoteBoard
@@ -3540,7 +3592,7 @@ export function FlightDeck({
         </div>
       )}
 
-      {landed && !hall && (
+      {landed && !hall && cityVote?.kind !== 'next' && (
         <div className="absolute inset-x-0 top-10 z-20 flex justify-center">
           <motion.div initial={reduce ? false : { y: -20, rotate: -6, opacity: 0 }} animate={{ y: 0, rotate: -2, opacity: 1 }} className="rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl">
             <div className="flex items-center justify-between gap-3">

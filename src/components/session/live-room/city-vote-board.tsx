@@ -19,6 +19,13 @@ export interface VoteCityCard {
   strategy: string | null;
   /** Landmarks the route passes, with their rarity word (most special first). */
   sights?: Array<{ name: string; rarity: Rarity }>;
+  country?: string;
+  lat?: number;
+  lng?: number;
+  /** What the city is known for (its lesson focuses). */
+  knownFor?: string[];
+  /** Country items the class could earn on the way (countries crossed it has not talked about yet). */
+  items?: Array<{ item: string; sticker: string; country: string }>;
 }
 
 // One picture per city, fetched once per page (free Wikimedia pictures).
@@ -50,7 +57,9 @@ function CityPicture({ sessionId, city }: { sessionId: string; city: string }) {
  * winner and the students' reasons appear when the teacher closes the vote, and take-off
  * goes there. Every flight lasts the class, so no flight time is shown.
  */
-export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed, tallies, reasons, onReveal, onTakeOff, onCancel }: {
+export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed, tallies, reasons, onReveal, onTakeOff, onCancel, mode = 'now' }: {
+  /** 'next': the vote after landing, for the next lesson (choosing saves it instead of taking off). */
+  mode?: 'now' | 'next';
   sessionId: string;
   joinUrl: string;
   cards: VoteCityCard[];
@@ -72,8 +81,8 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
         <div className="flex items-center gap-3">
           <span className="rounded-xl bg-white p-1.5"><QRCodeSVG value={joinUrl} size={64} level="M" /></span>
           <div>
-            <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">Now boarding · where should we fly?</p>
-            <p className="font-display text-3xl leading-tight text-white">{winner ? `We're flying to ${winner.city}!` : 'Vote on your phone, and say why. You can change your mind!'}</p>
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">{mode === 'next' ? 'Next lesson · where should we fly next time?' : 'Now boarding · where should we fly?'}</p>
+            <p className="font-display text-3xl leading-tight text-white">{winner ? (mode === 'next' ? `Next time: ${winner.city}!` : `We're flying to ${winner.city}!`) : 'Vote on your phone, and say why. You can change your mind!'}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -81,7 +90,7 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
           {!revealed && <button type="button" onClick={onReveal} className="rounded-full bg-amber-300 px-4 py-2 text-sm font-semibold text-[#1a1204]">Close the vote</button>}
           {winner && (
             <button type="button" onClick={() => onTakeOff(winner.id)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-5 py-2 text-sm font-semibold text-[#1a1204]">
-              <Plane className="h-4 w-4" /> Fly to {winner.city}
+              <Plane className="h-4 w-4" /> {mode === 'next' ? `Next time: ${winner.city}` : `Fly to ${winner.city}`}
             </button>
           )}
           <button type="button" onClick={onCancel} aria-label="Stop the vote" title="Stop the vote" className="p-1 text-white/45 hover:text-white"><X className="h-4 w-4" /></button>
@@ -118,6 +127,15 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
                     ))}
                   </p>
                 )}
+                {c.items && c.items.length > 0 && (
+                  <p className="flex flex-wrap items-center gap-1"><Gift className="h-3.5 w-3.5 shrink-0 text-emerald-300" />Could earn:
+                    {c.items.map((it) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={it.country} src={`/stickers/${it.sticker}.webp`} alt={it.item} title={`${it.item} (talk about ${it.country})`} className="h-6 w-6 rounded bg-white/90 p-0.5" />
+                    ))}
+                  </p>
+                )}
+                {c.knownFor && c.knownFor.length > 0 && <p className="text-xs text-white/60">Known for: {c.knownFor.join(' · ')}</p>}
                 {c.souvenir && <p className="flex gap-1.5"><Gift className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-300" />Souvenir: {c.souvenir}{c.souvenirRare ? ' (rare)' : ''}</p>}
                 {c.strategy && <p className="flex gap-1.5 text-emerald-200"><Compass className="mt-0.5 h-3.5 w-3.5 shrink-0" />{c.strategy}</p>}
                 {/* Live counts while voting (owner, Oct 2026): students see where the class is leaning and argue for
@@ -137,7 +155,7 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
         })}
       </div>
       {revealed && reasons.length > 0 && <p className="text-center text-sm text-white/60">Ask two or three students to explain their choice.</p>}
-      {revealed && <p className="text-center text-xs text-white/45">{totalVotes === 0 ? 'No votes this time: click a city to take off there.' : 'Or click any city to fly there instead.'}</p>}
+      {revealed && <p className="text-center text-xs text-white/45">{mode === 'next' ? (totalVotes === 0 ? 'No votes this time: click a city to choose it.' : 'Or click any city to choose it instead.') : totalVotes === 0 ? 'No votes this time: click a city to take off there.' : 'Or click any city to fly there instead.'}</p>}
     </div>
   );
 }
