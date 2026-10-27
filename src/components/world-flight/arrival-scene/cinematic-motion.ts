@@ -11,6 +11,7 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 // ─────────────────────────────────────────────────────────────────────────────
 
 const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
+const smooth = (t: number) => t * t * (3 - 2 * t);
 
 // ── Arrival ──────────────────────────────────────────────────────────────────
 /** Full arrival review/overlay length. */
@@ -50,7 +51,6 @@ export const DEPARTURE_DURATION_MS = 4800;
 export const DEP_ROLL = 0.62;
 
 const DEP_PAN_ROLL = 1500; // focal units the NEAR ground scrolls during the roll
-const DEP_PAN_CLIMB = 480; // extra scroll as the nose lifts and the city slides off
 
 /**
  * Tracking-camera pan distance (focal units) for takeoff: the viewpoint follows
@@ -67,8 +67,11 @@ export function departureCameraPan(t: number): number {
     const u = p / DEP_ROLL;
     return DEP_PAN_ROLL * u * u; // accelerate into the roll
   }
+  // Leave the roll at the speed it reached, then ease off gently as the plane climbs away: no sudden slow-down at
+  // lift-off (Oct 2026, owner: take-off glitched). Velocity matches the roll's at DEP_ROLL.
   const u = (p - DEP_ROLL) / (1 - DEP_ROLL);
-  return DEP_PAN_ROLL + DEP_PAN_CLIMB * u;
+  const v0 = (2 * DEP_PAN_ROLL * (1 - DEP_ROLL)) / DEP_ROLL;
+  return DEP_PAN_ROLL + v0 * (u - 0.3 * u * u);
 }
 
 /** A side-profile plane keyframe: wheel-line position, rotation, depth scale. */
@@ -111,12 +114,14 @@ export function departurePlaneFrame(t: number): PlaneFrame {
   const u = (p - DEP_ROLL) / (1 - DEP_ROLL);
   // Climb out and OFF the screen (don't stop mid-sky): cx clears the right edge
   // well before u=1, leaving a beat of empty sky as the plane departs.
+  // Ease in: the nose comes up first, then the plane climbs and leaves faster and faster.
+  const rise = u * u;
   return {
-    cx: lerp(DEP_PLANE_CENTER, 2300, u),
-    cyBase: lerp(runway, 20, u),
-    rot: lerp(0, -15, u),
+    cx: lerp(DEP_PLANE_CENTER, 2300, u * (0.35 + 0.65 * u)),
+    cyBase: lerp(runway, 20, rise),
+    rot: -15 * smooth(Math.min(1, u / 0.45)),
     flying: true,
-    depthScale: lerp(1, 0.5, u),
+    depthScale: lerp(1, 0.5, rise),
   };
 }
 

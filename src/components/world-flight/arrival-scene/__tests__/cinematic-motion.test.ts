@@ -87,9 +87,9 @@ describe('departureCameraPan', () => {
   });
 
   it('reaches the full pan distance at p=1 and clamps out-of-range input', () => {
-    expect(departureCameraPan(1)).toBeCloseTo(1980, 5); // 1500 roll + 480 climb
+    expect(departureCameraPan(1)).toBeCloseTo(1500 + (2 * 1500 * 0.38 / 0.62) * 0.7, 5); // roll, then the climb at the roll's speed easing off
     expect(departureCameraPan(-1)).toBe(0);
-    expect(departureCameraPan(5)).toBeCloseTo(1980, 5);
+    expect(departureCameraPan(5)).toBeCloseTo(departureCameraPan(1), 5);
   });
 });
 

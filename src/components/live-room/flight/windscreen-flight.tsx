@@ -57,9 +57,10 @@ const SCENIC_MS = 70000;
 const SCENIC_AHEAD_KM = 80;
 const SCENIC_SPEED = 0.15;
 const DESCENT_MS = 9000;
-const ARRIVAL_MS = 5200;
 const APPROACH_SPLIT = 0.45;
+// The landing continues at the descent's pace, so the approach doesn't suddenly speed up when the phase changes.
 const DIVE = 0.35;
+const LANDING_MS = Math.round(((1 - APPROACH_SPLIT) / APPROACH_SPLIT) * DESCENT_MS * (1 - DIVE));
 const CLEAR = 0.22;
 
 export function timeOfDayNow(date = new Date()): TimeOfDay {
@@ -153,7 +154,7 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
     const dur = phase === 'takeoff' ? DEPARTURE_DURATION_MS
       : phase === 'climb' ? CLIMB_MS
         : phase === 'descent' ? DESCENT_MS
-          : phase === 'landing' ? ARRIVAL_MS * (1 - APPROACH_SPLIT) : 0;
+          : phase === 'landing' ? LANDING_MS : 0;
     if (!dur) return;
     const start = performance.now();
     setProgress(0);
@@ -198,7 +199,7 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
     }
     if (phase === 'landing') {
       // Contact is at A_TOUCHDOWN_END of the arrival timeline; this phase runs its last (1 - APPROACH_SPLIT).
-      const contact = Math.max(0, (A_TOUCHDOWN_END - APPROACH_SPLIT) / (1 - APPROACH_SPLIT)) * ARRIVAL_MS * (1 - APPROACH_SPLIT);
+      const contact = Math.max(0, (A_TOUCHDOWN_END - APPROACH_SPLIT) / (1 - APPROACH_SPLIT)) * LANDING_MS;
       return play('touchdown', { delayMs: contact });
     }
     if (phase === 'gate' || phase === 'cruise') { approachRef.current?.(); approachRef.current = null; }

@@ -1,5 +1,5 @@
 import { VIEWBOX, type ArrivalMode, type ArrivalPhase } from './types';
-import { DEP_ROLL } from './cinematic-motion';
+import { A_APPROACH_END, A_TOUCHDOWN_END, DEP_ROLL } from './cinematic-motion';
 
 export interface CinematicCameraFrame {
   targetX: number;
@@ -53,48 +53,31 @@ export function cinematicCameraFrame(mode: ArrivalMode, phase: ArrivalPhase, pro
     };
   }
 
+  // One continuous move over the whole arrival (Oct 2026, owner: landing glitched): each phase used to ease to a stop
+  // and start again, so the camera stuttered at touchdown and again at the taxi.
   const p = clamp01(progress);
-  const eased = smoothstep(p);
+  const m = arrivalMaster(phase, p);
+  const glide = smoothstep(m);
+  const down = smoothstep(m / A_TOUCHDOWN_END);
+  const settle = smoothstep((m - A_TOUCHDOWN_END) / (1 - A_TOUCHDOWN_END));
+  const compression = phase === 'touchdown' ? sineArc(p) : 0;
+  return {
+    targetX: lerp(1120, 1660, glide),
+    targetY: lerp(450, 512, down) - 8 * settle + compression * 1.8,
+    zoom: lerp(1, 1.115, down) - 0.015 * settle + compression * 0.004,
+    roll: phase === 'approach' ? sway(p, -0.16) : 0,
+  };
+}
 
+const A_TAXI_END = 0.94;
+/** The arrival's master progress (0-1) from a phase and its own progress, matching arrivalTimeline's split points. */
+function arrivalMaster(phase: ArrivalPhase, p: number): number {
   switch (phase) {
-    case 'approach':
-      return {
-        targetX: lerp(1120, 1375, eased),
-        targetY: lerp(450, 495, eased),
-        zoom: lerp(1, 1.085, eased),
-        roll: sway(p, -0.16),
-      };
-    case 'touchdown': {
-      // One restrained suspension compression replaces the old oscillating
-      // impact shake. Wheel contact should feel weighty, not like a camera hit.
-      const compression = sineArc(p);
-      return {
-        targetX: lerp(1375, 1490, eased),
-        targetY: lerp(495, 512, eased) + compression * 1.8,
-        zoom: lerp(1.085, 1.115, eased) + compression * 0.004,
-        roll: sway(p, 0.05),
-      };
-    }
-    case 'taxi':
-      return {
-        targetX: lerp(1490, 1620, eased),
-        targetY: lerp(512, 506, eased),
-        zoom: lerp(1.115, 1.1, eased),
-        roll: sway(p, 0.06),
-      };
-    case 'landed': {
-      // Keep travelling in the established screen direction. The previous
-      // return to centre read as a reverse camera move at the end of the shot.
-      const settleBreath = sineArc(p) * 0.003;
-      return {
-        targetX: lerp(1620, 1660, eased),
-        targetY: lerp(506, 504, eased),
-        zoom: 1.1 + settleBreath,
-        roll: 0,
-      };
-    }
-    default:
-      return IDENTITY_CAMERA;
+    case 'approach': return p * A_APPROACH_END;
+    case 'touchdown': return lerp(A_APPROACH_END, A_TOUCHDOWN_END, p);
+    case 'taxi': return lerp(A_TOUCHDOWN_END, A_TAXI_END, p);
+    case 'landed': return lerp(A_TAXI_END, 1, p);
+    default: return 1;
   }
 }
 
@@ -108,9 +91,9 @@ export function cinematicCameraTransform(frame: CinematicCameraFrame): string {
  * existing flat SVG layers a restrained 2.5D parallax response during arrival.
  */
 export function cinematicParallaxX(frame: CinematicCameraFrame, depth: number): number {
-  return -(frame.targetX - CENTER_X) * depth * 0.14;
+  return -(frame.targetX - CENTER_X) * depth * 0.32;
 }
 
 export function cinematicParallaxY(frame: CinematicCameraFrame, depth: number): number {
-  return -(frame.targetY - CENTER_Y) * depth * 0.1;
+  return -(frame.targetY - CENTER_Y) * depth * 0.2;
 }
