@@ -11635,5 +11635,1259 @@
     "subdivisions": [
       "US-HI"
     ]
+  },
+  {
+    "id": "de-north",
+    "name": "Northern Germany (North German Plain)",
+    "countries": [
+      "DE"
+    ],
+    "subdivisions": [
+      "DE-SH",
+      "DE-NI",
+      "DE-MV",
+      "DE-HH",
+      "DE-BE",
+      "DE-BB",
+      "DE-HB",
+      "DE-NW",
+      "DE-ST"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9a644d",
+        "#6e6a73",
+        "#c4a86f"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "reed thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#a06a53",
+        "#d9c9a9",
+        "#b3ada3"
+      ],
+      "wallMaterial": [
+        "brick",
+        "render",
+        "timber frame"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "red-brick church spire",
+        "thatched hall farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Scots pine",
+          "color": "#3f644d",
+          "where": "everywhere"
+        },
+        {
+          "name": "birch",
+          "color": "#a8b37f",
+          "where": "hills"
+        },
+        {
+          "name": "beech",
+          "color": "#5f7a4b",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar (windbreak rows)",
+          "color": "#8fa37b",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cereals, sugar beet and oilseed rape, large open fields",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b36d",
+            "#d8d36f"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "heath and geest sand country",
+          "pattern": "scattered",
+          "colors": [
+            "#6b6449",
+            "#8f7f5b"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "dairy pasture (northwest)",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8a51",
+            "#6f9a5d"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b88f3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/North_German_Plain",
+      "https://en.wikipedia.org/wiki/L%C3%BCneburg_Heath",
+      "https://en.wikipedia.org/wiki/Mecklenburg-Vorpommern"
+    ],
+    "confidence": "high",
+    "notes": "Glacial plain: huge loess-borde arable blocks east of the Elbe, sandy pine-birch geest and heath (Lüneburg Heath blooms yellow-purple August-September), the Mecklenburg lakeland, and dike-lined marsh strips whose villages run as single street rows (Marschhufendorf). Red brick dominates walls and Gothic church spires; thatch survives on Frisian farmhouses. Hamburg and Berlin add grey flat-roofed modern sprawl, and wind turbines are everywhere. Lowland snow occurs most winters but is increasingly brief. North Rhine-Westphalia, Bremen and Saxony-Anhalt were added here by Claude (the Ruhr is dense brick and concrete)."
+  },
+  {
+    "id": "de-south",
+    "name": "Southern Germany (Bavaria, Black Forest, Rhine valley)",
+    "countries": [
+      "DE"
+    ],
+    "subdivisions": [
+      "DE-BY",
+      "DE-BW",
+      "DE-RP",
+      "DE-SL",
+      "DE-HE",
+      "DE-TH",
+      "DE-SN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a0654b",
+        "#73696b",
+        "#8f5a43"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "wood shingle",
+        "slate"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#e8e4dd",
+        "#d3c98b",
+        "#8f6f4d"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber frame",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "onion-domed church",
+        "Black Forest farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Norway spruce",
+          "color": "#2f5a45",
+          "where": "hills"
+        },
+        {
+          "name": "beech",
+          "color": "#5f7f4d",
+          "where": "valleys"
+        },
+        {
+          "name": "scattered fruit orchard (Streuobst)",
+          "color": "#6f8a55",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "hops (Hallertau)",
+          "pattern": "rows",
+          "colors": [
+            "#6f8a4d",
+            "#94a06b"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "vineyards (Rhine, Kaiserstuhl, Franconia)",
+          "pattern": "terraces",
+          "colors": [
+            "#6b7f53",
+            "#94a05b"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "meadows and maize on the alpine foreland",
+          "pattern": "patchwork",
+          "colors": [
+            "#558a4d",
+            "#7f9a5b"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b8843f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Bavaria",
+      "https://en.wikipedia.org/wiki/Black_Forest"
+    ],
+    "confidence": "high",
+    "notes": "The classic southern German look from the air: light plaster walls under steep red tile roofs in nucleated church villages, very steep roofs on old Black Forest farms (some wood-shingled), dark spruce forest covering the Mittelgebirge, deep green meadows, hop gardens in the Hallertau and terraced Rhine vineyards. Munich and Stuttgart bring grey flat-roofed modern districts. Lowland snow is normal in winter. Hesse, Thuringia and Saxony were added here by Claude (forested uplands, red-roofed villages)."
+  },
+  {
+    "id": "be-lux",
+    "name": "Belgium and Luxembourg",
+    "countries": [
+      "BE",
+      "LU"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a0654d",
+        "#75696f",
+        "#5a646b"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "slate",
+        "asphalt (modern)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#a06a5b",
+        "#ded4c5",
+        "#94938b"
+      ],
+      "wallMaterial": [
+        "brick",
+        "render",
+        "stone"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "Flemish red-brick farmstead",
+        "Ardennes stone farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "poplar",
+          "color": "#7fa36b",
+          "where": "river banks"
+        },
+        {
+          "name": "pollarded willow",
+          "color": "#8fa877",
+          "where": "coast"
+        },
+        {
+          "name": "spruce plantation",
+          "color": "#345a4b",
+          "where": "hills"
+        },
+        {
+          "name": "beech",
+          "color": "#5f7f5b",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "small hedged arable and pasture fields",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a5b",
+            "#5f7f49"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "open grain country (Hesbaye, Champagne belge)",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b377",
+            "#d3cf8b"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "Moselle vineyards (Luxembourg)",
+          "pattern": "rows",
+          "colors": [
+            "#6b7f4d",
+            "#94a363"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#bd8a43",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Belgium",
+      "https://en.wikipedia.org/wiki/Luxembourg",
+      "https://en.wikipedia.org/wiki/Ardennes"
+    ],
+    "confidence": "high",
+    "notes": "Covers all of Belgium and Luxembourg. Flanders is one of Europe's densest rural mosaics: small brick farmsteads with red roofs strung in ribbons along every road and canal, poplar rows and pollarded willows. The Ardennes (Belgian southeast, Luxembourg's Eislek) turn to forested hills with stone houses and slate; the Moselle shows terraced vines. Modern zones are grey flat roofs. Lowland snow is occasional and brief, more regular on the Ardennes plateau."
+  },
+  {
+    "id": "ch-at",
+    "name": "Switzerland and Austria (Alps)",
+    "countries": [
+      "CH",
+      "AT",
+      "LI"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5a6469",
+        "#9a5f4b",
+        "#6f5f55"
+      ],
+      "roofMaterial": [
+        "stone shingle",
+        "wood shingle",
+        "clay tile"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#ece7dd",
+        "#8f6f5b",
+        "#a8a69b"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "wood",
+        "stone"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "alpine chalet",
+        "onion-domed baroque church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Norway spruce",
+          "color": "#2a5a45",
+          "where": "hills"
+        },
+        {
+          "name": "larch",
+          "color": "#3f6457",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#cba83f",
+            "months": [
+              10
+            ]
+          }
+        },
+        {
+          "name": "beech",
+          "color": "#5f8a55",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "hay meadows and pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#559a55",
+            "#7fa355"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "orchards and small fields on valley floors",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8a5d",
+            "#8fa36d"
+          ],
+          "months": [
+            4,
+            5,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "alpine pastures above the treeline",
+          "pattern": "scattered",
+          "colors": [
+            "#7fa35f"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd8f43",
+        "months": [
+          10
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Switzerland",
+      "https://en.wikipedia.org/wiki/Austria",
+      "https://en.wikipedia.org/wiki/Alps"
+    ],
+    "confidence": "high",
+    "notes": "Covers all of Switzerland, Austria and Liechtenstein. From the air: grey rock and snowfields above dark spruce forest, bright fresh-green hay meadows in a mosaic up the slopes, scattered white plaster and dark timber chalets in hamlets, steep dark roofs. Larch forest turns gold in October, the region's clearest autumn show. Wide valley floors carry nucleated villages, orchards (Mostviertel, Rheintal) and modern grey-roofed towns (Zurich, Vienna basin). East of the Alps the land flattens into large grain fields with wind turbines (Weinviertel)."
+  },
+  {
+    "id": "dk",
+    "name": "Denmark",
+    "countries": [
+      "DK"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a0654f",
+        "#5f646d",
+        "#cbb377"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "reed thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#a56a5b",
+        "#e0d6c5",
+        "#c0bab3"
+      ],
+      "wallMaterial": [
+        "brick",
+        "render",
+        "timber frame"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "whitewashed village church",
+        "thatched farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "beech",
+          "color": "#5f8a5b",
+          "where": "everywhere"
+        },
+        {
+          "name": "spruce plantation",
+          "color": "#2f5f4b",
+          "where": "coast"
+        },
+        {
+          "name": "oak",
+          "color": "#4f7f47",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "oilseed rape, wheat and barley",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b37b",
+            "#d8d377"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a63",
+            "#5f8a5d"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#b88f43",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Denmark",
+      "https://en.wikipedia.org/wiki/Jutland"
+    ],
+    "confidence": "high",
+    "notes": "Almost treeless rolling plain, flat and open, with medium-large fields in bright greens and blocks of rape-yellow; hedgerows are few. Red brick farmhouses and red tile roofs; whitewashed village churches with green copper spires, thatch surviving in the southwest. Conifer plantations and summerhouse clusters (grey roofs) along the west coast; offshore wind farms on the horizon. Climate is mild maritime: winter snow falls occasionally but does not linger."
+  },
+  {
+    "id": "se-south",
+    "name": "Southern Sweden (Skåne to Stockholm)",
+    "countries": [
+      "SE"
+    ],
+    "subdivisions": [
+      "SE-M",
+      "SE-K",
+      "SE-G",
+      "SE-H",
+      "SE-I",
+      "SE-F",
+      "SE-N",
+      "SE-O",
+      "SE-T",
+      "SE-U",
+      "SE-S",
+      "SE-D",
+      "SE-E",
+      "SE-C",
+      "SE-AB"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5f5f63",
+        "#a5644d",
+        "#54555b"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "asphalt (modern)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#9a5a43",
+        "#e8e4db",
+        "#bab4ab"
+      ],
+      "wallMaterial": [
+        "wood panel",
+        "plaster",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "red timber farmhouse",
+        "whitewashed village church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "beech",
+          "color": "#6f8a5f",
+          "where": "hills"
+        },
+        {
+          "name": "oak",
+          "color": "#4f7f4b",
+          "where": "everywhere"
+        },
+        {
+          "name": "spruce",
+          "color": "#2f5f45",
+          "where": "everywhere"
+        },
+        {
+          "name": "poplar avenues",
+          "color": "#94a36b",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cereals, rape and sugar beet, large open fields (Skåne plain)",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b37f",
+            "#d8d37b"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "pasture and hay",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a61",
+            "#5f8a61"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "forest and small lakes (Småland highlands)",
+          "pattern": "scattered",
+          "colors": [
+            "#5f7f59",
+            "#8f9a6f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c98f43",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Scania",
+      "https://en.wikipedia.org/wiki/Sm%C3%A5land"
+    ],
+    "confidence": "high",
+    "notes": "Two halves: the Skåne plain, with big yellow-green and rape-yellow fields, poplar and oak avenues and few woods, and the forested lake-and-boulder country of Småland. Falu-red wooden farmhouses with dark roofs are the signature; village churches are whitewashed with dark spires. Öland and Gotland show pale limestone alvar plains. Stockholm and Malmö are grey modern sprawl with dark flat roofs. Autumn comes early: gold birches in late September-October; snow falls most winters but often melts."
+  },
+  {
+    "id": "se-north-fi",
+    "name": "Northern Sweden and Finland",
+    "countries": [
+      "SE",
+      "FI"
+    ],
+    "subdivisions": [
+      "SE-W",
+      "SE-X",
+      "SE-Y",
+      "SE-Z",
+      "SE-AC",
+      "SE-BD"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#575a5f",
+        "#a56a4b",
+        "#4f5459"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "concrete tile",
+        "wood shingle"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#a56443",
+        "#e0dbd3",
+        "#a8a8a3"
+      ],
+      "wallMaterial": [
+        "wood panel",
+        "plaster",
+        "brick"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "red timber farmhouse with barn",
+        "wooden church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Scots pine",
+          "color": "#3f6455",
+          "where": "hills"
+        },
+        {
+          "name": "Norway spruce",
+          "color": "#2f5a4d",
+          "where": "everywhere"
+        },
+        {
+          "name": "birch",
+          "color": "#a8b37b",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#d3c34f",
+            "months": [
+              9,
+              10
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "lakeside fields and hay meadows",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f9a5b",
+            "#8fa377"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "clearcut and young plantation patches",
+          "pattern": "scattered",
+          "colors": [
+            "#8f9a77"
+          ]
+        },
+        {
+          "name": "barley and oats (coastal Finland)",
+          "pattern": "stripes",
+          "colors": [
+            "#b3a877",
+            "#cfc38f"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#c9a34f",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Norrland",
+      "https://en.wikipedia.org/wiki/Finland",
+      "https://en.wikipedia.org/wiki/Finnish_Lakeland"
+    ],
+    "confidence": "high",
+    "notes": "Swedish counties for the northern half only; covers all of Finland. From the air this is one dark blue-green boreal forest stitched with thousands of smooth lakes (Finnish Lakeland: drumlins and eskers between long sinuous waters) and pale square clearcut patches. Settlement is scattered red-timber farms with grey metal roofs; towns are grey concrete and modern. Birch turns gold in September. Lowland snow cover typically lasts November to March."
+  },
+  {
+    "id": "is",
+    "name": "Iceland",
+    "countries": [
+      "IS"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#6b6a73",
+        "#a55f4f",
+        "#d8d8d3"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete",
+        "turf (historic)"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d8d5cf",
+        "#b86f53",
+        "#8fa39b"
+      ],
+      "wallMaterial": [
+        "corrugated metal",
+        "concrete",
+        "stone and turf (historic)"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "turf-roofed farmstead",
+        "corrugated-metal church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [],
+      "signatureCrops": [
+        {
+          "name": "fertilised hay fields around farms",
+          "pattern": "stripes",
+          "colors": [
+            "#6f9a67",
+            "#5f8a67"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Icelandic_turf_house",
+      "https://en.wikipedia.org/wiki/Architecture_of_Iceland",
+      "https://en.wikipedia.org/wiki/Geography_of_Iceland"
+    ],
+    "confidence": "high",
+    "notes": "signatureTrees is empty on purpose: the island is essentially treeless (deforestation since settlement; native birch survives only in scrub and rare plantations). The air view is volcanic: black lava fields furred with grey-green moss, pale glacial outwash plains, braided glacial rivers, icefields. Isolated white and brightly painted corrugated-metal farmhouses with bright green fertilised hay strips; turf-roofed houses survive as heritage. Reykjavík is a modern concrete and metal city."
+  },
+  {
+    "id": "pl",
+    "name": "Poland",
+    "countries": [
+      "PL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a06547",
+        "#6e6d73",
+        "#5a5f5b"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "asphalt (modern)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e3d9c9",
+        "#a06a5d",
+        "#dcdcd3"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "timber frame"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "village church tower",
+        "dwór manor house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Scots pine plantation",
+          "color": "#3f6459",
+          "where": "everywhere"
+        },
+        {
+          "name": "birch",
+          "color": "#a8b37d",
+          "where": "everywhere"
+        },
+        {
+          "name": "oak avenues",
+          "color": "#5f7f4f",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "fragmented narrow strip fields",
+          "pattern": "stripes",
+          "colors": [
+            "#b3ab6b",
+            "#cfc38b"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "oilseed rape in flower",
+          "pattern": "stripes",
+          "colors": [
+            "#d8d36b"
+          ],
+          "months": [
+            4,
+            5
+          ]
+        },
+        {
+          "name": "pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8a59",
+            "#7f9a5d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd9443",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Poland",
+      "https://en.wikipedia.org/wiki/Geography_of_Poland"
+    ],
+    "confidence": "high",
+    "notes": "The air signature is fragmentation: countless narrow strip fields forming a grey-green-brown quilt (finest in the former Austrian and Russian partitions), against large uniform blocks in the west. Red tile roofs over cream-rendered and brick houses in chain villages along roads; dark pine plantations and birch on sandy soils; the Masurian lakeland in the northeast; the Sudetes and Carpathians in the south. Cities add grey flat-roofed panel-block and glass districts. Lowland snow falls most winters."
+  },
+  {
+    "id": "cz-sk-hu",
+    "name": "Czechia, Slovakia and Hungary",
+    "countries": [
+      "CZ",
+      "SK",
+      "HU"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a3684f",
+        "#6f6a6d",
+        "#8f5f47"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "asphalt (modern)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e6dccd",
+        "#d9c98f",
+        "#a56a5d"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "village church tower",
+        "tanya farmstead"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "black locust",
+          "color": "#6f8a67",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#e8e8e7",
+            "months": [
+              5
+            ]
+          }
+        },
+        {
+          "name": "poplar windbreak rows",
+          "color": "#8fa37f",
+          "where": "valleys"
+        },
+        {
+          "name": "oak",
+          "color": "#5f7f55",
+          "where": "hills"
+        },
+        {
+          "name": "spruce (Carpathians)",
+          "color": "#2f5a4f",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sunflowers",
+          "pattern": "rows",
+          "colors": [
+            "#b8ab6b",
+            "#d3b36f"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "maize and alfalfa",
+          "pattern": "stripes",
+          "colors": [
+            "#7f9a5f",
+            "#5f8a47"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "dry cereals on the puszta",
+          "pattern": "stripes",
+          "colors": [
+            "#b8a877",
+            "#cfc09b"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c99b47",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Czech_Republic",
+      "https://en.wikipedia.org/wiki/Slovakia",
+      "https://en.wikipedia.org/wiki/Hungary",
+      "https://en.wikipedia.org/wiki/Puszta"
+    ],
+    "confidence": "high",
+    "notes": "Covers all three countries. Czechia's defining air view is the sea of small red tile roofs around cream-rendered village churches, on wooded Bohemian-Moravian hills; Slovakia adds chain villages climbing into the Carpathians with spruce forest and scattered hamlets. The Hungarian Great Plain (puszta: treeless steppe with grey cattle and tanya farmsteads around Hortobágy) shows huge uniform dry fields that go straw-gold in July-August, with locust groves flowering white in May and poplar windbreaks. Prague, Bratislava and Budapest bring grey modern sprawl."
   }
 ]
