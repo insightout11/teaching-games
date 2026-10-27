@@ -1,8 +1,10 @@
-import { Josefin_Sans } from 'next/font/google';
+import { Josefin_Sans, Yellowtail } from 'next/font/google';
 import { BLEED_X, CONTENT_W, VIEWBOX } from '../types';
 
 // The landing card's lettering, so the postcard and the card read as one set
 const deco = Josefin_Sans({ subsets: ['latin'], weight: ['600', '700'] });
+// The cursive 'Greetings from' of the classic large-letter postcards
+const script = Yellowtail({ subsets: ['latin'], weight: '400' });
 
 // The vintage postcard finish (Oct 2026, gallery first): the scene's own colours (no sepia: the owner found the brown
 // tint too much), a very light paper grain, a gentle vignette, and a cream border with rounded corners like a postcard. Still overlays on top
@@ -67,8 +69,12 @@ function Title({ city, country, id, night, fadeIn }: { city: string; country: st
   const ink = '#1d2340';
   const cream = '#fbf0d6';
   const font = { fontFamily: deco.style.fontFamily, fontWeight: 700 } as const;
-  const y = 84 + size * 0.95;
+  const y = 118 + size * 0.86;
   const edge = Math.max(5, size * 0.07);
+  // The 3D block: the letters' side, stepped down and to the right like the classic large-letter cards
+  const depth = Math.round(Math.max(6, size * 0.1));
+  const steps = Array.from({ length: depth }, (_, i) => depth - i);
+  const big = { x: cx, textAnchor: 'middle' as const, fontSize: size, letterSpacing: size * 0.08, style: font };
   return (
     <g style={fadeIn ? { animation: 'lc-pc-in 1.4s ease-out both' } : undefined}>
       {fadeIn && <style>{'@keyframes lc-pc-in{0%{opacity:0;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}'}</style>}
@@ -79,13 +85,17 @@ function Title({ city, country, id, night, fadeIn }: { city: string; country: st
           <stop offset="1" stopColor={night ? '#d8643a' : '#c4502f'} />
         </linearGradient>
       </defs>
-      <text x={cx} y={76} textAnchor="middle" fontSize={34} letterSpacing={16} fill={ink} stroke={cream} strokeWidth={8} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>WELCOME TO</text>
-      {/* the printed drop shadow, offset down and right like a two-colour print */}
-      <text x={cx + 8} y={y + 8} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={ink} stroke={ink} strokeWidth={edge * 2.2} opacity={0.6} style={font}>{name}</text>
-      {/* ink edge, then the cream outline, then the letter itself */}
-      <text x={cx} y={y} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={ink} stroke={ink} strokeWidth={edge * 2.2} style={font}>{name}</text>
-      <text x={cx} y={y} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={`url(#${id}-letter)`} stroke={cream} strokeWidth={edge} paintOrder="stroke" style={font}>{name}</text>
-      <text x={cx} y={y + 56} textAnchor="middle" fontSize={32} letterSpacing={14} fill={ink} stroke={cream} strokeWidth={8} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>{country.toUpperCase()}</text>
+      {/* soft shadow under the whole block */}
+      <text {...big} x={cx + depth + 6} y={y + depth + 8} fill={ink} stroke={ink} strokeWidth={edge * 2.2} opacity={0.35}>{name}</text>
+      {/* the extruded side: ink outline, then the deep red-brown side itself */}
+      {steps.map((d) => <text key={`o${d}`} {...big} x={cx + d} y={y + d} fill={ink} stroke={ink} strokeWidth={edge * 2.2}>{name}</text>)}
+      {steps.map((d) => <text key={`s${d}`} {...big} x={cx + d} y={y + d} fill={night ? '#7a2e2a' : '#8e3324'}>{name}</text>)}
+      {/* the letter face: ink edge, cream outline, terracotta */}
+      <text {...big} y={y} fill={ink} stroke={ink} strokeWidth={edge * 2.2}>{name}</text>
+      <text {...big} y={y} fill={`url(#${id}-letter)`} stroke={cream} strokeWidth={edge} paintOrder="stroke">{name}</text>
+      {/* 'Greetings from' in script, tucked over the top left of the big letters */}
+      <text x={cx - size * name.length * 0.26} y={y - size * 0.78} textAnchor="start" fontSize={Math.max(46, size * 0.5)} fill={cream} stroke={ink} strokeWidth={7} paintOrder="stroke" transform={`rotate(-6 ${cx - size * name.length * 0.26} ${y - size * 0.78})`} style={{ fontFamily: script.style.fontFamily }}>Greetings from</text>
+      <text x={cx} y={y + depth + 46} textAnchor="middle" fontSize={30} letterSpacing={14} fill={ink} stroke={cream} strokeWidth={8} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>{country.toUpperCase()}</text>
     </g>
   );
 }
@@ -109,7 +119,7 @@ function Stamp({ city, id, night, animate }: { city: string; id: string; night: 
   const step = 15, r = 5;
   for (let x = -w / 2; x <= w / 2 + 0.1; x += step) holes.push(`M ${x - r} ${-h / 2} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`, `M ${x - r} ${h / 2} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`);
   for (let y = -h / 2 + step; y < h / 2; y += step) holes.push(`M ${-w / 2 - r} ${y} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`, `M ${w / 2 - r} ${y} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`);
-  const nameSize = Math.min(22, 230 / Math.max(4, name.length));
+  const nameSize = Math.min(22, 175 / Math.max(4, name.length));
   return (
     <g transform={`translate(${cx} ${cy})`}>
       {animate && (
