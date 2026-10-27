@@ -15,6 +15,11 @@ export interface LiveWeather {
   utcOffsetSeconds?: number;
   /** Air temperature now, in °C. */
   temperatureC?: number;
+  /**
+   * Cloud cover by height, 0-100 % each (Oct 2026, for the poster terrain's real weather): low (below ~2 km, the sea of
+   * clouds under the plane), mid (~2-6 km, the banks it passes beside) and high (above ~6 km, cirrus overhead).
+   */
+  cloudLayers?: { low: number; mid: number; high: number };
 }
 
 /** WMO weather codes (as Open-Meteo reports them) → a condition and a label. */

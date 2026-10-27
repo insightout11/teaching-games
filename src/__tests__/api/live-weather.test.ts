@@ -29,6 +29,12 @@ describe('live weather', () => {
     expect(String((fetchMock.mock.calls[0] as unknown[])[0])).toContain('latitude=37.5&longitude=127');
   });
 
+  it('passes on cloud cover by height when the service gives it', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ current: { weather_code: 3, cloud_cover: 90, cloud_cover_low: 85, cloud_cover_mid: 12.6, cloud_cover_high: 0, wind_speed_10m: 5, is_day: 1 } }))));
+    const data = await (await get('lat=48.85&lng=2.35')).json();
+    expect(data.cloudLayers).toEqual({ low: 85, mid: 13, high: 0 });
+  });
+
   it('fails soft when the weather service is down', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response('nope', { status: 500 })));
     expect((await get('lat=1&lng=2')).status).toBe(502);

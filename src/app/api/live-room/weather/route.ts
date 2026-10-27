@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
   try {
     const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${rlat}&longitude=${rlng}&current=weather_code,cloud_cover,wind_speed_10m,is_day,temperature_2m&timezone=auto`,
+      `https://api.open-meteo.com/v1/forecast?latitude=${rlat}&longitude=${rlng}&current=weather_code,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,wind_speed_10m,is_day,temperature_2m&timezone=auto`,
       { next: { revalidate: 600 } },
     );
     if (!res.ok) return NextResponse.json({ error: 'Weather unavailable' }, { status: 502 });
@@ -35,10 +35,14 @@ export async function GET(request: Request) {
     const cloudCover = Math.max(0, Math.min(100, Number(c.cloud_cover) || 0));
     const { condition, label } = fromWeatherCode(Number(c.weather_code) || 0, cloudCover, rlat, c.is_day !== 0);
     const offset = Number(data?.utc_offset_seconds);
+    const pct = (v: unknown) => (Number.isFinite(Number(v)) && v !== null ? Math.max(0, Math.min(100, Math.round(Number(v)))) : null);
+    const low = pct(c.cloud_cover_low), mid = pct(c.cloud_cover_mid), high = pct(c.cloud_cover_high);
     const out: LiveWeather = {
       condition, cloudCover, windKph: Math.round(Number(c.wind_speed_10m) || 0), label,
       ...(Number.isFinite(offset) ? { utcOffsetSeconds: offset } : {}),
       ...(Number.isFinite(Number(c.temperature_2m)) ? { temperatureC: Math.round(Number(c.temperature_2m)) } : {}),
+      // only when the service gave all three heights
+      ...(low !== null && mid !== null && high !== null ? { cloudLayers: { low, mid, high } } : {}),
     };
     return NextResponse.json(out, { headers: { 'Cache-Control': 'private, max-age=300' } });
   } catch {
