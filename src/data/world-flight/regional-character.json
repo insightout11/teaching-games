@@ -9041,5 +9041,1269 @@
     ],
     "confidence": "high",
     "notes": "The Philippines is an archipelago of many provinces, so no single ISO 3166-2 subdivision is used. Lowland villages mix stilted bamboo bahay kubo with concrete and metal houses, older towns retain stone-and-timber colonial houses with tile roofs, and Metro Manila, Cebu and Davao are dense concrete and glass cities. Rice, coconut and sugarcane are the main crops, with banana, pineapple and mango for export. The climate is tropical maritime with a May-October southwest monsoon and a November-April dry season; typhoons are frequent in the north and snow never occurs. Deforestation, coastal erosion and typhoon damage are major risks."
+  },
+  {
+    "id": "gb-southern-england",
+    "name": "Southern England",
+    "countries": [
+      "GB"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9a6a4f",
+        "#6b7075",
+        "#8a8f93"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "slate",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#9a6753",
+        "#b3a487",
+        "#6f6d6b"
+      ],
+      "wallMaterial": [
+        "brick",
+        "flint",
+        "timber frame"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "thatched cottage",
+        "red-brick farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oak",
+          "color": "#4f7a45",
+          "where": "everywhere"
+        },
+        {
+          "name": "beech",
+          "color": "#7a8f5f",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#b0833f",
+            "months": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "name": "pollarded willow",
+          "color": "#8fa86f",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "pasture and small fields divided by hedgerows (bocage)",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a55",
+            "#557f43"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "arable fields (wheat, barley, oilseed rape)",
+          "pattern": "stripes",
+          "colors": [
+            "#a9b06b",
+            "#d3cf5f"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#a87f3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Bocage",
+      "https://en.wikipedia.org/wiki/South_Downs"
+    ],
+    "confidence": "high",
+    "notes": "Most widespread modern look is grey-brown concrete tile and brick on post-war estates, plus grey flat-roof sprawl around London and the motorway corridors; red clay tile, slate and flint dominate older villages and thatch survives as an iconic minority. The chalk downs (South Downs/North Downs) show open, larger stripier fields; the Weald and west keep small hedged patchwork. Landscape stays green all year with no dry season. England is split by latitude (about 53°N) from the northern region; no ISO code separates them."
+  },
+  {
+    "id": "gb-north-wales-scotland",
+    "name": "Northern England, Wales and Scotland",
+    "countries": [
+      "GB"
+    ],
+    "subdivisions": [
+      "GB-WLS",
+      "GB-SCT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5a5f63",
+        "#6b7075"
+      ],
+      "roofMaterial": [
+        "slate",
+        "stone"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#8f8a83",
+        "#e8e4d9",
+        "#b3a487"
+      ],
+      "wallMaterial": [
+        "stone",
+        "harling render"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "whitewashed croft",
+        "gritstone terraced cottage"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Scots pine",
+          "color": "#3f5f4d",
+          "where": "hills"
+        },
+        {
+          "name": "Sitka spruce plantation",
+          "color": "#2f4f3f",
+          "where": "hills"
+        },
+        {
+          "name": "birch",
+          "color": "#8f9a6d",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#c9a83f",
+            "months": [
+              10
+            ]
+          }
+        },
+        {
+          "name": "alder",
+          "color": "#6f8a5b",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sheep pasture and heather moorland with dry-stone walls",
+          "pattern": "patchwork",
+          "colors": [
+            "#6b7f4f",
+            "#8a6f4f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b0833f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Moorland",
+      "https://en.wikipedia.org/wiki/Scottish_Highlands"
+    ],
+    "confidence": "high",
+    "notes": "Reads as dark blue-green moorland and small drystone-walled pasture cells; block plantations of Sitka spruce appear as uniform dark rectangles. Heather moors bloom purple August-September and bracken turns orange-brown on the hills in autumn. Lowland snow is typical in Scotland and the Pennines, less reliable in Wales. Stone terraces and mills mark the former industrial valleys; the Highlands are among Europe's most sparsely populated areas. Northern England (north of about 53°N) also belongs here."
+  },
+  {
+    "id": "ie-ireland",
+    "name": "Ireland",
+    "countries": [
+      "IE"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5a5f63",
+        "#6f6469",
+        "#9a6a4f"
+      ],
+      "roofMaterial": [
+        "slate",
+        "concrete tile",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e4d9",
+        "#d9cfbd",
+        "#8f8a83"
+      ],
+      "wallMaterial": [
+        "whitewashed render",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "whitewashed cottage",
+        "rural bungalow"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "hawthorn (hedgerow trees)",
+          "color": "#5f7f4b",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#e8e4e9",
+            "months": [
+              5
+            ]
+          }
+        },
+        {
+          "name": "Sitka spruce plantation",
+          "color": "#2f4f3f",
+          "where": "hills"
+        },
+        {
+          "name": "oak",
+          "color": "#4f7a45",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "permanent grassland for cattle and sheep in hedgerow fields",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8a4b",
+            "#4f7a43"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Agriculture_in_the_Republic_of_Ireland",
+      "https://en.wikipedia.org/wiki/Connemara",
+      "https://en.wikipedia.org/wiki/Bocage"
+    ],
+    "confidence": "high",
+    "notes": "The whole island reads as one continuous green quilt of small hedged fields (bocage); trees are mostly hedgerow trees and dark spruce plantation blocks. Blanket bog and cutaway peat show as brown patches, especially in the west and midlands. One-off whitewashed or cream-rendered houses string along roads outside villages. Grey slate roofs dominate, red tile an urban minority; lowland snow is uncommon and autumn colour is weak."
+  },
+  {
+    "id": "fr-north",
+    "name": "Northern France (Normandy, Brittany, Paris basin)",
+    "countries": [
+      "FR"
+    ],
+    "subdivisions": [
+      "FR-NOR",
+      "FR-BRE",
+      "FR-IDF",
+      "FR-CVL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5f6469",
+        "#9a6a4f",
+        "#c8b98f"
+      ],
+      "roofMaterial": [
+        "slate",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#d9cfbd",
+        "#8f8a83",
+        "#c9bfa9"
+      ],
+      "wallMaterial": [
+        "half-timbering",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "half-timbered farmhouse",
+        "longere farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "apple",
+          "color": "#6f8a4b",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#e3d3df",
+            "months": [
+              4
+            ]
+          }
+        },
+        {
+          "name": "beech (hedges and woods)",
+          "color": "#7a8f5f",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#a87b3f",
+            "months": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "name": "poplar",
+          "color": "#6f9a5f",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "pasture with hedgerows (bocage)",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a55",
+            "#5f7f43"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "openfield cereals and oilseed rape (Paris basin, Beauce)",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b06b",
+            "#d3cf5f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#a87f3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Normandy",
+      "https://en.wikipedia.org/wiki/Beauce,_France",
+      "https://en.wikipedia.org/wiki/Bocage"
+    ],
+    "confidence": "high",
+    "notes": "Two landscapes: bocage hedgerow country with half-timbered and stone farmhouses in Normandy and Brittany, and the almost treeless, huge open fields of the Paris basin and Beauce, one of France's most productive grain areas. Slate roofs prevail in the west, terracotta in the Ile-de-France; thatch is an iconic Normandy minority. Apple orchards show pink-white blossom in April."
+  },
+  {
+    "id": "fr-southwest-massif-central",
+    "name": "South-west France and the Massif Central",
+    "countries": [
+      "FR"
+    ],
+    "subdivisions": [
+      "FR-NAQ",
+      "FR-OCC",
+      "FR-ARA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a86f4f",
+        "#6b7075",
+        "#8a8f93"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "lauze stone flag",
+        "slate"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#c9b183",
+        "#8f8a83",
+        "#b87f6f"
+      ],
+      "wallMaterial": [
+        "limestone",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "arcaded bastide",
+        "lauze-roofed farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "walnut",
+          "color": "#6f8a63",
+          "where": "valleys"
+        },
+        {
+          "name": "maritime pine",
+          "color": "#4f6f5b",
+          "where": "coast"
+        },
+        {
+          "name": "plane tree",
+          "color": "#7f9a6b",
+          "where": "river banks",
+          "seasonColor": {
+            "color": "#c9a83f",
+            "months": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "name": "chestnut",
+          "color": "#5f7a4f",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#c9a83f",
+            "months": [
+              10,
+              11
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "vineyards (Bordeaux)",
+          "pattern": "rows",
+          "colors": [
+            "#6b7a4f",
+            "#8f8a5b"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "maize fields",
+          "pattern": "stripes",
+          "colors": [
+            "#7f9a55",
+            "#b3a86b"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "sunflowers",
+          "pattern": "rows",
+          "colors": [
+            "#b8a86b",
+            "#d3b83f"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#b8733f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Dordogne",
+      "https://en.wikipedia.org/wiki/Massif_Central"
+    ],
+    "confidence": "high",
+    "notes": "Terracotta roofs and ochre limestone dominate; the Auvergne part of the Massif Central adds dark volcanic stone, grey lauze roofs and extinct-volcano silhouettes. Bastide towns are regular grids with arcaded squares; the rest is scattered hamlets. The Landes maritime-pine forest is one solid dark-green block south-west of Bordeaux. Vineyards redden the slopes in October."
+  },
+  {
+    "id": "es-central-plateau",
+    "name": "Central Spain (Castile, Madrid, La Mancha)",
+    "countries": [
+      "ES"
+    ],
+    "subdivisions": [
+      "ES-CL",
+      "ES-CM",
+      "ES-MD"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a86f4f",
+        "#6b6f73"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "asphalt (modern flats)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#c9b183",
+        "#b87f5f",
+        "#9a8f7f"
+      ],
+      "wallMaterial": [
+        "stone",
+        "brick",
+        "render"
+      ],
+      "villageLayout": "grid",
+      "density": "dense",
+      "signatureBuildings": [
+        "stone church tower",
+        "castle keep"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "holm oak (dehesa)",
+          "color": "#7f8a63",
+          "where": "everywhere"
+        },
+        {
+          "name": "poplar",
+          "color": "#8fa86d",
+          "where": "river banks",
+          "seasonColor": {
+            "color": "#c9a83f",
+            "months": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "name": "cypress",
+          "color": "#3f5f43",
+          "where": "towns"
+        },
+        {
+          "name": "Aleppo pine",
+          "color": "#4f6f5d",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "dry cereals with fallow strips (wheat, barley)",
+          "pattern": "stripes",
+          "colors": [
+            "#b8a86b",
+            "#cfc08f"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "olive groves (Toledo, La Alcarria)",
+          "pattern": "rows",
+          "colors": [
+            "#8f9a63",
+            "#7f8a5b"
+          ]
+        },
+        {
+          "name": "centre-pivot irrigated circles (La Mancha)",
+          "pattern": "circles",
+          "colors": [
+            "#7f9a55",
+            "#8a7f5b"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Castile_and_Le%C3%B3n",
+      "https://en.wikipedia.org/wiki/La_Mancha"
+    ],
+    "confidence": "high",
+    "notes": "Huge, empty high plains ringed by mountains, very sparsely populated; from late June to October everything reads yellow-ochre, with only a brief spring green. Villages are compact grids built around a stone church tower. Madrid and provincial cities add grey flat-roofed concrete blocks. Autumn colour is limited to gold poplars along rivers in late October; lowland snow falls most winters."
+  },
+  {
+    "id": "es-andalusia-mediterranean",
+    "name": "Andalusia and the Mediterranean coast",
+    "countries": [
+      "ES"
+    ],
+    "subdivisions": [
+      "ES-AN",
+      "ES-MC",
+      "ES-VC",
+      "ES-CT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a86f4f",
+        "#6b6f73"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "asphalt (modern resorts)"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8e4d9",
+        "#c9b183",
+        "#8f8a83"
+      ],
+      "wallMaterial": [
+        "whitewashed render",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "whitewashed church tower",
+        "Moorish hilltop castle"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#8f9a6b",
+          "where": "everywhere"
+        },
+        {
+          "name": "orange",
+          "color": "#5f8a4b",
+          "where": "towns",
+          "seasonColor": {
+            "color": "#c96f3f",
+            "months": [
+              12,
+              1,
+              2
+            ]
+          }
+        },
+        {
+          "name": "stone pine",
+          "color": "#4f6f5b",
+          "where": "coast"
+        },
+        {
+          "name": "palm",
+          "color": "#4f7f5b",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "olive groves (Jaen)",
+          "pattern": "rows",
+          "colors": [
+            "#8f9a63",
+            "#7f8a5b"
+          ]
+        },
+        {
+          "name": "plastic greenhouses (Almeria)",
+          "pattern": "patchwork",
+          "colors": [
+            "#d3d3cf",
+            "#e8e8e3"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "dryland cereals and sunflowers",
+          "pattern": "stripes",
+          "colors": [
+            "#b8a86b",
+            "#d3b83f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Andalusia",
+      "https://en.wikipedia.org/wiki/Pueblos_blancos",
+      "https://en.wikipedia.org/wiki/Poniente_Almeriense"
+    ],
+    "confidence": "high",
+    "notes": "Pueblos blancos sit dense on hilltops, defined by whitewashed walls and red-brown tiled roofs; the coast is low-rise resort sprawl with grey flat roofs, and the Poniente Almeriense is a sheet of white plastic greenhouses visible from orbit. Olive groves are the region's main canopy, pale grey-green. Sierra Nevada holds snow into June but lowland snow is rare; hills turn gold from June to October with a brief green spring."
+  },
+  {
+    "id": "pt-portugal",
+    "name": "Portugal",
+    "countries": [
+      "PT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a86f4f",
+        "#6b6f73"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "asphalt (modern)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e4d9",
+        "#d9cfbd",
+        "#8f8a83"
+      ],
+      "wallMaterial": [
+        "whitewashed render",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "whitewashed church tower",
+        "schist village house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "cork oak",
+          "color": "#7f8a63",
+          "where": "everywhere"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6f8a7b",
+          "where": "hills"
+        },
+        {
+          "name": "maritime pine",
+          "color": "#4f6f5d",
+          "where": "coast"
+        },
+        {
+          "name": "olive",
+          "color": "#8f9a63",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "montado: cork oak savanna with grazing",
+          "pattern": "scattered",
+          "colors": [
+            "#8f9a63",
+            "#b3a36b"
+          ]
+        },
+        {
+          "name": "Douro terraced vineyards",
+          "pattern": "terraces",
+          "colors": [
+            "#6b7a4f",
+            "#8f8a5b"
+          ]
+        },
+        {
+          "name": "wheat fallow plains (Alentejo)",
+          "pattern": "stripes",
+          "colors": [
+            "#b8a86b",
+            "#cfc08f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#a8733f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Montado",
+      "https://en.wikipedia.org/wiki/Douro",
+      "https://en.wikipedia.org/wiki/Douro_DOC"
+    ],
+    "confidence": "high",
+    "notes": "Terracotta roofs over whitewash from the air; Lisbon adds red-roofed hills. The north is greener with granite walls, scattered hamlets and schist villages; the Alentejo is a golden plain studded with widely spaced cork oaks (montado). The Alto Douro wine region shows its stepped vineyards as a World Heritage landscape. Autumn colour is limited to vineyards and some chestnut country; lowland snow is rare."
+  },
+  {
+    "id": "it-north",
+    "name": "Northern Italy (Po valley, Lombardy, Veneto, Italian Alps)",
+    "countries": [
+      "IT"
+    ],
+    "subdivisions": [
+      "IT-21",
+      "IT-25",
+      "IT-34",
+      "IT-45"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a86f4f",
+        "#6b6f73"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "asphalt (modern)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#d9cfbd",
+        "#c9a86f",
+        "#e8e4d9"
+      ],
+      "wallMaterial": [
+        "stucco",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "campanile",
+        "cascina farmstead"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "poplar (plantation rows)",
+          "color": "#6f9a5f",
+          "where": "river banks"
+        },
+        {
+          "name": "plane tree",
+          "color": "#7f9a6b",
+          "where": "towns"
+        },
+        {
+          "name": "chestnut",
+          "color": "#5f7a4f",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#c9a83f",
+            "months": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "name": "spruce (Alps)",
+          "color": "#2f4f3f",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies (flooded in spring)",
+          "pattern": "patchwork",
+          "colors": [
+            "#8fa3ad",
+            "#7f9a63"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "stripes",
+          "colors": [
+            "#7f9a55",
+            "#b3a86b"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "hill vineyards (Prosecco, Barolo)",
+          "pattern": "terraces",
+          "colors": [
+            "#6b7a4f",
+            "#8f8a5b"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#a8733f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Po_Valley",
+      "https://en.wikipedia.org/wiki/Conegliano_Valdobbiadene_Prosecco"
+    ],
+    "confidence": "high",
+    "notes": "Europe's largest fully cultivated plain: nearly every roof is terracotta, interrupted only by grey modern blocks around Milan and other cities. Dense grid towns with a campanile, scattered cascina farmsteads, poplar rows and flooded rice mirrors around Vercelli-Novara in spring. Winter haze and fog sit over the valley; the Alpine flank above is dark conifer and grey rock. The Conegliano-Valdobbiadene hills are a UNESCO vineyard landscape."
+  },
+  {
+    "id": "it-south-sicily",
+    "name": "Southern Italy and Sicily",
+    "countries": [
+      "IT"
+    ],
+    "subdivisions": [
+      "IT-72",
+      "IT-75",
+      "IT-77",
+      "IT-78",
+      "IT-82"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a86f4f",
+        "#6b6f73",
+        "#c9c4bb"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "stone (trullo cones)",
+        "asphalt (modern)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#d9cfbd",
+        "#e8e4d9",
+        "#b87f5f"
+      ],
+      "wallMaterial": [
+        "stucco",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "dense",
+      "signatureBuildings": [
+        "trullo (conical dry-stone hut)",
+        "baroque church tower"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#8f9a6b",
+          "where": "everywhere"
+        },
+        {
+          "name": "citrus (orange, lemon)",
+          "color": "#5f8a4b",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#c98a3f",
+            "months": [
+              12,
+              1,
+              2
+            ]
+          }
+        },
+        {
+          "name": "almond",
+          "color": "#8f9a63",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#ecd8df",
+            "months": [
+              2
+            ]
+          }
+        },
+        {
+          "name": "stone pine",
+          "color": "#4f6f5b",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "durum wheat on rolling hills",
+          "pattern": "patchwork",
+          "colors": [
+            "#b8a86b",
+            "#cfc08f"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "rows",
+          "colors": [
+            "#8f9a63",
+            "#7f8a5b"
+          ]
+        },
+        {
+          "name": "vineyards (Etna, western Sicily)",
+          "pattern": "rows",
+          "colors": [
+            "#6b7a4f",
+            "#8f8a5b"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sicily",
+      "https://en.wikipedia.org/wiki/Trullo"
+    ],
+    "confidence": "high",
+    "notes": "Hilltop towns of cream and ochre stucco with terracotta roofs; whitewashed trulli with grey stone cones around Alberobello in Apulia; black lava fields on Etna's flanks. Pale grey-green olive canopies are the most common tree cover; the interior turns gold from June to October and greens again with winter rains. Almond groves flower pink in February; modern outskirt blocks are concrete with grey flat roofs."
   }
 ]
