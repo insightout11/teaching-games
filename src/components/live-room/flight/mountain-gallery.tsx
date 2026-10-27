@@ -218,7 +218,7 @@ export function MountainGallery() {
     setStyle(s);
     setPeakStyle(s);
     setGroundRelief(s === 'new' && q.get('hills') !== 'off');
-    setNightLights(q.get('lights') !== 'off');
+    setNightLights(q.get('lights') === 'on');
     setSkyClouds(q.get('clouds') !== 'off');
     setSkyV2(q.get('sky') !== 'old');
     setCover(Number(q.get('cover') ?? '45') || 45);

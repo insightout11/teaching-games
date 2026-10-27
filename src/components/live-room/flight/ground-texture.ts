@@ -932,8 +932,11 @@ let SOFT_EDGES = true; // approved by the owner 20 Oct 2026
 export function setSoftEdges(on: boolean) { SOFT_EDGES = on; }
 export const softEdges = () => SOFT_EDGES;
 
-/** Night lights across the land (towns and roads; approved by the owner 20 Oct 2026). */
-let NIGHT_LIGHTS = true;
+/**
+ * Made-up night lights across the land (random towns and roads). Off since 28 Oct 2026 (owner): they aren't real places.
+ * Real night lights (NASA Black Marble) are coming with the GPU terrain. `?lights=on` in the mountain gallery still shows them.
+ */
+let NIGHT_LIGHTS = false;
 export function setNightLights(on: boolean) { NIGHT_LIGHTS = on; }
 export const nightLights = () => NIGHT_LIGHTS;
 
