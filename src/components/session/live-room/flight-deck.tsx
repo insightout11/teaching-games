@@ -23,7 +23,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone, Ticket, ChevronDown, Mail } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone, Ticket, ChevronDown, Mail, Play, Gauge } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -31,6 +31,7 @@ import { assignSeats, cabinSeatLabel } from '@/lib/live-room/seats';
 import { COUNTRY_ITEMS, countryItemFor, countryUnlockId } from '@/data/world-flight/country-items';
 import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
 import { BestDiscoveryVote } from '@/components/session/live-room/best-discovery-vote';
+import { RouteStrip, type RouteMarker } from '@/components/session/live-room/route-strip';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { MASCOT_LABELS, MASCOT_LOCKED, type MascotLook } from '@/lib/mascot';
 import { cityStops, stopSceneTopic, STOP_LABEL, type CityStop } from '@/lib/world-flight/city-stops';
@@ -141,6 +142,8 @@ const TEST_FLIGHT_DONE_KEY = 'lc-test-flight-done';
 const DESCENT_MINUTES = 5;
 /** Minutes before landing when the class picks its city stop (the scene runs during the descent). */
 const STOP_MINUTES = 10;
+/** Minutes before landing for the World Quiz marker (game-time and structured classes). */
+const QUIZ_MINUTES = 18;
 // The guided test flight's pretend students: no device, never saved to the class list.
 const PRETEND_STUDENTS = [
   { id: 'pretend-mia', name: 'Mia', avatar_seed: 'pretend-mia' },
@@ -1023,6 +1026,7 @@ export function FlightDeck({
   // their weekly chat and where they would like to fly. Their seat lights up and their phone shows the prompt.
   const [checkIn, setCheckIn] = useState<{ order: string[]; i: number } | null>(null);
   const [boardingMore, setBoardingMore] = useState(false);
+  const [panelTray, setPanelTray] = useState<'activities' | 'instruments' | null>(null);
   // Postcards students sent home after the last lesson: read a few out while the class boards (Oct 2026)
   const [homePostcards, setHomePostcards] = useState<{ city: string | null; postcards: Array<{ id: string; name: string; message: string }> } | null>(null);
   const [postcardsOpen, setPostcardsOpen] = useState(false);
@@ -1571,6 +1575,13 @@ export function FlightDeck({
   useEffect(() => { setStopOffered(false); setStopScene(null); setStopVote(null); }, [takeoffAt]);
   const stopDue = flightStage === 'flying' && takeoffAt !== null && !holding && minutesLeft !== null && minutesLeft <= STOP_MINUTES && minutesLeft > 1
     && !stopOffered && !stopVote && !stopScene && cityStops(destination.id).length >= 2;
+  // The route strip's closing markers: reminders only (nothing starts by itself); which ones depends on the class type
+  const landAtLabel = clock.landAt ? new Date(clock.landAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : null;
+  const quizOn = (todayType === 'game-time' || todayType === 'structured') && classMinutes >= 40;
+  const closingMarkers: RouteMarker[] = flightStage !== 'flying' ? [] : [
+    ...(quizOn ? [{ id: 'quiz', label: 'World Quiz', at: QUIZ_MINUTES, done: runningKey === 'world-quiz', onStart: () => launch('world-quiz', focused) }] : []),
+    ...(cityStops(destination.id).length >= 2 ? [{ id: 'stop', label: 'City stop', at: STOP_MINUTES, done: !!stopScene || stopOffered, onStart: () => { setStopOffered(true); void openStopVote(); } }] : []),
+  ];
   const crossedCountries = Array.from(new Set(preview.filter((st) => st.crossing).map((st) => st.text.replace(/^Cross into /, ''))));
   // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
   const distantCities = useMemo(
@@ -2476,12 +2487,34 @@ export function FlightDeck({
   const openWidgetStore = useWidgetStore((s) => s.openWidget);
   const setWidgetPosition = useWidgetStore((s) => s.setPosition);
   const bringToFront = useWidgetStore((s) => s.bringToFront);
-  // The room starts with a clean deck: widgets left open elsewhere stay closed
-  // until the teacher opens one from Tools.
+  // The class's own cockpit layout comes back each lesson (Oct 2026, owner: the flight map bottom-right and the board or
+  // a poll top-left, every time). Widgets left open by another class stay closed.
   const closeWidgetStore = useWidgetStore((s) => s.closeWidget);
+  const layoutKey = classId ? `lc-cockpit-layout-${classId}` : null;
   useEffect(() => {
-    DECK_WIDGET_IDS.forEach((id) => closeWidgetStore(id));
-  }, [closeWidgetStore]);
+    let saved: Record<string, { x: number; y: number }> = {};
+    try { saved = layoutKey ? JSON.parse(localStorage.getItem(layoutKey) ?? '{}') ?? {} : {}; } catch { /* storage blocked */ }
+    DECK_WIDGET_IDS.forEach((id) => {
+      const pos = saved[id];
+      if (pos && Number.isFinite(pos.x) && Number.isFinite(pos.y)) {
+        setWidgetPosition(id, { x: Math.min(window.innerWidth - 120, Math.max(0, pos.x)), y: Math.min(window.innerHeight - 80, Math.max(0, pos.y)) });
+        openWidgetStore(id);
+      } else closeWidgetStore(id);
+    });
+  }, [closeWidgetStore, layoutKey, openWidgetStore, setWidgetPosition]);
+  useEffect(() => {
+    if (!layoutKey) return;
+    let timer: number | undefined;
+    const unsub = useWidgetStore.subscribe((st) => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const open: Record<string, { x: number; y: number }> = {};
+        for (const id of DECK_WIDGET_IDS) if (st.widgets[id]?.isOpen) open[id] = st.widgets[id].position;
+        try { localStorage.setItem(layoutKey, JSON.stringify(open)); } catch { /* storage blocked */ }
+      }, 600);
+    });
+    return () => { window.clearTimeout(timer); unsub(); };
+  }, [layoutKey]);
   // Each view remembers its own widget layout: leaving a view saves what was open
   // and where; entering a view with a saved layout restores it.
   const viewLayouts = useRef<Partial<Record<DeckView, Record<string, { x: number; y: number }>>>>({});
@@ -2504,21 +2537,8 @@ export function FlightDeck({
     }
   }, [view, setWidgetPosition, openWidgetStore, closeWidgetStore]);
 
-  const applyTemplate = (t: ScreenTemplate) => {
-    for (const id of DECK_WIDGET_IDS) if (!(id in t.widgets)) closeWidgetStore(id);
-    for (const id of Object.keys(t.widgets)) openWidgetStore(id);
-    // Place once rendered, so each widget snaps by its real size.
-    requestAnimationFrame(() => {
-      const zones = useSnapZones.getState().zones;
-      for (const [id, anchor] of Object.entries(t.widgets)) {
-        const zone = zones.find((z) => z.id === `wind-${anchor}`);
-        const el = document.querySelector<HTMLElement>(`[data-widget-id="${id}"]`);
-        if (zone && el) setWidgetPosition(id, snappedPosition(zone, el.offsetWidth, el.offsetHeight));
-      }
-    });
-  };
+  const shrinkTracker = () => shrinkToCorner(FLIGHT_WIDGET, 'br', flightStage === 'gate' ? 'boarding' : 'talk');
 
-  // Flight map as a small corner widget: tracks the trip while the class does other things.
   const shrinkToCorner = (id: string, anchor: SnapAnchor, nextView: DeckView) => {
     setView(nextView);
     // After the view switch restores that view's layout, add the widget to it.
@@ -2531,7 +2551,6 @@ export function FlightDeck({
       });
     }, 60);
   };
-  const shrinkTracker = () => shrinkToCorner(FLIGHT_WIDGET, 'br', flightStage === 'gate' ? 'boarding' : 'talk');
 
   // The class's city poll can set the next destination.
   const setFlyTo = useFocusBus((s) => s.setFlyTo);
@@ -2557,8 +2576,11 @@ export function FlightDeck({
     if (reachable.some((c) => c.id === saved)) setChosenId(saved);
   }, [position, reachable]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const openTool = (id: string, x: number, y: number) => {
-    setWidgetPosition(id, { x: Math.max(8, Math.min(window.innerWidth - 340, x - 160)), y: Math.max(8, y - 420) });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const openTool = (id: string, _x?: number, _y?: number) => {
+    const known = useWidgetStore.getState().widgets[id]?.position;
+    const placed = known && (known.x !== 0 || known.y !== 0);
+    if (!placed) setWidgetPosition(id, id === FLIGHT_WIDGET ? { x: Math.max(8, window.innerWidth - 420), y: Math.max(8, window.innerHeight - 380) } : { x: 72, y: 64 });
     openWidgetStore(id);
     bringToFront(id);
   };
@@ -4456,32 +4478,18 @@ export function FlightDeck({
       </aside>
 
       {/* Instrument panel */}
-      <section className={`col-span-3 row-start-3 min-h-0 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141c2d] to-[#0b111d] ${zoomLayout ? 'flex items-center overflow-x-auto px-2.5' : 'grid grid-cols-[auto_minmax(0,1fr)] gap-4 px-3.5 py-3'}`}>
-        <div className={zoomLayout ? 'hidden' : 'flex gap-2.5'}>
-          {(Object.keys(INSTRUMENT_LABEL) as Instrument[]).filter((k) => !(scoresOff && k === 'top')).map((k) => {
-            const r = readings[k];
-            const on = huds.includes(k);
-            const dash = Math.round(r.frac * 100);
-            return (
-              <div key={k} data-deck-drag={`inst:${k}`} data-deck-label={INSTRUMENT_LABEL[k]} className="relative flex w-[112px] cursor-grab touch-none select-none flex-col items-center gap-1 rounded-2xl border border-[#1d2840] bg-[#0a0f19] px-1.5 py-2 hover:border-[#34466b]">
-                {on && <span className="absolute -top-2 rounded bg-amber-300 px-1.5 py-0.5 font-mono text-[8px] font-semibold tracking-[0.12em] text-[#1a1204]">ON SCREEN</span>}
-                <svg viewBox="0 0 100 100" className="h-[84px] w-[84px]" aria-hidden>
-                  <circle cx="50" cy="50" r="44" fill="#070b13" stroke="#24314b" strokeWidth="3" />
-                  <path d="M20 68 A34 34 0 1 1 80 68" fill="none" stroke="#1d283e" strokeWidth="7" strokeLinecap="round" />
-                  <path d="M20 68 A34 34 0 1 1 80 68" fill="none" stroke={k === 'answered' ? '#5cf2a5' : k === 'top' ? '#ffb547' : '#58d5ff'} strokeWidth="7" strokeLinecap="round" pathLength={100} strokeDasharray={`${dash} 100`} style={{ transition: 'stroke-dasharray .8s cubic-bezier(.3,1.3,.5,1)' }} />
-                  <text x="50" y="55" textAnchor="middle" fill="#eaf0fa" fontFamily="var(--font-instrument), monospace" fontSize="17" fontWeight="600">{r.value}</text>
-                  {r.sub && <text x="50" y="74" textAnchor="middle" fill="#6b7a95" fontFamily="var(--font-instrument), monospace" fontSize="8">{r.sub.slice(0, 12)}</text>}
-                </svg>
-                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-white/45">{INSTRUMENT_LABEL[k]}</span>
-              </div>
-            );
-          })}
-        </div>
-        <div className={zoomLayout ? 'flex min-w-0 items-center gap-2' : 'flex min-w-0 flex-col gap-2'}>
-          <p className={zoomLayout ? 'hidden' : 'font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45'}>
-            Activities · drag onto the windscreen{focused ? ` (built from "${focused.title}")` : ''} or onto a cargo item
-          </p>
-          <div className={zoomLayout ? 'flex shrink-0 gap-1.5' : 'flex flex-wrap gap-2'}>
+      {/* The instrument panel (Oct 2026, owner): Activities on the left, the route and time in the middle, Instruments
+          (widgets) on the right. Replaces the long rows of activity chips and widget buttons. The lesson stays free
+          conversation: the route only marks the few closing beats that need time saved. */}
+      <section className="relative col-span-3 row-start-3 flex min-h-0 items-center gap-3 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141c2d] to-[#0b111d] px-2.5">
+        <div className="relative shrink-0">
+          <button type="button" onClick={() => setPanelTray((t) => (t === 'activities' ? null : 'activities'))} className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold ${panelTray === 'activities' ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 bg-amber-300/10 text-amber-100 hover:bg-amber-300/20'}`}>
+            <Play className="h-4 w-4" /> Activities
+          </button>
+          {panelTray === 'activities' && (
+            <div className="absolute bottom-full left-0 z-50 mb-2 w-[min(560px,80vw)] rounded-2xl border border-[#2A3854] bg-[#0b111d]/95 p-3 shadow-2xl backdrop-blur" onClick={() => setPanelTray(null)}>
+              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">Your activities{focused ? ` · built from "${focused.title}"` : ''} · or drag one onto the windscreen</p>
+              <div className="flex flex-wrap gap-2">
             {stamps.map((s, i) => (
               <button
                 key={s.key}
@@ -4498,23 +4506,36 @@ export function FlightDeck({
                 ))}
               </button>
             ))}
-            {/* Not another activity: a different look (solid, with an icon and an arrow) so it reads as "see the rest". */}
-            <button type="button" onClick={() => setPanel(panel === 'catalogue' ? null : 'catalogue')} title="Every game and activity, by kind" className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-3 py-2 text-xs font-semibold transition ${panel === 'catalogue' ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 bg-amber-300/10 text-amber-100 hover:bg-amber-300/20'}`}>
-              <LayoutGrid className="h-3.5 w-3.5" /> Browse all {catalogue.length} <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          </div>
-          {zoomLayout && <span className="mx-1 h-6 w-px shrink-0 bg-white/15" aria-hidden />}
-          <p className={zoomLayout ? 'hidden' : 'mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45'}>
-            Tools · open where you click, drag to a windscreen corner to snap
-            <span className="ml-3 inline-flex gap-1 normal-case tracking-normal">
-              {SCREEN_TEMPLATES.map((t) => (
-                <button key={t.name} type="button" onClick={() => applyTemplate(t)} title={t.hint} className="rounded-md border border-white/15 px-1.5 py-0.5 text-[10px] text-white/60 hover:border-amber-300/50 hover:text-amber-200">
-                  {t.name}
-                </button>
-              ))}
-            </span>
-          </p>
-          <div className={zoomLayout ? 'flex shrink-0 gap-1.5' : 'flex flex-wrap gap-2'}>
+              </div>
+              <button type="button" onClick={() => setPanel(panel === 'catalogue' ? null : 'catalogue')} className="mt-3 flex items-center gap-1.5 rounded-lg border border-amber-300/50 bg-amber-300/10 px-3 py-2 text-xs font-semibold text-amber-100 hover:bg-amber-300/20">
+                <LayoutGrid className="h-3.5 w-3.5" /> Browse all {catalogue.length} <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
+        </div>
+
+        <RouteStrip
+          stage={flightStage}
+          origin={origin.city}
+          destination={destination.city}
+          routeT={routeT}
+          minutesLeft={minutesLeft}
+          holding={holding}
+          landLabel={landAtLabel}
+          endsLabel={endsAtLabel}
+          onNudge={nudgeClass}
+          markers={closingMarkers}
+        />
+
+        <div className="relative shrink-0">
+          <button type="button" onClick={() => setPanelTray((t) => (t === 'instruments' ? null : 'instruments'))} className={`relative flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold ${panelTray === 'instruments' ? 'border-sky-300 bg-sky-300 text-slate-950' : 'border-sky-300/50 bg-sky-300/10 text-sky-100 hover:bg-sky-300/20'}`}>
+            <Gauge className="h-4 w-4" /> Instruments
+            {(waitingMessages + waitingCards) > 0 && <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-300 px-1 font-mono text-[10px] font-bold text-[#1a1204]">{waitingMessages + waitingCards}</span>}
+          </button>
+          {panelTray === 'instruments' && (
+            <div className="absolute bottom-full right-0 z-50 mb-2 w-[min(520px,80vw)] rounded-2xl border border-[#2A3854] bg-[#0b111d]/95 p-3 shadow-2xl backdrop-blur" onClick={() => setPanelTray(null)}>
+              <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-white/45">Instruments · each opens where you last put it</p>
+              <div className="flex flex-wrap gap-1.5">
             {WIDGET_REGISTRY.filter((w) => w.id !== 'random-picker' && !w.retired).map((w) => {
               const waitingCount = w.id === 'class-questions' ? waitingMessages : w.id === 'class-board' ? waitingCards : 0;
               const calling = waitingCount > 0;
@@ -4556,7 +4577,9 @@ export function FlightDeck({
             <button type="button" onClick={openPopout} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/70 hover:text-white">
               <ExternalLink className="h-3.5 w-3.5" /> Sources
             </button>
-          </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -4612,19 +4635,7 @@ export function FlightDeck({
   );
 }
 
-interface ScreenTemplate {
-  name: string;
-  hint: string;
-  widgets: Record<string, SnapAnchor>;
-}
 
-/** One-click shared-screen layouts: which widgets are open and which windscreen corner each takes. */
-const SCREEN_TEMPLATES: ScreenTemplate[] = [
-  { name: 'Clear', hint: 'Close every widget', widgets: {} },
-  { name: 'Timed task', hint: 'Timer in the top-right corner', widgets: { timer: 'tr' } },
-  { name: 'Vote', hint: 'Poll bottom-left, timer top-right', widgets: { poll: 'bl', timer: 'tr' } },
-  { name: 'Brainstorm', hint: 'Class board bottom-left (Cloud shows a word cloud), class questions bottom-right', widgets: { 'class-board': 'bl', 'class-questions': 'br' } },
-];
 
 interface FocusBrief {
   briefing: string;
