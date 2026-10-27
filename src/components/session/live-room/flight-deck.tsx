@@ -2510,7 +2510,11 @@ export function FlightDeck({
       timer = window.setTimeout(() => {
         const open: Record<string, { x: number; y: number }> = {};
         for (const id of DECK_WIDGET_IDS) if (st.widgets[id]?.isOpen) open[id] = st.widgets[id].position;
-        try { localStorage.setItem(layoutKey, JSON.stringify(open)); } catch { /* storage blocked */ }
+        try {
+          localStorage.setItem(layoutKey, JSON.stringify(open));
+          const places = { ...JSON.parse(localStorage.getItem(`${layoutKey}-places`) ?? '{}'), ...open };
+          localStorage.setItem(`${layoutKey}-places`, JSON.stringify(places));
+        } catch { /* storage blocked */ }
       }, 600);
     });
     return () => { window.clearTimeout(timer); unsub(); };
@@ -2578,9 +2582,15 @@ export function FlightDeck({
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const openTool = (id: string, _x?: number, _y?: number) => {
-    const known = useWidgetStore.getState().widgets[id]?.position;
-    const placed = known && (known.x !== 0 || known.y !== 0);
-    if (!placed) setWidgetPosition(id, id === FLIGHT_WIDGET ? { x: Math.max(8, window.innerWidth - 420), y: Math.max(8, window.innerHeight - 380) } : { x: 72, y: 64 });
+    // Where this class last had it; the first time, it snaps to its corner: the flight map bottom-right, others top-left
+    let place: { x: number; y: number } | undefined;
+    try { place = layoutKey ? JSON.parse(localStorage.getItem(`${layoutKey}-places`) ?? '{}')?.[id] : undefined; } catch { /* storage blocked */ }
+    if (place) setWidgetPosition(id, place);
+    else requestAnimationFrame(() => {
+      const zone = useSnapZones.getState().zones.find((z) => z.id === `wind-${id === FLIGHT_WIDGET ? 'br' : 'tl'}`);
+      const el = document.querySelector<HTMLElement>(`[data-widget-id="${id}"]`);
+      if (zone && el) setWidgetPosition(id, snappedPosition(zone, el.offsetWidth, el.offsetHeight));
+    });
     openWidgetStore(id);
     bringToFront(id);
   };
