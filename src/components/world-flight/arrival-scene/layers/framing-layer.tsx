@@ -76,7 +76,7 @@ export function FramingLayer({ palette, rand, idPrefix, ambient, kind }: {
 
   // The right edge of the 16:9 view; the branch reaches about a fifth of the way across from there.
   const edge = BLEED_X + CONTENT_W;
-  const reach = CONTENT_W * 0.27;
+  const reach = CONTENT_W * 0.21;
   // The landing camera's slight zoom crops the very top, so the branch hangs a little lower than the frame edge.
   const top = 40;
 

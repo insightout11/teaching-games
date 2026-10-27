@@ -4,8 +4,8 @@ import { BLEED_X, CONTENT_W, VIEWBOX } from '../types';
 // The landing card's lettering, so the postcard and the card read as one set
 const deco = Josefin_Sans({ subsets: ['latin'], weight: ['600', '700'] });
 
-// The vintage postcard finish (Oct 2026, gallery first): the colours pulled toward an old print, warm and slightly
-// faded, paper grain, a vignette, and a cream border with rounded corners like a real postcard. Still overlays on top
+// The vintage postcard finish (Oct 2026, gallery first): the scene's own colours (no sepia: the owner found the brown
+// tint too much), a very light paper grain, a gentle vignette, and a cream border with rounded corners like a postcard. Still overlays on top
 // of the whole scene, so they cost nothing per frame.
 
 const CREAM = '#f1e6cf';
@@ -13,9 +13,11 @@ const CREAM = '#f1e6cf';
 const BORDER = 22;
 const RADIUS = 18;
 
-export function PostcardFinish({ idPrefix, night, title }: {
+export function PostcardFinish({ idPrefix, night, title, ambient = true }: {
   idPrefix: string;
   night: boolean;
+  /** False for still frames: the lettering is simply there, with no fade-in. */
+  ambient?: boolean;
   /** The postcard's lettering: WELCOME TO, the city, the country. Shown once the plane is down. */
   title?: { city: string; country: string } | null;
 }) {
@@ -35,19 +37,14 @@ export function PostcardFinish({ idPrefix, night, title }: {
         </filter>
         <radialGradient id={`${id}-vignette`} cx={cx} cy={VIEWBOX.h * 0.48} r={CONTENT_W * 0.6} gradientUnits="userSpaceOnUse">
           <stop offset="0.5" stopColor="#3a2614" stopOpacity="0" />
-          <stop offset="1" stopColor="#3a2614" stopOpacity={night ? 0.42 : 0.32} />
+          <stop offset="1" stopColor="#1d2340" stopOpacity={night ? 0.3 : 0.18} />
         </radialGradient>
         <clipPath id={`${id}-pic`}><path d={hole} /></clipPath>
       </defs>
       <g clipPath={`url(#${id}-pic)`}>
-        {/* the colours pulled toward an old sepia print */}
-        <rect x={0} y={0} width={VIEWBOX.w} height={VIEWBOX.h} fill="#b48a55" opacity={night ? 0.07 : 0.1} style={{ mixBlendMode: 'color' }} />
-        {/* warm, slightly faded: darks lifted, light warmed */}
-        <rect x={0} y={0} width={VIEWBOX.w} height={VIEWBOX.h} fill="#f0d9ac" opacity={night ? 0.06 : 0.12} style={{ mixBlendMode: 'multiply' }} />
-        <rect x={0} y={0} width={VIEWBOX.w} height={VIEWBOX.h} fill="#ffe9c4" opacity={night ? 0.05 : 0.12} style={{ mixBlendMode: 'screen' }} />
-        {title && <Title city={title.city} country={title.country} id={id} night={night} />}
+        {title && <Title city={title.city} country={title.country} id={id} night={night} fadeIn={ambient} />}
         {/* paper grain */}
-        <rect x={0} y={0} width={VIEWBOX.w} height={VIEWBOX.h} filter={`url(#${id}-grain)`} opacity={night ? 0.15 : 0.18} style={{ mixBlendMode: 'multiply' }} />
+        <rect x={0} y={0} width={VIEWBOX.w} height={VIEWBOX.h} filter={`url(#${id}-grain)`} opacity={night ? 0.08 : 0.1} style={{ mixBlendMode: 'multiply' }} />
         <rect x={0} y={0} width={VIEWBOX.w} height={VIEWBOX.h} fill={`url(#${id}-vignette)`} />
       </g>
       {/* the cream card border, with a fine printed edge around the picture */}
@@ -61,29 +58,33 @@ export function PostcardFinish({ idPrefix, night, title }: {
 }
 
 /** Big postcard lettering across the top of the picture: printed ink, so the grain and fade above sit on it too. */
-function Title({ city, country, id, night }: { city: string; country: string; id: string; night: boolean }) {
+function Title({ city, country, id, night, fadeIn }: { city: string; country: string; id: string; night: boolean; fadeIn: boolean }) {
   const cx = BLEED_X + CONTENT_W / 2;
   const name = city.toUpperCase();
-  // Long names shrink to fit about two thirds of the width
-  const size = Math.min(150, (CONTENT_W * 0.66) / Math.max(4, name.length * 0.72));
+  // Long names shrink to fit just over half the width, clear of the branch in the top right corner
+  const size = Math.min(140, (CONTENT_W * 0.56) / Math.max(4, name.length * 0.72));
   const ink = '#1d2340';
   const cream = '#fbf0d6';
   const font = { fontFamily: deco.style.fontFamily, fontWeight: 700 } as const;
   const y = 84 + size * 0.95;
+  const edge = Math.max(5, size * 0.07);
   return (
-    <g style={{ animation: 'lc-pc-in 1.4s ease-out both' }}>
-      <style>{'@keyframes lc-pc-in{0%{opacity:0;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}'}</style>
+    <g style={fadeIn ? { animation: 'lc-pc-in 1.4s ease-out both' } : undefined}>
+      {fadeIn && <style>{'@keyframes lc-pc-in{0%{opacity:0;transform:translateY(-12px)}100%{opacity:1;transform:translateY(0)}}'}</style>}
       <defs>
+        {/* warm terracotta letters, lighter at the top: reads on a pale day sky and a dark night alike */}
         <linearGradient id={`${id}-letter`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={cream} />
-          <stop offset="1" stopColor={night ? '#e8cf9c' : '#f3d9a4'} />
+          <stop offset="0" stopColor={night ? '#f2a65a' : '#ee8a4a'} />
+          <stop offset="1" stopColor={night ? '#d8643a' : '#c4502f'} />
         </linearGradient>
       </defs>
-      <text x={cx} y={76} textAnchor="middle" fontSize={34} letterSpacing={16} fill={cream} stroke={ink} strokeWidth={7} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>WELCOME TO</text>
+      <text x={cx} y={76} textAnchor="middle" fontSize={34} letterSpacing={16} fill={ink} stroke={cream} strokeWidth={8} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>WELCOME TO</text>
       {/* the printed drop shadow, offset down and right like a two-colour print */}
-      <text x={cx + 7} y={y + 7} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={ink} opacity={0.55} style={font}>{name}</text>
-      <text x={cx} y={y} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={`url(#${id}-letter)`} stroke={ink} strokeWidth={Math.max(4, size * 0.05)} paintOrder="stroke" style={font}>{name}</text>
-      <text x={cx} y={y + 52} textAnchor="middle" fontSize={32} letterSpacing={14} fill={cream} stroke={ink} strokeWidth={7} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>{country.toUpperCase()}</text>
+      <text x={cx + 8} y={y + 8} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={ink} stroke={ink} strokeWidth={edge * 2.2} opacity={0.6} style={font}>{name}</text>
+      {/* ink edge, then the cream outline, then the letter itself */}
+      <text x={cx} y={y} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={ink} stroke={ink} strokeWidth={edge * 2.2} style={font}>{name}</text>
+      <text x={cx} y={y} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={`url(#${id}-letter)`} stroke={cream} strokeWidth={edge} paintOrder="stroke" style={font}>{name}</text>
+      <text x={cx} y={y + 56} textAnchor="middle" fontSize={32} letterSpacing={14} fill={ink} stroke={cream} strokeWidth={8} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>{country.toUpperCase()}</text>
     </g>
   );
 }
