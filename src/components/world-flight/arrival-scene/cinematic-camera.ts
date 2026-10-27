@@ -62,7 +62,8 @@ export function cinematicCameraFrame(mode: ArrivalMode, phase: ArrivalPhase, pro
   const settle = smoothstep((m - A_TOUCHDOWN_END) / (1 - A_TOUCHDOWN_END));
   const compression = phase === 'touchdown' ? sineArc(p) : 0;
   return {
-    targetX: lerp(1120, 1660, glide),
+    // ends on the parked plane (BLEED_X + its roll end, plus half the plane), so it sits in the middle of the frame (Oct 2026, owner)
+    targetX: lerp(1120, 1790, glide),
     targetY: lerp(450, 512, down) - 8 * settle + compression * 1.8,
     zoom: lerp(1, 1.115, down) - 0.015 * settle + compression * 0.004,
     roll: phase === 'approach' ? sway(p, -0.16) : 0,
