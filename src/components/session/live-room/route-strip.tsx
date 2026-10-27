@@ -9,7 +9,7 @@ export interface RouteMarker { id: string; label: string; /** minutes before lan
  * The markers are reminders: they glow when their time comes and start on a tap; nothing starts by itself. Shown on
  * the shared screen, so it holds nothing private.
  */
-export function RouteStrip({ stage, origin, destination, routeT, minutesLeft, holding, landLabel, endsLabel, onNudge, markers }: {
+export function RouteStrip({ stage, origin, destination, routeT, minutesLeft, holding, landLabel, endsLabel, onNudge, markers, landArmed = false, onLand }: {
   stage: 'gate' | 'flying' | 'landing' | 'landed' | string;
   origin: string;
   destination: string;
@@ -20,6 +20,9 @@ export function RouteStrip({ stage, origin, destination, routeT, minutesLeft, ho
   endsLabel: string;
   onNudge: (delta: number) => void;
   markers: RouteMarker[];
+  /** Landing lives at the destination end of the route (two taps, so it cannot happen by accident). */
+  landArmed?: boolean;
+  onLand?: () => void;
 }) {
   const flying = stage === 'flying';
   const t = flying ? Math.min(1, Math.max(0, routeT)) : stage === 'gate' ? 0 : 1;
@@ -46,7 +49,14 @@ export function RouteStrip({ stage, origin, destination, routeT, minutesLeft, ho
         })}
         <Plane className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 text-sky-200" style={{ left: `${t * 100}%` }} aria-label="Our plane" />
       </div>
-      <span className="flex shrink-0 items-center gap-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80"><PlaneLanding className="h-3.5 w-3.5" />{destination}</span>
+      {flying && onLand ? (
+        <button type="button" onClick={onLand} title={`Begin the descent into ${destination} and end the lesson there`}
+          className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-colors ${landArmed ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}>
+          <PlaneLanding className="h-3.5 w-3.5" />{landArmed ? 'Tap again to land' : `Land in ${destination}`}
+        </button>
+      ) : (
+        <span className="flex shrink-0 items-center gap-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/80"><PlaneLanding className="h-3.5 w-3.5" />{destination}</span>
+      )}
       <span className="shrink-0 font-mono text-[11px] text-white/55">
         {holding ? 'Circling' : flying && minutesLeft != null ? `${Math.max(0, Math.ceil(minutesLeft))} min${landLabel ? ` · lands ${landLabel}` : ''}` : stage === 'gate' ? 'At the gate' : 'Landed'}
       </span>

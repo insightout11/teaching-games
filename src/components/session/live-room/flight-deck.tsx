@@ -4095,16 +4095,6 @@ export function FlightDeck({
             <button type="button" onClick={() => nudgeClass(5)} aria-label="Class ends 5 minutes later" className="px-2 py-1.5 hover:text-white">+5</button>
           </span>
         )}
-        {flightStage === 'flying' && (
-          <button
-            type="button"
-            onClick={() => (landArmed ? landNow() : setLandArmed(true))}
-            title={`Begin the descent into ${destination.city} and end the lesson there`}
-            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs font-semibold transition-colors ${landArmed ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 text-amber-200 hover:bg-amber-300/10'}`}
-          >
-            <PlaneLanding className="h-3.5 w-3.5" /> {landArmed ? 'Tap again to land' : zoomLayout ? 'Land' : `Land in ${destination.city}`}
-          </button>
-        )}
         <div className="relative">
           <button type="button" onClick={() => setPanel(panel === 'menu' ? null : 'menu')} aria-label="Flight menu" className="rounded-lg border border-[#2A3854] p-1.5 text-white/75 hover:text-white">
             <Menu className="h-4 w-4" />
@@ -4549,6 +4539,8 @@ export function FlightDeck({
           endsLabel={endsAtLabel}
           onNudge={nudgeClass}
           markers={closingMarkers}
+          landArmed={landArmed}
+          onLand={() => (landArmed ? landNow() : setLandArmed(true))}
         />
 
         <div className="relative shrink-0">
