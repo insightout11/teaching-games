@@ -1343,7 +1343,7 @@ export function FlightDeck({
     void fetch('/api/live-room/moment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: m.title, kind: m.kind, ...(lensRef.current ? { lens: lensRef.current, where: m.where } : {}) }) })
       .then((r) => (r.ok ? r.json() : null))
       .then((d: { facts?: string[]; picture?: FreePicture | null; question?: string } | null) => setMomentCard((c) => (c && c.moment.id === m.id
-        ? { ...c, loading: false, picture: d?.picture ?? null, ...(d?.question ? { moment: { ...c.moment, question: d.question } } : {}), facts: Array.from(new Set([...(d?.question || !m.fact ? [] : [m.fact]), ...(d?.facts ?? [])])).slice(0, 3) }
+        ? { ...c, loading: false, picture: d?.picture ?? null, ...(d?.question ? { moment: { ...c.moment, question: d.question } } : {}), facts: Array.from(new Set([...(m.fact && !(d?.question && d?.facts?.length) ? [m.fact] : []), ...(d?.facts ?? [])])).slice(0, 3) }
         : c)))
       .catch(() => setMomentCard((c) => (c && c.moment.id === m.id ? { ...c, loading: false } : c)));
   };
@@ -3480,7 +3480,7 @@ export function FlightDeck({
                 <span key={`${it.text}-${i}`}>
                   {i > 0 && ' · '}
                   {it.topic ? (
-                    <button type="button" onClick={() => { makeFocus({ title: it.topic!, ...(it.about ? { text: it.about } : {}), where: flightWhere }); flash(`New topic: ${it.topic}`); }} title={`Make ${it.topic} the topic`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{it.text}</button>
+                    <button type="button" onClick={() => openMoment({ id: `below:${it.topic}`, at: minutesFlown ?? 0, kind: 'landmark', title: it.topic!, where: flightWhere, ...(it.about ? { fact: it.about } : {}) })} title={`About ${it.topic}`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{it.text}</button>
                   ) : it.text}
                 </span>
               ))}
@@ -3493,7 +3493,7 @@ export function FlightDeck({
               {nextStop && (
                 <>
                   {' · Next: '}
-                  <button type="button" onClick={() => { const topic = stopTopic(nextStop.text); makeFocus({ title: topic, where: flightWhere }); flash(`New topic: ${topic}`); }} title="Make it the topic" className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{nextStop.text.toLowerCase()}</button>
+                  <button type="button" onClick={() => { const topic = stopTopic(nextStop.text); openMoment({ id: `next:${topic}`, at: minutesFlown ?? 0, kind: 'landmark', title: topic, where: flightWhere }); }} title={`About ${stopTopic(nextStop.text)}`} className="uppercase underline decoration-white/30 underline-offset-2 hover:text-amber-200 hover:decoration-amber-300">{nextStop.text.toLowerCase()}</button>
                   {` in ${Math.max(1, Math.round(nextStop.at - (minutesFlown ?? 0)))} min`}
                 </>
               )}

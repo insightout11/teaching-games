@@ -58,6 +58,16 @@ export async function POST(request: Request) {
     freePictures(isEvent ? title.split(/[-–,]/)[0] : lookupTitle, 1).catch(() => []),
   ]);
   const lead = ref ? ref.text.split(/\n\n/)[0] : '';
-  const facts = (lead.match(/[^.!?]+[.!?]+/g) ?? []).map((s) => s.trim()).filter((s) => s.length > 20).slice(0, 3);
+  let facts = (lead.match(/[^.!?]+[.!?]+/g) ?? []).map((s) => s.trim()).filter((s) => s.length > 20).slice(0, 3);
+  // Nothing on Wikipedia (the Hasa Plain): the AI writes the facts, so the card is never just a question (Oct 2026)
+  if (!facts.length && !isEvent) {
+    const where = typeof body?.where === 'string' ? body.where.slice(0, 120) : '';
+    const out = await generateJSON<{ facts?: unknown }>(
+      `A live English class (kids or teens) is flying past "${lookupTitle}"${where ? ` (${where})` : ''}. Write "facts": exactly 3 short, true, specific facts (max 20 words each) about it, in simple English. If you are not sure of a fact, leave it out.`,
+      { type: 'object', properties: { facts: { type: 'array', items: { type: 'string' } } }, required: ['facts'] },
+      { taskClass: 'writing' },
+    ).catch(() => null);
+    facts = (Array.isArray(out?.facts) ? out!.facts : []).filter((f): f is string => typeof f === 'string' && f.trim().length > 0).map((f) => f.trim()).slice(0, 3);
+  }
   return NextResponse.json({ facts, picture: pics[0] ?? null }, { headers: { 'Cache-Control': 'private, max-age=3600' } });
 }
