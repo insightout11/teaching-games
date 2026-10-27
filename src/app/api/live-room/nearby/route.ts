@@ -78,12 +78,15 @@ async function recentQuake(at: { lat: number; lng: number }) {
     if (!Number.isFinite(lat) || !Number.isFinite(lng) || mag < 4.5) return;
     const dist = km(at, { lat, lng });
     if (dist > reach) return;
+    // big quakes: recent only (Oct 2026, owner: a 10-day-old quake 900 km away felt far away); 7 days for the very biggest
+    const ageH = (Date.now() - (f.properties?.time ?? Date.now())) / 3600000;
+    if (isBig && ageH > (mag >= 7 ? 168 : 72)) return;
     const q: Quake = { magnitude: Math.round(mag * 10) / 10, place: (f.properties?.place ?? '').slice(0, 80), hoursAgo: Math.max(1, Math.round((Date.now() - (f.properties?.time ?? Date.now())) / 3600000)), km: Math.round(dist), big: isBig || mag >= 6.5 };
     // the strongest one in reach wins
     if (!best || q.magnitude > best.magnitude) best = q;
   };
   for (const f of day?.features ?? []) consider(f, 400, false);
-  for (const f of big?.features ?? []) consider(f, 1500, true);
+  for (const f of big?.features ?? []) consider(f, 600, true);
   return best as Quake | null;
 }
 
