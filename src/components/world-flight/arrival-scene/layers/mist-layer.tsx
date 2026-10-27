@@ -5,16 +5,19 @@ import { VIEWBOX } from '../types';
 // the city, sliding slowly sideways. Tinted by the scene's horizon colour so it belongs to the light of the moment.
 // When `moving` is false (still frames, reduced motion) the wisps simply stay where they are.
 
-export function MistLayer({ palette, rand, idPrefix, moving, band }: { palette: ScenePalette; rand: () => number; idPrefix: string; moving: boolean; band: 'far' | 'near' }) {
+/** How thick the mist is by time of day (Matt, 27 Oct 2026): stronger at dawn and dusk, lighter by day. */
+export const MIST_STRENGTH: Record<string, number> = { dawn: 1.7, dusk: 1.6, night: 1.1, day: 0.75 };
+
+export function MistLayer({ palette, rand, idPrefix, moving, band, strength = 1 }: { palette: ScenePalette; rand: () => number; idPrefix: string; moving: boolean; band: 'far' | 'near'; strength?: number }) {
   const far = band === 'far';
   const y0 = far ? 330 : 560, y1 = far ? 520 : 640;
-  const count = far ? 5 : 3;
+  const count = (far ? 5 : 3) + (strength > 1.3 ? 2 : 0);
   const wisps = Array.from({ length: count }, (_, i) => ({
     x: (i / count) * VIEWBOX.w + rand() * 300,
     y: y0 + rand() * (y1 - y0),
     w: (far ? 520 : 680) + rand() * 420,
     h: (far ? 34 : 46) + rand() * 30,
-    o: (far ? 0.34 : 0.3) + rand() * 0.14,
+    o: Math.min(0.85, ((far ? 0.34 : 0.3) + rand() * 0.14) * strength),
     dur: (far ? 90 : 70) + rand() * 50,
     delay: -rand() * 120,
   }));
