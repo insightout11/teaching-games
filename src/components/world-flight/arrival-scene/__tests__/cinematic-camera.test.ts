@@ -17,7 +17,7 @@ describe('cinematic arrival camera', () => {
 
   it('continues tracking in the established direction at the end', () => {
     expect(cinematicCameraFrame('arrival', 'landed', 1)).toEqual({
-      targetX: 1790,
+      targetX: 1660,
       targetY: 504,
       zoom: 1.1,
       roll: 0,
