@@ -108,7 +108,7 @@ Save under `C:\Users\insig\Documents\Codex\_outputs\2026-10-27-gpu-terrain-style
    landmark detail on. One clearly labelled column per style, so Matt can pick. Add one row pairing each style with
    the arrival scene of the route's destination (Hong Kong, Tokyo, Rome) side by side, to show whether they feel like
    one world.
-3. **Landmark grid:** Everest, Fuji, Matterhorn x landmark detail off / on, in the `dreamy` style, Suggested view and
+3. **Landmark grid:** Everest, Fuji, Matterhorn x landmark detail off / on, in a **dreamy + arrival** style (arrival palette and paper layers with dreamy haze; Matt's choice, 27 Oct: prove landmarks look good in it), Suggested view and
    Approach, day.
 4. Unlabelled copies of the Everest, Fuji and Matterhorn "detail on" images for the blind check.
 5. Frame times, moving pass, data sizes and load times.

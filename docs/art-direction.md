@@ -56,6 +56,23 @@ Where the vintage poster look could reach the screens, without hurting readabili
 - Flight moments (the fly-past, the very-rare banner, the reveal title) as poster banners.
 - Buttons, lists and settings stay clean and modern.
 
+## Decisions (Matt, 27 Oct 2026, from the decision page)
+
+| Topic | Decision | Matt's note |
+|---|---|---|
+| Terrain style | **Dreamy + arrival together** (arrival palette and layers with dreamy haze and glow) | Prove the landmarks look good in this style too |
+| Landmark reveal | **In the cockpit view** (slow down, gentle bank, clouds part, title) | |
+| Cockpit to arrival | **Prototype both** (side-window match cut and down through the clouds), then decide | |
+| Landing turn | **Every city**; cities without a real landmark get one built from their arrival art | |
+| Clouds and landmarks | **Clouds part by default + a Real weather switch** | |
+| Instrument panel | **Slim strip along the bottom** | Can there be a teacher-only area without a separate screen? |
+| Pricing | **All in Pro for now, add-ons later** | |
+| Fact checker | **Basic sources for all, deep check in Pro** | |
+| Poster look on screens | **Big moments first** (landing card, boarding pass, stamps, postcards, fly-past) | Also do a pass for colours that don't fit, e.g. neon |
+| Arrival mist | **Stronger at dawn and dusk, lighter by day** | |
+| Regions first | **Five contrasting regions**: Bali, Mediterranean, Sahara edge, Scandinavia, Japan | |
+| Trees and villages | **Poster shapes** | Motion from real wind data? |
+
 ## Open questions for Matt
 
 1. Any reference images (films, games, illustrators, travel posters) that capture the feeling? They would help agents.
