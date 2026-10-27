@@ -6,6 +6,7 @@ import { MascotFigure } from '@/components/ui/mascot-figure';
 import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { CREW_EXPRESSIONS } from '@/components/ui/crew-character';
+import { ACCESSORY_TYPES } from '@/lib/accessories';
 import {
   DEFAULT_MASCOT, MASCOT_BODIES, MASCOT_COLORS, MASCOT_EXTRAS, MASCOT_EYES, MASCOT_HEADS, MASCOT_LABELS, MASCOT_LOCKED,
   randomMascot, type MascotLook,
@@ -57,6 +58,17 @@ export function MascotGallery() {
           <button type="button" onClick={() => setSeed((s) => s + 1)} className="flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1 text-xs hover:bg-white/10"><Shuffle className="h-3.5 w-3.5" /> More</button>
         </div>
         <div className="flex flex-wrap gap-3">{randoms.map((l, i) => <MascotFigure key={i} look={l} size={120} />)}</div>
+      </section>
+      <section className="space-y-2">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-300">Market accessories (city stops)</h2>
+        <div className="flex flex-wrap gap-3">
+          {ACCESSORY_TYPES.map((t, i) => (
+            <figure key={t} className="flex flex-col items-center rounded-xl bg-white/[0.04] p-2">
+              <CrewAvatar seed={['Mai', 'Ken', 'Lina', 'Omar'][i % 4]} name="x" size={80} accessory={{ type: t, colors: [['#d4a017', '#1e3a8a'], ['#c2410c', '#fde68a'], ['#0f766e', '#f9a8d4'], ['#7c3aed', '#fcd34d']][i % 4] as [string, string] }} />
+              <figcaption className="text-[11px] text-white/70">{t}</figcaption>
+            </figure>
+          ))}
+        </div>
       </section>
       <section className="space-y-2">
         <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-300">Selfie faces (crew avatars)</h2>

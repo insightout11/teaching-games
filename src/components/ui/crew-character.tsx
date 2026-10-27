@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { accessoryBehind, accessoryFront } from '@/components/ui/accessory-art';
+import { isHat, type Accessory } from '@/lib/accessories';
 import { GEAR_COLORS, HAIR_COLORS, SHIRT_COLORS, SKIN_TONES, encodeLook, type CrewLook } from '@/lib/crew-look';
 
 // Sticker-style crew character (head + shoulders), drawn in a 100×100 box.
@@ -177,7 +179,11 @@ function eyewear(look: CrewLook): ReactNode {
 export const CREW_EXPRESSIONS = ['smile', 'grin', 'wow', 'wink', 'cool', 'silly'] as const;
 export type CrewExpression = (typeof CREW_EXPRESSIONS)[number];
 
-export function CrewCharacter({ look, size = 48, className, title, expression = 'smile' }: { look: CrewLook; size?: number; className?: string; title?: string; expression?: CrewExpression }) {
+export function CrewCharacter({ look: baseLook, size = 48, className, title, expression = 'smile', accessory }: { look: CrewLook; size?: number; className?: string; title?: string; expression?: CrewExpression; accessory?: Pick<Accessory, 'type' | 'colors'> | null }) {
+  // A market hat replaces the avatar's own headgear while worn (never over a hijab: then it is not drawn)
+  const hatOver = accessory && isHat(accessory.type) && baseLook.headgear !== 'hijab';
+  const look = hatOver ? { ...baseLook, headgear: 'none' as const } : baseLook;
+  const showAccessory = accessory && (!isHat(accessory.type) || hatOver);
   // Deterministic id (no hooks: this also renders in server components). Same look = same gradient.
   const grad = `rb-${encodeLook(look)}`;
   const skin = SKIN_TONES[look.skin] ?? SKIN_TONES[0];
@@ -211,6 +217,7 @@ export function CrewCharacter({ look, size = 48, className, title, expression = 
           <stop offset="1" stopColor="#8b5cf6" />
         </linearGradient>
       </defs>
+      {showAccessory && accessoryBehind(accessory.type, accessory.colors)}
       {/* sticker outline */}
       <g stroke="#fff" strokeWidth={OUTLINE} strokeLinejoin="round">{silhouette}</g>
       {/* shoulders */}
@@ -274,6 +281,7 @@ export function CrewCharacter({ look, size = 48, className, title, expression = 
       )}
       {headgear(look, gear, false)}
       {eyewear(expression === 'cool' && look.eyewear !== 'aviators' ? { ...look, eyewear: 'aviators' } : look)}
+      {showAccessory && accessoryFront(accessory.type, accessory.colors)}
     </svg>
   );
 }
