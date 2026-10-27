@@ -1,6 +1,8 @@
 'use client';
 
 import { PostcardHome } from '@/components/student/postcard-home';
+import { PhoneWindow, seatSide } from '@/components/student/phone-window';
+import { FLIGHT_NOW_STALE_MS, type FlightNow } from '@/lib/live-room/window-view';
 import { WindowSelfiePhone } from '@/components/student/window-selfie-phone';
 import { GrammarHuntStrip } from './grammar-hunt-strip';
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -389,6 +391,15 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
     totalParticipants: number | null;
   } | null>(null);
   const [debriefToken, setDebriefToken] = useState<string | null>(null);
+  // The flight right now, from the room: the living window when nothing is asked (Oct 2026)
+  const [flightNow, setFlightNow] = useState<FlightNow | null>(null);
+  const flightSeenAt = useRef(0);
+  const onFlightNow = useCallback((f: FlightNow | null) => { flightSeenAt.current = Date.now(); setFlightNow(f); }, []);
+  useEffect(() => {
+    const t = window.setInterval(() => { if (Date.now() - flightSeenAt.current > FLIGHT_NOW_STALE_MS) setFlightNow(null); }, 5000);
+    return () => window.clearInterval(t);
+  }, []);
+  const [tripOpen, setTripOpen] = useState(false);
   const [brandDone, setBrandDone] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
 
@@ -1526,7 +1537,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         onLeave={onLeave}
       />
 
-      <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} classShelf={shelf} accessory={myAccessory} />
       {checkInMe && (
         <div className="mb-3 rounded-2xl border border-amber-300/50 bg-amber-300/10 p-4 text-center">
           <p className="flex items-center justify-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-amber-300"><Ticket className="h-3.5 w-3.5" /> You&apos;re at the check-in desk</p>
@@ -1537,22 +1547,6 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       )}
       {brandDone && <StudentOnboarding name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} hasShelf={shelf.length > 0} />}
       <SeatPicker sessionId={sessionId} clientId={studentSession.clientId} onSeat={setSeatIndex} />
-      {(classMascot?.look || shelf.length > 0) && (
-        <div className="mb-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-lc-card p-3">
-          {classMascot?.look && <MascotFigure look={classMascot.look} size={64} title={classMascot.name} />}
-          <div className="min-w-0 flex-1">
-            {classMascot?.look && <p className="font-display text-lg text-white">{classMascot.name} <span className="text-xs font-normal text-white/55">is flying with us</span></p>}
-            {shelf.length > 0 && (
-              <div className="mt-1 flex flex-wrap gap-1">
-                {shelf.map((c) => { const it = countryItemFor(c); return it ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img key={c} src={`/stickers/${it.sticker ?? 'present'}.webp`} alt={`${it.item} (${c})`} title={`${it.item} · ${c}`} className="h-7 w-7 rounded-md bg-white/90 p-0.5" />
-                ) : null; })}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {grammarTarget
         ? <GrammarHuntStrip sessionId={sessionId} clientId={studentSession.clientId} name={studentSession.displayName} target={grammarTarget} />
@@ -1865,6 +1859,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               </div>
             )}
 
+            {flightNow && !roomLaunch ? (
+              <PhoneWindow flight={flightNow} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} />
+            ) : (<>
             {/* Topic + difficulty context label */}
             {sessionTopic && (
               <div className="flex items-center gap-2">
@@ -1921,6 +1918,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
                 <PhoneLabel tone="text-lc-text2">Standing by for your captain</PhoneLabel>
               )}
             </div>
+            </>)}
             {latestNewWord && !roomLaunch && (
               <button
                 type="button"
@@ -1940,6 +1938,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         )}
       </motion.div>
 
+      {/* The window selfie, after the task (Oct 2026: one card in front, the task first) */}
+      <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} classShelf={shelf} accessory={myAccessory} onFlight={onFlightNow} />
       {/* Cockpit Timer mirror — same countdown as the shared screen */}
       <StudentTimerPill timer={sharedTimer} clockOffsetMs={clockOffsetMs} />
 
@@ -2455,7 +2455,36 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       <div className="mb-24 mt-4 text-center text-gray-500 text-sm">
         <p>Your signals are private unless your teacher spotlights them.</p>
       </div>
+      <PhoneSheet open={tripOpen} title="My trip" onClose={() => setTripOpen(false)}>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-lc-card p-3">
+            <CrewAvatar seed={studentSession.avatarSeed ?? studentSession.displayName} name={studentSession.displayName} size={56} accessory={myAccessory} />
+            <div>
+              <p className="font-display text-xl text-white">{studentSession.displayName}</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/55">{seatIndex === null ? 'No seat yet' : `Seat ${cabinSeatLabel(seatIndex)} · ${seatSide(cabinSeatLabel(seatIndex))} window`}</p>
+            </div>
+          </div>
+          {(classMascot?.look || shelf.length > 0) && (
+        <div className="mb-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-lc-card p-3">
+          {classMascot?.look && <MascotFigure look={classMascot.look} size={64} title={classMascot.name} />}
+          <div className="min-w-0 flex-1">
+            {classMascot?.look && <p className="font-display text-lg text-white">{classMascot.name} <span className="text-xs font-normal text-white/55">is flying with us</span></p>}
+            {shelf.length > 0 && (
+              <div className="mt-1 flex flex-wrap gap-1">
+                {shelf.map((c) => { const it = countryItemFor(c); return it ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={c} src={`/stickers/${it.sticker ?? 'present'}.webp`} alt={`${it.item} (${c})`} title={`${it.item} · ${c}`} className="h-7 w-7 rounded-md bg-white/90 p-0.5" />
+                ) : null; })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+          {!(classMascot?.look || shelf.length > 0) && <p className="text-sm text-white/60">Your class mascot and the things your class earns will appear here.</p>}
+        </div>
+      </PhoneSheet>
       <ActionBar
+        onTrip={() => setTripOpen(true)}
         handRaised={handRaised}
         onHand={toggleHand}
         messageLabel={messageBarLabel}

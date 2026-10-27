@@ -9,14 +9,14 @@ import { MascotFigure } from '@/components/ui/mascot-figure';
 import { parseMascotLook, type MascotLook } from '@/lib/mascot';
 import { countryItemFor } from '@/data/world-flight/country-items';
 import type { Accessory } from '@/lib/accessories';
-import { keepSelfie, keptSelfies, openWindowViewChannel, WINDOW_VIEW_STALE_MS, type KeptSelfie, type WindowView } from '@/lib/live-room/window-view';
+import { keepSelfie, keptSelfies, openWindowViewChannel, WINDOW_VIEW_STALE_MS, type FlightNow, type KeptSelfie, type WindowView } from '@/lib/live-room/window-view';
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const titleOf = (v: WindowView) => `Over ${v.name}`;
 const captionOf = (v: KeptSelfie) => [v.from && v.to ? `${v.from} to ${v.to}` : '', new Date(v.takenAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }), v.seat ? `seat ${v.seat}` : ''].filter(Boolean).join(' · ');
 
 /** On the phone: "Take my window selfie" while the room says a landmark is in view; kept selfies on the boarding pass. */
-export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classShelf = [], accessory = null }: { sessionId: string; name: string; seed: string | null; seat: string | null; mascot?: { name: string; look: MascotLook } | null; classShelf?: string[]; accessory?: Pick<Accessory, 'type' | 'colors'> | null }) {
+export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classShelf = [], accessory = null, onFlight }: { sessionId: string; name: string; seed: string | null; seat: string | null; mascot?: { name: string; look: MascotLook } | null; classShelf?: string[]; accessory?: Pick<Accessory, 'type' | 'colors'> | null; /** The flight right now, for the phone's living window (same channel). */ onFlight?: (f: FlightNow | null) => void }) {
   const [view, setView] = useState<WindowView | null>(null);
   const seenAt = useRef(0);
   const [open, setOpen] = useState<KeptSelfie | null>(null);
@@ -29,9 +29,11 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classSh
   // Hold up a souvenir from the class shelf (a country the class talked about)
   const [item, setItem] = useState<string | null>(null);
   const shelfItems = classShelf.flatMap((c) => { const it = countryItemFor(c); return it ? [it] : []; });
+  const onFlightRef = useRef(onFlight);
+  onFlightRef.current = onFlight;
   useEffect(() => { setMine(keptSelfies().filter((s) => s.sessionId === sessionId)); }, [sessionId]);
   useEffect(() => {
-    const ch = openWindowViewChannel(sessionId, (v) => { seenAt.current = Date.now(); setView(v); });
+    const ch = openWindowViewChannel(sessionId, (v) => { seenAt.current = Date.now(); setView(v); }, (f) => onFlightRef.current?.(f));
     const stale = setInterval(() => { if (Date.now() - seenAt.current > WINDOW_VIEW_STALE_MS) setView(null); }, 3000);
     return () => { clearInterval(stale); ch.close(); };
   }, [sessionId]);

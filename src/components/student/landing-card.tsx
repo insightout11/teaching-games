@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Check, Flame, PlaneLanding, Share2, Volume2 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import type { ReferenceVocabItem } from '@/lib/reference-materials';
@@ -65,6 +67,7 @@ export function LandingCard({
   const date = new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
   const used = words.filter((w) => w.state === 'used' || w.state === 'mastered').length;
   // Rank is a pat on the back for the top three, never a "#9 of 10".
+  const [allWords, setAllWords] = useState(false);
   const podium = !hideRank && results?.rank != null && results.totalParticipants != null && results.totalParticipants > 1 && results.rank <= 3;
 
   return (
@@ -84,7 +87,7 @@ export function LandingCard({
             <CrewAvatar seed={avatarSeed} name={name} size={52} />
             <div className="min-w-0 flex-1">
               <p className={`${MONO} text-[10px]`} style={{ color: INK_FAINT }}>Arrival card · LC International</p>
-              <p className="truncate font-display text-[26px] leading-tight">{topics.length > 1 ? 'Today’s flight' : topic || 'Today’s flight'}</p>
+              <p className="truncate font-display text-[26px] leading-tight">{topics.length > 1 ? 'Today’s flight' : (topic && topic !== 'General' ? topic : 'Today’s flight')}</p>
               {topics.length > 1 && <p className="mt-0.5 line-clamp-2 text-[13px] leading-snug" style={{ color: INK_FAINT }}>{topics.join(' · ')}</p>}
             </div>
           </div>
@@ -95,7 +98,7 @@ export function LandingCard({
             <Field label="Date">{date}</Field>
           </div>
 
-          {results && (
+          {results && results.totalPoints > 0 && (
             <div className="mt-4 grid grid-cols-3 gap-3 border-t pt-3" style={{ borderColor: RULE }}>
               <Field label="Points" big>{results.totalPoints}</Field>
               {results.accuracy !== null ? <Field label="Accuracy" big>{results.accuracy}%</Field> : <span />}
@@ -136,7 +139,7 @@ export function LandingCard({
                 {used > 0 && <p className={`${MONO} text-[11px]`} style={{ color: STAMP }}>Used {used} of {words.length}</p>}
               </div>
               <div className="mt-2 divide-y" style={{ borderColor: RULE }}>
-                {words.map(({ item, state }) => {
+                {(allWords ? words : words.slice(0, 5)).map(({ item, state }) => {
                   const isUsed = state === 'used' || state === 'mastered';
                   return (
                     <button key={item.word} type="button" onClick={() => speak(item.word)} className="flex w-full items-start gap-2.5 py-2 text-left" style={{ borderColor: RULE }}>
@@ -152,6 +155,7 @@ export function LandingCard({
                   );
                 })}
               </div>
+              {words.length > 5 && !allWords && <button type="button" onClick={() => setAllWords(true)} className={`${MONO} mt-1 text-[11px] underline`} style={{ color: INK_FAINT }}>More words ({words.length - 5})</button>}
             </>
           )}
 

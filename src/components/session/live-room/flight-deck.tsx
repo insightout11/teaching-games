@@ -66,7 +66,7 @@ import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type 
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
 import { coastStrip, routeLengthKm, type CoastStrip } from '@/lib/live-room/coast-strip';
 import { drawnKindOf, drawnLandmarkNear, landmarksAhead } from '@/lib/live-room/landmarks-ahead';
-import { openWindowViewChannel, WINDOW_VIEW_HEARTBEAT_MS, type WindowView } from '@/lib/live-room/window-view';
+import { FLIGHT_NOW_MS, openWindowViewChannel, WINDOW_VIEW_HEARTBEAT_MS, type FlightNow, type WindowView } from '@/lib/live-room/window-view';
 import { watersAhead, type Waters, toFrame } from '@/lib/live-room/waters-ahead';
 import { realCoast, realRelief, realWaters, setRealCoast, realTerrain } from '@/components/live-room/flight/ground-texture';
 import { highGroundAhead, type HighGround } from '@/lib/live-room/elevation-ahead';
@@ -1735,6 +1735,27 @@ export function FlightDeck({
     const beat = setInterval(() => ch.send(windowView), WINDOW_VIEW_HEARTBEAT_MS);
     return () => clearInterval(beat);
   }, [windowView]);
+  // The flight right now, for each phone's passenger window (Oct 2026): sent every 15 s while flying
+  const flightNowRef = useRef<FlightNow | null>(null);
+  {
+    const lm = photoLandmark ? drawnKindOf(photoLandmark.id) : null;
+    const lat = photoLandmark ? sceneryLandmarks.find((l) => l.id === photoLandmark.id)?.lateral : undefined;
+    flightNowRef.current = flightStage === 'flying' ? {
+      from: origin.city, to: destination.city, terrain: steadyGround.terrain, region: steadyGround.region ?? null, timeOfDay: skyNow.timeOfDay,
+      below: below.name ?? null, minutesLeft: minutesLeft == null ? null : Math.ceil(minutesLeft),
+      landmark: photoLandmark && lm ? { id: photoLandmark.id, name: photoLandmark.name, kind: lm, side: (lat ?? 1) < 0 ? 'left' : 'right' } : null,
+    } : null;
+  }
+  const flightNowLandmark = flightNowRef.current?.landmark?.id ?? null;
+  useEffect(() => {
+    const ch = windowChannel.current;
+    if (!ch) return;
+    const send = () => ch.sendFlight(flightNowRef.current);
+    send();
+    if (flightStage !== 'flying') return;
+    const beat = setInterval(send, FLIGHT_NOW_MS);
+    return () => clearInterval(beat);
+  }, [flightStage, flightNowLandmark]);
   // Real things happening on the journey (Oct 2026), each a "Look" moment the class can open: another real plane, the
   // northern or southern lights, a recent earthquake nearby, a holiday in the country below, a clock change below,
   // sunrise or sunset, tonight's moon, a bright planet, a meteor shower. One label at a time; each only once a flight.

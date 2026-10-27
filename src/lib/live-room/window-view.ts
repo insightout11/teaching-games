@@ -21,13 +21,33 @@ export const WINDOW_VIEW_HEARTBEAT_MS = 6000;
 /** A view not repeated for this long has passed (the room closed or lost its connection). */
 export const WINDOW_VIEW_STALE_MS = 15000;
 
-export function openWindowViewChannel(sessionId: string, onView?: (v: WindowView | null) => void) {
+/**
+ * The flight right now, room to phones (Oct 2026): what the phones' passenger window shows when nothing is asked. Sent
+ * every FLIGHT_NOW_MS while flying (a phone's window refreshes slowly, so this is plenty). `landmark.side` is the side of
+ * the plane it is on: phones on that side show it, the others hear it is on the other side.
+ */
+export interface FlightNow {
+  from: string;
+  to: string;
+  terrain: string;
+  region: string | null;
+  timeOfDay: string;
+  below: string | null;
+  minutesLeft: number | null;
+  landmark: { id: string; name: string; kind: WorldLandmarkKind; side: 'left' | 'right' } | null;
+}
+export const FLIGHT_NOW_MS = 15000;
+export const FLIGHT_NOW_STALE_MS = 40000;
+
+export function openWindowViewChannel(sessionId: string, onView?: (v: WindowView | null) => void, onFlight?: (f: FlightNow | null) => void) {
   const supabase = createClient();
   const channel = supabase.channel(`window:${sessionId}`, { config: { broadcast: { self: false } } });
   if (onView) channel.on('broadcast', { event: 'view' }, ({ payload }: { payload: { view: WindowView | null } }) => onView(payload?.view ?? null));
+  if (onFlight) channel.on('broadcast', { event: 'flight' }, ({ payload }: { payload: { flight: FlightNow | null } }) => onFlight(payload?.flight ?? null));
   channel.subscribe();
   return {
     send: (view: WindowView | null) => { void channel.send({ type: 'broadcast', event: 'view', payload: { view } }); },
+    sendFlight: (flight: FlightNow | null) => { void channel.send({ type: 'broadcast', event: 'flight', payload: { flight } }); },
     close: () => { void supabase.removeChannel(channel); },
   };
 }

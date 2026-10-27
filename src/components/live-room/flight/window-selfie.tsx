@@ -29,7 +29,9 @@ import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
 const TIMES: TimeOfDay[] = ['dawn', 'day', 'dusk', 'night'];
 const asTime = (t: string): TimeOfDay => (TIMES.includes(t as TimeOfDay) ? (t as TimeOfDay) : 'day');
 
-function WindowView({ kind, landmarkId, terrain, region, tod }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: Terrain; region: string | null; tod: TimeOfDay }) {
+/** The side view out of a passenger window: real ground and sky, with the landmark when `showLandmark`. Also the phone's
+ *  living window (paused between slow refreshes, to spare the battery). */
+export function PassengerView({ kind, landmarkId, terrain, region, tod, paused = false, showLandmark = true }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: Terrain; region: string | null; tod: TimeOfDay; paused?: boolean; showLandmark?: boolean }) {
   const scene = (WORLD_DESTINATIONS.find((d) => d.scene) ?? WORLD_DESTINATIONS[0]).scene!;
   const palette = useMemo(() => composeTimedPalette(tod, scene), [tod, scene]);
   const route = useMemo(() => realTerrain() ? selfieTerrainRoute(kind, landmarkId) : null, [kind, landmarkId]);
@@ -47,7 +49,7 @@ function WindowView({ kind, landmarkId, terrain, region, tod }: { landmarkId?: s
     <div className="absolute inset-x-0" style={{ top: '-38%', height: '138%' }}>
       {/* looking down and out: the horizon sits high in a passenger window */}
       <CockpitSky palette={palette} timeOfDay={tod} altitude={0.85} />
-      <CockpitWorld surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={0.0001} altitude={0.85} cloudCover={5} coastStrip={strip} routeClock={clock} landmarks={landmarks} />
+      <CockpitWorld surfaceSun={{ x: parseFloat(light.x) / 100, y: parseFloat(light.y) / 100 }} terrain={terrain} region={region} palette={palette} night={tod === 'night'} speed={0.0001} altitude={0.85} cloudCover={5} coastStrip={strip} routeClock={clock} landmarks={showLandmark ? landmarks : []} paused={paused} />
       <svg viewBox="0 0 100 60" preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 h-[42%] w-full" aria-hidden>
         <defs><linearGradient id="selfie-wing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#e9eef4" /><stop offset="1" stopColor="#9aa7b6" /></linearGradient></defs>
         <path d="M0 38 L74 50 L80 47 L86 50 L84 53 L0 60 Z" fill="url(#selfie-wing)" />
@@ -89,7 +91,7 @@ export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay,
         {/* the window, blind pulled up */}
         <div className="absolute left-[150px] top-12 h-[178px] w-[122px] rounded-[46%/38%] bg-[#d9dde3] p-[8px] shadow-[inset_0_2px_6px_rgba(0,0,0,0.25),0_1px_0_rgba(255,255,255,0.7)]">
           <div className="relative h-full w-full overflow-hidden rounded-[46%/38%] shadow-[inset_0_0_24px_rgba(0,0,0,0.55)]">
-            <WindowView kind={kind} landmarkId={landmarkId} terrain={terrain as Terrain} region={region} tod={tod} />
+            <PassengerView kind={kind} landmarkId={landmarkId} terrain={terrain as Terrain} region={region} tod={tod} />
             <div className="pointer-events-none absolute inset-0 rounded-[46%/38%] bg-[linear-gradient(130deg,rgba(255,255,255,0.18),transparent_40%)]" />
             <div className="absolute inset-x-0 top-0 h-[9%] bg-[#e6e3dc] shadow-[0_2px_3px_rgba(0,0,0,0.25)]" />
           </div>

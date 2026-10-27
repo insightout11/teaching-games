@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion, useDragControls, useReducedMotion } from 'framer-motion';
-import { BookOpen, Hand, LogOut, MessageCircle, X } from 'lucide-react';
+import { BookOpen, Hand, LogOut, Luggage, MessageCircle, X } from 'lucide-react';
 
 // The student phone is a boarding pass + seat panel: a fixed header that says
 // what the phone wants right now, one "now" card, and a fixed action bar.
@@ -169,6 +169,7 @@ function BarButton({
 }
 
 export function ActionBar({
+  onTrip,
   handRaised,
   onHand,
   messageLabel,
@@ -186,10 +187,13 @@ export function ActionBar({
   newWords: number;
   phrasebookOpen: boolean;
   onPhrasebook: () => void;
+  /** Opens My trip: seat, mascot, the class shelf (Oct 2026). */
+  onTrip?: () => void;
 }) {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-lc-border bg-lc-surface pb-[env(safe-area-inset-bottom)] backdrop-blur">
-      <div className="mx-auto grid max-w-lg grid-cols-3">
+      <div className={`mx-auto grid max-w-lg ${onTrip ? 'grid-cols-4' : 'grid-cols-3'}`}>
+        {onTrip && <BarButton icon={<Luggage className="h-5 w-5" />} label="My trip" active={false} tone="text-sky-300" onClick={onTrip} />}
         <BarButton
           icon={<Hand className="h-5 w-5" />}
           label={handRaised ? 'Hand up' : 'Hand'}
