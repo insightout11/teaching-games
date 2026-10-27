@@ -57,7 +57,7 @@ function CityPicture({ sessionId, city }: { sessionId: string; city: string }) {
  * winner and the students' reasons appear when the teacher closes the vote, and take-off
  * goes there. Every flight lasts the class, so no flight time is shown.
  */
-export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed, tallies, reasons, onReveal, onTakeOff, onCancel, mode = 'now' }: {
+export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed, tallies, reasons, onReveal, onTakeOff, onCancel, onHide, mode = 'now' }: {
   /** 'next': the vote after landing, for the next lesson (choosing saves it instead of taking off). */
   mode?: 'now' | 'next';
   sessionId: string;
@@ -71,6 +71,8 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
   onReveal: () => void;
   onTakeOff: (cityId: string) => void;
   onCancel: () => void;
+  /** Back to the boarding screen with the vote still open (phones keep voting). */
+  onHide?: () => void;
 }) {
   const ranked = [...cards].sort((a, b) => (tallies[b.city] ?? 0) - (tallies[a.city] ?? 0));
   const winner = revealed && totalVotes > 0 ? ranked[0] : null;
@@ -93,6 +95,7 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
               <Plane className="h-4 w-4" /> {mode === 'next' ? `Next time: ${winner.city}` : `Fly to ${winner.city}`}
             </button>
           )}
+          {onHide && !revealed && <button type="button" onClick={onHide} className="rounded-full border border-white/25 px-3 py-2 text-sm text-white/85 hover:bg-white/10">Back to boarding</button>}
           <button type="button" onClick={onCancel} aria-label="Stop the vote" title="Stop the vote" className="p-1 text-white/45 hover:text-white"><X className="h-4 w-4" /></button>
         </div>
       </div>

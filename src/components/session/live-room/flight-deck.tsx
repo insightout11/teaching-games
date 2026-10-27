@@ -1027,6 +1027,8 @@ export function FlightDeck({
   // their weekly chat and where they would like to fly. Their seat lights up and their phone shows the prompt.
   const [checkIn, setCheckIn] = useState<{ order: string[]; i: number } | null>(null);
   const [boardingMore, setBoardingMore] = useState(false);
+  // The city vote can step aside for check-in while phones keep voting (Oct 2026, owner).
+  const [voteHidden, setVoteHidden] = useState(false);
   const checkInP = checkIn ? allSeats.find((p) => p.id === checkIn.order[checkIn.i]) ?? null : null;
   const checkInPrompt = checkIn ? CHECK_IN_PROMPTS[checkIn.i % CHECK_IN_PROMPTS.length] : '';
   const checkInWhere = Boolean(cityVote && !cityVote.revealed);
@@ -2734,7 +2736,7 @@ export function FlightDeck({
         onCancel={() => void closeCityVote(false)}
       />
     );
-  } else if (view === 'boarding' && cityVote && flightStage === 'gate') {
+  } else if (view === 'boarding' && cityVote && flightStage === 'gate' && !(voteHidden && !cityVote.revealed)) {
     scene = (
       <CityVoteBoard
         sessionId={sessionId}
@@ -2747,6 +2749,7 @@ export function FlightDeck({
         onReveal={() => void closeCityVote(true)}
         onTakeOff={(id) => { setChosenId(id); setPrediction(null); setBriefing({ cityId: id, pollId: null, prediction: null, asked: false }); }}
         onCancel={() => void closeCityVote(false)}
+        onHide={() => setVoteHidden(true)}
       />
     );
   } else if (view === 'boarding') {
@@ -2821,9 +2824,15 @@ export function FlightDeck({
               <button type="button" onClick={() => { setMapMode('tracker'); setView('map'); }} className="rounded-lg border border-sky-300/40 px-2 py-1 text-xs text-sky-200 hover:bg-sky-300/10">
                 Choose on the map
               </button>
-              <button type="button" onClick={() => void startCityPoll()} className="rounded-lg border border-amber-300/40 px-2 py-1 text-xs text-amber-200 hover:bg-amber-300/10">
-                Start the where-next vote
-              </button>
+              {cityVote && voteHidden ? (
+                <button type="button" onClick={() => setVoteHidden(false)} className="rounded-lg border border-amber-300/60 bg-amber-300/15 px-2 py-1 text-xs font-semibold text-amber-100 hover:bg-amber-300/25">
+                  Vote open · {cityVotes.length} in · Show it
+                </button>
+              ) : (
+                <button type="button" onClick={() => { setVoteHidden(false); void startCityPoll(); }} className="rounded-lg border border-amber-300/40 px-2 py-1 text-xs text-amber-200 hover:bg-amber-300/10">
+                  Start the where-next vote
+                </button>
+              )}
             </label>
           )}
           {flightStage === 'gate' && stayHome === 'design-mission' && (
