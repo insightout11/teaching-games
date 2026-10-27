@@ -59,7 +59,20 @@ export interface DestinationArrivalSceneProps {
   timeOfDay?: TimeOfDay;
   /** Live weather condition. Defaults to 'clear' (unchanged fair-weather scene). */
   weather?: WeatherCondition;
+  /** Extra layers still being tried in the gallery (Oct 2026). Off unless set, so class scenes are unchanged. */
+  extras?: SceneExtras;
   className?: string;
+}
+
+export interface SceneExtras {
+  /** The city mirrored in the water in front of it, where the scene has water (bays, canals, river cities). */
+  reflections?: boolean;
+  /** A seasonal branch from the city's own plants, framing the top right corner. */
+  framing?: boolean;
+  /** 1-12, the month the framing's season follows (default: this month). */
+  month?: number;
+  /** Southern hemisphere: the seasons flip. */
+  southern?: boolean;
 }
 
 export type LandmarkDepth = 'background' | 'midground' | 'foreground';

@@ -8,7 +8,7 @@ import { GroundLighting } from './lighting-layer';
 
 // A close side-profile airport foreground: destination-specific surroundings
 // sit between the city and a deep runway surface that fills the lower frame.
-export function RunwayLayer(props: SceneLayerProps) {
+export function RunwayLayer(props: SceneLayerProps & { reflection?: React.ReactNode }) {
   const { scene, palette, idPrefix, ambient, mode, progress } = props;
   // Takeoff: the nearest layer (the runway surface paint) scrolls left at the
   // full camera-pan rate, so the dashes/lights stream past = speed. The repeating
@@ -251,6 +251,7 @@ export function RunwayLayer(props: SceneLayerProps) {
       {isWaterfront ? (
         <>
           <rect x="-200" y={surroundingsTop} width={VIEWBOX.w + 400} height={runTop - surroundingsTop} fill={`url(#${waterId})`} />
+          {props.reflection}
           <path
             d={`M-200 ${surroundingsTop + 18} C220 ${surroundingsTop + 8} 430 ${surroundingsTop + 30} 760 ${surroundingsTop + 17} S1320 ${surroundingsTop + 9} 1700 ${surroundingsTop + 21} S2450 ${surroundingsTop + 6} 3080 ${surroundingsTop + 18}`}
             fill="none"
@@ -279,9 +280,12 @@ export function RunwayLayer(props: SceneLayerProps) {
           </g>
         </>
       ) : isAmsterdam ? (
-        amsterdamGround
+        <>{amsterdamGround}{props.reflection}</>
       ) : (
-        <rect x="-200" y={surroundingsTop} width={VIEWBOX.w + 400} height={runTop - surroundingsTop} fill={isDesert ? `url(#${sandId})` : isSnow ? `url(#${snowId})` : `url(#${groundId})`} />
+        <>
+          <rect x="-200" y={surroundingsTop} width={VIEWBOX.w + 400} height={runTop - surroundingsTop} fill={isDesert ? `url(#${sandId})` : isSnow ? `url(#${snowId})` : `url(#${groundId})`} />
+          {props.reflection}
+        </>
       )}
 
       {isSnow && (

@@ -15,6 +15,7 @@ interface GalleryItem {
   label: string;
   scene: DestinationScene;
   fixture?: boolean;
+  lat?: number;
 }
 
 // Validation cities NOT in destinations.ts — gallery-local scene fixtures only
@@ -39,7 +40,7 @@ export function ArrivalSceneGallery() {
   const items = useMemo<GalleryItem[]>(
     () => [
       ...FIXTURES,
-      ...WORLD_DESTINATIONS.map((d) => ({ id: d.id, label: d.city, scene: d.scene })),
+      ...WORLD_DESTINATIONS.map((d) => ({ id: d.id, label: d.city, scene: d.scene, lat: d.lat })),
     ],
     [],
   );
@@ -59,6 +60,9 @@ export function ArrivalSceneGallery() {
   const [mode, setMode] = useState<ArrivalMode>('arrival');
   const [lbMotion, setLbMotion] = useState<ArrivalMotion>('animated');
   const [weather, setWeather] = useState<WeatherCondition>('clear');
+  // Extra layers on trial (Oct 2026): water reflections and the seasonal framing branch
+  const [extrasPick, setExtrasPick] = useState<'off' | 'reflections' | 'framing' | 'both'>('both');
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
 
   // Esc closes the lightbox.
   useEffect(() => {
@@ -305,6 +309,7 @@ export function ArrivalSceneGallery() {
               mode={mode}
               weather={weather}
               timeOfDay={tod === 'baked' ? undefined : tod}
+              extras={{ reflections: extrasPick === 'both' || extrasPick === 'reflections', framing: extrasPick === 'both' || extrasPick === 'framing', month, southern: (selected.lat ?? 0) < 0 }}
             />
           </div>
 
@@ -316,6 +321,8 @@ export function ArrivalSceneGallery() {
             <ButtonRow label="motion" options={['animated', 'static']} value={lbMotion} onPick={(m) => setLbMotion(m as ArrivalMotion)} />
             <ButtonRow label="phase" options={PHASES} value={phase} onPick={(p) => setPhase(p as ArrivalPhase)} />
             <ButtonRow label="weather" options={WEATHER_CONDITIONS} value={weather} onPick={(w) => setWeather(w as WeatherCondition)} />
+            <ButtonRow label="extras" options={['off', 'reflections', 'framing', 'both']} value={extrasPick} onPick={(x) => setExtrasPick(x as typeof extrasPick)} />
+            <ButtonRow label="month" options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']} value={String(month)} onPick={(m) => setMonth(Number(m))} />
             <button
               onClick={() => setWeather(rollWeather(`${selected.id}:${Date.now()}`, selected.scene, tod === 'night' || (tod === 'baked' && selected.scene.palette === 'night')))}
               style={{ fontSize: 12, padding: '5px 11px', borderRadius: 7, cursor: 'pointer', background: '#0f766e', color: '#ecfeff', border: '1px solid #2dd4bf' }}

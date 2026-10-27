@@ -25,6 +25,8 @@ import { atmosphereLayout } from './layers/atmosphere-layer';
 import { primaryLight, skyDiscs } from './sky-light';
 import { WEATHER_PROFILE } from './weather';
 import { Windsock } from './layers/windsock';
+import { ReflectionLayer, waterBand } from './layers/reflection-layer';
+import { FramingLayer, framingKind } from './layers/framing-layer';
 
 // Distant, low-contrast skyline painted into the side bleed margins so wide
 // windows don't show the focal city floating on bare shoulders. Uses its OWN
@@ -125,6 +127,7 @@ export function DestinationArrivalScene({
   timeOfDay,
   weather = 'clear',
   skyLight,
+  extras,
   className,
 }: DestinationArrivalSceneProps) {
   const reduced = useReducedMotion();
@@ -197,6 +200,30 @@ export function DestinationArrivalScene({
   const drift = (depth: number, children: React.ReactNode) => breathing
     ? <g className="lc-drift" style={{ ['--d' as string]: depth } as React.CSSProperties}>{children}</g>
     : children;
+  // Water reflections (gallery extra): the city drawn again inside the runway layer's water, mirrored there. The runway
+  // group carries its own camera offset on arrival, so each copy is moved by the difference to its real depth.
+  const band = extras?.reflections ? waterBand(scene) : null;
+  const relAt = (depth: number, focalSpace: boolean) => {
+    const bx = focalSpace ? BLEED_X : 0;
+    if (mode === 'departure') return `translate(${bx - camPan * depth},0)`;
+    if (mode !== 'arrival') return `translate(${bx},0)`;
+    return `translate(${bx + cinematicParallaxX(camera, depth) - cinematicParallaxX(camera, 1)},${cinematicParallaxY(camera, depth) - cinematicParallaxY(camera, 1)})`;
+  };
+  const rfPrefix = `${idPrefix}-rfc`;
+  const reflection = band ? (
+    <ReflectionLayer band={band} palette={palette} idPrefix={idPrefix} ambient={ambient}>
+      {scene.skylineVariant !== 'homebase' && <g transform={relAt(0.3, false)}><BleedSkyline palette={palette} destinationId={destinationId} skyline={scene.skyline} /></g>}
+      {landmark && landmark.depth !== 'background' && (
+        <g transform={relAt(landmark.depth === 'midground' ? 0.4 : 0.75, true)}>
+          <LandmarkLayer entry={landmark} palette={palette} idPrefix={rfPrefix} ambient={false} rand={seededRand(`${destinationId}:landmark:${landmark.depth}`)} />
+        </g>
+      )}
+      <g transform={relAt(0.5, true)}><SkylineLayer {...propsFor('skyline')} idPrefix={rfPrefix} ambient={false} /></g>
+    </ReflectionLayer>
+  ) : null;
+  // Seasonal framing branch (gallery extra), from the city's own plants
+  const frame = extras?.framing ? framingKind(scene, extras.month ?? new Date().getMonth() + 1, extras.southern) : null;
+
   // Soft haze bands between depths, in the palette's own horizon colour: distance reads as paler layers.
   const haze = (id: string, y0: number, y1: number, opacity: number) => (
     <g aria-hidden>
@@ -270,7 +297,7 @@ export function DestinationArrivalScene({
       <CityLighting {...propsFor('lighting')} />
       {/* Full-canvas: airfield ground + runway (tier 2). Runway markings scroll
           internally on takeoff (departureCameraPan) — the strongest speed cue. */}
-      <g transform={mode === 'arrival' ? canvasAt(1) : undefined}><RunwayLayer {...propsFor('runway')} /></g>
+      <g transform={mode === 'arrival' ? canvasAt(1) : undefined}><RunwayLayer {...propsFor('runway')} reflection={reflection} /></g>
       {/* Airfield windsock (LessonCaptain mark) — left of the runway centre */}
       <g transform={focalAt(0.9)}><Windsock {...propsFor('windsock')} /></g>
       {/* Focal plane — the tracking camera holds it near centre; not panned */}
@@ -281,6 +308,8 @@ export function DestinationArrivalScene({
       <WeatherLayer {...propsFor('weather')} />
       </g>
       </g>
+      {/* Framing branch: beside the camera, so it stays at the corner of the view while the camera moves (only a slow sway) */}
+      {frame && drift(0.4, <FramingLayer palette={palette} rand={seededRand(`${destinationId}:frame`)} idPrefix={idPrefix} ambient={ambient} kind={frame} />)}
       <CinematicOverlay {...propsFor('cinematic-overlay')} />
     </svg>
   );
