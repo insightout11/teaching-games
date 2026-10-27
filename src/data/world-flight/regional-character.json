@@ -10305,5 +10305,1335 @@
     ],
     "confidence": "high",
     "notes": "Hilltop towns of cream and ochre stucco with terracotta roofs; whitewashed trulli with grey stone cones around Alberobello in Apulia; black lava fields on Etna's flanks. Pale grey-green olive canopies are the most common tree cover; the interior turns gold from June to October and greens again with winter rains. Almond groves flower pink in February; modern outskirt blocks are concrete with grey flat roofs."
+  },
+  {
+    "id": "id-sulawesi-maluku",
+    "name": "Indonesia, Sulawesi and Maluku",
+    "countries": [
+      "ID"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8a8d88",
+        "#a86545",
+        "#5f4f3f"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#7a5a43",
+        "#e1d6c4",
+        "#a3a59a"
+      ],
+      "wallMaterial": [
+        "timber",
+        "plaster",
+        "concrete"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "timber house with saddleback roof",
+        "stilted timber house with thatched roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4f7d45",
+          "where": "coast"
+        },
+        {
+          "name": "clove",
+          "color": "#3f6244",
+          "where": "hills"
+        },
+        {
+          "name": "bamboo",
+          "color": "#7a9a52",
+          "where": "valleys"
+        },
+        {
+          "name": "banyan",
+          "color": "#55704a",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8c4c",
+            "#82a860"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "coconut",
+          "pattern": "rows",
+          "colors": [
+            "#6f8d4f",
+            "#8aa35f"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "cloves",
+          "pattern": "rows",
+          "colors": [
+            "#557b46",
+            "#6f8f55"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sulawesi",
+      "https://en.wikipedia.org/wiki/Maluku_(province)",
+      "https://en.wikipedia.org/wiki/Maluku_Islands",
+      "https://en.wikipedia.org/wiki/North_Maluku",
+      "https://en.wikipedia.org/wiki/Tongkonan",
+      "https://en.wikipedia.org/wiki/Climate_of_Indonesia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Indonesia"
+    ],
+    "confidence": "medium",
+    "notes": "Sulawesi and Maluku span several Indonesian provinces, so no ISO 3166-2 subdivision is used. Sulawesi's four peninsulas and Maluku's scattered islands mix stilted timber houses, dark saddleback roofs and thatched village houses; Makassar, Manado and Ambon are dense concrete cities. The region straddles the equator, so S is a simplification. Roofing is mixed: corrugated metal dominates towns and coastal roads, while dark thatch survives on traditional houses. Rice, coconut and cloves are the main visible crops, with sago, nutmeg, coffee and cocoa in the hills. The climate is equatorial with rain in most months and only a weak dry season; snow never occurs. Data for Maluku's outer islands is thin, and logging, mining and sea-level rise are growing pressures."
+  },
+  {
+    "id": "id-nusa-tenggara-timor-leste",
+    "name": "Indonesia, Nusa Tenggara and Timor-Leste",
+    "countries": [
+      "ID",
+      "TL"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#9a7a52",
+        "#8d938b",
+        "#ab5f48"
+      ],
+      "roofMaterial": [
+        "thatch",
+        "corrugated metal",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#7f5f45",
+        "#e0dbc9",
+        "#a9825f"
+      ],
+      "wallMaterial": [
+        "timber",
+        "plaster",
+        "earth plaster"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "stilted timber house with steep thatched roof",
+        "timber house with corrugated metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4f7745",
+          "where": "coast"
+        },
+        {
+          "name": "lontar palm",
+          "color": "#6f8a5f",
+          "where": "valleys"
+        },
+        {
+          "name": "sandalwood",
+          "color": "#426844",
+          "where": "hills"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#5f7d52",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#5c874a",
+            "#7f9d5c"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#829852",
+            "#9dad66"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#4a7740",
+            "#689252"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Lesser_Sunda_Islands",
+      "https://en.wikipedia.org/wiki/Lombok",
+      "https://en.wikipedia.org/wiki/Sumba",
+      "https://en.wikipedia.org/wiki/Flores",
+      "https://en.wikipedia.org/wiki/Timor",
+      "https://en.wikipedia.org/wiki/Timor-Leste",
+      "https://en.wikipedia.org/wiki/Sasak_architecture",
+      "https://en.wikipedia.org/wiki/Climate_of_Indonesia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Indonesia"
+    ],
+    "confidence": "medium",
+    "notes": "Nusa Tenggara and Timor-Leste span many islands and provinces, so no ISO 3166-2 subdivision is used. The region is mostly dry monsoon country: stilted timber houses with steep thatch roofs in Sumba and Lombok, corrugated metal and clay tile in towns, and dense low-rise concrete in Mataram, Kupang and Dili. Roofing is mixed: thatch dominates rural villages, while corrugated metal and clay tile are common in towns. Rice, maize and coffee are the main crops, with cassava, coconut and sandalwood on drier slopes. The wet season runs from December to April and the dry season from May to November; snow never occurs. Water scarcity, deforestation and poor roads make data uneven."
+  },
+  {
+    "id": "pg-id-new-guinea",
+    "name": "New Guinea (Papua and Papua New Guinea)",
+    "countries": [
+      "PG",
+      "ID"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a08058",
+        "#878886",
+        "#5f553f"
+      ],
+      "roofMaterial": [
+        "thatch",
+        "corrugated metal",
+        "palm frond"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#6f533f",
+        "#b09063",
+        "#dbd3c4"
+      ],
+      "wallMaterial": [
+        "timber",
+        "bamboo",
+        "plaster"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "stilted timber house with thatched roof",
+        "timber longhouse with pitched roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "dipterocarp",
+          "color": "#3f5c43",
+          "where": "hills"
+        },
+        {
+          "name": "sago palm",
+          "color": "#4f8345",
+          "where": "valleys"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#5f8d52",
+          "where": "coast"
+        },
+        {
+          "name": "banyan",
+          "color": "#42684a",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sweet potato",
+          "pattern": "rows",
+          "colors": [
+            "#658a4a",
+            "#82a35c"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "taro",
+          "pattern": "patchwork",
+          "colors": [
+            "#4f803d",
+            "#6f9755"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#557b40",
+            "#758f52"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/New_Guinea",
+      "https://en.wikipedia.org/wiki/Papua_New_Guinea",
+      "https://en.wikipedia.org/wiki/Western_New_Guinea",
+      "https://en.wikipedia.org/wiki/Climate_of_Indonesia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Indonesia"
+    ],
+    "confidence": "medium",
+    "notes": "New Guinea is split between Indonesia and Papua New Guinea, so no ISO 3166-2 subdivision is used. The island is dominated by the highlands and by lowland rainforest, with stilted timber and thatched houses in villages and corrugated metal in towns; Port Moresby and Jayapura are the largest cities. The island straddles the equator, so S is a simplification. Roofing is mostly thatch in villages, with corrugated metal in towns and along roads. Sweet potato, taro and coffee are the main crops, with sago, banana and coconut in the lowlands. The climate is warm and humid year-round with only weak seasonal variation; snow occurs only on the highest peaks and is not typical in the lowlands. Road access, conflict and deforestation make data uneven."
+  },
+  {
+    "id": "au-east-coast",
+    "name": "Australia, east coast (Queensland to Victoria)",
+    "countries": [
+      "AU"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#93938e",
+        "#4f5454",
+        "#a55c42"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "terracotta tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#9a5f4a",
+        "#e2dfcd",
+        "#b0b0a8"
+      ],
+      "wallMaterial": [
+        "brick",
+        "timber weatherboard",
+        "render"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "timber house on stumps with corrugated iron roof",
+        "brick bungalow with terracotta tile roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "eucalyptus",
+          "color": "#5f7752",
+          "where": "everywhere"
+        },
+        {
+          "name": "rainforest fig",
+          "color": "#396544",
+          "where": "valleys"
+        },
+        {
+          "name": "hoop pine",
+          "color": "#4f7144",
+          "where": "hills"
+        },
+        {
+          "name": "paperbark",
+          "color": "#6f905f",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#6f954f",
+            "#8ba565"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#b7a265",
+            "#cbb577"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#5f8147",
+            "#7c9757"
+          ],
+          "months": [
+            2,
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Australia",
+      "https://en.wikipedia.org/wiki/Climate_of_Australia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Australia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Australia",
+      "https://en.wikipedia.org/wiki/Queenslander_(architecture)",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Queensland",
+      "https://en.wikipedia.org/wiki/New_South_Wales",
+      "https://en.wikipedia.org/wiki/Victoria_(state)"
+    ],
+    "confidence": "high",
+    "notes": "The east coast from Queensland to Victoria spans several states, so no ISO 3166-2 subdivision is used. The coast is Australia's most densely settled strip: timber Queenslanders on stumps, brick bungalows with terracotta tiles, and dense concrete and glass in Sydney, Melbourne and Brisbane. Roofs are mostly corrugated metal, with terracotta tile in older suburbs and charcoal painted metal in newer ones. Sugarcane, wheat and grapes are the main crops, with dairy, cotton and horticulture in the hinterland. The climate ranges from subtropical in Queensland to temperate in Victoria, with wet summers in the north and winter rain in the south; snow is not typical in the lowlands. Coastal erosion, bushfires and housing pressure are recurring issues."
+  },
+  {
+    "id": "au-interior-outback",
+    "name": "Australia, interior and outback",
+    "countries": [
+      "AU"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#9a9d98",
+        "#5f6260",
+        "#a05f45"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "weathered iron"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#9a5f42",
+        "#ded6be",
+        "#a39f9a"
+      ],
+      "wallMaterial": [
+        "corrugated metal",
+        "brick",
+        "concrete"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "corrugated iron house with wide verandah",
+        "transportable cabin with iron roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "eucalyptus",
+          "color": "#657a52",
+          "where": "river banks"
+        },
+        {
+          "name": "mulga",
+          "color": "#6f7f55",
+          "where": "everywhere"
+        },
+        {
+          "name": "desert oak",
+          "color": "#4f6b4a",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia",
+          "color": "#7f8f5f",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#baa865",
+            "#cebb77"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "sorghum",
+          "pattern": "rows",
+          "colors": [
+            "#7f9d50",
+            "#96ad64"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#6f874f",
+            "#879d5f"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Outback",
+      "https://en.wikipedia.org/wiki/Australia",
+      "https://en.wikipedia.org/wiki/Climate_of_Australia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Australia",
+      "https://en.wikipedia.org/wiki/Alice_Springs",
+      "https://en.wikipedia.org/wiki/Simpson_Desert",
+      "https://en.wikipedia.org/wiki/Northern_Territory"
+    ],
+    "confidence": "medium",
+    "notes": "The interior and outback span several states and territories, so no ISO 3166-2 subdivision is used. This is a sparsely populated region of red plains, ranges and saltbush, with corrugated iron houses, wide verandahs and small mining or pastoral towns; Alice Springs is the main inland centre. Roofs are mostly corrugated metal, often weathered silver or rust red. Wheat, sorghum and cotton grow on the margins, while cattle and sheep graze the vast stations. The north has a summer monsoon, the centre is arid and the south gets winter rain; snow is not typical in the lowlands. Heat, drought, dust and very long distances shape daily life."
+  },
+  {
+    "id": "au-southwest-tasmania",
+    "name": "Australia, south-west and Tasmania",
+    "countries": [
+      "AU"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#898c81",
+        "#b0684a",
+        "#5f6267"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "terracotta tile",
+        "slate"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#9a654a",
+        "#e2d6cd",
+        "#a9a29a"
+      ],
+      "wallMaterial": [
+        "brick",
+        "timber weatherboard",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "timber cottage with corrugated iron roof",
+        "stone house with slate roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "jarrah",
+          "color": "#4c6845",
+          "where": "hills"
+        },
+        {
+          "name": "karri",
+          "color": "#455f43",
+          "where": "valleys"
+        },
+        {
+          "name": "blue gum",
+          "color": "#597a52",
+          "where": "everywhere"
+        },
+        {
+          "name": "blackwood",
+          "color": "#55764a",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#b1a565",
+            "#c5b877"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#658447",
+            "#7ca057"
+          ],
+          "months": [
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "apples",
+          "pattern": "rows",
+          "colors": [
+            "#698a4f",
+            "#90a05f"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Southwest_Australia",
+      "https://en.wikipedia.org/wiki/Tasmania",
+      "https://en.wikipedia.org/wiki/Australia",
+      "https://en.wikipedia.org/wiki/Climate_of_Australia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Australia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Australia",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "South-west Australia and Tasmania are grouped here, so no ISO 3166-2 subdivision is used. The south-west has Mediterranean jarrah and karri forest, wheat and wine, while Tasmania has cool temperate rainforest, dairy, orchards and hydro towns; Perth, Hobart and Launceston are the main cities. Roofs are mostly corrugated metal, with terracotta and slate as older minority types. The south-west has wet winters and dry summers, Tasmania has rain in most months and cool summers; lowland snow is not typical. Bushfires, dieback and water stress are persistent concerns."
+  },
+  {
+    "id": "nz-north-island",
+    "name": "New Zealand, North Island",
+    "countries": [
+      "NZ"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#4f5a54",
+        "#8c8f90",
+        "#a25740"
+      ],
+      "roofMaterial": [
+        "painted metal",
+        "corrugated metal",
+        "terracotta tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8dccd",
+        "#7a5443",
+        "#9a594a"
+      ],
+      "wallMaterial": [
+        "timber weatherboard",
+        "timber",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "timber villa with corrugated iron roof",
+        "weatherboard state house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "rimu",
+          "color": "#395f43",
+          "where": "hills"
+        },
+        {
+          "name": "kauri",
+          "color": "#556b45",
+          "where": "valleys"
+        },
+        {
+          "name": "pohutukawa",
+          "color": "#527c4c",
+          "where": "coast"
+        },
+        {
+          "name": "cabbage tree",
+          "color": "#6f8947",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "dairy pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8f49",
+            "#8bab62"
+          ],
+          "months": [
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "kiwifruit",
+          "pattern": "rows",
+          "colors": [
+            "#5f8441",
+            "#769a57"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "patchwork",
+          "colors": [
+            "#7c974d",
+            "#99b364"
+          ],
+          "months": [
+            2,
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/New_Zealand",
+      "https://en.wikipedia.org/wiki/North_Island",
+      "https://en.wikipedia.org/wiki/Climate_of_New_Zealand",
+      "https://en.wikipedia.org/wiki/Architecture_of_New_Zealand",
+      "https://en.wikipedia.org/wiki/Agriculture_in_New_Zealand"
+    ],
+    "confidence": "high",
+    "notes": "The North Island spans several regions, so no ISO 3166-2 subdivision is used. It is the more populous island, with Auckland, Wellington and Hamilton forming dense low-rise cities, and rural towns built largely of timber weatherboard with corrugated iron roofs. Roofs are mostly dark painted metal or corrugated iron, with terracotta tile on older villas. Dairy pasture, kiwifruit and maize are the main crops, with pine forestry and sheep on the hills. The climate is temperate maritime with rain in most months and mild winters; snow is not typical in the lowlands. Volcanic risk, earthquakes and housing pressure are significant."
+  },
+  {
+    "id": "nz-south-island",
+    "name": "New Zealand, South Island",
+    "countries": [
+      "NZ"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#828981",
+        "#5f6864",
+        "#ad644f"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "terracotta tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e2dcd3",
+        "#9da29a",
+        "#745a43"
+      ],
+      "wallMaterial": [
+        "timber weatherboard",
+        "stone",
+        "timber"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "timber villa with iron roof",
+        "stone cottage with dark iron roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "beech",
+          "color": "#5f7a58",
+          "where": "hills"
+        },
+        {
+          "name": "rimu",
+          "color": "#3f5f3d",
+          "where": "valleys"
+        },
+        {
+          "name": "macrocarpa",
+          "color": "#4f714b",
+          "where": "everywhere"
+        },
+        {
+          "name": "poplar",
+          "color": "#698f47",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "dairy pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#75954f",
+            "#8bab68"
+          ],
+          "months": [
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#b7a56b",
+            "#cbb87d"
+          ],
+          "months": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#5f7e41",
+            "#769457"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/New_Zealand",
+      "https://en.wikipedia.org/wiki/South_Island",
+      "https://en.wikipedia.org/wiki/Climate_of_New_Zealand",
+      "https://en.wikipedia.org/wiki/Architecture_of_New_Zealand",
+      "https://en.wikipedia.org/wiki/Agriculture_in_New_Zealand"
+    ],
+    "confidence": "high",
+    "notes": "The South Island spans several regions, so no ISO 3166-2 subdivision is used. The Southern Alps divide the island into wet rainforest in the west and drier Canterbury Plains and Central Otago in the east; Christchurch, Dunedin and Nelson are the main cities. Timber villas with iron roofs, stone cottages and modern low-rise housing sit among dairy pasture, wheat, vineyards and orchards. Roofs are mostly corrugated metal, with slate and terracotta on older buildings. The climate is oceanic, with rain throughout the year in the west and drier summers in the east; snow is common on the mountains but not typical in the lowlands. Earthquake risk, irrigation pressure and tourism are major issues."
+  },
+  {
+    "id": "fj-ws-to-pf-pacific-islands",
+    "name": "Pacific islands, Melanesia and Polynesia (Fiji, Samoa, Tonga and French Polynesia)",
+    "countries": [
+      "FJ",
+      "WS",
+      "TO",
+      "PF"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8e8b8c",
+        "#a8614d",
+        "#94744e"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8e2cd",
+        "#7a5a49",
+        "#a3a2a0"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "timber",
+        "plaster"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "stilted timber house with thatched roof",
+        "concrete block house with corrugated metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4f7a3c",
+          "where": "coast"
+        },
+        {
+          "name": "breadfruit",
+          "color": "#3f653e",
+          "where": "towns"
+        },
+        {
+          "name": "mangrove",
+          "color": "#46634d",
+          "where": "coast"
+        },
+        {
+          "name": "pandanus",
+          "color": "#6f845f",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coconut",
+          "pattern": "rows",
+          "colors": [
+            "#62924f",
+            "#7ca860"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "taro",
+          "pattern": "patchwork",
+          "colors": [
+            "#498040",
+            "#6f9d58"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#6f9b4f",
+            "#91a568"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Fiji",
+      "https://en.wikipedia.org/wiki/Samoa",
+      "https://en.wikipedia.org/wiki/Tonga",
+      "https://en.wikipedia.org/wiki/French_Polynesia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Fiji",
+      "https://en.wikipedia.org/wiki/Architecture_of_Samoa"
+    ],
+    "confidence": "medium",
+    "notes": "Fiji, Samoa, Tonga and French Polynesia are grouped here, so no ISO 3166-2 subdivision is used. The islands are mostly coastal villages of timber and concrete block, plus traditional thatched meeting houses and open-sided fales; Suva, Apia, Nuku'alofa and Papeete are the main towns. Corrugated metal is now the majority roof, with thatch surviving on traditional houses. Coconut, taro and sugarcane are the main crops, with vanilla, breadfruit and fishing. The climate is tropical maritime with a November-April wet season, a May-October dry season and frequent cyclones; snow never occurs. The group spans Melanesia and Polynesia, so data is uneven and sea-level rise is a serious threat."
+  },
+  {
+    "id": "us-hawaii",
+    "name": "Hawaii",
+    "countries": [
+      "US"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#888580",
+        "#5f5c64",
+        "#aa5944"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "asphalt shingle",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#dcd6cd",
+        "#6f7c5f",
+        "#7a5a3d"
+      ],
+      "wallMaterial": [
+        "timber",
+        "stucco",
+        "concrete block"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "single-wall timber plantation house with corrugated iron roof",
+        "concrete high-rise with glass facade"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#588345",
+          "where": "coast"
+        },
+        {
+          "name": "monkeypod",
+          "color": "#5c7c4a",
+          "where": "towns"
+        },
+        {
+          "name": "ohia",
+          "color": "#39653e",
+          "where": "hills"
+        },
+        {
+          "name": "koa",
+          "color": "#5b704a",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#4a7140",
+            "#688f58"
+          ],
+          "months": [
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "pineapple",
+          "pattern": "rows",
+          "colors": [
+            "#85a050",
+            "#99a764"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "macadamia",
+          "pattern": "rows",
+          "colors": [
+            "#65844d",
+            "#7c9157"
+          ],
+          "months": [
+            8,
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Hawaii",
+      "https://en.wikipedia.org/wiki/Climate_of_Hawaii",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Hawaii",
+      "https://en.wikipedia.org/wiki/Hawaiian_architecture",
+      "https://en.wikipedia.org/wiki/Coffee_production_in_Hawaii"
+    ],
+    "confidence": "high",
+    "notes": "Hawaii is a U.S. state spanning the Hawaiian Islands, so no ISO 3166-2 subdivision is used. Honolulu is a dense high-rise city, while the outer islands remain low-rise with single-wall timber plantation houses, stucco and concrete block. Corrugated metal is the common roof, with asphalt shingle and clay tile in older and newer suburbs. Coffee, pineapple and macadamia are the main crops, with taro, cattle and horticulture. The climate is tropical with trade winds, a wet October-April season and a drier May-September season; snow falls on the highest peaks but is not typical in the lowlands. Volcanic risk, invasive species and water supply are key concerns.",
+    "subdivisions": [
+      "US-HI"
+    ]
   }
 ]
