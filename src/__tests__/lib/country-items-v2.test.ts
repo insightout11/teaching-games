@@ -28,7 +28,7 @@ describe('country items for real flight routes', () => {
    }
   }
   const countries = new Set(COUNTRY_ITEMS.map(item => item.country));
-  expect([...visited].filter(country => !EXCLUDED.has(country) && !countries.has(country)).sort()).toEqual([]);
+  expect(Array.from(visited).filter(country => !EXCLUDED.has(country) && !countries.has(country)).sort()).toEqual([]);
  }, 60_000);
  it('uses unique country names, real stickers and one-sentence facts', () => {
   expect(new Set(COUNTRY_ITEMS.map(item => item.country)).size).toBe(COUNTRY_ITEMS.length);

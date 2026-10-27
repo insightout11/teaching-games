@@ -1,7 +1,6 @@
 /**
  * Country items (Oct 2026, pilot 001): the class earns one for a country it flew over AND talked about (the teacher's
- * "We talked about it" click). Objects, not clothing, so no national dress becomes a costume. Each uses a drawn
- * sticker from /public/stickers. DRAFT list for Matt's review: accuracy and respect first.
+ * "We talked about it" click). Objects, not clothing, so no national dress becomes a costume. Items use existing drawn stickers when available; the rest have art prompts. DRAFT list for Matt's review: accuracy and respect first.
  */
 export interface CountryItem { country: string; item: string; sticker: string | null; fact: string; artPrompt?: string }
 
@@ -76,6 +75,7 @@ export const COUNTRY_ITEMS: readonly CountryItem[] = [
   { country: 'Costa Rica', item: 'Brown-throated sloth', sticker: null, fact: 'Brown-throated sloths have long claws that help them hang from branches.', artPrompt: 'sticker-style Brown-throated sloth, no text, no people\'s faces' },
   { country: 'Croatia', item: 'Plitvice waterfalls', sticker: 'waterfall', fact: 'Plitvice has a chain of lakes connected by waterfalls.' },
   { country: 'Cuba', item: 'Cuban crocodile', sticker: 'crocodile', fact: 'Cuban crocodiles use their strong tails to swim.' },
+  { country: 'Cyprus', item: 'Halloumi', sticker: null, fact: 'Halloumi is a cheese that can be grilled without melting away.', artPrompt: 'sticker-style Halloumi, no text, no people\'s faces' },
   { country: 'Czechia', item: 'Astronomical clock', sticker: null, fact: 'The astronomical clock on Prague’s Old Town Hall shows more than ordinary time.', artPrompt: 'sticker-style Astronomical clock, no text, no people\'s faces' },
   { country: 'CÃ´te d\'Ivoire', item: 'Attiéké', sticker: null, fact: 'Attiéké is made from fermented cassava.', artPrompt: 'sticker-style Attiéké, no text, no people\'s faces' },
   { country: 'Dem. Rep. Congo', item: 'Bonobo', sticker: null, fact: 'Bonobos are apes that live in forests in the Democratic Republic of the Congo.', artPrompt: 'sticker-style Bonobo, no text, no people\'s faces' },
@@ -87,6 +87,7 @@ export const COUNTRY_ITEMS: readonly CountryItem[] = [
   { country: 'Eq. Guinea', item: 'Pico Basilé', sticker: 'volcano', fact: 'Pico Basilé is a volcanic mountain on the island of Bioko.' },
   { country: 'Eritrea', item: 'Ostrich', sticker: null, fact: 'An ostrich cannot fly but can run on its long legs.', artPrompt: 'sticker-style Ostrich, no text, no people\'s faces' },
   { country: 'Estonia', item: 'Kama', sticker: null, fact: 'Kama is a mixture of roasted grains ground into flour.', artPrompt: 'sticker-style Kama, no text, no people\'s faces' },
+  { country: 'eSwatini', item: 'Sibebe Rock', sticker: 'rock', fact: 'Sibebe Rock is a large granite dome in Eswatini.' },
   { country: 'Fiji', item: 'Coral reef', sticker: 'coral', fact: 'Coral reefs surround many islands in Fiji.' },
   { country: 'Finland', item: 'Karelian pasty', sticker: null, fact: 'A Karelian pasty has a thin rye crust and often a rice filling.', artPrompt: 'sticker-style Karelian pasty, no text, no people\'s faces' },
   { country: 'Gabon', item: 'Canoe', sticker: 'canoe', fact: 'A canoe can be moved through water with paddles.' },
@@ -111,6 +112,7 @@ export const COUNTRY_ITEMS: readonly CountryItem[] = [
   { country: 'Laos', item: 'Laap', sticker: null, fact: 'Laap is a chopped salad often flavoured with herbs and toasted rice.', artPrompt: 'sticker-style Laap, no text, no people\'s faces' },
   { country: 'Latvia', item: 'Rye bread', sticker: null, fact: 'Rye flour is used to make Latvian rye bread.', artPrompt: 'sticker-style Rye bread, no text, no people\'s faces' },
   { country: 'Lebanon', item: 'Cedar tree', sticker: null, fact: 'Cedar trees grow in the mountains of Lebanon.', artPrompt: 'sticker-style Cedar tree, no text, no people\'s faces' },
+  { country: 'Lesotho', item: 'Basotho pony', sticker: 'horse', fact: 'Basotho ponies are small horses used to travel in the highlands.' },
   { country: 'Liberia', item: 'Pygmy hippopotamus', sticker: null, fact: 'Pygmy hippos live near forest streams in West Africa.', artPrompt: 'sticker-style Pygmy hippopotamus, no text, no people\'s faces' },
   { country: 'Libya', item: 'Bazeen', sticker: null, fact: 'Bazeen is a Libyan dish made with barley flour.', artPrompt: 'sticker-style Bazeen, no text, no people\'s faces' },
   { country: 'Lithuania', item: 'Cepelinai', sticker: null, fact: 'Cepelinai are filled potato dumplings.', artPrompt: 'sticker-style Cepelinai, no text, no people\'s faces' },
@@ -139,6 +141,7 @@ export const COUNTRY_ITEMS: readonly CountryItem[] = [
   { country: 'Qatar', item: 'Arabian oryx', sticker: null, fact: 'Arabian oryx have long, straight horns.', artPrompt: 'sticker-style Arabian oryx, no text, no people\'s faces' },
   { country: 'Romania', item: 'Mămăligă', sticker: null, fact: 'Mămăligă is a porridge made from maize meal.', artPrompt: 'sticker-style Mămăligă, no text, no people\'s faces' },
   { country: 'Russia', item: 'Lake Baikal', sticker: 'lake', fact: 'Lake Baikal is the deepest lake in the world.' },
+  { country: 'Rwanda', item: 'Woven basket', sticker: null, fact: 'Rwandan craftworkers weave baskets with colourful patterns.', artPrompt: 'sticker-style Woven basket, no text, no people\'s faces' },
   { country: 'S. Sudan', item: 'Shoebill', sticker: null, fact: 'The shoebill is a wetland bird with a large shoe-shaped bill.', artPrompt: 'sticker-style Shoebill, no text, no people\'s faces' },
   { country: 'Senegal', item: 'Thieboudienne', sticker: null, fact: 'Thieboudienne combines rice, fish and vegetables.', artPrompt: 'sticker-style Thieboudienne, no text, no people\'s faces' },
   { country: 'Serbia', item: 'Gibanica', sticker: null, fact: 'Gibanica is a baked pastry often filled with cheese and eggs.', artPrompt: 'sticker-style Gibanica, no text, no people\'s faces' },

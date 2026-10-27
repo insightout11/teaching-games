@@ -2,7 +2,7 @@
 
 The 50 destinations yield 1,942 eligible directed routes at the 13,000 km maximum range. We sample endpoints and equal intervals no more than 25 km apart using `greatCirclePoint` and `countryAt`. The 1:110m map and sampling can miss small islands and narrow borders. A route is counted once per map name per direction; the two directions count separately. The original 39 entries remain unchanged.
 
-The exact map name `CÃ´te d'Ivoire` is mojibake in the polygon data; matching it literally would propagate the display error. The three previous draft additions are included below. The list is incomplete during batching: the automated coverage test is expected to fail until all eligible names have items. Existing app code currently requires sticker strings and will need Claude's separate null-sticker handling before these art-prompt entries can display safely.
+The exact map name `CÃ´te d'Ivoire` is mojibake in the polygon data; matching it literally would propagate the display error. The three previous draft additions are included below: the 127 new items use 31 existing stickers and 96 art prompts. All 165 eligible sampled map names now have items; the other 10 sampled map names are excluded below. Singapore is one of the original 39 entries but was not returned by these coarse sampled shapes. Existing app code currently requires sticker strings and will need Claude's separate null-sticker handling before these art-prompt entries can display safely.
 
 ## Excluded map names
 
@@ -23,7 +23,7 @@ These are skipped under Matt's instruction; the labels are listed for transparen
 
 ## New items for review
 
-Items are sorted alphabetically; links identify the source used for each fact. Generic sticker matches are noted as such; missing art has a prompt.
+Items are sorted alphabetically; links identify the source used for each fact. Some existing stickers are generic representations; missing art has a prompt.
 
 | Map name | Directed routes | Item | Sticker or art prompt | Fact | Source |
 |---|---:|---|---|---|---|
@@ -58,6 +58,7 @@ Items are sorted alphabetically; links identify the source used for each fact. G
 | Costa Rica | 2 | Brown-throated sloth | sticker-style Brown-throated sloth, no text, no people's faces | Brown-throated sloths have long claws that help them hang from branches. | [Source](https://en.wikipedia.org/wiki/Brown-throated_sloth) |
 | Croatia | 56 | Plitvice waterfalls | `waterfall` | Plitvice has a chain of lakes connected by waterfalls. | [Source](https://whc.unesco.org/en/list/98/) |
 | Cuba | 34 | Cuban crocodile | `crocodile` | Cuban crocodiles use their strong tails to swim. | [Source](https://en.wikipedia.org/wiki/Cuban_crocodile) |
+| Cyprus | 2 | Halloumi | sticker-style Halloumi, no text, no people's faces | Halloumi is a cheese that can be grilled without melting away. | [Source](https://en.wikipedia.org/wiki/Halloumi) |
 | Czechia | 52 | Astronomical clock | sticker-style Astronomical clock, no text, no people's faces | The astronomical clock on Prague’s Old Town Hall shows more than ordinary time. | [Source](https://en.wikipedia.org/wiki/Prague_astronomical_clock) |
 | CÃ´te d'Ivoire | 24 | Attiéké | sticker-style Attiéké, no text, no people's faces | Attiéké is made from fermented cassava. | [Source](https://ich.unesco.org/en/RL/know-how-related-to-attieke-production-in-cote-d-ivoire-02086) |
 | Dem. Rep. Congo | 50 | Bonobo | sticker-style Bonobo, no text, no people's faces | Bonobos are apes that live in forests in the Democratic Republic of the Congo. | [Source](https://en.wikipedia.org/wiki/Bonobo) |
@@ -69,6 +70,7 @@ Items are sorted alphabetically; links identify the source used for each fact. G
 | Eq. Guinea | 4 | Pico Basilé | `volcano` | Pico Basilé is a volcanic mountain on the island of Bioko. | [Source](https://en.wikipedia.org/wiki/Pico_Basil%C3%A9) |
 | Eritrea | 26 | Ostrich | sticker-style Ostrich, no text, no people's faces | An ostrich cannot fly but can run on its long legs. | [Source](https://en.wikipedia.org/wiki/Common_ostrich) |
 | Estonia | 32 | Kama | sticker-style Kama, no text, no people's faces | Kama is a mixture of roasted grains ground into flour. | [Source](https://en.wikipedia.org/wiki/Kama_(food)) |
+| eSwatini | 2 | Sibebe Rock | `rock` | Sibebe Rock is a large granite dome in Eswatini. | [Source](https://en.wikipedia.org/wiki/Sibebe) |
 | Fiji | 58 | Coral reef | `coral` | Coral reefs surround many islands in Fiji. | [Source](https://en.wikipedia.org/wiki/Fiji) |
 | Finland | 68 | Karelian pasty | sticker-style Karelian pasty, no text, no people's faces | A Karelian pasty has a thin rye crust and often a rice filling. | [Source](https://en.wikipedia.org/wiki/Karelian_pasty) |
 | Gabon | 18 | Canoe | `canoe` | A canoe can be moved through water with paddles. | [Source](https://en.wikipedia.org/wiki/Canoe) |
@@ -93,6 +95,7 @@ Items are sorted alphabetically; links identify the source used for each fact. G
 | Laos | 56 | Laap | sticker-style Laap, no text, no people's faces | Laap is a chopped salad often flavoured with herbs and toasted rice. | [Source](https://en.wikipedia.org/wiki/Larb) |
 | Latvia | 54 | Rye bread | sticker-style Rye bread, no text, no people's faces | Rye flour is used to make Latvian rye bread. | [Source](https://en.wikipedia.org/wiki/Rye_bread) |
 | Lebanon | 4 | Cedar tree | sticker-style Cedar tree, no text, no people's faces | Cedar trees grow in the mountains of Lebanon. | [Source](https://whc.unesco.org/en/list/850/) |
+| Lesotho | 2 | Basotho pony | `horse` | Basotho ponies are small horses used to travel in the highlands. | [Source](https://en.wikipedia.org/wiki/Basuto_pony) |
 | Liberia | 12 | Pygmy hippopotamus | sticker-style Pygmy hippopotamus, no text, no people's faces | Pygmy hippos live near forest streams in West Africa. | [Source](https://en.wikipedia.org/wiki/Pygmy_hippopotamus) |
 | Libya | 86 | Bazeen | sticker-style Bazeen, no text, no people's faces | Bazeen is a Libyan dish made with barley flour. | [Source](https://en.wikipedia.org/wiki/Bazin_(bread)) |
 | Lithuania | 48 | Cepelinai | sticker-style Cepelinai, no text, no people's faces | Cepelinai are filled potato dumplings. | [Source](https://en.wikipedia.org/wiki/Cepelinai) |
@@ -121,6 +124,7 @@ Items are sorted alphabetically; links identify the source used for each fact. G
 | Qatar | 8 | Arabian oryx | sticker-style Arabian oryx, no text, no people's faces | Arabian oryx have long, straight horns. | [Source](https://en.wikipedia.org/wiki/Arabian_oryx) |
 | Romania | 62 | Mămăligă | sticker-style Mămăligă, no text, no people's faces | Mămăligă is a porridge made from maize meal. | [Source](https://en.wikipedia.org/wiki/M%C4%83m%C4%83lig%C4%83) |
 | Russia | 436 | Lake Baikal | `lake` | Lake Baikal is the deepest lake in the world. | [Source](https://whc.unesco.org/en/list/754/) |
+| Rwanda | 2 | Woven basket | sticker-style Woven basket, no text, no people's faces | Rwandan craftworkers weave baskets with colourful patterns. | [Source](https://en.wikipedia.org/wiki/Agaseke) |
 | S. Sudan | 50 | Shoebill | sticker-style Shoebill, no text, no people's faces | The shoebill is a wetland bird with a large shoe-shaped bill. | [Source](https://en.wikipedia.org/wiki/Shoebill) |
 | Senegal | 86 | Thieboudienne | sticker-style Thieboudienne, no text, no people's faces | Thieboudienne combines rice, fish and vegetables. | [Source](https://ich.unesco.org/en/RL/ceebu-jen-a-culinary-art-of-senegal-01748) |
 | Serbia | 58 | Gibanica | sticker-style Gibanica, no text, no people's faces | Gibanica is a baked pastry often filled with cheese and eggs. | [Source](https://en.wikipedia.org/wiki/Gibanica) |
