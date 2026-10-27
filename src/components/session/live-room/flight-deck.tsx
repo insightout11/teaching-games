@@ -139,6 +139,8 @@ const CLASS_MINUTES_KEY = 'lc-class-minutes-last';
 const TEST_FLIGHT_DONE_KEY = 'lc-test-flight-done';
 /** The descent starts this many minutes before arrival. */
 const DESCENT_MINUTES = 5;
+/** Minutes before landing when the class picks its city stop (the scene runs during the descent). */
+const STOP_MINUTES = 10;
 // The guided test flight's pretend students: no device, never saved to the class list.
 const PRETEND_STUDENTS = [
   { id: 'pretend-mia', name: 'Mia', avatar_seed: 'pretend-mia' },
@@ -1527,6 +1529,47 @@ export function FlightDeck({
     const it = cityStops(m[1]).flatMap((st) => st.items).find((x) => x.id === m[2]);
     return it ? [{ ...it, cityId: m[1] }] : [];
   });
+  // The city stop panel: on the landing card, and floating in flight during the descent
+  const renderStopPanel = () => (
+              <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
+                {stopVote && (
+                  <>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Where shall we go in {destination.city}? · {stopVotes.length} vote{stopVotes.length === 1 ? '' : 's'}</p>
+                    <div className="mt-1 grid gap-1.5 sm:grid-cols-2">
+                      {stopVote.stops.map((st) => (
+                        <button key={st.kind} type="button" onClick={() => goToStop(st)} className="rounded-lg border border-[#1b2233]/20 px-2.5 py-1.5 text-left text-sm hover:bg-[#1b2233]/10">
+                          <b>{STOP_LABEL[st.kind]}</b> <span className="font-mono text-xs text-amber-700">{stopTallies[stopOption(st)] ?? 0}</span>
+                          <span className="block text-xs text-[#1b2233]/65">{st.place}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-1 text-[11px] text-[#1b2233]/55">Tap a stop to start its scene (the most votes, or your choice).</p>
+                  </>
+                )}
+                {stopScene && !stopScene.done && !runningKey && (
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-sm"><b>{STOP_LABEL[stopScene.stop.kind]}:</b> {stopScene.stop.place}</span>
+                    <span className="flex gap-1.5">
+                      <button type="button" onClick={() => goToStop(stopScene.stop)} className="rounded-full border border-[#1b2233]/25 px-3 py-1 text-xs hover:bg-[#1b2233]/5">Restart scene</button>
+                      <button type="button" onClick={() => void completeStop()} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs text-[#f4efe3]">Scene complete: earn the souvenir</button>
+                    </span>
+                  </div>
+                )}
+                {stopScene?.done && marketPoll && (
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-sm">The market is open: everyone picks something to wear on their phone.</span>
+                    <button type="button" onClick={closeMarket} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs text-[#f4efe3]">Close the market</button>
+                  </div>
+                )}
+                {stopScene?.done && !marketPoll && <p className="text-sm">Souvenir earned at the {STOP_LABEL[stopScene.stop.kind].toLowerCase()}.</p>}
+              </div>
+  );
+  // The city stop happens on the way down (Oct 2026, owner): landing is the end of class, so ~10 minutes before landing
+  // the class chooses a stop and does its scene while the plane descends; the souvenir is waiting when it lands.
+  const [stopOffered, setStopOffered] = useState(false);
+  useEffect(() => { setStopOffered(false); setStopScene(null); setStopVote(null); }, [takeoffAt]);
+  const stopDue = flightStage === 'flying' && takeoffAt !== null && !holding && minutesLeft !== null && minutesLeft <= STOP_MINUTES && minutesLeft > 1
+    && !stopOffered && !stopVote && !stopScene && cityStops(destination.id).length >= 2;
   const crossedCountries = Array.from(new Set(preview.filter((st) => st.crossing).map((st) => st.text.replace(/^Cross into /, ''))));
   // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
   const distantCities = useMemo(
@@ -3426,6 +3469,20 @@ export function FlightDeck({
           onClose={() => setPhoto(null)}
         />
       )}
+      {flightStage === 'flying' && !runningKey && !cinematic && !momentCard && (stopDue || stopVote || (stopScene && !(stopScene.done && !marketPoll))) && (
+        <div className="absolute left-1/2 top-4 z-20 w-[min(560px,92%)] -translate-x-1/2 rounded-2xl bg-[#f4efe3] p-4 text-[#1b2233] shadow-2xl">
+          {stopDue ? (
+            <>
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Seatbelts on · about {Math.ceil(minutesLeft ?? STOP_MINUTES)} minutes to {destination.city}</p>
+              <p className="mt-1 font-display text-2xl leading-tight">What shall we do first in {destination.city}?</p>
+              <div className="mt-3 flex flex-wrap justify-end gap-2">
+                <button type="button" onClick={() => setStopOffered(true)} className="rounded-full border border-[#1b2233]/25 px-3 py-1.5 text-sm hover:bg-[#1b2233]/5">Skip, just land</button>
+                <button type="button" onClick={() => { setStopOffered(true); void openStopVote(); }} className="rounded-full bg-amber-400 px-4 py-1.5 text-sm font-semibold hover:bg-amber-300">Vote on phones</button>
+              </div>
+            </>
+          ) : renderStopPanel()}
+        </div>
+      )}
       {momentCard && !runningKey && !cinematic && (
         <div className="absolute inset-0 z-[12] flex items-center justify-center p-6">
           <div className={`w-full ${'max-w-xl'} max-h-full overflow-y-auto rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md`}>
@@ -3742,40 +3799,7 @@ export function FlightDeck({
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Today&apos;s flight · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'} so far</p>
             <WorldFlightMap still className="mt-1 h-44 w-[min(420px,70vw)] overflow-hidden rounded-xl" origin={destination} rangeKm={0} visitedIds={visitedList} journey={landingJourney} selectedId={null} souvenirs={mapSouvenirs} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
-            {(stopVote || stopScene) && (
-              <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
-                {stopVote && (
-                  <>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Where shall we go in {destination.city}? · {stopVotes.length} vote{stopVotes.length === 1 ? '' : 's'}</p>
-                    <div className="mt-1 grid gap-1.5 sm:grid-cols-2">
-                      {stopVote.stops.map((st) => (
-                        <button key={st.kind} type="button" onClick={() => goToStop(st)} className="rounded-lg border border-[#1b2233]/20 px-2.5 py-1.5 text-left text-sm hover:bg-[#1b2233]/10">
-                          <b>{STOP_LABEL[st.kind]}</b> <span className="font-mono text-xs text-amber-700">{stopTallies[stopOption(st)] ?? 0}</span>
-                          <span className="block text-xs text-[#1b2233]/65">{st.place}</span>
-                        </button>
-                      ))}
-                    </div>
-                    <p className="mt-1 text-[11px] text-[#1b2233]/55">Tap a stop to start its scene (the most votes, or your choice).</p>
-                  </>
-                )}
-                {stopScene && !stopScene.done && !runningKey && (
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-sm"><b>{STOP_LABEL[stopScene.stop.kind]}:</b> {stopScene.stop.place}</span>
-                    <span className="flex gap-1.5">
-                      <button type="button" onClick={() => goToStop(stopScene.stop)} className="rounded-full border border-[#1b2233]/25 px-3 py-1 text-xs hover:bg-[#1b2233]/5">Restart scene</button>
-                      <button type="button" onClick={() => void completeStop()} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs text-[#f4efe3]">Scene complete: earn the souvenir</button>
-                    </span>
-                  </div>
-                )}
-                {stopScene?.done && marketPoll && (
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-sm">The market is open: everyone picks something to wear on their phone.</span>
-                    <button type="button" onClick={closeMarket} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs text-[#f4efe3]">Close the market</button>
-                  </div>
-                )}
-                {stopScene?.done && !marketPoll && <p className="text-sm">Souvenir earned at the {STOP_LABEL[stopScene.stop.kind].toLowerCase()}.</p>}
-              </div>
-            )}
+            {(stopVote || stopScene) && renderStopPanel()}
             {bestDiscovery.winner ? (
               <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/40 px-3 py-2 text-sm"><Stamp className="h-4 w-4" /><span><b>Best discovery:</b> {bestDiscovery.winner}</span></p>
             ) : bestDiscovery.asked && !discoveryVote && (
