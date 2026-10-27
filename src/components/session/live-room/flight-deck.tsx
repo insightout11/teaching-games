@@ -1027,6 +1027,7 @@ export function FlightDeck({
   const [checkIn, setCheckIn] = useState<{ order: string[]; i: number } | null>(null);
   const [boardingMore, setBoardingMore] = useState(false);
   const [panelTray, setPanelTray] = useState<'activities' | 'instruments' | null>(null);
+  const [talkMore, setTalkMore] = useState(false);
   // Postcards students sent home after the last lesson: read a few out while the class boards (Oct 2026)
   const [homePostcards, setHomePostcards] = useState<{ city: string | null; postcards: Array<{ id: string; name: string; message: string }> } | null>(null);
   const [postcardsOpen, setPostcardsOpen] = useState(false);
@@ -2678,10 +2679,13 @@ export function FlightDeck({
     { key: 'warmup', label: 'Warm-up' },
     { key: 'deeper', label: 'Go deeper' },
     { key: 'opinion', label: 'Opinion' },
+    { key: 'journey', label: 'On our flight' },
+  ];
+  // Fewer choices on the shared screen (Oct 2026, owner: the Talk screen felt busy): the rest sit behind "More"
+  const TALK_MORE: { key: string; label: string }[] = [
     { key: 'wyr', label: 'Would you rather' },
     { key: 'story', label: 'Tell a story' },
     { key: 'debate', label: 'Debate it' },
-    { key: 'journey', label: 'On our flight' },
   ];
   const fetchTalk = async (kind: string) => {
     setTalkBusy(kind);
@@ -2999,7 +3003,7 @@ export function FlightDeck({
           id="deck-talk-prompt"
           value={talkPrompt}
           onChange={(e) => { setTalkPrompt(e.target.value); setTalkFollowUps([]); setTalkVote(parseWouldYouRather(e.target.value) ?? null); }}
-          placeholder={presenting ? '' : 'Type a question, or tap a kind of prompt below…'}
+          placeholder={presenting ? '' : 'Ask the class anything…'}
           rows={3}
           className="w-full resize-none bg-transparent text-center font-display text-4xl leading-tight text-white placeholder:text-white/40 focus:outline-none [text-shadow:0_2px_18px_rgba(0,0,0,.45)]"
         />
@@ -3063,8 +3067,8 @@ export function FlightDeck({
                 ))}
               </div>
             )}
-            <div className="flex flex-wrap justify-center gap-1.5">
-              {TALK_KINDS.map((k) => (
+            <div className={`flex flex-wrap justify-center gap-1.5 transition-opacity ${talkPrompt.trim().length > 3 ? 'opacity-0 hover:opacity-100 focus-within:opacity-100' : ''}`}>
+              {[...TALK_KINDS, ...(talkMore ? TALK_MORE : [])].map((k) => (
                 <button
                   key={k.key}
                   type="button"
@@ -3075,8 +3079,8 @@ export function FlightDeck({
                   {talkBusy === k.key ? 'Writing…' : k.label}
                 </button>
               ))}
+              <button type="button" onClick={() => setTalkMore((v) => !v)} className="rounded-lg px-2 py-1.5 text-xs text-white/55 hover:text-white">{talkMore ? 'Less' : 'More'}</button>
             </div>
-            <p className="text-[11px] text-white/45">About {focused ? `"${focused.title}"` : sessionTopic && sessionTopic !== 'General' ? sessionTopic : 'everyday life'}. Change the topic in the bar at the top.</p>
           </>
         )}
       </div>
