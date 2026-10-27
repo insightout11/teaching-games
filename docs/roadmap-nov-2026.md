@@ -81,6 +81,15 @@ Then: teach, write class notes, fix.
 | B9 | **Back catalogue switch** | Hide untested Flight Plans; release each after a class test |
 | B10 | **Between lessons** (not solo play) | Students see their class map, album and souvenirs at home |
 
+### Suggestion slot (to discuss, after Friday; owner idea 28 Oct)
+
+One fixed "next up?" spot, always in the same place, whose suggestion changes as the topic changes (a topic with two
+sides: Debate; new words: Vocab Radar; a story: Scene Igniter). It uses the topic tracking (Focus), the activities' fit
+marks ("works best with"), time left and who hasn't spoken yet. It always gives a one-line "because", never starts
+anything by itself, and one tap adds it to the timeline as a normal marker. Open: where the spot lives. Options: the
+route strip (students see it over Zoom), the Co-pilot window (private), or the teacher's phone later. Or drop it if
+it nags.
+
 ### Rare sightings below (after Friday, owner approved 27 Oct)
 
 A new moment kind: real, recent wildlife sightings near the route, on the same look-outside card (real photo, who saw
