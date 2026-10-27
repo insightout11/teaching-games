@@ -19,6 +19,9 @@ type Phase = 'idle' | 'casting' | 'take' | 'notes' | 'improv' | 'wrap';
 const NOTES = ['More feeling!', 'Louder!', 'Slow down', 'Big pause for drama', 'Look at the other character', 'Bigger face!'];
 const GENRE_TONE: Record<string, string> = { comedy: 'text-amber-300', mystery: 'text-violet-300', drama: 'text-rose-300', adventure: 'text-emerald-300' };
 
+/** The teacher, reading the parts no student has (a small class or one-to-one). Never scored. */
+const CAPTAIN = { id: 'captain', name: 'Captain', class_id: '', avatar_seed: 'captain', created_at: '' } as Student;
+
 function shuffled<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -54,10 +57,20 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
   const go = (p: Phase) => { setPhase(p); onPhaseChange?.(p); };
   const clap = (kind: 'action' | 'cut') => { setFlash(kind); window.setTimeout(() => setFlash(null), 1100); };
 
+  // Fewer students than characters (Oct 2026, owner: one student was cast as everybody): each student takes one part,
+  // the busiest first, and the captain reads the rest.
   const castScene = useCallback((shuffle = false) => {
     if (!scene) return;
-    setRoles(assignSceneRoles(scene.lines, shuffle ? shuffled(group) : group));
+    const actors = shuffle ? shuffled(group) : group;
+    const parts = sceneCastOf(scene).map((c) => c.id);
+    if (actors.length >= parts.length) { setRoles(assignSceneRoles(scene.lines, actors)); return; }
+    const count = (id: string) => scene.lines.filter((l) => l.character === id).length;
+    const busiest = [...parts].sort((a, b) => count(b) - count(a));
+    const m = new Map<string, Student>();
+    busiest.forEach((id, i) => m.set(id, actors[i] ?? CAPTAIN));
+    setRoles(m);
   }, [scene, group]);
+  const [linesOnScreen, setLinesOnScreen] = useState(false);
 
   useEffect(() => { if (phase === 'casting') castScene(); }, [phase, castScene]);
 
@@ -84,7 +97,7 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
     const key = `${castNo}:${alt}:${line.lineIndex}`;
     if (take === 1 && actor?.id && !scored.current.has(key)) {
       scored.current.add(key);
-      void onScore?.({ studentId: actor.id, clientId: null, displayName: actor.name, promptIndex: line.lineIndex, points: 1, isCorrect: null });
+      if (actor.id !== CAPTAIN.id) void onScore?.({ studentId: actor.id, clientId: null, displayName: actor.name, promptIndex: line.lineIndex, points: 1, isCorrect: null });
     }
     if (lineIdx + 1 >= scene.lines.length) {
       clap('cut');
@@ -190,6 +203,7 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
               <p className="mt-2 font-display text-6xl">{actor?.name ?? speaker?.name}</p>
               <p className="mt-1 text-2xl text-amber-200">as {speaker?.name}</p>
               {line?.direction && <p className="mt-4 inline-block rounded-full border border-white/15 px-4 py-1 text-lg italic text-white/75">({line.direction})</p>}
+              {line && (linesOnScreen || actor?.id === CAPTAIN.id) && <p className="mx-auto mt-5 max-w-3xl text-3xl leading-snug text-white">“{withCharacterNames(line.text, cast)}”</p>}
             </motion.div>
           </AnimatePresence>
           <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -208,6 +222,7 @@ export function SceneIgniterActivity({ students, generatedContent, onPhaseChange
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex gap-2">
             <KitButton tone="plain" disabled={lineIdx === 0} onClick={() => setLineIdx((i) => Math.max(0, i - 1))} icon={<ArrowLeft className="h-3.5 w-3.5" />}>Back</KitButton>
+            <KitButton tone="plain" onClick={() => setLinesOnScreen((v) => !v)} title="Show each line on the big screen, for students without a phone">{linesOnScreen ? 'Lines on phones only' : 'Lines on screen'}</KitButton>
             <KitButton tone="plain" onClick={() => setSubtitles((v) => !v)} icon={subtitles ? <CaptionsOff className="h-3.5 w-3.5" /> : <Captions className="h-3.5 w-3.5" />}>{subtitles ? 'Subtitles off' : 'Subtitles'}</KitButton>
           </div>
           <KitButton tone="amber" solid onClick={nextLine} className="!px-6 !py-2.5" icon={<ArrowRight className="h-4 w-4" />}>{lineIdx + 1 >= scene.lines.length ? 'Cut!' : 'Next line'}</KitButton>

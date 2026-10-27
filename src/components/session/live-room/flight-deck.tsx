@@ -1487,8 +1487,14 @@ export function FlightDeck({
     if (stopVote && !isMockMode()) void createClient().from('polls').update({ is_active: false }).eq('id', stopVote.pollId);
     setStopVote(null);
     setStopScene({ stop, started: true, done: false });
-    setCustomTopic(stopSceneTopic(destination.city, stop).slice(0, 120));
-    launch('scene-igniter', null);
+    // The scene's place goes in as the lesson's material, with the city and the country spelled out (Oct 2026: a market
+    // in Istanbul came back as a scene about cooking a turkey)
+    const country = (getDestinationById(destination.id)?.country ?? '').replace(/^Turkey$/, 'Türkiye (Turkey)');
+    launch('scene-igniter', {
+      id: `stop-${destination.id}-${stop.kind}`, kind: 'note', url: '', publisher: null, aiNotes: true,
+      title: `${STOP_LABEL[stop.kind]}: ${stop.place}, ${destination.city}`,
+      text: `A role-play set in ${destination.city}, ${country} (the place, today). ${stopSceneTopic(destination.city, stop)}`,
+    });
   };
   // The scene is done: the class earns the stop's souvenir (shelf), or the market opens for each student's pick
   const completeStop = async () => {
