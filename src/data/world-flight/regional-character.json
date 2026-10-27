@@ -12889,5 +12889,1343 @@
     ],
     "confidence": "high",
     "notes": "Covers all three countries. Czechia's defining air view is the sea of small red tile roofs around cream-rendered village churches, on wooded Bohemian-Moravian hills; Slovakia adds chain villages climbing into the Carpathians with spruce forest and scattered hamlets. The Hungarian Great Plain (puszta: treeless steppe with grey cattle and tanya farmsteads around Hortobágy) shows huge uniform dry fields that go straw-gold in July-August, with locust groves flowering white in May and poplar windbreaks. Prague, Bratislava and Budapest bring grey modern sprawl."
+  },
+  {
+    "id": "dz-tn-tell",
+    "name": "Algeria and Tunisia, coast and Tell Atlas",
+    "countries": [
+      "DZ",
+      "TN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#e9e4d8",
+        "#cbbfa8",
+        "#b06d4a"
+      ],
+      "roofMaterial": [
+        "lime plaster",
+        "concrete",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#f0eadf",
+        "#d8c8ad",
+        "#b98c63"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "stone",
+        "rammed earth"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "dense",
+      "signatureBuildings": [
+        "whitewashed flat-roof house with courtyard",
+        "stone house with terracotta tile roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#6f7f4f",
+          "where": "hills"
+        },
+        {
+          "name": "cork oak",
+          "color": "#4f6544",
+          "where": "valleys"
+        },
+        {
+          "name": "Aleppo pine",
+          "color": "#3f5943",
+          "where": "hills"
+        },
+        {
+          "name": "date palm",
+          "color": "#5f7f4a",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a9a58",
+            "#c9b878"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "olives",
+          "pattern": "rows",
+          "colors": [
+            "#5f7745",
+            "#7f9657"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#628447",
+            "#799a57"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Algeria",
+      "https://en.wikipedia.org/wiki/Tunisia",
+      "https://en.wikipedia.org/wiki/Tell_Atlas",
+      "https://en.wikipedia.org/wiki/Atlas_Mountains",
+      "https://en.wikipedia.org/wiki/Architecture_of_Algeria",
+      "https://en.wikipedia.org/wiki/Architecture_of_Tunisia",
+      "https://en.wikipedia.org/wiki/Climate_of_Tunisia"
+    ],
+    "confidence": "high",
+    "notes": "Algeria and Tunisia span many provinces, so no ISO 3166-2 subdivision is used. The Tell Atlas runs parallel to the Mediterranean coast, with whitewashed flat-roof houses and courtyard medinas in Algiers, Tunis and the hill towns, and terracotta tile roofs in Kabyle villages and French colonial quarters. Olive groves, wheat and grapes are the main visible crops, with citrus and dates on the warmer coast. Winters are mild and wet and summers hot and dry; snow falls on the high Atlas but is not typical in the lowlands. Water stress, wildfire and coastal development are growing pressures. Algeria south of about 34°N belongs to the Sahara region (split by latitude)."
+  },
+  {
+    "id": "dz-ly-ne-ml-mr-sahara",
+    "name": "Sahara (Algeria, Libya, Niger, Mali and Mauritania)",
+    "countries": [
+      "DZ",
+      "LY",
+      "NE",
+      "ML",
+      "MR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b08763",
+        "#ded2bd",
+        "#a8895c"
+      ],
+      "roofMaterial": [
+        "mud plaster",
+        "lime plaster",
+        "palm thatch"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#b58a69",
+        "#d9cbb4",
+        "#9a6548"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "rammed earth",
+        "plaster"
+      ],
+      "villageLayout": "walled compounds",
+      "density": "sparse",
+      "signatureBuildings": [
+        "flat-roofed adobe house with courtyard",
+        "palm-thatch nomad shelter"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#5f7f42",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#7f8c5a",
+          "where": "everywhere"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#6f8d5f",
+          "where": "river banks"
+        },
+        {
+          "name": "doum palm",
+          "color": "#557a48",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "dates",
+          "pattern": "rows",
+          "colors": [
+            "#628a4a",
+            "#82a05c"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a975f",
+            "#c2b273"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "vegetables",
+          "pattern": "patchwork",
+          "colors": [
+            "#4f7740",
+            "#6f9555"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sahara",
+      "https://en.wikipedia.org/wiki/Algeria",
+      "https://en.wikipedia.org/wiki/Libya",
+      "https://en.wikipedia.org/wiki/Sahel",
+      "https://en.wikipedia.org/wiki/Architecture_of_Mali",
+      "https://en.wikipedia.org/wiki/Sudano-Sahelian_architecture",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "The Sahara spans five countries, so no ISO 3166-2 subdivision is used. This is hyper-arid rock, gravel and dune country with scattered oases where flat-roofed mud-brick houses, courtyard compounds and palm-thatch shelters cluster around wells and date gardens. Date palms, acacia and tamarisk are the main trees; barley, dates and small irrigated vegetable plots are the visible crops. Rain is rare and irregular, summer heat is extreme and winter nights are cold; snow does not occur in the lowlands. Nomadic herding, oil and gas, and remote borders shape the region, and population data is sparse. Shares countries with the Tell (north of about 34°N), the Libyan coast (north of about 31°N) and the Sahel (south of about 16°N); split by latitude."
+  },
+  {
+    "id": "ly-coast",
+    "name": "Libya, coast",
+    "countries": [
+      "LY"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#efe6d9",
+        "#cfc3a6",
+        "#b5684a"
+      ],
+      "roofMaterial": [
+        "lime plaster",
+        "concrete",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#f5eedf",
+        "#d6c2a9",
+        "#b58a5d"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "stone",
+        "concrete"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "dense",
+      "signatureBuildings": [
+        "whitewashed flat-roof house with courtyard",
+        "Italian colonial villa with tile roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#598248",
+          "where": "coast"
+        },
+        {
+          "name": "olive",
+          "color": "#6f7f47",
+          "where": "hills"
+        },
+        {
+          "name": "fig",
+          "color": "#557a42",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#87925d",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "olives",
+          "pattern": "rows",
+          "colors": [
+            "#657a45",
+            "#7f9c57"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "dates",
+          "pattern": "rows",
+          "colors": [
+            "#5c8a4a",
+            "#7ca05c"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#8d9d5f",
+            "#c2b873"
+          ],
+          "months": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Libya",
+      "https://en.wikipedia.org/wiki/Architecture_of_Libya",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Sahara",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa"
+    ],
+    "confidence": "medium",
+    "notes": "Libya's coast spans several districts, so no ISO 3166-2 subdivision is used. The narrow Mediterranean strip around Tripoli, Misrata and Benghazi has whitewashed flat-roof houses, courtyard medinas and Italian colonial villas with terracotta tiles, backed by olive groves and date palms. Barley, olives and dates are the main crops, with figs and vegetables in gardens. Winters are mild and wet and summers hot and dry; the desert hinterland is rainless and snow is not typical in the lowlands. Conflict, water scarcity and coastal erosion make data uneven. Libya south of about 31°N belongs to the Sahara region (split by latitude)."
+  },
+  {
+    "id": "sd-ss-sudan-south-sudan",
+    "name": "Sudan and South Sudan",
+    "countries": [
+      "SD",
+      "SS"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a8805f",
+        "#8a9088",
+        "#b39a6a"
+      ],
+      "roofMaterial": [
+        "mud plaster",
+        "corrugated metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#a8775a",
+        "#dec9b0",
+        "#6f5540"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "rammed earth",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "flat-roofed mud-brick house with courtyard",
+        "round thatched tukul"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "acacia",
+          "color": "#7f925d",
+          "where": "everywhere"
+        },
+        {
+          "name": "baobab",
+          "color": "#6f854f",
+          "where": "valleys"
+        },
+        {
+          "name": "date palm",
+          "color": "#5f793f",
+          "where": "river banks"
+        },
+        {
+          "name": "mango",
+          "color": "#4f7447",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sorghum",
+          "pattern": "rows",
+          "colors": [
+            "#728d4f",
+            "#8da35f"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "millet",
+          "pattern": "rows",
+          "colors": [
+            "#859b52",
+            "#a0b066"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#7f9750",
+            "#99b064"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sudan",
+      "https://en.wikipedia.org/wiki/South_Sudan",
+      "https://en.wikipedia.org/wiki/Nubian_architecture",
+      "https://en.wikipedia.org/wiki/Architecture_of_Sudan",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Sudan",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "Sudan and South Sudan span many states, so no ISO 3166-2 subdivision is used. The north is desert and semi-desert Nile country with flat-roofed mud-brick houses and courtyard compounds; the south is savanna and floodplain with round thatched tukuls and scattered farms. Sorghum, millet and cotton are the main crops, with gum arabic, sesame and date palms; Khartoum and Juba are the largest cities. Rain comes from June to September in the north and May to October in the south, and snow never occurs in the lowlands. Conflict, displacement and uncertain rainfall make data uneven."
+  },
+  {
+    "id": "et-highlands",
+    "name": "Ethiopia, highlands",
+    "countries": [
+      "ET"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8f8f8c",
+        "#5f6264",
+        "#a28a5f"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#9a9284",
+        "#8a6a4f",
+        "#d8d0b8"
+      ],
+      "wallMaterial": [
+        "stone",
+        "mud plaster",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "medium",
+      "signatureBuildings": [
+        "round stone tukul with thatched roof",
+        "rectangular stone house with corrugated metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "juniper",
+          "color": "#3f6243",
+          "where": "hills"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#657f4a",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#798f5a",
+          "where": "valleys"
+        },
+        {
+          "name": "wild olive",
+          "color": "#4f7d48",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "teff",
+          "pattern": "patchwork",
+          "colors": [
+            "#7fa050",
+            "#baa565"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#4f7141",
+            "#6c8a4c"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#849a5f",
+            "#c2ac73"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        10,
+        11,
+        12,
+        1,
+        2
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ethiopia",
+      "https://en.wikipedia.org/wiki/Ethiopian_Highlands",
+      "https://en.wikipedia.org/wiki/Architecture_of_Ethiopia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Ethiopia",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "high",
+    "notes": "Ethiopia's highlands span many regions, so no ISO 3166-2 subdivision is used. The highlands are cool and densely farmed, with round stone tukuls thatched with grass in villages and rectangular stone or mud houses under corrugated metal in towns; Addis Ababa is the largest city. Teff, coffee and barley are the main crops, with maize, sorghum and enset; coffee is the leading export. Rain comes mainly from June to September, with a short March-May rainy season and a dry October-February; snow occurs only on the highest peaks and is not typical in the lowlands. Soil erosion, deforestation and population pressure are major concerns."
+  },
+  {
+    "id": "er-dj-so-horn",
+    "name": "Eritrea, Djibouti and Somalia",
+    "countries": [
+      "ER",
+      "DJ",
+      "SO"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8a8a88",
+        "#e2d8c6",
+        "#b09562"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "lime plaster",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d8c5b6",
+        "#ab7d5a",
+        "#a6a29a"
+      ],
+      "wallMaterial": [
+        "coral stone",
+        "mud brick",
+        "concrete"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "flat-roofed coral stone house",
+        "dome-shaped thatched aqal"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "acacia",
+          "color": "#7f8f54",
+          "where": "everywhere"
+        },
+        {
+          "name": "frankincense",
+          "color": "#6f794f",
+          "where": "hills"
+        },
+        {
+          "name": "date palm",
+          "color": "#597f3f",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#46664d",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sorghum",
+          "pattern": "rows",
+          "colors": [
+            "#69844f",
+            "#8aa065"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#799a50",
+            "#99aa64"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "sesame",
+          "pattern": "rows",
+          "colors": [
+            "#8a9a65",
+            "#b4a565"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Eritrea",
+      "https://en.wikipedia.org/wiki/Djibouti",
+      "https://en.wikipedia.org/wiki/Somalia",
+      "https://en.wikipedia.org/wiki/Somali_architecture",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Somalia",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "medium",
+    "notes": "Eritrea, Djibouti and Somalia span several regions and states, so no ISO 3166-2 subdivision is used. The Red Sea and Gulf of Aden coasts are hot and arid, with flat-roofed coral stone and plastered houses in old ports and corrugated metal in fast-growing towns; the highlands around Asmara are cooler. Acacia, frankincense, date palms and mangrove are the main trees, while sorghum, maize and sesame are the visible crops and livestock dominates the dry plains. Rain is irregular, with the Gu rains from April to June and the Deyr from October to December in Somalia; snow does not occur in the lowlands. Drought, conflict and displacement make data uneven."
+  },
+  {
+    "id": "sn-ml-bf-ne-td-sahel",
+    "name": "Sahel (Senegal to Chad)",
+    "countries": [
+      "SN",
+      "ML",
+      "BF",
+      "NE",
+      "TD"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b09b62",
+        "#848d88",
+        "#ae805f"
+      ],
+      "roofMaterial": [
+        "millet thatch",
+        "corrugated metal",
+        "mud plaster"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#b59069",
+        "#d2c9b0",
+        "#6f5b40"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "rammed earth",
+        "timber"
+      ],
+      "villageLayout": "walled compounds",
+      "density": "sparse",
+      "signatureBuildings": [
+        "round mud-brick house with thatched roof",
+        "flat-roofed adobe compound"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "acacia",
+          "color": "#79895a",
+          "where": "everywhere"
+        },
+        {
+          "name": "baobab",
+          "color": "#757f4f",
+          "where": "towns"
+        },
+        {
+          "name": "shea",
+          "color": "#557445",
+          "where": "valleys"
+        },
+        {
+          "name": "date palm",
+          "color": "#5f7f3c",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "millet",
+          "pattern": "rows",
+          "colors": [
+            "#829b4c",
+            "#9db666"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "sorghum",
+          "pattern": "rows",
+          "colors": [
+            "#758a55",
+            "#8aa059"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#799450",
+            "#93ad64"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sahel",
+      "https://en.wikipedia.org/wiki/Senegal",
+      "https://en.wikipedia.org/wiki/Burkina_Faso",
+      "https://en.wikipedia.org/wiki/Chad",
+      "https://en.wikipedia.org/wiki/Architecture_of_Senegal",
+      "https://en.wikipedia.org/wiki/Architecture_of_Mali",
+      "https://en.wikipedia.org/wiki/Sudano-Sahelian_architecture",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Senegal"
+    ],
+    "confidence": "medium",
+    "notes": "The Sahel stretches from Senegal to Chad, so no ISO 3166-2 subdivision is used. This is semi-arid acacia savanna with scattered millet and sorghum fields, mud-brick compounds and round thatched houses; towns along the Niger and Lake Chad have flat-roofed adobe buildings and corrugated metal. Acacia, baobab, shea and date palms are the main trees, and millet, sorghum and cotton the main crops, with groundnuts and gum arabic. The single rainy season runs from June to October and the long dry season from November to May; snow never occurs. Drought, desertification and insecurity are persistent pressures. Mali, Niger and Chad north of about 16°N belong to the Sahara region instead (split by latitude)."
+  },
+  {
+    "id": "ci-gh-tg-bj-coast",
+    "name": "West Africa coast (Côte d'Ivoire, Ghana, Togo and Benin)",
+    "countries": [
+      "CI",
+      "GH",
+      "TG",
+      "BJ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8a8d82",
+        "#a06245",
+        "#b3a06a"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#a0a29a",
+        "#b5845d",
+        "#d2cbb6"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "mud brick",
+        "timber"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "concrete block house with corrugated metal roof",
+        "timber house with thatched roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#688845",
+          "where": "coast"
+        },
+        {
+          "name": "oil palm",
+          "color": "#497444",
+          "where": "valleys"
+        },
+        {
+          "name": "cacao",
+          "color": "#3f6847",
+          "where": "hills"
+        },
+        {
+          "name": "kapok",
+          "color": "#6f875f",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cocoa",
+          "pattern": "rows",
+          "colors": [
+            "#496e44",
+            "#759055"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#7f944a",
+            "#99ad6a"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8450",
+            "#7c9a5d"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ivory_Coast",
+      "https://en.wikipedia.org/wiki/Ghana",
+      "https://en.wikipedia.org/wiki/Togo",
+      "https://en.wikipedia.org/wiki/Benin",
+      "https://en.wikipedia.org/wiki/Architecture_of_Ghana",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Ghana",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Ivory_Coast",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Benin",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "Côte d'Ivoire, Ghana, Togo and Benin span many regions, so no ISO 3166-2 subdivision is used. The Gulf of Guinea coast is humid and densely settled, with linear villages and fast-growing cities of concrete block under corrugated metal roofs; thatch survives on older and rural houses. Cocoa, maize and cassava are the main crops, with oil palm, yams, coffee and groundnuts; Abidjan, Accra, Lomé and Cotonou are the largest cities. The coast has two rainy seasons, April-June and September-October, and a drier November-March period; snow never occurs. Deforestation, coastal erosion and urban growth are major issues."
+  },
+  {
+    "id": "ng-nigeria",
+    "name": "Nigeria",
+    "countries": [
+      "NG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#848788",
+        "#a05c45",
+        "#b08f62"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#a3a89a",
+        "#a27a5a",
+        "#d8cbbc"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "mud brick",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "cement block house with corrugated metal roof",
+        "mud-brick compound with thatched roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oil palm",
+          "color": "#49743e",
+          "where": "valleys"
+        },
+        {
+          "name": "mango",
+          "color": "#55743f",
+          "where": "towns"
+        },
+        {
+          "name": "iroko",
+          "color": "#3f5f49",
+          "where": "hills"
+        },
+        {
+          "name": "acacia",
+          "color": "#7f8954",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8d50",
+            "#739a57"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "yam",
+          "pattern": "rows",
+          "colors": [
+            "#6f934f",
+            "#8aa665"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#799a4a",
+            "#99ad5e"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nigeria",
+      "https://en.wikipedia.org/wiki/Architecture_of_Nigeria",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Nigeria",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa"
+    ],
+    "confidence": "high",
+    "notes": "Nigeria spans 36 states and the Federal Capital Territory, so no ISO 3166-2 subdivision is used. The south is humid forest and delta country, the middle belt is savanna and the north is drier Sahelian grassland; Lagos, Abuja and Kano are the largest cities. Cement-block houses with corrugated metal roofs dominate towns, while mud-brick compounds and thatch survive in rural areas. Cassava, yam and maize are the main crops, with rice, sorghum, millet and cocoa. Rain falls from April to October in the south and June to September in the north; snow never occurs. Oil pollution, flooding and rapid urban growth are major pressures."
+  },
+  {
+    "id": "gn-sl-lr-guinea-coast",
+    "name": "Guinea, Sierra Leone and Liberia",
+    "countries": [
+      "GN",
+      "SL",
+      "LR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b99a6a",
+        "#8a938e",
+        "#a65f45"
+      ],
+      "roofMaterial": [
+        "thatch",
+        "corrugated metal",
+        "painted metal"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#a87a60",
+        "#6f4f40",
+        "#ded1b6"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "timber",
+        "concrete block"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "medium",
+      "signatureBuildings": [
+        "round thatched hut with mud walls",
+        "timber house with corrugated metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oil palm",
+          "color": "#496e3e",
+          "where": "valleys"
+        },
+        {
+          "name": "rubber",
+          "color": "#456544",
+          "where": "hills"
+        },
+        {
+          "name": "mangrove",
+          "color": "#46604d",
+          "where": "coast"
+        },
+        {
+          "name": "kapok",
+          "color": "#758a5f",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice",
+          "pattern": "patchwork",
+          "colors": [
+            "#788a4f",
+            "#90a065"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#688d50",
+            "#85a357"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "cocoa",
+          "pattern": "rows",
+          "colors": [
+            "#4f6b44",
+            "#6f8a46"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Guinea",
+      "https://en.wikipedia.org/wiki/Sierra_Leone",
+      "https://en.wikipedia.org/wiki/Liberia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Guinea",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Sierra_Leone",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Liberia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "Guinea, Sierra Leone and Liberia share the humid Upper Guinea coast, so no ISO 3166-2 subdivision is used. This is one of West Africa's wettest regions, with mangrove creeks, rainforest, rice swamps and scattered farms; Conakry, Freetown and Monrovia are the largest cities. Rural houses are mostly round or rectangular with mud walls and steep thatched roofs, while corrugated metal spreads along roads and in towns. Rice, cassava and cocoa are the main crops, with coffee, rubber, oil palm and fruit. Rain falls from May to October and the dry season runs from November to April; snow never occurs. Deforestation, mining and weak infrastructure make data uneven."
   }
 ]
