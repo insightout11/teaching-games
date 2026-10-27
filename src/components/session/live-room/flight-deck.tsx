@@ -23,7 +23,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone, Ticket, ChevronDown } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone, Ticket, ChevronDown, Mail } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -1030,6 +1030,14 @@ export function FlightDeck({
   // their weekly chat and where they would like to fly. Their seat lights up and their phone shows the prompt.
   const [checkIn, setCheckIn] = useState<{ order: string[]; i: number } | null>(null);
   const [boardingMore, setBoardingMore] = useState(false);
+  // Postcards students sent home after the last lesson: read a few out while the class boards (Oct 2026)
+  const [homePostcards, setHomePostcards] = useState<{ city: string | null; postcards: Array<{ id: string; name: string; message: string }> } | null>(null);
+  const [postcardsOpen, setPostcardsOpen] = useState(false);
+  useEffect(() => {
+    if (isMockMode()) return;
+    void fetch(`/api/session/${encodeURIComponent(sessionId)}/student-postcards`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null)).then((d) => { if (d?.postcards?.length) setHomePostcards(d); }).catch(() => {});
+  }, [sessionId]);
   // The city vote can step aside for check-in while phones keep voting (Oct 2026, owner).
   const [voteHidden, setVoteHidden] = useState(false);
   const checkInP = checkIn ? allSeats.find((p) => p.id === checkIn.order[checkIn.i]) ?? null : null;
@@ -2900,6 +2908,11 @@ export function FlightDeck({
               <span className="font-normal text-sky-100/60">· their day{cityVote && !cityVote.revealed ? ', where to fly' : ''}</span>
             </button>
           )}
+          {homePostcards && (
+            <button type="button" onClick={() => setPostcardsOpen(true)} className="flex w-max items-center gap-2 rounded-xl border border-rose-300/50 bg-rose-300/10 px-4 py-2 text-sm font-semibold text-rose-100 hover:bg-rose-300/20">
+              <Mail className="h-4 w-4" /> Postcards{homePostcards.city ? ` from ${homePostcards.city}` : ''} · {homePostcards.postcards.length}
+            </button>
+          )}
           <button type="button" onClick={() => setBoardingMore((v) => !v)} className="flex w-max items-center gap-1 text-xs text-white/50 hover:text-white/80">
             {boardingMore ? 'Fewer options' : 'More while you wait'}
             <ChevronDown className={`h-3.5 w-3.5 transition-transform ${boardingMore ? 'rotate-180' : ''}`} />
@@ -3743,6 +3756,24 @@ export function FlightDeck({
           <p className="font-display text-2xl">{veryRare}</p>
           <p className="text-xs">Only a few routes in the world pass it. Take the photo!</p>
         </motion.div>
+      )}
+      {postcardsOpen && homePostcards && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-slate-950/70 p-6 backdrop-blur-sm">
+          <div className="max-h-full w-[min(900px,96%)] overflow-y-auto rounded-3xl bg-[#f4efe3] p-6 text-[#1b2233] shadow-2xl">
+            <div className="flex items-center justify-between">
+              <p className="flex items-center gap-2 font-display text-3xl"><Mail className="h-6 w-6 text-[#d4537e]" /> Postcards{homePostcards.city ? ` from ${homePostcards.city}` : ''}</p>
+              <button type="button" onClick={() => setPostcardsOpen(false)} aria-label="Close" className="text-[#1b2233]/50 hover:text-[#1b2233]"><X className="h-5 w-5" /></button>
+            </div>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {homePostcards.postcards.map((pc, i) => (
+                <div key={pc.id} className={`rounded-xl border border-[#1b2233]/15 bg-white p-4 shadow-sm ${i % 2 ? 'rotate-[0.6deg]' : 'rotate-[-0.6deg]'}`}>
+                  <p className="text-lg leading-snug">{pc.message}</p>
+                  <p className="mt-2 text-right font-display text-base text-[#a3305a]">{pc.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
       {discoveryVote && (
         <BestDiscoveryVote sessionId={sessionId} discoveries={discoveries} onCrown={crownDiscovery} onClose={() => setDiscoveryVote(false)} />

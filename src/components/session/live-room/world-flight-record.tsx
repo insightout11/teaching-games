@@ -2,7 +2,7 @@
 
 import { rarityOfName } from '@/lib/live-room/landmark-rarity';
 import { useEffect, useState } from 'react';
-import { Check, Compass, Loader2, Mail, Plane, Search, Stamp, Star, X } from 'lucide-react';
+import { Check, Compass, Loader2, Plane, Search, Stamp, Star, X } from 'lucide-react';
 import { souvenirIcon } from '@/components/session/live-room/souvenir-icons';
 import { WorldFlightUpgradeProgress } from '@/components/session/end-session-summary';
 import type { WorldFlightProgressionRewardResult, WorldFlightUpgradeState } from '@/lib/world-flight/progression';
@@ -316,7 +316,7 @@ export function WorldFlightRecordPanel({ sessionId, className, initialTab = 'pas
 }
 
 /** The landing card's reward lines: what this lesson earned, shown while the class is still there. */
-export function LandingRewards({ landing, sessionId, onPostcardSaved }: { landing: NonNullable<WorldFlightRecordData['landing']>; sessionId?: string; onPostcardSaved?: () => void }) {
+export function LandingRewards({ landing }: { landing: NonNullable<WorldFlightRecordData['landing']>; sessionId?: string; onPostcardSaved?: () => void }) {
   const next = landing.after.nextMilestone;
   const ready = landing.after.claimableTier !== null;
   return (
@@ -352,7 +352,7 @@ export function LandingRewards({ landing, sessionId, onPostcardSaved }: { landin
           {!landing.saved && <p className="text-xs text-[#1b2233]/60">Saved to the class shelf when you end class.</p>}
         </div>
       )}
-      {landing.postcard && sessionId && <PostcardWriter sessionId={sessionId} city={landing.city} postcard={landing.postcard} onSaved={onPostcardSaved} />}
+      {/* the class postcard moved to after class: each student writes their own on their phone (Oct 2026) */}
       <p className="text-xs text-[#1b2233]/70">
         {ready
           ? 'A new plane is ready: choose it when you end class, or from the Hangar.'
@@ -360,59 +360,6 @@ export function LandingRewards({ landing, sessionId, onPostcardSaved }: { landin
             ? `Next plane: ${Math.max(0, next.requiredFlightHours - landing.hoursAfter)} more hour${next.requiredFlightHours - landing.hoursAfter === 1 ? '' : 's'} and ${Math.max(0, next.requiredCrewStars - landing.starsAfter)} more star${next.requiredCrewStars - landing.starsAfter === 1 ? '' : 's'}.`
             : 'The hangar is fully upgraded.'}
       </p>
-    </div>
-  );
-}
-
-/**
- * The class postcard from this city: the class answers one of the city's prompts out loud, and the teacher types a
- * line or two. Saving it keeps it on the class shelf and earns the city's postcard souvenir.
- */
-function PostcardWriter({ sessionId, city, postcard, onSaved }: { sessionId: string; city: string; postcard: { prompts: string[]; souvenir: string | null; written: boolean }; onSaved?: () => void }) {
-  const [open, setOpen] = useState(false);
-  const [prompt, setPrompt] = useState(postcard.prompts[0] ?? '');
-  const [message, setMessage] = useState('');
-  const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'failed'>(postcard.written ? 'saved' : 'idle');
-  const save = async () => {
-    if (!message.trim()) return;
-    setState('saving');
-    const res = await fetch(`/api/session/${encodeURIComponent(sessionId)}/postcard`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt, message }),
-    }).catch(() => null);
-    if (res?.ok) { setState('saved'); setOpen(false); onSaved?.(); } else setState('failed');
-  };
-  if (state === 'saved' && !open) {
-    return <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-[#d4537e]" />Postcard from {city} saved to the class shelf.</p>;
-  }
-  if (!open) {
-    return (
-      <button type="button" onClick={() => setOpen(true)} className="flex items-center gap-2 rounded-full border border-[#1b2233]/25 px-3 py-1 text-sm hover:bg-[#1b2233]/5">
-        <Mail className="h-4 w-4 text-[#d4537e]" />Write a postcard home{postcard.souvenir ? ` (earns the ${postcard.souvenir})` : ''}
-      </button>
-    );
-  }
-  return (
-    <div className="space-y-2 rounded-xl border border-[#1b2233]/15 bg-white/60 p-3">
-      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#1b2233]/60">Postcard from {city}: ask the class</p>
-      <div className="flex flex-wrap gap-1.5">
-        {postcard.prompts.map((p) => (
-          <button key={p} type="button" onClick={() => setPrompt(p)} className={`rounded-lg border px-2 py-1 text-left text-xs ${p === prompt ? 'border-[#d4537e] bg-[#d4537e]/10' : 'border-[#1b2233]/20'}`}>{p}</button>
-        ))}
-      </div>
-      <textarea
-        value={message}
-        onChange={(e) => setMessage(e.target.value.slice(0, 500))}
-        rows={3}
-        placeholder="Type what the class said, in a line or two."
-        className="w-full resize-none rounded-lg border border-[#1b2233]/20 bg-white px-2 py-1.5 font-display text-base text-[#1b2233] outline-none focus:border-[#d4537e]"
-      />
-      <div className="flex items-center justify-end gap-2">
-        {state === 'failed' && <span className="text-xs text-[#b42318]">Could not save it. Try again.</span>}
-        <button type="button" onClick={() => setOpen(false)} className="text-xs text-[#1b2233]/60 hover:text-[#1b2233]">Not now</button>
-        <button type="button" disabled={!message.trim() || state === 'saving'} onClick={() => void save()} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs font-semibold text-[#f4efe3] disabled:opacity-40">
-          {state === 'saving' ? 'Saving…' : 'Save the postcard'}
-        </button>
-      </div>
     </div>
   );
 }

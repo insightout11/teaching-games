@@ -1,5 +1,6 @@
 'use client';
 
+import { PostcardHome } from '@/components/student/postcard-home';
 import { WindowSelfiePhone } from '@/components/student/window-selfie-phone';
 import { GrammarHuntStrip } from './grammar-hunt-strip';
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -1492,6 +1493,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             <p className="text-sm text-gray-400">This session is no longer active.</p>
           </div>
         )}
+        <PostcardHome sessionId={sessionId} clientId={studentSession.clientId} />
         <Button onClick={onLeave} variant="ghost" className="mt-3">
           Back
         </Button>
