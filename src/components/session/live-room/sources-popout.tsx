@@ -11,6 +11,9 @@ import { FreePicturesRow } from '@/components/session/live-room/free-pictures-ro
 
 type Tab = 'messages' | 'board' | 'sources';
 
+const TAB_LABEL = { messages: 'Messages', board: 'Board', sources: 'Find' } as const;
+const TAB_HINT = { messages: 'Messages from students, to approve or answer', board: 'Cards waiting for the Class Board', sources: 'Pictures, the library, search and answers about the topic' } as const;
+
 export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId: string; initialTab?: Tab }) {
   const [tab, setTab] = useState<Tab>(initialTab);
   const channelRef = useRef<BroadcastChannel | null>(null);
@@ -102,8 +105,8 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
       )}
       <div className="flex gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1">
         {(['messages', 'board', 'sources'] as const).map((t) => (
-          <button key={t} type="button" onClick={() => setTab(t)} className={['flex-1 rounded-lg px-3 py-1.5 text-sm capitalize', tab === t ? 'bg-white/10 text-white' : 'text-white/55 hover:text-white'].join(' ')}>
-            {t}
+          <button key={t} type="button" onClick={() => setTab(t)} title={TAB_HINT[t]} className={['flex-1 rounded-lg px-3 py-1.5 text-sm', tab === t ? 'bg-white/10 text-white' : 'text-white/55 hover:text-white'].join(' ')}>
+            {TAB_LABEL[t]}
           </button>
         ))}
       </div>
