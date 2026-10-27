@@ -3830,7 +3830,7 @@ export function FlightDeck({
         <BestDiscoveryVote sessionId={sessionId} discoveries={discoveries} onCrown={crownDiscovery} onClose={() => setDiscoveryVote(false)} />
       )}
       {cardSlot === 'mascot' && (
-        <MascotBuilder sessionId={sessionId} unlocks={unlocks} onClose={() => setMascotBuilder(false)} onDone={(look, name) => boardMascot({ look, name })} />
+        <MascotBuilder sessionId={sessionId} unlocks={unlocks} phones={allSeats.filter((p) => !p.deviceless).length} onClose={() => setMascotBuilder(false)} onDone={(look, name) => boardMascot({ look, name })} />
       )}
       {cardSlot === 'checkin' && checkInP && checkIn && (
         <div className="absolute left-1/2 top-4 z-20 w-[min(560px,90%)] -translate-x-1/2">

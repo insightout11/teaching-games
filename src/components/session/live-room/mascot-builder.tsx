@@ -24,14 +24,18 @@ const NAMES = ['Captain Fluff', 'Zoomy', 'Sir Wobble', 'Pickles', 'Nimbus', 'Roc
 const shuffle = <T,>(a: readonly T[]) => [...a].sort(() => Math.random() - 0.5);
 const label = (part: string) => MASCOT_LABELS[part] ?? part;
 /** Rapid fire (Oct 2026, owner): each vote closes by itself after this long. */
-const ROUND_SECONDS = 5;
+const ROUND_SECONDS = 8;
+/** Phones check for a new question every few seconds: the clock waits this long after the vote opens. */
+const PHONE_LEAD_MS = 3000;
 
 /**
  * Make a class mascot (Oct 2026, pilot 001): five rapid-fire votes on the phones (5 seconds each), one part at a time, then a name. The
  * mascot grows on the big screen after each vote. The teacher can also just click an option ("teacher picks"),
  * which is how a class without phones, or a quick class, builds one.
  */
-export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
+export function MascotBuilder({ sessionId, unlocks, onDone, onClose, phones = 0 }: {
+  /** How many phones are on board: the round ends early once they have all voted. */
+  phones?: number;
   sessionId: string;
   unlocks: ReadonlySet<string>;
   onDone: (look: MascotLook, name: string) => void;
@@ -87,8 +91,18 @@ export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
   const [left, setLeft] = useState(ROUND_SECONDS);
   const lockRef = useRef(lockWinner);
   lockRef.current = lockWinner;
+  // The clock starts only once the question has reached the phones (Oct 2026, owner: with a 5-second clock from the
+  // big screen, phones saw the next question before they could vote), and the round ends early when every phone voted.
+  const [clockOn, setClockOn] = useState(false);
   useEffect(() => {
+    setClockOn(false);
     if (name) return;
+    if (!pollId && !isMockMode()) return;
+    const t = window.setTimeout(() => setClockOn(true), isMockMode() ? 0 : PHONE_LEAD_MS);
+    return () => window.clearTimeout(t);
+  }, [round, name, pollId]);
+  useEffect(() => {
+    if (!clockOn || name) return;
     const end = Date.now() + ROUND_SECONDS * 1000;
     setLeft(ROUND_SECONDS);
     const id = window.setInterval(() => {
@@ -97,7 +111,11 @@ export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
       if (s === 0) { window.clearInterval(id); lockRef.current(); }
     }, 200);
     return () => window.clearInterval(id);
-  }, [round, name]);
+  }, [clockOn, name]);
+  useEffect(() => {
+    if (clockOn && phones > 0 && votes.length >= phones) { const t = window.setTimeout(() => lockRef.current(), 900); return () => window.clearTimeout(t); }
+    return undefined;
+  }, [clockOn, phones, votes.length]);
 
   const naming = round >= ROUNDS.length;
   const preview = (part: string): MascotLook => (naming ? look : { ...look, [ROUNDS[round].key]: part });
@@ -120,9 +138,9 @@ export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
             {!name && (
               <div className="mb-2 flex items-center gap-2">
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
-                  <motion.div key={round} initial={{ width: '100%' }} animate={{ width: '0%' }} transition={{ duration: ROUND_SECONDS, ease: 'linear' }} className="h-full bg-amber-300" />
+                  {clockOn ? <motion.div key={round} initial={{ width: '100%' }} animate={{ width: '0%' }} transition={{ duration: ROUND_SECONDS, ease: 'linear' }} className="h-full bg-amber-300" /> : <div className="h-full w-full animate-pulse bg-amber-300/30" />}
                 </div>
-                <span className="w-6 text-right font-mono text-lg text-amber-200">{left}</span>
+                <span className="w-auto text-right font-mono text-lg text-amber-200">{clockOn ? left : 'Get ready…'}</span>
               </div>
             )}
             <p className="mb-3 text-sm text-white/60">Quick, vote on your phone{votes.length ? ` · ${votes.length} vote${votes.length === 1 ? '' : 's'} in` : ''}. The captain can also just pick.</p>
