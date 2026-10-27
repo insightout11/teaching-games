@@ -1,6 +1,6 @@
 # City stops and souvenirs — DRAFT for Matt's review
 
-Data only; no room, phone, inventory, voting or rendering changes. Branch `codex/city-stops`, based on local `origin/main` at `0215d0ac`. `city-packs.json` is unchanged. Phase 1: **40 cities, 160 stops, 480 rewards**.
+Data only; no room, phone, inventory, voting or rendering changes. Branch `codex/city-stops`, based on local `origin/main` at `0215d0ac`. `city-packs.json` is unchanged. Phase 2: **50 cities, 200 stops, 600 rewards**.
 
 ## Dubai-first coverage
 
@@ -53,12 +53,12 @@ Step 2: Los Angeles, Bogota, Buenos Aires, Honolulu, Panama City, Suva, Auckland
 
 ## Reuse versus new
 
-- **189 shelf rewards reuse city-pack souvenir concepts/facts**, with their exact existing ID in `fromCityPacks`.
-- **171 new shelf rewards** fill the restaurant/station/sights choices to three each.
-- **120 new avatar accessories**, three different allowed types per city. These use the requested accessory schema, which has no `fromCityPacks` field.
-- Total new reward entries: **291**. New IDs are namespaced with `-stop-` to avoid collisions with legacy landing rewards. Each reused source appears at most once within its city.
+- **237 shelf rewards reuse city-pack souvenir concepts/facts**, with their exact existing ID in `fromCityPacks`.
+- **213 new shelf rewards** fill the restaurant/station/sights choices to three each.
+- **150 new avatar accessories**, three different allowed types per city. These use the requested accessory schema, which has no `fromCityPacks` field.
+- Total new reward entries: **363**. New IDs are namespaced with `-stop-` to avoid collisions with legacy landing rewards. Each reused source appears at most once within its city.
 
-“Reused” means a source-backed adaptation, not necessarily a byte-for-byte copy. Existing descriptions and art prompts are preserved where suitable; pins, leaves, instruments and other sight concepts become model/tile/magnet designs. 57 reused entries have adapted names. Food-themed pins/bibs/charms become edible portions or cups. Ordinary pantry ingredients sometimes provide a third food reward using the existing recipe fact, rather than inventing a dish.
+“Reused” means a source-backed adaptation, not necessarily a byte-for-byte copy. Existing descriptions and art prompts are preserved where suitable; pins, leaves, instruments and other sight concepts become model/tile/magnet designs. 72 reused entries have adapted names. Food-themed pins/bibs/charms become edible portions or cups. Ordinary pantry ingredients sometimes provide a third food reward using the existing recipe fact, rather than inventing a dish.
 
 ## Editorial decisions and things to check
 
@@ -676,6 +676,158 @@ Place-check references: [reference 1](https://www.versaillesrestaurant.com/), [r
 
 Reused source IDs: `miami-cuban-sandwich`, `miami-cafecito-cup`, `miami-key-lime-pie`, `miami-art-deco-keychain`.
 
+### Los Angeles (`los-angeles`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | Philippe the Original near Chinatown | Order a meal for your group and ask what is in each dish. | French dip sandwich (reused); Korean taco (reused); Broth cup |
+| market | Olvera Street market | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Los Angeles sunglasses; Los Angeles bag; Los Angeles cap |
+| station | Los Angeles Union Station | Ask how to buy a ticket and find the right platform for your group. | Freeway map fold (reused); Los Angeles train ticket; Los Angeles route-map card |
+| sights | Griffith Observatory | Describe what you can see and ask a guide two questions about this place. | Hilltop observatory model (reused); Los Angeles sight model; Los Angeles view magnet |
+
+Accessory palette: `#C59B65` / `#5F8C96`, inspired by warm hills and blue Pacific water; motif: observatory-dome outlines.
+
+Place-check references: [reference 1](https://philippes.com/store/).
+
+Reused source IDs: `los-angeles-french-dip`, `los-angeles-korean-taco`, `los-angeles-freeway-map`, `los-angeles-observatory-view`.
+
+### Bogota (`bogota`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a food counter at La Perseverancia Market | Order a meal for your group and ask what is in each dish. | Ajiaco soup bowl (reused); Changua breakfast cup (reused); Tamal leaf parcel (reused) |
+| market | the Usaquen Sunday market | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Bogota sun hat; Bogota scarf; Bogota bracelet |
+| station | Museo Nacional TransMilenio station | Ask how to buy a ticket and find the right departure point for your group. | Red bus pass (reused); Bogota bus ticket; Bogota route-map card |
+| sights | Monserrate's upper viewing area | Describe what you can see and ask a guide two questions about this place. | Hilltop view token tile (reused); Bogota sight model; Bogota view magnet |
+
+Accessory palette: `#B59266` / `#5A7E69`, inspired by warm brick and green mountain slopes; motif: mountain-ridge shapes.
+
+Place-check references: [reference 1](https://bogota.gov.co/mi-ciudad/desarrollo-economico/bogota-celebra-el-cumpleanos-81-de-la-plaza-la-perseverancia).
+
+Reused source IDs: `bogota-ajiaco-bowl`, `bogota-changua-cup`, `bogota-tamal-leaf`, `bogota-bus-pass`, `bogota-hilltop-view`.
+
+### Buenos Aires (`buenos-aires`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a food counter at Mercado de San Telmo | Order a meal for your group and ask what is in each dish. | Empanada pocket (reused); Mate gourd set (reused); Dulce de leche alfajor (reused) |
+| market | the craft stalls at Plaza Dorrego | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Buenos Aires sun hat; Buenos Aires scarf; Buenos Aires bracelet |
+| station | Retiro Mitre railway station | Ask how to buy a ticket and find the right platform for your group. | Buenos Aires train ticket; Buenos Aires route-map card; Buenos Aires train model |
+| sights | Teatro Colon | Describe what you can see and ask a guide two questions about this place. | Opera house token tile (reused); Tango shoe ornament tile (reused); Buenos Aires sight model |
+
+Accessory palette: `#CABBA4` / `#669AAF`, inspired by pale theatre stone and blue reflections on the river; motif: theatre-arch shapes.
+
+Place-check references: [reference 1](https://turismo.buenosaires.gob.ar/en/atractivo/san-telmo-market), [reference 2](https://www.argentina.gob.ar/plaza-dorrego).
+
+Reused source IDs: `buenos-aires-empanada`, `buenos-aires-mate-gourd`, `buenos-aires-alfajor`, `buenos-aires-opera-mask`, `buenos-aires-tango-shoe`.
+
+### Honolulu (`honolulu`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a food counter at the Diamond Head Market & Grill | Order a meal for your group and ask what is in each dish. | Poke bowl (reused); Spam musubi (reused); Sea salt pouch |
+| market | the stalls at Aloha Stadium Swap Meet | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Honolulu sunglasses; Honolulu bag; Honolulu cap |
+| station | Alapai Transit Center | Ask how to buy a ticket and find the right departure point for your group. | Canoe paddle (reused); Honolulu bus ticket; Honolulu route-map card |
+| sights | Iolani Palace | Describe what you can see and ask a guide two questions about this place. | Palace column model (reused); Ukulele charm tile (reused); Honolulu sight model |
+
+Accessory palette: `#457B96` / `#6F996F`, inspired by blue ocean water and green palms; motif: outrigger-and-wave shapes.
+
+Place-check references: [reference 1](https://alohastadium.hawaii.gov/new-swap-meet-marketplace-relocation/), [reference 2](https://alohastadium.hawaii.gov/wp-content/uploads/2025/10/SM-Public-Map-10.30.25.pdf).
+
+Reused source IDs: `honolulu-poke-bowl`, `honolulu-spam-musubi`, `honolulu-outrigger-paddle`, `honolulu-palace-column`, `honolulu-ukulele`.
+
+### Panama City (`panama-city`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a breakfast counter at Mercado San Felipe Neri | Order a meal for your group and ask what is in each dish. | Corn cake plate (reused); Hojaldra; Corn tortilla |
+| market | the craft stalls at Mercado de Artesanias de Balboa | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Panama City sun hat; Panama City scarf; Panama City bracelet |
+| station | Albrook Metro station | Ask how to buy a ticket and find the right platform for your group. | Canal ship model (reused); Panama City train ticket; Panama City route-map card |
+| sights | the Miraflores Visitor Center at the Panama Canal | Describe what you can see and ask a guide two questions about this place. | Old town tile (reused); Tropical bird pin tile (reused); Panama City sight model |
+
+Accessory palette: `#517F89` / `#C8AE77`, inspired by blue canal water and pale stone in Casco Viejo; motif: canal-lock lines.
+
+Place-check references: [reference 1](https://servicioscomunidad.mupa.gob.pa/subdireccion-de-mercados/), [reference 2](https://mercados.mupa.gob.pa/).
+
+Reused source IDs: `panama-city-corn-cake`, `panama-city-lock-ship`, `panama-city-casco-tile`, `panama-city-tropical-bird`.
+
+### Suva (`suva`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a food counter at the Suva Municipal Market | Order a meal for your group and ask what is in each dish. | Coconut serving bowl (reused); Kokoda dish (reused); Coconut milk cup |
+| market | Suva Municipal Market | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Suva umbrella; Suva bag; Suva bracelet |
+| station | Suva Bus Station | Ask how to buy a ticket and find the right departure point for your group. | Harbor boat model (reused); Suva bus ticket; Suva route-map card |
+| sights | the Fiji Museum at Thurston Gardens | Describe what you can see and ask a guide two questions about this place. | Rainforest leaf tile (reused); Market basket tile (reused); Suva sight model |
+
+Accessory palette: `#569A93` / `#D9BB81`, inspired by green tropical leaves and blue harbour water; motif: leaf-and-wave lines.
+
+Place-check references: [reference 1](https://fijimuseum.org.fj/), [reference 2](https://www.fiji.travel/places-to-go/suva-and-surrounds/locations/top-things-to-do-in-suva).
+
+Reused source IDs: `suva-coconut-bowl`, `suva-kokoda-dish`, `suva-harbor-boat`, `suva-forest-leaf`, `suva-market-basket`.
+
+### Auckland (`auckland`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a food counter at Auckland Fish Market | Order a meal for your group and ask what is in each dish. | Green mussel shell (reused); Pavlova plate (reused); Meringue nest |
+| market | the stalls at Otara Market | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Auckland sun hat; Auckland scarf; Auckland bracelet |
+| station | Waitemata railway station at Britomart | Ask how to buy a ticket and find the right platform for your group. | Harbor ferry token (reused); Auckland train ticket; Auckland route-map card |
+| sights | the Sky Tower | Describe what you can see and ask a guide two questions about this place. | Sky tower charm tile (reused); Harbor postcard tile (reused); Auckland sight model |
+
+Accessory palette: `#507F91` / `#77956A`, inspired by blue harbour water and green volcanic hills; motif: harbour-sail lines.
+
+Place-check references: [reference 1](https://at.govt.nz/projects-initiatives/city-centre-projects-and-initiatives/city-rail-link-auckland-s-new-network-in-2026/about-the-city-rail-link-stations/waitemata-station), [reference 2](https://www.otaramarkets.co.nz/), [reference 3](https://www.sanford.co.nz/afm/).
+
+Reused source IDs: `auckland-mussel-shell`, `auckland-pavlova-plate`, `auckland-ferry-token`, `auckland-sky-tower`, `auckland-harbor-postcard`.
+
+### Mexico City (`mexico-city`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a food counter at Mercado de San Juan | Order a meal for your group and ask what is in each dish. | Taco al pastor (reused); Tlacoyo snack (reused); Corn tortilla |
+| market | the La Ciudadela craft market | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Mexico City sun hat; Mexico City scarf; Mexico City bracelet |
+| station | Bellas Artes metro station | Ask how to buy a ticket and find the right platform for your group. | Mexico City train ticket; Mexico City route-map card; Mexico City train model |
+| sights | the Xochimilco canals | Describe what you can see and ask a guide two questions about this place. | Axolotl charm tile (reused); Papel picado strand tile (reused); Market flower bundle tile (reused) |
+
+Accessory palette: `#D0A24B` / `#A85A65`, inspired by colourful market flowers and painted canal boats; motif: flower-and-canal lines.
+
+Place-check references: [reference 1](https://mexicocity.cdmx.gob.mx/venues/san-juan-market/).
+
+Reused source IDs: `mexico-city-taco-al-pastor`, `mexico-city-tlacoyo`, `mexico-city-axolotl`, `mexico-city-papel-picado`, `mexico-city-market-flower`.
+
+### Santiago (`santiago`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | Domino restaurant on Agustinas | Order a meal for your group and ask what is in each dish. | Completo hot dog (reused); Mate cup (reused); Avocado topping bowl |
+| market | the Santa Lucia craft market | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Santiago sun hat; Santiago scarf; Santiago bracelet |
+| station | Universidad de Chile metro station | Ask how to buy a ticket and find the right platform for your group. | Metro card sleeve (reused); Hill funicular model (reused); Santiago train ticket |
+| sights | the summit of Cerro San Cristobal | Describe what you can see and ask a guide two questions about this place. | Andes snow globe tile (reused); Santiago sight model; Santiago view magnet |
+
+Accessory palette: `#B78165` / `#A7B7BF`, inspired by warm city stone and pale Andean snow; motif: mountain-peak outlines.
+
+Place-check references: [reference 1](https://domino.cl/locales/), [reference 2](https://www.santiagoturismo.cl/es/mercado-central-de-santiago/), [reference 3](https://www.santiagoturismo.cl/es/centro-artesanal-santa-lucia/).
+
+Reused source IDs: `santiago-avocado-toast`, `santiago-mate-cup`, `santiago-metro-card`, `santiago-hill-funicular`, `santiago-mountain-snow`.
+
+### Lima (`lima`) — step 2
+
+| Stop | Real place | One-sentence scene | Three rewards |
+| --- | --- | --- | --- |
+| restaurant | a food counter at Mercado de Surquillo No. 1 | Order a meal for your group and ask what is in each dish. | Ceviche bowl (reused); Causa limeña mold (reused); Chicha morada cup (reused) |
+| market | the craft stalls on Avenida Petit Thouars in Miraflores | Compare three accessories, ask about sizes and colours, and choose one within your budget. | Lima sun hat; Lima scarf; Lima bracelet |
+| station | Estacion Central del Metropolitano | Ask how to buy a ticket and find the right departure point for your group. | Coastal bike token (reused); Lima bus ticket; Lima route-map card |
+| sights | Huaca Pucllana | Describe what you can see and ask a guide two questions about this place. | Adobe temple model (reused); Lima sight model; Lima view magnet |
+
+Accessory palette: `#C8AD7A` / `#738B9B`, inspired by warm adobe walls and grey-blue Pacific water; motif: adobe-step shapes.
+
+Place-check references: [reference 1](https://visitalima.pe/atractivos/mercado-de-surquillo/).
+
+Reused source IDs: `lima-ceviche-bowl`, `lima-causa-limena`, `lima-chicha-morada`, `lima-coastal-bike`, `lima-adobe-temple`.
+
 ## Validation and commit record
 
-Step 1: `City stops 1: add Dubai-reachable city stops and souvenirs`. All five city-stop tests pass; changed-file Next lint is clean. `pnpm exec tsc --noEmit -p .` reports only the known missing `@mozilla/readability` import. Full `pnpm test --maxWorkers=2`: 3,728 tests pass, 3 skipped, and only the existing source-extractor suite fails to import that missing module. No packages were installed. The ten remaining cities are deliberately absent in this step. No push or merge.
+- Step 1: `f7a50a4b` — `City stops 1: add Dubai-reachable city stops and souvenirs`. Dubai plus its 39 reachable destinations: 40 cities, 160 stops and 480 rewards; 189 reused and 291 new. Five validation tests passed; lint clean; TypeScript and full tests hit only the known missing `@mozilla/readability`. Full suite: 3,728 tests passed, 3 skipped.
+- Step 2 (this commit): `City stops 2: complete all 50 cities and review tables`. Adds the other ten cities; the original 40 entries are unchanged. All six city-stop validation tests pass. Changed-file lint is clean. `pnpm exec tsc --noEmit -p .` reports only the known missing `@mozilla/readability` import. Full `pnpm test --maxWorkers=2`: 3,729 tests pass, 3 skipped, and only the existing source-extractor suite fails to import that missing module.
+- No packages were installed. `city-packs.json`, dependency manifests and existing application code are unchanged. No UI integration, push or merge. The two-worker limit runs the full suite and avoids an existing timeout under high parallel load.

@@ -13,6 +13,11 @@ const sourceItems = Object.values(packs).flatMap(p => p.souvenirs);
 const icons = new Set(sourceItems.map(i => i.icon));
 
 describe('city stop content', () => {
+  it('covers exactly all 50 existing city packs', () => {
+    expect(Object.keys(data).sort()).toEqual(Object.keys(packs).sort());
+    expect(Object.keys(data)).toHaveLength(50);
+  });
+
   it('covers every Dubai-reachable city using the actual longest plane range', () => {
     const dubai = WORLD_DESTINATIONS.find(d => d.id === 'dubai')!;
     const longest = Math.max(...WORLD_FLIGHT_RANGE_TIERS.map(t => t.rangeKm));
