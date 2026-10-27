@@ -304,9 +304,12 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
   }, [spot?.x, spot?.visible, sun?.elevation, moon?.elevation, moon?.illumination, palette.light, palette.lightColor]);
   const surfaceLight = palette.light === 'moon' ? moon : sun;
   const surfaceDirection = surfaceLight && sun ? surfaceLightDirection(surfaceLight.azimuth, surfaceLight.elevation, sun.heading) : undefined;
-  const altitude = phase === 'climb' ? Math.min(1, progress * 1.1) : 1;
+  const altitude = phase === 'climb' ? Math.min(1, 0.3 + progress * 0.9) : 1;
   // the ground: close under the plane early in the climb, falling away to cruise height
-  const groundAltitude = climbing ? Math.min(descentAltitude, 0.3 + 0.7 * Math.min(1, progress / CLIMB_OUT)) : descentAltitude;
+  // Starts where the take-off left the plane (already well up) and keeps rising, fastest at first: starting close to
+  // the ground looked like a drop after the side view (Oct 2026, owner)
+  const climbT = Math.min(1, progress / CLIMB_OUT);
+  const groundAltitude = climbing ? Math.min(descentAltitude, 0.5 + 0.5 * (1 - (1 - climbT) * (1 - climbT))) : descentAltitude;
   const cloudSpeed = phase === 'climb' ? (inCloud > 0 ? 1.9 : 1.1) : scenicOn ? SCENIC_SPEED : diving ? 1.2 + progress * 3 : 0.55;
   // the clouds drifting past at eye level move with the ground: at the real plane's speed in a flight (the ground went
   // to real speed and these kept the old, faster speed)
@@ -334,7 +337,7 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
     <div ref={shotRef} aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
       <AnimatePresence mode="sync">
         {outside ? (
-          <motion.div key={`side-${sideCity.id}-${sideFrame.mode}`} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: "easeInOut" }}>
+          <motion.div key={`side-${sideCity.id}-${sideFrame.mode}`} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.6, ease: "easeInOut" }}>
             <DestinationArrivalScene
               destinationId={sideCity.id}
               scene={sideCity.scene}
@@ -350,7 +353,7 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
             />
           </motion.div>
         ) : (
-          <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9, ease: "easeInOut" }}>
+          <motion.div key="cockpit" className="absolute inset-[-4%]" style={{ x: lurch.x, y: lurch.y, rotate: lurch.rotate }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.6, ease: "easeInOut" }}>
             <CockpitSky palette={palette} timeOfDay={skyTime} altitude={altitude} spot={spot} realPlane={sky?.realPlane ?? null} livePlanes={sky?.livePlanes ?? false} />
             {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.planet && <PlanetPoint {...sky.planet} />}
             {phase === 'cruise' && (skyTime === 'night' || sky?.test) && sky?.meteors && <MeteorStreaks />}
