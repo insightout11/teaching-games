@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Plane, Sparkles, X } from 'lucide-react';
+import { Plane, Sparkles, X } from 'lucide-react';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
@@ -23,9 +23,11 @@ const ROUNDS: Array<{ key: Key; question: string; parts: readonly string[] }> = 
 const NAMES = ['Captain Fluff', 'Zoomy', 'Sir Wobble', 'Pickles', 'Nimbus', 'Rocket', 'Biscuit', 'Mango', 'Dr Bounce', 'Turbo', 'Noodle', 'Sprocket', 'Bubbles', 'Captain Crumbs', 'Zigzag', 'Pudding'];
 const shuffle = <T,>(a: readonly T[]) => [...a].sort(() => Math.random() - 0.5);
 const label = (part: string) => MASCOT_LABELS[part] ?? part;
+/** Rapid fire (Oct 2026, owner): each vote closes by itself after this long. */
+const ROUND_SECONDS = 5;
 
 /**
- * Make a class mascot (Oct 2026, pilot 001): five quick votes on the phones, one part at a time, then a name. The
+ * Make a class mascot (Oct 2026, pilot 001): five rapid-fire votes on the phones (5 seconds each), one part at a time, then a name. The
  * mascot grows on the big screen after each vote. The teacher can also just click an option ("teacher picks"),
  * which is how a class without phones, or a quick class, builds one.
  */
@@ -77,10 +79,25 @@ export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
   const lockWinner = () => {
     const counts = labels.map((l) => tallies[l] ?? 0);
     const top = Math.max(...counts);
-    if (top === 0) return;
     const leaders = counts.flatMap((c, i) => (c === top ? [i] : []));
     choose(leaders[Math.floor(Math.random() * leaders.length)]);
   };
+
+  // The clock: starts when the round's options appear, and the class choice locks in by itself at zero.
+  const [left, setLeft] = useState(ROUND_SECONDS);
+  const lockRef = useRef(lockWinner);
+  lockRef.current = lockWinner;
+  useEffect(() => {
+    if (name) return;
+    const end = Date.now() + ROUND_SECONDS * 1000;
+    setLeft(ROUND_SECONDS);
+    const id = window.setInterval(() => {
+      const s = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+      setLeft(s);
+      if (s === 0) { window.clearInterval(id); lockRef.current(); }
+    }, 200);
+    return () => window.clearInterval(id);
+  }, [round, name]);
 
   const naming = round >= ROUNDS.length;
   const preview = (part: string): MascotLook => (naming ? look : { ...look, [ROUNDS[round].key]: part });
@@ -100,7 +117,15 @@ export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
           </div>
           <div className="min-w-0 flex-1">
             <p className="font-display text-2xl">{naming ? 'What is our mascot called?' : ROUNDS[round].question}</p>
-            <p className="mb-3 text-sm text-white/60">Vote on your phone{votes.length ? ` · ${votes.length} vote${votes.length === 1 ? '' : 's'} in` : ''}. The captain can also just pick.</p>
+            {!name && (
+              <div className="mb-2 flex items-center gap-2">
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
+                  <motion.div key={round} initial={{ width: '100%' }} animate={{ width: '0%' }} transition={{ duration: ROUND_SECONDS, ease: 'linear' }} className="h-full bg-amber-300" />
+                </div>
+                <span className="w-6 text-right font-mono text-lg text-amber-200">{left}</span>
+              </div>
+            )}
+            <p className="mb-3 text-sm text-white/60">Quick, vote on your phone{votes.length ? ` · ${votes.length} vote${votes.length === 1 ? '' : 's'} in` : ''}. The captain can also just pick.</p>
             {!name ? (
               <div className="grid grid-cols-2 gap-2 xl:grid-cols-4">
                 {options.map((o, i) => (
@@ -120,9 +145,6 @@ export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
                   <input name="mascot-name" placeholder="Or type a name" aria-label="Mascot name" className="rounded-lg border border-white/15 bg-slate-900 px-2 py-1 text-sm" />
                   <button type="submit" className="rounded-lg border border-white/20 px-2 py-1 text-sm hover:bg-white/10">Use it</button>
                 </form>
-              )}
-              {!name && votes.length > 0 && (
-                <button type="button" onClick={lockWinner} className="flex items-center gap-1.5 rounded-full bg-amber-300 px-4 py-1.5 text-sm font-semibold text-slate-950">Lock in the class choice <ArrowRight className="h-4 w-4" /></button>
               )}
               {name && (
                 <button type="button" onClick={() => onDone(look, name)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-5 py-2 text-sm font-semibold text-slate-950"><Plane className="h-4 w-4" /> Board {name}</button>
