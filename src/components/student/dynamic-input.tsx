@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { computeTimerState, type InputSpec } from '@/lib/input-spec';
 import { ShuffleboardInput } from './shuffleboard-input';
 import { GeoPointInput } from './geo-point-input';
+import { MascotBuildInput } from './mascot-build-input';
 import { openTrickyChannel } from '@/lib/live-room/word-bank';
 import { CargoHandInput } from './cargo-hand-input';
 import { CargoVoteInput } from './cargo-vote-input';
@@ -98,6 +99,8 @@ function InputControl({ spec, onSubmit, isSubmitting, submitStatus, waitSeconds,
       return <ReadAloudInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
     case 'shuffleboard':
       return <ShuffleboardInput spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} displayName={displayName} />;
+    case 'mascot-build':
+      return <MascotBuildInput key={spec.roundId} spec={spec} onSubmit={onSubmit} isSubmitting={isSubmitting} />;
     case 'geo-point':
       {
         // Mystery Flight traveller: this phone describes the secret place instead of pinning.

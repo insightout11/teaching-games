@@ -2,174 +2,150 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plane, Sparkles, X } from 'lucide-react';
+import { Blend, Plane, Sparkles, X } from 'lucide-react';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
-import { usePollVotes } from '@/hooks/use-poll-votes';
+import { useSessionStore } from '@/stores/session-store';
 import {
-  DEFAULT_MASCOT, MASCOT_BODIES, MASCOT_COLORS, MASCOT_EXTRAS, MASCOT_EYES, MASCOT_HEADS, MASCOT_LABELS,
-  isMascotPartOpen, type MascotLook,
+  MASCOT_BODIES, MASCOT_COLORS, MASCOT_EXTRAS, MASCOT_EYES, MASCOT_HEADS,
+  isMascotPartOpen, parseMascotLook, type MascotLook,
 } from '@/lib/mascot';
+import type { InputSpec } from '@/lib/input-spec';
 
-type Key = keyof MascotLook;
-const ROUNDS: Array<{ key: Key; question: string; parts: readonly string[] }> = [
-  { key: 'body', question: 'What kind of creature is our mascot?', parts: MASCOT_BODIES },
-  { key: 'color', question: 'What colour is it?', parts: MASCOT_COLORS },
-  { key: 'eyes', question: 'What eyes does it have?', parts: MASCOT_EYES },
-  { key: 'head', question: 'What is on its head?', parts: MASCOT_HEADS.filter((p) => p !== 'none') },
-  { key: 'extra', question: 'What extra does it get?', parts: MASCOT_EXTRAS.filter((p) => p !== 'none') },
-];
+export const ROOM_MASCOT_KEY = 'room-mascot';
 const NAMES = ['Captain Fluff', 'Zoomy', 'Sir Wobble', 'Pickles', 'Nimbus', 'Rocket', 'Biscuit', 'Mango', 'Dr Bounce', 'Turbo', 'Noodle', 'Sprocket', 'Bubbles', 'Captain Crumbs', 'Zigzag', 'Pudding'];
 const shuffle = <T,>(a: readonly T[]) => [...a].sort(() => Math.random() - 0.5);
-const label = (part: string) => MASCOT_LABELS[part] ?? part;
-/** Rapid fire (Oct 2026, owner): each vote closes by itself after this long. */
-const ROUND_SECONDS = 8;
-/** Phones check for a new question every few seconds: the clock waits this long after the vote opens. */
-const PHONE_LEAD_MS = 3000;
+
+/** The class's mix: the most popular choice for each part (ties go to the first designs sent). */
+export function mixLooks(looks: MascotLook[]): MascotLook | null {
+  if (!looks.length) return null;
+  const pick = (k: keyof MascotLook) => {
+    const counts = new Map<string, number>();
+    for (const l of looks) counts.set(l[k], (counts.get(l[k]) ?? 0) + 1);
+    return Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0][0];
+  };
+  return parseMascotLook({ body: pick('body'), color: pick('color'), eyes: pick('eyes'), head: pick('head'), extra: pick('extra') });
+}
 
 /**
- * Make a class mascot (Oct 2026, pilot 001): five rapid-fire votes on the phones (5 seconds each), one part at a time, then a name. The
- * mascot grows on the big screen after each vote. The teacher can also just click an option ("teacher picks"),
- * which is how a class without phones, or a quick class, builds one.
+ * Make a class mascot (Oct 2026 rethink). Five quick class votes could never stay in step: phones only check for a new
+ * vote every few seconds. Now every phone designs a whole mascot on one screen (sent once, on the fast channel the map
+ * pins use), the designs appear here as they arrive, and "Mix them" builds the class mascot from the most popular
+ * choice for each part. The captain can also pick one design, then names it. It can run while the class talks.
  */
-export function MascotBuilder({ sessionId, unlocks, onDone, onClose, phones = 0 }: {
-  /** How many phones are on board: the round ends early once they have all voted. */
-  phones?: number;
+export function MascotBuilder({ sessionId, unlocks, onDone, onClose }: {
   sessionId: string;
   unlocks: ReadonlySet<string>;
   onDone: (look: MascotLook, name: string) => void;
   onClose: () => void;
 }) {
-  const [look, setLook] = useState<MascotLook>(DEFAULT_MASCOT);
-  const [round, setRound] = useState(0); // 0-4 parts, 5 = name
-  const [pollId, setPollId] = useState<string | null>(null);
+  const setInputSpec = useSessionStore((s) => s.setInputSpec);
+  const roundId = useRef(`mascot-${Date.now()}`).current;
+  const [designs, setDesigns] = useState<Array<{ id: string; name: string; look: MascotLook }>>([]);
+  const [look, setLook] = useState<MascotLook | null>(null);
   const [name, setName] = useState('');
-  const options = useMemo(() => {
-    if (round >= ROUNDS.length) return shuffle(NAMES).slice(0, 3);
-    return shuffle(ROUNDS[round].parts.filter((p) => isMascotPartOpen(p, unlocks))).slice(0, 4);
+  const names = useMemo(() => shuffle(NAMES).slice(0, 3), []);
+
+  // Open the designer on every phone, with only the parts this class has unlocked
+  useEffect(() => {
+    const open = (list: readonly string[]) => list.filter((p) => p !== 'none' && isMascotPartOpen(p, unlocks));
+    void setInputSpec({
+      type: 'mascot-build',
+      gameKey: ROOM_MASCOT_KEY,
+      prompt: 'Design our class mascot!',
+      roundId,
+      mascotParts: { body: open(MASCOT_BODIES), color: open(MASCOT_COLORS), eyes: open(MASCOT_EYES), head: open(MASCOT_HEADS), extra: open(MASCOT_EXTRAS) },
+    } as InputSpec);
+    return () => { void setInputSpec(null); };
+    // once, when the builder opens
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round]);
-  const { tallies, votes } = usePollVotes(pollId);
-  const labels = round >= ROUNDS.length ? options : options.map(label);
+  }, []);
 
-  // Open this round's vote on the phones.
-  const opened = useRef(-1);
+  // Designs arriving from the phones
   useEffect(() => {
-    if (opened.current === round || isMockMode()) return;
-    opened.current = round;
-    const question = round >= ROUNDS.length ? 'What is our mascot called?' : ROUNDS[round].question;
-    void (async () => {
-      const supabase = createClient();
-      await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
-      const { data } = await supabase.from('polls').insert({ session_id: sessionId, question: `Mascot: ${question}`, options: labels, is_active: true, metadata: { purpose: 'mascot' } }).select('id').single();
-      setPollId((data as { id: string } | null)?.id ?? null);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round]);
-  const closePoll = () => {
-    if (pollId && !isMockMode()) void createClient().from('polls').update({ is_active: false }).eq('id', pollId);
-    setPollId(null);
-  };
-  useEffect(() => () => { if (pollId && !isMockMode()) void createClient().from('polls').update({ is_active: false }).eq('id', pollId); }, [pollId]);
+    if (isMockMode() || look) return;
+    const supabase = createClient();
+    let stop = false;
+    const read = async () => {
+      const { data } = await supabase.from('scores').select('client_id, display_name, response_data').eq('session_id', sessionId).order('created_at', { ascending: true });
+      if (stop || !data) return;
+      const byId = new Map<string, { id: string; name: string; look: MascotLook }>();
+      for (const row of data as Array<{ client_id: string | null; display_name: string | null; response_data: Record<string, unknown> | null }>) {
+        const r = row.response_data;
+        if (r?.gameKey !== ROOM_MASCOT_KEY || typeof r.choice !== 'string') continue;
+        try {
+          const d = JSON.parse(r.choice) as { roundId?: string; look?: unknown };
+          const l = d.roundId === roundId ? parseMascotLook(d.look) : null;
+          if (l) { const id = row.client_id ?? row.display_name ?? String(byId.size); byId.set(id, { id, name: row.display_name ?? 'A student', look: l }); }
+        } catch { /* not a design */ }
+      }
+      setDesigns(Array.from(byId.values()));
+    };
+    void read();
+    const t = window.setInterval(read, 2000);
+    return () => { stop = true; window.clearInterval(t); };
+  }, [sessionId, roundId, look]);
 
-  const choose = (i: number) => {
-    closePoll();
-    if (round >= ROUNDS.length) { setName(options[i]); return; }
-    setLook((l) => ({ ...l, [ROUNDS[round].key]: options[i] }));
-    setRound((r) => r + 1);
-  };
-  // The class's choice: most votes; a tie goes to a random one of the leaders.
-  const lockWinner = () => {
-    const counts = labels.map((l) => tallies[l] ?? 0);
-    const top = Math.max(...counts);
-    const leaders = counts.flatMap((c, i) => (c === top ? [i] : []));
-    choose(leaders[Math.floor(Math.random() * leaders.length)]);
-  };
+  const choose = (l: MascotLook) => { setLook(l); void setInputSpec(null); };
+  const mix = mixLooks(designs.map((d) => d.look));
 
-  // The clock: starts when the round's options appear, and the class choice locks in by itself at zero.
-  const [left, setLeft] = useState(ROUND_SECONDS);
-  const lockRef = useRef(lockWinner);
-  lockRef.current = lockWinner;
-  // The clock starts only once the question has reached the phones (Oct 2026, owner: with a 5-second clock from the
-  // big screen, phones saw the next question before they could vote), and the round ends early when every phone voted.
-  const [clockOn, setClockOn] = useState(false);
-  useEffect(() => {
-    setClockOn(false);
-    if (name) return;
-    if (!pollId && !isMockMode()) return;
-    const t = window.setTimeout(() => setClockOn(true), isMockMode() ? 0 : PHONE_LEAD_MS);
-    return () => window.clearTimeout(t);
-  }, [round, name, pollId]);
-  useEffect(() => {
-    if (!clockOn || name) return;
-    const end = Date.now() + ROUND_SECONDS * 1000;
-    setLeft(ROUND_SECONDS);
-    const id = window.setInterval(() => {
-      const s = Math.max(0, Math.ceil((end - Date.now()) / 1000));
-      setLeft(s);
-      if (s === 0) { window.clearInterval(id); lockRef.current(); }
-    }, 200);
-    return () => window.clearInterval(id);
-  }, [clockOn, name]);
-  useEffect(() => {
-    if (clockOn && phones > 0 && votes.length >= phones) { const t = window.setTimeout(() => lockRef.current(), 900); return () => window.clearTimeout(t); }
-    return undefined;
-  }, [clockOn, phones, votes.length]);
-
-  const naming = round >= ROUNDS.length;
-  const preview = (part: string): MascotLook => (naming ? look : { ...look, [ROUNDS[round].key]: part });
   return (
-    <div className="absolute inset-x-0 top-3 z-30 mx-auto w-[min(820px,94%)]">
+    <div className="absolute inset-x-0 top-3 z-30 mx-auto w-[min(880px,94%)]">
       <motion.div initial={{ y: -16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="overflow-hidden rounded-3xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md">
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-2.5">
-          <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-amber-300"><Sparkles className="h-4 w-4" /> Make our mascot · {naming ? 'name' : `${round + 1} of ${ROUNDS.length}`}</p>
-          <button type="button" onClick={() => { closePoll(); onClose(); }} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
+          <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-amber-300"><Sparkles className="h-4 w-4" /> Make our mascot · {look ? 'name it' : `${designs.length} design${designs.length === 1 ? '' : 's'} in`}</p>
+          <button type="button" onClick={onClose} aria-label="Close" className="text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
         </div>
-        <div className="flex gap-5 p-5">
-          <div className="flex w-44 shrink-0 flex-col items-center justify-center rounded-2xl bg-white/[0.04]">
-            <motion.div key={JSON.stringify(look)} initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 14 }}>
-              <MascotFigure look={look} size={150} />
-            </motion.div>
-            {name && <p className="font-display text-2xl">{name}</p>}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-display text-2xl">{naming ? 'What is our mascot called?' : ROUNDS[round].question}</p>
-            {!name && (
-              <div className="mb-2 flex items-center gap-2">
-                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10">
-                  {clockOn ? <motion.div key={round} initial={{ width: '100%' }} animate={{ width: '0%' }} transition={{ duration: ROUND_SECONDS, ease: 'linear' }} className="h-full bg-amber-300" /> : <div className="h-full w-full animate-pulse bg-amber-300/30" />}
-                </div>
-                <span className="w-auto text-right font-mono text-lg text-amber-200">{clockOn ? left : 'Get ready…'}</span>
-              </div>
-            )}
-            <p className="mb-3 text-sm text-white/60">Quick, vote on your phone{votes.length ? ` · ${votes.length} vote${votes.length === 1 ? '' : 's'} in` : ''}. The captain can also just pick.</p>
-            {!name ? (
-              <div className="grid grid-cols-2 gap-2 xl:grid-cols-4">
-                {options.map((o, i) => (
-                  <button key={o} type="button" onClick={() => choose(i)} className="flex flex-col items-center gap-1 rounded-2xl border border-white/12 bg-white/5 p-2 hover:border-amber-300/60">
-                    {!naming && <MascotFigure look={preview(o)} size={84} />}
-                    <span className={`text-center ${naming ? 'py-4 font-display text-xl' : 'text-sm'}`}>{labels[i]}</span>
-                    <span className="font-mono text-xs text-amber-200">{tallies[labels[i]] ?? 0}</span>
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <p className="text-lg">Meet <b className="text-amber-200">{name}</b>!</p>
-            )}
+        {!look ? (
+          <div className="p-5">
+            <p className="font-display text-2xl">Design our mascot on your phone!</p>
+            <p className="mb-3 text-sm text-white/60">Everyone builds one and sends it. Then we mix the class&apos;s favourite parts, or the captain picks a design.</p>
+            <div className="grid max-h-[46vh] grid-cols-3 gap-2 overflow-y-auto sm:grid-cols-5 lg:grid-cols-6">
+              {designs.map((d) => (
+                <motion.button key={d.id} type="button" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} onClick={() => choose(d.look)} title={`Use ${d.name}'s design`} className="flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-1.5 hover:border-amber-300/60">
+                  <MascotFigure look={d.look} size={88} />
+                  <span className="max-w-full truncate text-xs text-white/70">{d.name}</span>
+                </motion.button>
+              ))}
+              {designs.length === 0 && <p className="col-span-full py-8 text-center text-white/50">Waiting for the first designs…</p>}
+            </div>
             <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
-              {naming && !name && (
-                <form onSubmit={(e) => { e.preventDefault(); const n = (e.currentTarget.elements.namedItem('mascot-name') as HTMLInputElement).value.trim().slice(0, 40); if (n) { closePoll(); setName(n); } }} className="mr-auto flex items-center gap-1.5">
-                  <input name="mascot-name" placeholder="Or type a name" aria-label="Mascot name" className="rounded-lg border border-white/15 bg-slate-900 px-2 py-1 text-sm" />
-                  <button type="submit" className="rounded-lg border border-white/20 px-2 py-1 text-sm hover:bg-white/10">Use it</button>
-                </form>
-              )}
-              {name && (
-                <button type="button" onClick={() => onDone(look, name)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-5 py-2 text-sm font-semibold text-slate-950"><Plane className="h-4 w-4" /> Board {name}</button>
-              )}
+              <span className="mr-auto text-xs text-white/45">Click a design to use it. You can keep talking while phones design.</span>
+              <button type="button" disabled={!mix} onClick={() => mix && choose(mix)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-5 py-2 text-sm font-semibold text-slate-950 disabled:opacity-40">
+                <Blend className="h-4 w-4" /> Mix them
+              </button>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex gap-5 p-5">
+            <div className="flex w-48 shrink-0 flex-col items-center justify-center rounded-2xl bg-white/[0.04] p-2">
+              <motion.div initial={{ scale: 0.6, rotate: -8 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 220, damping: 12 }}>
+                <MascotFigure look={look} size={160} />
+              </motion.div>
+              {name && <p className="font-display text-2xl">{name}</p>}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="font-display text-2xl">What is our mascot called?</p>
+              <p className="mb-3 text-sm text-white/60">Ask the class, then pick a name or type one.</p>
+              <div className="flex flex-wrap gap-2">
+                {names.map((n) => (
+                  <button key={n} type="button" onClick={() => setName(n)} className={`rounded-2xl border px-4 py-3 font-display text-xl ${name === n ? 'border-amber-300 bg-amber-300/15' : 'border-white/12 bg-white/5 hover:border-amber-300/60'}`}>{n}</button>
+                ))}
+              </div>
+              <form onSubmit={(e) => { e.preventDefault(); const n = (e.currentTarget.elements.namedItem('mascot-name') as HTMLInputElement).value.trim().slice(0, 40); if (n) setName(n); }} className="mt-3 flex items-center gap-1.5">
+                <input name="mascot-name" placeholder="Or type a name" aria-label="Mascot name" className="rounded-lg border border-white/15 bg-slate-900 px-2 py-1 text-sm" />
+                <button type="submit" className="rounded-lg border border-white/20 px-2 py-1 text-sm hover:bg-white/10">Use it</button>
+              </form>
+              <div className="mt-4 flex items-center justify-end gap-2">
+                <button type="button" onClick={() => { setLook(null); setName(''); }} className="rounded-full border border-white/20 px-3 py-1.5 text-sm text-white/70 hover:text-white">Back to the designs</button>
+                {name && (
+                  <button type="button" onClick={() => onDone(look, name)} className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-orange-300 px-5 py-2 text-sm font-semibold text-slate-950"><Plane className="h-4 w-4" /> Board {name}</button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </motion.div>
     </div>
   );

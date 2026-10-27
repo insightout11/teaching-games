@@ -19,7 +19,8 @@ export type InputType =
   | 'cabin-culprit'  // Cabin Mystery culprit-side — prompt for culprit, listening state for others
   | 'debate-prep'    // Team Debate prep board — add points to your team's live list
   | 'cargo-hand'     // Cargo Hold — persistent private card hand (play / repack / read)
-  | 'cargo-vote';    // Cargo Hold — vote for the funniest valid sentence (never your own)
+  | 'cargo-vote'     // Cargo Hold — vote for the funniest valid sentence (never your own)
+  | 'mascot-build';  // Live Room — each phone designs a class mascot (all parts on one screen), then sends it
 
 export interface InputSpec {
   /** Server timestamp for when this prompt version became canonical. */
@@ -32,6 +33,8 @@ export interface InputSpec {
   /** Public Sector Strike board only; no unrevealed bonuses or question data. */
   sectorBoard?: Array<{ label: string; owner: 'Azure' | 'Ember' | null; selectable: boolean }>;
   options?: string[];        // For choice/multi-select/sequence/ranking
+  /** mascot-build: the parts each phone may choose from (locked parts left out). */
+  mascotParts?: { body: string[]; color: string[]; eyes: string[]; head: string[]; extra: string[] };
   maxLength?: number;        // For text inputs
   selectCount?: number;      // For multi-select (e.g., 4 for connections)
   placeholder?: string;      // Input placeholder text

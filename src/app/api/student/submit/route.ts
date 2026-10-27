@@ -174,6 +174,7 @@ export async function POST(request: NextRequest) {
       inputType === 'confirm' ||
       inputType === 'shuffleboard' ||
       inputType === 'geo-point' ||
+      inputType === 'mascot-build' ||
       inputType === 'cabin-question' ||
       inputType === 'cabin-vote' ||
       inputType === 'cargo-hand' ||
