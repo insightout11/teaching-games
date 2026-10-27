@@ -874,16 +874,9 @@ export function FlightDeck({
     else stopMusic();
   }, [view]);
   useEffect(() => () => stopMusic(0), []);
-  // Zoom layout: the whole window is shared, so the windscreen takes the space;
-  // cargo + cabin fold into edge rails that slide open over it. Remembered.
-  const [zoomLayout, setZoomLayout] = useState(false);
-  useEffect(() => {
-    try { setZoomLayout(localStorage.getItem('lc-zoom-layout') === '1'); } catch { /* storage blocked */ }
-  }, []);
-  const toggleZoomLayout = () => setZoomLayout((v) => {
-    try { localStorage.setItem('lc-zoom-layout', v ? '0' : '1'); } catch { /* storage blocked */ }
-    return !v;
-  });
+  // Zoom layout is the only layout now (Oct 2026, owner): the whole window is shared, the windscreen takes the space and
+  // cargo + cabin fold into edge rails that slide open over it.
+  const zoomLayout = true;
   // See-through games / activities, like glass widgets. Remembered.
   const [gameGlass, setGameGlass] = useState(false);
   useEffect(() => {
@@ -4008,9 +4001,6 @@ export function FlightDeck({
             );
           })}
         </nav>
-        <button type="button" onClick={toggleZoomLayout} title="Zoom layout: a big windscreen for sharing this window in Zoom" className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs ${zoomLayout ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
-          <Video className="h-3.5 w-3.5" /> <span className="hidden 2xl:inline">Zoom layout</span>
-        </button>
         <button type="button" onClick={() => setRecordTab('passport')} title="The class's passport, flight log and hangar" className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Stamp className="h-3.5 w-3.5" /> {zoomLayout ? '' : 'Journey'}
         </button>
@@ -4029,9 +4019,6 @@ export function FlightDeck({
             <Smartphone className="h-3.5 w-3.5" /> <span className="hidden 2xl:inline">Clear phones</span>
           </button>
         )}
-        <button type="button" onClick={() => setPresenting(true)} title="Present: the windscreen fills the window" className="flex shrink-0 items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
-          <Maximize2 className="h-3.5 w-3.5" /> <span className="hidden 2xl:inline">Present</span>
-        </button>
         <button type="button" onClick={() => setGuideOpen((o) => !o)} aria-label="Guide" title="Guide for this kind of class" className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg border ${guideOpen ? 'border-amber-300/60 text-amber-200' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           <HelpCircle className="h-4 w-4" />
         </button>
