@@ -1472,6 +1472,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   if (!sessionActive) {
     return (
       <StudentSkyShell weather="landing" center>
+        {/* one column: the arrival card, then the postcard, then Back (they sat side by side and overflowed) */}
+        <div className="flex w-full max-w-md flex-col items-center">
         {personalResults || (referenceVocab && referenceVocab.length > 0) ? (
           <LandingCard
             name={studentSession.displayName}
@@ -1497,6 +1499,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         <Button onClick={onLeave} variant="ghost" className="mt-3">
           Back
         </Button>
+        </div>
       </StudentSkyShell>
     );
   }
