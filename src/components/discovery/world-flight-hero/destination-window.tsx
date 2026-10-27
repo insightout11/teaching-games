@@ -59,11 +59,11 @@ export function DestinationWindow({
           <DestinationArrivalScene
             destinationId={city.id}
             scene={city.scene}
-            // Touchdown at progress ≈ 0.34 puts the plane dead-centre of the frame
-            // (cx = lerp(660,1130,easeOut(g)) ≈ 800 = CONTENT_W / 2), full-size and
+            // Touchdown at progress ≈ 0.49 puts the plane dead-centre of the frame
+            // (cx = lerp(660,1000,easeOut(g)) ≈ 800 = CONTENT_W / 2), full-size and
             // clear of the left-of-centre windsock — a "just arrived" hero framing.
             phase="touchdown"
-            progress={0.34}
+            progress={0.49}
             motion="static"
             planeKey={city.plane}
             // A showcase, not a forecast: mostly clear skies, a little character where it suits (cloud, snow, the

@@ -15,11 +15,12 @@ const easeOut = (p: number) => 1 - (1 - p) * (1 - p);
 // Touchdown and taxi are ONE continuous ground roll; this is touchdown's share of
 // it, from the arrivalTimeline phase widths (touchdown 0.52–0.72 = 0.20, taxi
 // 0.72–0.94 = 0.22, total 0.42). Mapping both phases onto a single eased-out cx
-// over 660→1130 makes the plane brake to a smooth stop with no velocity jump at
+// over 660→1000 makes the plane brake to a smooth stop with no velocity jump at
 // the touchdown→taxi or taxi→landed seams.
 const ROLL_TOUCHDOWN_SHARE = 0.2 / 0.42;
 const ROLL_FROM = 660;
-const ROLL_TO = 1130;
+// Where the plane stops: the middle of the frame the landing camera ends on (it used to park ~9% right of centre)
+const ROLL_TO = 1000;
 
 // Pure function: phase + progress -> exact side-profile frame. `cyBase` is the
 // wheel line; the image is drawn above it. Approach scaling creates a subtle
