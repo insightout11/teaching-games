@@ -1222,7 +1222,7 @@ export function FlightDeck({
     const cityId = briefing.cityId;
     const p = pickPrediction({
       origin, destination, countries, destinationZone: DESTINATION_TIME_ZONES[destination.id] ?? null,
-      landAt: clock.landAt, seed: Math.floor(Date.now() / 86_400_000),
+      landAt: clock.landAt, seed: Math.floor(Math.random() * 1e6), // a fresh pick each flight (was the same kind all day)
     });
     setBriefing((b) => (b && b.cityId === cityId ? { ...b, prediction: p, asked: true } : b));
     if (!p || isMockMode()) return;
