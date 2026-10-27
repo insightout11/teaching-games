@@ -27,7 +27,7 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
       else if (m.type === 'answer') setAnswer({ question: m.question, answer: m.answer, open: m.open, source: m.source ?? null });
     });
     channelRef.current?.postMessage({ type: 'hello' });
-    document.title = 'Private window · LessonCaptain';
+    document.title = 'Co-pilot · LessonCaptain';
     return () => channelRef.current?.close();
   }, [sessionId]);
 
@@ -63,7 +63,7 @@ export function SourcesPopout({ sessionId, initialTab = 'sources' }: { sessionId
   return (
     <div className="mx-auto flex h-screen max-w-xl flex-col gap-2 p-3">
       <p className="px-1 text-xs text-white/55">
-        Private window. Share only the room tab on Zoom; nothing here reaches the class until you choose.
+        Co-pilot: your private window. Share only the room tab on Zoom; nothing here reaches the class until you choose.
       </p>
       {answer && (
         <div className="rounded-xl border border-emerald-300/40 bg-emerald-400/[0.07] p-3" aria-label="Answer key">

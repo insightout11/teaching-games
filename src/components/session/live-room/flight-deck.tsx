@@ -1575,6 +1575,7 @@ export function FlightDeck({
   useEffect(() => { setStopOffered(false); setStopScene(null); setStopVote(null); }, [takeoffAt]);
   const stopDue = flightStage === 'flying' && takeoffAt !== null && !holding && minutesLeft !== null && minutesLeft <= STOP_MINUTES && minutesLeft > 1
     && !stopOffered && !stopVote && !stopScene && cityStops(destination.id).length >= 2;
+  const copilotWaiting = waitingMessages + waitingCards + (talkAnswer && talkAnswer.answer && !talkAnswer.revealed ? 1 : 0);
   // The route strip's closing markers: reminders only (nothing starts by itself); which ones depends on the class type
   const landAtLabel = clock.landAt ? new Date(clock.landAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : null;
   const quizOn = (todayType === 'game-time' || todayType === 'structured') && classMinutes >= 40;
@@ -3083,7 +3084,7 @@ export function FlightDeck({
     ) : (
       <div className="rounded-3xl border border-dashed border-white/40 bg-slate-950/40 px-10 py-8 text-center backdrop-blur-md">
         <p className="font-display text-3xl text-white">Drag something from the cargo hold</p>
-        <p className="mt-2 text-white/70">…or search for it with Sources.</p>
+        <p className="mt-2 text-white/70">…or search for it with the Co-pilot.</p>
       </div>
     );
   } else if (view === 'map') {
@@ -4054,7 +4055,7 @@ export function FlightDeck({
         <button type="button" onClick={() => setGuideOpen((o) => !o)} aria-label="Guide" title="Guide for this kind of class" className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg border ${guideOpen ? 'border-amber-300/60 text-amber-200' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           <HelpCircle className="h-4 w-4" />
         </button>
-        <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave). Tip: F11 stays full screen even when the Sources window opens." className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
+        <button type="button" onClick={toggleFullScreen} title="Full screen: hides the browser and taskbar (Esc to leave). Tip: F11 stays full screen even when the Co-pilot opens." className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 text-xs ${fullScreen ? 'border-sky-300/60 bg-sky-300/10 text-sky-100' : 'border-[#2A3854] text-white/75 hover:text-white'}`}>
           {fullScreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />} <span className="hidden 2xl:inline">{fullScreen ? 'Exit full screen' : 'Full screen'}</span>
         </button>
         {fullScreenLost && !fullScreen && (
@@ -4152,7 +4153,7 @@ export function FlightDeck({
         {removeError && <p role="alert" className="text-xs text-rose-300">{removeError}</p>}
         <p className="flex justify-between font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">Cargo <span>{material.length}</span></p>
         <div className="-mr-1 flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto pr-1">
-          {material.length === 0 && <p className="text-xs text-white/45">Things you find with Sources land here. Drag one onto the windscreen to show it.</p>}
+          {material.length === 0 && <p className="text-xs text-white/45">Things you find with the Co-pilot land here. Drag one onto the windscreen to show it.</p>}
           {material.map((m) => {
             const isHot = hot(hotZone, 'item') && hotZone?.dataset.itemId === m.id;
             const thumb = m.imageUrl ?? m.thumbnailUrl;
@@ -4200,7 +4201,7 @@ export function FlightDeck({
           <button type="button" onClick={() => hideItem(sessionId)} className="rounded-lg border border-[#2A3854] px-2 py-1.5 text-xs text-white/70 hover:text-white">Clear the screen</button>
         )}
         <button type="button" onClick={openPopout} className="flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-sky-300/40 px-2 py-2 text-xs text-sky-100 hover:bg-sky-300/10">
-          <Search className="h-3.5 w-3.5" /> Sources (private window)
+          <Search className="h-3.5 w-3.5" /> Co-pilot (private window)
         </button>
         <button type="button" onClick={() => setPanel(panel === 'sources' ? null : 'sources')} className="text-[11px] text-white/45 hover:text-white/80">or search here (class can see)</button>
       </aside>
@@ -4540,7 +4541,6 @@ export function FlightDeck({
         <div className="relative shrink-0">
           <button type="button" onClick={() => setPanelTray((t) => (t === 'instruments' ? null : 'instruments'))} className={`relative flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold ${panelTray === 'instruments' ? 'border-sky-300 bg-sky-300 text-slate-950' : 'border-sky-300/50 bg-sky-300/10 text-sky-100 hover:bg-sky-300/20'}`}>
             <Gauge className="h-4 w-4" /> Instruments
-            {(waitingMessages + waitingCards) > 0 && <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-300 px-1 font-mono text-[10px] font-bold text-[#1a1204]">{waitingMessages + waitingCards}</span>}
           </button>
           {panelTray === 'instruments' && (
             <div className="absolute bottom-full right-0 z-50 mb-2 w-[min(520px,80vw)] rounded-2xl border border-[#2A3854] bg-[#0b111d]/95 p-3 shadow-2xl backdrop-blur" onClick={() => setPanelTray(null)}>
@@ -4584,13 +4584,19 @@ export function FlightDeck({
             <button type="button" onClick={() => setPlanOpen(true)} className="flex items-center gap-1.5 rounded-lg border border-amber-300/40 px-2.5 py-1.5 text-xs text-amber-200 hover:bg-amber-300/10">
               <Plane className="h-3.5 w-3.5" /> Launch a flight
             </button>
-            <button type="button" onClick={openPopout} className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/70 hover:text-white">
-              <ExternalLink className="h-3.5 w-3.5" /> Sources
-            </button>
               </div>
             </div>
           )}
         </div>
+
+        {/* The Co-pilot (Oct 2026, owner): the teacher's private second window. Its own button, not one of the widgets,
+            with a count of what is waiting for the teacher: messages, cards for the board, an answer key ready. */}
+        <button type="button" onClick={openPopout} title="Your private window: messages, answers about the topic, pictures, the library, search. Never on the shared screen."
+          className="relative flex shrink-0 items-center gap-2 rounded-xl border border-violet-300/60 bg-violet-400/15 px-3 py-1.5 text-left text-violet-100 hover:bg-violet-400/25">
+          <ExternalLink className="h-4 w-4" />
+          <span className="leading-tight"><span className="block text-sm font-semibold">Co-pilot</span><span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-violet-200/70">private</span></span>
+          {copilotWaiting > 0 && <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 animate-pulse items-center justify-center rounded-full bg-amber-300 px-1 font-mono text-[11px] font-bold text-[#1a1204] shadow-[0_0_12px_rgba(252,211,77,.6)]">{copilotWaiting}</span>}
+        </button>
       </section>
 
       {guideOpen && (

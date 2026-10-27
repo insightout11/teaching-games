@@ -107,7 +107,7 @@ export function SourcesDrawer({ sessionId, onShow, onAdd, onClose, fill = false,
   return (
     <aside className={['flex flex-col gap-3 rounded-2xl border border-cyan-400/25 bg-slate-950/95 p-4 shadow-2xl', fill ? 'h-full' : 'max-h-[calc(100vh-10rem)]'].join(' ')}>
       <div className="flex items-center justify-between">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-200">Sources</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan-200">Co-pilot</p>
         <button type="button" onClick={onClose} className="rounded-md p-1 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Close sources">
           <X className="h-4 w-4" />
         </button>
