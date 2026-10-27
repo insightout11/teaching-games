@@ -1028,6 +1028,7 @@ export function FlightDeck({
   const [boardingMore, setBoardingMore] = useState(false);
   const [panelTray, setPanelTray] = useState<'activities' | 'instruments' | null>(null);
   const [talkMore, setTalkMore] = useState(false);
+  const [viewMenu, setViewMenu] = useState(false);
   // Postcards students sent home after the last lesson: read a few out while the class boards (Oct 2026)
   const [homePostcards, setHomePostcards] = useState<{ city: string | null; postcards: Array<{ id: string; name: string; message: string }> } | null>(null);
   const [postcardsOpen, setPostcardsOpen] = useState(false);
@@ -4038,19 +4039,23 @@ export function FlightDeck({
           onSubmit={(t) => makeFocus({ title: t })}
           onPick={(id) => setFocusId(id)}
         />
-        <nav className="ml-auto flex shrink-0 gap-1" aria-label="Windscreen view">
-          {VIEWS.filter((v) => !(scoresOff && v.key === 'scores')).map((v) => {
-            const on = view === v.key;
-            return (
-              <button key={v.key} type="button" aria-pressed={on} onClick={() => switchView(v.key)} className="flex flex-col items-center gap-1 rounded-lg px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 aria-pressed:text-white">
-                <span className={['relative h-4 w-[30px] rounded-full border transition-colors', on ? 'border-emerald-300/60 bg-emerald-300/20' : 'border-[#2A3854] bg-[#0a0f19]'].join(' ')}>
-                  <span className={['absolute top-[2px] h-2.5 w-2.5 rounded-full transition-all', on ? 'left-[16px] bg-emerald-300 shadow-[0_0_8px_#6ee7b7]' : 'left-[2px] bg-slate-500'].join(' ')} />
-                </span>
-                {v.label}
-              </button>
-            );
-          })}
-        </nav>
+        {/* The windscreen view: one small menu (Oct 2026, owner: a quieter top bar; the view mostly changes by itself) */}
+        <div className="relative ml-auto shrink-0">
+          <button type="button" onClick={() => setViewMenu((v) => !v)} aria-haspopup="menu" aria-expanded={viewMenu} title="What the windscreen shows" className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-white/80 hover:text-white">
+            <span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_8px_#6ee7b7]" />
+            {VIEWS.find((v) => v.key === view)?.label ?? view}
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${viewMenu ? 'rotate-180' : ''}`} />
+          </button>
+          {viewMenu && (
+            <div role="menu" className="absolute right-0 top-full z-50 mt-1 w-40 rounded-xl border border-[#2A3854] bg-[#0b111d]/95 p-1 shadow-2xl backdrop-blur" onClick={() => setViewMenu(false)}>
+              {VIEWS.filter((v) => !(scoresOff && v.key === 'scores')).map((v) => (
+                <button key={v.key} type="button" role="menuitemradio" aria-checked={view === v.key} onClick={() => switchView(v.key)} className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left font-mono text-[11px] uppercase tracking-[0.1em] ${view === v.key ? 'bg-emerald-300/15 text-emerald-100' : 'text-white/70 hover:bg-white/5 hover:text-white'}`}>
+                  <span className={`h-1.5 w-1.5 rounded-full ${view === v.key ? 'bg-emerald-300' : 'bg-slate-600'}`} />{v.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         <button type="button" onClick={() => setRecordTab('passport')} title="The class's passport, flight log and hangar" className="flex items-center gap-1.5 rounded-lg border border-[#2A3854] px-2.5 py-1.5 text-xs text-white/75 hover:text-white">
           <Stamp className="h-3.5 w-3.5" /> {zoomLayout ? '' : 'Journey'}
         </button>
