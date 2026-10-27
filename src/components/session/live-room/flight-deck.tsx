@@ -23,7 +23,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { createPortal } from 'react-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone, Ticket } from 'lucide-react';
+import { HelpCircle, Lightbulb, GraduationCap, Undo2, Expand, PhoneOff, UserPlus, LayoutGrid, ArrowRight, UserX, Blend, BookOpen, Crosshair, ExternalLink, EyeOff, Eye, Hand, ListChecks, Maximize2, Menu, Minimize2, Package, Plane, PlaneLanding, Satellite, QrCode, Stamp, Search, Shuffle, TriangleAlert, Users, Video, Vote, Wind, X, ClipboardList, Camera, Smartphone, Ticket, ChevronDown } from 'lucide-react';
 import { getActivity } from '@/activities/registry';
 import { CopyLinkButton, CopyLinkText } from '@/components/session/live-room/copy-link';
 import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
@@ -1026,6 +1026,7 @@ export function FlightDeck({
   // Passenger check-in (Oct 2026): before take-off the teacher calls each student to the desk, in seat order, for
   // their weekly chat and where they would like to fly. Their seat lights up and their phone shows the prompt.
   const [checkIn, setCheckIn] = useState<{ order: string[]; i: number } | null>(null);
+  const [boardingMore, setBoardingMore] = useState(false);
   const checkInP = checkIn ? allSeats.find((p) => p.id === checkIn.order[checkIn.i]) ?? null : null;
   const checkInPrompt = checkIn ? CHECK_IN_PROMPTS[checkIn.i % CHECK_IN_PROMPTS.length] : '';
   const checkInWhere = Boolean(cityVote && !cityVote.revealed);
@@ -2841,6 +2842,19 @@ export function FlightDeck({
               Take off to {destination.city}
             </button>
           )}
+          {/* Boarding is for talking to each passenger (Oct 2026, owner: the card was information overload): check-in is
+              the main thing before take-off; the games and class map questions fold away. */}
+          {seated.length > 0 && !checkIn && (
+            <button type="button" onClick={startCheckIn} className="flex w-max items-center gap-2 rounded-xl border border-sky-300/50 bg-sky-300/10 px-4 py-2 text-sm font-semibold text-sky-100 hover:bg-sky-300/20">
+              <Ticket className="h-4 w-4" /> Check in each passenger
+              <span className="font-normal text-sky-100/60">· their day{cityVote && !cityVote.revealed ? ', where to fly' : ''}</span>
+            </button>
+          )}
+          <button type="button" onClick={() => setBoardingMore((v) => !v)} className="flex w-max items-center gap-1 text-xs text-white/50 hover:text-white/80">
+            {boardingMore ? 'Fewer options' : 'More while you wait'}
+            <ChevronDown className={`h-3.5 w-3.5 transition-transform ${boardingMore ? 'rotate-180' : ''}`} />
+          </button>
+          {boardingMore && (<>
           <div className="flex flex-wrap items-center gap-2 text-xs text-white/60">
             While you wait:
             <button type="button" onClick={() => startPinGame('where')} className="rounded-lg border border-amber-300/40 px-2.5 py-1 text-amber-100 hover:bg-amber-300/10">Where in the world?</button>
@@ -2874,6 +2888,7 @@ export function FlightDeck({
               {customPin.trim() && <button type="submit" className="rounded-lg border border-rose-300/50 px-2 py-1 text-xs text-rose-100 hover:bg-rose-300/10">Ask</button>}
             </form>
           </div>
+          </>)}
         </div>
       </div>
     );
