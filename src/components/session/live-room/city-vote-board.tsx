@@ -25,7 +25,7 @@ export interface VoteCityCard {
   /** What the city is known for (its lesson focuses). */
   knownFor?: string[];
   /** Country items the class could earn on the way (countries crossed it has not talked about yet). */
-  items?: Array<{ item: string; sticker: string; country: string }>;
+  items?: Array<{ item: string; sticker: string | null; country: string }>;
 }
 
 // One picture per city, fetched once per page (free Wikimedia pictures).
@@ -131,7 +131,7 @@ export function CityVoteBoard({ sessionId, joinUrl, cards, totalVotes, revealed,
                   <p className="flex flex-wrap items-center gap-1"><Gift className="h-3.5 w-3.5 shrink-0 text-emerald-300" />Could earn:
                     {c.items.map((it) => (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img key={it.country} src={`/stickers/${it.sticker}.webp`} alt={it.item} title={`${it.item} (talk about ${it.country})`} className="h-6 w-6 rounded bg-white/90 p-0.5" />
+                      <img key={it.country} src={`/stickers/${it.sticker ?? 'present'}.webp`} alt={it.item} title={`${it.item} (talk about ${it.country})`} className="h-6 w-6 rounded bg-white/90 p-0.5" />
                     ))}
                   </p>
                 )}

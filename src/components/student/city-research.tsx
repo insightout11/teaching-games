@@ -63,7 +63,7 @@ export function CityResearch({ data, selected, busy, onVote }: { data: CityResea
             <p className="flex flex-wrap items-center gap-1"><Gift className="h-3.5 w-3.5 shrink-0 text-emerald-300" />Could earn:
               {card.items.map((it) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={it.country} src={`/stickers/${it.sticker}.webp`} alt={it.item} title={`${it.item} (talk about ${it.country})`} className="h-7 w-7 rounded bg-white/90 p-0.5" />
+                <img key={it.country} src={`/stickers/${it.sticker ?? 'present'}.webp`} alt={it.item} title={`${it.item} (talk about ${it.country})`} className="h-7 w-7 rounded bg-white/90 p-0.5" />
               ))}
             </p>
           )}

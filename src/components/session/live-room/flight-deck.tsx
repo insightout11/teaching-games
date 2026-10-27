@@ -3442,7 +3442,7 @@ export function FlightDeck({
       {flightStage === 'flying' && !cinematic && !holding && view !== 'map' && itemNow && !itemNowEarned && (
         <button type="button" onClick={earnCountry} title={`Earns the class: ${itemNow.item}`} className="absolute bottom-12 left-4 z-[5] flex items-center gap-2 rounded-full border border-amber-300/60 bg-slate-950/70 py-1 pl-1 pr-3 text-xs font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/15">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/stickers/${itemNow.sticker}.webp`} alt="" className="h-6 w-6 rounded-full bg-white/90 p-0.5" />
+          <img src={`/stickers/${itemNow.sticker ?? 'present'}.webp`} alt="" className="h-6 w-6 rounded-full bg-white/90 p-0.5" />
           We talked about {itemNow.country}
         </button>
       )}
@@ -3776,7 +3776,7 @@ export function FlightDeck({
                   {itemsToday.map((c) => { const it = countryItemFor(c)!; return (
                     <span key={c} className="flex items-center gap-1.5 text-sm">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/stickers/${it.sticker}.webp`} alt="" className="h-7 w-7" />{it.item} <span className="text-[#1b2233]/55">({c})</span>
+                      <img src={`/stickers/${it.sticker ?? 'present'}.webp`} alt="" className="h-7 w-7" />{it.item} <span className="text-[#1b2233]/55">({c})</span>
                     </span>
                   ); })}
                   {itemsToday.length === 0 && <span className="text-sm text-[#1b2233]/60">None yet: talk about a country as you fly over it.</span>}
@@ -4236,7 +4236,7 @@ export function FlightDeck({
             <div className="mt-1 flex flex-wrap gap-1">
               {shelfItems.map((i) => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={i.country} src={`/stickers/${i.sticker}.webp`} alt={i.item} title={`${i.item} · ${i.country}: ${i.fact}`} className="h-8 w-8 rounded-lg bg-white/90 p-0.5" />
+                <img key={i.country} src={`/stickers/${i.sticker ?? 'present'}.webp`} alt={i.item} title={`${i.item} · ${i.country}: ${i.fact}`} className="h-8 w-8 rounded-lg bg-white/90 p-0.5" />
               ))}
               {stopShelf.map((it) => it.sticker
                 // eslint-disable-next-line @next/next/no-img-element

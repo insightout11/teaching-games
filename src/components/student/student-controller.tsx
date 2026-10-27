@@ -1541,7 +1541,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               <div className="mt-1 flex flex-wrap gap-1">
                 {shelf.map((c) => { const it = countryItemFor(c); return it ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img key={c} src={`/stickers/${it.sticker}.webp`} alt={`${it.item} (${c})`} title={`${it.item} · ${c}`} className="h-7 w-7 rounded-md bg-white/90 p-0.5" />
+                  <img key={c} src={`/stickers/${it.sticker ?? 'present'}.webp`} alt={`${it.item} (${c})`} title={`${it.item} · ${c}`} className="h-7 w-7 rounded-md bg-white/90 p-0.5" />
                 ) : null; })}
               </div>
             )}

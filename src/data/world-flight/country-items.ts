@@ -3,7 +3,7 @@
  * "We talked about it" click). Objects, not clothing, so no national dress becomes a costume. Each uses a drawn
  * sticker from /public/stickers. DRAFT list for Matt's review: accuracy and respect first.
  */
-export interface CountryItem { country: string; item: string; sticker: string; fact: string }
+export interface CountryItem { country: string; item: string; sticker: string | null; fact: string; artPrompt?: string }
 
 export const COUNTRY_ITEMS: readonly CountryItem[] = [
   { country: 'Egypt', item: 'Felucca sailboat', sticker: 'sailboat', fact: 'Feluccas have sailed the Nile for thousands of years.' },

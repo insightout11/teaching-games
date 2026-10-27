@@ -74,7 +74,7 @@ export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay,
         {/* a souvenir from the class shelf, held up beside the student */}
         {heldItem && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`/stickers/${heldItem.sticker}.webp`} alt={heldItem.item} className="absolute bottom-6 left-[118px] h-16 w-16 rotate-[-10deg] drop-shadow-[0_3px_4px_rgba(0,0,0,0.35)]" />
+          <img src={`/stickers/${heldItem.sticker ?? 'present'}.webp`} alt={heldItem.item} className="absolute bottom-6 left-[118px] h-16 w-16 rotate-[-10deg] drop-shadow-[0_3px_4px_rgba(0,0,0,0.35)]" />
         )}
         {/* the class mascot squeezes into the photo, in front of the window */}
         {mascot && <div className="absolute -right-4 bottom-[-10px]"><MascotFigure look={mascot.look} size={136} title={mascot.name} /></div>}

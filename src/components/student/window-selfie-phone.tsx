@@ -62,7 +62,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classSh
           {shelfItems.map((it) => (
             <button key={it.country} type="button" role="radio" aria-checked={item === it.country} aria-label={it.item} title={`${it.item} (${it.country})`} onClick={() => setItem(it.country)} className={`rounded-lg p-0.5 ${item === it.country ? 'bg-amber-300' : 'bg-white/10'}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/stickers/${it.sticker}.webp`} alt="" className="h-8 w-8" />
+              <img src={`/stickers/${it.sticker ?? 'present'}.webp`} alt="" className="h-8 w-8" />
             </button>
           ))}
         </div>
