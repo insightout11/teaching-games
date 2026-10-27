@@ -40,6 +40,8 @@ import { ActionBar, BoardingHeader, PhoneSheet, type PhoneStatus } from '@/compo
 import { OptionLetter, PhoneLabel, PhonePrompt, phoneOption } from '@/components/student/phone-kit';
 import { cabinSeatLabel } from '@/lib/live-room/seats';
 import { SeatPicker } from '@/components/student/seat-picker';
+import { AccessoryPicker } from '@/components/student/accessory-picker';
+import { parseAccessory, type Accessory } from '@/lib/accessories';
 import { StudentOnboarding } from '@/components/student/student-onboarding';
 import { CityResearch, cityResearchOf } from '@/components/student/city-research';
 import { MascotFigure } from '@/components/ui/mascot-figure';
@@ -456,6 +458,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // The class mascot and cabin shelf, shown on the boarding pass (Oct 2026)
   const [classMascot, setClassMascot] = useState<{ name: string; look: MascotLook | null } | null>(null);
   const [shelf, setShelf] = useState<string[]>([]);
+  // The market accessory this student wears (city stops), shown on their avatar
+  const [myAccessory, setMyAccessory] = useState<Accessory | null>(null);
   const handAt = useRef(0);
   const handChannel = useRef<ReturnType<typeof openHandChannel> | null>(null);
   useEffect(() => {
@@ -711,6 +715,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
       if (typeof data.seatIndex === 'number') setSeatIndex(data.seatIndex);
       if (data.mascot !== undefined) setClassMascot(data.mascot ? { name: data.mascot.name, look: parseMascotLook(data.mascot.look) } : null);
       if (Array.isArray(data.shelf)) setShelf(data.shelf);
+      if (data.accessory !== undefined) setMyAccessory(parseAccessory(data.accessory));
       setLastResult(data.lastResult ?? null);
       if (typeof data.sessionPoints === 'number') setSessionPoints(data.sessionPoints);
       if (typeof data.responseCount === 'number') {
@@ -1516,7 +1521,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         onLeave={onLeave}
       />
 
-      <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} classShelf={shelf} />
+      <WindowSelfiePhone sessionId={sessionId} name={studentSession.displayName} seed={studentSession.avatarSeed ?? null} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} mascot={classMascot?.look ? { name: classMascot.name, look: classMascot.look } : null} classShelf={shelf} accessory={myAccessory} />
       {checkInMe && (
         <div className="mb-3 rounded-2xl border border-amber-300/50 bg-amber-300/10 p-4 text-center">
           <p className="flex items-center justify-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-amber-300"><Ticket className="h-3.5 w-3.5" /> You&apos;re at the check-in desk</p>
@@ -1568,7 +1573,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           {activePoll.metadata?.poll_type !== 'bonus_vote' && (
             <div className="mb-3"><PhonePrompt>{activePoll.question}</PhonePrompt></div>
           )}
-          {cityResearchOf(activePoll.metadata) ? (
+          {activePoll.metadata?.purpose === 'accessory-pick' ? (
+            <AccessoryPicker sessionId={sessionId} clientId={studentSession.clientId} pollId={activePoll.pollId} metadata={activePoll.metadata} seed={studentSession.avatarSeed ?? null} name={studentSession.displayName} current={myAccessory} onPicked={setMyAccessory} />
+          ) : cityResearchOf(activePoll.metadata) ? (
             <CityResearch data={cityResearchOf(activePoll.metadata)!} selected={selectedChoice} busy={isVoting} onVote={(city) => handleVote(city)} />
           ) : (
           <div className="space-y-2">

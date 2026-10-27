@@ -124,6 +124,8 @@ interface SessionPayload {
   /** The class mascot flying this session, and the class's country items (migration 070). */
   mascot?: { name: string; look: unknown } | null;
   shelf?: string[];
+  /** The market accessory this student wears (migration 072). */
+  accessory?: unknown;
 }
 
 interface SessionLightweightPayload {
@@ -306,6 +308,7 @@ export async function GET(request: NextRequest) {
     let seatIndex: number | null = null;
     let mascot: { name: string; look: unknown } | null | undefined;
     let shelf: string[] | undefined;
+    let accessory: unknown;
     if (clientId) {
       const { data: deviceParticipant, error: participantError } = await supabase
         .from('session_participants')
@@ -359,6 +362,10 @@ export async function GET(request: NextRequest) {
           }
         } catch {
           // before migration 070
+        }
+        if (studentId) {
+          const { data: acc } = await supabase.from('student_accessories').select('accessory').eq('student_id', studentId).eq('worn', true).limit(1).maybeSingle();
+          accessory = (acc as { accessory?: unknown } | null)?.accessory ?? null;
         }
       }
     }
@@ -881,6 +888,7 @@ export async function GET(request: NextRequest) {
       seatIndex,
       mascot,
       shelf,
+      accessory,
       debriefToken,
     };
 

@@ -11,6 +11,7 @@ import { MascotFigure } from '@/components/ui/mascot-figure';
 import { countryItemFor } from '@/data/world-flight/country-items';
 import { rarityOf } from '@/lib/live-room/landmark-rarity';
 import type { MascotLook } from '@/lib/mascot';
+import type { Accessory } from '@/lib/accessories';
 import { composeTimedPalette } from '@/components/world-flight/arrival-scene/palettes';
 import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 import { realTerrain } from '@/components/live-room/flight/ground-texture';
@@ -57,7 +58,7 @@ function WindowView({ kind, landmarkId, terrain, region, tod }: { landmarkId?: s
   );
 }
 
-export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay, seed, name, title, caption, expression, mascot, item }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string; expression?: CrewExpression; mascot?: { name: string; look: MascotLook } | null; item?: string | null }) {
+export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay, seed, name, title, caption, expression, mascot, item, accessory }: { landmarkId?: string; kind: WorldLandmarkKind; terrain: string; region: string | null; timeOfDay: string; seed: string | null; name: string; title: string; caption: string; expression?: CrewExpression; mascot?: { name: string; look: MascotLook } | null; item?: string | null; accessory?: Pick<Accessory, 'type' | 'colors'> | null }) {
   const tod = asTime(timeOfDay);
   const heldItem = countryItemFor(item);
   return (
@@ -69,7 +70,7 @@ export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay,
             <div className="pointer-events-none absolute inset-0 rounded-[46%/38%] bg-[linear-gradient(130deg,rgba(255,255,255,0.18),transparent_40%)]" />
           </div>
         </div>
-        <div className="absolute -left-6 bottom-[-14px]"><CrewAvatar seed={seed ?? name} name={name} size={170} expression={expression} /></div>
+        <div className="absolute -left-6 bottom-[-14px]"><CrewAvatar seed={seed ?? name} name={name} size={170} expression={expression} accessory={accessory} /></div>
         {/* a souvenir from the class shelf, held up beside the student */}
         {heldItem && (
           // eslint-disable-next-line @next/next/no-img-element

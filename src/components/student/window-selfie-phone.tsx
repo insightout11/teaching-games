@@ -8,6 +8,7 @@ import { CREW_EXPRESSIONS, type CrewExpression } from '@/components/ui/crew-char
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { parseMascotLook, type MascotLook } from '@/lib/mascot';
 import { countryItemFor } from '@/data/world-flight/country-items';
+import type { Accessory } from '@/lib/accessories';
 import { keepSelfie, keptSelfies, openWindowViewChannel, WINDOW_VIEW_STALE_MS, type KeptSelfie, type WindowView } from '@/lib/live-room/window-view';
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -15,7 +16,7 @@ const titleOf = (v: WindowView) => `Over ${v.name}`;
 const captionOf = (v: KeptSelfie) => [v.from && v.to ? `${v.from} to ${v.to}` : '', new Date(v.takenAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }), v.seat ? `seat ${v.seat}` : ''].filter(Boolean).join(' · ');
 
 /** On the phone: "Take my window selfie" while the room says a landmark is in view; kept selfies on the boarding pass. */
-export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classShelf = [] }: { sessionId: string; name: string; seed: string | null; seat: string | null; mascot?: { name: string; look: MascotLook } | null; classShelf?: string[] }) {
+export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classShelf = [], accessory = null }: { sessionId: string; name: string; seed: string | null; seat: string | null; mascot?: { name: string; look: MascotLook } | null; classShelf?: string[]; accessory?: Pick<Accessory, 'type' | 'colors'> | null }) {
   const [view, setView] = useState<WindowView | null>(null);
   const seenAt = useRef(0);
   const [open, setOpen] = useState<KeptSelfie | null>(null);
@@ -37,7 +38,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classSh
 
   const take = () => {
     if (!view) return;
-    const s: KeptSelfie = { ...view, sessionId, seat, takenAt: Date.now(), expression: face, mascot: mascot && withMascot ? mascot : null, item };
+    const s: KeptSelfie = { ...view, sessionId, seat, takenAt: Date.now(), expression: face, mascot: mascot && withMascot ? mascot : null, item, accessory: accessory ?? null };
     setMine(keepSelfie(s).filter((x) => x.sessionId === sessionId));
     setOpen(s);
   };
@@ -49,7 +50,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classSh
         <div className="mb-2 flex items-center justify-center gap-1.5" role="radiogroup" aria-label="Your face in the selfie">
           {CREW_EXPRESSIONS.map((e) => (
             <button key={e} type="button" role="radio" aria-checked={face === e} aria-label={e} onClick={() => setFace(e)} className={`rounded-full p-0.5 ${face === e ? 'bg-amber-300' : 'bg-white/10'}`}>
-              <CrewAvatar seed={seed ?? name} name={name} size={40} expression={e} />
+              <CrewAvatar seed={seed ?? name} name={name} size={40} expression={e} accessory={accessory} />
             </button>
           ))}
         </div>
@@ -85,7 +86,7 @@ export function WindowSelfiePhone({ sessionId, name, seed, seat, mascot, classSh
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 overflow-y-auto bg-slate-950/90 p-4 backdrop-blur">
           <button type="button" onClick={() => { setOpen(null); setShelf(false); }} aria-label="Close" className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white"><X className="h-5 w-5" /></button>
           {(open ? [open] : mine).map((s) => (
-            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} landmarkId={s.landmarkId} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} expression={CREW_EXPRESSIONS.includes(s.expression as CrewExpression) ? s.expression as CrewExpression : undefined} mascot={s.mascot ? (() => { const look = parseMascotLook(s.mascot.look); return look ? { name: s.mascot.name, look } : null; })() : null} item={s.item ?? null} />
+            <WindowSelfieCard key={s.landmarkId + s.takenAt} kind={s.kind} landmarkId={s.landmarkId} terrain={s.terrain} region={s.region} timeOfDay={s.timeOfDay} seed={seed} name={name} title={titleOf(s)} caption={captionOf(s)} expression={CREW_EXPRESSIONS.includes(s.expression as CrewExpression) ? s.expression as CrewExpression : undefined} mascot={s.mascot ? (() => { const look = parseMascotLook(s.mascot.look); return look ? { name: s.mascot.name, look } : null; })() : null} item={s.item ?? null} accessory={s.accessory ?? null} />
           ))}
           {open && <p className="text-center text-sm text-white/70">Kept on your boarding pass.</p>}
         </div>
