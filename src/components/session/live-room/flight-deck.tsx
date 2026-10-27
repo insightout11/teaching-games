@@ -32,6 +32,8 @@ import { COUNTRY_ITEMS, countryItemFor, countryUnlockId } from '@/data/world-fli
 import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { MASCOT_LABELS, MASCOT_LOCKED, type MascotLook } from '@/lib/mascot';
+import { cityStops, stopSceneTopic, STOP_LABEL, type CityStop } from '@/lib/world-flight/city-stops';
+import type { Accessory } from '@/lib/accessories';
 import { landmarksOnRoute, rarityOf, RARITY_STYLE } from '@/lib/live-room/landmark-rarity';
 import { BoardingLane, type Boarder } from '@/components/session/live-room/boarding-lane';
 import { FlightPlanPanel, type CityLessonChoice } from '@/components/session/live-room/flight-plan-panel';
@@ -1453,6 +1455,77 @@ export function FlightDeck({
       }).catch(() => {});
   };
   const shelfItems = COUNTRY_ITEMS.filter((i) => unlocks.has(countryUnlockId(i.country)));
+  // City stops (Oct 2026, decided by Matt): after landing the class votes for a stop (restaurant, market, station,
+  // sights); its role-play scene (Scene Igniter) must be done to earn the souvenir. Market: each student picks an
+  // accessory on their phone and keeps it on their avatar.
+  const [stopVote, setStopVote] = useState<{ pollId: string; stops: CityStop[] } | null>(null);
+  const [stopScene, setStopScene] = useState<{ stop: CityStop; started: boolean; done: boolean } | null>(null);
+  const [marketPoll, setMarketPoll] = useState<string | null>(null);
+  const { tallies: stopTallies, votes: stopVotes } = usePollVotes(stopVote?.pollId ?? null);
+  const stopOption = (st: CityStop) => `${STOP_LABEL[st.kind]}: ${st.place}`.slice(0, 120);
+  const openStopVote = async () => {
+    const stops = cityStops(destination.id);
+    if (stops.length < 2) { flash('No stops for this city yet.'); return; }
+    if (isMockMode()) { setStopVote({ pollId: 'mock-stop-vote', stops }); return; }
+    const supabase = createClient();
+    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+    const { data } = await supabase.from('polls').insert({ session_id: sessionId, question: `Where shall we go in ${destination.city}?`, options: stops.map(stopOption), is_active: true, metadata: { purpose: 'city-stop' } }).select('id').single();
+    if (!data) { flash('Could not start the vote.'); return; }
+    setStopVote({ pollId: (data as { id: string }).id, stops });
+    flash(`Vote open on phones: where shall we go in ${destination.city}?`);
+  };
+  const goToStop = (stop: CityStop) => {
+    if (stopVote && !isMockMode()) void createClient().from('polls').update({ is_active: false }).eq('id', stopVote.pollId);
+    setStopVote(null);
+    setStopScene({ stop, started: true, done: false });
+    setCustomTopic(stopSceneTopic(destination.city, stop).slice(0, 120));
+    launch('scene-igniter', null);
+  };
+  // The scene is done: the class earns the stop's souvenir (shelf), or the market opens for each student's pick
+  const completeStop = async () => {
+    if (!stopScene) return;
+    const { stop } = stopScene;
+    setStopScene({ ...stopScene, done: true });
+    if (stop.kind === 'market') {
+      if (!stop.accessories.length) return;
+      if (isMockMode()) { setMarketPoll('mock-market'); return; }
+      const supabase = createClient();
+      await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
+      const { data } = await supabase.from('polls').insert({ session_id: sessionId, question: `Pick something to wear from ${destination.city}!`, options: stop.accessories.map((a) => a.name), is_active: true, metadata: { purpose: 'accessory-pick', accessories: stop.accessories } }).select('id').single();
+      if (data) setMarketPoll((data as { id: string }).id);
+      flash('The market is open: everyone picks something to wear on their phone.');
+      return;
+    }
+    const item = stop.items.find((it) => !unlocks.has(`souvenir:${destination.id}:${it.id}`)) ?? stop.items[0];
+    if (!item) return;
+    earnUnlock(`souvenir:${destination.id}:${item.id}`);
+    flash(`Scene complete! Your class earned: ${item.name}.`);
+  };
+  const closeMarket = () => {
+    if (marketPoll && !isMockMode()) void createClient().from('polls').update({ is_active: false }).eq('id', marketPoll);
+    setMarketPoll(null);
+    void loadWorn();
+  };
+  // Who is wearing what (by student id), for avatars in the cabin and at check-in
+  const [worn, setWorn] = useState<Record<string, Accessory>>({});
+  const loadWorn = useCallback(async () => {
+    if (isMockMode()) return;
+    const r = await fetch(`/api/session/${sessionId}/accessories`).catch(() => null);
+    if (r?.ok) { const d = await r.json() as { worn?: Record<string, Accessory> }; setWorn(d.worn ?? {}); }
+  }, [sessionId]);
+  useEffect(() => { void loadWorn(); }, [loadWorn]);
+  useEffect(() => {
+    if (!marketPoll) return;
+    const id = window.setInterval(() => void loadWorn(), 8000);
+    return () => window.clearInterval(id);
+  }, [marketPoll, loadWorn]);
+  // City souvenirs on the shelf (earned from stops), alongside the country items
+  const stopShelf = Array.from(unlocks).flatMap((u) => {
+    const m = /^souvenir:([^:]+):(.+)$/.exec(u);
+    if (!m) return [];
+    const it = cityStops(m[1]).flatMap((st) => st.items).find((x) => x.id === m[2]);
+    return it ? [{ ...it, cityId: m[1] }] : [];
+  });
   const crossedCountries = Array.from(new Set(preview.filter((st) => st.crossing).map((st) => st.text.replace(/^Cross into /, ''))));
   // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
   const distantCities = useMemo(
@@ -3602,7 +3675,7 @@ export function FlightDeck({
               <span>Passenger {checkIn.i + 1} of {checkIn.order.length}</span>
             </div>
             <div className="flex items-center gap-4 px-5 py-4">
-              <CrewAvatar seed={checkInP.avatar_seed ?? checkInP.display_name} name={checkInP.display_name} size={72} />
+              <CrewAvatar seed={checkInP.avatar_seed ?? checkInP.display_name} name={checkInP.display_name} size={72} accessory={checkInP.student_id ? worn[checkInP.student_id] : null} />
               <div className="min-w-0 flex-1">
                 <p className="font-display text-3xl leading-tight">{checkInP.display_name}</p>
                 <p className="font-mono text-xs text-[#1b2233]/60">Seat {cabinSeatLabel(cabin.indexOf(checkInP))}</p>
@@ -3643,6 +3716,40 @@ export function FlightDeck({
             <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Today&apos;s flight · {journeyPaths.length} flight{journeyPaths.length === 1 ? '' : 's'} so far</p>
             <WorldFlightMap still className="mt-1 h-44 w-[min(420px,70vw)] overflow-hidden rounded-xl" origin={destination} rangeKm={0} visitedIds={visitedList} journey={landingJourney} selectedId={null} souvenirs={mapSouvenirs} />
             {landingRecord?.landing && <LandingRewards landing={landingRecord.landing} sessionId={sessionId} />}
+            {(stopVote || stopScene) && (
+              <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
+                {stopVote && (
+                  <>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Where shall we go in {destination.city}? · {stopVotes.length} vote{stopVotes.length === 1 ? '' : 's'}</p>
+                    <div className="mt-1 grid gap-1.5 sm:grid-cols-2">
+                      {stopVote.stops.map((st) => (
+                        <button key={st.kind} type="button" onClick={() => goToStop(st)} className="rounded-lg border border-[#1b2233]/20 px-2.5 py-1.5 text-left text-sm hover:bg-[#1b2233]/10">
+                          <b>{STOP_LABEL[st.kind]}</b> <span className="font-mono text-xs text-amber-700">{stopTallies[stopOption(st)] ?? 0}</span>
+                          <span className="block text-xs text-[#1b2233]/65">{st.place}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <p className="mt-1 text-[11px] text-[#1b2233]/55">Tap a stop to start its scene (the most votes, or your choice).</p>
+                  </>
+                )}
+                {stopScene && !stopScene.done && !runningKey && (
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-sm"><b>{STOP_LABEL[stopScene.stop.kind]}:</b> {stopScene.stop.place}</span>
+                    <span className="flex gap-1.5">
+                      <button type="button" onClick={() => goToStop(stopScene.stop)} className="rounded-full border border-[#1b2233]/25 px-3 py-1 text-xs hover:bg-[#1b2233]/5">Restart scene</button>
+                      <button type="button" onClick={() => void completeStop()} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs text-[#f4efe3]">Scene complete: earn the souvenir</button>
+                    </span>
+                  </div>
+                )}
+                {stopScene?.done && marketPoll && (
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-sm">The market is open: everyone picks something to wear on their phone.</span>
+                    <button type="button" onClick={closeMarket} className="rounded-full bg-[#1b2233] px-3 py-1 text-xs text-[#f4efe3]">Close the market</button>
+                  </div>
+                )}
+                {stopScene?.done && !marketPoll && <p className="text-sm">Souvenir earned at the {STOP_LABEL[stopScene.stop.kind].toLowerCase()}.</p>}
+              </div>
+            )}
             {bestDiscovery.winner ? (
               <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/40 px-3 py-2 text-sm"><Stamp className="h-4 w-4" /><span><b>Best discovery:</b> {bestDiscovery.winner}</span></p>
             ) : bestDiscovery.asked && (
@@ -3685,6 +3792,7 @@ export function FlightDeck({
               {landingRecord?.landing?.after.claimableTier != null && <button type="button" onClick={() => setRecordTab('hangar')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Hangar</button>}
               <button type="button" onClick={() => setRecordTab('passport')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Passport</button>
               <button type="button" onClick={() => setHall(true)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Arrivals hall</button>
+              {!stopVote && !stopScene && <button type="button" onClick={() => void openStopVote()} className="rounded-full bg-amber-400 px-4 py-1.5 text-sm font-semibold text-[#1b2233] hover:bg-amber-300">Explore the city</button>}
               {!bestDiscovery.asked && discoveries.length >= 2 && <button type="button" onClick={askBestDiscovery} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Best discovery?</button>}
               <button type="button" onClick={() => onCompleteSession(destination.id)} className="rounded-full bg-[#1b2233] px-4 py-1.5 text-sm text-[#f4efe3] hover:bg-[#1b2233]/85">End class</button>
             </div>
@@ -4122,14 +4230,18 @@ export function FlightDeck({
             <Ticket className="h-3.5 w-3.5" /> Passenger check-in
           </button>
         )}
-        {shelfItems.length > 0 && (
+        {(shelfItems.length > 0 || stopShelf.length > 0) && (
           <div className="rounded-xl border border-white/10 bg-white/[0.03] p-2">
-            <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/45">Cabin shelf · {shelfItems.length}</p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-white/45">Cabin shelf · {shelfItems.length + stopShelf.length}</p>
             <div className="mt-1 flex flex-wrap gap-1">
               {shelfItems.map((i) => (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img key={i.country} src={`/stickers/${i.sticker}.webp`} alt={i.item} title={`${i.item} · ${i.country}: ${i.fact}`} className="h-8 w-8 rounded-lg bg-white/90 p-0.5" />
               ))}
+              {stopShelf.map((it) => it.sticker
+                // eslint-disable-next-line @next/next/no-img-element
+                ? <img key={it.id} src={`/stickers/${it.sticker}.webp`} alt={it.name} title={`${it.name}: ${it.description}`} className="h-8 w-8 rounded-lg bg-white/90 p-0.5" />
+                : <span key={it.id} title={`${it.name}: ${it.description}`} className="grid h-8 max-w-[96px] place-items-center truncate rounded-lg bg-amber-100 px-1.5 text-[10px] font-semibold text-[#1b2233]">{it.name}</span>)}
             </div>
           </div>
         )}
@@ -4241,7 +4353,7 @@ export function FlightDeck({
                         className="touch-none"
                         title={`${p.display_name} · Seat ${cabinSeatLabel(r * 4 + c)}`}
                       >
-                        <span className="block"><CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={40} /></span>
+                        <span className="block"><CrewAvatar seed={p.avatar_seed ?? p.display_name} name={p.display_name} size={40} accessory={p.student_id ? worn[p.student_id] : null} /></span>
                       </motion.button>
                     ) : onAddStudent && r * 4 + c === firstFreeSeat ? (
                       <button type="button" onClick={() => setAdding(true)} title="Add a student (a trial student, someone new)" aria-label="Add a student" className="grid h-full w-full place-items-center rounded-[9px_9px_5px_5px] text-white/40 hover:bg-white/5 hover:text-amber-200">

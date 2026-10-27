@@ -5,7 +5,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 
 export const dynamic = 'force-dynamic';
 
-const UNLOCK_ID = /^(country|mascot):[A-Za-z0-9 .,'()-]{1,100}$/;
+const UNLOCK_ID = /^(country|mascot|souvenir):[A-Za-z0-9 .,'():-]{1,110}$/;
 
 // What this class has earned (country items, mascot parts). Before migration 070 it is simply empty.
 export async function GET(_request: Request, { params }: { params: { sessionId: string } }) {
