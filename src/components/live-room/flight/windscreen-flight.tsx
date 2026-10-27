@@ -12,6 +12,7 @@ import type { WorldLandmark } from '@/components/live-room/flight/world-landmark
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
+import { getDestinationById } from '@/data/world-flight/destinations';
 import { A_TOUCHDOWN_END, arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { play, playDescent, playTakeoff } from '@/lib/audio/manager';
 import { getPlaneAsset } from '@/lib/plane-progression';
@@ -253,6 +254,10 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
 
   const arriving = phase === 'descent' || phase === 'landing' || phase === 'landed';
   const sideCity = arriving ? destination : origin;
+  // The new arrival look (Oct 2026, on trial): water reflections, the seasonal branch, the local animal and the vintage
+  // postcard with its lettering. Only with ?arrival=new on the room's address until it has passed a real class.
+  const [newArrival] = useState(() => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('arrival') === 'new');
+  const sidePlace = useMemo(() => getDestinationById(sideCity.id), [sideCity.id]);
   const approachT = phase === 'descent' ? Math.max(0, (progress - DIVE) / (1 - DIVE)) : 0;
   const sideFrame =
     phase === 'gate' ? { mode: 'departure' as const, phase: 'approach' as const, progress: 0 }
@@ -349,6 +354,15 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
               skyLight={sun && moon ? { sun, moon, heading: sun.heading } : undefined}
               fit="slice"
               planeKey={planeKey}
+              extras={newArrival ? {
+                reflections: true,
+                framing: true,
+                animal: true,
+                postcard: true,
+                month: new Date().getMonth() + 1,
+                southern: (sidePlace?.lat ?? 0) < 0,
+                title: { city: sideCity.city, country: sidePlace?.country ?? '' },
+              } : undefined}
               className="absolute inset-0"
             />
           </motion.div>
