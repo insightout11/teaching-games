@@ -7727,5 +7727,1312 @@
     ],
     "confidence": "high",
     "notes": "Taiwan is a densely populated subtropical island. No ISO 3166-2 subdivisions are listed because the entry covers the whole island, whose political status is disputed. The western lowlands are a near-continuous concrete city, with red-brick houses and clay-tile roofs surviving in older towns and aboriginal stone or thatch structures in the mountains. Rice, tea, sugarcane and fruit are the main crops. Typhoons and earthquakes are recurring hazards, and the central mountains rise above 3,000 m and get winter snow. Data is good for the lowlands but uneven for remote mountain districts."
+  },
+  {
+    "id": "jp-kyushu-shikoku",
+    "name": "Japan, Kyushu and Shikoku",
+    "countries": [
+      "JP"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5b6264",
+        "#8c908e",
+        "#9c6b4e"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e2dccd",
+        "#6f5a45",
+        "#a3a29a"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "timber house with dark kawara tile roof",
+        "concrete apartment block"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "cedar",
+          "color": "#3f5f43",
+          "where": "hills"
+        },
+        {
+          "name": "camphor",
+          "color": "#4f7444",
+          "where": "towns"
+        },
+        {
+          "name": "bamboo",
+          "color": "#6f8f4d",
+          "where": "valleys"
+        },
+        {
+          "name": "maple",
+          "color": "#708748",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#608f4c",
+            "#80a860"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "tea",
+          "pattern": "terraces",
+          "colors": [
+            "#507a40",
+            "#6e9152"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "citrus",
+          "pattern": "rows",
+          "colors": [
+            "#608447",
+            "#7d9a57"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#b65a3e",
+        "months": [
+          11
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        1,
+        2,
+        12
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kyushu",
+      "https://en.wikipedia.org/wiki/Shikoku",
+      "https://en.wikipedia.org/wiki/Japanese_architecture",
+      "https://en.wikipedia.org/wiki/Climate_of_Japan",
+      "https://en.wikipedia.org/wiki/Minka",
+      "https://en.wikipedia.org/wiki/Machiya"
+    ],
+    "confidence": "high",
+    "notes": "Kyushu and Shikoku span several prefectures, so no single ISO 3166-2 subdivision is used. Both islands are densely settled in the lowlands, with Fukuoka, Kitakyushu, Matsuyama and Takamatsu forming continuous concrete and glass cities; older towns retain timber machiya and farmhouses with deep eaves and dark kawara tiles. Rice, tea and citrus are the main crops, with terraced fields in the valleys and citrus on the warmer coasts. The climate is humid subtropical with a June-July rainy season and late-summer typhoons; snow is not typical in the lowlands and falls mainly on the mountains. Depopulation, coastal erosion and typhoon damage are growing concerns."
+  },
+  {
+    "id": "vn-north-red-river-karst",
+    "name": "Vietnam, north (Red River delta, karst and terraces)",
+    "countries": [
+      "VN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a86045",
+        "#62655f",
+        "#96988f"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e2d9c6",
+        "#a65f45",
+        "#906f51"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "dense",
+      "signatureBuildings": [
+        "brick courtyard house with clay tile roof",
+        "stilted timber house on karst slope"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "bamboo",
+          "color": "#708f4d",
+          "where": "hills"
+        },
+        {
+          "name": "banyan",
+          "color": "#406544",
+          "where": "towns"
+        },
+        {
+          "name": "jackfruit",
+          "color": "#567b43",
+          "where": "valleys"
+        },
+        {
+          "name": "longan",
+          "color": "#5f8045",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#5a8a48",
+            "#7aa45c"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "terraces",
+          "colors": [
+            "#839b52",
+            "#9eb066"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        },
+        {
+          "name": "tea",
+          "pattern": "terraces",
+          "colors": [
+            "#4a7440",
+            "#688f52"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Red_River_Delta",
+      "https://en.wikipedia.org/wiki/Vietnam",
+      "https://en.wikipedia.org/wiki/Vietnamese_architecture",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Vietnam",
+      "https://en.wikipedia.org/wiki/Climate_of_Vietnam"
+    ],
+    "confidence": "high",
+    "notes": "The Red River delta, northern karst and terraced highlands span several provinces, so no single ISO 3166-2 subdivision is used. Delta villages are compact brick and plaster courtyard houses with red clay tile roofs, while Hanoi and Haiphong are dense concrete and glass cities; karst valleys use stilted timber houses and stone terraces. Rice, maize and tea are the main crops, with vegetables and fruit in the delta. The north has a humid subtropical monsoon climate with a cool, damp winter and a hot, wet summer; snow is not typical in the lowlands. Dike failure, flooding and urban pollution are persistent risks."
+  },
+  {
+    "id": "vn-centre-south-mekong",
+    "name": "Vietnam, centre and south (Mekong delta)",
+    "countries": [
+      "VN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#90928c",
+        "#b16a4f",
+        "#905a45"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#dfd6c4",
+        "#8a6a4e",
+        "#a9644b"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "brick"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "stilt house with corrugated metal roof",
+        "garden house with clay tile roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4b7440",
+          "where": "coast"
+        },
+        {
+          "name": "bamboo",
+          "color": "#6f8f4e",
+          "where": "everywhere"
+        },
+        {
+          "name": "banyan",
+          "color": "#3f6644",
+          "where": "towns"
+        },
+        {
+          "name": "mango",
+          "color": "#557c43",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#508040",
+            "#709a55"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "coconut",
+          "pattern": "rows",
+          "colors": [
+            "#527c46",
+            "#709456"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#77974f",
+            "#96ad67"
+          ],
+          "months": [
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mekong_Delta",
+      "https://en.wikipedia.org/wiki/Vietnam",
+      "https://en.wikipedia.org/wiki/Vietnamese_architecture",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Vietnam",
+      "https://en.wikipedia.org/wiki/Climate_of_Vietnam"
+    ],
+    "confidence": "high",
+    "notes": "Central Vietnam and the Mekong delta span many provinces, so no single ISO 3166-2 subdivision is used. The delta is a dense network of canals, stilt houses and rice fields, with corrugated metal and clay tile roofs; Ho Chi Minh City and Da Nang are dense concrete and glass. Rice, coconut and sugarcane dominate the lowlands, with coffee and pepper in the central highlands. The south has a tropical monsoon climate with a May-October wet season and a December-April dry season, while the central coast is prone to typhoons and floods. Saltwater intrusion and land subsidence are serious in the delta."
+  },
+  {
+    "id": "th-thailand",
+    "name": "Thailand",
+    "countries": [
+      "TH"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a85f46",
+        "#8f938c",
+        "#caa24a"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "corrugated metal",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e6dfd0",
+        "#8f7051",
+        "#a4a29a"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "concrete"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "stilted timber house with pitched tile roof",
+        "temple with tiered gilded roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4f7b45",
+          "where": "coast"
+        },
+        {
+          "name": "mango",
+          "color": "#557b44",
+          "where": "everywhere"
+        },
+        {
+          "name": "banyan",
+          "color": "#3e6544",
+          "where": "towns"
+        },
+        {
+          "name": "bamboo",
+          "color": "#6e8f4d",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f904f",
+            "#8ba562"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#7a9852",
+            "#98b06a"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "rubber",
+          "pattern": "rows",
+          "colors": [
+            "#4f7b40",
+            "#6d9252"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Thailand",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Thailand",
+      "https://en.wikipedia.org/wiki/Architecture_of_Thailand"
+    ],
+    "confidence": "high",
+    "notes": "Thailand is covered as a whole; no ISO 3166-2 subdivisions are listed because the entry covers the country. Villages in the central plain and north are clusters of stilted timber houses with pitched tile or metal roofs, while Bangkok and the industrial estates are dense concrete and glass. Rice, sugarcane and rubber are the main crops, with orchards and cassava on the uplands. The climate is tropical monsoon with a May-October wet season and a November-April dry season; the south is wetter and typhoons are rare. Flooding, coastal erosion and air pollution are recurring problems."
+  },
+  {
+    "id": "la-kh-laos-cambodia",
+    "name": "Laos and Cambodia",
+    "countries": [
+      "LA",
+      "KH"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8f928d",
+        "#b06b4f",
+        "#b08a5f"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#8b6a4e",
+        "#ded7c4",
+        "#b18a63"
+      ],
+      "wallMaterial": [
+        "timber",
+        "plaster",
+        "bamboo"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "stilted timber house with pitched roof",
+        "temple with steep tiered roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "bamboo",
+          "color": "#6f8e4d",
+          "where": "everywhere"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4f7a46",
+          "where": "towns"
+        },
+        {
+          "name": "banyan",
+          "color": "#3f6444",
+          "where": "valleys"
+        },
+        {
+          "name": "mango",
+          "color": "#547b43",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8a4b",
+            "#80a05c"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "rows",
+          "colors": [
+            "#6f8b4f",
+            "#8ba05f"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#7f9a50",
+            "#99ad64"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Laos",
+      "https://en.wikipedia.org/wiki/Cambodia",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Laos",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Cambodia",
+      "https://en.wikipedia.org/wiki/Khmer_architecture"
+    ],
+    "confidence": "medium",
+    "notes": "Laos and Cambodia are grouped here, so no single ISO 3166-2 subdivision is used. Both are predominantly rural: stilted timber and bamboo houses with pitched metal or thatch roofs line the Mekong and its tributaries, while Vientiane and Phnom Penh are low-rise concrete cities with a few new high-rises. Rice, cassava and maize are the main crops, with fishing and river gardens along the floodplains. The climate is tropical monsoon with a May-October wet season and a November-April dry season; snow never occurs. Dam building, deforestation and Mekong flow changes are major pressures."
+  },
+  {
+    "id": "mm-myanmar",
+    "name": "Myanmar",
+    "countries": [
+      "MM"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8e928c",
+        "#b18a5f",
+        "#a75f45"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "thatch",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#8f6f52",
+        "#ded6c5",
+        "#a66045"
+      ],
+      "wallMaterial": [
+        "bamboo",
+        "timber",
+        "plaster"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "stilted bamboo house with thatched roof",
+        "monastery with tiered roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "bamboo",
+          "color": "#6f8f4c",
+          "where": "everywhere"
+        },
+        {
+          "name": "banyan",
+          "color": "#3f6543",
+          "where": "towns"
+        },
+        {
+          "name": "mango",
+          "color": "#557a43",
+          "where": "valleys"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4e7a45",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#6b8a4a",
+            "#87a05e"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        },
+        {
+          "name": "pulses",
+          "pattern": "rows",
+          "colors": [
+            "#6f8a50",
+            "#8aa15f"
+          ],
+          "months": [
+            2,
+            3
+          ]
+        },
+        {
+          "name": "sesame",
+          "pattern": "rows",
+          "colors": [
+            "#b8a565",
+            "#cbb977"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Myanmar",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Myanmar",
+      "https://en.wikipedia.org/wiki/Climate_of_Myanmar"
+    ],
+    "confidence": "medium",
+    "notes": "Myanmar is covered as a whole; no ISO 3166-2 subdivisions are listed because the entry covers the country. Villages are mostly stilted bamboo or timber houses with thatch or corrugated metal roofs, and monasteries with tiered roofs mark the towns; Yangon and Mandalay are dense concrete and brick cities. Rice, pulses and sesame are the main crops, with a dry zone in the centre and monsoon forest along the coasts. The climate is tropical monsoon with a May-October wet season and a November-April dry season; snow is confined to the northern highlands and is not typical in the lowlands. Conflict, displacement and deforestation make data uneven."
+  },
+  {
+    "id": "my-sg-peninsular-malaysia-singapore",
+    "name": "Malaysia, peninsula, and Singapore",
+    "countries": [
+      "MY",
+      "SG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a85e45",
+        "#8f918c",
+        "#6f7370"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "corrugated metal",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e3dccd",
+        "#8a6b4e",
+        "#a8654b"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "Malay stilt house with pitched roof",
+        "shophouse with arcade"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4f7945",
+          "where": "coast"
+        },
+        {
+          "name": "rubber",
+          "color": "#4f7a41",
+          "where": "everywhere"
+        },
+        {
+          "name": "bamboo",
+          "color": "#70904d",
+          "where": "hills"
+        },
+        {
+          "name": "mango",
+          "color": "#557b42",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "oil palm",
+          "pattern": "rows",
+          "colors": [
+            "#4e7a40",
+            "#6d9153"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f904c",
+            "#7fa960"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        },
+        {
+          "name": "rubber",
+          "pattern": "rows",
+          "colors": [
+            "#4a7540",
+            "#698f52"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Malaysia",
+      "https://en.wikipedia.org/wiki/Peninsular_Malaysia",
+      "https://en.wikipedia.org/wiki/Singapore",
+      "https://en.wikipedia.org/wiki/Architecture_of_Malaysia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Singapore",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Malaysia"
+    ],
+    "confidence": "high",
+    "notes": "Peninsular Malaysia and Singapore are grouped here, so no single ISO 3166-2 subdivision is used. Kampung houses are raised on stilts with pitched roofs, Chinese shophouses line the old town centres, and Singapore and Kuala Lumpur are dense high-rise concrete and glass cities. Oil palm, rice and rubber are the main crops, with coconut and fruit along the coasts. The climate is equatorial with rain throughout the year and no marked dry season; snow never occurs. Deforestation, peat fires and sea-level rise are regional concerns."
+  },
+  {
+    "id": "my-id-bn-borneo",
+    "name": "Borneo (Sarawak, Sabah, Kalimantan and Brunei)",
+    "countries": [
+      "MY",
+      "ID",
+      "BN"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8f928b",
+        "#b08b5f",
+        "#a85f44"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "thatch",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#8a6a4f",
+        "#ddd6c4",
+        "#a3a39a"
+      ],
+      "wallMaterial": [
+        "timber",
+        "plaster",
+        "concrete"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "stilted longhouse with pitched roof",
+        "Malay stilt house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "dipterocarp",
+          "color": "#405f43",
+          "where": "hills"
+        },
+        {
+          "name": "bamboo",
+          "color": "#6e8e4d",
+          "where": "valleys"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4f7a44",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#46634b",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "oil palm",
+          "pattern": "rows",
+          "colors": [
+            "#4a7a3f",
+            "#689550"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#4f8140",
+            "#6f9b55"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        },
+        {
+          "name": "pepper",
+          "pattern": "rows",
+          "colors": [
+            "#507b45",
+            "#6c9152"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Borneo",
+      "https://en.wikipedia.org/wiki/Sarawak",
+      "https://en.wikipedia.org/wiki/Sabah",
+      "https://en.wikipedia.org/wiki/Kalimantan",
+      "https://en.wikipedia.org/wiki/Brunei",
+      "https://en.wikipedia.org/wiki/Architecture_of_Malaysia"
+    ],
+    "confidence": "medium",
+    "notes": "Borneo spans Sarawak, Sabah, Kalimantan and Brunei, so no single ISO 3166-2 subdivision is used. The island straddles the equator; S is a simplification because most of Kalimantan lies south of it while Sarawak, Sabah and Brunei lie north. Interior Dayak longhouses are stilted timber buildings with pitched metal or thatch roofs, coastal Malay villages use similar stilt houses, and Kuching, Kota Kinabalu, Balikpapan and Bandar Seri Begawan are dense concrete cities. Oil palm, rice and pepper are the main crops, with logging and plantations replacing rainforest. The climate is equatorial with heavy rain throughout the year and no marked dry season; snow never occurs. Deforestation, peat fires and habitat loss are severe."
+  },
+  {
+    "id": "id-sumatra",
+    "name": "Indonesia, Sumatra",
+    "countries": [
+      "ID"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#90938c",
+        "#5f5a50",
+        "#a96045"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "thatch",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#896a4e",
+        "#ded5c4",
+        "#a3a29b"
+      ],
+      "wallMaterial": [
+        "timber",
+        "plaster",
+        "concrete"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "Batak house with steep saddleback roof",
+        "Minangkabau house with curved horn roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oil palm",
+          "color": "#4f7940",
+          "where": "hills"
+        },
+        {
+          "name": "rubber",
+          "color": "#4e7945",
+          "where": "everywhere"
+        },
+        {
+          "name": "bamboo",
+          "color": "#6f904e",
+          "where": "valleys"
+        },
+        {
+          "name": "mangrove",
+          "color": "#45634a",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "oil palm",
+          "pattern": "rows",
+          "colors": [
+            "#4f8045",
+            "#6f9a58"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#4f8041",
+            "#6f9a56"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#567c43",
+            "#708f52"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sumatra",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Indonesia",
+      "https://en.wikipedia.org/wiki/Batak_architecture",
+      "https://en.wikipedia.org/wiki/Rumah_Gadang",
+      "https://en.wikipedia.org/wiki/Architecture_of_Indonesia"
+    ],
+    "confidence": "medium",
+    "notes": "Sumatra spans several Indonesian provinces, so no single ISO 3166-2 subdivision is used. The island straddles the equator; N is a simplification because most of the population lives north of it. Villages along the rivers and roads mix stilted Malay houses with the steep saddleback roofs of Batak houses and the curved horn roofs of Minangkabau houses; Medan and Palembang are dense concrete cities. Oil palm, rice and coffee are the main crops, with rubber and mangrove forests. The west coast is wet year-round, while the east coast has a drier mid-year season; snow never occurs. Deforestation and peat fires cause recurrent haze."
+  },
+  {
+    "id": "ph-philippines",
+    "name": "Philippines",
+    "countries": [
+      "PH"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8f938d",
+        "#a75e45",
+        "#b08a60"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e2ddcd",
+        "#8a694e",
+        "#a2a29a"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "stilted bamboo house with thatched roof",
+        "stone-and-timber colonial house with tile roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#537c46",
+          "where": "coast"
+        },
+        {
+          "name": "bamboo",
+          "color": "#6f8e4c",
+          "where": "everywhere"
+        },
+        {
+          "name": "banyan",
+          "color": "#406644",
+          "where": "towns"
+        },
+        {
+          "name": "mango",
+          "color": "#547a43",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#59904a",
+            "#79a55c"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "coconut",
+          "pattern": "rows",
+          "colors": [
+            "#527d46",
+            "#719456"
+          ],
+          "months": [
+            1,
+            4,
+            7,
+            10
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#79964f",
+            "#97ae67"
+          ],
+          "months": [
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Philippines",
+      "https://en.wikipedia.org/wiki/Architecture_of_the_Philippines",
+      "https://en.wikipedia.org/wiki/Agriculture_in_the_Philippines",
+      "https://en.wikipedia.org/wiki/Climate_of_the_Philippines",
+      "https://en.wikipedia.org/wiki/Bahay_kubo"
+    ],
+    "confidence": "high",
+    "notes": "The Philippines is an archipelago of many provinces, so no single ISO 3166-2 subdivision is used. Lowland villages mix stilted bamboo bahay kubo with concrete and metal houses, older towns retain stone-and-timber colonial houses with tile roofs, and Metro Manila, Cebu and Davao are dense concrete and glass cities. Rice, coconut and sugarcane are the main crops, with banana, pineapple and mango for export. The climate is tropical maritime with a May-October southwest monsoon and a November-April dry season; typhoons are frequent in the north and snow never occurs. Deforestation, coastal erosion and typhoon damage are major risks."
   }
 ]
