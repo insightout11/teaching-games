@@ -39,9 +39,34 @@ a few optional markers near the end, the closing beats that need time saved for 
 
 A short class (under ~40 min) shows one marker: the city stop.
 
+## Revision 2 (27 Oct): the panel replaces the bottom toolbar
+
+Matt: the instrument panel should replace most of today's bottom bar (the row of activity chips and the row of
+widget buttons: Timer, Poll, Class Board, Spinner, Teams, Picture reveal, Word bank, Exit ticket, Messages, Boarding QR,
+Copy join link, Flight map, Launch a flight, Sources), while keeping an intuitive way to add widgets. He almost always
+has the small flight map in the bottom-right corner and the Class Board or a poll (or most other widgets) in the
+top-left corner. The route line and time markers above stay.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│ [▶ Activities]  TAKE-OFF ──────── ▲ now ──────── ◇ Quiz · ◇ Stop ── LANDING 11:00   [＋ Instruments] [⚙] │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+- **Centre: the route and time** (as above): the plane's position, minutes to landing, optional closing markers, and
+  the class clock (+/- 5).
+- **Left: Activities.** One button opens the activity picker: the 4-6 the teacher uses most (learned from use, or
+  pinned) on top, then Browse all. Replaces the row of activity chips.
+- **Right: Instruments.** One button opens a small tray of widget icons. Tap one to open it. Replaces the row of widget
+  buttons.
+- **The cockpit remembers your layout.** Each widget opens where you last put it, and the set you keep open comes
+  back next lesson: Matt's flight map bottom-right and board/poll top-left would simply be there at take-off. Two
+  docking spots to start with (top-left, bottom-right), plus free placement.
+- Rarely used things (Copy join link, Boarding QR, Sources, Launch a flight) move into the Instruments tray or the
+  menu.
+
 ## Questions for Matt
 
-1. Does this lighter version match what you had in mind?
-2. Do the closing markers per class type look right?
-3. Before or after Friday? My suggestion: **after**. Friday uses the pop-ups that exist now; the strip is a bigger
-   change that deserves its own test.
+1. Remember the layout **per class** (each class has its own setup) or **per teacher** (the same everywhere)?
+2. Activities on top: **learned from what you use**, or **pinned by you**?
+3. Before or after Friday? Suggestion: **after**, with a mockup page first for your approval.
