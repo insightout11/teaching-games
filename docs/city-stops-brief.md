@@ -1,7 +1,7 @@
 # City stops and souvenirs from class votes (brief for Codex)
 
 Written 27 October 2026 by Claude for Matt (the owner). **Data only.** Claude builds the room and phone features on top.
-Needed for Matt's class on **Friday 7 November**: the class leaves **Dubai**, so cities reachable from Dubai come first.
+Needed for Matt's class on **Friday 6 November**: the class leaves **Dubai**, so cities reachable from Dubai come first.
 
 ## The feature (decided by Matt)
 

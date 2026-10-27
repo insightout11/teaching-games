@@ -32,7 +32,7 @@ with landmarks, the vote, the topic dots and the class photo doing most of the w
 | World Flight audit, city art, city expansion | Folded into Phase B / D (Tripoli) |
 | Flight visuals | Ongoing (terrain live, coast live); landmark track below |
 
-## Phase A: before the next class (Friday 7 Nov 2026)
+## Phase A: before the next class (Friday 6 Nov 2026)
 
 | # | Item | Notes |
 |---|---|---|
