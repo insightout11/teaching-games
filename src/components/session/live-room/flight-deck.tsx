@@ -1576,6 +1576,16 @@ export function FlightDeck({
   const stopDue = flightStage === 'flying' && takeoffAt !== null && !holding && minutesLeft !== null && minutesLeft <= STOP_MINUTES && minutesLeft > 1
     && !stopOffered && !stopVote && !stopScene && cityStops(destination.id).length >= 2;
   const copilotWaiting = waitingMessages + waitingCards + (talkAnswer && talkAnswer.answer && !talkAnswer.revealed ? 1 : 0);
+  // One place for cards (Oct 2026, owner): check-in, mascot, best discovery, a moment the teacher opened, the city stop.
+  // They all open top-centre, one at a time; the others wait behind it.
+  const cardsWanted = [
+    checkIn && checkInP ? 'checkin' : null,
+    mascotBuilder ? 'mascot' : null,
+    discoveryVote ? 'discovery' : null,
+    momentCard && !runningKey && !cinematic ? 'moment' : null,
+    flightStage === 'flying' && !runningKey && !cinematic && (stopDue || stopVote || (stopScene && !(stopScene.done && !marketPoll))) ? 'stop' : null,
+  ].filter((x): x is 'checkin' | 'mascot' | 'discovery' | 'moment' | 'stop' => x !== null);
+  const cardSlot = cardsWanted[0] ?? null;
   // The route strip's closing markers: reminders only (nothing starts by itself); which ones depends on the class type
   const landAtLabel = clock.landAt ? new Date(clock.landAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : null;
   const quizOn = (todayType === 'game-time' || todayType === 'structured') && classMinutes >= 40;
@@ -3508,7 +3518,10 @@ export function FlightDeck({
           onClose={() => setPhoto(null)}
         />
       )}
-      {flightStage === 'flying' && !runningKey && !cinematic && !momentCard && (stopDue || stopVote || (stopScene && !(stopScene.done && !marketPoll))) && (
+      {cardsWanted.length > 1 && (
+        <p className="pointer-events-none absolute bottom-24 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/20 bg-slate-950/70 px-3 py-1 text-xs text-white/75 backdrop-blur-sm">{cardsWanted.length - 1} more waiting</p>
+      )}
+      {cardSlot === 'stop' && (
         <div className="absolute left-1/2 top-4 z-20 w-[min(560px,92%)] -translate-x-1/2 rounded-2xl bg-[#f4efe3] p-4 text-[#1b2233] shadow-2xl">
           {stopDue ? (
             <>
@@ -3522,9 +3535,9 @@ export function FlightDeck({
           ) : renderStopPanel()}
         </div>
       )}
-      {momentCard && !runningKey && !cinematic && (
-        <div className="absolute inset-0 z-[12] flex items-center justify-center p-6">
-          <div className={`w-full ${'max-w-xl'} max-h-full overflow-y-auto rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md`}>
+      {cardSlot === 'moment' && momentCard && (
+        <div className="absolute inset-x-0 top-4 bottom-4 z-20 flex justify-center px-4">
+          <div className={`h-max w-full ${'max-w-xl'} max-h-full overflow-y-auto rounded-2xl border border-white/15 bg-slate-950/90 text-white shadow-2xl backdrop-blur-md`}>
             {momentCard.picture && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={momentCard.picture.imageUrl} alt={momentCard.picture.title} className="h-64 w-full bg-black/30 object-contain" />
@@ -3801,13 +3814,13 @@ export function FlightDeck({
           </div>
         </div>
       )}
-      {discoveryVote && (
+      {cardSlot === 'discovery' && (
         <BestDiscoveryVote sessionId={sessionId} discoveries={discoveries} onCrown={crownDiscovery} onClose={() => setDiscoveryVote(false)} />
       )}
-      {mascotBuilder && (
+      {cardSlot === 'mascot' && (
         <MascotBuilder sessionId={sessionId} unlocks={unlocks} onClose={() => setMascotBuilder(false)} onDone={(look, name) => boardMascot({ look, name })} />
       )}
-      {checkInP && checkIn && (
+      {cardSlot === 'checkin' && checkInP && checkIn && (
         <div className="absolute left-1/2 top-4 z-20 w-[min(560px,90%)] -translate-x-1/2">
           <motion.div key={checkInP.id} initial={reduce ? false : { y: -16, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="overflow-hidden rounded-2xl bg-[#f4efe3] text-[#1b2233] shadow-2xl">
             <div className="flex items-center justify-between bg-[#1b2233] px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-amber-200">
