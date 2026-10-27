@@ -27,6 +27,8 @@ import { WEATHER_PROFILE } from './weather';
 import { Windsock } from './layers/windsock';
 import { ReflectionLayer, waterBand } from './layers/reflection-layer';
 import { FramingLayer, framingKind } from './layers/framing-layer';
+import { AnimalLayer, animalFor } from './layers/animal-layer';
+import { PostcardFinish } from './layers/postcard-finish';
 
 // Distant, low-contrast skyline painted into the side bleed margins so wide
 // windows don't show the focal city floating on bare shoulders. Uses its OWN
@@ -223,6 +225,8 @@ export function DestinationArrivalScene({
   ) : null;
   // Seasonal framing branch (gallery extra), from the city's own plants
   const frame = extras?.framing ? framingKind(scene, extras.month ?? new Date().getMonth() + 1, extras.southern) : null;
+  // The local animal comes out once the plane is down (taxiing or landed)
+  const animal = extras?.animal && mode === 'arrival' && (phase === 'taxi' || phase === 'landed') ? animalFor(scene) : null;
 
   // Soft haze bands between depths, in the palette's own horizon colour: distance reads as paler layers.
   const haze = (id: string, y0: number, y1: number, opacity: number) => (
@@ -310,7 +314,9 @@ export function DestinationArrivalScene({
       </g>
       {/* Framing branch: beside the camera, so it stays at the corner of the view while the camera moves (only a slow sway) */}
       {frame && drift(0.4, <FramingLayer palette={palette} rand={seededRand(`${destinationId}:frame`)} idPrefix={idPrefix} ambient={ambient} kind={frame} />)}
+      {animal && drift(0.3, <AnimalLayer kind={animal} palette={palette} idPrefix={idPrefix} ambient={ambient} />)}
       <CinematicOverlay {...propsFor('cinematic-overlay')} />
+      {extras?.postcard && <PostcardFinish idPrefix={idPrefix} night={palette.light === 'moon'} />}
     </svg>
   );
 }

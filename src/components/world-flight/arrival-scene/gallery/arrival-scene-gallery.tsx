@@ -62,6 +62,8 @@ export function ArrivalSceneGallery() {
   const [weather, setWeather] = useState<WeatherCondition>('clear');
   // Extra layers on trial (Oct 2026): water reflections and the seasonal framing branch
   const [extrasPick, setExtrasPick] = useState<'off' | 'reflections' | 'framing' | 'both'>('both');
+  const [animalOn, setAnimalOn] = useState('on');
+  const [postcardOn, setPostcardOn] = useState('on');
   const [month, setMonth] = useState(new Date().getMonth() + 1);
 
   // Esc closes the lightbox.
@@ -309,7 +311,7 @@ export function ArrivalSceneGallery() {
               mode={mode}
               weather={weather}
               timeOfDay={tod === 'baked' ? undefined : tod}
-              extras={{ reflections: extrasPick === 'both' || extrasPick === 'reflections', framing: extrasPick === 'both' || extrasPick === 'framing', month, southern: (selected.lat ?? 0) < 0 }}
+              extras={{ reflections: extrasPick === 'both' || extrasPick === 'reflections', framing: extrasPick === 'both' || extrasPick === 'framing', month, southern: (selected.lat ?? 0) < 0, animal: animalOn === 'on', postcard: postcardOn === 'on' }}
             />
           </div>
 
@@ -322,6 +324,8 @@ export function ArrivalSceneGallery() {
             <ButtonRow label="phase" options={PHASES} value={phase} onPick={(p) => setPhase(p as ArrivalPhase)} />
             <ButtonRow label="weather" options={WEATHER_CONDITIONS} value={weather} onPick={(w) => setWeather(w as WeatherCondition)} />
             <ButtonRow label="extras" options={['off', 'reflections', 'framing', 'both']} value={extrasPick} onPick={(x) => setExtrasPick(x as typeof extrasPick)} />
+            <ButtonRow label="animal" options={['off', 'on']} value={animalOn} onPick={setAnimalOn} />
+            <ButtonRow label="postcard" options={['off', 'on']} value={postcardOn} onPick={setPostcardOn} />
             <ButtonRow label="month" options={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']} value={String(month)} onPick={(m) => setMonth(Number(m))} />
             <button
               onClick={() => setWeather(rollWeather(`${selected.id}:${Date.now()}`, selected.scene, tod === 'night' || (tod === 'baked' && selected.scene.palette === 'night')))}

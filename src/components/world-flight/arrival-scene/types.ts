@@ -73,6 +73,10 @@ export interface SceneExtras {
   month?: number;
   /** Southern hemisphere: the seasons flip. */
   southern?: boolean;
+  /** A local animal in the near grass, bottom left, once the plane is down (framing the landing with the branch). */
+  animal?: boolean;
+  /** The vintage postcard finish: paper grain, a warm faded print, a vignette. */
+  postcard?: boolean;
 }
 
 export type LandmarkDepth = 'background' | 'midground' | 'foreground';
