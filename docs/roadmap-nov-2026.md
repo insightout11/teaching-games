@@ -81,6 +81,14 @@ Then: teach, write class notes, fix.
 | B9 | **Back catalogue switch** | Hide untested Flight Plans; release each after a class test |
 | B10 | **Between lessons** (not solo play) | Students see their class map, album and souvenirs at home |
 
+### Rare sightings below (after Friday, owner approved 27 Oct)
+
+A new moment kind: real, recent wildlife sightings near the route, on the same look-outside card (real photo, who saw
+it, when) with a rarity word ("very rare" = endangered). Sources: eBird notable sightings (rare birds, last few days,
+free key), iNaturalist recent observations with conservation status, OCEARCH tagged sharks and turtles over oceans
+(unofficial, less reliable). Endangered locations stay blurred by the sources: show "seen near X this week", never a
+point. Checks: child-safe photos only, no pets or garden plants. Each class keeps a wildlife log, like the album.
+
 ## Phase C: bring teachers in (from the old Phase 2, unchanged in order)
 
 | # | Item | Depends on |
