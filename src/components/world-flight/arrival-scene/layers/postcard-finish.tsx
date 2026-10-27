@@ -53,6 +53,7 @@ export function PostcardFinish({ idPrefix, night, title, ambient = true }: {
       <path d={hole} fill="none" stroke="#3a2614" strokeOpacity={0.18} strokeWidth={6} transform={`translate(0 1.5)`} style={{ mixBlendMode: 'multiply' }} clipPath={`url(#${id}-pic)`} />
       {/* the card itself has grain too */}
       <path d={`M -200 -200 H ${VIEWBOX.w + 200} V ${VIEWBOX.h + 200} H -200 Z ${hole}`} fillRule="evenodd" filter={`url(#${id}-grain)`} opacity={0.18} style={{ mixBlendMode: 'multiply' }} />
+      {title && <Stamp city={title.city} id={id} night={night} animate={ambient} />}
     </g>
   );
 }
@@ -85,6 +86,80 @@ function Title({ city, country, id, night, fadeIn }: { city: string; country: st
       <text x={cx} y={y} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={ink} stroke={ink} strokeWidth={edge * 2.2} style={font}>{name}</text>
       <text x={cx} y={y} textAnchor="middle" fontSize={size} letterSpacing={size * 0.08} fill={`url(#${id}-letter)`} stroke={cream} strokeWidth={edge} paintOrder="stroke" style={font}>{name}</text>
       <text x={cx} y={y + 56} textAnchor="middle" fontSize={32} letterSpacing={14} fill={ink} stroke={cream} strokeWidth={8} paintOrder="stroke" style={{ ...font, fontWeight: 600 }}>{country.toUpperCase()}</text>
+    </g>
+  );
+}
+
+/**
+ * The arrival stamp (Oct 2026, gallery first): a perforated airmail stamp drops onto the bottom right of the card a
+ * moment after the lettering, then a round postmark lands across it with the city, today's date and LANDED. It is the
+ * "you have arrived" beat; it could become the stamp students collect in their passport.
+ */
+function Stamp({ city, id, night, animate }: { city: string; id: string; night: boolean; animate: boolean }) {
+  const ink = '#1d2340';
+  const cream = '#fbf0d6';
+  const font = { fontFamily: deco.style.fontFamily, fontWeight: 700 } as const;
+  // Bottom right of the 16:9 view, inside the border, clear of the runway markings
+  const cx = BLEED_X + CONTENT_W - 150, cy = VIEWBOX.h - 150;
+  const w = 150, h = 180;
+  const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+  const name = city.toUpperCase();
+  // Perforations: little half-circles bitten out of every edge
+  const holes: string[] = [];
+  const step = 15, r = 5;
+  for (let x = -w / 2; x <= w / 2 + 0.1; x += step) holes.push(`M ${x - r} ${-h / 2} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`, `M ${x - r} ${h / 2} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`);
+  for (let y = -h / 2 + step; y < h / 2; y += step) holes.push(`M ${-w / 2 - r} ${y} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`, `M ${w / 2 - r} ${y} a ${r} ${r} 0 1 0 ${2 * r} 0 a ${r} ${r} 0 1 0 ${-2 * r} 0`);
+  const nameSize = Math.min(22, 230 / Math.max(4, name.length));
+  return (
+    <g transform={`translate(${cx} ${cy})`}>
+      {animate && (
+        <style>{`
+          @keyframes lc-stamp-in{0%{opacity:0;transform:translate(-30px,-60px) rotate(-16deg) scale(1.5)}70%{opacity:1;transform:rotate(-5deg) scale(.96)}100%{opacity:1;transform:rotate(-6deg) scale(1)}}
+          @keyframes lc-post-in{0%{opacity:0;transform:scale(1.8)}60%{opacity:.9;transform:scale(.94)}100%{opacity:.85;transform:scale(1)}}
+          .${id}-st{animation:lc-stamp-in .55s cubic-bezier(.3,1.3,.5,1) 1.8s both}
+          .${id}-pm{transform-box:fill-box;transform-origin:center;animation:lc-post-in .35s ease-out 2.5s both}
+        `}</style>
+      )}
+      <defs>
+        <mask id={`${id}-perf`}>
+          <rect x={-w / 2 - 10} y={-h / 2 - 10} width={w + 20} height={h + 20} fill="white" />
+          <path d={holes.join(' ')} fill="black" />
+        </mask>
+        <linearGradient id={`${id}-stsky`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={night ? '#2b3d74' : '#5d8fd0'} />
+          <stop offset="1" stopColor={night ? '#6b5a8e' : '#f2b77a'} />
+        </linearGradient>
+      </defs>
+      <g className={animate ? `${id}-st` : undefined} transform={animate ? undefined : 'rotate(-6)'}>
+        {/* a soft shadow, so it sits on the card */}
+        <rect x={-w / 2 + 5} y={-h / 2 + 7} width={w} height={h} fill="#000" opacity={0.22} mask={`url(#${id}-perf)`} />
+        <g mask={`url(#${id}-perf)`}>
+          <rect x={-w / 2} y={-h / 2} width={w} height={h} fill={cream} />
+          {/* the stamp picture: a sky with the sun and the little plane coming in */}
+          <rect x={-w / 2 + 12} y={-h / 2 + 12} width={w - 24} height={h - 62} fill={`url(#${id}-stsky)`} />
+          <circle cx={30} cy={-h / 2 + 46} r={16} fill={night ? '#f3ecd0' : '#ffe6a6'} />
+          <path d={`M ${-w / 2 + 12} ${h / 2 - 54} q 30 -26 60 -8 q 34 -24 66 6 L ${w / 2 - 12} ${h / 2 - 50} Z`} fill={night ? '#1d2a4f' : '#4f7a5a'} />
+          {/* the plane, side on */}
+          <g transform="translate(-14 -4) rotate(-8)">
+            <path d="M -30 0 q 30 -9 56 -2 q 6 2 4 6 q -30 6 -60 2 Z" fill="#ffffff" />
+            <path d="M -2 -2 l -12 -14 l 8 0 l 18 14 Z M -26 -2 l -6 -10 l 5 0 l 8 9 Z" fill="#2a5fa8" />
+            <path d="M -8 3 l -10 12 l 7 0 l 14 -11 Z" fill="#2a5fa8" />
+          </g>
+          <rect x={-w / 2 + 12} y={-h / 2 + 12} width={w - 24} height={h - 62} fill="none" stroke={ink} strokeWidth={2} />
+          <text x={0} y={h / 2 - 30} textAnchor="middle" fontSize={nameSize} letterSpacing={2} fill={ink} style={font}>{name}</text>
+          <text x={0} y={h / 2 - 14} textAnchor="middle" fontSize={11} letterSpacing={3} fill={ink} opacity={0.75} style={{ ...font, fontWeight: 600 }}>AIRMAIL · LC</text>
+        </g>
+      </g>
+      {/* the postmark: a ring with the city and the date, LANDED across the middle, and wavy cancel lines */}
+      <g className={animate ? `${id}-pm` : undefined} opacity={0.85} transform="translate(-92 -40) rotate(-14)">
+        <circle r={58} fill="none" stroke={night ? '#c9d3ff' : '#1d2340'} strokeWidth={4} />
+        <circle r={46} fill="none" stroke={night ? '#c9d3ff' : '#1d2340'} strokeWidth={2} />
+        <path id={`${id}-pmarc`} d="M -50 0 A 50 50 0 0 1 50 0" fill="none" />
+        <text fontSize={13} letterSpacing={3} fill={night ? '#c9d3ff' : '#1d2340'} style={font}><textPath href={`#${id}-pmarc`} startOffset="50%" textAnchor="middle">{name.slice(0, 16)}</textPath></text>
+        <text y={6} textAnchor="middle" fontSize={17} letterSpacing={2} fill={night ? '#c9d3ff' : '#1d2340'} style={font}>LANDED</text>
+        <text y={26} textAnchor="middle" fontSize={11} letterSpacing={1} fill={night ? '#c9d3ff' : '#1d2340'} style={{ ...font, fontWeight: 600 }}>{date}</text>
+        <path d="M 64 -14 q 14 -8 28 0 t 28 0 t 28 0 M 64 0 q 14 -8 28 0 t 28 0 t 28 0 M 64 14 q 14 -8 28 0 t 28 0 t 28 0" fill="none" stroke={night ? '#c9d3ff' : '#1d2340'} strokeWidth={3} strokeLinecap="round" />
+      </g>
     </g>
   );
 }
