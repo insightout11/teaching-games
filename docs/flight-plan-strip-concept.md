@@ -9,41 +9,39 @@ Quiz "Our flight", the city stop on the way down, landing (stamp, souvenir, best
 Today each one is a separate pop-up or button that appears when its time comes. The teacher has to remember the order
 and watch the clock, and on a busy flight the pop-ups compete.
 
-## The idea
+## The idea (revised after Matt's feedback, 27 Oct)
 
-One **instrument strip along the bottom of the cockpit** (decision 27 Oct: "instrument panel = bottom strip") that
-shows the lesson as a flight plan: a row of waypoints from take-off to landing, with a marker for "now".
+**The lesson stays free conversation.** The strip does not plan the talk and does not replace "Coming up" or the
+moments outside: those keep appearing as they do now and drive the conversation.
+
+The strip is a quiet **route line along the bottom of the cockpit**: take-off, the plane's position, landing, and only
+a few optional markers near the end, the closing beats that need time saved for them.
 
 ```
- TAKE-OFF ── Lesson ─────────── ◆ Quiz ── ◆ City stop ── LANDING
-    10:05        you are here ▲      10:47      10:52        11:00
+ TAKE-OFF ─────────────── free conversation ─────────── ◇ Quiz · ◇ City stop ── LANDING
+                              ▲ now                         ~18 min    ~10 min
 ```
 
-- Each waypoint lights up when its time comes; tapping it starts it (quiz, stop vote). Nothing pops up uninvited.
-- Waypoints can be skipped or dragged; the plan fits the time left (a short class drops the quiz first).
-- The strip replaces the scattered prompts: "Coming up", the stop card, the quiz nudge.
-- It is the same on every screen (the projected screen shows it too), so it shows nothing private: no answers, no
-  scores, only what comes next. Teacher-only controls stay on the teacher's phone later ("pilot phone").
+- The markers are reminders, not a schedule: they glow when their time comes; tap to start, or ignore them and keep
+  talking. Nothing starts by itself.
+- Nothing is planned in the middle of the flight. A game or activity the teacher starts mid-flight just appears on the
+  line afterwards, as a record of the flight, not a plan.
+- It shows nothing private (no answers, no scores), so it is fine on the shared screen.
 
-## Different for each class type
+## Class type sets only the closing markers
 
-The class type (already on the class profile and "change for today") picks the default waypoints:
-
-| Class type | Default flight plan |
+| Class type | Markers near the end (all optional) |
 |---|---|
-| **Structured** | Lesson block → practice game → World Quiz → city stop → landing |
-| **Game time** | Games (2–3) → World Quiz → city stop → landing |
-| **Conversation** | Talk topics (moments outside feed these) → city stop (role-play) → landing |
-| **Free talk** | Open cruise, moments only → landing (quiz and stop off by default, one tap to add) |
+| **Free talk** | City stop only (quiz off; one tap to add) |
+| **Conversation** | City stop (role-play) |
+| **Game time** | World Quiz + city stop |
+| **Structured** | World Quiz + city stop |
 
-Class length (already remembered) scales the plan: 60 min fits everything, 30 min keeps one closing beat.
+A short class (under ~40 min) shows one marker: the city stop.
 
 ## Questions for Matt
 
-1. Is this the cockpit UI you meant, or did you picture something different (e.g. a side panel, or per-type layouts
-   of the whole screen)?
-2. Should waypoints **start themselves** at their time (with a short countdown and Skip), or only light up and wait
-   for your tap?
-3. Do the four default plans above match how you teach each type?
-4. Before or after Friday? My suggestion: **after**. Friday uses the pop-ups that exist now; the strip is a bigger
+1. Does this lighter version match what you had in mind?
+2. Do the closing markers per class type look right?
+3. Before or after Friday? My suggestion: **after**. Friday uses the pop-ups that exist now; the strip is a bigger
    change that deserves its own test.
