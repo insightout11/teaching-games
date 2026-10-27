@@ -63,21 +63,47 @@ export function WindowSelfieCard({ kind, landmarkId, terrain, region, timeOfDay,
   const heldItem = countryItemFor(item);
   return (
     <div className="w-[284px] rounded-sm bg-white p-2 pb-3 text-[#1b2233] shadow-xl">
-      <div className="relative h-[300px] overflow-hidden" style={{ background: 'linear-gradient(180deg,#e7e2d8,#cfc8bb)' }}>
-        <div className="absolute left-[106px] top-5 h-[220px] w-[160px] rounded-[46%/38%] bg-[#d9dde3] p-[7%] shadow-[inset_0_2px_6px_rgba(0,0,0,0.25)]">
+      <div className="relative h-[300px] overflow-hidden" style={{ background: 'linear-gradient(180deg,#f1efe9 0%,#dedad2 55%,#c9c4ba 100%)' }}>
+        {/* the cabin (Oct 2026, owner: make it look like they are on the plane): curved wall, overhead locker, seat, armrest */}
+        <svg viewBox="0 0 284 300" className="absolute inset-0 h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="cab-wall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#c9c5bd" /><stop offset="0.35" stopColor="#ecebe6" /><stop offset="1" stopColor="#dcd8d0" /></linearGradient>
+            <linearGradient id="cab-bin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d7d4cd" /><stop offset="1" stopColor="#b9b4ab" /></linearGradient>
+            <linearGradient id="cab-seat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#35507a" /><stop offset="1" stopColor="#1f3354" /></linearGradient>
+            <radialGradient id="cab-lamp" cx="0.5" cy="0" r="1"><stop offset="0" stopColor="#fff6d8" stopOpacity="0.9" /><stop offset="1" stopColor="#fff6d8" stopOpacity="0" /></radialGradient>
+          </defs>
+          {/* wall curving in towards the window */}
+          <path d="M0 40 Q150 22 284 34 L284 300 L0 300 Z" fill="url(#cab-wall)" />
+          {/* overhead locker and its reading light */}
+          <path d="M0 0 H284 V30 Q150 18 0 34 Z" fill="url(#cab-bin)" />
+          <path d="M0 34 Q150 18 284 30" fill="none" stroke="#9c968c" strokeWidth="1.2" />
+          <rect x="40" y="18" width="22" height="6" rx="3" fill="#fff3c4" />
+          <ellipse cx="51" cy="24" rx="46" ry="40" fill="url(#cab-lamp)" />
+          {/* wall panel seams */}
+          <path d="M96 40 Q92 170 100 300" fill="none" stroke="#000" strokeOpacity="0.06" strokeWidth="1.5" />
+          {/* the seat: back and headrest with its white cover */}
+          <path d="M-8 300 L-8 128 Q-6 96 30 92 L118 92 Q148 94 150 128 L152 300 Z" fill="url(#cab-seat)" />
+          <path d="M8 104 Q10 88 40 86 L106 86 Q134 88 136 104 L134 124 L10 124 Z" fill="#f4f1ea" />
+          <path d="M10 124 L134 124" stroke="#d8d3c8" strokeWidth="1.5" />
+        </svg>
+        {/* the window, blind pulled up */}
+        <div className="absolute left-[150px] top-12 h-[178px] w-[122px] rounded-[46%/38%] bg-[#d9dde3] p-[8px] shadow-[inset_0_2px_6px_rgba(0,0,0,0.25),0_1px_0_rgba(255,255,255,0.7)]">
           <div className="relative h-full w-full overflow-hidden rounded-[46%/38%] shadow-[inset_0_0_24px_rgba(0,0,0,0.55)]">
             <WindowView kind={kind} landmarkId={landmarkId} terrain={terrain as Terrain} region={region} tod={tod} />
             <div className="pointer-events-none absolute inset-0 rounded-[46%/38%] bg-[linear-gradient(130deg,rgba(255,255,255,0.18),transparent_40%)]" />
+            <div className="absolute inset-x-0 top-0 h-[9%] bg-[#e6e3dc] shadow-[0_2px_3px_rgba(0,0,0,0.25)]" />
           </div>
         </div>
-        <div className="absolute -left-6 bottom-[-14px]"><CrewAvatar seed={seed ?? name} name={name} size={170} expression={expression} accessory={accessory} /></div>
-        {/* a souvenir from the class shelf, held up beside the student */}
+        <div className="absolute -left-3 bottom-[-18px]"><CrewAvatar seed={seed ?? name} name={name} size={158} expression={expression} accessory={accessory} /></div>
+        {/* a souvenir from the class shelf, held up in front of the student */}
         {heldItem && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`/stickers/${heldItem.sticker ?? 'present'}.webp`} alt={heldItem.item} className="absolute bottom-6 left-[118px] h-16 w-16 rotate-[-10deg] drop-shadow-[0_3px_4px_rgba(0,0,0,0.35)]" />
+          <img src={`/stickers/${heldItem.sticker ?? 'present'}.webp`} alt={heldItem.item} className="absolute bottom-[14px] left-[92px] h-[58px] w-[58px] rotate-[8deg] drop-shadow-[0_3px_4px_rgba(0,0,0,0.35)]" />
         )}
+        {/* the armrest in front */}
+        <div className="absolute bottom-0 left-[132px] h-[22px] w-[60px] rounded-t-lg bg-gradient-to-b from-[#4a5d7c] to-[#2a3a55] shadow-[0_-2px_4px_rgba(0,0,0,0.25)]" />
         {/* the class mascot squeezes into the photo, in front of the window */}
-        {mascot && <div className="absolute -right-4 bottom-[-10px]"><MascotFigure look={mascot.look} size={136} title={mascot.name} /></div>}
+        {mascot && <div className="absolute -right-4 bottom-[-10px]"><MascotFigure look={mascot.look} size={124} title={mascot.name} /></div>}
       </div>
       <p className="mt-2 flex items-center justify-between gap-2 font-display text-lg leading-tight">{title}{rarityOf(landmarkId) && <span className={`shrink-0 rounded-full px-1.5 font-sans text-[9px] font-semibold uppercase tracking-wide ${rarityOf(landmarkId) === 'very rare' ? 'bg-amber-300 text-slate-950' : 'bg-[#1b2233]/10 text-[#1b2233]/70'}`}>{rarityOf(landmarkId)}</span>}</p>
       <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#1b2233]/55">{caption}</p>
