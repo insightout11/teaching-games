@@ -1595,6 +1595,13 @@ export function FlightDeck({
     ...(quizOn ? [{ id: 'quiz', label: 'World Quiz', at: QUIZ_MINUTES, done: runningKey === 'world-quiz', onStart: () => launch('world-quiz', focused) }] : []),
     ...(cityStops(destination.id).length >= 2 ? [{ id: 'stop', label: 'City stop', at: STOP_MINUTES, done: !!stopScene || stopOffered, onStart: () => { setStopOffered(true); void openStopVote(); } }] : []),
   ];
+  // A one-line hint above the panel for new teachers (Oct 2026); it follows the room guide's tips switch
+  const panelHint = !tipsOn || runningKey ? null
+    : flightStage === 'gate' ? (allSeats.length === 0 ? 'Students scan the QR code to board.' : 'Check in each passenger, then take off when you are ready.')
+      : flightStage === 'flying' ? (closingMarkers.some((m) => !m.done && minutesLeft != null && minutesLeft <= m.at) ? 'A closing beat is due: tap it on the route line, or keep talking.'
+        : momentDue ? 'Something outside: tap "Look outside" to talk about it.'
+          : 'Free conversation: ask anything, or tap a kind of prompt. Activities and Instruments are below.')
+        : landed ? 'Landed! Crown the best discovery and choose where to fly next, then end class.' : null;
   const crossedCountries = Array.from(new Set(preview.filter((st) => st.crossing).map((st) => st.text.replace(/^Cross into /, ''))));
   // The cities the windscreen draws as lights in the distance (size is a stable stand-in, as no population is recorded).
   const distantCities = useMemo(
@@ -4505,6 +4512,9 @@ export function FlightDeck({
           (widgets) on the right. Replaces the long rows of activity chips and widget buttons. The lesson stays free
           conversation: the route only marks the few closing beats that need time saved. */}
       <section className="relative col-span-3 row-start-3 flex min-h-0 items-center gap-3 rounded-2xl border border-[#2A3854] bg-gradient-to-b from-[#141c2d] to-[#0b111d] px-2.5">
+        {panelHint && !cinematic && (
+          <p className="pointer-events-none absolute -top-7 left-1/2 z-10 max-w-[90%] -translate-x-1/2 truncate whitespace-nowrap rounded-full bg-slate-950/70 px-3 py-0.5 text-[11px] text-white/75 backdrop-blur-sm">{panelHint}</p>
+        )}
         <div className="relative shrink-0">
           <button type="button" onClick={() => setPanelTray((t) => (t === 'activities' ? null : 'activities'))} className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-sm font-semibold ${panelTray === 'activities' ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-amber-300/50 bg-amber-300/10 text-amber-100 hover:bg-amber-300/20'}`}>
             <Play className="h-4 w-4" /> Activities
