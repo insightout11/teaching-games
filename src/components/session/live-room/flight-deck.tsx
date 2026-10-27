@@ -1192,8 +1192,9 @@ export function FlightDeck({
         sights: landmarksOnRoute(from.id, c.id).slice(0, 3).map((l) => ({ name: l.name, rarity: l.rarity })),
         items: crossed.flatMap((n) => { const it = countryItemFor(n); return it && !unlocks.has(countryUnlockId(it.country)) ? [{ item: it.item, sticker: it.sticker, country: it.country }] : []; }).slice(0, 4),
         newStamp: !visitedIds.has(c.id),
-        souvenir: next?.name ?? null,
-        souvenirRare: next?.earn.type === 'rare',
+        // the city stops' souvenirs (one from each stop), not the older city-pack souvenir
+        souvenir: cityStops(c.id).map((st) => (st.kind === 'market' ? st.accessories[0]?.name : st.items[0]?.name)).filter(Boolean).join(' · ') || (next?.name ?? null),
+        souvenirRare: false,
         strategy,
       };
     });
