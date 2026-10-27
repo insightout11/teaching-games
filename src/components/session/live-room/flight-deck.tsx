@@ -30,6 +30,7 @@ import { openHandChannel, HAND_STALE_MS } from '@/lib/live-room/hands';
 import { assignSeats, cabinSeatLabel } from '@/lib/live-room/seats';
 import { COUNTRY_ITEMS, countryItemFor, countryUnlockId } from '@/data/world-flight/country-items';
 import { MascotBuilder } from '@/components/session/live-room/mascot-builder';
+import { BestDiscoveryVote } from '@/components/session/live-room/best-discovery-vote';
 import { MascotFigure } from '@/components/ui/mascot-figure';
 import { MASCOT_LABELS, MASCOT_LOCKED, type MascotLook } from '@/lib/mascot';
 import { cityStops, stopSceneTopic, STOP_LABEL, type CityStop } from '@/lib/world-flight/city-stops';
@@ -1311,18 +1312,14 @@ export function FlightDeck({
     });
   }
   const [bestDiscovery, setBestDiscovery] = useState<{ asked: boolean; winner: string | null }>({ asked: false, winner: null });
-  const discoveryLabel = (d: { title: string; landmarkId?: string }) => {
-    const r = d.landmarkId ? rarityOf(d.landmarkId) : null;
-    return `${d.title.replace(/^the /, 'The ')}${r ? ` (${r})` : ''}`;
-  };
   const askBestDiscovery = () => {
     if (discoveries.length < 2) { flash('Open or photograph at least two things on the flight first.'); return; }
-    openTool('class-board', window.innerWidth / 2, window.innerHeight * 0.8);
-    window.setTimeout(() => window.dispatchEvent(new CustomEvent('lc-board-seed', { detail: { question: 'What was the best discovery of our flight? Spend your 3 dots!', items: discoveries.slice(0, 10).map(discoveryLabel) } })), 150);
     setBestDiscovery({ asked: true, winner: null });
-    flash('Everyone votes with their 3 dots. Reveal the dots on the board, then crown the winner here.');
+    setDiscoveryVote(true);
   };
+  const [discoveryVote, setDiscoveryVote] = useState(false);
   const crownDiscovery = (d: { title: string; landmarkId?: string; photographed?: boolean }) => {
+    setDiscoveryVote(false);
     setBestDiscovery({ asked: true, winner: d.title });
     recordTopic(`Best discovery: ${d.title}`, 'discovery');
     if (d.photographed && d.landmarkId && !isMockMode()) {
@@ -3689,6 +3686,9 @@ export function FlightDeck({
           <p className="text-xs">Only a few routes in the world pass it. Take the photo!</p>
         </motion.div>
       )}
+      {discoveryVote && (
+        <BestDiscoveryVote sessionId={sessionId} discoveries={discoveries} onCrown={crownDiscovery} onClose={() => setDiscoveryVote(false)} />
+      )}
       {mascotBuilder && (
         <MascotBuilder sessionId={sessionId} unlocks={unlocks} onClose={() => setMascotBuilder(false)} onDone={(look, name) => boardMascot({ look, name })} />
       )}
@@ -3777,7 +3777,7 @@ export function FlightDeck({
             )}
             {bestDiscovery.winner ? (
               <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/40 px-3 py-2 text-sm"><Stamp className="h-4 w-4" /><span><b>Best discovery:</b> {bestDiscovery.winner}</span></p>
-            ) : bestDiscovery.asked && (
+            ) : bestDiscovery.asked && !discoveryVote && (
               <div className="mt-2 rounded-xl bg-[#1b2233]/[0.06] px-3 py-2">
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#1b2233]/60">Crown the best discovery (top of the board)</p>
                 <div className="mt-1 flex flex-wrap gap-1.5">
