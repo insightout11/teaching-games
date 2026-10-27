@@ -3,7 +3,7 @@
  * "We talked about it" click). Objects, not clothing, so no national dress becomes a costume. Each uses a drawn
  * sticker from /public/stickers. DRAFT list for Matt's review: accuracy and respect first.
  */
-export interface CountryItem { country: string; item: string; sticker: string; fact: string }
+export interface CountryItem { country: string; item: string; sticker: string | null; fact: string; artPrompt?: string }
 
 export const COUNTRY_ITEMS: readonly CountryItem[] = [
   { country: 'Egypt', item: 'Felucca sailboat', sticker: 'sailboat', fact: 'Feluccas have sailed the Nile for thousands of years.' },
@@ -45,6 +45,39 @@ export const COUNTRY_ITEMS: readonly CountryItem[] = [
   { country: 'Brazil', item: 'Football', sticker: 'football', fact: "Brazil has won the men's World Cup five times." },
   { country: 'Argentina', item: 'Tango', sticker: 'dance', fact: 'The tango began in Buenos Aires.' },
   { country: 'Peru', item: 'Potato', sticker: 'potato', fact: 'Potatoes were first grown in Peru, which has thousands of kinds.' },
+  { country: 'Afghanistan', item: 'Kabuli palaw', sticker: null, fact: 'Kabuli palaw is a rice dish often topped with carrots and raisins.', artPrompt: 'sticker-style Kabuli palaw, no text, no people\'s faces' },
+  { country: 'Algeria', item: 'Fennec fox', sticker: null, fact: 'A fennec fox has large ears that help it lose heat.', artPrompt: 'sticker-style Fennec fox, no text, no people\'s faces' },
+  { country: 'Armenia', item: 'Lavash bread', sticker: 'bread', fact: 'Lavash is a traditional thin Armenian bread.' },
+  { country: 'Austria', item: 'Apple strudel', sticker: null, fact: 'Apple strudel is a pastry with an apple filling.', artPrompt: 'sticker-style Apple strudel, no text, no people\'s faces' },
+  { country: 'Belarus', item: 'Draniki', sticker: null, fact: 'Draniki are pancakes made with grated potatoes.', artPrompt: 'sticker-style Draniki, no text, no people\'s faces' },
+  { country: 'Chile', item: 'Pastel de choclo', sticker: null, fact: 'Pastel de choclo is baked with a topping made from maize.', artPrompt: 'sticker-style Pastel de choclo, no text, no people\'s faces' },
+  { country: 'Colombia', item: 'Arepa', sticker: null, fact: 'Arepas are round maize cakes that can be split and filled.', artPrompt: 'sticker-style Arepa, no text, no people\'s faces' },
+  { country: 'Finland', item: 'Karelian pasty', sticker: null, fact: 'A Karelian pasty has a thin rye crust and often a rice filling.', artPrompt: 'sticker-style Karelian pasty, no text, no people\'s faces' },
+  { country: 'Georgia', item: 'Khachapuri', sticker: 'bread', fact: 'Khachapuri is a Georgian cheese bread.' },
+  { country: 'Iceland', item: 'Volcano', sticker: 'volcano', fact: 'Iceland has both volcanoes and glaciers.' },
+  { country: 'Iraq', item: 'Masgouf', sticker: null, fact: 'Masgouf is a fish dish cooked beside a fire.', artPrompt: 'sticker-style Masgouf, no text, no people\'s faces' },
+  { country: 'Ireland', item: 'Colcannon', sticker: null, fact: 'Colcannon mixes mashed potatoes with cabbage or kale.', artPrompt: 'sticker-style Colcannon, no text, no people\'s faces' },
+  { country: 'Kazakhstan', item: 'Wild apple', sticker: 'apple', fact: 'Wild apple trees grow in the mountains of Kazakhstan.' },
+  { country: 'Kyrgyzstan', item: 'Shyrdak felt rug', sticker: null, fact: 'Shyrdak rugs are made with pieces of coloured felt.', artPrompt: 'sticker-style Shyrdak felt rug, no text, no people\'s faces' },
+  { country: 'Libya', item: 'Bazeen', sticker: null, fact: 'Bazeen is a Libyan dish made with barley flour.', artPrompt: 'sticker-style Bazeen, no text, no people\'s faces' },
+  { country: 'Malaysia', item: 'Nasi lemak', sticker: null, fact: 'Nasi lemak is made with rice cooked in coconut milk.', artPrompt: 'sticker-style Nasi lemak, no text, no people\'s faces' },
+  { country: 'Mali', item: 'Balafon', sticker: null, fact: 'A balafon has wooden keys that players strike to make music.', artPrompt: 'sticker-style Balafon, no text, no people\'s faces' },
+  { country: 'Mauritania', item: 'Shorebird', sticker: null, fact: 'Migrating birds feed in the shallow waters of Mauritania\'s Banc d\'Arguin.', artPrompt: 'sticker-style Shorebird, no text, no people\'s faces' },
+  { country: 'Mongolia', item: 'Przewalski\'s horse', sticker: null, fact: 'Przewalski\'s horses have short upright manes.', artPrompt: 'sticker-style Przewalski\'s horse, no text, no people\'s faces' },
+  { country: 'Myanmar', item: 'Mohinga', sticker: null, fact: 'Mohinga is a noodle soup often made with fish broth.', artPrompt: 'sticker-style Mohinga, no text, no people\'s faces' },
+  { country: 'Niger', item: 'West African giraffe', sticker: 'giraffe', fact: 'West African giraffes live in Niger and eat leaves from trees.' },
+  { country: 'Pakistan', item: 'Markhor', sticker: null, fact: 'The markhor is a wild goat with twisting horns.', artPrompt: 'sticker-style Markhor, no text, no people\'s faces' },
+  { country: 'Panama', item: 'Canal lock', sticker: null, fact: 'Locks on the Panama Canal raise and lower ships.', artPrompt: 'sticker-style Canal lock, no text, no people\'s faces' },
+  { country: 'Poland', item: 'Pierogi', sticker: null, fact: 'Pierogi are dumplings with a filling wrapped in dough.', artPrompt: 'sticker-style Pierogi, no text, no people\'s faces' },
+  { country: 'Russia', item: 'Lake Baikal', sticker: 'lake', fact: 'Lake Baikal is the deepest lake in the world.' },
+  { country: 'Senegal', item: 'Thieboudienne', sticker: null, fact: 'Thieboudienne combines rice, fish and vegetables.', artPrompt: 'sticker-style Thieboudienne, no text, no people\'s faces' },
+  { country: 'Sudan', item: 'Kisra flatbread', sticker: null, fact: 'Kisra is a thin flatbread often made from sorghum.', artPrompt: 'sticker-style Kisra flatbread, no text, no people\'s faces' },
+  { country: 'Sweden', item: 'Moose', sticker: null, fact: 'A moose is a large deer whose males grow broad antlers.', artPrompt: 'sticker-style Moose, no text, no people\'s faces' },
+  { country: 'Turkmenistan', item: 'Akhal-Teke horse', sticker: 'horse', fact: 'Some Akhal-Teke horses have coats with a shiny appearance.' },
+  { country: 'Ukraine', item: 'Borscht', sticker: 'soup', fact: 'Many versions of borscht are red because they contain beetroot.' },
+  { country: 'Uzbekistan', item: 'Palov', sticker: null, fact: 'Uzbek palov combines rice with ingredients such as carrots and meat.', artPrompt: 'sticker-style Palov, no text, no people\'s faces' },
+  { country: 'Venezuela', item: 'Angel Falls', sticker: 'waterfall', fact: 'Angel Falls drops from a steep-sided mountain in Venezuela\'s Canaima National Park.' },
+  { country: 'Zambia', item: 'Victoria Falls', sticker: 'waterfall', fact: 'The Zambezi River flows over Victoria Falls between Zambia and Zimbabwe.' },
 ];
 
 export function countryItemFor(country: string | null | undefined): CountryItem | null {
