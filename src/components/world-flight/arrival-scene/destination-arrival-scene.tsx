@@ -316,7 +316,7 @@ export function DestinationArrivalScene({
       {frame && drift(0.4, <FramingLayer palette={palette} rand={seededRand(`${destinationId}:frame`)} idPrefix={idPrefix} ambient={ambient} kind={frame} />)}
       {animal && drift(0.3, <AnimalLayer kind={animal} palette={palette} idPrefix={idPrefix} ambient={ambient} />)}
       <CinematicOverlay {...propsFor('cinematic-overlay')} />
-      {extras?.postcard && <PostcardFinish idPrefix={idPrefix} night={palette.light === 'moon'} />}
+      {extras?.postcard && <PostcardFinish idPrefix={idPrefix} night={palette.light === 'moon'} title={extras.title && mode === 'arrival' && (phase === 'taxi' || phase === 'landed') ? extras.title : null} />}
     </svg>
   );
 }

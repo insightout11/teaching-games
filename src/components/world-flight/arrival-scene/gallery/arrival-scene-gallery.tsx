@@ -16,6 +16,7 @@ interface GalleryItem {
   scene: DestinationScene;
   fixture?: boolean;
   lat?: number;
+  country?: string;
 }
 
 // Validation cities NOT in destinations.ts — gallery-local scene fixtures only
@@ -40,7 +41,7 @@ export function ArrivalSceneGallery() {
   const items = useMemo<GalleryItem[]>(
     () => [
       ...FIXTURES,
-      ...WORLD_DESTINATIONS.map((d) => ({ id: d.id, label: d.city, scene: d.scene, lat: d.lat })),
+      ...WORLD_DESTINATIONS.map((d) => ({ id: d.id, label: d.city, scene: d.scene, lat: d.lat, country: d.country })),
     ],
     [],
   );
@@ -311,7 +312,7 @@ export function ArrivalSceneGallery() {
               mode={mode}
               weather={weather}
               timeOfDay={tod === 'baked' ? undefined : tod}
-              extras={{ reflections: extrasPick === 'both' || extrasPick === 'reflections', framing: extrasPick === 'both' || extrasPick === 'framing', month, southern: (selected.lat ?? 0) < 0, animal: animalOn === 'on', postcard: postcardOn === 'on' }}
+              extras={{ reflections: extrasPick === 'both' || extrasPick === 'reflections', framing: extrasPick === 'both' || extrasPick === 'framing', month, southern: (selected.lat ?? 0) < 0, animal: animalOn === 'on', postcard: postcardOn === 'on', title: { city: selected.label, country: selected.country ?? '' } }}
             />
           </div>
 

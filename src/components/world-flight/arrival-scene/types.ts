@@ -75,8 +75,10 @@ export interface SceneExtras {
   southern?: boolean;
   /** A local animal in the near grass, bottom left, once the plane is down (framing the landing with the branch). */
   animal?: boolean;
-  /** The vintage postcard finish: paper grain, a warm faded print, a vignette. */
+  /** The vintage postcard finish: paper grain, a warm faded print, a vignette, a cream border. */
   postcard?: boolean;
+  /** The postcard's lettering (WELCOME TO, city, country), shown once the plane is down. */
+  title?: { city: string; country: string };
 }
 
 export type LandmarkDepth = 'background' | 'midground' | 'foreground';
