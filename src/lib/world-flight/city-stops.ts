@@ -52,6 +52,16 @@ function fallback(cityId: string, kind: StopKind): CityStop | null {
   return { kind, place, scene, items, accessories: [] };
 }
 
+/** The raw data for a city as Codex wrote it (place, scene, three items per stop), or null. Used by the data tests. */
+export interface RawStopItem { id: string; name: string; description: string; icon: string | null; sticker: string | null; artPrompt: string; fromCityPacks: string | null }
+export interface RawStopAccessory { id: string; name: string; type: Accessory['type']; colors: [string, string]; motif: string; description: string }
+interface RawStopOf<T> { place: string; scene: string; items: [T, T, T] }
+export interface RawCityStops { restaurant: RawStopOf<RawStopItem>; market: RawStopOf<RawStopAccessory>; station: RawStopOf<RawStopItem>; sights: RawStopOf<RawStopItem> }
+export function cityStopsData(cityId: string): RawCityStops | null {
+  const all = data as unknown as Record<string, RawCityStops>;
+  return Object.prototype.hasOwnProperty.call(all, cityId) ? all[cityId] : null;
+}
+
 /** The four stops for a city (real data where Codex has written it, else the fallback). */
 export function cityStops(cityId: string): CityStop[] {
   const raw = (data as Record<string, Partial<Record<StopKind, RawStop>>>)[cityId];
