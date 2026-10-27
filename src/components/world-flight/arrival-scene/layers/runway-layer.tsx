@@ -324,8 +324,8 @@ export function RunwayLayer(props: SceneLayerProps) {
         {dashes.map((x) => (
           <path
             key={x}
-            d={`M${x + 4} ${centerlineY - 3} H${x + 62} L${x + 68} ${centerlineY + 4} H${x} Z`}
-            fill="rgba(255,255,255,0.62)"
+            d={`M${x + 4} ${centerlineY - 3} H${x + 62 + rollSpeed * 26} L${x + 68 + rollSpeed * 26} ${centerlineY + 4} H${x} Z`}
+            fill={`rgba(255,255,255,${(0.62 - rollSpeed * 0.18).toFixed(3)})`}
           />
         ))}
       </g>
@@ -354,8 +354,10 @@ export function RunwayLayer(props: SceneLayerProps) {
 
       {/* Far-edge runway lights. */}
       <g transform={`translate(${lightScrollX},0)`}>
+        {/* Steady on the take-off roll: the row loops every LIGHT_PITCH, so each light's pulse jumped to its neighbour's
+            and the lights flashed (Oct 2026, owner). */}
         {lights.map((x, i) =>
-          ambient ? (
+          ambient && !rolling ? (
             <motion.circle
               key={x}
               cx={x}

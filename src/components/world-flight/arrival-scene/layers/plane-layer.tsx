@@ -82,7 +82,6 @@ export function PlaneLayer({ planeKey, phase, progress, ambient, mode, idPrefix 
   const y = cyBase - PH - yOffset;
   const altitude = Math.max(0, LAYOUT.runwayY - cyBase);
   const shadowOpacity = Math.max(0, 0.25 * (1 - altitude / 420)) * depthScale;
-  const shadowBlur = Math.min(10, 2 + altitude / 55);
   const shadowRx = PW * 0.3 * scale * (1 + altitude / 1000);
   const shadowRy = 7 + altitude / 55;
   const shadowId = `${idPrefix}-plane-shadow`;
@@ -91,7 +90,7 @@ export function PlaneLayer({ planeKey, phase, progress, ambient, mode, idPrefix 
     <>
       <defs>
         <filter id={shadowId} x="-30%" y="-150%" width="160%" height="400%">
-          <feGaussianBlur stdDeviation={shadowBlur} />
+          <feGaussianBlur stdDeviation={6} />
         </filter>
       </defs>
       {shadowOpacity > 0 && (
@@ -124,8 +123,8 @@ export function PlaneLayer({ planeKey, phase, progress, ambient, mode, idPrefix 
   return (
     <motion.g
       aria-hidden
-      animate={{ y: flying ? [0, -3, 0] : [0, -1.6, 0] }}
-      transition={{ duration: flying ? 3.4 : 4.2, repeat: Infinity, ease: 'easeInOut' }}
+      animate={{ y: [0, -2, 0] }}
+      transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
     >
       {art}
     </motion.g>

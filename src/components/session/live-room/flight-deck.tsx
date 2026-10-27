@@ -3388,8 +3388,9 @@ export function FlightDeck({
           )}
         </div>
       )}
+      {/* bottom-left pills stack: the country item button, then the moment pill, then live news / the ISS (Oct 2026: they overlapped) */}
       {liveNow && !issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
-        <div className="absolute bottom-20 left-4 z-[7] flex items-center">
+        <div className={`absolute ${(flightStage === 'flying' && !cinematic && !holding && itemNow && !itemNowEarned) && (!runningKey && !cinematic && !momentCard && (momentDue || momentUpcoming)) ? 'bottom-[7.5rem]' : (flightStage === 'flying' && !cinematic && !holding && itemNow && !itemNowEarned) || (!runningKey && !cinematic && !momentCard && (momentDue || momentUpcoming)) ? 'bottom-20' : 'bottom-11'} left-4 z-[7] flex items-center`}>
           <button type="button" onClick={() => { setLiveMoments((xs) => xs.filter((x) => x.id !== liveNow.id)); openMoment({ id: `live:${liveNow.id}`, at: minutesFlown ?? 0, kind: 'event', title: liveNow.title, where: liveNow.where, question: liveNow.question, ...(liveNow.fact ? { fact: liveNow.fact } : {}) }); }} className="flex items-center gap-1.5 rounded-full border border-sky-200/60 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
             <Eye className="h-3.5 w-3.5" /> Look: {liveNow.title.charAt(0).toUpperCase() + liveNow.title.slice(1)} · {liveNow.where}
           </button>
@@ -3397,7 +3398,7 @@ export function FlightDeck({
         </div>
       )}
       {issActive && !runningKey && !cinematic && view !== 'map' && !momentCard && (
-        <div className="absolute bottom-20 left-4 z-[7] flex items-center">
+        <div className={`absolute ${(flightStage === 'flying' && !cinematic && !holding && itemNow && !itemNowEarned) && (!runningKey && !cinematic && !momentCard && (momentDue || momentUpcoming)) ? 'bottom-[7.5rem]' : (flightStage === 'flying' && !cinematic && !holding && itemNow && !itemNowEarned) || (!runningKey && !cinematic && !momentCard && (momentDue || momentUpcoming)) ? 'bottom-20' : 'bottom-11'} left-4 z-[7] flex items-center`}>
           <button type="button" onClick={() => openMoment({ id: `iss:${issActive.start}`, at: minutesFlown ?? 0, kind: 'landmark', title: 'the International Space Station', where: issActive.where, question: 'Would you like to live on the space station? What would you miss?' })} className="flex items-center gap-1.5 rounded-full border border-sky-200/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-sky-100 backdrop-blur-sm hover:bg-sky-200/15">
             <Satellite className="h-3.5 w-3.5" /> Look up: the International Space Station · {issActive.where}
           </button>
@@ -3405,7 +3406,7 @@ export function FlightDeck({
         </div>
       )}
       {!runningKey && !cinematic && view !== 'map' && !momentCard && (momentDue || momentUpcoming) && (
-        <div className="absolute bottom-11 left-4 z-[7] flex items-center">
+        <div className={`absolute ${(flightStage === 'flying' && !cinematic && !holding && itemNow && !itemNowEarned) ? 'bottom-[5.25rem]' : 'bottom-11'} left-4 z-[7] flex items-center`}>
           {momentDue ? (
             <button type="button" onClick={() => openMoment(momentDue)} className="flex items-center gap-1.5 rounded-full border border-amber-300/70 bg-slate-950/75 px-3 py-1 text-xs font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/15">
               <Eye className="h-3.5 w-3.5" /> Look outside: {momentDue.title}{momentDue.where ? ` · ${momentDue.where}` : ''}
