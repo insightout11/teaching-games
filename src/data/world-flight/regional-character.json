@@ -1,0 +1,6387 @@
+[
+  {
+    "id": "id-bali",
+    "name": "Bali",
+    "countries": [
+      "ID"
+    ],
+    "subdivisions": [
+      "ID-BA"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#c47a55",
+        "#8a7a5f",
+        "#8f8b82"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "thatch (alang-alang)",
+        "corrugated metal"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#3d3835",
+        "#d8ccb8",
+        "#a06a52"
+      ],
+      "wallMaterial": [
+        "black volcanic stone",
+        "clay brick",
+        "plastered concrete"
+      ],
+      "villageLayout": "walled compounds",
+      "density": "medium",
+      "signatureBuildings": [
+        "meru tiered shrine",
+        "open bale pavilion"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#5f8a3c",
+          "where": "coast"
+        },
+        {
+          "name": "banana",
+          "color": "#6f9a45",
+          "where": "valleys"
+        },
+        {
+          "name": "banyan",
+          "color": "#3f6b35",
+          "where": "towns"
+        },
+        {
+          "name": "bamboo",
+          "color": "#6d8f3f",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice terraces",
+          "pattern": "terraces",
+          "colors": [
+            "#7fae4a",
+            "#c9b45a"
+          ]
+        },
+        {
+          "name": "coconut groves",
+          "pattern": "scattered",
+          "colors": [
+            "#5f8a3c",
+            "#7a9a4e"
+          ]
+        },
+        {
+          "name": "maize and vegetable patches",
+          "pattern": "patchwork",
+          "colors": [
+            "#7fae4a",
+            "#a8a45a"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Balinese_architecture",
+      "https://whc.unesco.org/en/list/1194/",
+      "https://bali.com/bali/travel-guide/culture/balinese-architecture/"
+    ],
+    "confidence": "high",
+    "notes": "ID-BA is Bali province. Traditional walled compounds, meru shrines and clay or thatch roofs are still common in villages; the south (Denpasar, Kuta) is dense concrete and glass with grey roofs, so the palette is mixed. Rice terraces are concentrated in the central and southern uplands, not the whole island."
+  },
+  {
+    "id": "jp-honshu",
+    "name": "Honshu",
+    "countries": [
+      "JP"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#73787c",
+        "#56616b",
+        "#8f6a55"
+      ],
+      "roofMaterial": [
+        "ceramic tile",
+        "concrete",
+        "metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d9d6cd",
+        "#918c82",
+        "#6e5c4c"
+      ],
+      "wallMaterial": [
+        "concrete",
+        "plaster",
+        "wood"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "castle keep",
+        "temple pagoda"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "cherry",
+          "color": "#6f8a4a",
+          "where": "towns",
+          "seasonColor": {
+            "color": "#f2c6d0",
+            "months": [
+              3,
+              4
+            ]
+          }
+        },
+        {
+          "name": "Japanese cedar",
+          "color": "#3f5a3a",
+          "where": "hills"
+        },
+        {
+          "name": "Japanese maple",
+          "color": "#6f8a4a",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#b5432f",
+            "months": [
+              10,
+              11,
+              12
+            ]
+          }
+        },
+        {
+          "name": "bamboo",
+          "color": "#6f8f45",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#7fae4a",
+            "#c9b45a"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "tea plantations",
+          "pattern": "rows",
+          "colors": [
+            "#4f7a3a",
+            "#6f9a4a"
+          ]
+        },
+        {
+          "name": "fruit orchards",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8a45",
+            "#a8a45a"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b5432f",
+        "months": [
+          10,
+          11,
+          12
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Honshu",
+      "https://www.japan.travel/en/see-and-do/cherry-blossom-forecast/",
+      "https://www.japan.travel/en/guide/autumn-guide/"
+    ],
+    "confidence": "high",
+    "notes": "Honshu is not an ISO 3166-2 subdivision (it contains many prefectures), so no subdivisions are listed. Cherry bloom is late March to April in central Honshu; autumn colour runs roughly October to December from north to south. Snow months apply mainly to northern lowlands; Kanto and Kansai lowlands rarely hold snow. Cities are largely concrete and glass with flat grey roofs; dark tile survives in old towns."
+  },
+  {
+    "id": "fr-provence",
+    "name": "Provence",
+    "countries": [
+      "FR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#bd7554",
+        "#c98a67",
+        "#948a7c"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "stone"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#d9c7ab",
+        "#c9ad88",
+        "#b08f6c"
+      ],
+      "wallMaterial": [
+        "limestone",
+        "plastered stone"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone farmhouse (mas)",
+        "village church bell tower"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#7d8a5a",
+          "where": "hills"
+        },
+        {
+          "name": "cypress",
+          "color": "#3f5a3a",
+          "where": "hills"
+        },
+        {
+          "name": "plane tree",
+          "color": "#6f8f4a",
+          "where": "towns"
+        },
+        {
+          "name": "Aleppo pine",
+          "color": "#4f6b3f",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "lavender",
+          "pattern": "rows",
+          "colors": [
+            "#8a7fb5",
+            "#b7a9d6"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#6f8f45",
+            "#8a9a55"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "scattered",
+          "colors": [
+            "#7d8a5a",
+            "#9aa47a"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Provence",
+      "https://www.nationalgeographic.com/travel/article/how-provences-lavender-fields-are-transforming-for-survival"
+    ],
+    "confidence": "high",
+    "notes": "Provence is a cultural region, not a single ISO 3166-2 subdivision, so no code is listed. Lavender is concentrated in the Valensole and Sault plateaus and blooms late June to mid-July, not across the whole region. Hill villages and stone mas are typical, but cities and the coast are modern."
+  },
+  {
+    "id": "no-norway",
+    "name": "Norway",
+    "countries": [
+      "NO"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#62676b",
+        "#9f5f4a",
+        "#708a52"
+      ],
+      "roofMaterial": [
+        "slate",
+        "clay tile",
+        "turf"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#d9d3c5",
+        "#a64f43",
+        "#c9a97f"
+      ],
+      "wallMaterial": [
+        "painted wood",
+        "log",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "stave church",
+        "wooden coastal warehouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Norway spruce",
+          "color": "#3f5a3a",
+          "where": "hills"
+        },
+        {
+          "name": "Scots pine",
+          "color": "#4f6b3f",
+          "where": "hills"
+        },
+        {
+          "name": "birch",
+          "color": "#6f8a4a",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#d9b45a",
+            "months": [
+              9,
+              10
+            ]
+          }
+        },
+        {
+          "name": "willow",
+          "color": "#7a8f4a",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8f45",
+            "#8a9a55"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "barley and oats",
+          "pattern": "rows",
+          "colors": [
+            "#a8a45a",
+            "#c9b45a"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "apple orchards",
+          "pattern": "rows",
+          "colors": [
+            "#5f7a3a",
+            "#a64f43"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#d9a53f",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Architecture_of_Norway",
+      "https://en.wikipedia.org/wiki/Climate_of_Norway"
+    ],
+    "confidence": "high",
+    "notes": "Snow is reliable in inland and northern lowlands; the mild west coast (Bergen, Stavanger) often has little or none. Autumn birch colour is strongest in inland valleys. Modern towns are concrete and glass, though low-rise wood remains common. This is a whole-country region, so no single ISO 3166-2 subdivision is used."
+  },
+  {
+    "id": "ke-kenya",
+    "name": "Kenya",
+    "countries": [
+      "KE"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8f5f4a",
+        "#9c9c95",
+        "#b08a68"
+      ],
+      "roofMaterial": [
+        "corrugated iron",
+        "concrete",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#b08a68",
+        "#d9d1c2",
+        "#918c82"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "stone",
+        "concrete"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "medium",
+      "signatureBuildings": [
+        "Maasai manyatta"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "acacia",
+          "color": "#6f7a4a",
+          "where": "everywhere"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#5f7a4a",
+          "where": "hills"
+        },
+        {
+          "name": "baobab",
+          "color": "#7a7a5a",
+          "where": "coast"
+        },
+        {
+          "name": "fig",
+          "color": "#3f5a3a",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "tea plantations",
+          "pattern": "rows",
+          "colors": [
+            "#4f7a3a",
+            "#6f9a4a"
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "patchwork",
+          "colors": [
+            "#7fae4a",
+            "#c9b45a"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#3f6b35",
+            "#5f8a3c"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5,
+        10,
+        11,
+        12
+      ],
+      "dryGold": [
+        1,
+        2,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kenya",
+      "https://en.wikipedia.org/wiki/Geography_of_Kenya",
+      "https://en.wikipedia.org/wiki/Tea_production_in_Kenya"
+    ],
+    "confidence": "medium",
+    "notes": "Kenya straddles the equator; 'S' is a simplification because Nairobi and most highland farmland lie just south of it. Snow occurs only on Mt Kenya's peaks, not in the lowlands. Corrugated iron is the dominant rural roof; manyatta settlements are localized to Maasai areas. Nairobi and other cities are concrete and glass. This is a whole-country region, so no single ISO 3166-2 subdivision is used."
+  },
+  {
+    "id": "pe-andes",
+    "name": "Peru, Andes highlands",
+    "countries": [
+      "PE"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#bd7554",
+        "#a86148",
+        "#918c82"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "thatch",
+        "corrugated metal"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#c9ad88",
+        "#b08f6c",
+        "#d9d1c2"
+      ],
+      "wallMaterial": [
+        "adobe",
+        "stone",
+        "plaster"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "adobe church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "eucalyptus",
+          "color": "#5f7a4a",
+          "where": "hills"
+        },
+        {
+          "name": "polylepis",
+          "color": "#4f6b3f",
+          "where": "hills"
+        },
+        {
+          "name": "willow",
+          "color": "#7a8f4a",
+          "where": "river banks"
+        },
+        {
+          "name": "pine",
+          "color": "#3f5a3a",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "potatoes",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8f45",
+            "#a89a5a"
+          ],
+          "months": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "quinoa",
+          "pattern": "patchwork",
+          "colors": [
+            "#c9b45a",
+            "#b8863f"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "Inca terraces (potatoes, maize)",
+          "pattern": "terraces",
+          "colors": [
+            "#7a9a52",
+            "#b8a060"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Andean_agriculture",
+      "https://en.wikipedia.org/wiki/Inca_agriculture"
+    ],
+    "confidence": "medium",
+    "notes": "The Andes highlands span many valleys and elevations; terracotta tile and adobe are typical of villages, while newer towns use grey metal and concrete. Snow is on high peaks, not typical valley floors. The region crosses several departments, so no single ISO 3166-2 subdivision is listed."
+  },
+  {
+    "id": "gulf",
+    "name": "The Gulf",
+    "countries": [
+      "AE",
+      "QA",
+      "BH",
+      "KW"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#d9cebb",
+        "#b08f6c",
+        "#918c82"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "coral stone",
+        "mud brick"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d9cebb",
+        "#c9ad88",
+        "#e0d7c6"
+      ],
+      "wallMaterial": [
+        "concrete",
+        "coral stone",
+        "mud brick"
+      ],
+      "villageLayout": "grid",
+      "density": "medium",
+      "signatureBuildings": [
+        "wind tower (barjeel)",
+        "mosque minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#5f7a3c",
+          "where": "coast"
+        },
+        {
+          "name": "ghaf",
+          "color": "#6f7a4a",
+          "where": "everywhere"
+        },
+        {
+          "name": "acacia",
+          "color": "#7a7a5a",
+          "where": "everywhere"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#5f7a4a",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "date palms",
+          "pattern": "scattered",
+          "colors": [
+            "#5f7a3c",
+            "#7a8f4a"
+          ]
+        },
+        {
+          "name": "irrigated fodder",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8f45",
+            "#a8a45a"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Architecture_of_the_United_Arab_Emirates",
+      "https://en.wikipedia.org/wiki/United_Arab_Emirates"
+    ],
+    "confidence": "medium",
+    "notes": "The Gulf is four countries with different traditional materials (coral stone in Bahrain, mud brick and arish elsewhere). Modern cities are largely concrete and glass with beige villas, often grid-planned; wind towers survive mainly in old cores. Winter rain is irregular, so green months vary. No single ISO 3166-2 code applies."
+  },
+  {
+    "id": "nl-netherlands",
+    "name": "Netherlands",
+    "countries": [
+      "NL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#bd7554",
+        "#6e5c4c",
+        "#918c82"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "slate",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#9f5f4a",
+        "#d9cebb",
+        "#6e5c4c"
+      ],
+      "wallMaterial": [
+        "brick",
+        "plaster",
+        "concrete"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "stepped-gable canal house",
+        "windmill"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "willow",
+          "color": "#7a8f4a",
+          "where": "river banks"
+        },
+        {
+          "name": "poplar",
+          "color": "#6f8a4a",
+          "where": "everywhere"
+        },
+        {
+          "name": "elm",
+          "color": "#5f7a3a",
+          "where": "towns"
+        },
+        {
+          "name": "beech",
+          "color": "#4f6b35",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "tulips",
+          "pattern": "stripes",
+          "colors": [
+            "#c95a6a",
+            "#d9a53f",
+            "#8a7fb5"
+          ],
+          "months": [
+            4,
+            5
+          ]
+        },
+        {
+          "name": "potatoes and vegetables",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8f45",
+            "#a89a5a"
+          ]
+        },
+        {
+          "name": "pasture and wheat",
+          "pattern": "stripes",
+          "colors": [
+            "#8a9a55",
+            "#c9b45a"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Architecture_of_the_Netherlands",
+      "https://en.wikipedia.org/wiki/Polder"
+    ],
+    "confidence": "high",
+    "notes": "Tulip fields are concentrated in the bulb districts (Bollenstreek, Noordoostpolder), not the whole country; stepped gables are mainly old canal towns. Modern districts are concrete and glass. Snow is occasional, not guaranteed every winter. This is a whole-country region, so no single ISO 3166-2 subdivision is used."
+  },
+  {
+    "id": "us-new-england",
+    "name": "New England",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-CT",
+      "US-MA",
+      "US-ME",
+      "US-NH",
+      "US-RI",
+      "US-VT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#73787c",
+        "#8f5f4a",
+        "#56616b"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "slate",
+        "metal"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e0dcd1",
+        "#a64f43",
+        "#c9b89a"
+      ],
+      "wallMaterial": [
+        "wood clapboard",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "white clapboard church steeple",
+        "covered bridge"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "sugar maple",
+          "color": "#6f8a4a",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#c0452e",
+            "months": [
+              9,
+              10
+            ]
+          }
+        },
+        {
+          "name": "white pine",
+          "color": "#3f5a3a",
+          "where": "everywhere"
+        },
+        {
+          "name": "red oak",
+          "color": "#6f8a4a",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#a85a3f",
+            "months": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "name": "birch",
+          "color": "#6f8a4a",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#d9b45a",
+            "months": [
+              10
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cranberry bogs",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a3f3f",
+            "#6f5a3f"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "corn",
+          "pattern": "rows",
+          "colors": [
+            "#7fae4a",
+            "#c9b45a"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "apple orchards",
+          "pattern": "rows",
+          "colors": [
+            "#5f7a3a",
+            "#a64f43"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#c0452e",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/New_England",
+      "https://en.wikipedia.org/wiki/Autumn_in_New_England"
+    ],
+    "confidence": "high",
+    "notes": "Fall colour peaks in northern New England in late September to early October and in southern coastal areas by mid-to-late October. Snow is reliable in the northern interior but less so on the southern coast. Cranberry bogs are concentrated in Massachusetts, Rhode Island and Maine, not the whole region. Boston and other cities are concrete and glass."
+  },
+  {
+    "id": "jp-okinawa",
+    "name": "Okinawa",
+    "countries": [
+      "JP"
+    ],
+    "subdivisions": [
+      "JP-47"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b85f4e",
+        "#a86b5a",
+        "#8d8478"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e2d8c3",
+        "#cfc3ad",
+        "#9a8f7e"
+      ],
+      "wallMaterial": [
+        "concrete",
+        "coral limestone",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "gusuku castle",
+        "Ryukyuan red-tile house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Ryukyu pine",
+          "color": "#3f6b52",
+          "where": "hills"
+        },
+        {
+          "name": "banyan",
+          "color": "#4f7a4f",
+          "where": "towns"
+        },
+        {
+          "name": "Fukugi",
+          "color": "#5f8a5a",
+          "where": "coast"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#6f9a5f",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#8aa85a",
+            "#b7b86a"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            12
+          ]
+        },
+        {
+          "name": "pineapple",
+          "pattern": "rows",
+          "colors": [
+            "#7f9f5f",
+            "#c9b26a"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "vegetables and sweet potato",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a5a",
+            "#a8b86a"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Okinawa_Prefecture",
+      "https://en.wikipedia.org/wiki/Ryukyuan_architecture",
+      "https://en.wikipedia.org/wiki/Ryukyu_Islands"
+    ],
+    "confidence": "high",
+    "notes": "JP-47 is Okinawa Prefecture. Traditional red clay-tile roofs, limestone walls and gusuku castles survive, but modern Okinawan homes are mostly concrete with tiled or flat roofs; Naha and the main island are densely built while the outer islands are rural. Sugarcane and pineapple are major crops, and snow does not occur."
+  },
+  {
+    "id": "jp-hokkaido",
+    "name": "Hokkaido",
+    "countries": [
+      "JP"
+    ],
+    "subdivisions": [
+      "JP-01"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#4f5f6b",
+        "#7a4a42",
+        "#8a8f8a"
+      ],
+      "roofMaterial": [
+        "metal",
+        "asphalt shingle",
+        "slate"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#d8d2c4",
+        "#6b5a4a",
+        "#b8b0a0"
+      ],
+      "wallMaterial": [
+        "wood siding",
+        "concrete block",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Ainu cise (thatched house)",
+        "dairy barn"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Sakhalin spruce",
+          "color": "#2f4f3f",
+          "where": "hills"
+        },
+        {
+          "name": "Japanese larch",
+          "color": "#4f6b45",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#c9a24a",
+            "months": [
+              10,
+              11
+            ]
+          }
+        },
+        {
+          "name": "birch",
+          "color": "#6b8a5a",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#d6ad4f",
+            "months": [
+              9,
+              10
+            ]
+          }
+        },
+        {
+          "name": "Japanese oak",
+          "color": "#5a6b3f",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "lavender",
+          "pattern": "stripes",
+          "colors": [
+            "#7a6fa8",
+            "#a89ac9"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "wheat and barley",
+          "pattern": "rows",
+          "colors": [
+            "#c9b86a",
+            "#b09a4f"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "potatoes and sugar beet",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8a4f",
+            "#a89a6a"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "autumnColor": {
+        "color": "#c99a3f",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Hokkaido",
+      "https://en.wikipedia.org/wiki/Sapporo",
+      "https://en.wikipedia.org/wiki/Ainu_culture",
+      "https://champ-magazine.com/architecture/house-w-in-nakafurano/"
+    ],
+    "confidence": "medium",
+    "notes": "JP-01 is Hokkaido. Snow lies from late autumn to spring and steep roofs shed it; modern farm buildings are metal-clad timber or concrete-block barns, while Ainu cise are rare today. Lavender is concentrated in the Furano and Biei area, not island-wide. Sapporo is grid-planned; most other towns are small and modern."
+  },
+  {
+    "id": "id-java",
+    "name": "Java",
+    "countries": [
+      "ID"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a85a45",
+        "#8f5a4a",
+        "#7a6f62"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "corrugated metal",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#c9a27a",
+        "#8a6a52",
+        "#6b6258"
+      ],
+      "wallMaterial": [
+        "brick",
+        "wood",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "joglo pavilion",
+        "tiered-roof mosque"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#3f7a5a",
+          "where": "coast"
+        },
+        {
+          "name": "banana",
+          "color": "#4f8a5f",
+          "where": "valleys"
+        },
+        {
+          "name": "banyan",
+          "color": "#2f5f45",
+          "where": "towns"
+        },
+        {
+          "name": "bamboo",
+          "color": "#5f8a4f",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies and terraces",
+          "pattern": "terraces",
+          "colors": [
+            "#6f9a48",
+            "#b8a85a"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "tea plantations",
+          "pattern": "rows",
+          "colors": [
+            "#3f6b45",
+            "#5f8a55"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#4a6b3f",
+            "#8a5a4a"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Java",
+      "https://en.wikipedia.org/wiki/Architecture_of_Indonesia",
+      "https://en.wikipedia.org/wiki/Joglo",
+      "https://en.wikipedia.org/wiki/Borobudur"
+    ],
+    "confidence": "high",
+    "notes": "Java spans several provinces, so no single ISO 3166-2 subdivision is used. Dense kampungs with red clay-tile roofs are typical of villages and small towns, while Jakarta, Surabaya and Bandung are largely concrete and glass. Rice terraces are concentrated in the western and central highlands; tea and coffee occupy the cooler uplands. Snow does not occur."
+  },
+  {
+    "id": "it-tuscany",
+    "name": "Tuscany",
+    "countries": [
+      "IT"
+    ],
+    "subdivisions": [
+      "IT-52"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b56a4f",
+        "#c47f5f",
+        "#9a8a76"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "stone",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#d8c3a3",
+        "#c9b08a",
+        "#b09a7a"
+      ],
+      "wallMaterial": [
+        "stone",
+        "plastered stone",
+        "brick"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone farmhouse (podere)",
+        "hill-town church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Italian cypress",
+          "color": "#3f5a3f",
+          "where": "hills"
+        },
+        {
+          "name": "olive",
+          "color": "#7a8a5f",
+          "where": "hills"
+        },
+        {
+          "name": "stone pine",
+          "color": "#4f6b42",
+          "where": "coast"
+        },
+        {
+          "name": "plane tree",
+          "color": "#6b8a55",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#6f8a4c",
+            "#8a9a5f"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "scattered",
+          "colors": [
+            "#8a9470",
+            "#a8b09a"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "wheat and sunflowers",
+          "pattern": "patchwork",
+          "colors": [
+            "#c9b072",
+            "#d4b24f"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#b07a3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Tuscany",
+      "https://en.wikipedia.org/wiki/Val_d%27Orcia",
+      "https://en.wikipedia.org/wiki/Chianti",
+      "https://buildingscience.com/documents/building-science-insights-newsletters/bsi-107-tuscan-villas"
+    ],
+    "confidence": "high",
+    "notes": "IT-52 is Tuscany. Stone farmhouses with terracotta roofs, hill towns and cypress avenues are iconic, but Florence, Siena and the coast are modern and densely built. Cypress lines are planted rather than wild forest. Snow is confined to the Apennines; autumn colour comes mainly from vines and oaks."
+  },
+  {
+    "id": "gr-cyclades",
+    "name": "Cyclades",
+    "countries": [
+      "GR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#e0dacb",
+        "#d1cabb",
+        "#4f7a9a"
+      ],
+      "roofMaterial": [
+        "whitewashed plaster",
+        "stone",
+        "concrete"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#ece6d8",
+        "#ded6c6",
+        "#a8a294"
+      ],
+      "wallMaterial": [
+        "whitewashed stone",
+        "stone",
+        "concrete"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "whitewashed cubic house",
+        "blue-domed church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#8a947a",
+          "where": "hills"
+        },
+        {
+          "name": "fig",
+          "color": "#6b8a5e",
+          "where": "hills"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#7a8a6a",
+          "where": "coast"
+        },
+        {
+          "name": "cypress",
+          "color": "#4f5f45",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "grapes (basket vines)",
+          "pattern": "scattered",
+          "colors": [
+            "#7a8a52",
+            "#a89a5c"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "scattered",
+          "colors": [
+            "#8f9a7a",
+            "#aab29a"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#c9b472",
+            "#b0a05a"
+          ],
+          "months": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cyclades",
+      "https://en.wikipedia.org/wiki/Santorini",
+      "https://en.wikipedia.org/wiki/Mykonos",
+      "https://www.greeka.com/cyclades/mykonos/architecture/"
+    ],
+    "confidence": "high",
+    "notes": "The Cyclades are an island group, not a single ISO 3166-2 subdivision. Whitewashed cubic houses with flat roofs are typical; blue domes and doors are iconic but not universal. Santorini and Mykonos are heavily built up for tourism, while the smaller islands are sparsely settled. Snow is rare, and summer drought turns the rocky hills pale gold."
+  },
+  {
+    "id": "ma-rif",
+    "name": "Rif",
+    "countries": [
+      "MA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a85f4a",
+        "#8f6650",
+        "#7a7a6a"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "corrugated metal",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#ddd6c8",
+        "#b39a78"
+      ],
+      "wallMaterial": [
+        "stone",
+        "brick",
+        "plaster"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "kasbah",
+        "mosque with square minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Atlas cedar",
+          "color": "#2f4f3a",
+          "where": "hills"
+        },
+        {
+          "name": "cork oak",
+          "color": "#4f6b48",
+          "where": "hills"
+        },
+        {
+          "name": "olive",
+          "color": "#7a8a62",
+          "where": "hills"
+        },
+        {
+          "name": "fig",
+          "color": "#5f7a52",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "terraced olives",
+          "pattern": "terraces",
+          "colors": [
+            "#8a9472",
+            "#aab29c"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "figs and almonds",
+          "pattern": "scattered",
+          "colors": [
+            "#6f8a5c",
+            "#a89a68"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "cereals and pulses",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a9a62",
+            "#c9b46f"
+          ],
+          "months": [
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Rif",
+      "https://en.wikipedia.org/wiki/Chefchaouen",
+      "https://en.wikipedia.org/wiki/T%C3%A9touan"
+    ],
+    "confidence": "high",
+    "notes": "The Rif is a cultural and geographic region, not a single ISO 3166-2 subdivision. Chefchaouen's blue medina is local, not region-wide; most houses are white or stone with red clay-tile roofs. The Rif receives Morocco's highest rainfall and is heavily forested with cedar, cork oak and fir, with terraced olives, figs and cereals. Snow lies only on the highest ridges."
+  },
+  {
+    "id": "ma-saharan-oases",
+    "name": "Saharan oases and pre-Sahara",
+    "countries": [
+      "MA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b58a63",
+        "#c9a47e",
+        "#8f7a62"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "rammed earth",
+        "concrete"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d1b08a",
+        "#a87a5a",
+        "#bf9a72"
+      ],
+      "wallMaterial": [
+        "rammed earth",
+        "mud brick",
+        "stone"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "sparse",
+      "signatureBuildings": [
+        "kasbah",
+        "earthen mosque"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4f7a52",
+          "where": "valleys"
+        },
+        {
+          "name": "olive",
+          "color": "#7f8a63",
+          "where": "hills"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#6f7a5a",
+          "where": "river banks"
+        },
+        {
+          "name": "almond",
+          "color": "#6f8a5a",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "date palms",
+          "pattern": "rows",
+          "colors": [
+            "#527a54",
+            "#6f8a52"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "wheat, barley and alfalfa",
+          "pattern": "patchwork",
+          "colors": [
+            "#c9b06a",
+            "#b09a5c"
+          ],
+          "months": [
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "henna",
+          "pattern": "scattered",
+          "colors": [
+            "#6f9a5c",
+            "#8aa85f"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Tafilalt",
+      "https://en.wikipedia.org/wiki/Ouarzazate",
+      "https://en.wikipedia.org/wiki/A%C3%AFt_Benhaddou",
+      "https://en.wikipedia.org/wiki/Draa_River"
+    ],
+    "confidence": "high",
+    "notes": "The pre-Sahara and Saharan oases span several provinces, so no single ISO 3166-2 subdivision is used. Palm groves run along the Ziz and Draa valleys, with flat-roofed earthen ksour and kasbahs; Ouarzazate and other towns are now largely concrete. Snow falls on the High Atlas but not in the oases. Dates are the signature crop; winter and early spring bring a brief green flush."
+  },
+  {
+    "id": "om-oman",
+    "name": "Oman",
+    "countries": [
+      "OM"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c9b28c",
+        "#d8cbb5",
+        "#9a8a72"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "stone",
+        "concrete"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#e0d6c4",
+        "#b59a7a",
+        "#a88f72"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "stone",
+        "coral stone",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "round-tower fort",
+        "mosque with minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4a7a52",
+          "where": "valleys"
+        },
+        {
+          "name": "ghaf",
+          "color": "#7f8a5f",
+          "where": "everywhere"
+        },
+        {
+          "name": "acacia",
+          "color": "#8a8a5a",
+          "where": "hills"
+        },
+        {
+          "name": "frankincense",
+          "color": "#6b7a55",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "date palms",
+          "pattern": "rows",
+          "colors": [
+            "#4d7a55",
+            "#6f8a55"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "limes",
+          "pattern": "rows",
+          "colors": [
+            "#5f8a52",
+            "#a8a85a"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "alfalfa and fodder",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a62",
+            "#8aa86a"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        2,
+        3
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Oman",
+      "https://en.wikipedia.org/wiki/Nizwa",
+      "https://en.wikipedia.org/wiki/Aflaj_Irrigation_Systems_of_Oman",
+      "https://www.arabamerica.com/omans-traditional-architecture-culture-meets-climate/"
+    ],
+    "confidence": "high",
+    "notes": "Oman is a whole country, so no subdivision is listed. Muscat is a modern white low-rise sprawl, while interior towns and villages have mud-brick or stone courtyard houses and round-tower forts. Aflaj channels support date palms, limes and fodder. Snow is essentially absent; winter rain is irregular, and Dhofar's khareef monsoon greens the south from June to September."
+  },
+  {
+    "id": "ir-central-plateau",
+    "name": "Iran, central plateau",
+    "countries": [
+      "IR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c9ad85",
+        "#a88f6f",
+        "#4f8a9a"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "brick",
+        "concrete"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d8c0a0",
+        "#c9a87a",
+        "#9a8065"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "medium",
+      "signatureBuildings": [
+        "courtyard house with windcatcher",
+        "tiled dome mosque"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "pistachio",
+          "color": "#6f8a54",
+          "where": "hills"
+        },
+        {
+          "name": "pomegranate",
+          "color": "#5f7a45",
+          "where": "valleys"
+        },
+        {
+          "name": "cypress",
+          "color": "#3f5a45",
+          "where": "towns"
+        },
+        {
+          "name": "date palm",
+          "color": "#5a7a4a",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "pistachio orchards",
+          "pattern": "rows",
+          "colors": [
+            "#728a56",
+            "#a89a5f"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        },
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#c9b475",
+            "#b89a5e"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "pomegranates",
+          "pattern": "rows",
+          "colors": [
+            "#7a8a4f",
+            "#b05a4a"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b07f4a",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Iranian_architecture",
+      "https://en.wikipedia.org/wiki/Yazd",
+      "https://en.wikipedia.org/wiki/Isfahan",
+      "https://en.wikipedia.org/wiki/Qanat",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Iran"
+    ],
+    "confidence": "medium",
+    "notes": "The central plateau spans several provinces, so no single ISO 3166-2 subdivision is used. Yazd, Isfahan and Kashan have mud-brick cores with windcatchers and turquoise-tiled domes, but modern city edges are concrete. Qanats and bazaars support pistachios, pomegranates, wheat and dates; saffron is mainly a Khorasan crop, not a plateau-wide one. Snow is rare in low desert cities but reliable on the surrounding peaks."
+  },
+  {
+    "id": "in-kerala",
+    "name": "Kerala",
+    "countries": [
+      "IN"
+    ],
+    "subdivisions": [
+      "IN-KL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a85a4a",
+        "#8a5f4f",
+        "#7a6a5a"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "thatch",
+        "concrete"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#b06a52",
+        "#d8c0a8",
+        "#8a6550"
+      ],
+      "wallMaterial": [
+        "laterite",
+        "wood",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "Kerala temple with sloping roof",
+        "nalukettu courtyard house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#3f7a55",
+          "where": "coast"
+        },
+        {
+          "name": "rubber",
+          "color": "#4a7a4a",
+          "where": "hills"
+        },
+        {
+          "name": "jackfruit",
+          "color": "#2f5f42",
+          "where": "towns"
+        },
+        {
+          "name": "mango",
+          "color": "#5f8a4a",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a47",
+            "#b8a85c"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "coconut groves",
+          "pattern": "scattered",
+          "colors": [
+            "#457a58",
+            "#5f8a45"
+          ]
+        },
+        {
+          "name": "tea plantations",
+          "pattern": "rows",
+          "colors": [
+            "#3f6b42",
+            "#5f8a50"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kerala",
+      "https://en.wikipedia.org/wiki/Architecture_of_Kerala",
+      "https://en.wikipedia.org/wiki/Kerala_backwaters",
+      "https://en.wikipedia.org/wiki/Munnar"
+    ],
+    "confidence": "high",
+    "notes": "IN-KL is Kerala. Laterite walls and steep red clay-tile roofs are typical of traditional houses, but most new buildings are concrete; the lowlands are densely settled and coconut palms dominate. Tea is confined to the high Western Ghats around Munnar, while rice, rubber and spices fill the midlands. Snow does not occur."
+  },
+  {
+    "id": "ma-atlas-middle-atlas",
+    "name": "Morocco, Atlas and Middle Atlas",
+    "countries": [
+      "MA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a97f5e",
+        "#8c6f55",
+        "#6f6558"
+      ],
+      "roofMaterial": [
+        "rammed earth",
+        "corrugated metal",
+        "concrete"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#c4a888",
+        "#9b8168",
+        "#b9a58c"
+      ],
+      "wallMaterial": [
+        "stone",
+        "rammed earth",
+        "mud brick"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "sparse",
+      "signatureBuildings": [
+        "tighremt tower house",
+        "communal granary (agadir)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Atlas cedar",
+          "color": "#2f5544",
+          "where": "hills"
+        },
+        {
+          "name": "holm oak",
+          "color": "#4d6647",
+          "where": "hills"
+        },
+        {
+          "name": "walnut",
+          "color": "#5d7b4a",
+          "where": "valleys"
+        },
+        {
+          "name": "almond",
+          "color": "#7c8d63",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "terraced cereals (wheat and barley)",
+          "pattern": "terraces",
+          "colors": [
+            "#a7a55f",
+            "#c4b071"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "walnut and almond orchards",
+          "pattern": "terraces",
+          "colors": [
+            "#617f4e",
+            "#8d9a66"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "scattered",
+          "colors": [
+            "#7f8b60",
+            "#9aa37c"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b98a3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Atlas_Mountains",
+      "https://en.wikipedia.org/wiki/Middle_Atlas",
+      "https://en.wikipedia.org/wiki/Megdaz",
+      "https://en.wikipedia.org/wiki/Moroccan_architecture"
+    ],
+    "confidence": "high",
+    "notes": "The Atlas and Middle Atlas span several provinces, so no single ISO 3166-2 subdivision is used. Berber villages are compact clusters of stone or rammed-earth tower houses with flat roofs; communal granaries and terraced fields are typical. Cedar forest dominates the Middle Atlas, while walnuts, almonds and cereals grow on lower terraces. Snow lies on high ground from December to March, not on valley floors; larger towns are now largely concrete."
+  },
+  {
+    "id": "ma-atlantic-plains",
+    "name": "Morocco, Atlantic plains and cities",
+    "countries": [
+      "MA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#d7d2c6",
+        "#8b8b84",
+        "#4f7f63"
+      ],
+      "roofMaterial": [
+        "glazed clay tile",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e3ddd0",
+        "#c6a781",
+        "#b98f70"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "concrete",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "green-tiled mosque minaret",
+        "Art Deco apartment block"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#7b8a5e",
+          "where": "hills"
+        },
+        {
+          "name": "citrus",
+          "color": "#4f7a48",
+          "where": "valleys"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#5d7a5f",
+          "where": "towns"
+        },
+        {
+          "name": "plane tree",
+          "color": "#6e8c57",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#b8a763",
+            "#cbb87a"
+          ],
+          "months": [
+            5,
+            6
+          ]
+        },
+        {
+          "name": "citrus orchards",
+          "pattern": "rows",
+          "colors": [
+            "#528049",
+            "#8fa05e"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "olive groves and vineyards",
+          "pattern": "patchwork",
+          "colors": [
+            "#7e8d61",
+            "#9aa578"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Casablanca",
+      "https://en.wikipedia.org/wiki/Fez,_Morocco",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Morocco",
+      "https://en.wikipedia.org/wiki/Moroccan_architecture"
+    ],
+    "confidence": "high",
+    "notes": "The Atlantic plains and cities span several provinces, so no single ISO 3166-2 subdivision is used. Fes and Meknes retain dense medinas where green glazed-tile mosque roofs rise above white courtyard houses, while Casablanca and Rabat are predominantly white concrete, glass and Art Deco stock. The surrounding plains are Morocco's main cereal, citrus, olive and vineyard belt. Snow does not fall on the plains; summer drought turns uncultivated ground gold."
+  },
+  {
+    "id": "sa-hejaz-asir",
+    "name": "Saudi Arabia, Hejaz and Asir",
+    "countries": [
+      "SA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c8b393",
+        "#978b78",
+        "#ab9273"
+      ],
+      "roofMaterial": [
+        "coral stone",
+        "stone",
+        "concrete"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#dcc7a8",
+        "#b59a7e",
+        "#8e7d68"
+      ],
+      "wallMaterial": [
+        "coral limestone",
+        "stone",
+        "concrete"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "coral-stone house with roshan",
+        "Asir stone tower house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4e7c55",
+          "where": "coast"
+        },
+        {
+          "name": "acacia",
+          "color": "#8b8a5c",
+          "where": "hills"
+        },
+        {
+          "name": "juniper",
+          "color": "#46634a",
+          "where": "hills"
+        },
+        {
+          "name": "coffee",
+          "color": "#5b7c4e",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee terraces",
+          "pattern": "terraces",
+          "colors": [
+            "#4f7048",
+            "#7d9460"
+          ],
+          "months": [
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "sorghum and millet terraces",
+          "pattern": "terraces",
+          "colors": [
+            "#7d9455",
+            "#b3a566"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "date palms",
+          "pattern": "rows",
+          "colors": [
+            "#6f8f58",
+            "#8aa062"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5,
+        8,
+        9
+      ],
+      "dryGold": [
+        6,
+        7
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Hejaz",
+      "https://en.wikipedia.org/wiki/Asir",
+      "https://en.wikipedia.org/wiki/Jeddah",
+      "https://en.wikipedia.org/wiki/Al-Balad,_Jeddah",
+      "https://en.wikipedia.org/wiki/Rijal_Almaa"
+    ],
+    "confidence": "high",
+    "notes": "Hejaz and Asir span several provinces, so no single ISO 3166-2 subdivision is used. Jeddah's Al-Balad has coral-stone houses with wooden roshan balconies, but most of Jeddah, Mecca and Medina is modern concrete. Asir's highlands have stone tower houses and terraced coffee, wheat and alfalfa; the Red Sea coast is hot and humid, while the mountains catch summer rain and fog. Snow is rare and confined to the highest peaks."
+  },
+  {
+    "id": "sa-najd-interior",
+    "name": "Saudi Arabia, Najd and the interior",
+    "countries": [
+      "SA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b99a76",
+        "#cfc4b1",
+        "#8f8a7f"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#c9ab84",
+        "#d8cdb8",
+        "#a98f70"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "concrete",
+        "stone"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "medium",
+      "signatureBuildings": [
+        "Najdi mud-brick courtyard house",
+        "mosque with minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4a7550",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia",
+          "color": "#7d8556",
+          "where": "everywhere"
+        },
+        {
+          "name": "ghaf",
+          "color": "#6f7d52",
+          "where": "everywhere"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#6a8058",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "date palms",
+          "pattern": "rows",
+          "colors": [
+            "#6a8a54",
+            "#8ba15f"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "wheat and alfalfa",
+          "pattern": "patchwork",
+          "colors": [
+            "#8fa05a",
+            "#bfae6c"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Najd",
+      "https://en.wikipedia.org/wiki/Riyadh",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Saudi_Arabia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Saudi_Arabia"
+    ],
+    "confidence": "high",
+    "notes": "Najd and the interior span several provinces, so no single ISO 3166-2 subdivision is used. Traditional Najdi towns have mud-brick courtyard houses with flat roofs, but Riyadh is a grid of concrete towers, villas and highways. Date oases and irrigated wheat and alfalfa are the main cultivated features, with acacia and ghaf on the sand seas and gravel plains. Winter rain is irregular; snow does not occur."
+  },
+  {
+    "id": "ir-caspian-coast",
+    "name": "Iran, Caspian coast",
+    "countries": [
+      "IR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b06a4f",
+        "#96705a",
+        "#6f6a5f"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "corrugated metal",
+        "thatch"
+      ],
+      "roofShape": "steep",
+      "wallColors": [
+        "#ded8c9",
+        "#8a6b52",
+        "#a67a5f"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "wood",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "timber house with veranda and clay-tile roof",
+        "rice-field watch hut"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Caspian beech",
+          "color": "#2f5a3e",
+          "where": "hills"
+        },
+        {
+          "name": "hornbeam",
+          "color": "#4a6b47",
+          "where": "hills"
+        },
+        {
+          "name": "oak",
+          "color": "#5a7548",
+          "where": "hills"
+        },
+        {
+          "name": "poplar",
+          "color": "#718c54",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#62924c",
+            "#b3b568"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "tea plantations",
+          "pattern": "rows",
+          "colors": [
+            "#356b45",
+            "#557f4f"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "citrus orchards",
+          "pattern": "rows",
+          "colors": [
+            "#4f7f4a",
+            "#9aa85e"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#c49a45",
+        "months": [
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Gilan_province",
+      "https://en.wikipedia.org/wiki/Mazandaran_province",
+      "https://en.wikipedia.org/wiki/Kolbadi_House",
+      "https://en.wikipedia.org/wiki/Iranian_architecture"
+    ],
+    "confidence": "high",
+    "notes": "The Caspian coast spans Gilan and Mazandaran, so no single ISO 3166-2 subdivision is used. This is Iran's wettest region, with Hyrcanian forest, rice paddies, tea gardens and citrus; villages have steep clay-tile or metal roofs and timber verandas. Rasht, Sari and other cities are now largely concrete. Snow is confined to the Alborz foothills and peaks, not the coastal plain."
+  },
+  {
+    "id": "ir-zagros",
+    "name": "Iran, Zagros mountains",
+    "countries": [
+      "IR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b09070",
+        "#8f8778",
+        "#6b655c"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "stone",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#b89a7a",
+        "#d0bda2",
+        "#8c7660"
+      ],
+      "wallMaterial": [
+        "stone",
+        "mud brick",
+        "plaster"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "sparse",
+      "signatureBuildings": [
+        "terraced stone-and-mud village house",
+        "mosque with dome"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Persian oak",
+          "color": "#4f6842",
+          "where": "hills"
+        },
+        {
+          "name": "wild almond",
+          "color": "#7a8459",
+          "where": "hills"
+        },
+        {
+          "name": "walnut",
+          "color": "#5e7c4c",
+          "where": "valleys"
+        },
+        {
+          "name": "pistachio",
+          "color": "#718b56",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#b5a35f",
+            "#c8b574"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "lentils and chickpeas",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a9a5e",
+            "#a8a86a"
+          ],
+          "months": [
+            5,
+            6
+          ]
+        },
+        {
+          "name": "walnut and almond orchards",
+          "pattern": "scattered",
+          "colors": [
+            "#617f50",
+            "#8a9668"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b57f3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Zagros_Mountains",
+      "https://en.wikipedia.org/wiki/Abyaneh",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Iran",
+      "https://en.wikipedia.org/wiki/Iranian_architecture"
+    ],
+    "confidence": "high",
+    "notes": "The Zagros span many provinces, so no single ISO 3166-2 subdivision is used. Oak forest and steppe cover the limestone ranges, with compact stone-and-mud villages on the slopes and grain, lentil and walnut cultivation in the valleys. Snow is reliable at higher elevations from December to March. Modern towns are concrete, and nomadic pastoralism still moves between winter and summer pastures."
+  },
+  {
+    "id": "tr-anatolian-plateau",
+    "name": "Turkey, Anatolian plateau",
+    "countries": [
+      "TR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b79b7b",
+        "#d0c2ac",
+        "#8d8578"
+      ],
+      "roofMaterial": [
+        "tuff",
+        "concrete",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d9c8ae",
+        "#a89a88",
+        "#8f7862"
+      ],
+      "wallMaterial": [
+        "tuff",
+        "stone",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Cappadocia cave dwelling",
+        "Seljuk caravanserai"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Anatolian oak",
+          "color": "#5a6b43",
+          "where": "hills"
+        },
+        {
+          "name": "juniper",
+          "color": "#47644c",
+          "where": "hills"
+        },
+        {
+          "name": "poplar",
+          "color": "#708b53",
+          "where": "river banks"
+        },
+        {
+          "name": "willow",
+          "color": "#7c904d",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#c2ac68",
+            "#d0bc7e"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "sugar beet",
+          "pattern": "rows",
+          "colors": [
+            "#6f8f4f",
+            "#9aa86a"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "lentils and chickpeas",
+          "pattern": "patchwork",
+          "colors": [
+            "#8f9a5c",
+            "#b0a86a"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#c79c48",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Anatolian_plateau",
+      "https://en.wikipedia.org/wiki/Cappadocia",
+      "https://en.wikipedia.org/wiki/Central_Anatolia_Region",
+      "https://en.wikipedia.org/wiki/G%C3%B6reme",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Turkey"
+    ],
+    "confidence": "high",
+    "notes": "The Anatolian plateau spans several provinces, so no single ISO 3166-2 subdivision is used. Dryland wheat and barley dominate the semi-arid steppe, with irrigated sugar beet and grazing in the Konya basin. Cappadocia's tuff villages include cave dwellings and flat-roofed houses; Konya and Ankara are largely modern concrete. Snow is reliable in winter, and spring brings a short green flush."
+  },
+  {
+    "id": "tr-aegean-mediterranean",
+    "name": "Turkey, Aegean and Mediterranean coast",
+    "countries": [
+      "TR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#e4ded1",
+        "#b76c50",
+        "#8d8b82"
+      ],
+      "roofMaterial": [
+        "whitewashed plaster",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#efe9dc",
+        "#c2a98c",
+        "#d5c4aa"
+      ],
+      "wallMaterial": [
+        "whitewashed stone",
+        "stone",
+        "plaster"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "Bodrum white cubic house",
+        "Alaçatı stone house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#7d8b5f",
+          "where": "hills"
+        },
+        {
+          "name": "citrus",
+          "color": "#4f7d4b",
+          "where": "coast"
+        },
+        {
+          "name": "Turkish pine",
+          "color": "#4a6b45",
+          "where": "hills"
+        },
+        {
+          "name": "cypress",
+          "color": "#406047",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "olive groves",
+          "pattern": "scattered",
+          "colors": [
+            "#80905f",
+            "#9ba57a"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "citrus orchards",
+          "pattern": "rows",
+          "colors": [
+            "#52814d",
+            "#a3ad5f"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#7f9555",
+            "#d6cfb4"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Aegean_Region",
+      "https://en.wikipedia.org/wiki/Mediterranean_Region,_Turkey",
+      "https://en.wikipedia.org/wiki/Bodrum",
+      "https://en.wikipedia.org/wiki/Ala%C3%A7at%C4%B1",
+      "https://en.wikipedia.org/wiki/Antalya"
+    ],
+    "confidence": "high",
+    "notes": "The Aegean and Mediterranean coasts span several provinces, so no single ISO 3166-2 subdivision is used. Bodrum's white cubic houses and Alaçatı's stone houses survive in old quarters, but Antalya, Izmir and resort strips are dominated by concrete apartment blocks and hotels. Olive groves, citrus orchards and cotton fields fill the coastal plains. Snow is essentially absent at sea level and rare on the immediate coast."
+  },
+  {
+    "id": "eg-nile-valley-delta",
+    "name": "Egypt, Nile valley and Delta",
+    "countries": [
+      "EG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b99b79",
+        "#d2c6b2",
+        "#8c8880"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#caa980",
+        "#d8cbb8",
+        "#a88e6e"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "concrete",
+        "plaster"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "Cairo mosque with minaret",
+        "mud-brick farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4b7852",
+          "where": "everywhere"
+        },
+        {
+          "name": "lebbek",
+          "color": "#5d7d50",
+          "where": "towns"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6b8a5c",
+          "where": "river banks"
+        },
+        {
+          "name": "fig",
+          "color": "#6f8a5e",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat, berseem and broad beans",
+          "pattern": "patchwork",
+          "colors": [
+            "#7fa04e",
+            "#b8b06a"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "maize, rice and cotton",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8f48",
+            "#c8c2a8"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "date palms",
+          "pattern": "rows",
+          "colors": [
+            "#6f8a58",
+            "#8aa05e"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nile_Delta",
+      "https://en.wikipedia.org/wiki/Cairo",
+      "https://en.wikipedia.org/wiki/Architecture_of_Egypt",
+      "https://www.fao.org/4/y4632e/y4632e0c.htm"
+    ],
+    "confidence": "high",
+    "notes": "The Nile valley and Delta span many governorates, so no single ISO 3166-2 subdivision is used. Villages are dense clusters of mud-brick and concrete houses with flat roofs, often strung along canals; Cairo is a dense concrete city punctuated by minarets and domes. Irrigation supports winter wheat, berseem and beans and summer maize, rice and cotton, so the cultivated strip stays green while the surrounding desert is buff. Snow does not occur."
+  },
+  {
+    "id": "pk-punjab-indus",
+    "name": "Pakistan, Punjab and Indus plains",
+    "countries": [
+      "PK"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#ab604b",
+        "#cfc5b4",
+        "#8e8b80"
+      ],
+      "roofMaterial": [
+        "brick",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#b26b54",
+        "#c8ad8a",
+        "#ddd4c2"
+      ],
+      "wallMaterial": [
+        "brick",
+        "mud brick",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "Mughal-style brick mosque with domes",
+        "flat-roofed brick farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "mango",
+          "color": "#4f7a45",
+          "where": "towns"
+        },
+        {
+          "name": "date palm",
+          "color": "#4c7950",
+          "where": "valleys"
+        },
+        {
+          "name": "shisham",
+          "color": "#5d7f4e",
+          "where": "river banks"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6c8a5e",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#b9a862",
+            "#cbb877"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8f4a",
+            "#b0b06a"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#7f9556",
+            "#d3cbb0"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        4,
+        5,
+        6
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Punjab,_Pakistan",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Pakistan",
+      "https://en.wikipedia.org/wiki/Wazir_Khan_Mosque"
+    ],
+    "confidence": "high",
+    "notes": "Punjab and the Indus plains span several provinces, so no single ISO 3166-2 subdivision is used. Villages are compact clusters of flat-roofed brick and mud-brick houses, and Lahore's Mughal brick mosques contrast with modern concrete sprawl. Canal irrigation supports wheat, rice and cotton, with mango orchards around towns and along roads. The monsoon greens the plains from July to September; snow does not occur."
+  },
+  {
+    "id": "ye-yemen",
+    "name": "Yemen",
+    "countries": [
+      "YE"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8d6c4d",
+        "#a38360",
+        "#b6a88f"
+      ],
+      "roofMaterial": [
+        "mud plaster",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#c8a979",
+        "#e9e0cd",
+        "#9e8e76"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "gypsum plaster",
+        "stone"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone tower house",
+        "mud-brick mosque with square minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4d6f3f",
+          "where": "coast"
+        },
+        {
+          "name": "sidr (jujube)",
+          "color": "#5f7e4c",
+          "where": "hills"
+        },
+        {
+          "name": "acacia",
+          "color": "#7b8b56",
+          "where": "valleys"
+        },
+        {
+          "name": "fig",
+          "color": "#6c8b51",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sorghum and millet",
+          "pattern": "terraces",
+          "colors": [
+            "#b4a15f",
+            "#cab774"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "terraces",
+          "colors": [
+            "#507b46",
+            "#709053"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "qat",
+          "pattern": "terraces",
+          "colors": [
+            "#608b4b",
+            "#80a15d"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        7,
+        8
+      ],
+      "dryGold": [
+        5,
+        6,
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Yemen",
+      "https://en.wikipedia.org/wiki/Architecture_of_Yemen",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Yemen"
+    ],
+    "confidence": "high",
+    "notes": "Yemen spans many governorates with sharply different landscapes, so no single ISO 3166-2 subdivision is used. Highlands are terraced and dotted with stone and mud-brick tower houses; the Tihama has date palms and flatter coastal settlements, and Hadhramaut's wadis also grow dates. Flat mud roofs dominate, with concrete increasing in towns. Qat is harvested year-round and has expanded across terraced land. Snow is rare; highland frost occurs in winter. The current conflict makes some areas inaccessible and data uncertain."
+  },
+  {
+    "id": "jo-jordan",
+    "name": "Jordan",
+    "countries": [
+      "JO"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#dad5c7",
+        "#c5baa5",
+        "#b29d82"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "stone slab",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#e6dbc2",
+        "#cdbb9c",
+        "#b39e81"
+      ],
+      "wallMaterial": [
+        "limestone",
+        "concrete",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "flat-roofed limestone house",
+        "mosque with slender minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#7d8b5d",
+          "where": "hills"
+        },
+        {
+          "name": "citrus",
+          "color": "#4f7b47",
+          "where": "valleys"
+        },
+        {
+          "name": "date palm",
+          "color": "#55794b",
+          "where": "valleys"
+        },
+        {
+          "name": "cypress",
+          "color": "#405f46",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "olive groves",
+          "pattern": "patchwork",
+          "colors": [
+            "#808e60",
+            "#9ba67a"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#baa965",
+            "#cdba7c"
+          ],
+          "months": [
+            5,
+            6
+          ]
+        },
+        {
+          "name": "citrus and vegetables",
+          "pattern": "rows",
+          "colors": [
+            "#56854f",
+            "#8ba560"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Jordan",
+      "https://en.wikipedia.org/wiki/Architecture_of_Jordan",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Jordan"
+    ],
+    "confidence": "high",
+    "notes": "Jordan spans desert, highland and Jordan Valley governorates, so no single ISO 3166-2 subdivision is used. Amman and northern hill towns are built of pale limestone with flat concrete roofs; the Jordan Valley is irrigated and green; the eastern desert is sparse. Snow is occasional on high ground around Amman and Ajloun, not a seasonal cover. Water scarcity drives irrigation and reservoir use."
+  },
+  {
+    "id": "il-ps-israel-palestine",
+    "name": "Israel and Palestine",
+    "countries": [
+      "IL",
+      "PS"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#dbd7cb",
+        "#ccc5b6",
+        "#a94f3c"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "corrugated metal",
+        "red clay tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#e7e0cf",
+        "#ccbfa9",
+        "#b6a991"
+      ],
+      "wallMaterial": [
+        "concrete",
+        "stone cladding",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "flat-roofed concrete apartment block",
+        "stone-clad modernist house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#7a895b",
+          "where": "hills"
+        },
+        {
+          "name": "cypress",
+          "color": "#3f5f44",
+          "where": "towns"
+        },
+        {
+          "name": "citrus",
+          "color": "#4e7a46",
+          "where": "coast"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#607e61",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "citrus orchards",
+          "pattern": "rows",
+          "colors": [
+            "#54834d",
+            "#8ba25f"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "terraces",
+          "colors": [
+            "#7f8e62",
+            "#9aa57b"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "wheat and vegetables",
+          "pattern": "patchwork",
+          "colors": [
+            "#b7a763",
+            "#cab878"
+          ],
+          "months": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Palestine",
+      "https://en.wikipedia.org/wiki/Architecture_of_Israel",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Israel"
+    ],
+    "confidence": "medium",
+    "notes": "The region combines Israel and the Palestinian territories and crosses several districts, so no ISO 3166-2 subdivision is given. Mediterranean cities are dense concrete and stone-clad apartment blocks with flat roofs; red tile is a minority, mostly on older or rural buildings. The coastal plain has citrus and greenhouses, the hills olives and terraces, and the Negev is arid and sparse. Winter rain is concentrated from November to March; snow is rare and local."
+  },
+  {
+    "id": "lb-sy-lebanon-syria",
+    "name": "Lebanon and Syria, coast and mountains",
+    "countries": [
+      "LB",
+      "SY"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#d1cbbe",
+        "#bab2a2",
+        "#9e4f3c"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "corrugated metal",
+        "red clay tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#dfd4c1",
+        "#c6b69c",
+        "#aa967a"
+      ],
+      "wallMaterial": [
+        "concrete",
+        "stone",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "flat-roofed concrete apartment block",
+        "stone mountain house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#7c8a5e",
+          "where": "hills"
+        },
+        {
+          "name": "stone pine",
+          "color": "#466449",
+          "where": "coast"
+        },
+        {
+          "name": "citrus",
+          "color": "#4f7c48",
+          "where": "coast"
+        },
+        {
+          "name": "fig",
+          "color": "#6b8b52",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "olive groves",
+          "pattern": "patchwork",
+          "colors": [
+            "#818f62",
+            "#9ca77b"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#b8a764",
+            "#ccb979"
+          ],
+          "months": [
+            5,
+            6
+          ]
+        },
+        {
+          "name": "citrus orchards",
+          "pattern": "rows",
+          "colors": [
+            "#57864f",
+            "#8ca560"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Lebanon",
+      "https://en.wikipedia.org/wiki/Syria",
+      "https://en.wikipedia.org/wiki/Architecture_of_Lebanon",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Syria"
+    ],
+    "confidence": "medium",
+    "notes": "The region covers two countries and both coastal and mountain zones, so no single ISO 3166-2 subdivision is used. Beirut, Damascus and Aleppo are dense concrete cities; mountain villages are stone with pitched red-tile roofs, a minority overall. Snow lies on Mount Lebanon and the coastal ranges in winter. Olives, citrus and wheat are typical, but conflict and displacement have damaged farmland and made current data uncertain."
+  },
+  {
+    "id": "iq-mesopotamian-plains",
+    "name": "Iraq, Mesopotamian plains",
+    "countries": [
+      "IQ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b59c7a",
+        "#cdc0a9",
+        "#3f908b"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "concrete",
+        "glazed tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#caae85",
+        "#baad97",
+        "#dacdb4"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "concrete",
+        "plaster"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "medium",
+      "signatureBuildings": [
+        "mud-brick courtyard house",
+        "shrine with turquoise-tiled dome"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4e7141",
+          "where": "river banks"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#5f7d61",
+          "where": "towns"
+        },
+        {
+          "name": "fig",
+          "color": "#6d8c53",
+          "where": "valleys"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#7b8b5f",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "date palm groves",
+          "pattern": "rows",
+          "colors": [
+            "#537d49",
+            "#73915b"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "irrigated wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#b9a865",
+            "#ccb978"
+          ],
+          "months": [
+            4,
+            5
+          ]
+        },
+        {
+          "name": "rice",
+          "pattern": "patchwork",
+          "colors": [
+            "#7c8a50",
+            "#9aa75f"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mesopotamia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Iraq",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Iraq"
+    ],
+    "confidence": "high",
+    "notes": "The Tigris–Euphrates plain runs through many governorates, so no single ISO 3166-2 subdivision is used. Villages are flat-roofed mud-brick courtyards, with concrete increasingly common; turquoise-tiled domes are an iconic minority. Date palms line canals and field edges, and irrigated wheat, barley and rice occupy the plains. Summers are extremely hot and dry; winter rain is light. Salinity, upstream dams and conflict have reduced cultivation in parts."
+  },
+  {
+    "id": "iq-ir-kurdistan-highlands",
+    "name": "Iraq and Iran, Kurdistan highlands",
+    "countries": [
+      "IQ",
+      "IR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a99170",
+        "#c3b59d",
+        "#905040"
+      ],
+      "roofMaterial": [
+        "mud plaster",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#b9aa90",
+        "#9b8b73",
+        "#d1c5ae"
+      ],
+      "wallMaterial": [
+        "stone",
+        "mud brick",
+        "plaster"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone mountain house",
+        "mosque with slender minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oak",
+          "color": "#3e5e3e",
+          "where": "hills"
+        },
+        {
+          "name": "walnut",
+          "color": "#6a7f4c",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar",
+          "color": "#6e8c5b",
+          "where": "valleys"
+        },
+        {
+          "name": "apricot",
+          "color": "#7f9058",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#b1a05f",
+            "#c7b472"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "orchards (apple, apricot, walnut)",
+          "pattern": "terraces",
+          "colors": [
+            "#7a8c55",
+            "#97a56c"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "terraces",
+          "colors": [
+            "#5f7f45",
+            "#7f9a5a"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b17b40",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Iraqi_Kurdistan",
+      "https://en.wikipedia.org/wiki/Kurdistan_province",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Iraq"
+    ],
+    "confidence": "medium",
+    "notes": "The Kurdistan highlands straddle northern Iraq and western Iran and cover several provinces, so no ISO 3166-2 subdivision is used. Mountain villages are stone or mud-brick with flat roofs, increasingly covered with pitched corrugated metal; Erbil, Sulaymaniyah and Sanandaj have sprawling concrete outskirts. Oak woodland, orchards and cereals fill the valleys, and snow covers high ground in winter. Cross-border statistics are uneven."
+  },
+  {
+    "id": "af-afghanistan",
+    "name": "Afghanistan",
+    "countries": [
+      "AF"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b19b7b",
+        "#c9b99d",
+        "#406f9b"
+      ],
+      "roofMaterial": [
+        "mud plaster",
+        "concrete",
+        "glazed tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#cab18b",
+        "#a9977d",
+        "#dfd1b9"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "stone",
+        "plaster"
+      ],
+      "villageLayout": "walled compounds",
+      "density": "sparse",
+      "signatureBuildings": [
+        "walled compound with corner tower (qala)",
+        "mosque with blue-tiled dome"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "poplar",
+          "color": "#6a8a50",
+          "where": "river banks"
+        },
+        {
+          "name": "apricot",
+          "color": "#7d8c58",
+          "where": "valleys"
+        },
+        {
+          "name": "mulberry",
+          "color": "#5f7d46",
+          "where": "valleys"
+        },
+        {
+          "name": "almond",
+          "color": "#8a945f",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#b2a160",
+            "#c8b573"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "apricot and mulberry orchards",
+          "pattern": "patchwork",
+          "colors": [
+            "#7b8d56",
+            "#98a66d"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#5e7f44",
+            "#7e9a59"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b98740",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Afghanistan",
+      "https://en.wikipedia.org/wiki/Architecture_of_Afghanistan",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Afghanistan"
+    ],
+    "confidence": "medium",
+    "notes": "Afghanistan covers very diverse terrain, so no single ISO 3166-2 subdivision is used. Rural settlements are walled mud-brick compounds with flat roofs, often with a corner tower; blue-tiled domes are an iconic minority. Kabul and other cities are mostly low concrete blocks with some glass buildings. Irrigated valleys grow wheat, barley, fruit and grapes, while the Hindu Kush and central highlands carry snow for months. Drought, conflict and displacement make conditions variable and current figures uncertain."
+  },
+  {
+    "id": "tm-uz-tj-lowlands",
+    "name": "Turkmenistan, Uzbekistan and Tajikistan lowlands",
+    "countries": [
+      "TM",
+      "UZ",
+      "TJ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c0aa8b",
+        "#d3c7b1",
+        "#40909b"
+      ],
+      "roofMaterial": [
+        "mud brick",
+        "concrete",
+        "glazed tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d7c4a5",
+        "#baaa90",
+        "#e1d7c3"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "concrete",
+        "plaster"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "medium",
+      "signatureBuildings": [
+        "mud-brick courtyard house",
+        "madrasa with turquoise-tiled dome"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "poplar",
+          "color": "#6f8c55",
+          "where": "river banks"
+        },
+        {
+          "name": "mulberry",
+          "color": "#7e8d59",
+          "where": "towns"
+        },
+        {
+          "name": "apricot",
+          "color": "#5f7d47",
+          "where": "valleys"
+        },
+        {
+          "name": "elm",
+          "color": "#8b9560",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#7c8e57",
+            "#d8d2c3"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#b3a261",
+            "#c9b674"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "melons and orchards",
+          "pattern": "patchwork",
+          "colors": [
+            "#809058",
+            "#9ca86f"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b18b40",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Karakum_Desert",
+      "https://en.wikipedia.org/wiki/Samarkand",
+      "https://en.wikipedia.org/wiki/Bukhara",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Uzbekistan",
+      "https://en.wikipedia.org/wiki/Turkmenistan",
+      "https://en.wikipedia.org/wiki/Tajikistan"
+    ],
+    "confidence": "medium",
+    "notes": "This region combines the Kara Kum, the Amu Darya oases and the Zarafshan–Fergana lowlands across three countries, so no ISO 3166-2 subdivision is used. Towns and villages are low adobe courtyard houses with flat roofs, while Tashkent and provincial capitals are dominated by Soviet-era concrete blocks; turquoise-tiled madrasa domes are an iconic minority in Samarkand and Bukhara. Irrigation supports cotton, wheat, melons and orchards. Winters are cold enough for snow on the lowlands; summers are hot and dry, and the Aral Sea shrinkage has left salt and dust problems."
+  },
+  {
+    "id": "ge-am-az-caucasus",
+    "name": "Caucasus, Georgia, Armenia and Azerbaijan",
+    "countries": [
+      "GE",
+      "AM",
+      "AZ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b9b6ae",
+        "#d0cbc1",
+        "#a4503b"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "corrugated metal",
+        "red clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#cac3b5",
+        "#b1a697",
+        "#d9d0c1"
+      ],
+      "wallMaterial": [
+        "stone",
+        "tuff",
+        "plaster"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone church with conical dome",
+        "timber-balcony house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "beech",
+          "color": "#46644a",
+          "where": "hills"
+        },
+        {
+          "name": "oak",
+          "color": "#5f7a4f",
+          "where": "hills"
+        },
+        {
+          "name": "walnut",
+          "color": "#6d8c58",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar",
+          "color": "#7e8d5a",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#b4a362",
+            "#cab775"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#5e7f45",
+            "#7f9a59"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "orchards (apricot, apple, pomegranate)",
+          "pattern": "patchwork",
+          "colors": [
+            "#7d8e57",
+            "#9aa66d"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b37c42",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Caucasus",
+      "https://en.wikipedia.org/wiki/Georgia_(country)",
+      "https://en.wikipedia.org/wiki/Architecture_of_Georgia_(country)",
+      "https://en.wikipedia.org/wiki/Armenia",
+      "https://en.wikipedia.org/wiki/Architecture_of_Armenia",
+      "https://en.wikipedia.org/wiki/Azerbaijan",
+      "https://en.wikipedia.org/wiki/Architecture_of_Azerbaijan"
+    ],
+    "confidence": "medium",
+    "notes": "The Caucasus region spans Georgia, Armenia and Azerbaijan and several provinces, so no ISO 3166-2 subdivision is used. Tbilisi, Yerevan and Baku are largely concrete cities; villages mix flat concrete roofs with pitched red tile or metal. Stone churches with conical domes and timber-balcony houses are typical. The Black Sea coast is humid and green, the Kura–Araxes basin dry, and high ground holds snow from December to March. Vineyards and orchards are widespread."
+  },
+  {
+    "id": "in-rajasthan-thar",
+    "name": "India, Rajasthan and the Thar Desert",
+    "countries": [
+      "IN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c9a97d",
+        "#b99b73",
+        "#908b80"
+      ],
+      "roofMaterial": [
+        "sandstone slab",
+        "concrete",
+        "mud plaster"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d9b58b",
+        "#e5d9c3",
+        "#b1906b"
+      ],
+      "wallMaterial": [
+        "sandstone",
+        "lime plaster",
+        "mud brick"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "medium",
+      "signatureBuildings": [
+        "sandstone haveli with jharokha balconies",
+        "flat-roofed courtyard house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "khejri",
+          "color": "#6f7f4a",
+          "where": "everywhere"
+        },
+        {
+          "name": "acacia",
+          "color": "#7f8b55",
+          "where": "everywhere"
+        },
+        {
+          "name": "neem",
+          "color": "#4f6f45",
+          "where": "towns"
+        },
+        {
+          "name": "date palm",
+          "color": "#5f7d4a",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and mustard",
+          "pattern": "patchwork",
+          "colors": [
+            "#b9a763",
+            "#cba94d"
+          ],
+          "months": [
+            2,
+            3
+          ]
+        },
+        {
+          "name": "bajra (pearl millet)",
+          "pattern": "patchwork",
+          "colors": [
+            "#b0a05f",
+            "#c6b474"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#7f8f58",
+            "#9aa66e"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        4,
+        5,
+        6,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Rajasthan",
+      "https://en.wikipedia.org/wiki/Thar_Desert",
+      "https://en.wikipedia.org/wiki/Architecture_of_Rajasthan",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Rajasthan"
+    ],
+    "confidence": "high",
+    "notes": "Rajasthan and the Thar span the whole state and adjoining desert districts, so no single ISO 3166-2 subdivision is used. Towns are built of flat-roofed sandstone or concrete courtyard houses; havelis with jharokha balconies are an urban signature. The Thar is sand dunes and thorn scrub, greening briefly with the July–September monsoon. Wheat and mustard are winter crops, bajra is sown with the monsoon, and cotton follows the rains. Jaipur and other cities are now largely concrete and glass."
+  },
+  {
+    "id": "in-indo-gangetic-plain",
+    "name": "India, Indo-Gangetic plain",
+    "countries": [
+      "IN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b7b2a7",
+        "#c7b69a",
+        "#9a6f52"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "mud plaster",
+        "brick tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#b9785d",
+        "#dccdb5",
+        "#a8a299"
+      ],
+      "wallMaterial": [
+        "brick",
+        "plaster",
+        "concrete"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "dense",
+      "signatureBuildings": [
+        "flat-roofed brick courtyard house",
+        "north Indian temple with shikhara tower"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "mango",
+          "color": "#4e7340",
+          "where": "valleys"
+        },
+        {
+          "name": "banyan",
+          "color": "#3f6240",
+          "where": "everywhere"
+        },
+        {
+          "name": "neem",
+          "color": "#5f7e4a",
+          "where": "towns"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6b8b5e",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat and mustard",
+          "pattern": "patchwork",
+          "colors": [
+            "#b9a65e",
+            "#cbb36a"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        },
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#608a4a",
+            "#7fa05c"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#6f8f50",
+            "#8fa864"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        4,
+        5,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Indo-Gangetic_Plain",
+      "https://en.wikipedia.org/wiki/Architecture_of_India",
+      "https://en.wikipedia.org/wiki/Agriculture_in_India",
+      "https://en.wikipedia.org/wiki/Delhi",
+      "https://en.wikipedia.org/wiki/Uttar_Pradesh",
+      "https://en.wikipedia.org/wiki/Bihar"
+    ],
+    "confidence": "high",
+    "notes": "The Indo-Gangetic plain covers Delhi, Uttar Pradesh and Bihar, so no single ISO 3166-2 subdivision is used. Villages are compact brick-and-plaster courtyard houses with flat roofs; Delhi and the larger cities are dense concrete and glass. Wheat, rice and sugarcane dominate the alluvial fields, with mango, banyan and neem trees. The monsoon runs from June to September and brings floods to the eastern plain; summers are very hot and winters cool. Groundwater depletion and air pollution are growing problems."
+  },
+  {
+    "id": "in-deccan-plateau",
+    "name": "India, Deccan plateau",
+    "countries": [
+      "IN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b2aca1",
+        "#948e83",
+        "#a85f45"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "stone slab",
+        "terracotta tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#99938a",
+        "#b78d68",
+        "#d5c8b3"
+      ],
+      "wallMaterial": [
+        "basalt stone",
+        "mud brick",
+        "plaster"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "medium",
+      "signatureBuildings": [
+        "flat-roofed stone house",
+        "hill fort with basalt walls"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "banyan",
+          "color": "#3e6040",
+          "where": "everywhere"
+        },
+        {
+          "name": "neem",
+          "color": "#5c7c48",
+          "where": "towns"
+        },
+        {
+          "name": "tamarind",
+          "color": "#4f6f3f",
+          "where": "valleys"
+        },
+        {
+          "name": "teak",
+          "color": "#6f8b52",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#7f8f5a",
+            "#d6d0c1"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "sorghum",
+          "pattern": "patchwork",
+          "colors": [
+            "#b2a05f",
+            "#c8b472"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#6e8e4f",
+            "#8ea763"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        3,
+        4,
+        5,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Deccan_Plateau",
+      "https://en.wikipedia.org/wiki/Architecture_of_Maharashtra",
+      "https://en.wikipedia.org/wiki/Architecture_of_Karnataka",
+      "https://en.wikipedia.org/wiki/Telangana",
+      "https://en.wikipedia.org/wiki/Agriculture_in_India"
+    ],
+    "confidence": "high",
+    "notes": "The Deccan plateau spans Maharashtra, Telangana and interior Karnataka, so no single ISO 3166-2 subdivision is used. Basalt stone and mud-brick courtyard houses with flat roofs are typical of villages, while Pune, Hyderabad and Bengaluru are largely concrete and glass. Cotton, sorghum and irrigated sugarcane grow on the black and red soils. The monsoon arrives from June to September; March to May is hot and dry. Hill forts and temple towns are characteristic, and water storage is a persistent concern."
+  },
+  {
+    "id": "in-tamil-nadu-coast",
+    "name": "India, Tamil Nadu and the southeast coast",
+    "countries": [
+      "IN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b06a4a",
+        "#b8b3a8",
+        "#8f8a80"
+      ],
+      "roofMaterial": [
+        "terracotta tile",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e6dcc6",
+        "#b97a5c",
+        "#b0aaa0"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "brick",
+        "concrete"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "whitewashed house with terracotta-tiled roof",
+        "temple gateway tower (gopuram)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#507a45",
+          "where": "coast"
+        },
+        {
+          "name": "palmyra palm",
+          "color": "#668450",
+          "where": "everywhere"
+        },
+        {
+          "name": "neem",
+          "color": "#557a45",
+          "where": "towns"
+        },
+        {
+          "name": "banyan",
+          "color": "#3f6141",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#5e8a49",
+            "#7ea05b"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#708f51",
+            "#90a865"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "groundnut",
+          "pattern": "patchwork",
+          "colors": [
+            "#808f58",
+            "#9ba66e"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Tamil_Nadu",
+      "https://en.wikipedia.org/wiki/Architecture_of_Tamil_Nadu",
+      "https://en.wikipedia.org/wiki/Economy_of_Tamil_Nadu",
+      "https://en.wikipedia.org/wiki/Agriculture_in_India"
+    ],
+    "confidence": "high",
+    "notes": "Tamil Nadu and the southeast coast form a hot, humid region with both southwest and northeast monsoons, so no single ISO 3166-2 subdivision is used. Villages have whitewashed walls and pitched terracotta-tile roofs; Chennai and other cities are dense concrete and glass. Rice, sugarcane and groundnut are the main crops, with coconut palms along the coast. The northeast monsoon brings the heaviest rain and cyclones from October to December. Temple gateway towers are a regional signature."
+  },
+  {
+    "id": "in-himalaya-kashmir-ladakh",
+    "name": "India, Himalaya and Kashmir (including Ladakh)",
+    "countries": [
+      "IN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9a958c",
+        "#b08a63",
+        "#8f5a45"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "mud plaster",
+        "painted metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#a99f90",
+        "#b58a64",
+        "#d9cdb8"
+      ],
+      "wallMaterial": [
+        "stone",
+        "mud brick",
+        "plaster"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone-and-mud house with flat roof",
+        "timber-balcony house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "willow",
+          "color": "#708a55",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar",
+          "color": "#8a9662",
+          "where": "valleys"
+        },
+        {
+          "name": "apricot",
+          "color": "#7e8c58",
+          "where": "valleys"
+        },
+        {
+          "name": "deodar",
+          "color": "#405f44",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "terraces",
+          "colors": [
+            "#5f8b4a",
+            "#7fa15c"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "apples and apricots",
+          "pattern": "terraces",
+          "colors": [
+            "#7c8d56",
+            "#99a66d"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "barley and wheat",
+          "pattern": "terraces",
+          "colors": [
+            "#b3a160",
+            "#c9b573"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b17a3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "dryGold": [
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Himalayas",
+      "https://en.wikipedia.org/wiki/Ladakh",
+      "https://en.wikipedia.org/wiki/Kashmir",
+      "https://en.wikipedia.org/wiki/Architecture_of_India"
+    ],
+    "confidence": "medium",
+    "notes": "The Indian Himalaya here includes Kashmir and Ladakh, so no single ISO 3166-2 subdivision is used. Kashmir's valley has irrigated rice, apples and saffron and houses of stone, mud and timber with pitched metal roofs; Ladakh is a high cold desert of barley, apricot and willow with flat mud roofs. Srinagar and Leh have sprawling concrete outskirts. Snow lies on high ground for months, and winter closes many passes. The political status of Kashmir remains disputed, so data is uneven."
+  },
+  {
+    "id": "in-northeast-bengal",
+    "name": "India, Northeast and Bengal",
+    "countries": [
+      "IN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9a958b",
+        "#b57a58",
+        "#c9b79a"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "rusted corrugated metal",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#a9835e",
+        "#c4a77f",
+        "#b3ada3"
+      ],
+      "wallMaterial": [
+        "bamboo",
+        "mud plaster",
+        "concrete"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "bamboo house on raised plinth",
+        "temple with curved Bengali roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "bamboo",
+          "color": "#708f4f",
+          "where": "everywhere"
+        },
+        {
+          "name": "areca palm",
+          "color": "#517b46",
+          "where": "valleys"
+        },
+        {
+          "name": "mango",
+          "color": "#587c45",
+          "where": "towns"
+        },
+        {
+          "name": "sal",
+          "color": "#607f4b",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#618c4c",
+            "#81a25e"
+          ],
+          "months": [
+            11,
+            12
+          ]
+        },
+        {
+          "name": "jute",
+          "pattern": "rows",
+          "colors": [
+            "#809059",
+            "#9ba76f"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "tea",
+          "pattern": "terraces",
+          "colors": [
+            "#607f46",
+            "#809b5b"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        3,
+        4,
+        11,
+        12
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/West_Bengal",
+      "https://en.wikipedia.org/wiki/Assam",
+      "https://en.wikipedia.org/wiki/Northeast_India",
+      "https://en.wikipedia.org/wiki/Architecture_of_Bengal",
+      "https://en.wikipedia.org/wiki/Agriculture_in_India"
+    ],
+    "confidence": "medium",
+    "notes": "This region covers West Bengal and Assam, so no single ISO 3166-2 subdivision is used. Rural houses are bamboo or wood on raised plinths with pitched corrugated-metal roofs; Kolkata and Guwahati are dense concrete cities. Rice, jute and tea are the main crops, and tea gardens cover the Assam and Darjeeling hills. The monsoon is long and heavy, causing floods and landslides. Thatch survives as a minority roof material, and the Sundarbans mangroves fringe the coast."
+  },
+  {
+    "id": "pk-sindh-balochistan",
+    "name": "Pakistan, Sindh and Balochistan",
+    "countries": [
+      "PK"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b08f6a",
+        "#c9b99f",
+        "#8f6a4f"
+      ],
+      "roofMaterial": [
+        "mud plaster",
+        "concrete",
+        "rusted corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#c09a72",
+        "#b0a99e",
+        "#d9c9b0"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "stone",
+        "plaster"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "medium",
+      "signatureBuildings": [
+        "mud-brick courtyard house",
+        "carved-wood balcony house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4f7242",
+          "where": "river banks"
+        },
+        {
+          "name": "neem",
+          "color": "#5e7e4a",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#7c8c57",
+          "where": "everywhere"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#879268",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#80905b",
+            "#d7d1c2"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "rice",
+          "pattern": "patchwork",
+          "colors": [
+            "#628d4d",
+            "#82a35f"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#b5a463",
+            "#cbb675"
+          ],
+          "months": [
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        7,
+        8
+      ],
+      "dryGold": [
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sindh",
+      "https://en.wikipedia.org/wiki/Balochistan,_Pakistan",
+      "https://en.wikipedia.org/wiki/Pakistani_architecture",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Pakistan"
+    ],
+    "confidence": "medium",
+    "notes": "Sindh and Balochistan differ sharply: Sindh is an irrigated Indus plain, while Balochistan is a dry, sparsely populated plateau, so no single ISO 3166-2 subdivision is used. Villages are mud-brick courtyard houses with flat roofs, with concrete and rusted metal increasing in towns; Karachi is a dense concrete and glass metropolis. Cotton, rice and wheat grow under canal irrigation, and date palms line fields and channels. Sindh's monsoon is weak, while Balochistan gets winter rain and snow on high ground. Water scarcity and salinity are severe."
+  },
+  {
+    "id": "pk-northern-mountains",
+    "name": "Pakistan, northern mountains",
+    "countries": [
+      "PK"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#aa8f70",
+        "#908a80",
+        "#905b46"
+      ],
+      "roofMaterial": [
+        "mud plaster",
+        "concrete",
+        "rusted corrugated metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#9f9588",
+        "#b68b65",
+        "#8f6a4c"
+      ],
+      "wallMaterial": [
+        "stone",
+        "mud brick",
+        "timber"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone house with flat roof",
+        "timber-balcony house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "apricot",
+          "color": "#7f8d59",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar",
+          "color": "#8a9a60",
+          "where": "valleys"
+        },
+        {
+          "name": "walnut",
+          "color": "#6e8d59",
+          "where": "valleys"
+        },
+        {
+          "name": "deodar",
+          "color": "#406045",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat",
+          "pattern": "terraces",
+          "colors": [
+            "#b6a564",
+            "#ccb776"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "terraces",
+          "colors": [
+            "#8f9a5a",
+            "#a8b06a"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        },
+        {
+          "name": "apricots and apples",
+          "pattern": "terraces",
+          "colors": [
+            "#7e8f58",
+            "#9aa76f"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b27c41",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Khyber_Pakhtunkhwa",
+      "https://en.wikipedia.org/wiki/Gilgit-Baltistan",
+      "https://en.wikipedia.org/wiki/Pakistani_architecture",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Pakistan"
+    ],
+    "confidence": "medium",
+    "notes": "Khyber Pakhtunkhwa and Gilgit-Baltistan form Pakistan's northern mountain belt, so no single ISO 3166-2 subdivision is used. Villages are stone or mud-brick houses with flat roofs and timber balconies, often terraced into steep slopes, with rusted metal roofs increasing in towns; Peshawar is a dense brick-and-concrete city. Wheat, maize and apricot, apple and walnut orchards fill the valleys. Snow covers high ground from November to March, and many passes close in winter. Remote terrain makes data sparse and uneven."
+  },
+  {
+    "id": "np-bt-nepal-bhutan",
+    "name": "Nepal and Bhutan",
+    "countries": [
+      "NP",
+      "BT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9b968c",
+        "#a96046",
+        "#908b81"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "slate"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#b78c66",
+        "#aa9f91",
+        "#e0d6c2"
+      ],
+      "wallMaterial": [
+        "rammed earth",
+        "stone",
+        "plaster"
+      ],
+      "villageLayout": "dense hill town",
+      "density": "medium",
+      "signatureBuildings": [
+        "rammed-earth house with pitched roof",
+        "dzong fortress"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "rhododendron",
+          "color": "#70804b",
+          "where": "hills"
+        },
+        {
+          "name": "oak",
+          "color": "#607b50",
+          "where": "hills"
+        },
+        {
+          "name": "bamboo",
+          "color": "#709050",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar",
+          "color": "#808f5c",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "terraces",
+          "colors": [
+            "#638e4e",
+            "#83a460"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "terraces",
+          "colors": [
+            "#909b5b",
+            "#a9b16b"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        },
+        {
+          "name": "wheat and barley",
+          "pattern": "terraces",
+          "colors": [
+            "#b7a665",
+            "#cdb877"
+          ],
+          "months": [
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b37d42",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        3,
+        4,
+        5,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Nepal",
+      "https://en.wikipedia.org/wiki/Bhutan",
+      "https://en.wikipedia.org/wiki/Architecture_of_Nepal",
+      "https://en.wikipedia.org/wiki/Architecture_of_Bhutan",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Nepal"
+    ],
+    "confidence": "medium",
+    "notes": "Nepal and Bhutan span the Terai plains, terraced middle hills and high Himalaya, so no single ISO 3166-2 subdivision is used. Traditional houses are rammed earth or stone with pitched corrugated-metal or slate roofs; Kathmandu has dense concrete sprawl, while Thimphu remains a compact town of traditional facades. Rice, maize and wheat are the staple crops, with terraces and irrigation channels on the hillsides. The monsoon runs from June to September; snow lies high up in winter. Bhutan's dzongs and Nepal's pagoda temples are regional signatures."
+  },
+  {
+    "id": "bd-bangladesh",
+    "name": "Bangladesh",
+    "countries": [
+      "BD"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9c978d",
+        "#b67b59",
+        "#cab89b"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "rusted corrugated metal",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#aa845f",
+        "#c5a880",
+        "#ba7b60"
+      ],
+      "wallMaterial": [
+        "bamboo",
+        "mud plaster",
+        "brick"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "bamboo house on raised plinth",
+        "mosque with domes and minarets"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "bamboo",
+          "color": "#719151",
+          "where": "everywhere"
+        },
+        {
+          "name": "mango",
+          "color": "#507542",
+          "where": "towns"
+        },
+        {
+          "name": "banana",
+          "color": "#5f8b4b",
+          "where": "valleys"
+        },
+        {
+          "name": "banyan",
+          "color": "#406242",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#659050",
+            "#85a662"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "jute",
+          "pattern": "rows",
+          "colors": [
+            "#81915a",
+            "#9ca870"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "tea",
+          "pattern": "terraces",
+          "colors": [
+            "#618047",
+            "#819c5c"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        3,
+        4,
+        11,
+        12
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Bangladesh",
+      "https://en.wikipedia.org/wiki/Architecture_of_Bangladesh",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Bangladesh",
+      "https://en.wikipedia.org/wiki/Architecture_of_Bengal"
+    ],
+    "confidence": "high",
+    "notes": "Bangladesh is a densely populated delta of the Ganges, Brahmaputra and Meghna, so no single ISO 3166-2 subdivision is used. Rural houses are bamboo or wood on raised plinths with pitched corrugated-metal roofs; Dhaka is a dense concrete and glass city. Rice and jute dominate agriculture, with tea in the Sylhet hills, and much of the land is flooded in the monsoon. Cyclones and river erosion are recurring hazards. Thatch survives as a minority roofing material, and the Sundarbans mangroves fringe the southwest coast."
+  },
+  {
+    "id": "lk-mv-sri-lanka-maldives",
+    "name": "Sri Lanka and the Maldives",
+    "countries": [
+      "LK",
+      "MV"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#b16b4b",
+        "#9d988e",
+        "#c9c4b8"
+      ],
+      "roofMaterial": [
+        "terracotta tile",
+        "corrugated metal",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e7ddc7",
+        "#c9bda8",
+        "#b4aea4"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "coral stone",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "whitewashed house with clay tile roof",
+        "coral-stone mosque with minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#517c47",
+          "where": "coast"
+        },
+        {
+          "name": "breadfruit",
+          "color": "#60804c",
+          "where": "towns"
+        },
+        {
+          "name": "mango",
+          "color": "#5a7f48",
+          "where": "towns"
+        },
+        {
+          "name": "banyan",
+          "color": "#416343",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#669151",
+            "#86a763"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "tea",
+          "pattern": "terraces",
+          "colors": [
+            "#628148",
+            "#829d5d"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "coconut",
+          "pattern": "rows",
+          "colors": [
+            "#608c4c",
+            "#80a25e"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Sri_Lanka",
+      "https://en.wikipedia.org/wiki/Maldives",
+      "https://en.wikipedia.org/wiki/Architecture_of_Sri_Lanka",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Sri_Lanka",
+      "https://en.wikipedia.org/wiki/Geography_of_the_Maldives"
+    ],
+    "confidence": "medium",
+    "notes": "Sri Lanka and the Maldives are Indian Ocean island states, so no single ISO 3166-2 subdivision is used. Sri Lanka's wet zone has whitewashed houses with clay-tile roofs, tea estates and rice paddies; the dry zone is drier and more sparsely settled. The Maldives is a chain of low coral atolls with dense concrete and metal roofs, coconut palms and limited taro, banana and fruit cultivation. Colombo and Malé are dense urban centres. Monsoons bring rain at different times, and sea-level rise threatens the Maldives."
+  }
+]
