@@ -15549,5 +15549,2800 @@
     ],
     "confidence": "high",
     "notes": "Both island republics are covered whole. Malta is one of Europe's densest landscapes, limestone towns merging into one stone-grey sprawl of flat roofs; Cyprus keeps stone villages among olive and carob groves, the flat Mesaoria grain plain and pine forest on the Troodos. Flat-roofed limestone and concrete, with solar water tanks on the roofs. Green November-March, straw gold from May. Snow only on the Troodos summit."
+  },
+  {
+    "id": "cm-cf",
+    "name": "Cameroon and the Central African Republic",
+    "countries": [
+      "CM",
+      "CF"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8f948a",
+        "#4a6f8a",
+        "#b39a68"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#ded8ca",
+        "#b8a888",
+        "#9a7252"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "painted block",
+        "mud brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "cement block house with corrugated metal roof",
+        "thatch-roofed wattle-and-daub house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oil palm",
+          "color": "#3f6f42",
+          "where": "valleys"
+        },
+        {
+          "name": "iroko",
+          "color": "#6f8d4a",
+          "where": "hills"
+        },
+        {
+          "name": "kapok",
+          "color": "#7f9a5c",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#8a955f",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cocoa",
+          "pattern": "rows",
+          "colors": [
+            "#496f42",
+            "#6d8f52"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#81994f",
+            "#a0b063"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#63894e",
+            "#7fa058"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cameroon",
+      "https://en.wikipedia.org/wiki/Central_African_Republic",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Cameroon",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "medium",
+    "notes": "Cameroon and the Central African Republic span many regions and prefectures, so no ISO 3166-2 subdivision is used. Cameroon runs from humid Atlantic rainforest and volcanic Mount Cameroon through savanna to the Sahel edge, while the Central African Republic is mostly Sudano-Guinean savanna with an equatorial forest south; Douala and Yaounde are the largest cities and Bangui is the CAR capital. Cement block and plaster houses with corrugated or painted metal roofs dominate the cities, with thatch-roofed wattle houses in rural areas. Cocoa, plantains, cassava, maize and palm oil are the main crops, with coffee, cotton and millet in the drier north. Rain falls from March to October in the south and May to September in the north; snow never occurs. Insecurity in the CAR and deforestation make data uneven."
+  },
+  {
+    "id": "cd-cg-ga-gq-congo-basin",
+    "name": "Congo basin (DR Congo, Republic of Congo, Gabon and Equatorial Guinea)",
+    "countries": [
+      "CD",
+      "CG",
+      "GA",
+      "GQ"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#ac9260",
+        "#858c86",
+        "#426f8a"
+      ],
+      "roofMaterial": [
+        "palm thatch",
+        "corrugated metal",
+        "painted metal"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#d5c9b2",
+        "#a07150",
+        "#a3a69e"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "mud brick",
+        "concrete block"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "palm-thatch house with wattle walls",
+        "cement block house with metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "sapele",
+          "color": "#3a6340",
+          "where": "hills"
+        },
+        {
+          "name": "oil palm",
+          "color": "#456f3d",
+          "where": "valleys"
+        },
+        {
+          "name": "kapok",
+          "color": "#7d945a",
+          "where": "towns"
+        },
+        {
+          "name": "raffia palm",
+          "color": "#5d7f4a",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f8a47",
+            "#82a55a"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "plantains",
+          "pattern": "rows",
+          "colors": [
+            "#4d7345",
+            "#6d9552"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "groundnuts",
+          "pattern": "rows",
+          "colors": [
+            "#8a9a54",
+            "#a8b36a"
+          ],
+          "months": [
+            1,
+            2,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Democratic_Republic_of_the_Congo",
+      "https://en.wikipedia.org/wiki/Republic_of_the_Congo",
+      "https://en.wikipedia.org/wiki/Gabon",
+      "https://en.wikipedia.org/wiki/Equatorial_Guinea",
+      "https://en.wikipedia.org/wiki/Agriculture_in_the_Democratic_Republic_of_the_Congo",
+      "https://en.wikipedia.org/wiki/Congolian_rainforests",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "The Congo basin spans four countries, so no ISO 3166-2 subdivision is used. This is the world's second-largest tropical forest, with dense lowland rainforest, swamp and peatland crossed by the Congo River and its tributaries; Kinshasa and Brazzaville face each other on the river, Libreville and Malabo sit on the coast, and Lubumbashi and Mbuji-Mayi are mining cities. Palm-thatch houses with wattle walls remain the rural majority while cement block under corrugated or painted metal spreads in the cities. Cassava and plantains are the staples and grow year round, with maize, yams, rice, groundnuts, palm oil and rubber. Rain falls all year with only short drier spells; snow never occurs. Conflict, poor transport and mining make data sparse and uneven."
+  },
+  {
+    "id": "ug-uganda",
+    "name": "Uganda",
+    "countries": [
+      "UG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8b8f88",
+        "#4f738c",
+        "#b59a62"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d8d5c4",
+        "#b5a188",
+        "#a2794f"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "painted block",
+        "mud brick"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "dense",
+      "signatureBuildings": [
+        "iron-sheet-roofed house on a hillside",
+        "round thatched hut"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "banana",
+          "color": "#4f7f45",
+          "where": "valleys"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6f8f66",
+          "where": "hills"
+        },
+        {
+          "name": "mango",
+          "color": "#3f6f3c",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#84945f",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#427247",
+            "#759150"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "bananas",
+          "pattern": "patchwork",
+          "colors": [
+            "#5a8547",
+            "#7fa052"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#849a55",
+            "#a3b765"
+          ],
+          "months": [
+            6,
+            7,
+            12,
+            1
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Uganda",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Uganda",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "Uganda spans many districts, so no ISO 3166-2 subdivision is used. This is fertile lake-land on the equator, with Lake Victoria, volcanic hills, tea country and the headwaters of the Nile; Kampala is the largest city. Iron-sheet roofs on brick or plaster houses are the norm on hillsides and in towns, with round thatched huts remaining in rural areas. Coffee, bananas (matoke), tea, maize and cassava are the main crops, with cotton and sugar. Rain falls in two seasons, March to May and September to November, with drier spells from December to February and June to August; snow never occurs in the lowlands. Rapid population growth, wetland loss and deforestation are pressures."
+  },
+  {
+    "id": "rw-bi",
+    "name": "Rwanda and Burundi",
+    "countries": [
+      "RW",
+      "BI"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#90998f",
+        "#546e8c",
+        "#b09267"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#dcd0c8",
+        "#b5895f",
+        "#a37a55"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "fired brick",
+        "mud brick"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "dense",
+      "signatureBuildings": [
+        "rectangular brick house with iron sheet roof",
+        "conical thatched hut"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "eucalyptus",
+          "color": "#71936a",
+          "where": "hills"
+        },
+        {
+          "name": "banana",
+          "color": "#567f47",
+          "where": "valleys"
+        },
+        {
+          "name": "grevillea",
+          "color": "#6f8952",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#8f9763",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#457542",
+            "#69894f"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "tea",
+          "pattern": "rows",
+          "colors": [
+            "#3a6b3f",
+            "#5f8f4d"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "beans",
+          "pattern": "rows",
+          "colors": [
+            "#7d9a55",
+            "#99b060"
+          ],
+          "months": [
+            6,
+            7,
+            12,
+            1
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12
+      ],
+      "dryGold": [
+        1,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Rwanda",
+      "https://en.wikipedia.org/wiki/Burundi",
+      "https://en.wikipedia.org/wiki/Architecture_of_Rwanda",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "Rwanda and Burundi span many provinces, so no ISO 3166-2 subdivision is used. These are the densely farmed thousand-hills highlands south-west of Lake Victoria, with Kigali, Bujumbura and Gitega the largest cities. Rectangular fired-brick houses under corrugated iron sheets have replaced most traditional homes, though conical thatched huts survive in rural areas and precolonial domical homesteads are remembered. Coffee, tea and bananas are the leading crops, with beans, cassava and sorghum as staples. Rain falls from March to May and September to December, with dry spells from June to August and around January; snow never occurs outside the highest volcanic peaks. Deforestation and soil erosion are serious pressures."
+  },
+  {
+    "id": "tz-tanzania",
+    "name": "Tanzania (incl. Zanzibar)",
+    "countries": [
+      "TZ"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8f9a89",
+        "#d5cec0",
+        "#b4975c"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete",
+        "palm thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8dfcd",
+        "#b9a384",
+        "#976f4d"
+      ],
+      "wallMaterial": [
+        "lime plaster",
+        "plaster",
+        "mud brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "Swahili coral-stone house with flat roof",
+        "brick house with corrugated iron roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4a7a42",
+          "where": "coast"
+        },
+        {
+          "name": "baobab",
+          "color": "#8f9d62",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia",
+          "color": "#7f8d55",
+          "where": "everywhere"
+        },
+        {
+          "name": "mango",
+          "color": "#3d753e",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#8aa054",
+            "#a8b462"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "cashews",
+          "pattern": "rows",
+          "colors": [
+            "#4f7f4d",
+            "#779a5c"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "cloves",
+          "pattern": "rows",
+          "colors": [
+            "#446c45",
+            "#6f9458"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Tanzania",
+      "https://en.wikipedia.org/wiki/Zanzibar",
+      "https://en.wikipedia.org/wiki/Stone_Town",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Tanzania",
+      "https://en.wikipedia.org/wiki/Swahili_architecture",
+      "https://en.wikipedia.org/wiki/Mount_Kilimanjaro",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "Tanzania spans many regions and includes semi-autonomous Zanzibar, so no ISO 3166-2 subdivision is used. The mainland runs from the Swahili coast across miombo and acacia savanna to the Rift Valley and Kilimanjaro; Dar es Salaam is the largest city and Dodoma the capital, while Stone Town is Zanzibar's old coral-stone centre. Corrugated iron roofs dominate towns, concrete flats are spreading, and makuti palm thatch remains typical in villages; Swahili coral-stone houses with flat roofs mark the old ports. Maize, cassava, rice and beans are staples, with cashews, coffee, tea, sisal and cotton as exports and cloves from Zanzibar. Rains fall from November to May and the long dry season runs from June to October; snow lies only on Kilimanjaro's shrinking ice cap, never in the lowlands. Deforestation and rapid urban growth are pressures."
+  },
+  {
+    "id": "ke-coast",
+    "name": "Kenya, coast strip (Mombasa and Lamu)",
+    "countries": [
+      "KE"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#95978c",
+        "#ece4d2",
+        "#ba9a5e"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "lime plaster",
+        "palm thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#efead6",
+        "#d3c2a4",
+        "#8f6d4c"
+      ],
+      "wallMaterial": [
+        "coral stone",
+        "plaster",
+        "timber"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "Swahili coral-stone townhouse with flat roof",
+        "makuti-thatched beach house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#478044",
+          "where": "coast"
+        },
+        {
+          "name": "baobab",
+          "color": "#969c60",
+          "where": "coast"
+        },
+        {
+          "name": "mango",
+          "color": "#41693c",
+          "where": "towns"
+        },
+        {
+          "name": "casuarina",
+          "color": "#4f6f52",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coconuts",
+          "pattern": "rows",
+          "colors": [
+            "#4f8645",
+            "#7ba55a"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "cashews",
+          "pattern": "rows",
+          "colors": [
+            "#58824c",
+            "#7d9a62"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#909d58",
+            "#abba64"
+          ],
+          "months": [
+            1,
+            2,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        3,
+        4,
+        5,
+        10,
+        11,
+        12
+      ],
+      "dryGold": [
+        1,
+        2,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kenya",
+      "https://en.wikipedia.org/wiki/Mombasa",
+      "https://en.wikipedia.org/wiki/Lamu",
+      "https://en.wikipedia.org/wiki/Swahili_architecture",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Kenya",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "This region covers only Kenya's coastal strip, split from the existing inland Kenya region at about 100 km from the sea; the interior, including Nairobi and the highlands, is covered by that inland region. The strip is the historic Swahili coast around Mombasa, Lamu, Malindi and Kilifi, with coral-stone townhouses and carved doors in the old towns, corrugated iron roofs in the growing towns, and makuti palm thatch along the beaches. Coconut palms, baobabs, mangoes and casuarinas line the shore, with coconuts, cashews, maize and cassava the visible crops and the port of Mombasa plus tourism the economic drivers. Rains come in the long season from March to May and the short season from October to December; snow never occurs. Coastal erosion, mangrove loss and tourism pressure are concerns."
+  },
+  {
+    "id": "ao-angola",
+    "name": "Angola",
+    "countries": [
+      "AO"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#898e82",
+        "#476a88",
+        "#a5644a"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#dccfbf",
+        "#a5755a",
+        "#ada79b"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "mud brick",
+        "cement block"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "cement block house with corrugated metal roof",
+        "Portuguese colonial villa with terracotta tile roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oil palm",
+          "color": "#447a3d",
+          "where": "valleys"
+        },
+        {
+          "name": "baobab",
+          "color": "#95a363",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia",
+          "color": "#83905a",
+          "where": "everywhere"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6d8f60",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#678f4b",
+            "#78a251"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#3e6943",
+            "#759a50"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#889c5b",
+            "#a5ac63"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Angola",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Angola",
+      "https://en.wikipedia.org/wiki/Architecture_of_Angola",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "medium",
+    "notes": "Angola spans many provinces including the Cabinda exclave, so no ISO 3166-2 subdivision is used. The north is humid forest and coffee country, the centre is the Bie plateau, and the south grades toward the Namib desert; Luanda is a vast coastal capital and Benguela, Huambo and Lubango the next cities. Cement block houses with corrugated or painted metal roofs dominate Luanda's sprawl and its musseques, Portuguese colonial villas keep terracotta tiles, and thatch remains common in rural areas. Cassava, bananas, maize and coffee are the main crops, with oil and diamonds driving the economy. Rains fall from October to April and the dry season from May to September; snow never occurs. Landmines, post-war recovery and oil dependence shape the data."
+  },
+  {
+    "id": "zm-mw",
+    "name": "Zambia and Malawi",
+    "countries": [
+      "ZM",
+      "MW"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#ae985f",
+        "#838a8c",
+        "#96604a"
+      ],
+      "roofMaterial": [
+        "grass thatch",
+        "corrugated metal",
+        "rusted iron"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#ab7955",
+        "#9c604d",
+        "#b0ae9e"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "fired brick",
+        "concrete block"
+      ],
+      "villageLayout": "walled compounds",
+      "density": "medium",
+      "signatureBuildings": [
+        "round thatched hut in a fenced compound",
+        "fired-brick house with iron sheet roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "miombo",
+          "color": "#6f874b",
+          "where": "everywhere"
+        },
+        {
+          "name": "acacia",
+          "color": "#8d9759",
+          "where": "valleys"
+        },
+        {
+          "name": "baobab",
+          "color": "#979e66",
+          "where": "valleys"
+        },
+        {
+          "name": "mango",
+          "color": "#407c41",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#85954d",
+            "#a2b16b"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "tobacco",
+          "pattern": "rows",
+          "colors": [
+            "#678948",
+            "#8fa65c"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#8aa25e",
+            "#afb465"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Zambia",
+      "https://en.wikipedia.org/wiki/Malawi",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Malawi",
+      "https://en.wikipedia.org/wiki/Miombo",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "medium",
+    "notes": "Zambia and Malawi span many provinces and districts, so no ISO 3166-2 subdivision is used. These are plateau countries of miombo woodland, acacia savanna and the Zambezi and Lake Malawi basins; Lusaka and the Copperbelt dominate Zambia while Lilongwe and Blantyre anchor Malawi. Round thatched huts in fenced compounds are still the rural majority, with fired-brick houses under corrugated or rusted iron sheets in towns; Malawi's hand-fired brick houses are a notable craft. Maize is the staple everywhere, with tobacco, tea and groundnuts as Malawi's exports and copper mining driving Zambia. Rains fall from November to April and the long dry season from May to October; snow never occurs. Drought and deforestation for tobacco curing and fuelwood are pressures."
+  },
+  {
+    "id": "mz-mozambique",
+    "name": "Mozambique",
+    "countries": [
+      "MZ"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8e9382",
+        "#4f7186",
+        "#b29258"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "palm thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#d7cfba",
+        "#a97a5b",
+        "#c2b497"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "mud brick",
+        "painted block"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "cement block house with corrugated metal roof",
+        "macuti palm-thatch roof house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#498645",
+          "where": "coast"
+        },
+        {
+          "name": "cashew",
+          "color": "#5c8a4f",
+          "where": "valleys"
+        },
+        {
+          "name": "baobab",
+          "color": "#91925e",
+          "where": "everywhere"
+        },
+        {
+          "name": "mangrove",
+          "color": "#456a4d",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#639052",
+            "#7fa95e"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "cashews",
+          "pattern": "rows",
+          "colors": [
+            "#527948",
+            "#7a9f60"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#8a9355",
+            "#a7ba6a"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mozambique",
+      "https://en.wikipedia.org/wiki/Agriculture_in_Mozambique",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "Mozambique spans many provinces, so no ISO 3166-2 subdivision is used. This is a long Indian Ocean coast of mangrove creeks, coral islands and coconut groves behind which lie miombo woodland and the Zambezi and Limpopo valleys; Maputo, Beira and Nampula are the largest cities. Cement block houses with corrugated or painted metal roofs line the cities, macuti palm-thatch roofs remain typical in older quarters and villages, and mangrove poles still frame coastal buildings. Cassava, maize, cashews and coconuts are the main crops, with cashew a signature export. Rains fall from November to April and tropical cyclones strike the coast in that season; snow never occurs. Cyclone damage, coastal flooding and insecurity in Cabo Delgado make data uneven."
+  },
+  {
+    "id": "zw-zimbabwe",
+    "name": "Zimbabwe",
+    "countries": [
+      "ZW"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8b908e",
+        "#b39361",
+        "#9d5c48"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "thatch",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d2d2c4",
+        "#a67553",
+        "#b06d52"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "mud brick",
+        "fired brick"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "medium",
+      "signatureBuildings": [
+        "brick house with corrugated iron roof",
+        "round thatched hut with mud walls"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "msasa",
+          "color": "#6d8a45",
+          "where": "hills"
+        },
+        {
+          "name": "mopane",
+          "color": "#7f8850",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia",
+          "color": "#959865",
+          "where": "valleys"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#71996b",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#899c4d",
+            "#a6b35c"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "tobacco",
+          "pattern": "rows",
+          "colors": [
+            "#779056",
+            "#93aa5e"
+          ],
+          "months": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "cotton",
+          "pattern": "rows",
+          "colors": [
+            "#99a55f",
+            "#b0ba72"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Zimbabwe",
+      "https://en.wikipedia.org/wiki/Architecture_of_Zimbabwe",
+      "https://en.wikipedia.org/wiki/Great_Zimbabwe",
+      "https://en.wikipedia.org/wiki/Miombo",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "Zimbabwe spans ten provinces, so no ISO 3166-2 subdivision is used. This is highveld plateau country between the Zambezi and Limpopo, with the Eastern Highlands on the Mozambique border and dry lowveld valleys; Harare and Bulawayo are the largest cities. Brick houses with corrugated iron roofs and plastered walls dominate towns and resettlement areas, round thatched huts with mud walls remain the rural norm, and clay tile roofs survive in older suburbs; the mortarless granite walls of Great Zimbabwe recall the region's medieval city. Maize, tobacco and cotton are the main crops, with cattle and gold. Rains fall from November to March and the cool dry winter from April to October brings highveld frost; snow falls only rarely on the Eastern Highlands peaks, not in the lowlands. Drought and economic instability shape the data."
+  },
+  {
+    "id": "ru-north",
+    "name": "European Russia: north",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-MUR",
+      "RU-ARK",
+      "RU-KO",
+      "RU-NEN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#6d6f73",
+        "#9a6549",
+        "#54585d"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e3e0d7",
+        "#9fa4a9",
+        "#7f6a5b"
+      ],
+      "wallMaterial": [
+        "timber",
+        "concrete panel",
+        "render"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "wooden chapel with tent roof",
+        "Soviet apartment block"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "birch",
+          "color": "#adb381",
+          "where": "valleys"
+        },
+        {
+          "name": "Scots pine",
+          "color": "#476a55",
+          "where": "hills"
+        },
+        {
+          "name": "Norway spruce",
+          "color": "#3a5f57",
+          "where": "everywhere"
+        },
+        {
+          "name": "Siberian larch",
+          "color": "#4f6f6d",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#cb9a5f",
+            "months": [
+              9,
+              10
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "hay meadows on river terraces",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a061",
+            "#6b8a61"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "golden reed beds in river deltas and lake shores",
+          "pattern": "scattered",
+          "colors": [
+            "#9a8f6d"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "timber cutover and windfall clearings",
+          "pattern": "scattered",
+          "colors": [
+            "#7f8a71"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "autumnColor": {
+        "color": "#b3925b",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Murmansk_Oblast",
+      "https://en.wikipedia.org/wiki/Arkhangelsk_Oblast",
+      "https://en.wikipedia.org/wiki/Komi_Republic",
+      "https://en.wikipedia.org/wiki/Nenets_Autonomous_Okrug"
+    ],
+    "confidence": "high",
+    "notes": "Karelia (RU-KR) is listed with ru-west. Endless spruce-pine taiga over glacial bogs, brown peat rivers braiding to the Arctic, and almost no people. Tundra in the far north with reindeer herds and no trees; log villages with tent-roofed wooden chapels along rivers; blocky Soviet towns around Murmansk, Arkhangelsk and Syktyvkar and the smelting scars of the Kola Peninsula. Hay is the only real crop; lakes freeze in October and snow lies until May."
+  },
+  {
+    "id": "ru-south",
+    "name": "European Russia: south",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-KDA",
+      "RU-ROS",
+      "RU-VGG",
+      "RU-AST",
+      "RU-KL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56b5f",
+        "#6b6a71",
+        "#c6b2a1"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#efe4d1",
+        "#a88a67",
+        "#c8b7a1"
+      ],
+      "wallMaterial": [
+        "whitewashed render",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "steppe grain elevator",
+        "Buddhist temple (khurul)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "poplar and black-locust shelterbelts",
+          "color": "#97a583",
+          "where": "everywhere"
+        },
+        {
+          "name": "willow",
+          "color": "#87a379",
+          "where": "river banks"
+        },
+        {
+          "name": "hornbeam-oak foothill woods",
+          "color": "#5f7f63",
+          "where": "hills"
+        },
+        {
+          "name": "mulberry and apricot in gardens",
+          "color": "#7f9a6d",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat, sunflower and maize on the black-earth steppe",
+          "pattern": "stripes",
+          "colors": [
+            "#b9af6d",
+            "#d2cf7d"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "Kuban rice paddies",
+          "pattern": "patchwork",
+          "colors": [
+            "#7f9a69",
+            "#66a06f"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "melon fields and vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#6b7f5f",
+            "#959f6f"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6
+      ],
+      "dryGold": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Krasnodar_Krai",
+      "https://en.wikipedia.org/wiki/Rostov_Oblast",
+      "https://en.wikipedia.org/wiki/Volgograd_Oblast",
+      "https://en.wikipedia.org/wiki/Astrakhan_Oblast",
+      "https://en.wikipedia.org/wiki/Kalmykia"
+    ],
+    "confidence": "high",
+    "notes": "Crimea and Sevastopol excluded by design. Giant straight-sided fields of wheat and sunflower broken by poplar and locust shelterbelts, stanitsa villages as long single streets of whitewashed brick houses under red tile, grain elevators as the only skyline. The Kuban is rice and vineyard country; Astrakhan adds the reed-choked Volga delta and melon patches; Kalmykia is near-desert steppe with Buddhist khuruls around Elista. Winter is grey and mostly snowless; green April-June, gold from July."
+  },
+  {
+    "id": "ru-caucasus",
+    "name": "North Caucasus republics",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-STA",
+      "RU-CE",
+      "RU-IN",
+      "RU-DA",
+      "RU-KB",
+      "RU-KC",
+      "RU-SE"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56749",
+        "#6d5f63",
+        "#7f6f63"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "stone slab"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e0dadb",
+        "#a06a4f",
+        "#8f8f8b"
+      ],
+      "wallMaterial": [
+        "render",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone battle tower",
+        "minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "hornbeam-oak foothill forest",
+          "color": "#6b7f63",
+          "where": "hills"
+        },
+        {
+          "name": "Caucasus pine",
+          "color": "#356155",
+          "where": "hills"
+        },
+        {
+          "name": "mulberry",
+          "color": "#7fa36d",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar avenues",
+          "color": "#96a369",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "lowland and foothill vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a6b",
+            "#8fa363"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "maize and grain on the Stavropol plain",
+          "pattern": "stripes",
+          "colors": [
+            "#a8a371",
+            "#cbb771"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "melon and watermelon fields",
+          "pattern": "scattered",
+          "colors": [
+            "#8f8a5f"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b98d47",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/North_Caucasus",
+      "https://en.wikipedia.org/wiki/Dagestan",
+      "https://en.wikipedia.org/wiki/Chechnya",
+      "https://en.wikipedia.org/wiki/Stavropol_Krai"
+    ],
+    "confidence": "high",
+    "notes": "The Stavropol plain is open grain country, but the signature view is the mountains: snowy Elbrus and the wall of the Greater Caucasus, pine and hornbeam forest on the foothills, stone villages stacked on slopes, in Dagestan and Chechnya watched over by medieval stone battle towers, with minarets beside Orthodox bell towers further west. Grozny and the resort towns are new glass and panel blocks. Lowland snow is brief; the high peaks hold it all year."
+  },
+  {
+    "id": "ru-urals",
+    "name": "Urals",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-PER",
+      "RU-BA",
+      "RU-SVE",
+      "RU-CHE",
+      "RU-ORE"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#676d6f",
+        "#9a6f4b",
+        "#5a6165"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e5e1d5",
+        "#a8a08b",
+        "#86766b"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "mine headframe",
+        "steel works"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "birch",
+          "color": "#a8b36f",
+          "where": "everywhere"
+        },
+        {
+          "name": "Scots pine",
+          "color": "#446a4d",
+          "where": "hills"
+        },
+        {
+          "name": "Siberian fir",
+          "color": "#3d5f4f",
+          "where": "hills"
+        },
+        {
+          "name": "larch",
+          "color": "#5a7d57",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#ca934f",
+            "months": [
+              9,
+              10
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "spring wheat east of the range",
+          "pattern": "stripes",
+          "colors": [
+            "#c5b96b",
+            "#e0d67d"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "sunflowers (Bashkiria, Orenburg)",
+          "pattern": "rows",
+          "colors": [
+            "#c9a55b",
+            "#cfaa5b"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "hay and pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#648a63",
+            "#7fa36f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#c1924b",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        5,
+        6,
+        7
+      ],
+      "dryGold": [
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Perm_Krai",
+      "https://en.wikipedia.org/wiki/Bashkortostan",
+      "https://en.wikipedia.org/wiki/Sverdlovsk_Oblast",
+      "https://en.wikipedia.org/wiki/Chelyabinsk_Oblast",
+      "https://en.wikipedia.org/wiki/Ural_Mountains"
+    ],
+    "confidence": "high",
+    "notes": "Kurgan Oblast (RU-KGN) is not yet covered. A low, rounded, densely forested ridge, birch and pine with dark fir on the wetter west, larch and forest-steppe to the east, wrapped in a great industrial belt: mine headframes, steel works and haze around Yekaterinburg, Chelyabinsk and Magnitogorsk, dacha cabins in the birch woods. Bashkiria adds oil pumpjacks and sunflowers, Orenburg open steppe and salt lakes. Snow lies November to March."
+  },
+  {
+    "id": "ru-w-sib",
+    "name": "Western Siberia",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-TYU",
+      "RU-KHM",
+      "RU-YAN",
+      "RU-OMS",
+      "RU-NVS",
+      "RU-TOM",
+      "RU-ALT",
+      "RU-AL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5f6069",
+        "#9d6449",
+        "#545055"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e0dcd9",
+        "#ab9f8b",
+        "#9d8f83"
+      ],
+      "wallMaterial": [
+        "timber",
+        "render",
+        "concrete panel"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "oil and gas drilling derrick",
+        "timber farmhouse in a forest clearing"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Siberian stone pine (cedar)",
+          "color": "#4f6a51",
+          "where": "hills"
+        },
+        {
+          "name": "Siberian larch",
+          "color": "#6b7f61",
+          "where": "hills"
+        },
+        {
+          "name": "birch",
+          "color": "#a9b681",
+          "where": "everywhere"
+        },
+        {
+          "name": "ribbon pine forest (bor)",
+          "color": "#3f645b",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "spring wheat and fallow (Kulunda steppe)",
+          "pattern": "stripes",
+          "colors": [
+            "#bcb571",
+            "#dcd27d"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "buckwheat and sunflowers (Altai foothills)",
+          "pattern": "rows",
+          "colors": [
+            "#cbc36f"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "hay meadows and damp pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#67a067",
+            "#5c8a5f"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "autumnColor": {
+        "color": "#c19a4b",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/West_Siberian_Plain",
+      "https://en.wikipedia.org/wiki/Tyumen_Oblast",
+      "https://en.wikipedia.org/wiki/Omsk_Oblast",
+      "https://en.wikipedia.org/wiki/Novosibirsk_Oblast",
+      "https://en.wikipedia.org/wiki/Tomsk_Oblast",
+      "https://en.wikipedia.org/wiki/Altai_Krai",
+      "https://en.wikipedia.org/wiki/Altai_Republic"
+    ],
+    "confidence": "high",
+    "notes": "Kemerovo (RU-KEM) is not yet covered. The flattest giant on Earth: a bog-and-taiga sponge threaded by slow brown rivers, with oil pumpjacks and gas flares in Khanty-Mansi and Yamal and reindeer camps on the northern tundra. Villages run as single streets of timber houses along rivers; Omsk, Novosibirsk and Tyumen are grey block cities on the Trans-Siberian. The south turns to the Kulunda steppe of huge wheat fields and long ribbon pine forests, rising to the snowy Altai. Snow lies October to April."
+  },
+  {
+    "id": "ru-e-sib",
+    "name": "Eastern Siberia",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-KYA",
+      "RU-KK",
+      "RU-IRK",
+      "RU-BU",
+      "RU-SA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5d6169",
+        "#a36e53",
+        "#454b53"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#dcd6c5",
+        "#a89f8d",
+        "#6a5f53"
+      ],
+      "wallMaterial": [
+        "timber",
+        "concrete panel",
+        "render"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "house on permafrost piles",
+        "Buddhist datsan"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Dahurian larch",
+          "color": "#6b7a5b",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#d3974f",
+            "months": [
+              9,
+              10
+            ]
+          }
+        },
+        {
+          "name": "Siberian fir",
+          "color": "#2a5f55",
+          "where": "hills"
+        },
+        {
+          "name": "birch",
+          "color": "#a7b68d",
+          "where": "valleys"
+        },
+        {
+          "name": "Siberian stone pine (cedar)",
+          "color": "#4a6f4d",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "hay meadows and river-valley pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#55a45d",
+            "#6f9a53"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "oats and barley in small southern fields",
+          "pattern": "stripes",
+          "colors": [
+            "#b3a96d",
+            "#c6c381"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "alas meadows in the Yakutian permafrost plains",
+          "pattern": "scattered",
+          "colors": [
+            "#7f9a7b"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "autumnColor": {
+        "color": "#c9914b",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Krasnoyarsk_Krai",
+      "https://en.wikipedia.org/wiki/Irkutsk_Oblast",
+      "https://en.wikipedia.org/wiki/Lake_Baikal",
+      "https://en.wikipedia.org/wiki/Buryatia",
+      "https://en.wikipedia.org/wiki/Sakha_Republic"
+    ],
+    "confidence": "high",
+    "notes": "Tuva (RU-TY) and Zabaykalsky (RU-ZAB) are not yet covered. Larch taiga on permafrost from the Yenisei to the Lena, hydro dams on the big rivers, and Baikal, a long slate-blue rift lake ringed by mountains. Yakutia is continent-sized tundra and taiga with scattered log villages, hay meadows in thaw-lake hollows, and Yakutsk's blocks on permafrost piles. Buddhist datsans around Ulan-Ude. The larch taiga turns gold in September; snow lies October to May."
+  },
+  {
+    "id": "ru-far-east",
+    "name": "Russian Far East",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-PRI",
+      "RU-KHA",
+      "RU-SAK",
+      "RU-MAG",
+      "RU-KAM",
+      "RU-CHU"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#6a656f",
+        "#956a53",
+        "#3f444d"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#dad4cf",
+        "#9f8f85",
+        "#75675f"
+      ],
+      "wallMaterial": [
+        "concrete panel",
+        "render",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "lighthouse on a headland",
+        "Soviet panel-block high-rise"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Korean pine",
+          "color": "#446345",
+          "where": "hills"
+        },
+        {
+          "name": "Mongolian oak",
+          "color": "#5f7f67",
+          "where": "valleys"
+        },
+        {
+          "name": "stone birch",
+          "color": "#aab383",
+          "where": "coast"
+        },
+        {
+          "name": "Dahurian larch",
+          "color": "#5d7a61",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "soybean fields (south)",
+          "pattern": "stripes",
+          "colors": [
+            "#95a369",
+            "#b3b367"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "hay and vegetable patches around villages",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8f5d"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "berry bogs and pine marsh (Sakhalin, north)",
+          "pattern": "scattered",
+          "colors": [
+            "#8a7f57"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "autumnColor": {
+        "color": "#bd7a45",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Russian_Far_East",
+      "https://en.wikipedia.org/wiki/Primorsky_Krai",
+      "https://en.wikipedia.org/wiki/Khabarovsk_Krai",
+      "https://en.wikipedia.org/wiki/Kamchatka_Krai",
+      "https://en.wikipedia.org/wiki/Sakhalin_Oblast",
+      "https://en.wikipedia.org/wiki/Magadan_Oblast",
+      "https://en.wikipedia.org/wiki/Chukotka_Autonomous_Okrug"
+    ],
+    "confidence": "high",
+    "notes": "Amur Oblast (RU-AMU) and the Jewish Autonomous Oblast (RU-YEV) are not yet covered. Wild coastlines and forests across seven time zones: Vladivostok's steep hills and bays with huge bridges, the Ussuri forest of Korean pine and Mongolian oak, Kamchatka's snow-capped volcano chain over stone-birch forest, foggy Sakhalin with oil piers, Magadan's gold fields giving way to treeless Chukotka tundra. Panel blocks huddle on the ports; lighthouses on the capes. Oak and larch turn in September; snow lies November into April."
+  },
+  {
+    "id": "kz",
+    "name": "Kazakhstan",
+    "countries": [
+      "KZ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a8654f",
+        "#6b6b6f",
+        "#d3c7ab"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8e0d1",
+        "#b3a58b",
+        "#9a8871"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "yurt camp",
+        "blue-domed mosque"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Schrenk spruce",
+          "color": "#3f6159",
+          "where": "hills"
+        },
+        {
+          "name": "wild apple",
+          "color": "#7f9a65",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#e3b5ad",
+            "months": [
+              4,
+              5
+            ]
+          }
+        },
+        {
+          "name": "poplar (turanga)",
+          "color": "#9fa371",
+          "where": "river banks"
+        },
+        {
+          "name": "Siberian elm",
+          "color": "#6f7f5b",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "spring wheat in the northern belt",
+          "pattern": "stripes",
+          "colors": [
+            "#b3ab71",
+            "#dcd36d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "irrigated cotton and rice in the south",
+          "pattern": "patchwork",
+          "colors": [
+            "#6b9a71",
+            "#8fa87b"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "melons and sunflowers",
+          "pattern": "rows",
+          "colors": [
+            "#c2a86b",
+            "#d2b36b"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kazakhstan",
+      "https://en.wikipedia.org/wiki/Kazakh_Steppe",
+      "https://en.wikipedia.org/wiki/Almaty"
+    ],
+    "confidence": "high",
+    "notes": "Covered whole. The Kazakh Steppe: a near-treeless grass ocean, feather grass silver-gold by June, rolling into the bare Kazakh Uplands. Huge spring-wheat fields and grey farm towns in the north; irrigated cotton and rice oases with poplars along canals in the south; sheep flocks and yurt camps. Almaty sits in orchard country at the foot of the Tian Shan, wild apple groves above the city and Schrenk spruce up to the snow line; Astana is glass towers on the empty steppe. Real lowland snow mainly in the north."
+  },
+  {
+    "id": "kg",
+    "name": "Kyrgyzstan",
+    "countries": [
+      "KG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a36b53",
+        "#6a7175",
+        "#565f63"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#dfd9c9",
+        "#a3978b",
+        "#8a7a63"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "yurt camp on summer pasture",
+        "Soviet sanatorium"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Schrenk spruce",
+          "color": "#44635f",
+          "where": "hills"
+        },
+        {
+          "name": "walnut",
+          "color": "#6f9a47",
+          "where": "valleys"
+        },
+        {
+          "name": "apricot",
+          "color": "#7fa35b",
+          "where": "towns"
+        },
+        {
+          "name": "sea-buckthorn",
+          "color": "#9aa361",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "hay and potato plots around villages",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a459",
+            "#8fa067"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "walnut and fruit groves",
+          "pattern": "scattered",
+          "colors": [
+            "#558a51"
+          ]
+        },
+        {
+          "name": "cotton and maize near the Fergana edge",
+          "pattern": "rows",
+          "colors": [
+            "#95a971"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd9743",
+        "months": [
+          10
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kyrgyzstan",
+      "https://en.wikipedia.org/wiki/Tian_Shan"
+    ],
+    "confidence": "high",
+    "notes": "Covered whole. A mountain country: the Tian Shan wall runs its length, snow peaks over deep blue lakes (Issyk-Kul with its Soviet sanatoria), dark spruce on the slopes, wide summer pastures (jailoo) dotted with yurt camps in July. Valleys carry chain villages with apricot trees and poplar avenues, hay and potato plots, and the wild walnut forests around Arslanbob. Valleys are hot and dry from July; poplars flash gold in October."
+  },
+  {
+    "id": "micro",
+    "name": "European microstates (Andorra, Monaco, San Marino, Vatican)",
+    "countries": [
+      "AD",
+      "MC",
+      "SM",
+      "VA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c2b6a5",
+        "#8f7561",
+        "#b8654d"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "stone slate",
+        "concrete"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#f2ead9",
+        "#d9b599",
+        "#8f8a7d"
+      ],
+      "wallMaterial": [
+        "render",
+        "stone",
+        "glass"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "Romanesque stone church",
+        "marina high-rise"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "black pine",
+          "color": "#3f5f4b",
+          "where": "hills"
+        },
+        {
+          "name": "holm oak",
+          "color": "#558a57",
+          "where": "valleys"
+        },
+        {
+          "name": "lime avenues",
+          "color": "#7f9f5b",
+          "where": "towns"
+        },
+        {
+          "name": "maritime pine",
+          "color": "#4f6f65",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "Riviera terrace gardens",
+          "pattern": "terraces",
+          "colors": [
+            "#6f8f55",
+            "#95a371"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "hay terraces in the Pyrenean valleys",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9f5b",
+            "#8fa87f"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "olive and almond groves",
+          "pattern": "scattered",
+          "colors": [
+            "#8f9f6b"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#b58a4b",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Andorra",
+      "https://en.wikipedia.org/wiki/Monaco",
+      "https://en.wikipedia.org/wiki/San_Marino",
+      "https://en.wikipedia.org/wiki/Vatican_City"
+    ],
+    "confidence": "high",
+    "notes": "Four tiny states in one entry; Liechtenstein is covered by the Switzerland and Austria region. Andorra: slate-and-schist villages and ski runs in steep Pyrenean valleys, Romanesque churches with short bell towers. San Marino: terracotta-roofed stone town on the wooded Titano ridge with its three towers. Monaco: a Riviera cliff of white high-rises over a marina. Vatican City is a walled precinct inside Rome: St Peter's dome and colonnade. Winter snow only in Andorra."
   }
 ]
