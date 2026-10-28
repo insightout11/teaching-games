@@ -394,7 +394,9 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
   // The flight right now, from the room: the living window when nothing is asked (Oct 2026)
   const [flightNow, setFlightNow] = useState<FlightNow | null>(null);
   const flightSeenAt = useRef(0);
-  const onFlightNow = useCallback((f: FlightNow | null) => { flightSeenAt.current = Date.now(); setFlightNow(f); }, []);
+  // The last flight heard from the room, kept after landing so the landing card knows where the class arrived
+  const [lastFlight, setLastFlight] = useState<FlightNow | null>(null);
+  const onFlightNow = useCallback((f: FlightNow | null) => { flightSeenAt.current = Date.now(); setFlightNow(f); if (f?.toId) setLastFlight(f); }, []);
   useEffect(() => {
     const t = window.setInterval(() => { if (Date.now() - flightSeenAt.current > FLIGHT_NOW_STALE_MS) setFlightNow(null); }, 5000);
     return () => window.clearInterval(t);
@@ -1498,6 +1500,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
             shareCopied={shareCopied}
             onShare={handleShare}
             hideRank={juniorClass}
+            postcard={lastFlight?.postcard && lastFlight.toId ? { destinationId: lastFlight.toId, timeOfDay: lastFlight.timeOfDay } : null}
           />
         ) : (
           <div className="glass w-full max-w-md space-y-3 rounded-3xl p-8 text-center">

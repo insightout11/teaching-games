@@ -35,6 +35,10 @@ export interface FlightNow {
   below: string | null;
   minutesLeft: number | null;
   landmark: { id: string; name: string; kind: WorldLandmarkKind; side: 'left' | 'right' } | null;
+  /** The destination's id, for the landing postcard on the phones. */
+  toId?: string;
+  /** The room is using the new postcard arrival look (?arrival=new), so the phones show it too. */
+  postcard?: boolean;
 }
 export const FLIGHT_NOW_MS = 15000;
 export const FLIGHT_NOW_STALE_MS = 40000;

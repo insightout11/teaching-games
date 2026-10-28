@@ -8,6 +8,9 @@ import type { ReferenceVocabItem } from '@/lib/reference-materials';
 import type { PhraseState } from '@/lib/phrasebook-progress';
 import { CrewAvatar } from '@/components/ui/crew-avatar';
 import { speak } from '@/components/student/phrase-card';
+import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
+import { getDestinationById } from '@/data/world-flight/destinations';
+import type { TimeOfDay } from '@/components/world-flight/arrival-scene/types';
 
 // End of the lesson on the phone: an arrival card on cream "keepsake" paper
 // (cream = something you keep), torn into a pass and a stub like the Phrasebook.
@@ -49,6 +52,7 @@ export function LandingCard({
   shareCopied,
   onShare,
   hideRank = false,
+  postcard = null,
 }: {
   name: string;
   seat: string | null;
@@ -63,12 +67,16 @@ export function LandingCard({
   onShare: () => void;
   /** Junior classes: never show a rank. */
   hideRank?: boolean;
+  /** The class's arrival as a postcard on top of the card (when the room uses the postcard look). */
+  postcard?: { destinationId: string; timeOfDay: string } | null;
 }) {
   const date = new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
   const used = words.filter((w) => w.state === 'used' || w.state === 'mastered').length;
   // Rank is a pat on the back for the top three, never a "#9 of 10".
   const [allWords, setAllWords] = useState(false);
   const podium = !hideRank && results?.rank != null && results.totalParticipants != null && results.totalParticipants > 1 && results.rank <= 3;
+  const place = postcard ? getDestinationById(postcard.destinationId) : null;
+  const tod = (['dawn', 'day', 'dusk', 'night'] as const).find((t) => t === postcard?.timeOfDay) as TimeOfDay | undefined;
 
   return (
     <div className="w-full max-w-md space-y-4">
@@ -79,7 +87,23 @@ export function LandingCard({
       </div>
 
       <article className="relative overflow-hidden rounded-3xl shadow-2xl" style={{ background: PAPER, color: INK }}>
-        <div className="h-2" style={{ background: '#F59E0B' }} />
+        {place ? (
+          // The arrival postcard: the same landing the class just saw, as a keepsake on the phone
+          <div className="relative aspect-video w-full">
+            <DestinationArrivalScene
+              destinationId={place.id}
+              scene={place.scene}
+              phase="landed"
+              progress={1}
+              motion="static"
+              timeOfDay={tod}
+              extras={{ reflections: true, framing: true, animal: true, postcard: true, month: new Date().getMonth() + 1, southern: place.lat < 0, title: { city: place.city, country: place.country } }}
+              className="absolute inset-0 h-full w-full"
+            />
+          </div>
+        ) : (
+          <div className="h-2" style={{ background: '#F59E0B' }} />
+        )}
 
         {/* Pass */}
         <div className="relative px-5 pb-5 pt-4">

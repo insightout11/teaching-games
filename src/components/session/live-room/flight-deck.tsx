@@ -1743,6 +1743,8 @@ export function FlightDeck({
   }, [windowView]);
   // The flight right now, for each phone's passenger window (Oct 2026): sent every 15 s while flying
   const flightNowRef = useRef<FlightNow | null>(null);
+  // The new postcard arrival look is on trial behind ?arrival=new; the phones follow the room
+  const [postcardLook] = useState(() => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('arrival') === 'new');
   {
     const lm = photoLandmark ? drawnKindOf(photoLandmark.id) : null;
     const lat = photoLandmark ? sceneryLandmarks.find((l) => l.id === photoLandmark.id)?.lateral : undefined;
@@ -1750,6 +1752,7 @@ export function FlightDeck({
       from: origin.city, to: destination.city, terrain: steadyGround.terrain, region: steadyGround.region ?? null, timeOfDay: skyNow.timeOfDay,
       below: below.name ?? null, minutesLeft: minutesLeft == null ? null : Math.ceil(minutesLeft),
       landmark: photoLandmark && lm ? { id: photoLandmark.id, name: photoLandmark.name, kind: lm, side: (lat ?? 1) < 0 ? 'left' : 'right' } : null,
+      toId: destination.id, postcard: postcardLook,
     } : null;
   }
   const flightNowLandmark = flightNowRef.current?.landmark?.id ?? null;
