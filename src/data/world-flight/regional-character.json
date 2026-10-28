@@ -12433,7 +12433,8 @@
     "name": "Northern Sweden and Finland",
     "countries": [
       "SE",
-      "FI"
+      "FI",
+      "AX"
     ],
     "subdivisions": [
       "SE-W",
@@ -12558,7 +12559,7 @@
       "https://en.wikipedia.org/wiki/Finnish_Lakeland"
     ],
     "confidence": "high",
-    "notes": "Swedish counties for the northern half only; covers all of Finland. From the air this is one dark blue-green boreal forest stitched with thousands of smooth lakes (Finnish Lakeland: drumlins and eskers between long sinuous waters) and pale square clearcut patches. Settlement is scattered red-timber farms with grey metal roofs; towns are grey concrete and modern. Birch turns gold in September. Lowland snow cover typically lasts November to March."
+    "notes": "Swedish counties for the northern half only; covers all of Finland. From the air this is one dark blue-green boreal forest stitched with thousands of smooth lakes (Finnish Lakeland: drumlins and eskers between long sinuous waters) and pale square clearcut patches. Settlement is scattered red-timber farms with grey metal roofs; towns are grey concrete and modern. Birch turns gold in September. Lowland snow cover typically lasts November to March. The Åland Islands (AX), Finnish and Swedish-speaking, share this look: red timber houses on granite skerries."
   },
   {
     "id": "is",
