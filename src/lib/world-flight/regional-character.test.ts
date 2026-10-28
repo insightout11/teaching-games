@@ -10,9 +10,9 @@ const PARENT = iso.subdivisions as Record<string, string | null>;
 // Kosovo has no ISO code yet but is a real place under the route.
 const EXTRA_COUNTRIES = new Set(['XK']);
 // Subdivisions that are their own ISO countries elsewhere in the table (French overseas, Hong Kong and so on).
-const OWN_COUNTRY = new Set(['FR-971', 'FR-972', 'FR-973', 'FR-974', 'FR-976', 'FR-BL', 'FR-MF', 'FR-NC', 'FR-PF', 'FR-PM', 'FR-TF', 'FR-WF', 'FR-CP', 'CN-HK', 'CN-MO', 'CN-TW']);
+const OWN_COUNTRY = new Set(['FR-971', 'FR-972', 'FR-973', 'FR-974', 'FR-976', 'FR-BL', 'FR-MF', 'FR-NC', 'FR-PF', 'FR-PM', 'FR-TF', 'FR-WF', 'FR-CP', 'CN-HK', 'CN-MO', 'CN-TW', 'US-AS', 'US-GU', 'US-MP', 'US-PR', 'US-UM', 'US-VI']);
 // Places with no region yet. Shrink this list as data arrives; a new gap fails the test.
-const KNOWN_GAPS = ['ES-AS', 'ES-CB', 'ES-CN', 'ES-GA', 'ES-PV', 'US (all but New England and Hawaii)'];
+const KNOWN_GAPS: string[] = [];
 
 const HEX = /^#[0-9a-f]{6}$/i;
 const ENUMS = {
@@ -73,9 +73,7 @@ describe('regional character table', () => {
         const kids = Object.keys(PARENT).filter((k) => PARENT[k] === s);
         return !kids.length || !kids.every(covered);
       });
-      if (c === 'US') {
-        if (missing.length) gaps.push('US (all but New England and Hawaii)');
-      } else gaps.push(...missing);
+      gaps.push(...missing);
     }
     expect(gaps.sort()).toEqual([...KNOWN_GAPS].sort());
   });
@@ -124,7 +122,8 @@ describe('regionFor', () => {
     expect(regionFor('TL')?.id).toBe('id-nusa-tenggara-timor-leste');
   });
 
-  it('returns null where the table has a gap', () => {
-    expect(regionFor('US', ['US-TX'])).toBeNull();
+  it('finds US states and returns null for an unknown country', () => {
+    expect(regionFor('US', ['US-TX'])?.id).toBe('us-plains-tx');
+    expect(regionFor('ZZ')).toBeNull();
   });
 });

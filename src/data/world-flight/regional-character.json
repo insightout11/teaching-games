@@ -26087,5 +26087,1234 @@
     ],
     "confidence": "high",
     "notes": "AQ is the whole continent with no planted agriculture or trees: the signatureTrees and signatureCrops arrays are empty on purpose. From the air it is ice sheet, blue ice runways, nunataks and the white shelf edge, with the research stations as the only built things, mostly flat and raised on stilts or gravel pads against the snow, in pale panels and metal. McMurdo, the largest station, adds tank farms, wind turbines and rows of cargo. Snow is drawn every month; the brief summer light brings liquid melt streams in December to February but nothing greens."
+  },
+  {
+    "id": "us-mid-atlantic",
+    "name": "US Mid-Atlantic",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-NY",
+      "US-NJ",
+      "US-PA",
+      "US-DE",
+      "US-MD",
+      "US-DC",
+      "US-VA",
+      "US-WV"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8a8a85",
+        "#9a7a6d",
+        "#6d6d75"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "slate",
+        "metal sheet"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#ece5d9",
+        "#a89a8d",
+        "#8f877d"
+      ],
+      "wallMaterial": [
+        "vinyl siding",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "Manhattan skyline and grey suburban cul-de-sacs",
+        "Chesapeake Bay waterfront farms"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oak-hickory forest",
+          "color": "#43604d",
+          "where": "hills"
+        },
+        {
+          "name": "red maple",
+          "color": "#5a7a5d",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#bd6a3f",
+            "months": [
+              10
+            ]
+          }
+        },
+        {
+          "name": "eastern white pine",
+          "color": "#3d6551",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "corn and soybeans",
+          "pattern": "patchwork",
+          "colors": [
+            "#b5ad71",
+            "#cfc391"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "dairy hay and pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a7b",
+            "#5f8f65"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "vineyards (Finger Lakes, Virginia)",
+          "pattern": "rows",
+          "colors": [
+            "#6b7f5d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd7a3f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/New_York_(state)",
+      "https://en.wikipedia.org/wiki/Pennsylvania",
+      "https://en.wikipedia.org/wiki/New_Jersey",
+      "https://en.wikipedia.org/wiki/Chesapeake_Bay"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:US page. The Boston-to-Washington megalopolis at its centre: from 1-3 km an endless carpet of grey-brown asphalt-shingle suburbs with cul-de-sacs, big-box roofs and parking lots, stitched by eight-lane highways, that finally frays into the long parallel forested ridges of the Appalachians and the horse farms of Pennsylvania. The Chesapeake Bay drowns the river mouths in a maze of coves with corn fields right to the waterline. Deciduous oak-maple forest everywhere, flaming russet in October; snow is normal from December to February, heavier upstate; summers are green and humid."
+  },
+  {
+    "id": "us-southeast",
+    "name": "US Southeast",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-NC",
+      "US-SC",
+      "US-GA",
+      "US-FL",
+      "US-AL",
+      "US-MS",
+      "US-TN",
+      "US-KY",
+      "US-AR",
+      "US-LA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56b4b",
+        "#77716b",
+        "#c9b99d"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "metal sheet",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#efe5db",
+        "#b09a83",
+        "#877d6d"
+      ],
+      "wallMaterial": [
+        "vinyl siding",
+        "brick",
+        "concrete block"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "endless loblolly pine rows",
+        "white cotton fields of the Mississippi Delta"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "loblolly pine plantation",
+          "color": "#3f645f",
+          "where": "everywhere"
+        },
+        {
+          "name": "oak-hickory with kudzu",
+          "color": "#4a7a51",
+          "where": "hills"
+        },
+        {
+          "name": "cypress-tupelo swamp",
+          "color": "#3d6a4f",
+          "where": "valleys"
+        },
+        {
+          "name": "live oak and longleaf with palmetto",
+          "color": "#4f7a61",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cotton (Mississippi Delta, Georgia)",
+          "pattern": "rows",
+          "colors": [
+            "#b8ab71"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "corn and soybeans (river plains)",
+          "pattern": "stripes",
+          "colors": [
+            "#b5b377",
+            "#d6d37d"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "bluegrass horse paddocks (Kentucky)",
+          "pattern": "patchwork",
+          "colors": [
+            "#67a06f",
+            "#5f9a73"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd8a4f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/North_Carolina",
+      "https://en.wikipedia.org/wiki/Georgia_(U.S._state)",
+      "https://en.wikipedia.org/wiki/Florida",
+      "https://en.wikipedia.org/wiki/Mississippi_Delta"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:US page. An ocean of planted loblolly pine in straight rows over red clay, broken by flat cotton and soy fields with white bolls showing in October, cypress-gum swamps standing in black water, and the tight bluegrass horse paddocks of Kentucky behind white plank fences. The Gulf and Atlantic coasts are a ribbon of barrier islands, resort towers and marsh; Florida is flat palms, orange groves and Walt Disney World's swooping roads, with the Everglades' sawgrass sea at its southern end. Humid and green from March to July; snow falls only in the Tennessee-Kentucky-Carolina uplands, and hurricanes head for the coast from June to November."
+  },
+  {
+    "id": "us-midwest",
+    "name": "US Midwest",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-OH",
+      "US-MI",
+      "US-IN",
+      "US-IL",
+      "US-WI",
+      "US-MN",
+      "US-IA",
+      "US-MO"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8a7a71",
+        "#9a918b",
+        "#c4b295"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "metal sheet",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e0d5",
+        "#a5998d",
+        "#7f776d"
+      ],
+      "wallMaterial": [
+        "vinyl siding",
+        "brick",
+        "vinyl"
+      ],
+      "villageLayout": "grid",
+      "density": "sparse",
+      "signatureBuildings": [
+        "red dairy barn with silver silo",
+        "grain elevator on the rail line"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "maple-basswood woodland",
+          "color": "#5a7a65",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#bd7a4b",
+            "months": [
+              10
+            ]
+          }
+        },
+        {
+          "name": "northern lake forest (pine, birch, aspen)",
+          "color": "#3d6a51",
+          "where": "everywhere"
+        },
+        {
+          "name": "oak-hickory woodland",
+          "color": "#5f7f51",
+          "where": "valleys"
+        },
+        {
+          "name": "shelterbelt and river-bottom rows",
+          "color": "#8fa379",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "corn and soybean rectangles",
+          "pattern": "stripes",
+          "colors": [
+            "#b7b375",
+            "#d8d379"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "pivot-irrigation circles (Nebraska, Minnesota)",
+          "pattern": "circles",
+          "colors": [
+            "#5f9a77"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "dairy pasture and hay (Wisconsin, Minnesota)",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a06f",
+            "#5f8f69"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#c98d43",
+        "months": [
+          10
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6
+      ],
+      "dryGold": [
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ohio",
+      "https://en.wikipedia.org/wiki/Iowa",
+      "https://en.wikipedia.org/wiki/Wisconsin",
+      "https://en.wikipedia.org/wiki/Corn_Belt"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:US page. The Corn Belt at its purest: a flawlessly rectangular chessboard of dark-tilled and bright-green corn and soy quarter-sections aligned to the township grid, with grain elevators marking every rail town, pivot circles sprinkled across the sandier soils, and red dairy barns with silver silos in Wisconsin's green hills. The Great Lakes edge the region with dunes and cherry orchards; Minnesota dissolves into ten thousand forest-ringed lakes; Iowa ends in bluffs over the Missouri. Heavy grey suburbs ring Chicago, Detroit and the Twin Cities. Winters are white from December to March, maples burn orange in October, and everything greens hard in May."
+  },
+  {
+    "id": "us-plains-tx",
+    "name": "US Great Plains and Texas",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-ND",
+      "US-SD",
+      "US-NE",
+      "US-KS",
+      "US-OK",
+      "US-TX"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9a8a7b",
+        "#7a736d",
+        "#d3c3ad"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "asphalt shingle",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8dcc5",
+        "#b3a583",
+        "#8a7d6b"
+      ],
+      "wallMaterial": [
+        "vinyl siding",
+        "brick",
+        "concrete block"
+      ],
+      "villageLayout": "grid",
+      "density": "sparse",
+      "signatureBuildings": [
+        "endless pivot-irrigation circles",
+        "grain elevator at every rail crossing"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "cottonwood river rows",
+          "color": "#7f9a7d",
+          "where": "river banks"
+        },
+        {
+          "name": "live oak (Texas Hill Country)",
+          "color": "#4a7a61",
+          "where": "hills"
+        },
+        {
+          "name": "shelterbelt rows",
+          "color": "#8fa371",
+          "where": "everywhere"
+        },
+        {
+          "name": "pecan bottoms",
+          "color": "#5f8a7d",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat rectangles",
+          "pattern": "stripes",
+          "colors": [
+            "#c3b37d",
+            "#dcd37d"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "pivot-irrigation circles",
+          "pattern": "circles",
+          "colors": [
+            "#6fa067"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "cattle rangeland",
+          "pattern": "scattered",
+          "colors": [
+            "#a89f71"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Great_Plains",
+      "https://en.wikipedia.org/wiki/Texas",
+      "https://en.wikipedia.org/wiki/Nebraska_Sand_Hills"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:US page. The widest grid on Earth: mile-square wheat and corn rectangles running to every horizon on the High Plains, thousands of green pivot circles, wind farms on the ridges, and the dune-grass swell of the Sand Hills. Towns are every ten miles at a rail crossing - grain elevator, water tower, grey grain-train. Texas adds its own worlds: Hill Country live-oak slopes, huge cattle ranches on the southern plain, Houston's refinery flares on the humid coast, and the sprawl of Dallas-Austin. Trees only survive as cottonwood and pecan rows along the rivers. Winter snow is normal on the northern plains but rare in Texas; the summer gold lasts from July onward."
+  },
+  {
+    "id": "us-southwest",
+    "name": "US Southwest and Mountain West",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-NM",
+      "US-AZ",
+      "US-NV",
+      "US-UT",
+      "US-CO",
+      "US-WY",
+      "US-MT",
+      "US-ID"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8f837d",
+        "#a57159",
+        "#756f6b"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "asphalt shingle",
+        "metal sheet"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8d5c5",
+        "#c9a891",
+        "#a3917b"
+      ],
+      "wallMaterial": [
+        "stucco",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "grid",
+      "density": "sparse",
+      "signatureBuildings": [
+        "canyon and mesa country",
+        "desert city grid with green pools"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "sagebrush flats",
+          "color": "#8f8a65",
+          "where": "everywhere"
+        },
+        {
+          "name": "ponderosa and spruce mountain islands",
+          "color": "#3d5f45",
+          "where": "hills"
+        },
+        {
+          "name": "cottonwood rows",
+          "color": "#7f9a7f",
+          "where": "river banks"
+        },
+        {
+          "name": "piñon-juniper and Joshua tree",
+          "color": "#6b7a59",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "irrigated hay pivots (Snake River, Colorado valleys)",
+          "pattern": "circles",
+          "colors": [
+            "#6fa065"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "wheat and barley (Montana, Idaho)",
+          "pattern": "stripes",
+          "colors": [
+            "#c3b371",
+            "#d8cf79"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "orchards and vineyards (Grand Valley)",
+          "pattern": "rows",
+          "colors": [
+            "#6b8a65"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#bd8a3f",
+        "months": [
+          10
+        ]
+      },
+      "wetGreen": [
+        8,
+        9
+      ],
+      "dryGold": [
+        4,
+        5,
+        6
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Arizona",
+      "https://en.wikipedia.org/wiki/New_Mexico",
+      "https://en.wikipedia.org/wiki/Rocky_Mountains",
+      "https://en.wikipedia.org/wiki/Great_Basin"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:US page. The red-rock West: layered mesas, slot canyons and Monument Valley buttes over sagebrush flats that run grey-gold to the horizon, with dark islands of pine climbing each mountain range and long lava flows gone green with brush. Everything human is irrigation: bright hay pivot circles in desert valleys, orchards along the rivers, and the vast glowing grids of Phoenix, Las Vegas and Albuquerque with a turquoise pool in every second yard. Salt flats and open-pit copper mines add their own geometry. Lowland snow falls on Colorado, Utah, Montana and Wyoming winters (desert cities get almost none); the July-September monsoon briefly greens the desert, which otherwise bakes from spring onward."
+  },
+  {
+    "id": "us-pacific",
+    "name": "US Pacific coast",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-CA",
+      "US-OR",
+      "US-WA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9a857b",
+        "#756b6d",
+        "#d3c3b1"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "asphalt shingle",
+        "metal sheet"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#efe8e1",
+        "#b3a395",
+        "#8a7f77"
+      ],
+      "wallMaterial": [
+        "stucco",
+        "timber",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "Central Valley orchard grid and canals",
+        "snow-capped volcano above the forest (Rainier, Shasta)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coast redwood and Douglas-fir",
+          "color": "#2f5a53",
+          "where": "hills"
+        },
+        {
+          "name": "oak savanna (golden California hills)",
+          "color": "#5f7f69",
+          "where": "hills"
+        },
+        {
+          "name": "palm (Los Angeles, Sacramento)",
+          "color": "#4f7a6d",
+          "where": "towns"
+        },
+        {
+          "name": "western larch (Cascades)",
+          "color": "#5a7a4d",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#c98d4b",
+            "months": [
+              10
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "orchards and vineyards (Central Valley, Willamette)",
+          "pattern": "rows",
+          "colors": [
+            "#5f9a5d"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "alfalfa and hay pivots (intermountain)",
+          "pattern": "circles",
+          "colors": [
+            "#6fa061"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "rice and dry grain (Sacramento Valley)",
+          "pattern": "stripes",
+          "colors": [
+            "#c3b979"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd7f43",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/California",
+      "https://en.wikipedia.org/wiki/Oregon",
+      "https://en.wikipedia.org/wiki/Washington_(state)",
+      "https://en.wikipedia.org/wiki/Central_Valley_(California)"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:US page. Three stripes along the map edge: a dark curtain of redwood and Douglas-fir forest on the foggy coast, snow-capped volcanoes (Rainier, Shasta, Hood) standing over the Cascades, and then California's Central Valley - one enormous grid of almond, orange and vineyard rows laced with irrigation canals. The California hills are dry gold from June to September, vivid green only in the March-April spring; the Pacific Northwest is an evergreen sea with grey-weather Seattle and Portland at its heart, clearcut patches on the private timberlands, and circles of irrigation in the Columbia plateau. Los Angeles and the Bay Area spread as endless low stucco-and-tile sprawl. Lowland snow is rare in the valleys and normal only in the mountains; autumn colour comes late and bright in October."
+  },
+  {
+    "id": "us-alaska",
+    "name": "Alaska",
+    "countries": [
+      "US"
+    ],
+    "subdivisions": [
+      "US-AK"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#686d6f",
+        "#a0685d",
+        "#8f939d"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "asphalt shingle",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e4df",
+        "#a5a099",
+        "#7a7d7d"
+      ],
+      "wallMaterial": [
+        "timber",
+        "concrete block",
+        "render"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "gravel airstrip beside every village",
+        "braided glacial river outwash"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "black and white spruce taiga",
+          "color": "#3a5f4d",
+          "where": "everywhere"
+        },
+        {
+          "name": "birch and aspen",
+          "color": "#a7b383",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#d3a34f",
+            "months": [
+              9
+            ]
+          }
+        },
+        {
+          "name": "alder and willow shrub",
+          "color": "#6a8a61",
+          "where": "river banks"
+        },
+        {
+          "name": "coastal rainforest (Panhandle)",
+          "color": "#2f5a51",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "market gardens (Matanuska valley)",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a075"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "muskeg and peat flats",
+          "pattern": "scattered",
+          "colors": [
+            "#6b5f4d"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "autumnColor": {
+        "color": "#bd7a57",
+        "months": [
+          9
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Alaska",
+      "https://en.wikipedia.org/wiki/Southeast_Alaska"
+    ],
+    "confidence": "high",
+    "notes": "One federal state covered whole (code verified on the ISO 3166-2:US page), so no other codes apply. Mostly empty from the air: a black-and-white spruce mosaic threaded by braided grey glacial rivers, muskeg flats, and tundra to the north with caribou trails and pingos; the Alaska Range and coastal glaciers close the horizon, and the southeast Panhandle is a fjord coast of dense rainforest and fishing towns. Settlement is Anchorage's grid and a scatter of villages, each with its gravel airstrip and no road out; Fairbanks and Juneau are small river-and-mountain towns. Farming barely exists outside the Matanuska valley's summer plots. Snow lies from October to April (longer in the interior), and the whole boreal landscape flares gold and rust for a few glorious weeks in September."
+  },
+  {
+    "id": "green-spain",
+    "name": "Green Spain (Galicia, Asturias, Cantabria, Basque Country)",
+    "countries": [
+      "ES"
+    ],
+    "subdivisions": [
+      "ES-GA",
+      "ES-AS",
+      "ES-CB",
+      "ES-PV"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a5704b",
+        "#77736d",
+        "#8f7a5f"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "slate",
+        "metal sheet"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#efe8df",
+        "#b39a83",
+        "#8a827d"
+      ],
+      "wallMaterial": [
+        "render",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "granite stone walls around tiny fields (Galicia)",
+        "eucalyptus windbreak around a cow meadow"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "eucalyptus",
+          "color": "#4a7a57",
+          "where": "everywhere"
+        },
+        {
+          "name": "oak and chestnut",
+          "color": "#5a7a51",
+          "where": "hills"
+        },
+        {
+          "name": "Scots pine and beech",
+          "color": "#3d6555",
+          "where": "hills"
+        },
+        {
+          "name": "poplar rows",
+          "color": "#8fa375",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize and hay (Galicia)",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a071",
+            "#5f8f6b"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "dairy pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a7d",
+            "#5f8f6f"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "potato and vegetable plots",
+          "pattern": "scattered",
+          "colors": [
+            "#8f9a79"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#bd8f47",
+        "months": [
+          11
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Galicia_(Spain)",
+      "https://en.wikipedia.org/wiki/Asturias",
+      "https://en.wikipedia.org/wiki/Cantabria",
+      "https://en.wikipedia.org/wiki/Basque_Country_(autonomous_community)"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:ES page (Galicia, Asturias, Cantabria, Basque Country - the green Atlantic north, nothing like the hot Spain of earlier regions). From the air it is Britain's weather with Spain's colour: an intense small-field quilt of maize, hay and emerald cow meadow, walled with granite and slate, draped over wet green hills and drowned in eucalyptus and pine plantations. Cattle sheds sit in every hamlet; villages are stone-and-render houses under red tile and grey slate, strung along fog-draped rías with mussel rafts in Galicia's estuaries and port towns below the Cantabrian peaks. It rains in every month (wettest November-March), there is effectively no dry season, and lowland snow is rare and brief - just occasional winter dustings inland."
+  },
+  {
+    "id": "canaries",
+    "name": "Canary Islands",
+    "countries": [
+      "ES"
+    ],
+    "subdivisions": [
+      "ES-CN"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#d8d5c9",
+        "#8f7f73",
+        "#a5755d"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "clay tile",
+        "metal sheet"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#f2ece1",
+        "#c9a991",
+        "#8a8a81"
+      ],
+      "wallMaterial": [
+        "render (white)",
+        "stone",
+        "concrete block"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "volcanic caldera and black lava flows (Teide)",
+        "white-washed hill village"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "dragon tree",
+          "color": "#5f8a7b",
+          "where": "towns"
+        },
+        {
+          "name": "Canary pine (Teide slopes)",
+          "color": "#3d6a45",
+          "where": "hills"
+        },
+        {
+          "name": "banana palms",
+          "color": "#4f8a51",
+          "where": "valleys"
+        },
+        {
+          "name": "palm and cactus scrub",
+          "color": "#7a8a55",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "banana plantations under white mesh",
+          "pattern": "rows",
+          "colors": [
+            "#8f9a83"
+          ]
+        },
+        {
+          "name": "vineyards in volcanic craters (Lanzarote)",
+          "pattern": "rows",
+          "colors": [
+            "#6b8a55"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "cactus and succulent scrub",
+          "pattern": "scattered",
+          "colors": [
+            "#7a8a6d"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        2,
+        3,
+        4
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Canary_Islands",
+      "https://en.wikipedia.org/wiki/Tenerife"
+    ],
+    "confidence": "high",
+    "notes": "Code verified on the ISO 3166-2:ES page (the whole autonomous community). A volcanic archipelago off West Africa: black and rust lava fields, the huge snow-dusted caldera of Teide in winter, and green laurel-forest gorges on the north coasts. From the air the signature is white - whitewashed villages spilling down ravines, tourist hotel belts on the south coasts of Tenerife and Gran Canaria - plus the pale rectangles of banana plantations under white shade mesh and Lanzarote's black-crater vineyards. Dragon trees, palms and cactus scrub fill the dry lowlands. Winter rain briefly greens the north (February-April); otherwise it is warm and dry year-round, with lowland snow never falling - only Teide's summit gets it."
   }
 ]
