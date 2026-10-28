@@ -21118,5 +21118,1874 @@
     ],
     "confidence": "medium",
     "notes": "Cabo Verde and Sao Tome and Principe span two separate island countries, so no ISO 3166-2 subdivision is used. Cabo Verde is dry volcanic Atlantic islands with Praia as capital, where the brief wet spell runs from August to October and drought and emigration have shaped a hardy, whitewashed building tradition; Sao Tome and Principe are equatorial Gulf of Guinea islands whose colonial rocas once made them the world's leading cocoa producer, with rain from October to May and a duller, cloudier gravana in June to July. Corrugated metal roofs dominate both, clay tile roofs survive on Portuguese-era villas and roca houses, and thatch lingers on worker houses and rural huts. Cocoa, coffee, bananas and coconuts fill the Sao Tome slopes while maize, beans and cassava cling to the Cabo Verde valleys; snow never occurs."
+  },
+  {
+    "id": "sb-vu",
+    "name": "Solomon Islands and Vanuatu",
+    "countries": [
+      "SB",
+      "VU"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a68f55",
+        "#828884",
+        "#c46a4a"
+      ],
+      "roofMaterial": [
+        "palm thatch",
+        "corrugated metal",
+        "painted metal"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#7a6a53",
+        "#b5a173",
+        "#c6c2b6"
+      ],
+      "wallMaterial": [
+        "timber",
+        "woven cane",
+        "concrete block"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "palm-thatch village house on the shore",
+        "stilt house standing in lagoon water"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4a7d42",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#45664d",
+          "where": "river banks"
+        },
+        {
+          "name": "banyan",
+          "color": "#416f48",
+          "where": "towns"
+        },
+        {
+          "name": "teak",
+          "color": "#5f8854",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coconuts",
+          "pattern": "rows",
+          "colors": [
+            "#4f8143",
+            "#79a258"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "taro",
+          "pattern": "patchwork",
+          "colors": [
+            "#638a4e",
+            "#87a662"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#5c8448",
+            "#7b9d54"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Solomon_Islands",
+      "https://en.wikipedia.org/wiki/Vanuatu",
+      "https://en.wikipedia.org/wiki/Coral_reef"
+    ],
+    "confidence": "medium",
+    "notes": "Groups the codes SB and VU, which share the same Melanesian look: volcanic high islands with deep jungle, reef-fringed coasts, big lagoons and turquoise shallows. Villages run in a single line along the palm shore, coral shallows grade from white sand to bright turquoise to deep navy offshore, and Honiara and Port Vila are the only cities. Palm-thatch houses on timber or woven-cane walls are still the rural majority, corrugated and bright painted metal roofs spread through the towns, and stilt houses stand over the lagoons of Malaita and the ni-Vanuatu bays. Coconuts and copra are the cash crop, with taro and cassava slash gardens on the hillsides. The wet cyclone season runs November to April."
+  },
+  {
+    "id": "nc-wf",
+    "name": "New Caledonia and Wallis and Futuna",
+    "countries": [
+      "NC",
+      "WF"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8d9289",
+        "#9d6449",
+        "#b79460"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "hipped",
+      "wallColors": [
+        "#e3dbca",
+        "#8a7a60",
+        "#c9c2b0"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "coral stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "red-tile colonial villa with veranda",
+        "white-walled coral stone church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "araucaria",
+          "color": "#3c6c4a",
+          "where": "hills"
+        },
+        {
+          "name": "niaouli",
+          "color": "#8f9a70",
+          "where": "valleys"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4a8346",
+          "where": "coast"
+        },
+        {
+          "name": "ironwood",
+          "color": "#52755a",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "yams",
+          "pattern": "rows",
+          "colors": [
+            "#8f9c58",
+            "#abaf6b"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#5c8a4c",
+            "#81a35f"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "coffee",
+          "pattern": "rows",
+          "colors": [
+            "#447343",
+            "#6f9150"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/New_Caledonia",
+      "https://en.wikipedia.org/wiki/Wallis_and_Futuna",
+      "https://en.wikipedia.org/wiki/Coral_reef"
+    ],
+    "confidence": "medium",
+    "notes": "Groups the codes NC and WF, both French territories with a strong European building layer. New Caledonia's Grande Terre is a big island with a reef-enclosed lagoon, nickel-mined red hills and the columnar araucaria pines of the Isle of Pines, while Wallis and Futuna are small crater islands with lagoons and thatched villages. Noumea shows hipped corrugated and red tile roofs on plastered villas, coral-stone churches stand in every village, and Wallisian houses still carry thatch pushed by typhoon-season rebuilding. Yams are the ceremonial crop, with cassava, coffee and copra. Wet season November to April with cyclones."
+  },
+  {
+    "id": "fm-pw-mh-nr-ki-micronesia",
+    "name": "Micronesia (FSM, Palau, Marshall Islands, Nauru and Kiribati)",
+    "countries": [
+      "FM",
+      "PW",
+      "MH",
+      "NR",
+      "KI"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8b8e8e",
+        "#c5bead",
+        "#b69b60"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#c0bea9",
+        "#ded5c9",
+        "#7d6e58"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "plaster",
+        "timber"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "concrete block house with corrugated metal roof",
+        "stilt house over the lagoon shore"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#50814a",
+          "where": "everywhere"
+        },
+        {
+          "name": "breadfruit",
+          "color": "#61824d",
+          "where": "towns"
+        },
+        {
+          "name": "pandanus",
+          "color": "#6f8754",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#4a6b4f",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coconuts",
+          "pattern": "scattered",
+          "colors": [
+            "#528645",
+            "#7ea75a"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "breadfruit",
+          "pattern": "rows",
+          "colors": [
+            "#628747",
+            "#86a55c"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "taro",
+          "pattern": "patchwork",
+          "colors": [
+            "#638e53",
+            "#88a868"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Federated_States_of_Micronesia",
+      "https://en.wikipedia.org/wiki/Palau",
+      "https://en.wikipedia.org/wiki/Marshall_Islands",
+      "https://en.wikipedia.org/wiki/Nauru",
+      "https://en.wikipedia.org/wiki/Kiribati",
+      "https://en.wikipedia.org/wiki/Atoll"
+    ],
+    "confidence": "medium",
+    "notes": "Groups the codes FM, PW, MH, NR and KI, which look alike from the air: coral atolls and islets slung along reef rims around pale lagoons, plus Palau's green Rock Islands and Nauru's mined phosphate coral plateau. Villages string out in a thin line along the ocean side of the reef, concrete block houses with corrugated metal roofs dominate after decades of typhoon rebuilding, and older thatch and stilt houses remain near the water. Coconut palms, breadfruit and pandanus cover the narrow land, with swamp taro pits and copra drying racks. The Pacific blue deepens fast past the reef edge. The wet typhoon season runs July to November."
+  },
+  {
+    "id": "gu-mp",
+    "name": "Guam and the Northern Mariana Islands",
+    "countries": [
+      "GU",
+      "MP"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8f978c",
+        "#b5a78e",
+        "#526f86"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete tile",
+        "painted metal"
+      ],
+      "roofShape": "hipped",
+      "wallColors": [
+        "#dcd6c3",
+        "#b0aba0",
+        "#8d7d65"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "concrete block",
+        "timber"
+      ],
+      "villageLayout": "grid",
+      "density": "medium",
+      "signatureBuildings": [
+        "hotel towers along a reef-bounded beach",
+        "typhoon-strapped bungalow with metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#447e44",
+          "where": "coast"
+        },
+        {
+          "name": "flame tree",
+          "color": "#5f904e",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#b0553f",
+            "months": [
+              5,
+              6
+            ]
+          }
+        },
+        {
+          "name": "ironwood",
+          "color": "#516e57",
+          "where": "towns"
+        },
+        {
+          "name": "mango",
+          "color": "#446f3e",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "taro",
+          "pattern": "patchwork",
+          "colors": [
+            "#59844e",
+            "#83ac62"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "breadfruit",
+          "pattern": "rows",
+          "colors": [
+            "#698b4c",
+            "#8caa64"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "melons",
+          "pattern": "scattered",
+          "colors": [
+            "#84a059",
+            "#a2b56a"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Guam",
+      "https://en.wikipedia.org/wiki/Northern_Mariana_Islands",
+      "https://en.wikipedia.org/wiki/Coral_reef"
+    ],
+    "confidence": "high",
+    "notes": "Groups the codes GU and MP, the US Mariana Islands, which share one look: a volcanic island arc with hard reef flats, bright shallow lagoons at Tumon and Garapan, and US military airfields among the hotel strips. Villages sit in concrete grid streets of typhoon-rated block houses under hipped metal and concrete tile roofs; every roof is strapped down and plastic water tanks dot the yards. Flame trees redden the hills in May and June alongside coconut shores and ironwood town avenues. Small farms grow taro, breadfruit and melons for the island markets. The wet typhoon season runs July to December, and September storms are the big hazard."
+  },
+  {
+    "id": "ck-nu-tk-tv-as-pn-polynesia",
+    "name": "Small Polynesia (Cook Islands, Niue, Tokelau, Tuvalu, American Samoa and Pitcairn)",
+    "countries": [
+      "CK",
+      "NU",
+      "TK",
+      "TV",
+      "AS",
+      "PN"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#878d85",
+        "#cdc6b5",
+        "#b2975e"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#dfe0c9",
+        "#b5b1a4",
+        "#83755c"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "concrete block",
+        "timber"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "open-sided fale with a sheeted roof",
+        "concrete block house with corrugated iron roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4d8848",
+          "where": "everywhere"
+        },
+        {
+          "name": "breadfruit",
+          "color": "#658551",
+          "where": "towns"
+        },
+        {
+          "name": "pandanus",
+          "color": "#748c55",
+          "where": "coast"
+        },
+        {
+          "name": "mango",
+          "color": "#3e703f",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coconuts",
+          "pattern": "scattered",
+          "colors": [
+            "#558046",
+            "#7d9958"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "taro",
+          "pattern": "patchwork",
+          "colors": [
+            "#6a914c",
+            "#869d60"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "breadfruit",
+          "pattern": "rows",
+          "colors": [
+            "#598240",
+            "#7d9d5d"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cook_Islands",
+      "https://en.wikipedia.org/wiki/Tuvalu",
+      "https://en.wikipedia.org/wiki/Tokelau",
+      "https://en.wikipedia.org/wiki/Niue",
+      "https://en.wikipedia.org/wiki/American_Samoa",
+      "https://en.wikipedia.org/wiki/Pitcairn_Islands"
+    ],
+    "confidence": "medium",
+    "notes": "Groups the codes CK, NU, TK, TV, AS and PN, the small scattered Polynesias: Rarotonga and Samoa's green volcanic domes ringed by reef and lagoon, Niue's raised coral cliff island, and the classic atolls of Tokelau, Tuvalu, the northern Cooks and Pitcairn's lonely triangle. Villages line the shore in single streets of open-sided fales now roofed in corrugated iron alongside concrete block houses, with church roofs standing out along the atoll strips. Coconut palms, breadfruit and pandanus dominate the band of land between lagoon and reef, with taro pits and small orchards. The cyclone season runs November to April and trade winds keep the rest dry."
+  },
+  {
+    "id": "hk-mo",
+    "name": "Hong Kong and Macau",
+    "countries": [
+      "HK",
+      "MO"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c2c4c1",
+        "#97604d",
+        "#3f7068"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "clay tile",
+        "painted metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#9fb0ba",
+        "#d9d8cb",
+        "#c7cac6"
+      ],
+      "wallMaterial": [
+        "glass tower facade",
+        "plaster",
+        "concrete block"
+      ],
+      "villageLayout": "grid",
+      "density": "dense",
+      "signatureBuildings": [
+        "dense residential towers climbing green hillsides",
+        "fishing village of stilt houses at Tai O"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Chinese banyan",
+          "color": "#447549",
+          "where": "towns"
+        },
+        {
+          "name": "acacia",
+          "color": "#587e50",
+          "where": "hills"
+        },
+        {
+          "name": "bamboo",
+          "color": "#7f9f50",
+          "where": "valleys"
+        },
+        {
+          "name": "casuarina",
+          "color": "#497058",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "vegetables",
+          "pattern": "patchwork",
+          "colors": [
+            "#658942",
+            "#87b060"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "lychee",
+          "pattern": "rows",
+          "colors": [
+            "#3f7844",
+            "#6f9750"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Hong_Kong",
+      "https://en.wikipedia.org/wiki/Macau"
+    ],
+    "confidence": "high",
+    "notes": "Groups the codes HK and MO, the two southern Chinese SARs, which read as one region from 3 km: walls of residential towers packed onto steep green islands and the Pearl estuary's reclaimed flats, with Macau's casino towers on the Cotai strip. Between the high-rise, three-quarters of the land stays green country park and banyan-shaded village streets, while Tai O's stilt houses and Macau's tiled colonial core hold the older character. Flat concrete tower roofs with water tanks dominate the roofscape, older village and temple roofs carry clay tiles, and traditional green painted tin roofs survive in the oldest blocks. Small market gardens and lychee orchards linger in the New Territories valleys. Wet typhoon summers run April to September with storms peaking July to September."
+  },
+  {
+    "id": "br-cerrado",
+    "name": "Brazil: Cerrado and the soy frontier",
+    "countries": [
+      "BR"
+    ],
+    "subdivisions": [
+      "BR-GO",
+      "BR-DF",
+      "BR-MT"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#b37759",
+        "#8f939b",
+        "#c7b9a5"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#ece4d9",
+        "#a5937b",
+        "#939b8f"
+      ],
+      "wallMaterial": [
+        "painted render",
+        "brick",
+        "concrete panel"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Brasília's modernist axis and lake",
+        "metal farm shed with grain silo"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "ipê (trumpet tree)",
+          "color": "#638a61",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#d3a3b5",
+            "months": [
+              7,
+              8,
+              9
+            ]
+          }
+        },
+        {
+          "name": "twisted cerrado scrub",
+          "color": "#6b7f57",
+          "where": "everywhere"
+        },
+        {
+          "name": "buriti palm",
+          "color": "#4a7a5b",
+          "where": "river banks"
+        },
+        {
+          "name": "pequi",
+          "color": "#557f5b",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "soy and maize on the red latosol",
+          "pattern": "patchwork",
+          "colors": [
+            "#b3a867",
+            "#8f9a7d"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "central-pivot irrigation circles",
+          "pattern": "circles",
+          "colors": [
+            "#6f9a75",
+            "#6fa063"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "cotton (Mato Grosso)",
+          "pattern": "stripes",
+          "colors": [
+            "#b5b373",
+            "#d6d37b"
+          ],
+          "months": [
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cerrado",
+      "https://en.wikipedia.org/wiki/Bras%C3%ADlia",
+      "https://en.wikipedia.org/wiki/Mato_Grosso",
+      "https://en.wikipedia.org/wiki/Goi%C3%A1s"
+    ],
+    "confidence": "high",
+    "notes": "Covers Goiás, the Distrito Federal and Mato Grosso (codes verified on the ISO 3166-2:BR page); Mato Grosso do Sul is split off into the Pantanal entry. The Cerrado is a savanna of twisted, fire-sculpted scrub on deep red earth, and from the air the frontier reads as geometry: kilometre-wide soy blocks, cotton stripes, and hundreds of perfect green central-pivot circles that glow against the gold of the May-September dry season. In that dry season the ipê trees detonate into pink, yellow and white crowns with no leaves at all. Brasília is a modernist arrow of white concrete and glass between an artificial lake, unmistakable from above; Cuiabá and Goiânia are grey block sprawl. No snow, no autumn - just the wet green pulse of the southern summer."
+  },
+  {
+    "id": "br-pantanal",
+    "name": "Brazil: Pantanal (Mato Grosso do Sul)",
+    "countries": [
+      "BR"
+    ],
+    "subdivisions": [
+      "BR-MS"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a5614f",
+        "#6d6873",
+        "#c4b9a1"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8ddcb",
+        "#9f9a8b",
+        "#7f7565"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "cattle fazenda on the levee",
+        "line of wooden bridges on the Transpantaneira"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "carandá palm savanna",
+          "color": "#5f8a75",
+          "where": "valleys"
+        },
+        {
+          "name": "cambará and angico scrub",
+          "color": "#6a7f61",
+          "where": "everywhere"
+        },
+        {
+          "name": "gallery forest",
+          "color": "#3f6451",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cattle pasture on seasonally flooded plains",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a065",
+            "#5f8f67"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "rice paddies (south)",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a6f"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "soy on the eastern uplands",
+          "pattern": "stripes",
+          "colors": [
+            "#b5b371"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Pantanal",
+      "https://en.wikipedia.org/wiki/Mato_Grosso_do_Sul"
+    ],
+    "confidence": "high",
+    "notes": "Covers Mato Grosso do Sul alone (code verified on the ISO 3166-2:BR page); the Pantanal's northern half lies in Mato Grosso under the Cerrado entry. The world's largest tropical wetland: from 1-3 km it is a giant green-and-tan sponge, floodwater spreading across the plains each southern summer (December-April) and shrinking back to grass, oxbow lagoons and duckboard-dry pools by August-October. Dark gallery forest threads every river; palm savanna and scrub cover the rest, with cattle fazendas on the levees and the Transpantaneira running south as a dotted line of 120 small wooden bridges. Campo Grande is grey concrete sprawl on the plateau edge. No snow, no true autumn."
+  },
+  {
+    "id": "ar-litoral",
+    "name": "Argentina: northeast (Litoral)",
+    "countries": [
+      "AR"
+    ],
+    "subdivisions": [
+      "AR-H",
+      "AR-P",
+      "AR-N",
+      "AR-W"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a5685b",
+        "#6d6a6d",
+        "#c9b295"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f0e3d5",
+        "#a89a83",
+        "#7d7165"
+      ],
+      "wallMaterial": [
+        "painted render",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Iguazú Falls spray column",
+        "red laterite road junction in the forest"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Paraná pine (araucaria)",
+          "color": "#3d6a53",
+          "where": "hills"
+        },
+        {
+          "name": "shade trees over yerba mate",
+          "color": "#4a7a4f",
+          "where": "valleys"
+        },
+        {
+          "name": "yatay palm savanna",
+          "color": "#5f8a45",
+          "where": "valleys"
+        },
+        {
+          "name": "Paraná gallery forest",
+          "color": "#3f5f45",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "yerba mate (Misiones red earth)",
+          "pattern": "rows",
+          "colors": [
+            "#5a8a61"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "rice paddies (Corrientes)",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a69"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "cotton (Chaco)",
+          "pattern": "stripes",
+          "colors": [
+            "#b5b36d"
+          ],
+          "months": [
+            2,
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#ab8d4f",
+        "months": [
+          4,
+          5
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Misiones_Province",
+      "https://en.wikipedia.org/wiki/Corrientes_Province",
+      "https://en.wikipedia.org/wiki/Chaco_Province",
+      "https://en.wikipedia.org/wiki/Formosa_Province"
+    ],
+    "confidence": "high",
+    "notes": "The four Litoral provinces (Chaco, Formosa, Misiones, Corrientes; codes verified on the ISO 3166-2:AR page), completing Argentina. Misiones is a green wedge between Paraguay and Brazil on blazing red laterite soil: neat yerba mate rows under tall shade trees, araucaria on the crests, and the huge spray column of Iguazú visible for kilometres. Corrientes adds the Iberá wetlands - a vast marsh mirror studded with yatay palms - and rice paddies; Chaco and Formosa are thorn forest and palm savanna with cotton plots, some of Argentina's poorest and least dense settlement. Rivers are tea-brown and enormous; towns are small white grids under red tile. The southern summer (October-March) is wet and green; the interior pales gold briefly in August-September."
+  },
+  {
+    "id": "fk",
+    "name": "Falkland Islands",
+    "countries": [
+      "FK"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#6e6d71",
+        "#8a5f5f",
+        "#545a5f"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "shingle",
+        "slate"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e8e1",
+        "#a8b0ab",
+        "#c9b5a1"
+      ],
+      "wallMaterial": [
+        "corrugated metal",
+        "stone",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "colourful corrugated-iron cottage (Stanley)",
+        "shearing shed with wool bales"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [],
+      "signatureCrops": [
+        {
+          "name": "whitegrass moor grazing",
+          "pattern": "scattered",
+          "colors": [
+            "#9a9a7b",
+            "#8a8f6d"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "kelp beds offshore",
+          "pattern": "scattered",
+          "colors": [
+            "#4f6a5d"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Falkland_Islands",
+      "https://en.wikipedia.org/wiki/Geography_of_the_Falkland_Islands"
+    ],
+    "confidence": "high",
+    "notes": "A British Overseas Territory with no ISO 3166-2 subdivisions, so none are listed. signatureTrees is empty on purpose: the islands are treeless wind-scoured grass moor and black peat, with the famous whitegrass and boulder 'stone runs' striping the hills. Settlement clings to the coasts - a few hundred sheep stations with their wool sheds and bunkhouses, and Stanley, a little seaside capital of red, blue and cream corrugated-iron cottages with white trim. From the air the sea matters most: pale sand beaches with penguin and seal colonies, and dark kelp forests ringing the shores. The austral summer (December-March) is the green window; winter is grey, wet and windy, with only occasional brief snow flurries at sea level."
+  },
+  {
+    "id": "gm-gw",
+    "name": "Gambia and Guinea-Bissau",
+    "countries": [
+      "GM",
+      "GW"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56b59",
+        "#8a7f6f",
+        "#d3c7b1"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8dbc5",
+        "#a8917d",
+        "#8f8a7f"
+      ],
+      "wallMaterial": [
+        "render (mud or lime)",
+        "concrete block",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "riverside mosque",
+        "Portuguese colonial governor's house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "mangrove",
+          "color": "#4a6a55",
+          "where": "coast"
+        },
+        {
+          "name": "oil palm",
+          "color": "#4f7a57",
+          "where": "valleys"
+        },
+        {
+          "name": "cashew",
+          "color": "#5a7a63",
+          "where": "everywhere"
+        },
+        {
+          "name": "baobab",
+          "color": "#6f7a63",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "groundnut fields",
+          "pattern": "stripes",
+          "colors": [
+            "#b3a575"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "cashew orchards",
+          "pattern": "rows",
+          "colors": [
+            "#6b8a5d"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "swamp rice",
+          "pattern": "patchwork",
+          "colors": [
+            "#6fa06f"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/The_Gambia",
+      "https://en.wikipedia.org/wiki/Guinea-Bissau"
+    ],
+    "confidence": "high",
+    "notes": "Both countries are covered whole, so no ISO 3166-2 codes are listed. The Gambia is a slim country strung along its estuary: a brown-green tidal river lined with grey-green mangrove fringe, villages of round mud-brick and tin-roofed compounds along the banks, groundnut fields drying on every roadside, and a thread of tourist hotels at the Atlantic mouth. Guinea-Bissau adds the rice-and-palm deltas around Bissau, cashew groves nearly everywhere (the main export, harvested January-May), and the turquoise Bijagós archipelago offshore. Both sit in the northern tropics: the June-October rains turn everything lush green, then the dust-laden harmattan bakes the land pale gold from November to May. Towns are low concrete block and sheet metal; mosques and colonial-era houses are the landmarks."
+  },
+  {
+    "id": "eh",
+    "name": "Western Sahara",
+    "countries": [
+      "EH"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8f857b",
+        "#6f6b71",
+        "#d3c9b3"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "metal sheet",
+        "clay"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#e3d7bf",
+        "#b3a58f",
+        "#8a7d6d"
+      ],
+      "wallMaterial": [
+        "render",
+        "stone",
+        "concrete block"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "flat-roofed sandy-render townhouse",
+        "fishing pier and boatyard (Dakhla)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm (oases)",
+          "color": "#5f7a5d",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia (wadi)",
+          "color": "#6b7a5d",
+          "where": "everywhere"
+        },
+        {
+          "name": "eucalyptus (Laayoune)",
+          "color": "#5a8a5f",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "date oases",
+          "pattern": "patchwork",
+          "colors": [
+            "#7f9a6f",
+            "#8f9a73"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "tomato greenhouses (Dakhla coast)",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a8a71"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Western_Sahara",
+      "https://en.wikipedia.org/wiki/La%C3%A2youne"
+    ],
+    "confidence": "high",
+    "notes": "A disputed non-self-governing territory under de facto Moroccan administration south of the berm, with no ISO 3166-2 subdivisions to list. From the air it is almost pure desert: pale hamada gravel plains, orange dune seas, and dry wadis, with the one strong colour note being the turquoise lagoon of Dakhla and its row of kitesurf camps and tomato greenhouses. Life clusters in the southern towns - Laayoune's flat-roofed sandy-render blocks, date-palm oases in the valleys, eucalyptus windbreaks - and in fishing piers along the Atlantic, where cold fog often cools the coast while the interior bakes. There is effectively no seasonal change: the whole territory stays tan all year, with no wet season and no autumn colour."
+  },
+  {
+    "id": "gl",
+    "name": "Greenland",
+    "countries": [
+      "GL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9a5f5f",
+        "#5f6a71",
+        "#c9b9b5"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "concrete",
+        "turf (historic)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e4e1",
+        "#b3544d",
+        "#7a8f8f"
+      ],
+      "wallMaterial": [
+        "timber (painted)",
+        "concrete",
+        "metal sheet"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "colourful timber house with white window frames",
+        "fish plant with drying racks"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [],
+      "signatureCrops": [
+        {
+          "name": "sheep pasture in the south fjords",
+          "pattern": "patchwork",
+          "colors": [
+            "#8f9a7f",
+            "#7f9a71"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "kelp and seaweed beds",
+          "pattern": "scattered",
+          "colors": [
+            "#4a6a5d"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "autumnColor": {
+        "color": "#bd7a53",
+        "months": [
+          9
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Greenland",
+      "https://en.wikipedia.org/wiki/Nuuk"
+    ],
+    "confidence": "high",
+    "notes": "An autonomous Danish territory with no ISO 3166-2 subdivisions, so none are listed. signatureTrees is empty on purpose: the island is essentially treeless, with only small planted groves in the south. The inhabited strip is a lacework of ice-free coasts around fjords - every settlement a clutch of brightly painted red, blue, yellow and green timber houses with white window frames, standing against black rock and snow; the ice sheet behind them is a white plateau rising from the shore, and it covers over 80% of the island. Nuuk spreads as a small colourful hillside city of concrete and timber around its harbour. Sheep graze the south fjords in summer, glaciers calve into the sea, the tundra flares rust-red for a few weeks in September, and snow lies at the settlements from October to May."
+  },
+  {
+    "id": "fo-sj",
+    "name": "Faroe Islands and Svalbard",
+    "countries": [
+      "FO",
+      "SJ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5f5a5f",
+        "#6a5f6b",
+        "#8f5f53"
+      ],
+      "roofMaterial": [
+        "turf (historic)",
+        "metal sheet",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#dedbd3",
+        "#9a9389",
+        "#7a716f"
+      ],
+      "wallMaterial": [
+        "timber (painted)",
+        "concrete",
+        "render"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "turf-roofed church and house (Faroes)",
+        "colourful miners' cabin (Longyearbyen)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [],
+      "signatureCrops": [
+        {
+          "name": "cliff grass and sheep graze (Faroes)",
+          "pattern": "scattered",
+          "colors": [
+            "#7f9a73"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "tundra barren and moss (Svalbard)",
+          "pattern": "scattered",
+          "colors": [
+            "#8a8a7b"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "autumnColor": {
+        "color": "#a89a6b",
+        "months": [
+          8,
+          9
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Faroe_Islands",
+      "https://en.wikipedia.org/wiki/Svalbard"
+    ],
+    "confidence": "high",
+    "notes": "Two North Atlantic territories, both with no ISO 3166-2 subdivisions to list (SJ also covers Jan Mayen). The Faroes are 18 green islands with no trees: sheer grass cliffs dropping into grey sea, waterfalls, and villages of white-framed timber houses and churches under living turf roofs, stitched together by road tunnels and sheep tracks. Svalbard, 60% glacier and bare rock, is Arctic desert: dark mountains, glaciers, and reindeer on brown tundra, with Longyearbyen a tiny grid of colourful wooden cabins, coal-era remains and the seed vault beneath the airport. Neither has real trees (a single small planted grove in Tórshavn), snow lies from around October to May - all year on the glaciers - and the brief July-August green gives way to rust-brown tundra by September."
+  },
+  {
+    "id": "crown-gib",
+    "name": "Crown dependencies and Gibraltar",
+    "countries": [
+      "GI",
+      "IM",
+      "JE",
+      "GG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8a6a5b",
+        "#6a6f73",
+        "#a06453"
+      ],
+      "roofMaterial": [
+        "slate",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e2d7",
+        "#b3a08b",
+        "#8f8783"
+      ],
+      "wallMaterial": [
+        "stone",
+        "render",
+        "glass"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "Gibraltar's west-face apartment wall",
+        "whitewashed Manx farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive and nettle tree (Upper Rock)",
+          "color": "#5f7f5f",
+          "where": "hills"
+        },
+        {
+          "name": "Scots pine and beech glen (Isle of Man)",
+          "color": "#41655d",
+          "where": "valleys"
+        },
+        {
+          "name": "horse chestnut and elm avenues",
+          "color": "#7a9a5f",
+          "where": "towns"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#6f8a6b",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "Jersey Royal potato fields",
+          "pattern": "rows",
+          "colors": [
+            "#7f9a75"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "dairy pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a73",
+            "#5f8f63"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "glasshouse belts (Jersey, Guernsey)",
+          "pattern": "patchwork",
+          "colors": [
+            "#d8d8cf"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#b38a4f",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Gibraltar",
+      "https://en.wikipedia.org/wiki/Isle_of_Man",
+      "https://en.wikipedia.org/wiki/Jersey",
+      "https://en.wikipedia.org/wiki/Guernsey"
+    ],
+    "confidence": "high",
+    "notes": "Four small territories, each covered whole with no ISO 3166-2 subdivisions to list (Gibraltar is a British Overseas Territory; the Isle of Man, Jersey and Guernsey are Crown dependencies). Gibraltar is a dense wall of white-and-pastel apartments stacked against the west face of the Rock, backed by olive scrub, Barbary macaques and the airport runway crossing the isthmus. The Isle of Man is open moor and gorse hills with glens of pine and beech, whitewashed stone farmhouses and the lochs of the interior. Jersey and Guernsey are green ridges of dairy pasture, early potato rows harvested for the Jersey Royals from April, and long belts of white glasshouses that glow in spring - all wrapped in tamarisk-fringed bays, forts and drying harbour mud. Lowland snow is rare and brief; the islands stay green most of the year, with modest autumn colour in October-November."
   }
 ]
