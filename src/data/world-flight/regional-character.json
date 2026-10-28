@@ -24323,5 +24323,1422 @@
     ],
     "confidence": "high",
     "notes": "Three Dutch territories grouped: Aruba and Curaçao as constituent countries plus the Caribbean Netherlands (Bonaire, Sint Eustatius and Saba) - all whole with no ISO 3166-2 codes to list. These dry, sun-bleached islands sit outside the hurricane belt, and it shows: cactus-studded tan scrub, windswept divi-divi trees leaning constantly east, green parakeets in the kunuku fences, and long golden drought broken only briefly by the October-December rains. Willemstad is the postcard - a small harbour spanned by a pontoon bridge and lined with gabled Dutch colonial houses in pink, orange and blue under red tile. Bonaire adds its flamingo-stained pink salt pan rectangles and the bright teal of the dive coast; Saba is a single green volcanic cone with cottages below the rainforest top."
+  },
+  {
+    "id": "ca-atlantic",
+    "name": "Canada: Atlantic (Newfoundland, Nova Scotia, New Brunswick, PEI, Saint-Pierre-et-Miquelon)",
+    "countries": [
+      "CA",
+      "PM"
+    ],
+    "subdivisions": [
+      "CA-NL",
+      "CA-NS",
+      "CA-NB",
+      "CA-PE"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8e8d88",
+        "#9c9688",
+        "#a35c4a"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "corrugated metal",
+        "painted metal"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#d8d5c2",
+        "#a5785a",
+        "#8f8b80"
+      ],
+      "wallMaterial": [
+        "painted clapboard",
+        "brick",
+        "concrete block"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "fishing shed and wharf at the shore",
+        "painted wooden house with pitched shingle roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "balsam fir",
+          "color": "#3f6a44",
+          "where": "everywhere"
+        },
+        {
+          "name": "white spruce",
+          "color": "#4a7450",
+          "where": "hills"
+        },
+        {
+          "name": "sugar maple",
+          "color": "#5f844a",
+          "where": "valleys"
+        },
+        {
+          "name": "white birch",
+          "color": "#6f8d52",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "potatoes",
+          "pattern": "rows",
+          "colors": [
+            "#618c50",
+            "#85aa64"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "hay",
+          "pattern": "patchwork",
+          "colors": [
+            "#8f9f58",
+            "#aeb767"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "blueberries",
+          "pattern": "patchwork",
+          "colors": [
+            "#4a7d52",
+            "#6f9d5c"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "autumnColor": {
+        "color": "#b07435",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Newfoundland_and_Labrador",
+      "https://en.wikipedia.org/wiki/Nova_Scotia",
+      "https://en.wikipedia.org/wiki/New_Brunswick",
+      "https://en.wikipedia.org/wiki/Prince_Edward_Island",
+      "https://en.wikipedia.org/wiki/Saint_Pierre_and_Miquelon"
+    ],
+    "confidence": "high",
+    "notes": "Groups CA-NL, CA-NS, CA-NB and CA-PE into one Atlantic look, plus the French islands of Saint-Pierre-et-Miquelon (code PM), which are filed with countries CA and PM because they ride the same cold sea. From 1-3 km this is forested granite, fjords, fog and outports: single streets of painted wooden houses and fishing sheds running down to wharves on cold grey-brown water. Balsam fir and black spruce cover the barrens, with birch and maples in sheltered valleys turning gold and copper in late September and October. Small farms grow potatoes and hay, and wild blueberry barrens show low blue-green patches in August. Lowland snow lies reliably from November to April."
+  },
+  {
+    "id": "ca-quebec-ontario",
+    "name": "Canada: Quebec and Ontario",
+    "countries": [
+      "CA"
+    ],
+    "subdivisions": [
+      "CA-QC",
+      "CA-ON"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#7f8282",
+        "#cbc7bb",
+        "#a55f4f"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "flat tar and gravel",
+        "painted metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#9f6f52",
+        "#dbd5c8",
+        "#b5b1a5"
+      ],
+      "wallMaterial": [
+        "brick",
+        "vinyl siding",
+        "concrete block"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "Victorian brick rowhouse under a steep shingle roof",
+        "red barn with a metal roof beside a grid of fields"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "sugar maple",
+          "color": "#5f8a49",
+          "where": "hills"
+        },
+        {
+          "name": "white birch",
+          "color": "#6f8755",
+          "where": "towns"
+        },
+        {
+          "name": "white spruce",
+          "color": "#486e4c",
+          "where": "everywhere"
+        },
+        {
+          "name": "red oak",
+          "color": "#6d8a4d",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "corn",
+          "pattern": "rows",
+          "colors": [
+            "#819649",
+            "#a2b363"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "soybeans",
+          "pattern": "rows",
+          "colors": [
+            "#71944f",
+            "#96ad62"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "apples",
+          "pattern": "rows",
+          "colors": [
+            "#4a7248",
+            "#789757"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#b3552a",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Quebec",
+      "https://en.wikipedia.org/wiki/Ontario"
+    ],
+    "confidence": "high",
+    "notes": "Groups CA-QC and CA-ON, the two most populous provinces, where the Great Lakes-St Lawrence corridor reads as city, suburb and soybean field in turn. Toronto, Ottawa and Montreal pile brick rowhouses and condo towers under dark asphalt shingle roofs, cream vinyl siding and grey flat tar rooftops, and red metal barn roofs spread across the farmed lowlands. Northern parts of both provinces fall back into boreal spruce and lakes, which is what a plane mainly sees away from the metropoles. Sugar maples blaze red-orange across the hills in late September and October, the classic maple-syrup forests. Lowland snow covers the ground from December to March."
+  },
+  {
+    "id": "ca-prairies",
+    "name": "Canada: Prairies (Manitoba, Saskatchewan, Alberta)",
+    "countries": [
+      "CA"
+    ],
+    "subdivisions": [
+      "CA-MB",
+      "CA-SK",
+      "CA-AB"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#9e9a90",
+        "#948e85",
+        "#ac5440"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "corrugated metal",
+        "painted metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#dadbc6",
+        "#bab5aa",
+        "#a8a49a"
+      ],
+      "wallMaterial": [
+        "wooden siding",
+        "insulated metal siding",
+        "concrete block"
+      ],
+      "villageLayout": "grid",
+      "density": "sparse",
+      "signatureBuildings": [
+        "grain elevator beside rail tracks",
+        "farmyard of metal barns in a mile-square field grid"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "aspen",
+          "color": "#6f8d58",
+          "where": "valleys"
+        },
+        {
+          "name": "poplar",
+          "color": "#708f5f",
+          "where": "river banks"
+        },
+        {
+          "name": "bur oak",
+          "color": "#8b955c",
+          "where": "valleys"
+        },
+        {
+          "name": "spruce",
+          "color": "#45754a",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat",
+          "pattern": "stripes",
+          "colors": [
+            "#a3a65f",
+            "#c6ba76"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "canola",
+          "pattern": "stripes",
+          "colors": [
+            "#c8bb5e",
+            "#b9ba55"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "barley",
+          "pattern": "rows",
+          "colors": [
+            "#94a155",
+            "#b6b66a"
+          ],
+          "months": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#cfa94a",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        5,
+        6,
+        7
+      ],
+      "dryGold": [
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Manitoba",
+      "https://en.wikipedia.org/wiki/Saskatchewan",
+      "https://en.wikipedia.org/wiki/Alberta"
+    ],
+    "confidence": "high",
+    "notes": "Groups CA-MB, CA-SK and CA-AB as one prairie look: flat grain country drawn on a mile-square survey grid, visible from 3 km as rectangles of wheat, canola and stubble in gold and olive. Towns are strict grids of one-storey houses with grain elevators beside the rail line; farmyards hold grey and red metal barns, quonsets and grain bins. Trees appear only as aspen bluffs, poplar shelterbelts and spruce windbreaks, with aspens turning bright gold in September and October. Canola blocks paint soft yellow in June and July and combines cut everything gold in August. Lowland snow arrives in November and holds to March."
+  },
+  {
+    "id": "ca-bc",
+    "name": "Canada: British Columbia",
+    "countries": [
+      "CA"
+    ],
+    "subdivisions": [
+      "CA-BC"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#98928a",
+        "#c9c4b6",
+        "#8d7354"
+      ],
+      "roofMaterial": [
+        "asphalt shingle",
+        "flat tar and gravel",
+        "cedar shake"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d6cfbf",
+        "#a97d5f",
+        "#b3aaa0"
+      ],
+      "wallMaterial": [
+        "wooden siding",
+        "brick",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "wooden house with a cedar shake roof on a mountainside",
+        "glass condo towers backed by snow peaks"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Douglas fir",
+          "color": "#437047",
+          "where": "hills"
+        },
+        {
+          "name": "western red cedar",
+          "color": "#507c50",
+          "where": "valleys"
+        },
+        {
+          "name": "bigleaf maple",
+          "color": "#758b52",
+          "where": "river banks",
+          "seasonColor": {
+            "color": "#c39f4a",
+            "months": [
+              10
+            ]
+          }
+        },
+        {
+          "name": "garry oak",
+          "color": "#8e9761",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "apples",
+          "pattern": "rows",
+          "colors": [
+            "#58854c",
+            "#82a160"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#6d8648",
+            "#86a65d"
+          ],
+          "months": [
+            9,
+            10
+          ]
+        },
+        {
+          "name": "blueberries",
+          "pattern": "patchwork",
+          "colors": [
+            "#4e7d58",
+            "#75a260"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#c08a3f",
+        "months": [
+          10
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/British_Columbia",
+      "https://en.wikipedia.org/wiki/Vancouver"
+    ],
+    "confidence": "high",
+    "notes": "CA-BC is one region because the whole coast and interior share the same west-coast look: steep dark-green temperate rainforest of Douglas fir, red cedar and hemlock falling to fjords and the Georgia Strait. Vancouver and Victoria grow glass condo towers and low wooden houses, many with the region's classic brown cedar shake roofs; clear-cuts show pale slashes on the mountains. The Okanagan Valley is a dry pocket of apple orchards, vineyards and lake-blue water. Coastal lowland towns are rainy and almost snow-free in winter, but October colours the bigleaf maples and interior larches gold."
+  },
+  {
+    "id": "ca-north",
+    "name": "Canada: North (Yukon, Northwest Territories, Nunavut)",
+    "countries": [
+      "CA"
+    ],
+    "subdivisions": [
+      "CA-YT",
+      "CA-NT",
+      "CA-NU"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#8a9288",
+        "#cfcac0",
+        "#b86848"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "insulated panel",
+        "painted metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#cbc0bb",
+        "#8d7d66",
+        "#b0aca7"
+      ],
+      "wallMaterial": [
+        "insulated metal siding",
+        "timber",
+        "concrete block"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "hamlet of small houses propped above permafrost ground",
+        "fuel tank farm beside the airstrip"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [],
+      "signatureCrops": []
+    },
+    "seasons": {
+      "snowMonths": [
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Yukon",
+      "https://en.wikipedia.org/wiki/Northwest_Territories",
+      "https://en.wikipedia.org/wiki/Nunavut",
+      "https://en.wikipedia.org/wiki/Tundra"
+    ],
+    "confidence": "medium",
+    "notes": "Groups CA-YT, CA-NT and CA-NU as the Canadian North, drawn the same at this scale: white and brown tundra, grey glacial lakes and lichened shield with permafrost under everything. The signatureTrees and signatureCrops arrays are empty on purpose because most of the region lies at or above the treeline and there is no visible field agriculture; only stunted black and white spruce survive in southern valleys. Small hamlets string along the water as single streets of modular houses with metal roofs, snowmobiles and fuel drums beside gravel airstrips. Snow lies from September to May, leaving a brief green tundra bloom of moss and sedge in June to August."
+  },
+  {
+    "id": "mx-north",
+    "name": "Mexico: North and Baja California (desert and maquila cities)",
+    "countries": [
+      "MX"
+    ],
+    "subdivisions": [
+      "MX-BCN",
+      "MX-BCS",
+      "MX-SON",
+      "MX-CHH",
+      "MX-COA",
+      "MX-NLE",
+      "MX-TAM",
+      "MX-DUR",
+      "MX-SIN",
+      "MX-ZAC",
+      "MX-SLP"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c5bfb2",
+        "#94968d",
+        "#b88d66"
+      ],
+      "roofMaterial": [
+        "flat concrete",
+        "corrugated metal",
+        "adobe"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d1cbb9",
+        "#e0d6c1",
+        "#ad8762"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "painted cement",
+        "adobe"
+      ],
+      "villageLayout": "grid",
+      "density": "medium",
+      "signatureBuildings": [
+        "flat-roofed concrete block house",
+        "metal-roofed maquila shed beside the border highway"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "mesquite",
+          "color": "#919e62",
+          "where": "everywhere"
+        },
+        {
+          "name": "saguaro",
+          "color": "#4c7c4a",
+          "where": "hills"
+        },
+        {
+          "name": "palo verde",
+          "color": "#72a057",
+          "where": "valleys"
+        },
+        {
+          "name": "palm",
+          "color": "#4d8247",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cotton",
+          "pattern": "circles",
+          "colors": [
+            "#8c9f5e",
+            "#b7bd78"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "rows",
+          "colors": [
+            "#9aa157",
+            "#c2b574"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "vegetables",
+          "pattern": "circles",
+          "colors": [
+            "#61934f",
+            "#87ae68"
+          ],
+          "months": [
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        7,
+        8,
+        9
+      ],
+      "dryGold": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mexico",
+      "https://en.wikipedia.org/wiki/Sonoran_Desert"
+    ],
+    "confidence": "high",
+    "notes": "Groups eleven northern desert states (MX-BCN, MX-BCS, MX-SON, MX-CHH, MX-COA, MX-NLE, MX-TAM, MX-DUR, MX-SIN, MX-ZAC, MX-SLP) into one dry north. From the air this is tan and pale-brown desert broken by saguaro-studded bajadas, copper smelters, and the big border cities of Tijuana, Ciudad Juarez and Monterrey, where flat-roofed concrete block houses in bright painted colours climb the hills and industrial maquila sheds run along the highways. Pivot circles of cotton, wheat and winter vegetables glow green and pale gold in the desert creases, especially in Sinaloa and around Culiacan. Summer monsoon rain greens the east in July to September while Baja stays bone dry; lowland snow is a rare freak and is not drawn."
+  },
+  {
+    "id": "mx-central",
+    "name": "Mexico: Central highlands (Mexico City, colonial towns and volcanoes)",
+    "countries": [
+      "MX"
+    ],
+    "subdivisions": [
+      "MX-CMX",
+      "MX-MEX",
+      "MX-PUE",
+      "MX-TLA",
+      "MX-HID",
+      "MX-QUE",
+      "MX-GUA",
+      "MX-AGU",
+      "MX-JAL",
+      "MX-MIC",
+      "MX-MOR",
+      "MX-NAY",
+      "MX-COL"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c3bbae",
+        "#a15845",
+        "#978b8a"
+      ],
+      "roofMaterial": [
+        "flat concrete",
+        "clay tile",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#cec7b4",
+        "#e5dbc3",
+        "#9a9181"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "painted block",
+        "volcanic stone"
+      ],
+      "villageLayout": "grid",
+      "density": "dense",
+      "signatureBuildings": [
+        "colonial grid town with red-tiled church towers",
+        "flat-roofed painted block house with a water tank"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "pine",
+          "color": "#436a49",
+          "where": "hills"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#758c5a",
+          "where": "everywhere"
+        },
+        {
+          "name": "jacaranda",
+          "color": "#5f8452",
+          "where": "towns",
+          "seasonColor": {
+            "color": "#8f7fb0",
+            "months": [
+              3,
+              4
+            ]
+          }
+        },
+        {
+          "name": "cypress",
+          "color": "#547750",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize",
+          "pattern": "terraces",
+          "colors": [
+            "#819c49",
+            "#a2b963"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "beans",
+          "pattern": "rows",
+          "colors": [
+            "#709357",
+            "#92a762"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        },
+        {
+          "name": "agave",
+          "pattern": "rows",
+          "colors": [
+            "#5c7e53",
+            "#7f9c64"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mexico",
+      "https://en.wikipedia.org/wiki/Trans-Mexican_Volcanic_Belt"
+    ],
+    "confidence": "high",
+    "notes": "Groups the central highland states MX-CMX, MX-MEX, MX-PUE, MX-TLA, MX-HID, MX-QUE, MX-GUA, MX-AGU, MX-JAL, MX-MIC, MX-MOR, MX-NAY and MX-COL, the Trans-Mexican volcanic belt. Mexico City's endless grey flat roofs and Puebla's red tile colonial centres sit under the volcanoes Popocatepetl, Iztaccihuatl and Pico de Orizaba. Every flat roof carries a bright plastic water tank; the hillside milpas are drawn as banded terraces of maize and beans, and Jalisco's blue agave fields read as geometric olive rows. Rains run June to October, winters are dry and dusty, and snow never falls at town level."
+  },
+  {
+    "id": "mx-south",
+    "name": "Mexico: South (Oaxaca, Chiapas, Guerrero, Veracruz, Tabasco)",
+    "countries": [
+      "MX"
+    ],
+    "subdivisions": [
+      "MX-OAX",
+      "MX-CHP",
+      "MX-GRO",
+      "MX-VER",
+      "MX-TAB"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#888d84",
+        "#cbc1b1",
+        "#bd9e55"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "flat concrete",
+        "palm thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e0d9c9",
+        "#b6b8a6",
+        "#8a7961"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "concrete block",
+        "timber"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "palapa palm-thatch shelter",
+        "painted block house with corrugated metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "ceiba",
+          "color": "#527d48",
+          "where": "valleys"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4c834d",
+          "where": "coast"
+        },
+        {
+          "name": "mango",
+          "color": "#467542",
+          "where": "towns"
+        },
+        {
+          "name": "banana",
+          "color": "#5a8645",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee",
+          "pattern": "terraces",
+          "colors": [
+            "#3c6f41",
+            "#6c904d"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#678a4b",
+            "#8bad63"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "bananas",
+          "pattern": "rows",
+          "colors": [
+            "#517e41",
+            "#769c54"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mexico",
+      "https://en.wikipedia.org/wiki/Isthmus_of_Tehuantepec"
+    ],
+    "confidence": "medium",
+    "notes": "Groups the southern tropical states MX-OAX, MX-CHP, MX-GRO, MX-VER and MX-TAB: green mountains falling to humid Gulf and Pacific coasts, with the famous windy gap of Tehuantepec between them. Villages run along the roads as linear streets of painted block houses under corrugated metal, with open palapa thatch shelters by beaches and markets. Shade coffee climbs the Oaxaca and Chiapas slopes in stepped banks, sugarcane and banana fill the Veracruz and Tabasco lowlands, and giant ceibas stand over the towns. Rains run May to October with a dry, dusty winter; snow never occurs."
+  },
+  {
+    "id": "mx-yucatan",
+    "name": "Mexico: Yucatan peninsula",
+    "countries": [
+      "MX"
+    ],
+    "subdivisions": [
+      "MX-YUC",
+      "MX-CAM",
+      "MX-ROO"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c2c3ae",
+        "#959485",
+        "#b79a55"
+      ],
+      "roofMaterial": [
+        "flat concrete",
+        "corrugated metal",
+        "palm thatch"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#e0decd",
+        "#b4b19f",
+        "#867c66"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "concrete block",
+        "timber"
+      ],
+      "villageLayout": "grid",
+      "density": "medium",
+      "signatureBuildings": [
+        "beach resort towers behind white sand",
+        "palm-thatch palapa shade shelter"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4c894c",
+          "where": "coast"
+        },
+        {
+          "name": "ceiba",
+          "color": "#587e49",
+          "where": "valleys"
+        },
+        {
+          "name": "sapodilla",
+          "color": "#416a3e",
+          "where": "hills"
+        },
+        {
+          "name": "mango",
+          "color": "#44703e",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize",
+          "pattern": "patchwork",
+          "colors": [
+            "#89a058",
+            "#abba73"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "henequen",
+          "pattern": "rows",
+          "colors": [
+            "#577f4f",
+            "#79965d"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "limes",
+          "pattern": "rows",
+          "colors": [
+            "#4f8946",
+            "#6fa755"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mexico",
+      "https://en.wikipedia.org/wiki/Yucat%C3%A1n_Peninsula"
+    ],
+    "confidence": "high",
+    "notes": "Groups MX-YUC, MX-CAM and MX-ROO as one flat limestone peninsula: low green karst jungle with no rivers, cenote sinkholes, and a turquoise-to-teal Caribbean gradient along the Riviera Maya. Cancun's resort towers stand on white sand behind palms while Merida and the village capitals stay flat-roofed cream and pastel concrete block with palapa thatch at the beach communes. Milpa maize patches, straight henequen rows and lime orchards cut the scrub. Rains run May to October with hurricane risk in August to October; snow never occurs."
+  },
+  {
+    "id": "remote-islands",
+    "name": "Remote ocean islands (Atlantic, Indian Ocean and subantarctic)",
+    "countries": [
+      "SH",
+      "IO",
+      "NF",
+      "CX",
+      "CC",
+      "TF",
+      "GS",
+      "BV",
+      "HM",
+      "UM"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#848886",
+        "#c0bab4",
+        "#b39560"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e7daca",
+        "#8d8363",
+        "#bebaa7"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "concrete block"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "white plastered terrace on a wharf",
+        "coconut palms over a lagoon jetty"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Norfolk pine",
+          "color": "#3d6d49",
+          "where": "towns"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#487f44",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#45654e",
+          "where": "river banks"
+        },
+        {
+          "name": "casuarina",
+          "color": "#557a5a",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coconuts",
+          "pattern": "scattered",
+          "colors": [
+            "#488641",
+            "#75a658"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "bananas",
+          "pattern": "patchwork",
+          "colors": [
+            "#4c7b3f",
+            "#72a24f"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Saint_Helena",
+      "https://en.wikipedia.org/wiki/Norfolk_Island",
+      "https://en.wikipedia.org/wiki/Christmas_Island",
+      "https://en.wikipedia.org/wiki/Cocos_(Keeling)_Islands",
+      "https://en.wikipedia.org/wiki/French_Southern_and_Antarctic_Lands",
+      "https://en.wikipedia.org/wiki/South_Georgia_and_the_South_Sandwich_Islands",
+      "https://en.wikipedia.org/wiki/British_Indian_Ocean_Territory"
+    ],
+    "confidence": "low",
+    "notes": "Groups ten singleton codes that carry no other region: SH (Saint Helena), IO (Diego Garcia), NF, CX and CC (the Australian tropical islands), TF, GS, BV and HM (the subantarctic islands) and UM (the US minor outlying atolls). The tropical group shares one look: tiny seaboard towns with white plaster and corrugated iron, coconut palms, casuarinas and Norfolk pines, lagoons at Cocos and Diego Garcia and red-crab jungle on Christmas Island. The subantarctic group (TF, GS, BV, HM) is treeless, wind-scoured tundra with winter snow shown in the June to August snowMonths. UM mostly means empty atolls and airstrips, so the region stays sparse throughout."
+  },
+  {
+    "id": "antarctica",
+    "name": "Antarctica",
+    "countries": [
+      "AQ"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#d0d3d1",
+        "#717675",
+        "#a0a7a5"
+      ],
+      "roofMaterial": [
+        "insulated panel",
+        "painted metal",
+        "membrane"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#e0e3e1",
+        "#b3b9b7",
+        "#7a837d"
+      ],
+      "wallMaterial": [
+        "insulated panel",
+        "painted metal",
+        "timber"
+      ],
+      "villageLayout": "stilt houses",
+      "density": "sparse",
+      "signatureBuildings": [
+        "research station raised on steel legs",
+        "fuel tank farm and wind turbines beside the airstrip"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [],
+      "signatureCrops": []
+    },
+    "seasons": {
+      "snowMonths": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "autumnColor": null,
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Antarctica",
+      "https://en.wikipedia.org/wiki/McMurdo_Station"
+    ],
+    "confidence": "high",
+    "notes": "AQ is the whole continent with no planted agriculture or trees: the signatureTrees and signatureCrops arrays are empty on purpose. From the air it is ice sheet, blue ice runways, nunataks and the white shelf edge, with the research stations as the only built things, mostly flat and raised on stilts or gravel pads against the snow, in pale panels and metal. McMurdo, the largest station, adds tank farms, wind turbines and rows of cargo. Snow is drawn every month; the brief summer light brings liquid melt streams in December to February but nothing greens."
   }
 ]
