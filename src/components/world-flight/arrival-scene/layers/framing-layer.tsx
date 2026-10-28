@@ -56,12 +56,14 @@ const LEAF: Record<FramingKind, { lit: string; shade: string } | null> = {
   pine: { lit: '#5d8566', shade: '#2f4d40' },
 };
 
-export function FramingLayer({ palette, rand, idPrefix, ambient, kind }: {
+export function FramingLayer({ palette, rand, idPrefix, ambient, kind, trunk = false }: {
   palette: ScenePalette;
   rand: () => number;
   idPrefix: string;
   ambient: boolean;
   kind: FramingKind;
+  /** Take-off: the whole tree beside the runway, trunk to the ground, since it moves past and must stand on something. */
+  trunk?: boolean;
 }) {
   const night = palette.light === 'moon';
   // Foreground things are close and against the light: a touch darker, and at night mostly silhouette.
@@ -158,6 +160,22 @@ export function FramingLayer({ palette, rand, idPrefix, ambient, kind }: {
         <filter id={`${id}-soft`} x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.4" /></filter>
       </defs>
       <g filter={`url(#${id}-soft)`}>
+        {trunk && (() => {
+          // the trunk rises from the near grass to where the crown or bough meets it
+          const tx = kind === 'palm' ? edge - reach * 0.12 : edge + 80;
+          const ty = kind === 'palm' ? top - 120 : top - 90;
+          const lean = kind === 'palm' ? 46 : 18;
+          return (
+            <g>
+              <path d={`M ${tx - 30 + lean} 960 Q ${tx - 14 + lean * 0.4} ${(960 + ty) / 2} ${tx - 9} ${ty} L ${tx + 9} ${ty} Q ${tx + 16 + lean * 0.4} ${(960 + ty) / 2} ${tx + 30 + lean} 960 Z`} fill={bark} />
+              {kind === 'palm' && Array.from({ length: 14 }, (_, i) => {
+                // the rings of a palm trunk
+                const t = (i + 1) / 15, y = ty + (960 - ty) * t, x = tx + lean * t * t;
+                return <path key={i} d={`M ${x - 12 - 14 * t} ${y} q ${12 + 14 * t} 5 ${24 + 28 * t} 0`} stroke={leafShade} strokeOpacity={0.35} strokeWidth={2.5} fill="none" />;
+              })}
+            </g>
+          );
+        })()}
         {parts}
         {kind !== 'palm' && (
           <path d={`M ${edge + 80} ${top - 90} Q ${edge - reach * 0.3} ${top - 20} ${edge - reach} ${top + 80}`} stroke={rim} strokeWidth={3} opacity={night ? 0.55 : 0.45} fill="none" transform="translate(0 -6)" />

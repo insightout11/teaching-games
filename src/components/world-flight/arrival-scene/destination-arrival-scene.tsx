@@ -313,7 +313,12 @@ export function DestinationArrivalScene({
       </g>
       </g>
       {/* Framing branch: beside the camera, so it stays at the corner of the view while the camera moves (only a slow sway) */}
-      {frame && drift(0.4, <FramingLayer palette={palette} rand={seededRand(`${destinationId}:frame`)} idPrefix={idPrefix} ambient={ambient} kind={frame} />)}
+      {/* On take-off the camera races down the runway, so the branch (closest of all) whips past and out of view */}
+      {frame && (
+        <g transform={mode === 'departure' ? `translate(${-(camPan + DEP_CITY_LEAD) * 1.8},0)` : undefined}>
+          {drift(0.4, <FramingLayer palette={palette} rand={seededRand(`${destinationId}:frame`)} idPrefix={idPrefix} ambient={ambient} kind={frame} trunk={mode === 'departure'} />)}
+        </g>
+      )}
       {animal && drift(0.3, <AnimalLayer kind={animal} palette={palette} idPrefix={idPrefix} ambient={ambient} />)}
       <CinematicOverlay {...propsFor('cinematic-overlay')} />
       {extras?.postcard && <PostcardFinish idPrefix={idPrefix} night={palette.light === 'moon'} ambient={ambient} title={extras.title && mode === 'arrival' && (phase === 'taxi' || phase === 'landed') ? extras.title : null} />}
