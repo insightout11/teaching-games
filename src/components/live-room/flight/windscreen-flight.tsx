@@ -13,6 +13,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
 import { getDestinationById } from '@/data/world-flight/destinations';
+import { postcardLookOn } from '@/lib/world-flight/arrival-look';
 import { A_TOUCHDOWN_END, arrivalTimeline, DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { play, playDescent, playTakeoff } from '@/lib/audio/manager';
 import { getPlaneAsset } from '@/lib/plane-progression';
@@ -255,8 +256,8 @@ export function WindscreenFlight({ stage, terrainEnabled = realTerrain(), origin
   const arriving = phase === 'descent' || phase === 'landing' || phase === 'landed';
   const sideCity = arriving ? destination : origin;
   // The new arrival look (Oct 2026, on trial): water reflections, the seasonal branch, the local animal and the vintage
-  // postcard with its lettering. Only with ?arrival=new on the room's address until it has passed a real class.
-  const [newArrival] = useState(() => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('arrival') === 'new');
+  // postcard with its lettering. One switch for every arrival scene: src/lib/world-flight/arrival-look.ts.
+  const [newArrival] = useState(postcardLookOn);
   const sidePlace = useMemo(() => getDestinationById(sideCity.id), [sideCity.id]);
   const approachT = phase === 'descent' ? Math.max(0, (progress - DIVE) / (1 - DIVE)) : 0;
   const sideFrame =

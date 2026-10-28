@@ -6,6 +6,7 @@
 // the entering + exiting scene mounted during a cross-fade — never all eight. A
 // slow scale drift adds cinematic life without re-rendering the SVG.
 
+import { postcardLookOn } from '@/lib/world-flight/arrival-look';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { DestinationArrivalScene } from '@/components/world-flight/arrival-scene/destination-arrival-scene';
@@ -70,6 +71,7 @@ export function DestinationWindow({
             // northern lights by night), and never rain or storms (the room itself still uses the real weather).
             weather={showcaseWeather(city.id, city.scene, hourFor(city.id) === 'night')}
             timeOfDay={hourFor(city.id)}
+            extras={postcardLookOn() ? { reflections: true, framing: true } : undefined}
             className="h-full w-full"
           />
         </motion.div>

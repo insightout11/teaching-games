@@ -1,5 +1,6 @@
 'use client';
 
+import { postcardLookOn } from '@/lib/world-flight/arrival-look';
 import { useEffect, useState } from 'react';
 import { RotateCcw, X } from 'lucide-react';
 import { WORLD_DESTINATIONS } from '@/data/world-flight/destinations';
@@ -41,6 +42,7 @@ export function PassportArrivalReplay({
 
   if (!destination) return null;
   const frame = arrivalTimeline(timelineProgress);
+  const postcard = postcardLookOn();
 
   return (
     <div className="fixed inset-0 z-[80] bg-[#04101c]" role="dialog" aria-modal="true" aria-label={`Replay arrival in ${destination.city}`}>
@@ -52,13 +54,15 @@ export function PassportArrivalReplay({
         planeKey={planeKey}
         motion="animated"
         fit="slice"
+        extras={postcard ? { reflections: true, framing: true, animal: true, postcard: true, month: new Date().getMonth() + 1, southern: destination.lat < 0, title: { city: destination.city, country: destination.country } } : undefined}
         className="h-full w-full"
       />
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-4 bg-gradient-to-b from-black/75 to-transparent px-5 py-5">
         <div>
           <p className="font-instrument text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-100/75">Passport replay</p>
-          <h2 className="font-display mt-1 text-3xl text-white">Arriving in {destination.city}</h2>
-          <p className="mt-1 text-sm text-white/65">{destination.country} - {destination.primaryAirport}</p>
+          {/* with the postcard look the card's own lettering names the city */}
+          {!postcard && <h2 className="font-display mt-1 text-3xl text-white">Arriving in {destination.city}</h2>}
+          {!postcard && <p className="mt-1 text-sm text-white/65">{destination.country} - {destination.primaryAirport}</p>}
         </div>
         <div className="pointer-events-auto flex items-center gap-2">
           <button

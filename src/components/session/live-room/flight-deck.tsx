@@ -1,5 +1,6 @@
 'use client';
 
+import { postcardLookOn } from '@/lib/world-flight/arrival-look';
 import { FactsBoard } from '@/components/session/live-room/facts-board';
 import type { FactCard } from '@/lib/live-room/fact-cards';
 import { momentQuestion, planMoments, type Moment, type NaturalEvent } from '@/lib/live-room/moments';
@@ -1744,7 +1745,7 @@ export function FlightDeck({
   // The flight right now, for each phone's passenger window (Oct 2026): sent every 15 s while flying
   const flightNowRef = useRef<FlightNow | null>(null);
   // The new postcard arrival look is on trial behind ?arrival=new; the phones follow the room
-  const [postcardLook] = useState(() => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('arrival') === 'new');
+  const [postcardLook] = useState(postcardLookOn);
   {
     const lm = photoLandmark ? drawnKindOf(photoLandmark.id) : null;
     const lat = photoLandmark ? sceneryLandmarks.find((l) => l.id === photoLandmark.id)?.lateral : undefined;

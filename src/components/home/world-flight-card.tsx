@@ -1,5 +1,6 @@
 'use client';
 
+import { postcardLookOn } from '@/lib/world-flight/arrival-look';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { ArrowRight, Stamp } from 'lucide-react';
@@ -27,6 +28,7 @@ export function WorldFlightCard({ journey, showcase }: { journey: BoardSummary['
           phase="touchdown"
           progress={0.34}
           motion="static"
+          extras={postcardLookOn() ? { reflections: true, framing: true } : undefined}
           className="h-full w-full"
         />
       </div>
