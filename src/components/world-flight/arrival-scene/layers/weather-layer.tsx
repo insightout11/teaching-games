@@ -18,6 +18,14 @@ const VEIL: Record<string, { color: string; k: number }> = {
   snow: { color: 'rgb(206,216,232)', k: 0.32 },
   aurora: { color: 'rgb(26,36,56)', k: 0.4 },
 };
+/** The postcard look's veils: the same weather, in the poster's lavender-blues instead of grey. */
+const POSTER_VEIL: Record<string, { color: string; k: number }> = {
+  overcast: { color: 'rgb(176,172,212)', k: 0.26 },
+  rain: { color: 'rgb(84,88,148)', k: 0.34 },
+  storm: { color: 'rgb(48,44,104)', k: 0.38 },
+  snow: { color: 'rgb(222,220,244)', k: 0.28 },
+  aurora: { color: 'rgb(30,32,74)', k: 0.3 },
+};
 
 
 /**
@@ -123,11 +131,13 @@ type Depth = { count: number; a: number; b: number; oMin: number; oMax: number; 
 // lightning, full-canvas, drawn in FRONT of the scene. Falling sheets are periodic tiles translated by exactly one
 // period and looped, so the wrap is seamless. Motion is AMBIENT-only; a still frame shows a frozen sheet (so
 // thumbnails still read as wet/snowy) but no lightning flash.
-export function WeatherLayer({ weather, rand, ambient, idPrefix, palette }: SceneLayerProps) {
+export function WeatherLayer({ weather, rand, ambient, idPrefix, palette, poster }: SceneLayerProps) {
   const prof = WEATHER_PROFILE[weather];
   if (prof.rain === 0 && prof.snow === 0 && !prof.lightning && prof.dim === 0) return null;
   const night = palette.light === 'moon';
-  const veil = night && weather === 'snow' ? { color: 'rgb(54,66,96)', k: 0.3 } : VEIL[weather] ?? VEIL.rain;
+  const veil = poster
+    ? (night ? { color: 'rgb(40,40,88)', k: 0.32 } : POSTER_VEIL[weather] ?? POSTER_VEIL.rain)
+    : night && weather === 'snow' ? { color: 'rgb(54,66,96)', k: 0.3 } : VEIL[weather] ?? VEIL.rain;
 
   // ── Falling sheets: a few depths each, every depth with its own period so the sheets never line up ──────────────
   const sheetOf = (d: Depth, draw: (f: { x: number; y: number; a: number; o: number }, i: number) => ReactNode) => {
@@ -168,7 +178,8 @@ export function WeatherLayer({ weather, rand, ambient, idPrefix, palette }: Scen
   const SNOW_DEPTHS: Depth[] = [
     { count: 230, a: 0.9, b: 1.8, oMin: 0.35, oMax: 0.6, tile: 200, fall: 11, sway: 14, blur: 0 },
     { count: 120, a: 2, b: 3.4, oMin: 0.6, oMax: 0.9, tile: 300, fall: 7.5, sway: 26, blur: 0 },
-    { count: 36, a: 4.5, b: 8, oMin: 0.5, oMax: 0.8, tile: 420, fall: 5.2, sway: 40, blur: 2 },
+    // the postcard look: a few big soft flakes drifting close to the camera
+    poster ? { count: 30, a: 7, b: 12, oMin: 0.55, oMax: 0.85, tile: 460, fall: 6, sway: 46, blur: 2 } : { count: 36, a: 4.5, b: 8, oMin: 0.5, oMax: 0.8, tile: 420, fall: 5.2, sway: 40, blur: 2 },
   ];
   const snowDepths =
     prof.snow > 0
@@ -221,9 +232,38 @@ export function WeatherLayer({ weather, rand, ambient, idPrefix, palette }: Scen
           sky is dimmed separately in the atmosphere layer). */}
       {prof.dim > 0 && <rect x="0" y="0" width={W} height={H} fill={veil.color} opacity={prof.dim * veil.k} />}
 
+      {/* Postcard overcast: soft light breaking through low over the horizon, so a grey day still glows */}
+      {poster && weather === 'overcast' && !night && (
+        <g>
+          <defs>
+            <radialGradient id={`${idPrefix}-break`} cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stopColor="rgb(255,236,206)" stopOpacity="0.55" />
+              <stop offset="0.6" stopColor="rgb(250,220,214)" stopOpacity="0.18" />
+              <stop offset="1" stopColor="rgb(250,220,214)" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          <ellipse cx={W * 0.62} cy={LAYOUT.horizonY - 70} rx={W * 0.42} ry={150} fill={`url(#${idPrefix}-break)`} />
+        </g>
+      )}
       {/* Overcast: even grey light, with the horizon washed out — a flat day, not dusk */}
       {weather === 'overcast' && <rect x="0" y={LAYOUT.horizonY - 160} width={W} height={260} fill={`url(#${idPrefix}-flat-light)`} />}
 
+      {/* Postcard rain: soft curtains hanging from the clouds over the distant city, the way a poster paints a shower */}
+      {poster && prof.rain > 0 && (
+        <g opacity={night ? 0.5 : 0.8}>
+          <defs>
+            <linearGradient id={`${idPrefix}-curtain`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor={prof.lightning ? 'rgb(70,64,130)' : 'rgb(120,124,186)'} stopOpacity="0.55" />
+              <stop offset="0.75" stopColor={prof.lightning ? 'rgb(70,64,130)' : 'rgb(120,124,186)'} stopOpacity="0.22" />
+              <stop offset="1" stopColor="rgb(120,124,186)" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {[0.18, 0.47, 0.71].map((f, i) => {
+            const x = W * f, w = 180 + i * 60, top = 150 + i * 20, foot = LAYOUT.horizonY + 10;
+            return <path key={i} d={`M ${x} ${top} L ${x + w} ${top} L ${x + w - 60} ${foot} L ${x - 60} ${foot} Z`} fill={`url(#${idPrefix}-curtain)`} filter={`url(#${idPrefix}-fall-blur-2)`} />;
+          })}
+        </g>
+      )}
       {/* Rain: mist over the base of the city */}
       {prof.rain > 0 && <rect x="0" y={LAYOUT.horizonY - 70} width={W} height={170} fill={`url(#${idPrefix}-mist)`} />}
 

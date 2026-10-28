@@ -76,7 +76,7 @@ export function moonLitPath(r: number, illumination: number): string {
 
 // Sky gradient + sun/moon + stars (night) + a few drifting clouds. Drift /
 // twinkle are AMBIENT only (disabled when !ambient) and never affect the plane.
-export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weather, discs }: SceneLayerProps) {
+export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weather, discs, poster }: SceneLayerProps) {
   const skyId = `${idPrefix}-sky`;
   const glowId = `${idPrefix}-horizon`;
   const lightId = `${idPrefix}-light`;
@@ -93,7 +93,11 @@ export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weathe
   // Overcast cloud deck — a low, dark layer that thickens with cloudCover and
   // sits in front of the sun, so heavy skies actually read as heavy.
   // Overcast is a pale grey ceiling, rain a heavier slate, storm nearly black-blue, snow a bright milky grey.
-  const deckFill = isMoon
+  const deckFill = poster
+    // The postcard look paints heavy skies in the poster's own lavender-blues: soft and dreamy, never dead grey
+    ? isMoon ? 'rgba(52,56,104,0.94)'
+      : weather === 'overcast' ? 'rgba(196,192,224,0.93)' : weather === 'snow' ? 'rgba(222,220,242,0.93)' : weather === 'storm' ? 'rgba(66,62,122,0.95)' : 'rgba(136,138,192,0.94)'
+    : isMoon
     ? 'rgba(34,42,60,0.94)'
     : weather === 'overcast' ? 'rgba(148,156,170,0.94)' : weather === 'snow' ? 'rgba(174,182,196,0.94)' : weather === 'storm' ? 'rgba(54,62,82,0.95)' : 'rgba(92,102,122,0.94)';
   // Aurora ribbons — wavy translucent bands high in the (night) sky.
@@ -131,11 +135,29 @@ export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weathe
           <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
         </filter>
         <linearGradient id={auroraId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="rgba(120,240,180,0)" />
-          <stop offset="0.32" stopColor="rgba(110,240,168,0.9)" />
-          <stop offset="0.7" stopColor="rgba(92,200,232,0.65)" />
-          <stop offset="1" stopColor="rgba(126,140,255,0)" />
+          {poster ? (
+            <>
+              {/* violet fringe on top, bright green curtain, teal hem fading out: the classic postcard aurora */}
+              <stop offset="0" stopColor="rgba(190,120,255,0)" />
+              <stop offset="0.18" stopColor="rgba(176,128,255,0.55)" />
+              <stop offset="0.42" stopColor="rgba(120,255,186,0.95)" />
+              <stop offset="0.78" stopColor="rgba(84,214,206,0.5)" />
+              <stop offset="1" stopColor="rgba(84,214,206,0)" />
+            </>
+          ) : (
+            <>
+              <stop offset="0" stopColor="rgba(120,240,180,0)" />
+              <stop offset="0.32" stopColor="rgba(110,240,168,0.9)" />
+              <stop offset="0.7" stopColor="rgba(92,200,232,0.65)" />
+              <stop offset="1" stopColor="rgba(126,140,255,0)" />
+            </>
+          )}
         </linearGradient>
+        {/* vertical rays, so the ribbons read as hanging curtains */}
+        <pattern id={`${auroraId}-rays`} x="0" y="0" width="16" height="400" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="3" height="400" fill="rgba(235,255,245,0.55)" />
+          <rect x="9" y="0" width="1.5" height="400" fill="rgba(235,255,245,0.3)" />
+        </pattern>
       </defs>
 
       {/* sky */}
@@ -250,11 +272,22 @@ export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weathe
       })}
 
       {/* Weather sky dim — darkens the sky (sun + clouds) for overcast/rain/storm */}
-      {wx.dim > 0 && <rect x="0" y="0" width={VIEWBOX.w} height={VIEWBOX.h} fill={isMoon ? 'rgb(20,28,46)' : weather === 'overcast' ? 'rgb(132,140,152)' : weather === 'snow' ? 'rgb(176,186,202)' : 'rgb(20,28,46)'} opacity={weather === 'overcast' ? wx.dim * 1.15 : wx.dim} />}
+      {wx.dim > 0 && (poster
+        ? <rect x="0" y="0" width={VIEWBOX.w} height={VIEWBOX.h} fill={isMoon ? 'rgb(30,32,70)' : weather === 'overcast' ? 'rgb(178,174,210)' : weather === 'snow' ? 'rgb(212,212,238)' : weather === 'storm' ? 'rgb(44,40,96)' : 'rgb(72,76,132)'} opacity={weather === 'overcast' ? wx.dim * 0.9 : wx.dim * 0.85} />
+        : <rect x="0" y="0" width={VIEWBOX.w} height={VIEWBOX.h} fill={isMoon ? 'rgb(20,28,46)' : weather === 'overcast' ? 'rgb(132,140,152)' : weather === 'snow' ? 'rgb(176,186,202)' : 'rgb(20,28,46)'} opacity={weather === 'overcast' ? wx.dim * 1.15 : wx.dim} />)}
 
       {/* Aurora ribbons — glow on top of the dimmed night sky */}
       {auroraBands.map((b, i) => {
-        const node = <path d={auroraBand(b.y, b.amp)} fill={`url(#${auroraId})`} opacity={b.o} filter={`url(#${cloudFilterId})`} />;
+        // The postcard aurora is taller and brighter, with hanging rays
+        const h = poster ? 120 : 64;
+        const o = poster ? Math.min(1, b.o * 1.6) : b.o;
+        const node = poster ? (
+          <g>
+            {/* lower in the sky than the old ribbons, so the title and the card's edge never cut them off */}
+            <path d={auroraBand(b.y + 70, b.amp * 1.3, h)} fill={`url(#${auroraId})`} opacity={o} filter={`url(#${cloudFilterId})`} />
+            <path d={auroraBand(b.y + 70, b.amp * 1.3, h)} fill={`url(#${auroraId}-rays)`} opacity={o * 0.55} style={{ mixBlendMode: 'screen' }} />
+          </g>
+        ) : <path d={auroraBand(b.y, b.amp)} fill={`url(#${auroraId})`} opacity={b.o} filter={`url(#${cloudFilterId})`} />;
         return ambient ? (
           <motion.g key={i} animate={{ x: [0, b.drift, 0], opacity: [b.o * 0.7, b.o, b.o * 0.7] }} transition={{ duration: b.dur, repeat: Infinity, ease: 'easeInOut' }}>
             {node}

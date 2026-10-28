@@ -116,6 +116,8 @@ export interface SceneLayerProps {
   sun?: { x: number; y: number };
   /** The live time of day, when the flight clock sets one (otherwise the destination's baked palette rules). */
   timeOfDay?: TimeOfDay;
+  /** The postcard look is on (Oct 2026): weather is painted in the poster's lavender-blue palette, not greyed out. */
+  poster?: boolean;
 }
 
 /**

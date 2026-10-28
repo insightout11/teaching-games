@@ -159,7 +159,7 @@ export function DestinationArrivalScene({
   const sky = atmosphereLayout(seededRand(`${destinationId}:atmosphere`), palette.light === 'moon', WEATHER_PROFILE[weather]);
   const baseLayerProps = { scene, palette, idPrefix, phase, progress: p, ambient, mode, weather, // With a transparent sky (the lobby / flight overlay) the sun in view belongs to that other sky, so the scene has
   // no sun of its own to light from.
-  sun: transparentSky ? undefined : discs ? primaryLight(discs) : { x: sky.lightX, y: sky.lightY }, discs, timeOfDay };
+  sun: transparentSky ? undefined : discs ? primaryLight(discs) : { x: sky.lightX, y: sky.lightY }, discs, timeOfDay, poster: !!extras?.postcard };
   // Never share a mutable RNG across sibling layers. React may evaluate siblings
   // in a different order during SSR and hydration; isolated seeds keep every
   // layer byte-identical regardless of scheduling.
