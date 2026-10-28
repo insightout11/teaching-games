@@ -138,7 +138,8 @@ export function WorldFlightMap({ origin, rangeKm, visitedIds, journey, selectedI
     cancelAnimationFrame(rangeAnim.current);
     const start = performance.now();
     const fade = (now: number) => {
-      const t = Math.min((now - start) / 500, 1);
+      // a frame's timestamp can be a hair before `start`, which gave a negative opacity the map rejects
+      const t = Math.max(0, Math.min((now - start) / 500, 1));
       map.setPaintProperty('world-flight-range-line', 'line-opacity', 0.85 * t);
       map.setPaintProperty('world-flight-range-glow', 'line-opacity', 0.14 * t);
       if (t < 1) rangeAnim.current = requestAnimationFrame(fade);

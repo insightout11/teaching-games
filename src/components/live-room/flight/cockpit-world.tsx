@@ -804,6 +804,8 @@ export function CockpitWorld({ terrain, region, palette, night, speed, paused = 
     let hazeFill: CanvasGradient | null = null;
     const fit = () => {
       const r = canvas.getBoundingClientRect();
+      // Hidden (e.g. while the landing scene covers the flight): no size to fit yet, and a zero-width image throws
+      if (!(r.width > 0 && r.height > 0)) return;
       w = r.width; h = r.height;
       // The ground is soft, hazy and always moving: it never needs a sharp display's full resolution (the new look: at most
       // 1200 pixels across, since painting the ground strips is nearly all the cost of a frame), and drawing
