@@ -14227,5 +14227,1327 @@
     ],
     "confidence": "medium",
     "notes": "Guinea, Sierra Leone and Liberia share the humid Upper Guinea coast, so no ISO 3166-2 subdivision is used. This is one of West Africa's wettest regions, with mangrove creeks, rainforest, rice swamps and scattered farms; Conakry, Freetown and Monrovia are the largest cities. Rural houses are mostly round or rectangular with mud walls and steep thatched roofs, while corrugated metal spreads along roads and in towns. Rice, cassava and cocoa are the main crops, with coffee, rubber, oil palm and fruit. Rain falls from May to October and the dry season runs from November to April; snow never occurs. Deforestation, mining and weak infrastructure make data uneven."
+  },
+  {
+    "id": "gr-mainland-crete",
+    "name": "Greece: mainland and Crete",
+    "countries": [
+      "GR"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56b4d",
+        "#6d6a6f"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "stone slab"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#eae6dd",
+        "#d9c9a3",
+        "#a39a8b"
+      ],
+      "wallMaterial": [
+        "whitewashed render",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "whitewashed church tower",
+        "Byzantine monastery"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#96a36b",
+          "where": "everywhere"
+        },
+        {
+          "name": "Italian cypress",
+          "color": "#3f5f47",
+          "where": "towns"
+        },
+        {
+          "name": "stone pine",
+          "color": "#4f6f59",
+          "where": "coast"
+        },
+        {
+          "name": "orange",
+          "color": "#5f8a4d",
+          "where": "valleys",
+          "seasonColor": {
+            "color": "#c9734f",
+            "months": [
+              12,
+              1,
+              2
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "olive groves on terraced slopes",
+          "pattern": "rows",
+          "colors": [
+            "#8f9a67",
+            "#7f8a67"
+          ]
+        },
+        {
+          "name": "vegetables under plastic in the Ierapetra greenhouse belt",
+          "pattern": "patchwork",
+          "colors": [
+            "#d8d8d5",
+            "#e8e8e5"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "Thessaly grain and cotton",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b36b",
+            "#cfc38d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Greece",
+      "https://en.wikipedia.org/wiki/Crete"
+    ],
+    "confidence": "high",
+    "notes": "Greece is covered whole, so no ISO 3166-2 codes are listed; the Cyclades (gr-cyclades) and other island groups use their own regions where they exist. The air signature: grey-green olive groves over most hillsides, dark cypress spires along village lanes, whitewashed and stone houses under red-brown tile (stone-slab roofs survive in Epirus, flat concrete roofs in modern sprawl). Crete adds bare white mountains, the olive grids of the Messara plain and the Ierapetra greenhouse belt; Thessaly is the mainland's flat cotton-and-grain plain. Winter is the green season and the landscape parches gold from June. Lowland snow is rare; only the Pindus, Olympus and the White Mountains whiten."
+  },
+  {
+    "id": "balkans-west",
+    "name": "Western Balkans (Slovenia, Croatia, Bosnia, Montenegro)",
+    "countries": [
+      "SI",
+      "HR",
+      "BA",
+      "ME"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56849",
+        "#706b73",
+        "#5f6471"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "stone slab"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e6e2d5",
+        "#9a9187",
+        "#8a6f57"
+      ],
+      "wallMaterial": [
+        "stone",
+        "render",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "stone village church tower",
+        "hayrack (kozolec)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "maritime pine",
+          "color": "#4a6f5b",
+          "where": "coast"
+        },
+        {
+          "name": "beech",
+          "color": "#6f8a61",
+          "where": "hills"
+        },
+        {
+          "name": "olive",
+          "color": "#96a36d",
+          "where": "coast"
+        },
+        {
+          "name": "Norway spruce",
+          "color": "#2f5f47",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "Slavonia maize and grain",
+          "pattern": "rows",
+          "colors": [
+            "#7f9a61",
+            "#b3a86d"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "hill and coast vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#6b7f55",
+            "#8f8a5d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "karst stone-walled sheep fields",
+          "pattern": "scattered",
+          "colors": [
+            "#8fa37d"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd8a47",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Slovenia",
+      "https://en.wikipedia.org/wiki/Croatia",
+      "https://en.wikipedia.org/wiki/Bosnia_and_Herzegovina",
+      "https://en.wikipedia.org/wiki/Montenegro"
+    ],
+    "confidence": "high",
+    "notes": "All four countries are covered whole. Three worlds meet: Slovenia's forested alpine hills with scattered farms and kozolec hayracks; the Croatian and Montenegrin Adriatic, where pale limestone towns under red tile crowd the shore and the bare karst behind is stone-walled sheep country; and green mountain villages on Bosnian and Montenegrin slopes under spruce-beech forest. The Pannonian east (Slavonia) is flat maize-and-grain country. Inland snow lies in winter; the Adriatic coast stays green and essentially snow-free."
+  },
+  {
+    "id": "balkans-centre",
+    "name": "Central Balkans (Serbia, North Macedonia, Albania, Kosovo)",
+    "countries": [
+      "RS",
+      "MK",
+      "AL",
+      "XK"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56b4f",
+        "#6a6f71",
+        "#8f5f4b"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "metal sheet"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8e4d7",
+        "#9f958b",
+        "#a56a53"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Orthodox village church",
+        "minaret"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "plum",
+          "color": "#6f8a59",
+          "where": "hills"
+        },
+        {
+          "name": "oak",
+          "color": "#5f7f5d",
+          "where": "valleys"
+        },
+        {
+          "name": "Aleppo pine",
+          "color": "#4a6f47",
+          "where": "coast"
+        },
+        {
+          "name": "walnut",
+          "color": "#7f8a5f",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "Vojvodina grain belts",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b36f",
+            "#cfc37b"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "sunflowers",
+          "pattern": "rows",
+          "colors": [
+            "#c9ab53",
+            "#d3b37b"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "hill vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#6b7f5b",
+            "#94a355"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c98a43",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Serbia",
+      "https://en.wikipedia.org/wiki/North_Macedonia",
+      "https://en.wikipedia.org/wiki/Albania",
+      "https://en.wikipedia.org/wiki/Kosovo"
+    ],
+    "confidence": "high",
+    "notes": "XK is the widely used user-assigned code for Kosovo (no official ISO code). All four territories are covered whole. Flat Vojvodina is striped grain and sunflower country; the Sumadija hills carry plum orchards around every homestead. North Macedonia's Vardar valley is dry sunflower and maize country between bare mountains; Albania is a steep green coast with olive and citrus terraces and minarets; Kosovo is a mountain-walled basin of small fields. The hills go dry gold in July-August."
+  },
+  {
+    "id": "ro-md",
+    "name": "Romania and Moldova",
+    "countries": [
+      "RO",
+      "MD"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56747",
+        "#6d6d73"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "metal sheet"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#eae6d9",
+        "#e0d6c9",
+        "#a56a57"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "fortified church",
+        "monastery"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oak",
+          "color": "#5f7f61",
+          "where": "hills"
+        },
+        {
+          "name": "walnut",
+          "color": "#7f8a61",
+          "where": "everywhere"
+        },
+        {
+          "name": "plum",
+          "color": "#6f8a6d",
+          "where": "hills"
+        },
+        {
+          "name": "beech",
+          "color": "#5f8a63",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sunflower and wheat on the steppe plains",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b371",
+            "#d8d371"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "vineyards on the slopes (Dealurile Moldovei, Codru)",
+          "pattern": "rows",
+          "colors": [
+            "#6b7f49",
+            "#94a357"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "hay meadows with haystacks",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a6d",
+            "#557f49"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c99143",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5
+      ],
+      "dryGold": [
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Romania",
+      "https://en.wikipedia.org/wiki/Moldova"
+    ],
+    "confidence": "high",
+    "notes": "Both countries are covered whole. The Carpathian arc is beech and conifer forest with chain villages climbing the valleys; around it Transylvania's Saxon villages with fortified churches, Moldavia's monastery compounds, and the Wallachian and Bessarabian steppe plains of sunflower and wheat with vineyard blocks on the slopes. Haystacks dot the Maramures and Codru meadows. Winter snow lies inland; the plains go dry gold by August."
+  },
+  {
+    "id": "bg",
+    "name": "Bulgaria",
+    "countries": [
+      "BG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56447",
+        "#6f6a71",
+        "#5f5f5b"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "stone slab"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e6dccb",
+        "#9f9587",
+        "#a0644b"
+      ],
+      "wallMaterial": [
+        "render",
+        "stone",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "monastery compound",
+        "stone church tower"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "beech",
+          "color": "#5f8a57",
+          "where": "hills"
+        },
+        {
+          "name": "Scots pine",
+          "color": "#3f6453",
+          "where": "hills"
+        },
+        {
+          "name": "walnut",
+          "color": "#7f8a57",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "Danube plain grain",
+          "pattern": "stripes",
+          "colors": [
+            "#b3a971",
+            "#d3cf71"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "Kazanlak rose fields",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a57",
+            "#c98f5f"
+          ],
+          "months": [
+            5,
+            6
+          ]
+        },
+        {
+          "name": "Thracian and Melnik vineyards",
+          "pattern": "rows",
+          "colors": [
+            "#6b7f4b",
+            "#94a34b"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c99747",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Bulgaria",
+      "https://en.wikipedia.org/wiki/Balkan_Mountains"
+    ],
+    "confidence": "high",
+    "notes": "Covered whole. The Stara Planina runs across the country as a dark forested spine; north of it the Danube plain is striped grain country, south of it the drier Thracian plain. Between them lie the Valley of the Roses and small wine districts. Villages are low houses of stone and render under red-brown tile; Rhodope villages climb terraced slopes. Lowland snow falls most winters; the lowlands go straw gold in July-August."
+  },
+  {
+    "id": "ua",
+    "name": "Ukraine",
+    "countries": [
+      "UA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a5644f",
+        "#6d6a73",
+        "#5a5f61"
+      ],
+      "roofMaterial": [
+        "slate",
+        "metal sheet",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#eae6db",
+        "#a5645b",
+        "#b3b0a7"
+      ],
+      "wallMaterial": [
+        "whitewashed render",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Orthodox church with golden dome",
+        "whitewashed cottage"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "poplar (windbreak rows)",
+          "color": "#8fa381",
+          "where": "valleys"
+        },
+        {
+          "name": "birch",
+          "color": "#a8b371",
+          "where": "everywhere"
+        },
+        {
+          "name": "oak",
+          "color": "#5f7f57",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "wheat, maize and sunflower field belts",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b37d",
+            "#d8d37d"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "sunflowers in bloom",
+          "pattern": "rows",
+          "colors": [
+            "#cfa34f",
+            "#b8ab5f"
+          ],
+          "months": [
+            7,
+            8
+          ]
+        },
+        {
+          "name": "dacha and orchard plots",
+          "pattern": "scattered",
+          "colors": [
+            "#6f8a71",
+            "#8f9a71"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c99b4b",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        4,
+        5
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Ukraine",
+      "https://en.wikipedia.org/wiki/Geography_of_Ukraine"
+    ],
+    "confidence": "high",
+    "notes": "Covered whole. Vast straight-bounded blocks of wheat, maize and sunflower stitched together by poplar windbreaks along roads and field edges, with the Dnipro and its reservoirs cutting the plain. Whole districts go gold when the sunflowers bloom in July. Villages are single-street strings of whitewashed cottages under slate, metal and red tile, with golden-domed churches; forest-steppe to the north, bare steppe to the south; the Carpathians in the west. Lowland snow lies most winters."
+  },
+  {
+    "id": "by",
+    "name": "Belarus",
+    "countries": [
+      "BY"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#6a6d71",
+        "#a5684f",
+        "#555a5f"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#ecebe3",
+        "#d9d3c5",
+        "#9fa8b3"
+      ],
+      "wallMaterial": [
+        "timber",
+        "render",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "painted timber cottage",
+        "red-brick church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Scots pine",
+          "color": "#3f644b",
+          "where": "everywhere"
+        },
+        {
+          "name": "birch",
+          "color": "#a8b377",
+          "where": "everywhere"
+        },
+        {
+          "name": "Norway spruce",
+          "color": "#2f5f53",
+          "where": "hills"
+        },
+        {
+          "name": "black alder",
+          "color": "#5f7f53",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rye, potato and oats",
+          "pattern": "stripes",
+          "colors": [
+            "#b3a371",
+            "#cfc377"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "damp pasture and hay",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a59",
+            "#5f8a53"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "Pripyat raised bogs and marsh",
+          "pattern": "scattered",
+          "colors": [
+            "#6b5f53"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#bd9147",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Belarus",
+      "https://en.wikipedia.org/wiki/Geography_of_Belarus"
+    ],
+    "confidence": "high",
+    "notes": "Covered whole. A flat forest-and-marsh plain: pine and birch forest over much of the land, bog patches in the Pripyat basin, and small damp field strips around villages of painted timber cottages under metal or slate roofs. Red-brick churches mark the towns; Minsk is grey panel-block sprawl. Snow lies in winter; birches turn gold in September-October."
+  },
+  {
+    "id": "baltics",
+    "name": "Baltic states (Estonia, Latvia, Lithuania)",
+    "countries": [
+      "EE",
+      "LV",
+      "LT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5f5f61",
+        "#a5645d",
+        "#6a6a6f"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#ded9d1",
+        "#a8967b",
+        "#9f5f53"
+      ],
+      "wallMaterial": [
+        "timber",
+        "stone",
+        "render"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "manor house",
+        "wooden farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "birch",
+          "color": "#a8b379",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#d3c357",
+            "months": [
+              9,
+              10
+            ]
+          }
+        },
+        {
+          "name": "Scots pine",
+          "color": "#3f645d",
+          "where": "coast"
+        },
+        {
+          "name": "Norway spruce",
+          "color": "#2f5f4d",
+          "where": "everywhere"
+        },
+        {
+          "name": "oak",
+          "color": "#5f7f47",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "oilseed rape and cereals",
+          "pattern": "stripes",
+          "colors": [
+            "#b3a871",
+            "#d8d373"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "pasture and hay",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f9a65",
+            "#5f8a5f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "raised bogs",
+          "pattern": "scattered",
+          "colors": [
+            "#6b5f5b"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c9954f",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Estonia",
+      "https://en.wikipedia.org/wiki/Latvia",
+      "https://en.wikipedia.org/wiki/Lithuania"
+    ],
+    "confidence": "high",
+    "notes": "All three republics are covered whole. A broad flat plain of big striped arable fields, rape-yellow in May-June, between large blocks of spruce, pine and birch, with brown raised bogs and manor houses in alleys of old trees. Farmsteads are wooden houses under red tile or grey metal, loosely scattered; the coast is low pine and dune. Birches go gold in September; snow lies in winter."
+  },
+  {
+    "id": "ru-west",
+    "name": "European Russia: west and centre",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-MOW",
+      "RU-SPE",
+      "RU-MOS",
+      "RU-LEN",
+      "RU-NGR",
+      "RU-PSK",
+      "RU-KGD",
+      "RU-KR",
+      "RU-KLU",
+      "RU-KOS",
+      "RU-IVA",
+      "RU-VLA",
+      "RU-YAR",
+      "RU-TVE",
+      "RU-SMO",
+      "RU-BRY",
+      "RU-ORL",
+      "RU-KRS",
+      "RU-BEL",
+      "RU-VOR",
+      "RU-LIP",
+      "RU-TAM",
+      "RU-RYA",
+      "RU-TUL",
+      "RU-NIZ",
+      "RU-KIR",
+      "RU-ME",
+      "RU-CU",
+      "RU-TA",
+      "RU-MO",
+      "RU-UD",
+      "RU-PNZ",
+      "RU-SAM",
+      "RU-SAR",
+      "RU-ULY",
+      "RU-VLG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5f6065",
+        "#a5685d",
+        "#66666b"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e0dcd3",
+        "#a8a399",
+        "#a56f5b"
+      ],
+      "wallMaterial": [
+        "timber",
+        "brick",
+        "render"
+      ],
+      "villageLayout": "linear street",
+      "density": "sparse",
+      "signatureBuildings": [
+        "onion-domed church",
+        "timber izba"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "birch",
+          "color": "#a8b375",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#d3c359",
+            "months": [
+              9,
+              10
+            ]
+          }
+        },
+        {
+          "name": "Scots pine",
+          "color": "#3f6461",
+          "where": "hills"
+        },
+        {
+          "name": "Norway spruce",
+          "color": "#2f5f57",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rye, wheat and potato",
+          "pattern": "stripes",
+          "colors": [
+            "#b3a873",
+            "#cfc371"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "pasture and hay",
+          "pattern": "patchwork",
+          "colors": [
+            "#5f9a59",
+            "#558a53"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "conifer forestry and bogs",
+          "pattern": "scattered",
+          "colors": [
+            "#6b6455"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2
+      ],
+      "autumnColor": {
+        "color": "#c9934f",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/European_Russia",
+      "https://en.wikipedia.org/wiki/ISO_3166-2:RU",
+      "https://en.wikipedia.org/wiki/East_European_Plain"
+    ],
+    "confidence": "high",
+    "notes": "Subdivisions are federal subjects of the European west and centre (from the ISO 3166-2:RU page). Not yet covered: the European north (Murmansk, Arkhangelsk, Komi, Nenets), the south (Krasnodar, Rostov, Volgograd, Astrakhan, Kalmykia, North Caucasus) and the Urals; they need their own regions. Dark birch-pine forest and bog in the north, giant rye, wheat and potato fields in the centre, strings of timber izbas along roads and rivers, onion-domed churches above them. Moscow, St Petersburg and the Volga cities bring vast grey panel-block districts. Snow typically lies November to March; birches go gold in September."
+  },
+  {
+    "id": "cy-mt",
+    "name": "Cyprus and Malta",
+    "countries": [
+      "CY",
+      "MT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#6a6d73",
+        "#a56453"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "limestone slab",
+        "clay tile"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d9c9a5",
+        "#e6e2d9",
+        "#a39f97"
+      ],
+      "wallMaterial": [
+        "limestone",
+        "render",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "flat-roofed limestone townhouse",
+        "stone village church"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive",
+          "color": "#96a367",
+          "where": "everywhere"
+        },
+        {
+          "name": "carob",
+          "color": "#5f7f45",
+          "where": "everywhere"
+        },
+        {
+          "name": "citrus",
+          "color": "#5f8a6b",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "tiny stone-terraced fields",
+          "pattern": "terraces",
+          "colors": [
+            "#b3a875",
+            "#cfc36d"
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "rows",
+          "colors": [
+            "#8f9a75",
+            "#7f8a5d"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "Mesaoria grain",
+          "pattern": "stripes",
+          "colors": [
+            "#b8b367",
+            "#cfc369"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cyprus",
+      "https://en.wikipedia.org/wiki/Malta"
+    ],
+    "confidence": "high",
+    "notes": "Both island republics are covered whole. Malta is one of Europe's densest landscapes, limestone towns merging into one stone-grey sprawl of flat roofs; Cyprus keeps stone villages among olive and carob groves, the flat Mesaoria grain plain and pine forest on the Troodos. Flat-roofed limestone and concrete, with solar water tanks on the roofs. Green November-March, straw gold from May. Snow only on the Troodos summit."
   }
 ]
