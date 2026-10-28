@@ -22987,5 +22987,1341 @@
     ],
     "confidence": "high",
     "notes": "Four small territories, each covered whole with no ISO 3166-2 subdivisions to list (Gibraltar is a British Overseas Territory; the Isle of Man, Jersey and Guernsey are Crown dependencies). Gibraltar is a dense wall of white-and-pastel apartments stacked against the west face of the Rock, backed by olive scrub, Barbary macaques and the airport runway crossing the isthmus. The Isle of Man is open moor and gorse hills with glens of pine and beech, whitewashed stone farmhouses and the lochs of the interior. Jersey and Guernsey are green ridges of dairy pasture, early potato rows harvested for the Jersey Royals from April, and long belts of white glasshouses that glow in spring - all wrapped in tamarisk-fringed bays, forts and drying harbour mud. Lowland snow is rare and brief; the islands stay green most of the year, with modest autumn colour in October-November."
+  },
+  {
+    "id": "gt-bz",
+    "name": "Guatemala and Belize",
+    "countries": [
+      "GT",
+      "BZ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a5715b",
+        "#7a716b",
+        "#d3c3a9"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#efe4d9",
+        "#b39d7d",
+        "#8f877b"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "adobe",
+        "timber"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "volcano-ringed colonial grid (Antigua)",
+        "thatched Maya kitchen"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "lowland rainforest (Petén)",
+          "color": "#2a5f4b",
+          "where": "valleys"
+        },
+        {
+          "name": "pine-oak highland forest",
+          "color": "#416551",
+          "where": "hills"
+        },
+        {
+          "name": "coconut palm (Belize cayes)",
+          "color": "#4f7a53",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#4a6a5f",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "corn patches on steep slopes",
+          "pattern": "patchwork",
+          "colors": [
+            "#8f9a5d"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "sugar cane (Belize north, south coast)",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a77"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "citrus and banana belts (Stann Creek)",
+          "pattern": "rows",
+          "colors": [
+            "#558a55"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Guatemala",
+      "https://en.wikipedia.org/wiki/Belize"
+    ],
+    "confidence": "high",
+    "notes": "Two countries covered whole, so no ISO 3166-2 codes are listed. Guatemala is a volcanic highland of conical volcanoes above a checkerboard of maize patches climbing impossibly steep slopes, pine-oak forest, and dense Maya villages of concrete block and corrugated metal with an occasional thatched kitchen; Antigua sits in its old colonial grid under three volcano cones. Belize drops to flat low jungle, savanna and the hemisphere's second-longest barrier reef, with coconut palms on the cayes, cane fields in the north and citrus in the centre; its coast takes hurricanes directly (June-November). The rainy season is June-October, and the dry February-April haze burns the highlands gold."
+  },
+  {
+    "id": "hn-sv-ni",
+    "name": "Honduras, El Salvador and Nicaragua",
+    "countries": [
+      "HN",
+      "SV",
+      "NI"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56c4b",
+        "#6f6a6b",
+        "#c9b191"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#efe8db",
+        "#a89a8b",
+        "#7f7165"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "adobe",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "volcano cone over a colonial town",
+        "banana loading pier on the north coast"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Atlantic rainforest (La Moskitia)",
+          "color": "#335f4d",
+          "where": "valleys"
+        },
+        {
+          "name": "Caribbean pine (highlands)",
+          "color": "#416549",
+          "where": "hills"
+        },
+        {
+          "name": "mango and citrus gardens",
+          "color": "#5f8a77",
+          "where": "towns"
+        },
+        {
+          "name": "mangrove (Gulf of Fonseca)",
+          "color": "#3f6a59",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "banana and pineapple plantations (north coast)",
+          "pattern": "rows",
+          "colors": [
+            "#4f8a55"
+          ]
+        },
+        {
+          "name": "coffee on highland slopes",
+          "pattern": "rows",
+          "colors": [
+            "#5a8a55"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "cattle pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a069",
+            "#5f8f61"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Honduras",
+      "https://en.wikipedia.org/wiki/El_Salvador",
+      "https://en.wikipedia.org/wiki/Nicaragua"
+    ],
+    "confidence": "high",
+    "notes": "Three countries covered whole, so no ISO 3166-2 codes are listed. El Salvador is the densest view: tiny fields and coffee slopes patchworked to the horizon, packed against a line of Pacific volcano cones. Honduras adds the big banana and pineapple plantations and palm-oil blocks of the Sula plain, pine-covered ridges, and the near-empty Moskitia rainforest; Nicaragua brings the two great lakes with island volcanoes (Ometepe), cattle country in Chontales, and the green Atlantic coast. Rural housing is everywhere concrete block and corrugated metal; colonial grid towns and grey concrete city centres sit under the volcano line. Hurricane season is June-November (Eta and Iota devastated the north coast in 2020); rains fall June-October, then February-April browns the Pacific side."
+  },
+  {
+    "id": "cr-pa",
+    "name": "Costa Rica and Panama",
+    "countries": [
+      "CR",
+      "PA"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56d47",
+        "#6d716d",
+        "#c9bf9d"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f0ead5",
+        "#ab958b",
+        "#7a6f63"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "render",
+        "timber"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "container ships queuing at the canal",
+        "coffee town on a green ridge"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "cloud forest",
+          "color": "#335a4d",
+          "where": "hills"
+        },
+        {
+          "name": "rainforest (Darién)",
+          "color": "#2a604d",
+          "where": "everywhere"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4f7a5d",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#4a6f51",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee (Tarrazú, Boquete)",
+          "pattern": "rows",
+          "colors": [
+            "#5a8a5b"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "banana plantations",
+          "pattern": "rows",
+          "colors": [
+            "#4f8a4d"
+          ]
+        },
+        {
+          "name": "cattle pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#67a06b",
+            "#6a9a63"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Costa_Rica",
+      "https://en.wikipedia.org/wiki/Panama"
+    ],
+    "confidence": "high",
+    "notes": "Both countries are covered whole, so no ISO 3166-2 codes are listed. Two green isthmus nations: Costa Rica's volcanic spine, cloud forests, banana rivers on the Caribbean side and coffee ridges; Panama's canal, a straight artificial line of white ships through rainforest, and the roadless Darién gap closing the map toward Colombia. Cattle pasture and pineapple blocks fill the Pacific lowlands; the coasts are coconut and mangrove with sport-fishing lodges. Rural houses are metal-roofed concrete block; San José and Panama City rise as real skylines of glass towers. These sit mostly south of the hurricane belt - storms are rare - and the Pacific side goes dry gold from December to April while the Caribbean slope stays green."
+  },
+  {
+    "id": "cu",
+    "name": "Cuba",
+    "countries": [
+      "CU"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a5704f",
+        "#8a8a83",
+        "#d3c3ab"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f2e5d1",
+        "#b5947d",
+        "#9f9187"
+      ],
+      "wallMaterial": [
+        "render (faded pastel)",
+        "concrete block",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Malecón seawall and old Havana grid",
+        "tobacco drying barn (Vuelta Abajo)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "royal palm (pasture sentinel)",
+          "color": "#5f8a79",
+          "where": "everywhere"
+        },
+        {
+          "name": "mango",
+          "color": "#4a7a53",
+          "where": "towns"
+        },
+        {
+          "name": "mangrove (Zapata)",
+          "color": "#4a6f55",
+          "where": "coast"
+        },
+        {
+          "name": "flamboyán (flame tree)",
+          "color": "#6a8a5d",
+          "where": "towns",
+          "seasonColor": {
+            "color": "#c95a4d",
+            "months": [
+              5,
+              6,
+              7
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane fields",
+          "pattern": "rows",
+          "colors": [
+            "#7f9a57"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "tobacco (Vuelta Abajo)",
+          "pattern": "rows",
+          "colors": [
+            "#7f8a6f"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "citrus groves",
+          "pattern": "rows",
+          "colors": [
+            "#5f9a51"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cuba",
+      "https://en.wikipedia.org/wiki/Havana"
+    ],
+    "confidence": "high",
+    "notes": "Cuba is covered whole, so no ISO 3166-2 codes are listed. A long flat limestone island of soft greens: huge cattle pastures dotted with tall feathery royal palms, canefields in blocks with their rusting central mills, and tobacco fields around Viñales under white shade tents and beside their long drying barns. Villages are grids of one-storey concrete and faded pastel render houses with galvanised roofs; Havana adds its walled colonial grid, Malecón seawall and grey apartment slabs. Flamboyán trees drop red blooms over everything in early summer. The hurricane season (June-November) strikes the island regularly; the dry season ends with a brief March-April golding of the grass."
+  },
+  {
+    "id": "hispaniola",
+    "name": "Hispaniola (Dominican Republic and Haiti)",
+    "countries": [
+      "DO",
+      "HT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a06b5b",
+        "#77716d",
+        "#c9b1a1"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "concrete",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f0e2d1",
+        "#a8956f",
+        "#8a827b"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "render",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "green-versus-tan border line",
+        "Santo Domingo colonial grid"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Hispaniola pine (Cordillera Central)",
+          "color": "#41654b",
+          "where": "hills"
+        },
+        {
+          "name": "tropical dry forest",
+          "color": "#6b7a57",
+          "where": "everywhere"
+        },
+        {
+          "name": "mango",
+          "color": "#4f8a57",
+          "where": "towns"
+        },
+        {
+          "name": "coconut palm (east coast)",
+          "color": "#4f7a47",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice paddies (Cibao valley)",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a06d"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "cacao and coffee under shade",
+          "pattern": "rows",
+          "colors": [
+            "#4a7a59"
+          ]
+        },
+        {
+          "name": "erosion-scarred maize plots (Haiti)",
+          "pattern": "scattered",
+          "colors": [
+            "#a89a6d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Dominican_Republic",
+      "https://en.wikipedia.org/wiki/Haiti"
+    ],
+    "confidence": "high",
+    "notes": "Two countries sharing one island, both covered whole with no ISO 3166-2 codes to list. From the air the border is one of the starkest lines on Earth: the Dominican side is genuinely green - forested cordilleras with Caribbean pine, emerald rice paddies in the Cibao, cacao and coffee under shade, coconut palms on the east coast - while the Haitian side is largely bare tan-brown hills, cut by erosion gullies from charcoal cutting and crowded with tiny terraced maize plots and mango trees. Port-au-Prince and Santo Domingo both sprawl as dense concrete slabs with corrugated and concrete roofs. Hurricanes cross the island every season (June-November); the dry months are February-April."
+  },
+  {
+    "id": "jm-ky",
+    "name": "Jamaica and Cayman Islands",
+    "countries": [
+      "JM",
+      "KY"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a5654d",
+        "#6a6d6d",
+        "#c9b1a5"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "concrete",
+        "shingle"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f2e4d5",
+        "#b3977d",
+        "#8f8375"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "render",
+        "timber"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "red bauxite scar pits",
+        "Blue Mountain coffee slopes"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Blue Mountain forest",
+          "color": "#2a5f51",
+          "where": "hills"
+        },
+        {
+          "name": "coconut palm rows",
+          "color": "#4f7a59",
+          "where": "coast"
+        },
+        {
+          "name": "mango and pimento (allspice)",
+          "color": "#5a7f57",
+          "where": "towns"
+        },
+        {
+          "name": "mangrove",
+          "color": "#3f6a55",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a4f"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "Blue Mountain coffee",
+          "pattern": "rows",
+          "colors": [
+            "#558a4f"
+          ],
+          "months": [
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "banana and plantain patches",
+          "pattern": "scattered",
+          "colors": [
+            "#6f9a4d"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Jamaica",
+      "https://en.wikipedia.org/wiki/Cayman_Islands"
+    ],
+    "confidence": "high",
+    "notes": "Two territories covered whole, so no ISO 3166-2 codes are listed. Jamaica from the air: the bumpy green spongework of the Cockpit Country karst, the Blue Mountains rising to over 2,200 m with coffee rows under cloud, cane fields and red open-pit bauxite scars - soil the colour of the dirt roads - along the centre, and coconut-lined white sand coasts with all-inclusive resorts. Kingston sits in its dry rain-shadow grid at the mountain foot. The Cayman Islands, 100 km north, are flat low coral islands: George Town's glass financial towers, pastel beachfront blocks, the famous Seven Mile Beach and diving reefs. Both lie in the hurricane belt (June-November); Jamaica is green May-November and browns on the south coast in the December-April dry."
+  },
+  {
+    "id": "pr-vi-vg",
+    "name": "Puerto Rico and the Virgin Islands",
+    "countries": [
+      "PR",
+      "VI",
+      "VG"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56b51",
+        "#6d7175",
+        "#c7b9a9"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "clay tile",
+        "metal sheet"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#f0e6d9",
+        "#b09883",
+        "#877b71"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "render",
+        "timber"
+      ],
+      "villageLayout": "grid",
+      "density": "medium",
+      "signatureBuildings": [
+        "Old San Juan walled grid and forts",
+        "marina full of masts (Virgin Gorda)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "El Yunque rainforest",
+          "color": "#2f5f4f",
+          "where": "hills"
+        },
+        {
+          "name": "mangrove channels",
+          "color": "#3f6a4d",
+          "where": "coast"
+        },
+        {
+          "name": "coconut palms",
+          "color": "#4f7a4b",
+          "where": "coast"
+        },
+        {
+          "name": "sea grape scrub",
+          "color": "#6a8a6d",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "plantain and banana groves",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a79"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "cattle pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#67a063",
+            "#5f9a6d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Puerto_Rico",
+      "https://en.wikipedia.org/wiki/U.S._Virgin_Islands",
+      "https://en.wikipedia.org/wiki/British_Virgin_Islands"
+    ],
+    "confidence": "high",
+    "notes": "Three territories covered whole - a US commonwealth plus the US and British Virgin Islands - with no ISO 3166-2 codes to list. Puerto Rico is the biggest and greenest: the true rainforest of El Yunque, a limestone karst belt, dense pastures and plantain groves, and San Juan - a huge concrete metro with blue-cobblestoned Old San Juan and its forts at the core. The smaller Virgin Islands are drier and hillier: green-brown ridges dropping into white sand coves, giant yacht marinas full of masts, and low villas in the scrub. Spanish colonial grids rule the towns; roofs are tile, concrete slab and metal. Hurricane season is June-November - Maria and Irma wrecked these islands in 2017 - and the dry December-April turns the small islands golden."
+  },
+  {
+    "id": "less-ant-north",
+    "name": "Lesser Antilles north",
+    "countries": [
+      "AG",
+      "KN",
+      "MS",
+      "AI",
+      "MF",
+      "SX",
+      "BL",
+      "GP",
+      "DM"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a5674d",
+        "#6f6d71",
+        "#c9b599"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f2e6d9",
+        "#b3a093",
+        "#8a7d73"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "render",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "buried former capital (Montserrat)",
+        "yacht marina full of masts"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "rainforest (Guadeloupe Basse-Terre, Dominica)",
+          "color": "#2a5f49",
+          "where": "hills"
+        },
+        {
+          "name": "dry scrub and acacia (Anguilla, Antigua)",
+          "color": "#7a8a63",
+          "where": "everywhere"
+        },
+        {
+          "name": "coconut palms",
+          "color": "#4f7a4f",
+          "where": "coast"
+        },
+        {
+          "name": "volcano-ash scrub (Montserrat)",
+          "color": "#8f9a7b",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane and banana (Guadeloupe, St Kitts)",
+          "pattern": "rows",
+          "colors": [
+            "#5f9a53"
+          ],
+          "months": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "garden plots and pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a06b",
+            "#5f8f6d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Antigua_and_Barbuda",
+      "https://en.wikipedia.org/wiki/Saint_Kitts_and_Nevis",
+      "https://en.wikipedia.org/wiki/Montserrat",
+      "https://en.wikipedia.org/wiki/Guadeloupe",
+      "https://en.wikipedia.org/wiki/Dominica"
+    ],
+    "confidence": "high",
+    "notes": "Nine territories grouped (Antigua, St Kitts and Nevis, Montserrat, Anguilla, Saint Martin, Sint Maarten, St Barthélemy, Guadeloupe, Dominica) - all whole islands with no ISO 3166-2 codes to list. They run the whole spectrum of the dry-to-wet Antilles arc: pale scrub-and-beach islands in the north (Anguilla, Antigua's 365 beaches, the Dutch-French casino strip of Sint Maarten, yacht-packed St Barts), mid-green volcano islands with old cane fields and fort ruins (St Kitts, Guadeloupe's Grande-Terre), and the black-green high rainforest of Dominica and Guadeloupe's Basse-Terre. Montserrat shows its eruption scars: the southern half under grey volcanic ash, the former capital a buried modern ruin. Towns are small concrete block and sheet-metal grids; hurricane season is June-November, and the driest months are February-April."
+  },
+  {
+    "id": "less-ant-south",
+    "name": "Lesser Antilles south",
+    "countries": [
+      "MQ",
+      "LC",
+      "VC",
+      "GD",
+      "BB",
+      "TT"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a5694f",
+        "#75716d",
+        "#c9b7a1"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f0e4dd",
+        "#b39d85",
+        "#8f7f71"
+      ],
+      "wallMaterial": [
+        "concrete block",
+        "render",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "the Pitons rising sheer from the sea (St Lucia)",
+        "Pitch Lake and oil derricks (Trinidad)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "rainforest interior",
+          "color": "#2f604b",
+          "where": "hills"
+        },
+        {
+          "name": "nutmeg and cocoa groves (Grenada)",
+          "color": "#4a7a4d",
+          "where": "hills"
+        },
+        {
+          "name": "coconut palms",
+          "color": "#4f7a51",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove (Caroni)",
+          "color": "#4a6f59",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane (Barbados, Martinique)",
+          "pattern": "rows",
+          "colors": [
+            "#7f9a59"
+          ],
+          "months": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "nutmeg groves (Grenada)",
+          "pattern": "rows",
+          "colors": [
+            "#558a5f"
+          ]
+        },
+        {
+          "name": "cocoa and market gardens (Trinidad)",
+          "pattern": "scattered",
+          "colors": [
+            "#8a7a5f"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Saint_Lucia",
+      "https://en.wikipedia.org/wiki/Martinique",
+      "https://en.wikipedia.org/wiki/Grenada",
+      "https://en.wikipedia.org/wiki/Trinidad_and_Tobago",
+      "https://en.wikipedia.org/wiki/Saint_Vincent_and_the_Grenadines",
+      "https://en.wikipedia.org/wiki/Barbados"
+    ],
+    "confidence": "high",
+    "notes": "Six territories grouped (Martinique, St Lucia, St Vincent, Grenada, Barbados, Trinidad and Tobago) - all whole islands with no ISO 3166-2 codes to list. Martinique and St Lucia are high volcanic cones in deep green with banana and cane below; St Lucia's twin Pitons plunge straight into the sea. Grenada is the spice island - nutmeg and cocoa groves over the whole green mass - while Barbados is the flattest and most touristed: a coral shelf of cane fields, white beaches, golf courses and Bridgetown's low sprawl. Trinidad is really South American: oil derricks, the black bubbling Pitch Lake, hills of rainforest and mangrove swamps full of scarlet ibis. Concrete block and metal roofs dominate; hurricane season is June-November with the driest months February-April."
+  },
+  {
+    "id": "bs-tc-bm",
+    "name": "Bahamas, Turks and Caicos and Bermuda",
+    "countries": [
+      "BS",
+      "TC",
+      "BM"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c9c9c1",
+        "#6a6d6b",
+        "#8f6f5f"
+      ],
+      "roofMaterial": [
+        "white stepped limestone",
+        "metal sheet",
+        "concrete"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f2e8e1",
+        "#c9b1a9",
+        "#8f877f"
+      ],
+      "wallMaterial": [
+        "render",
+        "concrete block",
+        "stone"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "turquoise bank against deep blue water",
+        "white stepped roof (Bermuda)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "Caribbean pine (Andros, Grand Bahama)",
+          "color": "#3f6a4b",
+          "where": "everywhere"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4f7a55",
+          "where": "coast"
+        },
+        {
+          "name": "casuarina windbreak",
+          "color": "#5f7a63",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove creeks",
+          "color": "#4a7a5d",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "truck gardens and citrus",
+          "pattern": "scattered",
+          "colors": [
+            "#759a55"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "salt evaporation ponds (Turks and Caicos, Inagua)",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a8a7f"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/The_Bahamas",
+      "https://en.wikipedia.org/wiki/Turks_and_Caicos_Islands",
+      "https://en.wikipedia.org/wiki/Bermuda"
+    ],
+    "confidence": "high",
+    "notes": "Three Atlantic territories, all whole with no ISO 3166-2 codes to list. The Bahamas and Turks and Caicos are barely-above-sea coral banks: from the air the water steals the show - impossible turquoise shallows over white sand against the deep blue of the Gulf Stream - with pine-barren islands, mangrove creeks, pink-sand beaches, flamingo-filled salt ponds and low pastel houses with tin roofs. Nassau is a dense pastel resort grid with cruise ships. Bermuda, far out in the open Atlantic, is a tiny green ribbon of golf courses, casuarina and cedar scrub, white stepped limestone roofs on pastel cottages and walled marinas. These islands sit squarely in the hurricane belt (June-November); the winter dry season is the mild tourist season."
+  },
+  {
+    "id": "dutch-caribbean",
+    "name": "Dutch Caribbean (Aruba, Curaçao, Bonaire)",
+    "countries": [
+      "AW",
+      "CW",
+      "BQ"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#c98f4d",
+        "#6f6a73",
+        "#d3bfa1"
+      ],
+      "roofMaterial": [
+        "red tile",
+        "concrete",
+        "metal sheet"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f2dfc9",
+        "#c9a37b",
+        "#8a7a6b"
+      ],
+      "wallMaterial": [
+        "painted render",
+        "concrete block",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "Willemstad's Dutch gabled waterfront",
+        "pink salt pan rectangles (Bonaire)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "divi-divi (windswept)",
+          "color": "#5f7f65",
+          "where": "coast"
+        },
+        {
+          "name": "kibrahacha (yellow trumpet tree)",
+          "color": "#6f8a57",
+          "where": "hills"
+        },
+        {
+          "name": "mangrove (Bonaire lagoons)",
+          "color": "#4a6f4b",
+          "where": "coast"
+        },
+        {
+          "name": "almond avenues (Willemstad)",
+          "color": "#6a8a63",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "salt pans (Bonaire)",
+          "pattern": "patchwork",
+          "colors": [
+            "#d3a3a5"
+          ]
+        },
+        {
+          "name": "maize and aloe plots",
+          "pattern": "rows",
+          "colors": [
+            "#8f9a81"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12
+      ],
+      "dryGold": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Aruba",
+      "https://en.wikipedia.org/wiki/Cura%C3%A7ao",
+      "https://en.wikipedia.org/wiki/Caribbean_Netherlands"
+    ],
+    "confidence": "high",
+    "notes": "Three Dutch territories grouped: Aruba and Curaçao as constituent countries plus the Caribbean Netherlands (Bonaire, Sint Eustatius and Saba) - all whole with no ISO 3166-2 codes to list. These dry, sun-bleached islands sit outside the hurricane belt, and it shows: cactus-studded tan scrub, windswept divi-divi trees leaning constantly east, green parakeets in the kunuku fences, and long golden drought broken only briefly by the October-December rains. Willemstad is the postcard - a small harbour spanned by a pontoon bridge and lined with gabled Dutch colonial houses in pink, orange and blue under red tile. Bonaire adds its flamingo-stained pink salt pan rectangles and the bright teal of the dive coast; Saba is a single green volcanic cone with cottages below the rainforest top."
   }
 ]
