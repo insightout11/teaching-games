@@ -1,0 +1,8 @@
+River tiles in this folder are derived from HydroRIVERS v1.0 (HydroSHEDS).
+Source: https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_shp.zip
+Licence: HydroSHEDS licence (free for scientific, educational and commercial use, with attribution).
+Citation: Lehner, B., Grill, G. (2013). Global river hydrography and network routing: baseline data and new
+approaches to study the world's large river systems. Hydrological Processes, 27(15): 2171-2186. doi:10.1002/hyp.9740
+Credit line to show: "Rivers: HydroRIVERS (HydroSHEDS), Lehner & Grill 2013."
+Changes: filtered (flow >= 10 m3/s or catchment >= 3,000 km2), joined, simplified (~100 m), tiled by 10 degrees.
+Build: scripts/build-river-tiles.py

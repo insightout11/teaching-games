@@ -1,0 +1,1122 @@
+{
+ "source": "HydroRIVERS v1.0 (HydroSHEDS), HydroRIVERS_v10_shp.zip",
+ "url": "https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_shp.zip",
+ "licence": "HydroSHEDS licence: free for scientific, educational and commercial use, with attribution",
+ "citation": "Lehner, B., Grill, G. (2013). Hydrological Processes, 27(15): 2171-2186. doi:10.1002/hyp.9740",
+ "credit": "Rivers: HydroRIVERS (HydroSHEDS), Lehner & Grill 2013.",
+ "filter": {
+  "minFlowCms": 10.0,
+  "minUplandKm2": 3000.0
+ },
+ "widthClass": {
+  "1": "< 50 m3/s",
+  "2": "50-500",
+  "3": "500-5000",
+  "4": ">= 5000"
+ },
+ "toleranceDeg": 0.001,
+ "unitDeg": 0.0005,
+ "tileDeg": 10,
+ "encoding": "per line: [widthClass, \"dx.dy.dx.dy...\"], signed base36 deltas in units of unitDeg, [lng, lat]",
+ "keptReaches": 954516,
+ "lines": 60808,
+ "sourcePoints": 4665015,
+ "outputPoints": 3271712,
+ "tiles": {
+  "N00E000": {
+   "lines": 560,
+   "bytes": 124124
+  },
+  "N00E010": {
+   "lines": 701,
+   "bytes": 188323
+  },
+  "N00E020": {
+   "lines": 500,
+   "bytes": 164859
+  },
+  "N00E030": {
+   "lines": 311,
+   "bytes": 111451
+  },
+  "N00E040": {
+   "lines": 149,
+   "bytes": 80412
+  },
+  "N00E050": {
+   "lines": 5,
+   "bytes": 1152
+  },
+  "N00E070": {
+   "lines": 43,
+   "bytes": 7608
+  },
+  "N00E080": {
+   "lines": 52,
+   "bytes": 9021
+  },
+  "N00E090": {
+   "lines": 267,
+   "bytes": 37603
+  },
+  "N00E100": {
+   "lines": 459,
+   "bytes": 63269
+  },
+  "N00E110": {
+   "lines": 946,
+   "bytes": 132014
+  },
+  "N00E120": {
+   "lines": 183,
+   "bytes": 23467
+  },
+  "N00W010": {
+   "lines": 370,
+   "bytes": 93146
+  },
+  "N00W020": {
+   "lines": 254,
+   "bytes": 42348
+  },
+  "N00W050": {
+   "lines": 4,
+   "bytes": 242
+  },
+  "N00W060": {
+   "lines": 800,
+   "bytes": 143898
+  },
+  "N00W070": {
+   "lines": 1815,
+   "bytes": 301952
+  },
+  "N00W080": {
+   "lines": 1926,
+   "bytes": 293535
+  },
+  "N00W090": {
+   "lines": 133,
+   "bytes": 15580
+  },
+  "N10E000": {
+   "lines": 267,
+   "bytes": 115914
+  },
+  "N10E010": {
+   "lines": 292,
+   "bytes": 108110
+  },
+  "N10E020": {
+   "lines": 219,
+   "bytes": 92398
+  },
+  "N10E030": {
+   "lines": 189,
+   "bytes": 84099
+  },
+  "N10E040": {
+   "lines": 125,
+   "bytes": 47266
+  },
+  "N10E050": {
+   "lines": 63,
+   "bytes": 21757
+  },
+  "N10E070": {
+   "lines": 460,
+   "bytes": 103128
+  },
+  "N10E080": {
+   "lines": 135,
+   "bytes": 29633
+  },
+  "N10E090": {
+   "lines": 529,
+   "bytes": 86668
+  },
+  "N10E100": {
+   "lines": 924,
+   "bytes": 180825
+  },
+  "N10E110": {
+   "lines": 22,
+   "bytes": 2944
+  },
+  "N10E120": {
+   "lines": 284,
+   "bytes": 36269
+  },
+  "N10W010": {
+   "lines": 229,
+   "bytes": 86675
+  },
+  "N10W020": {
+   "lines": 236,
+   "bytes": 78319
+  },
+  "N10W070": {
+   "lines": 36,
+   "bytes": 5137
+  },
+  "N10W080": {
+   "lines": 52,
+   "bytes": 11873
+  },
+  "N10W090": {
+   "lines": 423,
+   "bytes": 77900
+  },
+  "N10W100": {
+   "lines": 497,
+   "bytes": 91707
+  },
+  "N10W110": {
+   "lines": 43,
+   "bytes": 13428
+  },
+  "N20E000": {
+   "lines": 182,
+   "bytes": 75282
+  },
+  "N20E010": {
+   "lines": 155,
+   "bytes": 66201
+  },
+  "N20E020": {
+   "lines": 168,
+   "bytes": 62423
+  },
+  "N20E030": {
+   "lines": 104,
+   "bytes": 41825
+  },
+  "N20E040": {
+   "lines": 159,
+   "bytes": 52446
+  },
+  "N20E050": {
+   "lines": 166,
+   "bytes": 54088
+  },
+  "N20E060": {
+   "lines": 106,
+   "bytes": 49636
+  },
+  "N20E070": {
+   "lines": 389,
+   "bytes": 131364
+  },
+  "N20E080": {
+   "lines": 925,
+   "bytes": 237454
+  },
+  "N20E090": {
+   "lines": 1991,
+   "bytes": 335582
+  },
+  "N20E100": {
+   "lines": 832,
+   "bytes": 218323
+  },
+  "N20E110": {
+   "lines": 934,
+   "bytes": 182070
+  },
+  "N20E120": {
+   "lines": 103,
+   "bytes": 16528
+  },
+  "N20W010": {
+   "lines": 133,
+   "bytes": 44277
+  },
+  "N20W020": {
+   "lines": 52,
+   "bytes": 19668
+  },
+  "N20W080": {
+   "lines": 23,
+   "bytes": 5178
+  },
+  "N20W090": {
+   "lines": 50,
+   "bytes": 12363
+  },
+  "N20W100": {
+   "lines": 148,
+   "bytes": 44917
+  },
+  "N20W110": {
+   "lines": 137,
+   "bytes": 70030
+  },
+  "N20W120": {
+   "lines": 16,
+   "bytes": 4490
+  },
+  "N30E000": {
+   "lines": 139,
+   "bytes": 48172
+  },
+  "N30E010": {
+   "lines": 43,
+   "bytes": 13368
+  },
+  "N30E020": {
+   "lines": 76,
+   "bytes": 20191
+  },
+  "N30E030": {
+   "lines": 145,
+   "bytes": 51771
+  },
+  "N30E040": {
+   "lines": 255,
+   "bytes": 116614
+  },
+  "N30E050": {
+   "lines": 159,
+   "bytes": 61637
+  },
+  "N30E060": {
+   "lines": 172,
+   "bytes": 97859
+  },
+  "N30E070": {
+   "lines": 377,
+   "bytes": 143422
+  },
+  "N30E080": {
+   "lines": 163,
+   "bytes": 52115
+  },
+  "N30E090": {
+   "lines": 262,
+   "bytes": 89057
+  },
+  "N30E100": {
+   "lines": 390,
+   "bytes": 125720
+  },
+  "N30E110": {
+   "lines": 367,
+   "bytes": 121621
+  },
+  "N30E120": {
+   "lines": 133,
+   "bytes": 31036
+  },
+  "N30E130": {
+   "lines": 298,
+   "bytes": 46713
+  },
+  "N30E140": {
+   "lines": 65,
+   "bytes": 9622
+  },
+  "N30W010": {
+   "lines": 120,
+   "bytes": 56786
+  },
+  "N30W080": {
+   "lines": 140,
+   "bytes": 41845
+  },
+  "N30W090": {
+   "lines": 624,
+   "bytes": 203269
+  },
+  "N30W100": {
+   "lines": 472,
+   "bytes": 195137
+  },
+  "N30W110": {
+   "lines": 148,
+   "bytes": 70701
+  },
+  "N30W120": {
+   "lines": 136,
+   "bytes": 55725
+  },
+  "N30W130": {
+   "lines": 64,
+   "bytes": 22652
+  },
+  "N40E000": {
+   "lines": 435,
+   "bytes": 117524
+  },
+  "N40E010": {
+   "lines": 352,
+   "bytes": 102707
+  },
+  "N40E020": {
+   "lines": 229,
+   "bytes": 99827
+  },
+  "N40E030": {
+   "lines": 125,
+   "bytes": 57824
+  },
+  "N40E040": {
+   "lines": 233,
+   "bytes": 87858
+  },
+  "N40E050": {
+   "lines": 102,
+   "bytes": 40947
+  },
+  "N40E060": {
+   "lines": 144,
+   "bytes": 68780
+  },
+  "N40E070": {
+   "lines": 163,
+   "bytes": 74241
+  },
+  "N40E080": {
+   "lines": 207,
+   "bytes": 78212
+  },
+  "N40E090": {
+   "lines": 122,
+   "bytes": 45024
+  },
+  "N40E100": {
+   "lines": 107,
+   "bytes": 44206
+  },
+  "N40E110": {
+   "lines": 106,
+   "bytes": 48207
+  },
+  "N40E120": {
+   "lines": 222,
+   "bytes": 97244
+  },
+  "N40E130": {
+   "lines": 223,
+   "bytes": 65868
+  },
+  "N40E140": {
+   "lines": 118,
+   "bytes": 17053
+  },
+  "N40W010": {
+   "lines": 251,
+   "bytes": 59553
+  },
+  "N40W060": {
+   "lines": 82,
+   "bytes": 14324
+  },
+  "N40W070": {
+   "lines": 254,
+   "bytes": 46389
+  },
+  "N40W080": {
+   "lines": 669,
+   "bytes": 168325
+  },
+  "N40W090": {
+   "lines": 454,
+   "bytes": 128476
+  },
+  "N40W100": {
+   "lines": 262,
+   "bytes": 108800
+  },
+  "N40W110": {
+   "lines": 154,
+   "bytes": 80840
+  },
+  "N40W120": {
+   "lines": 255,
+   "bytes": 100077
+  },
+  "N40W130": {
+   "lines": 437,
+   "bytes": 87821
+  },
+  "N50E000": {
+   "lines": 201,
+   "bytes": 47433
+  },
+  "N50E010": {
+   "lines": 175,
+   "bytes": 60018
+  },
+  "N50E020": {
+   "lines": 179,
+   "bytes": 68389
+  },
+  "N50E030": {
+   "lines": 211,
+   "bytes": 89259
+  },
+  "N50E040": {
+   "lines": 161,
+   "bytes": 87127
+  },
+  "N50E050": {
+   "lines": 191,
+   "bytes": 99455
+  },
+  "N50E060": {
+   "lines": 128,
+   "bytes": 66711
+  },
+  "N50E070": {
+   "lines": 90,
+   "bytes": 64584
+  },
+  "N50E080": {
+   "lines": 233,
+   "bytes": 103514
+  },
+  "N50E090": {
+   "lines": 218,
+   "bytes": 102354
+  },
+  "N50E100": {
+   "lines": 195,
+   "bytes": 87088
+  },
+  "N50E110": {
+   "lines": 225,
+   "bytes": 96425
+  },
+  "N50E120": {
+   "lines": 228,
+   "bytes": 99892
+  },
+  "N50E130": {
+   "lines": 287,
+   "bytes": 98839
+  },
+  "N50E140": {
+   "lines": 54,
+   "bytes": 13217
+  },
+  "N50E150": {
+   "lines": 168,
+   "bytes": 39491
+  },
+  "N50E160": {
+   "lines": 79,
+   "bytes": 14862
+  },
+  "N50W010": {
+   "lines": 244,
+   "bytes": 45249
+  },
+  "N50W060": {
+   "lines": 101,
+   "bytes": 17823
+  },
+  "N50W070": {
+   "lines": 522,
+   "bytes": 122383
+  },
+  "N50W080": {
+   "lines": 444,
+   "bytes": 128732
+  },
+  "N50W090": {
+   "lines": 185,
+   "bytes": 58489
+  },
+  "N50W100": {
+   "lines": 185,
+   "bytes": 70733
+  },
+  "N50W110": {
+   "lines": 153,
+   "bytes": 63786
+  },
+  "N50W120": {
+   "lines": 185,
+   "bytes": 83341
+  },
+  "N50W130": {
+   "lines": 559,
+   "bytes": 127841
+  },
+  "N50W140": {
+   "lines": 264,
+   "bytes": 37553
+  },
+  "N50W150": {
+   "lines": 20,
+   "bytes": 2082
+  },
+  "N50W160": {
+   "lines": 76,
+   "bytes": 14323
+  },
+  "N50W170": {
+   "lines": 23,
+   "bytes": 3549
+  },
+  "N60E000": {
+   "lines": 90,
+   "bytes": 11218
+  },
+  "N60E010": {
+   "lines": 265,
+   "bytes": 49930
+  },
+  "N60E020": {
+   "lines": 193,
+   "bytes": 46378
+  },
+  "N60E030": {
+   "lines": 190,
+   "bytes": 36905
+  },
+  "N60E040": {
+   "lines": 148,
+   "bytes": 45045
+  },
+  "N60E050": {
+   "lines": 258,
+   "bytes": 62568
+  },
+  "N60E060": {
+   "lines": 279,
+   "bytes": 69355
+  },
+  "N60E070": {
+   "lines": 223,
+   "bytes": 53647
+  },
+  "N60E080": {
+   "lines": 323,
+   "bytes": 75116
+  },
+  "N60E090": {
+   "lines": 267,
+   "bytes": 67055
+  },
+  "N60E100": {
+   "lines": 161,
+   "bytes": 52324
+  },
+  "N60E110": {
+   "lines": 116,
+   "bytes": 45051
+  },
+  "N60E120": {
+   "lines": 105,
+   "bytes": 48473
+  },
+  "N60E130": {
+   "lines": 119,
+   "bytes": 48468
+  },
+  "N60E140": {
+   "lines": 162,
+   "bytes": 45555
+  },
+  "N60E150": {
+   "lines": 152,
+   "bytes": 42174
+  },
+  "N60E160": {
+   "lines": 171,
+   "bytes": 41128
+  },
+  "N60E170": {
+   "lines": 190,
+   "bytes": 39961
+  },
+  "N60W020": {
+   "lines": 107,
+   "bytes": 12621
+  },
+  "N60W030": {
+   "lines": 56,
+   "bytes": 6075
+  },
+  "N60W040": {
+   "lines": 49,
+   "bytes": 4649
+  },
+  "N60W050": {
+   "lines": 204,
+   "bytes": 21493
+  },
+  "N60W060": {
+   "lines": 30,
+   "bytes": 2773
+  },
+  "N60W070": {
+   "lines": 55,
+   "bytes": 10010
+  },
+  "N60W080": {
+   "lines": 108,
+   "bytes": 20434
+  },
+  "N60W090": {
+   "lines": 39,
+   "bytes": 7604
+  },
+  "N60W100": {
+   "lines": 116,
+   "bytes": 28877
+  },
+  "N60W110": {
+   "lines": 103,
+   "bytes": 27297
+  },
+  "N60W120": {
+   "lines": 101,
+   "bytes": 35692
+  },
+  "N60W130": {
+   "lines": 180,
+   "bytes": 52878
+  },
+  "N60W140": {
+   "lines": 189,
+   "bytes": 57012
+  },
+  "N60W150": {
+   "lines": 326,
+   "bytes": 60741
+  },
+  "N60W160": {
+   "lines": 344,
+   "bytes": 69241
+  },
+  "N60W170": {
+   "lines": 122,
+   "bytes": 26281
+  },
+  "N60W180": {
+   "lines": 65,
+   "bytes": 10077
+  },
+  "N70E010": {
+   "lines": 9,
+   "bytes": 590
+  },
+  "N70E020": {
+   "lines": 9,
+   "bytes": 1175
+  },
+  "N70E030": {
+   "lines": 1,
+   "bytes": 69
+  },
+  "N70E050": {
+   "lines": 12,
+   "bytes": 1191
+  },
+  "N70E060": {
+   "lines": 11,
+   "bytes": 2455
+  },
+  "N70E070": {
+   "lines": 31,
+   "bytes": 5322
+  },
+  "N70E080": {
+   "lines": 93,
+   "bytes": 17785
+  },
+  "N70E090": {
+   "lines": 99,
+   "bytes": 27003
+  },
+  "N70E100": {
+   "lines": 77,
+   "bytes": 22707
+  },
+  "N70E110": {
+   "lines": 45,
+   "bytes": 10716
+  },
+  "N70E120": {
+   "lines": 43,
+   "bytes": 11453
+  },
+  "N70E130": {
+   "lines": 20,
+   "bytes": 4923
+  },
+  "N70E140": {
+   "lines": 22,
+   "bytes": 5728
+  },
+  "N70E150": {
+   "lines": 10,
+   "bytes": 2665
+  },
+  "N70W020": {
+   "lines": 3,
+   "bytes": 171
+  },
+  "N70W030": {
+   "lines": 77,
+   "bytes": 8614
+  },
+  "N70W040": {
+   "lines": 52,
+   "bytes": 7404
+  },
+  "N70W050": {
+   "lines": 40,
+   "bytes": 8996
+  },
+  "N70W060": {
+   "lines": 29,
+   "bytes": 6046
+  },
+  "N70W070": {
+   "lines": 9,
+   "bytes": 1530
+  },
+  "N70W080": {
+   "lines": 15,
+   "bytes": 3126
+  },
+  "N70W090": {
+   "lines": 23,
+   "bytes": 4902
+  },
+  "N70W100": {
+   "lines": 6,
+   "bytes": 1023
+  },
+  "N70W110": {
+   "lines": 9,
+   "bytes": 1422
+  },
+  "N70W120": {
+   "lines": 13,
+   "bytes": 3885
+  },
+  "N70W130": {
+   "lines": 5,
+   "bytes": 1346
+  },
+  "N70W150": {
+   "lines": 4,
+   "bytes": 680
+  },
+  "N70W160": {
+   "lines": 6,
+   "bytes": 1832
+  },
+  "N70W170": {
+   "lines": 1,
+   "bytes": 160
+  },
+  "N80W020": {
+   "lines": 1,
+   "bytes": 215
+  },
+  "N80W030": {
+   "lines": 10,
+   "bytes": 1658
+  },
+  "N80W040": {
+   "lines": 13,
+   "bytes": 1887
+  },
+  "N80W050": {
+   "lines": 16,
+   "bytes": 1486
+  },
+  "N80W060": {
+   "lines": 9,
+   "bytes": 1103
+  },
+  "N80W070": {
+   "lines": 7,
+   "bytes": 673
+  },
+  "N80W080": {
+   "lines": 6,
+   "bytes": 1312
+  },
+  "S10E000": {
+   "lines": 45,
+   "bytes": 5481
+  },
+  "S10E010": {
+   "lines": 633,
+   "bytes": 176856
+  },
+  "S10E020": {
+   "lines": 575,
+   "bytes": 179798
+  },
+  "S10E030": {
+   "lines": 305,
+   "bytes": 100160
+  },
+  "S10E040": {
+   "lines": 17,
+   "bytes": 5624
+  },
+  "S10E090": {
+   "lines": 18,
+   "bytes": 1539
+  },
+  "S10E100": {
+   "lines": 699,
+   "bytes": 93220
+  },
+  "S10E110": {
+   "lines": 644,
+   "bytes": 102682
+  },
+  "S10E120": {
+   "lines": 178,
+   "bytes": 21582
+  },
+  "S10E130": {
+   "lines": 714,
+   "bytes": 108117
+  },
+  "S10E140": {
+   "lines": 1106,
+   "bytes": 163381
+  },
+  "S10E150": {
+   "lines": 107,
+   "bytes": 9712
+  },
+  "S10E160": {
+   "lines": 3,
+   "bytes": 289
+  },
+  "S10W040": {
+   "lines": 90,
+   "bytes": 26946
+  },
+  "S10W050": {
+   "lines": 675,
+   "bytes": 134557
+  },
+  "S10W060": {
+   "lines": 1392,
+   "bytes": 247666
+  },
+  "S10W070": {
+   "lines": 1836,
+   "bytes": 327069
+  },
+  "S10W080": {
+   "lines": 2146,
+   "bytes": 350733
+  },
+  "S10W090": {
+   "lines": 28,
+   "bytes": 5582
+  },
+  "S20E010": {
+   "lines": 237,
+   "bytes": 89891
+  },
+  "S20E020": {
+   "lines": 311,
+   "bytes": 116997
+  },
+  "S20E030": {
+   "lines": 437,
+   "bytes": 130967
+  },
+  "S20E040": {
+   "lines": 437,
+   "bytes": 84750
+  },
+  "S20E050": {
+   "lines": 22,
+   "bytes": 2164
+  },
+  "S20E120": {
+   "lines": 116,
+   "bytes": 32161
+  },
+  "S20E130": {
+   "lines": 217,
+   "bytes": 58360
+  },
+  "S20E140": {
+   "lines": 232,
+   "bytes": 58204
+  },
+  "S20E150": {
+   "lines": 2,
+   "bytes": 209
+  },
+  "S20E160": {
+   "lines": 5,
+   "bytes": 371
+  },
+  "S20E170": {
+   "lines": 15,
+   "bytes": 2846
+  },
+  "S20W040": {
+   "lines": 67,
+   "bytes": 19072
+  },
+  "S20W050": {
+   "lines": 558,
+   "bytes": 164214
+  },
+  "S20W060": {
+   "lines": 785,
+   "bytes": 200275
+  },
+  "S20W070": {
+   "lines": 784,
+   "bytes": 183112
+  },
+  "S20W080": {
+   "lines": 553,
+   "bytes": 106652
+  },
+  "S30E010": {
+   "lines": 62,
+   "bytes": 39639
+  },
+  "S30E020": {
+   "lines": 221,
+   "bytes": 97710
+  },
+  "S30E030": {
+   "lines": 95,
+   "bytes": 46590
+  },
+  "S30E040": {
+   "lines": 132,
+   "bytes": 35129
+  },
+  "S30E110": {
+   "lines": 74,
+   "bytes": 39730
+  },
+  "S30E120": {
+   "lines": 137,
+   "bytes": 42569
+  },
+  "S30E130": {
+   "lines": 169,
+   "bytes": 85449
+  },
+  "S30E140": {
+   "lines": 225,
+   "bytes": 96403
+  },
+  "S30E150": {
+   "lines": 47,
+   "bytes": 18845
+  },
+  "S30E160": {
+   "lines": 3,
+   "bytes": 291
+  },
+  "S30W050": {
+   "lines": 333,
+   "bytes": 79668
+  },
+  "S30W060": {
+   "lines": 719,
+   "bytes": 224488
+  },
+  "S30W070": {
+   "lines": 205,
+   "bytes": 85020
+  },
+  "S30W080": {
+   "lines": 15,
+   "bytes": 4787
+  },
+  "S40E010": {
+   "lines": 17,
+   "bytes": 5897
+  },
+  "S40E020": {
+   "lines": 77,
+   "bytes": 39162
+  },
+  "S40E030": {
+   "lines": 9,
+   "bytes": 2064
+  },
+  "S40E110": {
+   "lines": 48,
+   "bytes": 20351
+  },
+  "S40E120": {
+   "lines": 24,
+   "bytes": 7256
+  },
+  "S40E130": {
+   "lines": 31,
+   "bytes": 8253
+  },
+  "S40E140": {
+   "lines": 167,
+   "bytes": 85315
+  },
+  "S40E150": {
+   "lines": 41,
+   "bytes": 11546
+  },
+  "S40E170": {
+   "lines": 110,
+   "bytes": 20765
+  },
+  "S40W060": {
+   "lines": 364,
+   "bytes": 78972
+  },
+  "S40W070": {
+   "lines": 178,
+   "bytes": 71804
+  },
+  "S40W080": {
+   "lines": 219,
+   "bytes": 47509
+  },
+  "S50E140": {
+   "lines": 60,
+   "bytes": 11833
+  },
+  "S50E160": {
+   "lines": 113,
+   "bytes": 17340
+  },
+  "S50E170": {
+   "lines": 165,
+   "bytes": 26463
+  },
+  "S50W070": {
+   "lines": 40,
+   "bytes": 15662
+  },
+  "S50W080": {
+   "lines": 352,
+   "bytes": 56246
+  },
+  "S60W070": {
+   "lines": 8,
+   "bytes": 2000
+  },
+  "S60W080": {
+   "lines": 62,
+   "bytes": 7558
+  }
+ },
+ "sourceSha256": "0cf9e363e4b48ede535787f9e2eecbcff43eb53acad4b9cbf048c9e12453e5b5",
+ "sourceBytes": 544388154,
+ "built": "2026-10-29"
+}
