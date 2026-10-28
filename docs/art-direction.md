@@ -81,3 +81,10 @@ Where the vintage poster look could reach the screens, without hurting readabili
 ## Open questions for Matt
 
 1. Any reference images (films, games, illustrators, travel posters) that capture the feeling? They would help agents.
+
+**Composed scenes, not random scatter (Matt, 29 Oct 2026; reference `scene-composition-island.png` in Codex `_inputs/art-targets`):**
+each view should read as a designed scene. Towns are tight warm clusters (along coasts, in valleys, at road junctions),
+not evenly sprinkled; vegetation comes in large patches and masses with clear edges, not uniform noise; farmland is
+a quilt of bold parcels between them. Where the data has a resort or tourist coast, make it a distinct resort cluster
+(white and pale roofs, pools, beach front). Use randomness for variation inside a cluster, never at the cost of
+composition. Data still decides where.
