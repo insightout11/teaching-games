@@ -154,10 +154,13 @@ export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weathe
           )}
         </linearGradient>
         {/* vertical rays, so the ribbons read as hanging curtains */}
-        <pattern id={`${auroraId}-rays`} x="0" y="0" width="16" height="400" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="3" height="400" fill="rgba(235,255,245,0.55)" />
-          <rect x="9" y="0" width="1.5" height="400" fill="rgba(235,255,245,0.3)" />
+        {/* soft, uneven folds (not stripes): wide and narrow bands at irregular gaps, blurred */}
+        <pattern id={`${auroraId}-rays`} x="0" y="0" width="173" height="400" patternUnits="userSpaceOnUse">
+          {[[0, 14, 0.5], [22, 5, 0.35], [41, 22, 0.42], [74, 8, 0.3], [95, 30, 0.38], [133, 6, 0.32], [148, 16, 0.45]].map(([x, w, o]) => (
+            <rect key={x} x={x} y="0" width={w} height="400" fill={`rgba(235,255,245,${o})`} />
+          ))}
         </pattern>
+        <filter id={`${auroraId}-soft`} x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="7 2" /></filter>
       </defs>
 
       {/* sky */}
@@ -285,7 +288,7 @@ export function AtmosphereLayer({ palette, rand, seed, idPrefix, ambient, weathe
           <g>
             {/* lower in the sky than the old ribbons, so the title and the card's edge never cut them off */}
             <path d={auroraBand(b.y + 70, b.amp * 1.3, h)} fill={`url(#${auroraId})`} opacity={o} filter={`url(#${cloudFilterId})`} />
-            <path d={auroraBand(b.y + 70, b.amp * 1.3, h)} fill={`url(#${auroraId}-rays)`} opacity={o * 0.55} style={{ mixBlendMode: 'screen' }} />
+            <path d={auroraBand(b.y + 70, b.amp * 1.3, h)} fill={`url(#${auroraId}-rays)`} opacity={o * 0.35} filter={`url(#${auroraId}-soft)`} style={{ mixBlendMode: 'screen' }} />
           </g>
         ) : <path d={auroraBand(b.y, b.amp)} fill={`url(#${auroraId})`} opacity={b.o} filter={`url(#${cloudFilterId})`} />;
         return ambient ? (
