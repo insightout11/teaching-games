@@ -3895,8 +3895,15 @@ export function FlightDeck({
       )}
 
       {landed && !hall && cityVote?.kind !== 'next' && (
-        <div className="absolute inset-x-0 top-10 z-20 flex justify-center">
-          <motion.div initial={reduce ? false : { y: -20, rotate: -6, opacity: 0 }} animate={{ y: 0, rotate: -2, opacity: 1 }} className="rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl">
+        // With the postcard look, the postcard's own lettering plays first; then the card is dealt in from below,
+        // lower down so it never covers "Greetings from ..."
+        <div className={`absolute inset-x-0 z-20 flex justify-center ${postcardLook ? 'top-[30%]' : 'top-10'}`}>
+          <motion.div
+            initial={reduce ? false : postcardLook ? { y: 260, rotate: 10, opacity: 0, scale: 0.9 } : { y: -20, rotate: -6, opacity: 0 }}
+            animate={{ y: 0, rotate: -2, opacity: 1, scale: 1 }}
+            transition={postcardLook && !reduce ? { delay: 4, type: 'spring', stiffness: 120, damping: 14 } : undefined}
+            className={`rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl ${postcardLook ? 'max-h-[66vh] overflow-y-auto' : ''}`}
+          >
             <div className="flex items-center justify-between gap-3">
               <p className="font-display text-3xl">Welcome to {destination.city}</p>
               {mascot && <MascotFigure look={mascot.look} size={64} title={mascot.name} />}
