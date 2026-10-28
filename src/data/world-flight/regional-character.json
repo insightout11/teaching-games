@@ -18344,5 +18344,2779 @@
     ],
     "confidence": "high",
     "notes": "Four tiny states in one entry; Liechtenstein is covered by the Switzerland and Austria region. Andorra: slate-and-schist villages and ski runs in steep Pyrenean valleys, Romanesque churches with short bell towers. San Marino: terracotta-roofed stone town on the wooded Titano ridge with its three towers. Monaco: a Riviera cliff of white high-rises over a marina. Vatican City is a walled precinct inside Rome: St Peter's dome and colonnade. Winter snow only in Andorra."
+  },
+  {
+    "id": "ru-gaps",
+    "name": "Russian interior: the six gaps",
+    "countries": [
+      "RU"
+    ],
+    "subdivisions": [
+      "RU-KGN",
+      "RU-KEM",
+      "RU-TY",
+      "RU-ZAB",
+      "RU-AMU",
+      "RU-YEV"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#5e6269",
+        "#9c6a4d",
+        "#4b4f55"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "slate",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e1ddd3",
+        "#a59e93",
+        "#8a8073"
+      ],
+      "wallMaterial": [
+        "timber",
+        "render",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "open-pit coal mine",
+        "felt yurt camp (Tuva)"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "birch",
+          "color": "#a5b283",
+          "where": "valleys"
+        },
+        {
+          "name": "Scots pine",
+          "color": "#41654f",
+          "where": "hills"
+        },
+        {
+          "name": "willow",
+          "color": "#7f8a6d",
+          "where": "river banks"
+        },
+        {
+          "name": "Siberian larch",
+          "color": "#6a7a63",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#cd9a53",
+            "months": [
+              9,
+              10
+            ]
+          }
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "hay and pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#68a05f",
+            "#5f8a65"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "steppe and forest-steppe grain",
+          "pattern": "stripes",
+          "colors": [
+            "#b7a871",
+            "#c8bd75"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "timber cutover and fire scars",
+          "pattern": "scattered",
+          "colors": [
+            "#7a8a6f"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "autumnColor": {
+        "color": "#bd934f",
+        "months": [
+          9,
+          10
+        ]
+      },
+      "wetGreen": [
+        6,
+        7,
+        8
+      ],
+      "dryGold": []
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Kurgan_Oblast",
+      "https://en.wikipedia.org/wiki/Kemerovo_Oblast",
+      "https://en.wikipedia.org/wiki/Tuva",
+      "https://en.wikipedia.org/wiki/Zabaykalsky_Krai",
+      "https://en.wikipedia.org/wiki/Amur_Oblast",
+      "https://en.wikipedia.org/wiki/Jewish_Autonomous_Oblast"
+    ],
+    "confidence": "high",
+    "notes": "The six federal subjects left over between the earlier Russian entries; codes verified on the ISO 3166-2:RU page and disjoint from ru-west. Kurgan is forest-steppe grain country; Kemerovo (Kuzbass) is coal country - open pits, spoil heaps and haze between taiga ridges; Tuva is a mountain-ringed steppe basin with felt yurt camps and larch taiga; Zabaykalsky is rolling taiga and steppe east of Baikal; Amur Oblast is big soy and grain fields along the Chinese border; the Jewish Autonomous Oblast is swampy taiga along the Trans-Siberian. Villages are single-street timber and render houses; cities are grey block towns at the mine gates. Snow lies October to April; the larch turns gold in September."
+  },
+  {
+    "id": "br-amazon",
+    "name": "Brazil: Amazon (north)",
+    "countries": [
+      "BR"
+    ],
+    "subdivisions": [
+      "BR-AC",
+      "BR-AM",
+      "BR-RR",
+      "BR-PA",
+      "BR-AP",
+      "BR-TO",
+      "BR-RO"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a06753",
+        "#6e696f",
+        "#c7bda9"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "thatch (river villages)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e8dfd3",
+        "#a8b0a5",
+        "#8f7f6f"
+      ],
+      "wallMaterial": [
+        "render",
+        "timber",
+        "brick"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "floating river port",
+        "rubber-boom opera house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "kapok (sumaúma)",
+          "color": "#3a6a4f",
+          "where": "everywhere"
+        },
+        {
+          "name": "açaí and buriti palm",
+          "color": "#4a7a55",
+          "where": "river banks"
+        },
+        {
+          "name": "rubber tree",
+          "color": "#3f5f57",
+          "where": "hills"
+        },
+        {
+          "name": "cecropia (pioneer on floodplains)",
+          "color": "#5f8a69",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "manioc gardens and swidden plots",
+          "pattern": "scattered",
+          "colors": [
+            "#7a8a5f"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "açaí palm groves on the floodplain",
+          "pattern": "rows",
+          "colors": [
+            "#4f7a5b"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "cattle pasture on cleared rainforest",
+          "pattern": "scattered",
+          "colors": [
+            "#8a8a5d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Brazil",
+      "https://en.wikipedia.org/wiki/Amazon_rainforest",
+      "https://en.wikipedia.org/wiki/Cerrado"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:BR page (the North region's seven states); Mato Grosso's share of the rainforest and the rest of the Center-West fall outside these Brazil entries. The canopy runs to the horizon unbroken - an irregular dark-green billow stitched by huge meandering rivers, tea-brown with sediment or near-black where forest tannins rule, with oxbow lakes and flooded igapó along the banks. North of the great river the land lies across the equator, but the region is overwhelmingly southern-hemisphere. People hug the rivers: stilted thatch and timber houses, floating markets at Belém and Manaus, and Manaus's rubber-boom opera house glinting over the jungle. Along the new roads the forest ends in fishbone patterns of pasture and secondary scrub; in the dry August-October window, smoke haze dims everything."
+  },
+  {
+    "id": "br-northeast",
+    "name": "Brazil: northeast",
+    "countries": [
+      "BR"
+    ],
+    "subdivisions": [
+      "BR-MA",
+      "BR-PI",
+      "BR-CE",
+      "BR-RN",
+      "BR-PB",
+      "BR-PE",
+      "BR-AL",
+      "BR-SE",
+      "BR-BA"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#b06a53",
+        "#7a6d6b",
+        "#d3c3a5"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete",
+        "metal sheet"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f2e6cf",
+        "#c9a887",
+        "#9f8f7b"
+      ],
+      "wallMaterial": [
+        "painted render",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "baroque church tower",
+        "Dutch-era coastal fort"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "carnauba and babassu palm",
+          "color": "#5a7a4f",
+          "where": "valleys"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4f7a4d",
+          "where": "coast"
+        },
+        {
+          "name": "mangrove",
+          "color": "#3d6a5b",
+          "where": "coast"
+        },
+        {
+          "name": "juazeiro and umburana (caatinga)",
+          "color": "#6b7a55",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "agreste highland pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#75a05f"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "sugar cane on the wet coastal strip",
+          "pattern": "rows",
+          "colors": [
+            "#4f8a5b"
+          ],
+          "months": [
+            9,
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "beans and cassava plots",
+          "pattern": "scattered",
+          "colors": [
+            "#8f9a61"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Caatinga",
+      "https://en.wikipedia.org/wiki/Bahia",
+      "https://en.wikipedia.org/wiki/Pernambuco",
+      "https://en.wikipedia.org/wiki/Brazil"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:BR page (the nine states of the Northeast region). Three parallel worlds: a humid green coastal strip of sugar cane, coconut palms and mangrove channels with baroque colonial towns under red tile (Olinda, Salvador, Recife's bridges and Dutch-era forts); the cool agreste highlands of small farms; and inland the sertão - the caatinga, a thorny grey-green scrubland of cactus and twisted trees that only greens for a few weeks after the rains (February-May), then bakes pale gold. Cattle wander bare paddocks; flat-roofed brick houses cluster near drought reservoirs. Recife and Salvador are dense high-rise and pastel colonial mixtures."
+  },
+  {
+    "id": "br-se-south",
+    "name": "Brazil: southeast and south",
+    "countries": [
+      "BR"
+    ],
+    "subdivisions": [
+      "BR-MG",
+      "BR-ES",
+      "BR-SP",
+      "BR-RJ",
+      "BR-PR",
+      "BR-SC",
+      "BR-RS"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#b36b5b",
+        "#6d686f",
+        "#cbb98f"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete",
+        "metal sheet"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f0e7db",
+        "#b59d83",
+        "#8a7a75"
+      ],
+      "wallMaterial": [
+        "painted render",
+        "brick",
+        "timber"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "hilltop church over red-roofed slopes",
+        "German-timber farmhouse"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "araucaria (Paraná pine)",
+          "color": "#3d6b53",
+          "where": "hills"
+        },
+        {
+          "name": "lowland Atlantic rainforest",
+          "color": "#33604d",
+          "where": "coast"
+        },
+        {
+          "name": "eucalyptus plantation",
+          "color": "#4a7a5f",
+          "where": "everywhere"
+        },
+        {
+          "name": "ficus street tree",
+          "color": "#6b8a6d",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee on the Minas and São Paulo hillsides",
+          "pattern": "rows",
+          "colors": [
+            "#5a8a5d"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "sugarcane (São Paulo)",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a71"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "soy, maize and pasture (south)",
+          "pattern": "patchwork",
+          "colors": [
+            "#78a06b",
+            "#5f9a71"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#a9854f",
+        "months": [
+          4,
+          5
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Atlantic_Forest",
+      "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_(state)",
+      "https://en.wikipedia.org/wiki/Rio_Grande_do_Sul",
+      "https://en.wikipedia.org/wiki/Paran%C3%A1_(state)"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:BR page (Southeast plus South regions); Goiás, the Distrito Federal, Mato Grosso and Mato Grosso do Sul are not covered by any Brazil entry. The Atlantic Forest survives as dark green islands in a landscape of coffee hills, sugarcane flatlands and eucalyptus blocks; Rio's bare granite cones rise straight from the sea, and São Paulo spreads as an endless grey-brown block city. In the south the plateaus turn to araucaria forest with distinctive umbrella crowns, waterfalls (Iguaçu) mark the Paraguayan border, and German- and Italian-settled valleys hold timber farmhouses, vineyards and grain. Everything drips in the southern summer (October-March); Minas browns briefly in the August-September dry. Winter frosts are routine, but lowland snow is rare - a highland curiosity."
+  },
+  {
+    "id": "andes-north",
+    "name": "Andes north (Colombia, Ecuador, Venezuela)",
+    "countries": [
+      "CO",
+      "EC",
+      "VE"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a56b5d",
+        "#6a6d6f",
+        "#c9b7a3"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete tile",
+        "thatch (páramo)"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f2e8dd",
+        "#b39d8d",
+        "#8f837b"
+      ],
+      "wallMaterial": [
+        "whitewashed render",
+        "adobe",
+        "brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "whitewashed colonial church",
+        "stilt house on the flooded llanos"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "wax palm",
+          "color": "#4a7a63",
+          "where": "hills"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#5a8a67",
+          "where": "towns"
+        },
+        {
+          "name": "mauritia palm savanna (llanos)",
+          "color": "#5f8a6d",
+          "where": "valleys"
+        },
+        {
+          "name": "frailejone (páramo)",
+          "color": "#7a8a6b",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "coffee on shaded Andean slopes",
+          "pattern": "rows",
+          "colors": [
+            "#558a5b"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "bananas and plantains",
+          "pattern": "rows",
+          "colors": [
+            "#6b9a63"
+          ]
+        },
+        {
+          "name": "sugarcane (Cauca valley)",
+          "pattern": "rows",
+          "colors": [
+            "#75a369"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        4,
+        5,
+        6,
+        10,
+        11
+      ],
+      "dryGold": [
+        1,
+        2,
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Colombia",
+      "https://en.wikipedia.org/wiki/Ecuador",
+      "https://en.wikipedia.org/wiki/Venezuela",
+      "https://en.wikipedia.org/wiki/Andes"
+    ],
+    "confidence": "high",
+    "notes": "All three countries are covered whole, so no ISO 3166-2 codes are listed; the equator crosses Ecuador and southern Colombia, but the population and territory sit mostly north of it. Three vertical worlds: the Caribbean lowlands and Venezuelan llanos, an ocean of grass and scattered mauritia palms that floods in the May-October rains and pales dusty in the dry; the three Andean cordilleras, cool and green, packed with coffee slopes, eucalyptus, whitewashed colonial towns under red tile, and - highest of all - the páramo, where the silvery frailejone grows; and Amazonian forest toward the southeast. Ecuador's volcanic avenue lines snowy cones above the equator. Evergreen everywhere: no autumn, and permanent snow only on the glaciated peaks above roughly 4,800 m."
+  },
+  {
+    "id": "bo",
+    "name": "Bolivia",
+    "countries": [
+      "BO"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a5674f",
+        "#6d6971",
+        "#c9bfa5"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#eee2cf",
+        "#b09877",
+        "#97867b"
+      ],
+      "wallMaterial": [
+        "adobe",
+        "render",
+        "brick"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "adobe brick house",
+        "thatched stilt river house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "algarrobo (dry coast)",
+          "color": "#6f7f55",
+          "where": "coast"
+        },
+        {
+          "name": "ceiba and balsa",
+          "color": "#4f7a5f",
+          "where": "valleys"
+        },
+        {
+          "name": "quebracho (Chaco)",
+          "color": "#5a6f53",
+          "where": "everywhere"
+        },
+        {
+          "name": "eucalyptus (altiplano towns)",
+          "color": "#5f7a61",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "irrigated asparagus, sugar and rice on the desert coast",
+          "pattern": "rows",
+          "colors": [
+            "#6f9a51"
+          ],
+          "months": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "potato and quinoa terraces (altiplano)",
+          "pattern": "terraces",
+          "colors": [
+            "#8a9a63",
+            "#c9b35f"
+          ],
+          "months": [
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "coca shrub (Bolivian Yungas)",
+          "pattern": "rows",
+          "colors": [
+            "#4a7a4b"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Peru",
+      "https://en.wikipedia.org/wiki/Bolivia",
+      "https://en.wikipedia.org/wiki/Altiplano",
+      "https://en.wikipedia.org/wiki/Lake_Titicaca"
+    ],
+    "confidence": "high",
+    "notes": "Bolivia is covered whole, so no ISO 3166-2 codes are listed; the Peruvian sierra is already done in an earlier region's data, so this entry stresses Peru's coast and Amazon slope, plus all of Bolivia. The Peruvian coast is hyper-arid grey desert cut by sudden green irrigated valleys, with Lima's ochre sprawl beneath permanent haze; inland the montaña slides into the same Amazonian forest. Bolivia stacks the vertical zones: the Altiplano at 3,800 m - tawny bunch-grass, potato and quinoa fields, adobe villages, the deep blue of Titicaca, La Paz spilling down its canyon rim - the green Yungas cloud-forest slopes below it, and the eastern lowlands of Santa Cruz's soy savanna and the Chaco's thorny quebracho scrub. The southern summer (December-March) is the wet green season; winters are dry and gold. Lowland snow does not fall - only the 6,000-metre cordillera holds it. (Peru stays with the pe-andes entry; this entry's Peru coast notes are kept for reference only.)"
+  },
+  {
+    "id": "cl",
+    "name": "Chile",
+    "countries": [
+      "CL"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a3614f",
+        "#6b6871",
+        "#c4b7a9"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "wood shingle"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#efe6d5",
+        "#b5937d",
+        "#877a71"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "wood"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "white wooden church (Chiloé)",
+        "mine headgear in the desert"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "olive and citrus (center)",
+          "color": "#7f8a65",
+          "where": "valleys"
+        },
+        {
+          "name": "radiata pine plantation",
+          "color": "#3f6a51",
+          "where": "hills"
+        },
+        {
+          "name": "araucaria (Araucanía)",
+          "color": "#356651",
+          "where": "hills"
+        },
+        {
+          "name": "matorral scrub",
+          "color": "#8a8a63",
+          "where": "coast"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "vineyards of the central valleys",
+          "pattern": "rows",
+          "colors": [
+            "#5f8a71"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "berries and cherries",
+          "pattern": "rows",
+          "colors": [
+            "#6a9a5f"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "wheat and oats (south)",
+          "pattern": "stripes",
+          "colors": [
+            "#c3b97d"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#a98a4f",
+        "months": [
+          4,
+          5
+        ]
+      },
+      "wetGreen": [
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Chile",
+      "https://en.wikipedia.org/wiki/Atacama_Desert",
+      "https://en.wikipedia.org/wiki/Chilean_Matorral"
+    ],
+    "confidence": "high",
+    "notes": "Chile is covered whole, so no ISO 3166-2 codes are listed. A 4,300-kilometre ribbon squeezed between the Andes wall and the Pacific: the Atacama in the north, the driest landscape on Earth - brown rock, salt flats, copper mine terraces and abandoned nitrate towns - then the Mediterranean center, where the matorral scrub greens briefly after winter rains, and neat valleys of vineyards, olives and orchards front snowy Andean slopes. South of that, rainforest lake country and Chiloé's shingled wooden churches, ending in Patagonian fjords and ice. The whole central valley reads as a garden at the desert's edge. Lowland snow is rare - it belongs to the Andes and the far south; the landscape is greenest in the August-October spring and parches golden in the December-March summer, with vines turning in April."
+  },
+  {
+    "id": "ar-pampas",
+    "name": "Argentina: Pampas and Buenos Aires",
+    "countries": [
+      "AR"
+    ],
+    "subdivisions": [
+      "AR-B",
+      "AR-C",
+      "AR-E",
+      "AR-L",
+      "AR-S",
+      "AR-X"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a8664f",
+        "#6a6a71",
+        "#c9b9a1"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "concrete tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f0eadf",
+        "#b7a189",
+        "#8a8275"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "plaster"
+      ],
+      "villageLayout": "grid",
+      "density": "sparse",
+      "signatureBuildings": [
+        "estancia homestead with windmill",
+        "port grain silo"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "eucalyptus windbreaks",
+          "color": "#5a7f5b",
+          "where": "everywhere"
+        },
+        {
+          "name": "tipa avenue tree",
+          "color": "#7a9a67",
+          "where": "towns"
+        },
+        {
+          "name": "willow belts (Paraná delta)",
+          "color": "#879a71",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "soy and maize belts",
+          "pattern": "stripes",
+          "colors": [
+            "#b3aa6d",
+            "#d5ce7f"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "winter wheat",
+          "pattern": "stripes",
+          "colors": [
+            "#cbbd7d"
+          ],
+          "months": [
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "cattle pasture",
+          "pattern": "patchwork",
+          "colors": [
+            "#6fa06b",
+            "#5f9a63"
+          ],
+          "months": [
+            9,
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#ab8f4f",
+        "months": [
+          4,
+          5
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        7,
+        8
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Argentina",
+      "https://en.wikipedia.org/wiki/Pampas",
+      "https://en.wikipedia.org/wiki/Buenos_Aires"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:AR page (Buenos Aires province and city, Entre Ríos, La Pampa, Santa Fe, Córdoba); the Litoral provinces (Chaco, Formosa, Misiones, Corrientes) are not covered by any Argentina entry. The flattest farming country on Earth: from 1,000 metres up there is nothing to see but an immense green-gold quilt of soy, maize, wheat and pasture, cut at right angles by roads and lines of eucalyptus windbreaks, with a lone estancia, windmill and cattle dip in each square. Towns appear as crisp grids of white houses, red-tiled or corrugated roofs and a church, with the grain silos and elevator towers of the railports. Buenos Aires spreads as a vast white-and-grey slab at the edge of the river. Winter (June-August) brings frost and a yellower land but almost never snow."
+  },
+  {
+    "id": "ar-nw-patagonia",
+    "name": "Argentina: Patagonia and the northwest",
+    "countries": [
+      "AR"
+    ],
+    "subdivisions": [
+      "AR-A",
+      "AR-Y",
+      "AR-T",
+      "AR-K",
+      "AR-F",
+      "AR-G",
+      "AR-M",
+      "AR-J",
+      "AR-D",
+      "AR-R",
+      "AR-Q",
+      "AR-U",
+      "AR-Z",
+      "AR-V"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#9a5f53",
+        "#67646d",
+        "#b8845f"
+      ],
+      "roofMaterial": [
+        "metal sheet",
+        "clay tile",
+        "thatch (NW valleys)"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#ece3d3",
+        "#a8917b",
+        "#7f6b5f"
+      ],
+      "wallMaterial": [
+        "adobe",
+        "render",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "sparse",
+      "signatureBuildings": [
+        "adobe church of the Calchaquí valleys",
+        "sheep-shearing shed"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "lenga and ñire (southern beech)",
+          "color": "#5a6a4d",
+          "where": "hills",
+          "seasonColor": {
+            "color": "#c97a4f",
+            "months": [
+              4,
+              5
+            ]
+          }
+        },
+        {
+          "name": "yungas laurel forest",
+          "color": "#4a6f57",
+          "where": "hills"
+        },
+        {
+          "name": "coihue",
+          "color": "#3f5f4f",
+          "where": "valleys"
+        },
+        {
+          "name": "cardón cactus and algarrobo",
+          "color": "#6f7a5b",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "high-altitude vineyards (Cafayate, Mendoza)",
+          "pattern": "rows",
+          "colors": [
+            "#5f8a4f"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "sugar and citrus (Tucumán)",
+          "pattern": "rows",
+          "colors": [
+            "#6b9a5d"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "sheep stations of the steppe",
+          "pattern": "scattered",
+          "colors": [
+            "#8a9a6b"
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        6,
+        7
+      ],
+      "autumnColor": {
+        "color": "#b2894b",
+        "months": [
+          4,
+          5
+        ]
+      },
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Patagonia",
+      "https://en.wikipedia.org/wiki/Gran_Chaco"
+    ],
+    "confidence": "high",
+    "notes": "Codes verified on the ISO 3166-2:AR page; Cuyo (Mendoza, San Juan, San Luis) is grouped with the northwest, and the northeastern provinces are left to the notes of the pampas entry. Two empty wonders: the subtropical northwest, where rust-red canyons and cardón cactus desert rise into the green yungas cloud forest and Tucumán's sugar-and-citrus plain, with adobe villages and high vineyards at Cafayate; and Patagonia, a wind-scoured tan steppe of grey shrub and sheep stations, ending south in the beech forest and glacier lakes of the Andes, where the lengas set the slopes alight in April. Mendoza's desert vineyards sit directly under the snow wall of the highest Andes. The steppe is essentially always dry-gold; the brief green comes with southern summer rains, and Patagonian lowland snow falls mostly June-July."
+  },
+  {
+    "id": "py-uy-guianas",
+    "name": "Paraguay, Uruguay and the Guianas",
+    "countries": [
+      "PY",
+      "UY",
+      "GY",
+      "SR",
+      "GF"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#aa6b4f",
+        "#6d6b73",
+        "#c2b3a3"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "metal sheet",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#f0e5d5",
+        "#b3a087",
+        "#8a8a7d"
+      ],
+      "wallMaterial": [
+        "render",
+        "brick",
+        "wood"
+      ],
+      "villageLayout": "mixed",
+      "density": "sparse",
+      "signatureBuildings": [
+        "wooden colonial town house",
+        "palm-thatched benab"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "pindó palm",
+          "color": "#5f8a6f",
+          "where": "towns"
+        },
+        {
+          "name": "lapacho",
+          "color": "#5a7a57",
+          "where": "everywhere",
+          "seasonColor": {
+            "color": "#d98a9f",
+            "months": [
+              8,
+              9
+            ]
+          }
+        },
+        {
+          "name": "mangrove and wallaba (Guianas coast)",
+          "color": "#3f6a5d",
+          "where": "coast"
+        },
+        {
+          "name": "Guiana Highlands rainforest",
+          "color": "#2f5f51",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cattle pasture (Campos, Chaco)",
+          "pattern": "patchwork",
+          "colors": [
+            "#71a067",
+            "#5f8f5d"
+          ],
+          "months": [
+            9,
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "name": "rice (Uruguay, Guyana)",
+          "pattern": "rows",
+          "colors": [
+            "#7a9f5f"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "maize and manioc plots (Paraguay)",
+          "pattern": "scattered",
+          "colors": [
+            "#8a9a5d"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": {
+        "color": "#a8914f",
+        "months": [
+          4,
+          5
+        ]
+      },
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Paraguay",
+      "https://en.wikipedia.org/wiki/Uruguay",
+      "https://en.wikipedia.org/wiki/Guyana",
+      "https://en.wikipedia.org/wiki/Suriname",
+      "https://en.wikipedia.org/wiki/French_Guiana"
+    ],
+    "confidence": "high",
+    "notes": "All five territories are covered whole, so no ISO 3166-2 codes are listed; French Guiana is a French overseas department (GF). Paraguay is the Chaco's flat thorny dry forest in the west and greener small-farm country in the east, with lapacho trees lighting up pink over the dry-season fields in August-September. Uruguay is the gentlest view in South America: an all-green roll of cattle paddocks, wire fences, kerosene-blue dam reservoirs and stone-clad hilltowns, no mountains, no wilderness, just grass. The three Guianas face the Atlantic: below-sea-level sugarcane and rice polders behind sea dykes (Guyana), Dutch wooden colonial cores as at Paramaribo, mangrove coasts, and behind it all the unbroken rainforest of the Guiana Highlands with its tabletop tepuis. The region is southern-hemisphere only because Paraguay and Uruguay pull it there - the Guianas themselves sit north of the equator and stay green while the south dries in July-September."
+  },
+  {
+    "id": "za-wc",
+    "name": "South Africa: Western Cape (Cape Town and the winelands)",
+    "countries": [
+      "ZA"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#98908a",
+        "#8a9086",
+        "#b59a63"
+      ],
+      "roofMaterial": [
+        "concrete tile",
+        "corrugated metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e8e0d0",
+        "#b5a084",
+        "#9a8574"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "brick",
+        "stone"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "whitewashed Cape Dutch farmhouse with thatched gable",
+        "plastered town house with tiled roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oak",
+          "color": "#5f874a",
+          "where": "towns"
+        },
+        {
+          "name": "stone pine",
+          "color": "#4f7247",
+          "where": "hills"
+        },
+        {
+          "name": "silvertree",
+          "color": "#8f9a72",
+          "where": "hills"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6d8f66",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#6a8447",
+            "#7f9d5a"
+          ],
+          "months": [
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#949d5c",
+            "#c2b374"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "apples",
+          "pattern": "rows",
+          "colors": [
+            "#527a45",
+            "#75955a"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "dryGold": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/South_Africa",
+      "https://en.wikipedia.org/wiki/Western_Cape",
+      "https://en.wikipedia.org/wiki/Cape_Town",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "high",
+    "notes": "Western Cape is one of South Africa's nine provinces. It has South Africa's only Mediterranean-type climate, with cool wet winters from May to October and warm dry summers from November to April, and fynbos shrubland on the Table Mountain sandstone hills. Cape Town is the legislative capital and the winelands towns of Stellenbosch, Paarl and Franschhoek sit among oak avenues. Whitewashed Cape Dutch farmhouses with thatched gables survive on the wine estates, while tile and corrugated metal roofs cover the suburbs and townships. Grapes, wheat, apples and stone fruit are the visible crops, with citrus and olives in the warmer valleys; snow never falls in the lowlands.",
+    "subdivisions": [
+      "ZA-WC"
+    ]
+  },
+  {
+    "id": "za-hv",
+    "name": "South Africa: Highveld and interior (Johannesburg and the Free State)",
+    "countries": [
+      "ZA"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8d928d",
+        "#a58a7a",
+        "#b09568"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete tile",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d8d2c2",
+        "#a97a5f",
+        "#9c7858"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "brick",
+        "mud brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "brick house with corrugated iron roof",
+        "thatched rondavel"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "jacaranda",
+          "color": "#6f9478",
+          "where": "towns"
+        },
+        {
+          "name": "karee",
+          "color": "#7f9255",
+          "where": "hills"
+        },
+        {
+          "name": "sweet thorn",
+          "color": "#8a955e",
+          "where": "valleys"
+        },
+        {
+          "name": "blue gum",
+          "color": "#5f8a5c",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#8fa25e",
+            "#adb76a"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "sunflowers",
+          "pattern": "rows",
+          "colors": [
+            "#93a85f",
+            "#b7bd72"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#999d58",
+            "#c6b974"
+          ],
+          "months": [
+            11,
+            12,
+            1
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/South_Africa",
+      "https://en.wikipedia.org/wiki/Highveld",
+      "https://en.wikipedia.org/wiki/Johannesburg",
+      "https://en.wikipedia.org/wiki/Free_State_(province)",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "The Highveld and interior cover several provinces. This is rolling grassland plateau at 1,300 to 2,000 m around Johannesburg, Pretoria and Bloemfontein, the gold fields of the Witwatersrand and the Free State maize and wheat belt. Brick houses with corrugated iron roofs dominate townships and country towns while concrete tile roofs cover leafy suburbs, with thatched rondavels surviving on farms and homesteads. Maize, sunflowers, wheat and cattle are the visible land use, with gold and coal mining scars nearby. Summer thunderstorms fall from November to March and dry, frosty winters run from April to September; brief snowfalls can dust the eastern Free State in cold snaps but are not typical across the lowlands. The Northern Cape's dry Karoo is grouped here.",
+    "subdivisions": [
+      "ZA-GP",
+      "ZA-FS",
+      "ZA-NW",
+      "ZA-MP",
+      "ZA-LP",
+      "ZA-NC"
+    ]
+  },
+  {
+    "id": "za-kzn",
+    "name": "South Africa: east coast and KwaZulu-Natal",
+    "countries": [
+      "ZA"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#878c82",
+        "#4a6f85",
+        "#b79b5d"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d5ccc0",
+        "#b9a488",
+        "#9a7152"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "painted block",
+        "mud brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "dense",
+      "signatureBuildings": [
+        "round thatched Zulu homestead",
+        "concrete block house with corrugated metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "fever tree",
+          "color": "#8f9a54",
+          "where": "river banks"
+        },
+        {
+          "name": "milkwood",
+          "color": "#3f6f45",
+          "where": "coast"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6d8f5f",
+          "where": "hills"
+        },
+        {
+          "name": "mango",
+          "color": "#44703f",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#628d4a",
+            "#8fac62"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "bananas",
+          "pattern": "patchwork",
+          "colors": [
+            "#4d7f45",
+            "#6f9a52"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#889c50",
+            "#a5b263"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/South_Africa",
+      "https://en.wikipedia.org/wiki/KwaZulu-Natal",
+      "https://en.wikipedia.org/wiki/Durban",
+      "https://en.wikipedia.org/wiki/Drakensberg",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "high",
+    "notes": "KwaZulu-Natal is one of South Africa's provinces. The humid subtropical coast runs from Durban, Africa's busiest port, up the sugar and banana belt to Richards Bay, rising to the Drakensberg escarpment inland. Concrete block houses with corrugated metal roofs dominate towns and townships, painted metal roofs spread on new builds, and round thatched Zulu homesteads remain across the rural heartland. Sugarcane, bananas, maize, mangoes and macadamias are the visible crops, with beach tourism along the shore. Rain falls from October to March and winters are mild and drier; snow never falls at low level, only on the high Drakensberg peaks. Eastern Cape is grouped here with KwaZulu-Natal.",
+    "subdivisions": [
+      "ZA-KZN",
+      "ZA-EC"
+    ]
+  },
+  {
+    "id": "na-namibia",
+    "name": "Namibia",
+    "countries": [
+      "NA"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#9c968c",
+        "#c9c0ae",
+        "#a3644c"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete",
+        "clay tile"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e5ddcb",
+        "#b3ada0",
+        "#a3785a"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "concrete block",
+        "mud brick"
+      ],
+      "villageLayout": "grid",
+      "density": "sparse",
+      "signatureBuildings": [
+        "German colonial villa with red tile roof",
+        "corrugated iron township house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "camelthorn",
+          "color": "#8a9963",
+          "where": "everywhere"
+        },
+        {
+          "name": "quiver tree",
+          "color": "#7f9a68",
+          "where": "hills"
+        },
+        {
+          "name": "mopane",
+          "color": "#6f8a50",
+          "where": "valleys"
+        },
+        {
+          "name": "makalani palm",
+          "color": "#528248",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "millet",
+          "pattern": "rows",
+          "colors": [
+            "#93a358",
+            "#b5b46c"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "grapes",
+          "pattern": "rows",
+          "colors": [
+            "#688a49",
+            "#83a35a"
+          ],
+          "months": [
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#8b9f57",
+            "#a8b765"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Namibia",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa"
+    ],
+    "confidence": "high",
+    "notes": "Namibia spans many regions, so no ISO 3166-2 subdivision is used. This is the driest country south of the Sahara, with the Namib sand sea along the cold Atlantic coast, the Kalahari fringe in the east and savanna around Windhoek and the cattle ranches of the centre and north. Corrugated iron roofs and concrete block houses dominate towns and townships, while whitewashed German colonial villas with red tile roofs mark Swakopmund, Luderitz and Windhoek's older quarters; thatch stays on rural homesteads and lodges. Camelthorn, quiver trees, mopane and makalani palms are the signature trees, and mahangu millet, maize along the Caprivi and Orange River table grapes are the visible crops. Brief summer rain falls from December to March and the rest of the year is dry; snow never occurs."
+  },
+  {
+    "id": "bw-botswana",
+    "name": "Botswana",
+    "countries": [
+      "BW"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8e9587",
+        "#c8bca9",
+        "#b1955f"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "concrete",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#d8d0bb",
+        "#a87a56",
+        "#b3b49f"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "mud brick",
+        "concrete block"
+      ],
+      "villageLayout": "walled compounds",
+      "density": "sparse",
+      "signatureBuildings": [
+        "round thatched hut in a family compound",
+        "concrete block house with corrugated iron roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "camelthorn",
+          "color": "#849a63",
+          "where": "everywhere"
+        },
+        {
+          "name": "mopane",
+          "color": "#75894e",
+          "where": "valleys"
+        },
+        {
+          "name": "baobab",
+          "color": "#96a061",
+          "where": "hills"
+        },
+        {
+          "name": "fever tree",
+          "color": "#98a45c",
+          "where": "river banks"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sorghum",
+          "pattern": "rows",
+          "colors": [
+            "#899957",
+            "#adb168"
+          ],
+          "months": [
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#949f52",
+            "#b1bb66"
+          ],
+          "months": [
+            5,
+            6,
+            7
+          ]
+        },
+        {
+          "name": "sunflowers",
+          "pattern": "rows",
+          "colors": [
+            "#9aaa5f",
+            "#bbc274"
+          ],
+          "months": [
+            6,
+            7,
+            8
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Botswana",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "Botswana spans many districts, so no ISO 3166-2 subdivision is used. This is flat Kalahari sand country, with the Okavango Delta in the north, cattle posts and boreholes across the veld, Gaborone the capital and diamond mining the economic base. Concrete block houses with corrugated iron roofs are spreading through every village while round thatched huts in walled family compounds remain widespread in rural areas. Camelthorn, mopane, baobab and fever trees are the signature trees, and sorghum, maize and sunflowers are the small dryland crops, with cattle everywhere. Brief summer rain falls from November to March and the long dry winter from April to October; snow never occurs."
+  },
+  {
+    "id": "ls-sz",
+    "name": "Lesotho and Eswatini",
+    "countries": [
+      "LS",
+      "SZ"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#8b8a88",
+        "#9e6248",
+        "#b08f65"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#a8a296",
+        "#a57553",
+        "#d6c9b9"
+      ],
+      "wallMaterial": [
+        "stone",
+        "mud brick",
+        "plaster"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "medium",
+      "signatureBuildings": [
+        "stone-walled rondavel with thatched roof",
+        "brick house with corrugated iron roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "willow",
+          "color": "#7fa068",
+          "where": "river banks"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#6d9564",
+          "where": "towns"
+        },
+        {
+          "name": "pine",
+          "color": "#42724a",
+          "where": "hills"
+        },
+        {
+          "name": "acacia",
+          "color": "#8b8f5f",
+          "where": "valleys"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#8f9456",
+            "#abae61"
+          ],
+          "months": [
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "name": "wheat",
+          "pattern": "patchwork",
+          "colors": [
+            "#9ea15b",
+            "#c9bc79"
+          ],
+          "months": [
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#5c8d48",
+            "#82a360"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        6,
+        7
+      ],
+      "autumnColor": null,
+      "wetGreen": [
+        10,
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Lesotho",
+      "https://en.wikipedia.org/wiki/Eswatini",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "Lesotho and Eswatini span their own districts and regions, so no ISO 3166-2 subdivision is used. Lesotho, the Mountain Kingdom, lies almost entirely above 1,400 m in the Maloti, and winter snow is typical across the high plateau from June to August, reaching the lowland towns most years; Eswatini runs from a cool highveld through the middleveld to hot bush lowveld, with big sugar estates near the Mozambique border. Corrugated iron roofs dominate, clay tile roofs survive on older town buildings, and stone-walled or mud rondavels with thatch remain the rural norm, very much so in Lesotho. Maize and wheat feed the highlands while sugarcane drives the Eswatini lowveld; summer rains fall from October to March and winters are dry and frosty."
+  },
+  {
+    "id": "mg-madagascar",
+    "name": "Madagascar",
+    "countries": [
+      "MG"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#ab925e",
+        "#908f85",
+        "#a25c4c"
+      ],
+      "roofMaterial": [
+        "thatch",
+        "corrugated metal",
+        "clay tile"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#a8674f",
+        "#93714f",
+        "#6f5d45"
+      ],
+      "wallMaterial": [
+        "fired brick",
+        "mud brick",
+        "timber"
+      ],
+      "villageLayout": "scattered farms",
+      "density": "medium",
+      "signatureBuildings": [
+        "highland fired-brick house with tile roof",
+        "ravinala-thatched coastal hut"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "ravinala",
+          "color": "#4f7f3f",
+          "where": "coast"
+        },
+        {
+          "name": "baobab",
+          "color": "#8f9a5f",
+          "where": "valleys"
+        },
+        {
+          "name": "eucalyptus",
+          "color": "#71926a",
+          "where": "hills"
+        },
+        {
+          "name": "lychee",
+          "color": "#3f6c3f",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "rice",
+          "pattern": "patchwork",
+          "colors": [
+            "#668b4f",
+            "#8ca866"
+          ],
+          "months": [
+            4,
+            5,
+            6,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "vanilla",
+          "pattern": "rows",
+          "colors": [
+            "#497946",
+            "#6fa052"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#5c8148",
+            "#7ba357"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Madagascar",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Architecture_of_Africa",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "Madagascar spans many regions, so no ISO 3166-2 subdivision is used. The world's fourth-largest island runs from humid rainforest on the east coast, across the Laterite Plateau of rice terraces and Merina brick towns around Antananarivo, to dry baobab and spiny forest in the west and south. Thatched roofs with ravinala palm and wattle walls are the rural norm, corrugated metal spreads through the towns, and the famous red fired-brick highland houses with tiled roofs mark the Plateau. Rice is the staple with two harvests, and vanilla, cloves, lychees and cassava are the visible cash crops and food, with cyclones striking from November to April. Deforestation, biodiversity loss and fuelwood pressure are severe."
+  },
+  {
+    "id": "mu-re-sc",
+    "name": "Mauritius, Reunion and Seychelles",
+    "countries": [
+      "MU",
+      "RE",
+      "SC"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#939889",
+        "#526f88",
+        "#ac9861"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "painted metal",
+        "thatch"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#e0d9cb",
+        "#9d8262",
+        "#b0a89e"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "timber",
+        "concrete block"
+      ],
+      "villageLayout": "linear street",
+      "density": "dense",
+      "signatureBuildings": [
+        "Creole wooden house with corrugated metal roof",
+        "vacoa-thatched beach hut"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#477d41",
+          "where": "coast"
+        },
+        {
+          "name": "takamaka",
+          "color": "#416846",
+          "where": "valleys"
+        },
+        {
+          "name": "filao",
+          "color": "#527058",
+          "where": "coast"
+        },
+        {
+          "name": "mango",
+          "color": "#477542",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sugarcane",
+          "pattern": "rows",
+          "colors": [
+            "#63924e",
+            "#8fad69"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "name": "vanilla",
+          "pattern": "rows",
+          "colors": [
+            "#557c4b",
+            "#799e5a"
+          ],
+          "months": [
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "tea",
+          "pattern": "rows",
+          "colors": [
+            "#3a6842",
+            "#5c8f4f"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Mauritius",
+      "https://en.wikipedia.org/wiki/R%C3%A9union",
+      "https://en.wikipedia.org/wiki/Seychelles",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
+    ],
+    "confidence": "high",
+    "notes": "Mauritius, Reunion and Seychelles span different islands and states, so no ISO 3166-2 subdivision is used; Reunion is a French overseas department. These are tropical maritime islands with a warmer, cyclone-prone southern summer from December to April and a drier, cooler trade-wind season from May to November. Corrugated and painted metal roofs dominate, built for cyclones, while Creole wooden houses with jalousied verandas are the classic look and vacoa palm thatch survives on old and beach buildings. Sugarcane fields ring Mauritius and Reunion's coasts, tea grows on the highlands and vanilla, cinnamon, coconuts and fruit fill the Seychelles gardens, with tourism the leading industry everywhere. Snow never occurs; tropical cyclones and coastal development are the hazards."
+  },
+  {
+    "id": "km-yt",
+    "name": "Comoros and Mayotte",
+    "countries": [
+      "KM",
+      "YT"
+    ],
+    "hemisphere": "S",
+    "buildings": {
+      "roofColors": [
+        "#a89063",
+        "#838f88",
+        "#4c7586"
+      ],
+      "roofMaterial": [
+        "thatch",
+        "corrugated metal",
+        "painted metal"
+      ],
+      "roofShape": "pitched",
+      "wallColors": [
+        "#a38058",
+        "#ded1c0",
+        "#abac9e"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "plaster",
+        "concrete block"
+      ],
+      "villageLayout": "linear street",
+      "density": "medium",
+      "signatureBuildings": [
+        "coral-rag house with thatched roof",
+        "concrete house with corrugated metal roof"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "ylang-ylang",
+          "color": "#477046",
+          "where": "valleys"
+        },
+        {
+          "name": "coconut palm",
+          "color": "#4a8545",
+          "where": "coast"
+        },
+        {
+          "name": "banana",
+          "color": "#588647",
+          "where": "valleys"
+        },
+        {
+          "name": "mango",
+          "color": "#42763e",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "vanilla",
+          "pattern": "rows",
+          "colors": [
+            "#648c56",
+            "#86aa61"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "rice",
+          "pattern": "patchwork",
+          "colors": [
+            "#728d55",
+            "#96ab65"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "cassava",
+          "pattern": "patchwork",
+          "colors": [
+            "#58834e",
+            "#79a45d"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3,
+        4
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Comoros",
+      "https://en.wikipedia.org/wiki/Mayotte",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "The Comoros and Mayotte span different islands, so no ISO 3166-2 subdivision is used; Mayotte is a French overseas department and the Comoros an independent union of three volcanic islands with Moroni as capital. Villages climb the volcano slopes in dense linear lanes of coral-rag and plaster houses, thatched roofs still the majority in the rural Comoros while corrugated and painted metal cover the concrete houses of Mayotte's Mamoudzou sprawl. Ylang-ylang plantations for perfume, vanilla vines, clove trees, coconut palms and rice paddies fill the valleys, on the world's leading ylang and vanilla islands. Rain falls from November to April with cyclone risk and the drier trade-wind season runs from May to October; snow never occurs."
+  },
+  {
+    "id": "cv-st",
+    "name": "Cabo Verde and Sao Tome and Principe",
+    "countries": [
+      "CV",
+      "ST"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#92968f",
+        "#9e694b",
+        "#b29c6a"
+      ],
+      "roofMaterial": [
+        "corrugated metal",
+        "clay tile",
+        "thatch"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e0d5c6",
+        "#a59d94",
+        "#9a7852"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "stone",
+        "mud brick"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "Portuguese colonial roca villa with tile roof",
+        "thatched roca worker house"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "coconut palm",
+          "color": "#4a7c4c",
+          "where": "coast"
+        },
+        {
+          "name": "cacao",
+          "color": "#3d643c",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia",
+          "color": "#8a9159",
+          "where": "hills"
+        },
+        {
+          "name": "breadfruit",
+          "color": "#4f804e",
+          "where": "towns"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "cocoa",
+          "pattern": "rows",
+          "colors": [
+            "#4d6f42",
+            "#729453"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1
+          ]
+        },
+        {
+          "name": "bananas",
+          "pattern": "patchwork",
+          "colors": [
+            "#578b50",
+            "#76a055"
+          ],
+          "months": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "maize",
+          "pattern": "rows",
+          "colors": [
+            "#8fa855",
+            "#b6c068"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "dryGold": [
+        6,
+        7
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Cape_Verde",
+      "https://en.wikipedia.org/wiki/S%C3%A3o_Tom%C3%A9_and_Pr%C3%ADncipe",
+      "https://en.wikipedia.org/wiki/Climate_of_Africa",
+      "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron",
+      "https://en.wikipedia.org/wiki/Thatching"
+    ],
+    "confidence": "medium",
+    "notes": "Cabo Verde and Sao Tome and Principe span two separate island countries, so no ISO 3166-2 subdivision is used. Cabo Verde is dry volcanic Atlantic islands with Praia as capital, where the brief wet spell runs from August to October and drought and emigration have shaped a hardy, whitewashed building tradition; Sao Tome and Principe are equatorial Gulf of Guinea islands whose colonial rocas once made them the world's leading cocoa producer, with rain from October to May and a duller, cloudier gravana in June to July. Corrugated metal roofs dominate both, clay tile roofs survive on Portuguese-era villas and roca houses, and thatch lingers on worker houses and rural huts. Cocoa, coffee, bananas and coconuts fill the Sao Tome slopes while maize, beans and cassava cling to the Cabo Verde valleys; snow never occurs."
   }
 ]
