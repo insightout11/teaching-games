@@ -225,6 +225,9 @@ export function DestinationArrivalScene({
   ) : null;
   // Seasonal framing branch (gallery extra), from the city's own plants
   const frame = extras?.framing ? framingKind(scene, extras.month ?? new Date().getMonth() + 1, extras.southern) : null;
+  // On landing the branch only comes into frame at the end (Oct 2026, owner): hidden in the air, slides in from the right
+  // while the plane taxis, settled in the corner once it has parked
+  const arrivalFrameSlide = phase === 'landed' ? 0 : phase === 'taxi' ? Math.pow(1 - p, 2) * 700 : 2000;
   // The local animal comes out once the plane is down (taxiing or landed)
   const animal = extras?.animal && mode === 'arrival' && (phase === 'taxi' || phase === 'landed') ? animalFor(scene) : null;
 
@@ -315,7 +318,7 @@ export function DestinationArrivalScene({
       {/* Framing branch: beside the camera, so it stays at the corner of the view while the camera moves (only a slow sway) */}
       {/* On take-off the camera races down the runway, so the branch (closest of all) whips past and out of view */}
       {frame && (
-        <g transform={mode === 'departure' ? `translate(${-(camPan + DEP_CITY_LEAD) * 1.8},0)` : undefined}>
+        <g transform={mode === 'departure' ? `translate(${-(camPan + DEP_CITY_LEAD) * 1.8},0)` : `translate(${arrivalFrameSlide},0)`}>
           {drift(0.4, <FramingLayer palette={palette} rand={seededRand(`${destinationId}:frame`)} idPrefix={idPrefix} ambient={ambient} kind={frame} trunk={mode === 'departure'} />)}
         </g>
       )}
