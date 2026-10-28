@@ -367,7 +367,11 @@
       "https://www.nationalgeographic.com/travel/article/how-provences-lavender-fields-are-transforming-for-survival"
     ],
     "confidence": "high",
-    "notes": "Provence is a cultural region, not a single ISO 3166-2 subdivision, so no code is listed. Lavender is concentrated in the Valensole and Sault plateaus and blooms late June to mid-July, not across the whole region. Hill villages and stone mas are typical, but cities and the coast are modern."
+    "notes": "Provence is a cultural region, not a single ISO 3166-2 subdivision, so no code is listed. Lavender is concentrated in the Valensole and Sault plateaus and blooms late June to mid-July, not across the whole region. Hill villages and stone mas are typical, but cities and the coast are modern.",
+    "subdivisions": [
+      "FR-PAC",
+      "FR-20R"
+    ]
   },
   {
     "id": "no-norway",
@@ -1539,7 +1543,10 @@
       "https://en.wikipedia.org/wiki/Borobudur"
     ],
     "confidence": "high",
-    "notes": "Java spans several provinces, so no single ISO 3166-2 subdivision is used. Dense kampungs with red clay-tile roofs are typical of villages and small towns, while Jakarta, Surabaya and Bandung are largely concrete and glass. Rice terraces are concentrated in the western and central highlands; tea and coffee occupy the cooler uplands. Snow does not occur."
+    "notes": "Java spans several provinces, so no single ISO 3166-2 subdivision is used. Dense kampungs with red clay-tile roofs are typical of villages and small towns, while Jakarta, Surabaya and Bandung are largely concrete and glass. Rice terraces are concentrated in the western and central highlands; tea and coffee occupy the cooler uplands. Snow does not occur.",
+    "subdivisions": [
+      "ID-JW"
+    ]
   },
   {
     "id": "it-tuscany",
@@ -1548,7 +1555,9 @@
       "IT"
     ],
     "subdivisions": [
-      "IT-52"
+      "IT-52",
+      "IT-55",
+      "IT-57"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -1801,7 +1810,11 @@
       "https://www.greeka.com/cyclades/mykonos/architecture/"
     ],
     "confidence": "high",
-    "notes": "The Cyclades are an island group, not a single ISO 3166-2 subdivision. Whitewashed cubic houses with flat roofs are typical; blue domes and doors are iconic but not universal. Santorini and Mykonos are heavily built up for tourism, while the smaller islands are sparsely settled. Snow is rare, and summer drought turns the rocky hills pale gold."
+    "notes": "The Cyclades are an island group, not a single ISO 3166-2 subdivision. Whitewashed cubic houses with flat roofs are typical; blue domes and doors are iconic but not universal. Santorini and Mykonos are heavily built up for tourism, while the smaller islands are sparsely settled. Snow is rare, and summer drought turns the rocky hills pale gold.",
+    "subdivisions": [
+      "GR-L",
+      "GR-K"
+    ]
   },
   {
     "id": "ma-rif",
@@ -1928,7 +1941,11 @@
       "https://en.wikipedia.org/wiki/T%C3%A9touan"
     ],
     "confidence": "high",
-    "notes": "The Rif is a cultural and geographic region, not a single ISO 3166-2 subdivision. Chefchaouen's blue medina is local, not region-wide; most houses are white or stone with red clay-tile roofs. The Rif receives Morocco's highest rainfall and is heavily forested with cedar, cork oak and fir, with terraced olives, figs and cereals. Snow lies only on the highest ridges."
+    "notes": "The Rif is a cultural and geographic region, not a single ISO 3166-2 subdivision. Chefchaouen's blue medina is local, not region-wide; most houses are white or stone with red clay-tile roofs. The Rif receives Morocco's highest rainfall and is heavily forested with cedar, cork oak and fir, with terraced olives, figs and cereals. Snow lies only on the highest ridges.",
+    "subdivisions": [
+      "MA-01",
+      "MA-02"
+    ]
   },
   {
     "id": "ma-saharan-oases",
@@ -2055,7 +2072,14 @@
       "https://en.wikipedia.org/wiki/Draa_River"
     ],
     "confidence": "high",
-    "notes": "The pre-Sahara and Saharan oases span several provinces, so no single ISO 3166-2 subdivision is used. Palm groves run along the Ziz and Draa valleys, with flat-roofed earthen ksour and kasbahs; Ouarzazate and other towns are now largely concrete. Snow falls on the High Atlas but not in the oases. Dates are the signature crop; winter and early spring bring a brief green flush."
+    "notes": "The pre-Sahara and Saharan oases span several provinces, so no single ISO 3166-2 subdivision is used. Palm groves run along the Ziz and Draa valleys, with flat-roofed earthen ksour and kasbahs; Ouarzazate and other towns are now largely concrete. Snow falls on the High Atlas but not in the oases. Dates are the signature crop; winter and early spring bring a brief green flush.",
+    "subdivisions": [
+      "MA-08",
+      "MA-09",
+      "MA-10",
+      "MA-11",
+      "MA-12"
+    ]
   },
   {
     "id": "om-oman",
@@ -2329,7 +2353,8 @@
       "IN"
     ],
     "subdivisions": [
-      "IN-KL"
+      "IN-KL",
+      "IN-LD"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -2588,7 +2613,11 @@
       "https://en.wikipedia.org/wiki/Moroccan_architecture"
     ],
     "confidence": "high",
-    "notes": "The Atlas and Middle Atlas span several provinces, so no single ISO 3166-2 subdivision is used. Berber villages are compact clusters of stone or rammed-earth tower houses with flat roofs; communal granaries and terraced fields are typical. Cedar forest dominates the Middle Atlas, while walnuts, almonds and cereals grow on lower terraces. Snow lies on high ground from December to March, not on valley floors; larger towns are now largely concrete."
+    "notes": "The Atlas and Middle Atlas span several provinces, so no single ISO 3166-2 subdivision is used. Berber villages are compact clusters of stone or rammed-earth tower houses with flat roofs; communal granaries and terraced fields are typical. Cedar forest dominates the Middle Atlas, while walnuts, almonds and cereals grow on lower terraces. Snow lies on high ground from December to March, not on valley floors; larger towns are now largely concrete.",
+    "subdivisions": [
+      "MA-03",
+      "MA-05"
+    ]
   },
   {
     "id": "ma-atlantic-plains",
@@ -2845,7 +2874,16 @@
       "https://en.wikipedia.org/wiki/Rijal_Almaa"
     ],
     "confidence": "high",
-    "notes": "Hejaz and Asir span several provinces, so no single ISO 3166-2 subdivision is used. Jeddah's Al-Balad has coral-stone houses with wooden roshan balconies, but most of Jeddah, Mecca and Medina is modern concrete. Asir's highlands have stone tower houses and terraced coffee, wheat and alfalfa; the Red Sea coast is hot and humid, while the mountains catch summer rain and fog. Snow is rare and confined to the highest peaks."
+    "notes": "Hejaz and Asir span several provinces, so no single ISO 3166-2 subdivision is used. Jeddah's Al-Balad has coral-stone houses with wooden roshan balconies, but most of Jeddah, Mecca and Medina is modern concrete. Asir's highlands have stone tower houses and terraced coffee, wheat and alfalfa; the Red Sea coast is hot and humid, while the mountains catch summer rain and fog. Snow is rare and confined to the highest peaks.",
+    "subdivisions": [
+      "SA-02",
+      "SA-03",
+      "SA-07",
+      "SA-09",
+      "SA-10",
+      "SA-11",
+      "SA-14"
+    ]
   },
   {
     "id": "sa-najd-interior",
@@ -3091,7 +3129,12 @@
       "https://en.wikipedia.org/wiki/Iranian_architecture"
     ],
     "confidence": "high",
-    "notes": "The Caspian coast spans Gilan and Mazandaran, so no single ISO 3166-2 subdivision is used. This is Iran's wettest region, with Hyrcanian forest, rice paddies, tea gardens and citrus; villages have steep clay-tile or metal roofs and timber verandas. Rasht, Sari and other cities are now largely concrete. Snow is confined to the Alborz foothills and peaks, not the coastal plain."
+    "notes": "The Caspian coast spans Gilan and Mazandaran, so no single ISO 3166-2 subdivision is used. This is Iran's wettest region, with Hyrcanian forest, rice paddies, tea gardens and citrus; villages have steep clay-tile or metal roofs and timber verandas. Rasht, Sari and other cities are now largely concrete. Snow is confined to the Alborz foothills and peaks, not the coastal plain.",
+    "subdivisions": [
+      "IR-01",
+      "IR-02",
+      "IR-27"
+    ]
   },
   {
     "id": "ir-zagros",
@@ -3223,7 +3266,14 @@
       "https://en.wikipedia.org/wiki/Iranian_architecture"
     ],
     "confidence": "high",
-    "notes": "The Zagros span many provinces, so no single ISO 3166-2 subdivision is used. Oak forest and steppe cover the limestone ranges, with compact stone-and-mud villages on the slopes and grain, lentil and walnut cultivation in the valleys. Snow is reliable at higher elevations from December to March. Modern towns are concrete, and nomadic pastoralism still moves between winter and summer pastures."
+    "notes": "The Zagros span many provinces, so no single ISO 3166-2 subdivision is used. Oak forest and steppe cover the limestone ranges, with compact stone-and-mud villages on the slopes and grain, lentil and walnut cultivation in the valleys. Snow is reliable at higher elevations from December to March. Modern towns are concrete, and nomadic pastoralism still moves between winter and summer pastures.",
+    "subdivisions": [
+      "IR-15",
+      "IR-14",
+      "IR-17",
+      "IR-16",
+      "IR-07"
+    ]
   },
   {
     "id": "tr-anatolian-plateau",
@@ -3485,7 +3535,21 @@
       "https://en.wikipedia.org/wiki/Antalya"
     ],
     "confidence": "high",
-    "notes": "The Aegean and Mediterranean coasts span several provinces, so no single ISO 3166-2 subdivision is used. Bodrum's white cubic houses and Alaçatı's stone houses survive in old quarters, but Antalya, Izmir and resort strips are dominated by concrete apartment blocks and hotels. Olive groves, citrus orchards and cotton fields fill the coastal plains. Snow is essentially absent at sea level and rare on the immediate coast."
+    "notes": "The Aegean and Mediterranean coasts span several provinces, so no single ISO 3166-2 subdivision is used. Bodrum's white cubic houses and Alaçatı's stone houses survive in old quarters, but Antalya, Izmir and resort strips are dominated by concrete apartment blocks and hotels. Olive groves, citrus orchards and cotton fields fill the coastal plains. Snow is essentially absent at sea level and rare on the immediate coast.",
+    "subdivisions": [
+      "TR-17",
+      "TR-10",
+      "TR-45",
+      "TR-35",
+      "TR-09",
+      "TR-48",
+      "TR-07",
+      "TR-33",
+      "TR-01",
+      "TR-31",
+      "TR-80",
+      "TR-20"
+    ]
   },
   {
     "id": "eg-nile-valley-delta",
@@ -3746,7 +3810,11 @@
       "https://en.wikipedia.org/wiki/Wazir_Khan_Mosque"
     ],
     "confidence": "high",
-    "notes": "Punjab and the Indus plains span several provinces, so no single ISO 3166-2 subdivision is used. Villages are compact clusters of flat-roofed brick and mud-brick houses, and Lahore's Mughal brick mosques contrast with modern concrete sprawl. Canal irrigation supports wheat, rice and cotton, with mango orchards around towns and along roads. The monsoon greens the plains from July to September; snow does not occur."
+    "notes": "Punjab and the Indus plains span several provinces, so no single ISO 3166-2 subdivision is used. Villages are compact clusters of flat-roofed brick and mud-brick houses, and Lahore's Mughal brick mosques contrast with modern concrete sprawl. Canal irrigation supports wheat, rice and cotton, with mango orchards around towns and along roads. The monsoon greens the plains from July to September; snow does not occur.",
+    "subdivisions": [
+      "PK-PB",
+      "PK-IS"
+    ]
   },
   {
     "id": "ye-yemen",
@@ -4532,7 +4600,13 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Iraq"
     ],
     "confidence": "medium",
-    "notes": "The Kurdistan highlands straddle northern Iraq and western Iran and cover several provinces, so no ISO 3166-2 subdivision is used. Mountain villages are stone or mud-brick with flat roofs, increasingly covered with pitched corrugated metal; Erbil, Sulaymaniyah and Sanandaj have sprawling concrete outskirts. Oak woodland, orchards and cereals fill the valleys, and snow covers high ground in winter. Cross-border statistics are uneven."
+    "notes": "The Kurdistan highlands straddle northern Iraq and western Iran and cover several provinces, so no ISO 3166-2 subdivision is used. Mountain villages are stone or mud-brick with flat roofs, increasingly covered with pitched corrugated metal; Erbil, Sulaymaniyah and Sanandaj have sprawling concrete outskirts. Oak woodland, orchards and cereals fill the valleys, and snow covers high ground in winter. Cross-border statistics are uneven.",
+    "subdivisions": [
+      "IQ-KR",
+      "IR-12",
+      "IR-05",
+      "IR-04"
+    ]
   },
   {
     "id": "af-afghanistan",
@@ -5061,7 +5135,12 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Rajasthan"
     ],
     "confidence": "high",
-    "notes": "Rajasthan and the Thar span the whole state and adjoining desert districts, so no single ISO 3166-2 subdivision is used. Towns are built of flat-roofed sandstone or concrete courtyard houses; havelis with jharokha balconies are an urban signature. The Thar is sand dunes and thorn scrub, greening briefly with the July–September monsoon. Wheat and mustard are winter crops, bajra is sown with the monsoon, and cotton follows the rains. Jaipur and other cities are now largely concrete and glass."
+    "notes": "Rajasthan and the Thar span the whole state and adjoining desert districts, so no single ISO 3166-2 subdivision is used. Towns are built of flat-roofed sandstone or concrete courtyard houses; havelis with jharokha balconies are an urban signature. The Thar is sand dunes and thorn scrub, greening briefly with the July–September monsoon. Wheat and mustard are winter crops, bajra is sown with the monsoon, and cotton follows the rains. Jaipur and other cities are now largely concrete and glass.",
+    "subdivisions": [
+      "IN-RJ",
+      "IN-GJ",
+      "IN-DH"
+    ]
   },
   {
     "id": "in-indo-gangetic-plain",
@@ -5187,7 +5266,15 @@
       "https://en.wikipedia.org/wiki/Bihar"
     ],
     "confidence": "high",
-    "notes": "The Indo-Gangetic plain covers Delhi, Uttar Pradesh and Bihar, so no single ISO 3166-2 subdivision is used. Villages are compact brick-and-plaster courtyard houses with flat roofs; Delhi and the larger cities are dense concrete and glass. Wheat, rice and sugarcane dominate the alluvial fields, with mango, banyan and neem trees. The monsoon runs from June to September and brings floods to the eastern plain; summers are very hot and winters cool. Groundwater depletion and air pollution are growing problems."
+    "notes": "The Indo-Gangetic plain covers Delhi, Uttar Pradesh and Bihar, so no single ISO 3166-2 subdivision is used. Villages are compact brick-and-plaster courtyard houses with flat roofs; Delhi and the larger cities are dense concrete and glass. Wheat, rice and sugarcane dominate the alluvial fields, with mango, banyan and neem trees. The monsoon runs from June to September and brings floods to the eastern plain; summers are very hot and winters cool. Groundwater depletion and air pollution are growing problems.",
+    "subdivisions": [
+      "IN-PB",
+      "IN-HR",
+      "IN-DL",
+      "IN-UP",
+      "IN-BR",
+      "IN-CH"
+    ]
   },
   {
     "id": "in-deccan-plateau",
@@ -5314,7 +5401,18 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_India"
     ],
     "confidence": "high",
-    "notes": "The Deccan plateau spans Maharashtra, Telangana and interior Karnataka, so no single ISO 3166-2 subdivision is used. Basalt stone and mud-brick courtyard houses with flat roofs are typical of villages, while Pune, Hyderabad and Bengaluru are largely concrete and glass. Cotton, sorghum and irrigated sugarcane grow on the black and red soils. The monsoon arrives from June to September; March to May is hot and dry. Hill forts and temple towns are characteristic, and water storage is a persistent concern."
+    "notes": "The Deccan plateau spans Maharashtra, Telangana and interior Karnataka, so no single ISO 3166-2 subdivision is used. Basalt stone and mud-brick courtyard houses with flat roofs are typical of villages, while Pune, Hyderabad and Bengaluru are largely concrete and glass. Cotton, sorghum and irrigated sugarcane grow on the black and red soils. The monsoon arrives from June to September; March to May is hot and dry. Hill forts and temple towns are characteristic, and water storage is a persistent concern.",
+    "subdivisions": [
+      "IN-MH",
+      "IN-KA",
+      "IN-TS",
+      "IN-AP",
+      "IN-MP",
+      "IN-CG",
+      "IN-JH",
+      "IN-OD",
+      "IN-GA"
+    ]
   },
   {
     "id": "in-tamil-nadu-coast",
@@ -5441,7 +5539,11 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_India"
     ],
     "confidence": "high",
-    "notes": "Tamil Nadu and the southeast coast form a hot, humid region with both southwest and northeast monsoons, so no single ISO 3166-2 subdivision is used. Villages have whitewashed walls and pitched terracotta-tile roofs; Chennai and other cities are dense concrete and glass. Rice, sugarcane and groundnut are the main crops, with coconut palms along the coast. The northeast monsoon brings the heaviest rain and cyclones from October to December. Temple gateway towers are a regional signature."
+    "notes": "Tamil Nadu and the southeast coast form a hot, humid region with both southwest and northeast monsoons, so no single ISO 3166-2 subdivision is used. Villages have whitewashed walls and pitched terracotta-tile roofs; Chennai and other cities are dense concrete and glass. Rice, sugarcane and groundnut are the main crops, with coconut palms along the coast. The northeast monsoon brings the heaviest rain and cyclones from October to December. Temple gateway towers are a regional signature.",
+    "subdivisions": [
+      "IN-TN",
+      "IN-PY"
+    ]
   },
   {
     "id": "in-himalaya-kashmir-ladakh",
@@ -5576,7 +5678,13 @@
       "https://en.wikipedia.org/wiki/Architecture_of_India"
     ],
     "confidence": "medium",
-    "notes": "The Indian Himalaya here includes Kashmir and Ladakh, so no single ISO 3166-2 subdivision is used. Kashmir's valley has irrigated rice, apples and saffron and houses of stone, mud and timber with pitched metal roofs; Ladakh is a high cold desert of barley, apricot and willow with flat mud roofs. Srinagar and Leh have sprawling concrete outskirts. Snow lies on high ground for months, and winter closes many passes. The political status of Kashmir remains disputed, so data is uneven."
+    "notes": "The Indian Himalaya here includes Kashmir and Ladakh, so no single ISO 3166-2 subdivision is used. Kashmir's valley has irrigated rice, apples and saffron and houses of stone, mud and timber with pitched metal roofs; Ladakh is a high cold desert of barley, apricot and willow with flat mud roofs. Srinagar and Leh have sprawling concrete outskirts. Snow lies on high ground for months, and winter closes many passes. The political status of Kashmir remains disputed, so data is uneven.",
+    "subdivisions": [
+      "IN-JK",
+      "IN-LA",
+      "IN-HP",
+      "IN-UK"
+    ]
   },
   {
     "id": "in-northeast-bengal",
@@ -5707,7 +5815,19 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_India"
     ],
     "confidence": "medium",
-    "notes": "This region covers West Bengal and Assam, so no single ISO 3166-2 subdivision is used. Rural houses are bamboo or wood on raised plinths with pitched corrugated-metal roofs; Kolkata and Guwahati are dense concrete cities. Rice, jute and tea are the main crops, and tea gardens cover the Assam and Darjeeling hills. The monsoon is long and heavy, causing floods and landslides. Thatch survives as a minority roof material, and the Sundarbans mangroves fringe the coast."
+    "notes": "This region covers West Bengal and Assam, so no single ISO 3166-2 subdivision is used. Rural houses are bamboo or wood on raised plinths with pitched corrugated-metal roofs; Kolkata and Guwahati are dense concrete cities. Rice, jute and tea are the main crops, and tea gardens cover the Assam and Darjeeling hills. The monsoon is long and heavy, causing floods and landslides. Thatch survives as a minority roof material, and the Sundarbans mangroves fringe the coast.",
+    "subdivisions": [
+      "IN-WB",
+      "IN-AS",
+      "IN-AR",
+      "IN-MN",
+      "IN-ML",
+      "IN-MZ",
+      "IN-NL",
+      "IN-TR",
+      "IN-SK",
+      "IN-AN"
+    ]
   },
   {
     "id": "pk-sindh-balochistan",
@@ -5837,7 +5957,11 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Pakistan"
     ],
     "confidence": "medium",
-    "notes": "Sindh and Balochistan differ sharply: Sindh is an irrigated Indus plain, while Balochistan is a dry, sparsely populated plateau, so no single ISO 3166-2 subdivision is used. Villages are mud-brick courtyard houses with flat roofs, with concrete and rusted metal increasing in towns; Karachi is a dense concrete and glass metropolis. Cotton, rice and wheat grow under canal irrigation, and date palms line fields and channels. Sindh's monsoon is weak, while Balochistan gets winter rain and snow on high ground. Water scarcity and salinity are severe."
+    "notes": "Sindh and Balochistan differ sharply: Sindh is an irrigated Indus plain, while Balochistan is a dry, sparsely populated plateau, so no single ISO 3166-2 subdivision is used. Villages are mud-brick courtyard houses with flat roofs, with concrete and rusted metal increasing in towns; Karachi is a dense concrete and glass metropolis. Cotton, rice and wheat grow under canal irrigation, and date palms line fields and channels. Sindh's monsoon is weak, while Balochistan gets winter rain and snow on high ground. Water scarcity and salinity are severe.",
+    "subdivisions": [
+      "PK-SD",
+      "PK-BA"
+    ]
   },
   {
     "id": "pk-northern-mountains",
@@ -5971,7 +6095,12 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Pakistan"
     ],
     "confidence": "medium",
-    "notes": "Khyber Pakhtunkhwa and Gilgit-Baltistan form Pakistan's northern mountain belt, so no single ISO 3166-2 subdivision is used. Villages are stone or mud-brick houses with flat roofs and timber balconies, often terraced into steep slopes, with rusted metal roofs increasing in towns; Peshawar is a dense brick-and-concrete city. Wheat, maize and apricot, apple and walnut orchards fill the valleys. Snow covers high ground from November to March, and many passes close in winter. Remote terrain makes data sparse and uneven."
+    "notes": "Khyber Pakhtunkhwa and Gilgit-Baltistan form Pakistan's northern mountain belt, so no single ISO 3166-2 subdivision is used. Villages are stone or mud-brick houses with flat roofs and timber balconies, often terraced into steep slopes, with rusted metal roofs increasing in towns; Peshawar is a dense brick-and-concrete city. Wheat, maize and apricot, apple and walnut orchards fill the valleys. Snow covers high ground from November to March, and many passes close in winter. Remote terrain makes data sparse and uneven.",
+    "subdivisions": [
+      "PK-KP",
+      "PK-GB",
+      "PK-JK"
+    ]
   },
   {
     "id": "np-bt-nepal-bhutan",
@@ -6520,7 +6649,16 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_China"
     ],
     "confidence": "high",
-    "notes": "The North China Plain covers Beijing, Hebei, Shandong and Henan, so no single ISO 3166-2 subdivision is used. It is one of the most densely populated rural regions on Earth: villages are compact brick courtyard houses, mostly with flat concrete roofs used for drying grain, while older grey-tile roofs survive in Beijing's hutongs and market towns. Beijing and Tianjin are dense concrete-and-glass cities. Winter wheat, summer maize and cotton dominate the fields, with poplar shelterbelts and jujube trees. Winters are cold and dry with light snow; summers are hot and humid under the East Asian monsoon. Groundwater depletion, subsidence and air pollution are serious."
+    "notes": "The North China Plain covers Beijing, Hebei, Shandong and Henan, so no single ISO 3166-2 subdivision is used. It is one of the most densely populated rural regions on Earth: villages are compact brick courtyard houses, mostly with flat concrete roofs used for drying grain, while older grey-tile roofs survive in Beijing's hutongs and market towns. Beijing and Tianjin are dense concrete-and-glass cities. Winter wheat, summer maize and cotton dominate the fields, with poplar shelterbelts and jujube trees. Winters are cold and dry with light snow; summers are hot and humid under the East Asian monsoon. Groundwater depletion, subsidence and air pollution are serious.",
+    "subdivisions": [
+      "CN-BJ",
+      "CN-TJ",
+      "CN-HE",
+      "CN-SD",
+      "CN-HA",
+      "CN-SX",
+      "CN-SN"
+    ]
   },
   {
     "id": "cn-yangtze-delta",
@@ -6653,7 +6791,16 @@
       "https://en.wikipedia.org/wiki/Shikumen"
     ],
     "confidence": "high",
-    "notes": "This entry covers Shanghai, Jiangsu and Zhejiang, so no single ISO 3166-2 subdivision is used. The delta is one of China's most urbanised regions: Shanghai and the Suzhou-Wuxi-Changzhou corridor are dense concrete and glass, while canal water towns retain whitewashed walls and dark tile roofs. Rice, rapeseed, tea and mulberry are the traditional crops, and camphor, willow and bamboo line the waterways. The climate is humid subtropical with plum rains in June and July and typhoons in late summer. Land subsidence, flooding and pollution are growing problems."
+    "notes": "This entry covers Shanghai, Jiangsu and Zhejiang, so no single ISO 3166-2 subdivision is used. The delta is one of China's most urbanised regions: Shanghai and the Suzhou-Wuxi-Changzhou corridor are dense concrete and glass, while canal water towns retain whitewashed walls and dark tile roofs. Rice, rapeseed, tea and mulberry are the traditional crops, and camphor, willow and bamboo line the waterways. The climate is humid subtropical with plum rains in June and July and typhoons in late summer. Land subsidence, flooding and pollution are growing problems.",
+    "subdivisions": [
+      "CN-SH",
+      "CN-JS",
+      "CN-ZJ",
+      "CN-AH",
+      "CN-HB",
+      "CN-HN",
+      "CN-JX"
+    ]
   },
   {
     "id": "cn-south-guangdong-guangxi-fujian",
@@ -6781,7 +6928,13 @@
       "https://en.wikipedia.org/wiki/Fujian_tulou"
     ],
     "confidence": "high",
-    "notes": "Guangdong, Guangxi and Fujian are grouped here, so no single ISO 3166-2 subdivision is used. The Pearl River Delta is a near-continuous urban belt of concrete and glass, but karst valleys in Guangxi have stilted timber houses, Fujian has rammed-earth tulou rings, and Lingnan towns keep narrow, shaded shophouses with dark tile roofs. Double-cropped rice, sugarcane and lychee and citrus orchards fill the lowlands, with banyan and bamboo throughout. The subtropical monsoon brings heavy rain from April to September and typhoons in late summer; lowland frost and snow are essentially absent. Quarrying and rapid urban sprawl are pressures."
+    "notes": "Guangdong, Guangxi and Fujian are grouped here, so no single ISO 3166-2 subdivision is used. The Pearl River Delta is a near-continuous urban belt of concrete and glass, but karst valleys in Guangxi have stilted timber houses, Fujian has rammed-earth tulou rings, and Lingnan towns keep narrow, shaded shophouses with dark tile roofs. Double-cropped rice, sugarcane and lychee and citrus orchards fill the lowlands, with banyan and bamboo throughout. The subtropical monsoon brings heavy rain from April to September and typhoons in late summer; lowland frost and snow are essentially absent. Quarrying and rapid urban sprawl are pressures.",
+    "subdivisions": [
+      "CN-GD",
+      "CN-GX",
+      "CN-FJ",
+      "CN-HI"
+    ]
   },
   {
     "id": "cn-sichuan-yunnan",
@@ -6921,7 +7074,13 @@
       "https://en.wikipedia.org/wiki/Vernacular_residential_architecture_of_Western_Sichuan"
     ],
     "confidence": "medium",
-    "notes": "The Sichuan basin and Yunnan are combined here, so no single ISO 3166-2 subdivision is used. The basin is humid, cloudy and densely farmed, with thin light tiled roofs and whitewashed timber frames; Chengdu and Chongqing are dense concrete cities. Yunnan is a mild plateau of terraced rice, tobacco and tea, with stone and timber houses and flat mud roofs in its Tibetan borderlands. Snow falls only on high ground. The region is seismically active, and ethnic diversity makes local building styles highly variable."
+    "notes": "The Sichuan basin and Yunnan are combined here, so no single ISO 3166-2 subdivision is used. The basin is humid, cloudy and densely farmed, with thin light tiled roofs and whitewashed timber frames; Chengdu and Chongqing are dense concrete cities. Yunnan is a mild plateau of terraced rice, tobacco and tea, with stone and timber houses and flat mud roofs in its Tibetan borderlands. Snow falls only on high ground. The region is seismically active, and ethnic diversity makes local building styles highly variable.",
+    "subdivisions": [
+      "CN-SC",
+      "CN-CQ",
+      "CN-YN",
+      "CN-GZ"
+    ]
   },
   {
     "id": "cn-tibetan-plateau",
@@ -7056,7 +7215,11 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_China"
     ],
     "confidence": "medium",
-    "notes": "The Tibetan plateau entry covers the Tibet Autonomous Region and adjacent highlands, so no single ISO 3166-2 subdivision is used. Settlements are sparse, clustered on south-facing slopes, with whitewashed stone or mud-brick houses and flat roofs in the dry central and western plateau; eastern valleys use pitched slate or tile. Monasteries with white walls, dark window bands and prayer flags are the signature structures. Highland barley, wheat and rapeseed grow in irrigated valley fields, and yaks graze the steppe. Snow, thin air and a short growing season limit everything; road and rail access has improved but data remains uneven."
+    "notes": "The Tibetan plateau entry covers the Tibet Autonomous Region and adjacent highlands, so no single ISO 3166-2 subdivision is used. Settlements are sparse, clustered on south-facing slopes, with whitewashed stone or mud-brick houses and flat roofs in the dry central and western plateau; eastern valleys use pitched slate or tile. Monasteries with white walls, dark window bands and prayer flags are the signature structures. Highland barley, wheat and rapeseed grow in irrigated valley fields, and yaks graze the steppe. Snow, thin air and a short growing season limit everything; road and rail access has improved but data remains uneven.",
+    "subdivisions": [
+      "CN-XZ",
+      "CN-QH"
+    ]
   },
   {
     "id": "cn-xinjiang-gansu",
@@ -7190,7 +7353,12 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_China"
     ],
     "confidence": "medium",
-    "notes": "Xinjiang and Gansu form a vast arid belt of deserts, basins and oasis chains, so no single ISO 3166-2 subdivision is used. Oasis villages are compact mud-brick courtyard houses with flat roofs, and mosques with domes and minarets mark the towns; Ürümqi and Lanzhou are dense high-rise cities. Cotton, wheat, grapes and melons grow under irrigation, with poplar shelterbelts along canals. Winters are cold and summers very hot and dry, with sandstorms in spring. Water scarcity and the sensitive political situation make reliable local data hard to obtain."
+    "notes": "Xinjiang and Gansu form a vast arid belt of deserts, basins and oasis chains, so no single ISO 3166-2 subdivision is used. Oasis villages are compact mud-brick courtyard houses with flat roofs, and mosques with domes and minarets mark the towns; Ürümqi and Lanzhou are dense high-rise cities. Cotton, wheat, grapes and melons grow under irrigation, with poplar shelterbelts along canals. Winters are cold and summers very hot and dry, with sandstorms in spring. Water scarcity and the sensitive political situation make reliable local data hard to obtain.",
+    "subdivisions": [
+      "CN-XJ",
+      "CN-GS",
+      "CN-NX"
+    ]
   },
   {
     "id": "cn-northeast-inner-mongolia",
@@ -7324,7 +7492,13 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_China"
     ],
     "confidence": "medium",
-    "notes": "Northeast China and Inner Mongolia are combined here, so no single ISO 3166-2 subdivision is used. Manchuria is a grain belt of maize, soybean and rice on black soil, with brick houses with pitched metal or tile roofs and kang heating; Harbin, Changchun and Shenyang are dense high-rise cities. Inner Mongolia's steppe is sparsely settled with felt gers and livestock, though coal and rare-earth towns have grown quickly. Winters are long and severely cold, summers short and warm; snow lies from November to March. Desertification and dust storms affect the western steppe."
+    "notes": "Northeast China and Inner Mongolia are combined here, so no single ISO 3166-2 subdivision is used. Manchuria is a grain belt of maize, soybean and rice on black soil, with brick houses with pitched metal or tile roofs and kang heating; Harbin, Changchun and Shenyang are dense high-rise cities. Inner Mongolia's steppe is sparsely settled with felt gers and livestock, though coal and rare-earth towns have grown quickly. Winters are long and severely cold, summers short and warm; snow lies from November to March. Desertification and dust storms affect the western steppe.",
+    "subdivisions": [
+      "CN-HL",
+      "CN-JL",
+      "CN-LN",
+      "CN-NM"
+    ]
   },
   {
     "id": "mn-mongolia",
@@ -7855,7 +8029,20 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Japan"
     ],
     "confidence": "high",
-    "notes": "Kyushu and Shikoku span several prefectures, so no single ISO 3166-2 subdivision is used. Both islands are densely settled in the lowlands, with Fukuoka, Kitakyushu, Matsuyama and Takamatsu forming dense concrete and glass cities; older towns retain timber machiya and farmhouses with deep eaves and dark kawara tiles. Rice, tea and citrus are the main crops, with terraced fields on the hillsides and mandarins on the warmer coasts. The climate is humid subtropical with a June-July rainy season and late-summer typhoons; snow is not typical in the lowlands and falls mainly on the mountains. Depopulation, coastal erosion and typhoon damage are growing concerns."
+    "notes": "Kyushu and Shikoku span several prefectures, so no single ISO 3166-2 subdivision is used. Both islands are densely settled in the lowlands, with Fukuoka, Kitakyushu, Matsuyama and Takamatsu forming dense concrete and glass cities; older towns retain timber machiya and farmhouses with deep eaves and dark kawara tiles. Rice, tea and citrus are the main crops, with terraced fields on the hillsides and mandarins on the warmer coasts. The climate is humid subtropical with a June-July rainy season and late-summer typhoons; snow is not typical in the lowlands and falls mainly on the mountains. Depopulation, coastal erosion and typhoon damage are growing concerns.",
+    "subdivisions": [
+      "JP-36",
+      "JP-37",
+      "JP-38",
+      "JP-39",
+      "JP-40",
+      "JP-41",
+      "JP-42",
+      "JP-43",
+      "JP-44",
+      "JP-45",
+      "JP-46"
+    ]
   },
   {
     "id": "vn-north-red-river-karst",
@@ -7985,7 +8172,35 @@
       "https://en.wikipedia.org/wiki/Climate_of_Vietnam"
     ],
     "confidence": "high",
-    "notes": "The Red River delta, northern karst and terraced highlands span several provinces, so no single ISO 3166-2 subdivision is used. Delta villages are compact brick and plaster courtyard houses with red clay tile roofs, while Hanoi and Haiphong are dense concrete and glass cities; karst valleys use stilted timber houses and stone terraces. Rice, maize and tea are the main crops, with vegetables and fruit in the delta. The north has a humid subtropical monsoon climate with a cool, damp winter and a hot, wet summer; snow is not typical in the lowlands. Dike failure, flooding and urban pollution are persistent risks."
+    "notes": "The Red River delta, northern karst and terraced highlands span several provinces, so no single ISO 3166-2 subdivision is used. Delta villages are compact brick and plaster courtyard houses with red clay tile roofs, while Hanoi and Haiphong are dense concrete and glass cities; karst valleys use stilted timber houses and stone terraces. Rice, maize and tea are the main crops, with vegetables and fruit in the delta. The north has a humid subtropical monsoon climate with a cool, damp winter and a hot, wet summer; snow is not typical in the lowlands. Dike failure, flooding and urban pollution are persistent risks.",
+    "subdivisions": [
+      "VN-01",
+      "VN-02",
+      "VN-03",
+      "VN-04",
+      "VN-05",
+      "VN-06",
+      "VN-07",
+      "VN-09",
+      "VN-13",
+      "VN-14",
+      "VN-18",
+      "VN-20",
+      "VN-21",
+      "VN-53",
+      "VN-54",
+      "VN-56",
+      "VN-61",
+      "VN-63",
+      "VN-66",
+      "VN-67",
+      "VN-68",
+      "VN-69",
+      "VN-70",
+      "VN-71",
+      "VN-HN",
+      "VN-HP"
+    ]
   },
   {
     "id": "vn-centre-south-mekong",
@@ -8776,7 +8991,13 @@
       "https://en.wikipedia.org/wiki/Climate_of_Borneo"
     ],
     "confidence": "medium",
-    "notes": "Borneo spans Sarawak, Sabah, Kalimantan and Brunei, so no single ISO 3166-2 subdivision is used. The island straddles the equator; S is a simplification because most of Kalimantan lies south of it while Sarawak, Sabah and Brunei lie north. Interior Dayak longhouses are stilted timber buildings with pitched metal or thatch roofs, coastal Malay villages use similar stilt houses, and Kuching, Kota Kinabalu, Balikpapan and Bandar Seri Begawan are dense concrete cities. Oil palm, rice and pepper are the main crops, with logging and plantations replacing rainforest. The climate is equatorial with heavy rain throughout the year and no marked dry season; snow never occurs. Deforestation, peat fires and habitat loss are severe."
+    "notes": "Borneo spans Sarawak, Sabah, Kalimantan and Brunei, so no single ISO 3166-2 subdivision is used. The island straddles the equator; S is a simplification because most of Kalimantan lies south of it while Sarawak, Sabah and Brunei lie north. Interior Dayak longhouses are stilted timber buildings with pitched metal or thatch roofs, coastal Malay villages use similar stilt houses, and Kuching, Kota Kinabalu, Balikpapan and Bandar Seri Begawan are dense concrete cities. Oil palm, rice and pepper are the main crops, with logging and plantations replacing rainforest. The climate is equatorial with heavy rain throughout the year and no marked dry season; snow never occurs. Deforestation, peat fires and habitat loss are severe.",
+    "subdivisions": [
+      "ID-KA",
+      "MY-12",
+      "MY-13",
+      "MY-15"
+    ]
   },
   {
     "id": "id-sumatra",
@@ -8908,7 +9129,10 @@
       "https://en.wikipedia.org/wiki/Climate_of_Sumatra"
     ],
     "confidence": "medium",
-    "notes": "Sumatra spans several Indonesian provinces, so no single ISO 3166-2 subdivision is used. The island straddles the equator; N is a simplification because most of the population lives north of it. Villages along the rivers and roads mix stilted Malay houses with the steep saddleback roofs of Batak houses and the curved horn roofs of Minangkabau houses; Medan and Palembang are dense concrete cities. Oil palm, rice and coffee are the main crops, with rubber and mangrove forests. The west coast is wet year-round, while the east coast has a drier mid-year season; snow never occurs. Deforestation and peat fires cause recurrent haze."
+    "notes": "Sumatra spans several Indonesian provinces, so no single ISO 3166-2 subdivision is used. The island straddles the equator; N is a simplification because most of the population lives north of it. Villages along the rivers and roads mix stilted Malay houses with the steep saddleback roofs of Batak houses and the curved horn roofs of Minangkabau houses; Medan and Palembang are dense concrete cities. Oil palm, rice and coffee are the main crops, with rubber and mangrove forests. The west coast is wet year-round, while the east coast has a drier mid-year season; snow never occurs. Deforestation and peat fires cause recurrent haze.",
+    "subdivisions": [
+      "ID-SM"
+    ]
   },
   {
     "id": "ph-philippines",
@@ -9157,7 +9381,10 @@
       "https://en.wikipedia.org/wiki/South_Downs"
     ],
     "confidence": "high",
-    "notes": "Most widespread modern look is grey-brown concrete tile and brick on post-war estates, plus grey flat-roof sprawl around London and the motorway corridors; red clay tile, slate and flint dominate older villages and thatch survives as an iconic minority. The chalk downs (South Downs/North Downs) show open, larger stripier fields; the Weald and west keep small hedged patchwork. Landscape stays green all year with no dry season. England is split by latitude (about 53°N) from the northern region; no ISO code separates them."
+    "notes": "Most widespread modern look is grey-brown concrete tile and brick on post-war estates, plus grey flat-roof sprawl around London and the motorway corridors; red clay tile, slate and flint dominate older villages and thatch survives as an iconic minority. The chalk downs (South Downs/North Downs) show open, larger stripier fields; the Weald and west keep small hedged patchwork. Landscape stays green all year with no dry season. England is split by latitude (about 53°N) from the northern region; no ISO code separates them.",
+    "subdivisions": [
+      "GB-ENG"
+    ]
   },
   {
     "id": "gb-north-wales-scotland",
@@ -9167,7 +9394,8 @@
     ],
     "subdivisions": [
       "GB-WLS",
-      "GB-SCT"
+      "GB-SCT",
+      "GB-NIR"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -9376,7 +9604,11 @@
       "FR-NOR",
       "FR-BRE",
       "FR-IDF",
-      "FR-CVL"
+      "FR-CVL",
+      "FR-HDF",
+      "FR-GES",
+      "FR-BFC",
+      "FR-PDL"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -9649,7 +9881,11 @@
     "subdivisions": [
       "ES-CL",
       "ES-CM",
-      "ES-MD"
+      "ES-MD",
+      "ES-EX",
+      "ES-AR",
+      "ES-RI",
+      "ES-NC"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -9785,7 +10021,10 @@
       "ES-AN",
       "ES-MC",
       "ES-VC",
-      "ES-CT"
+      "ES-CT",
+      "ES-IB",
+      "ES-CE",
+      "ES-ML"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -10044,7 +10283,11 @@
       "IT-21",
       "IT-25",
       "IT-34",
-      "IT-45"
+      "IT-45",
+      "IT-23",
+      "IT-32",
+      "IT-36",
+      "IT-42"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -10180,7 +10423,11 @@
       "IT-75",
       "IT-77",
       "IT-78",
-      "IT-82"
+      "IT-82",
+      "IT-62",
+      "IT-65",
+      "IT-67",
+      "IT-88"
     ],
     "hemisphere": "N",
     "buildings": {
@@ -10436,7 +10683,11 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Indonesia"
     ],
     "confidence": "medium",
-    "notes": "Sulawesi and Maluku span several Indonesian provinces, so no ISO 3166-2 subdivision is used. Sulawesi's four peninsulas and Maluku's scattered islands mix stilted timber houses, dark saddleback roofs and thatched village houses; Makassar, Manado and Ambon are dense concrete cities. The region straddles the equator, so S is a simplification. Roofing is mixed: corrugated metal dominates towns and coastal roads, while dark thatch survives on traditional houses. Rice, coconut and cloves are the main visible crops, with sago, nutmeg, coffee and cocoa in the hills. The climate is equatorial with rain in most months and only a weak dry season; snow never occurs. Data for Maluku's outer islands is thin, and logging, mining and sea-level rise are growing pressures."
+    "notes": "Sulawesi and Maluku span several Indonesian provinces, so no ISO 3166-2 subdivision is used. Sulawesi's four peninsulas and Maluku's scattered islands mix stilted timber houses, dark saddleback roofs and thatched village houses; Makassar, Manado and Ambon are dense concrete cities. The region straddles the equator, so S is a simplification. Roofing is mixed: corrugated metal dominates towns and coastal roads, while dark thatch survives on traditional houses. Rice, coconut and cloves are the main visible crops, with sago, nutmeg, coffee and cocoa in the hills. The climate is equatorial with rain in most months and only a weak dry season; snow never occurs. Data for Maluku's outer islands is thin, and logging, mining and sea-level rise are growing pressures.",
+    "subdivisions": [
+      "ID-SL",
+      "ID-ML"
+    ]
   },
   {
     "id": "id-nusa-tenggara-timor-leste",
@@ -10570,7 +10821,10 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Indonesia"
     ],
     "confidence": "medium",
-    "notes": "Nusa Tenggara and Timor-Leste span many islands and provinces, so no ISO 3166-2 subdivision is used. The region is mostly dry monsoon country: stilted timber houses with steep thatch roofs in Sumba and Lombok, corrugated metal and clay tile in towns, and dense low-rise concrete in Mataram, Kupang and Dili. Roofing is mixed: thatch dominates rural villages, while corrugated metal and clay tile are common in towns. Rice, maize and coffee are the main crops, with cassava, coconut and sandalwood on drier slopes. The wet season runs from December to April and the dry season from May to November; snow never occurs. Water scarcity, deforestation and poor roads make data uneven."
+    "notes": "Nusa Tenggara and Timor-Leste span many islands and provinces, so no ISO 3166-2 subdivision is used. The region is mostly dry monsoon country: stilted timber houses with steep thatch roofs in Sumba and Lombok, corrugated metal and clay tile in towns, and dense low-rise concrete in Mataram, Kupang and Dili. Roofing is mixed: thatch dominates rural villages, while corrugated metal and clay tile are common in towns. Rice, maize and coffee are the main crops, with cassava, coconut and sandalwood on drier slopes. The wet season runs from December to April and the dry season from May to November; snow never occurs. Water scarcity, deforestation and poor roads make data uneven.",
+    "subdivisions": [
+      "ID-NU"
+    ]
   },
   {
     "id": "pg-id-new-guinea",
@@ -10701,7 +10955,10 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Indonesia"
     ],
     "confidence": "medium",
-    "notes": "New Guinea is split between Indonesia and Papua New Guinea, so no ISO 3166-2 subdivision is used. The island is dominated by the highlands and by lowland rainforest, with stilted timber and thatched houses in villages and corrugated metal in towns; Port Moresby and Jayapura are the largest cities. The island straddles the equator, so S is a simplification. Roofing is mostly thatch in villages, with corrugated metal in towns and along roads. Sweet potato, taro and coffee are the main crops, with sago, banana and coconut in the lowlands. The climate is warm and humid year-round with only weak seasonal variation; snow occurs only on the highest peaks and is not typical in the lowlands. Road access, conflict and deforestation make data uneven."
+    "notes": "New Guinea is split between Indonesia and Papua New Guinea, so no ISO 3166-2 subdivision is used. The island is dominated by the highlands and by lowland rainforest, with stilted timber and thatched houses in villages and corrugated metal in towns; Port Moresby and Jayapura are the largest cities. The island straddles the equator, so S is a simplification. Roofing is mostly thatch in villages, with corrugated metal in towns and along roads. Sweet potato, taro and coffee are the main crops, with sago, banana and coconut in the lowlands. The climate is warm and humid year-round with only weak seasonal variation; snow occurs only on the highest peaks and is not typical in the lowlands. Road access, conflict and deforestation make data uneven.",
+    "subdivisions": [
+      "ID-PP"
+    ]
   },
   {
     "id": "au-east-coast",
@@ -10837,7 +11094,13 @@
       "https://en.wikipedia.org/wiki/Victoria_(state)"
     ],
     "confidence": "high",
-    "notes": "The east coast from Queensland to Victoria spans several states, so no ISO 3166-2 subdivision is used. The coast is Australia's most densely settled strip: timber Queenslanders on stumps, brick bungalows with terracotta tiles, and dense concrete and glass in Sydney, Melbourne and Brisbane. Roofs are mostly corrugated metal, with terracotta tile in older suburbs and charcoal painted metal in newer ones. Sugarcane, wheat and grapes are the main crops, with dairy, cotton and horticulture in the hinterland. The climate ranges from subtropical in Queensland to temperate in Victoria, with wet summers in the north and winter rain in the south; snow is not typical in the lowlands. Coastal erosion, bushfires and housing pressure are recurring issues."
+    "notes": "The east coast from Queensland to Victoria spans several states, so no ISO 3166-2 subdivision is used. The coast is Australia's most densely settled strip: timber Queenslanders on stumps, brick bungalows with terracotta tiles, and dense concrete and glass in Sydney, Melbourne and Brisbane. Roofs are mostly corrugated metal, with terracotta tile in older suburbs and charcoal painted metal in newer ones. Sugarcane, wheat and grapes are the main crops, with dairy, cotton and horticulture in the hinterland. The climate ranges from subtropical in Queensland to temperate in Victoria, with wet summers in the north and winter rain in the south; snow is not typical in the lowlands. Coastal erosion, bushfires and housing pressure are recurring issues.",
+    "subdivisions": [
+      "AU-NSW",
+      "AU-QLD",
+      "AU-VIC",
+      "AU-ACT"
+    ]
   },
   {
     "id": "au-interior-outback",
@@ -11098,7 +11361,11 @@
       "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
     ],
     "confidence": "high",
-    "notes": "South-west Australia and Tasmania are grouped here, so no ISO 3166-2 subdivision is used. The south-west has Mediterranean jarrah and karri forest, wheat and wine, while Tasmania has cool temperate rainforest, dairy, orchards and hydro towns; Perth, Hobart and Launceston are the main cities. Roofs are mostly corrugated metal, with terracotta and slate as older minority types. The south-west has wet winters and dry summers, Tasmania has rain in most months and cool summers; lowland snow is not typical. Bushfires, dieback and water stress are persistent concerns."
+    "notes": "South-west Australia and Tasmania are grouped here, so no ISO 3166-2 subdivision is used. The south-west has Mediterranean jarrah and karri forest, wheat and wine, while Tasmania has cool temperate rainforest, dairy, orchards and hydro towns; Perth, Hobart and Launceston are the main cities. Roofs are mostly corrugated metal, with terracotta and slate as older minority types. The south-west has wet winters and dry summers, Tasmania has rain in most months and cool summers; lowland snow is not typical. Bushfires, dieback and water stress are persistent concerns.",
+    "subdivisions": [
+      "AU-TAS",
+      "AU-WA"
+    ]
   },
   {
     "id": "nz-north-island",
@@ -11360,7 +11627,16 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_New_Zealand"
     ],
     "confidence": "high",
-    "notes": "The South Island spans several regions, so no ISO 3166-2 subdivision is used. The Southern Alps divide the island into wet rainforest in the west and drier Canterbury Plains and Central Otago in the east; Christchurch, Dunedin and Nelson are the main cities. Timber villas with iron roofs, stone cottages and modern low-rise housing sit among dairy pasture, wheat, vineyards and orchards. Roofs are mostly corrugated metal, with slate and terracotta on older buildings. The climate is oceanic, with rain throughout the year in the west and drier summers in the east; snow is common on the mountains but not typical in the lowlands. Earthquake risk, irrigation pressure and tourism are major issues."
+    "notes": "The South Island spans several regions, so no ISO 3166-2 subdivision is used. The Southern Alps divide the island into wet rainforest in the west and drier Canterbury Plains and Central Otago in the east; Christchurch, Dunedin and Nelson are the main cities. Timber villas with iron roofs, stone cottages and modern low-rise housing sit among dairy pasture, wheat, vineyards and orchards. Roofs are mostly corrugated metal, with slate and terracotta on older buildings. The climate is oceanic, with rain throughout the year in the west and drier summers in the east; snow is common on the mountains but not typical in the lowlands. Earthquake risk, irrigation pressure and tourism are major issues.",
+    "subdivisions": [
+      "NZ-CAN",
+      "NZ-OTA",
+      "NZ-STL",
+      "NZ-TAS",
+      "NZ-NSN",
+      "NZ-MBH",
+      "NZ-WTC"
+    ]
   },
   {
     "id": "fj-ws-to-pf-pacific-islands",
@@ -13021,7 +13297,44 @@
       "https://en.wikipedia.org/wiki/Climate_of_Tunisia"
     ],
     "confidence": "high",
-    "notes": "Algeria and Tunisia span many provinces, so no ISO 3166-2 subdivision is used. The Tell Atlas runs parallel to the Mediterranean coast, with whitewashed flat-roof houses and courtyard medinas in Algiers, Tunis and the hill towns, and terracotta tile roofs in Kabyle villages and French colonial quarters. Olive groves, wheat and grapes are the main visible crops, with citrus and dates on the warmer coast. Winters are mild and wet and summers hot and dry; snow falls on the high Atlas but is not typical in the lowlands. Water stress, wildfire and coastal development are growing pressures. Algeria south of about 34°N belongs to the Sahara region (split by latitude)."
+    "notes": "Algeria and Tunisia span many provinces, so no ISO 3166-2 subdivision is used. The Tell Atlas runs parallel to the Mediterranean coast, with whitewashed flat-roof houses and courtyard medinas in Algiers, Tunis and the hill towns, and terracotta tile roofs in Kabyle villages and French colonial quarters. Olive groves, wheat and grapes are the main visible crops, with citrus and dates on the warmer coast. Winters are mild and wet and summers hot and dry; snow falls on the high Atlas but is not typical in the lowlands. Water stress, wildfire and coastal development are growing pressures. Algeria south of about 34°N belongs to the Sahara region (split by latitude).",
+    "subdivisions": [
+      "DZ-02",
+      "DZ-04",
+      "DZ-05",
+      "DZ-06",
+      "DZ-09",
+      "DZ-10",
+      "DZ-12",
+      "DZ-13",
+      "DZ-14",
+      "DZ-15",
+      "DZ-16",
+      "DZ-18",
+      "DZ-19",
+      "DZ-20",
+      "DZ-21",
+      "DZ-22",
+      "DZ-23",
+      "DZ-24",
+      "DZ-25",
+      "DZ-26",
+      "DZ-27",
+      "DZ-28",
+      "DZ-29",
+      "DZ-31",
+      "DZ-34",
+      "DZ-35",
+      "DZ-36",
+      "DZ-38",
+      "DZ-40",
+      "DZ-41",
+      "DZ-42",
+      "DZ-43",
+      "DZ-44",
+      "DZ-46",
+      "DZ-48"
+    ]
   },
   {
     "id": "dz-ly-ne-ml-mr-sahara",
@@ -13156,7 +13469,15 @@
       "https://en.wikipedia.org/wiki/Thatching"
     ],
     "confidence": "medium",
-    "notes": "The Sahara spans five countries, so no ISO 3166-2 subdivision is used. This is hyper-arid rock, gravel and dune country with scattered oases where flat-roofed mud-brick houses, courtyard compounds and palm-thatch shelters cluster around wells and date gardens. Date palms, acacia and tamarisk are the main trees; barley, dates and small irrigated vegetable plots are the visible crops. Rain is rare and irregular, summer heat is extreme and winter nights are cold; snow does not occur in the lowlands. Nomadic herding, oil and gas, and remote borders shape the region, and population data is sparse. Shares countries with the Tell (north of about 34°N), the Libyan coast (north of about 31°N) and the Sahel (south of about 16°N); split by latitude."
+    "notes": "The Sahara spans five countries, so no ISO 3166-2 subdivision is used. This is hyper-arid rock, gravel and dune country with scattered oases where flat-roofed mud-brick houses, courtyard compounds and palm-thatch shelters cluster around wells and date gardens. Date palms, acacia and tamarisk are the main trees; barley, dates and small irrigated vegetable plots are the visible crops. Rain is rare and irregular, summer heat is extreme and winter nights are cold; snow does not occur in the lowlands. Nomadic herding, oil and gas, and remote borders shape the region, and population data is sparse. Shares countries with the Tell (north of about 34°N), the Libyan coast (north of about 31°N) and the Sahel (south of about 16°N); split by latitude.",
+    "subdivisions": [
+      "ML-6",
+      "ML-7",
+      "ML-8",
+      "ML-9",
+      "ML-10",
+      "NE-1"
+    ]
   },
   {
     "id": "ly-coast",
@@ -13286,7 +13607,23 @@
       "https://en.wikipedia.org/wiki/Architecture_of_Africa"
     ],
     "confidence": "medium",
-    "notes": "Libya's coast spans several districts, so no ISO 3166-2 subdivision is used. The narrow Mediterranean strip around Tripoli, Misrata and Benghazi has whitewashed flat-roof houses, courtyard medinas and Italian colonial villas with terracotta tiles, backed by olive groves and date palms. Barley, olives and dates are the main crops, with figs and vegetables in gardens. Winters are mild and wet and summers hot and dry; the desert hinterland is rainless and snow is not typical in the lowlands. Conflict, water scarcity and coastal erosion make data uneven. Libya south of about 31°N belongs to the Sahara region (split by latitude)."
+    "notes": "Libya's coast spans several districts, so no ISO 3166-2 subdivision is used. The narrow Mediterranean strip around Tripoli, Misrata and Benghazi has whitewashed flat-roof houses, courtyard medinas and Italian colonial villas with terracotta tiles, backed by olive groves and date palms. Barley, olives and dates are the main crops, with figs and vegetables in gardens. Winters are mild and wet and summers hot and dry; the desert hinterland is rainless and snow is not typical in the lowlands. Conflict, water scarcity and coastal erosion make data uneven. Libya south of about 31°N belongs to the Sahara region (split by latitude).",
+    "subdivisions": [
+      "LY-TB",
+      "LY-BA",
+      "LY-MI",
+      "LY-JA",
+      "LY-ZA",
+      "LY-NQ",
+      "LY-JI",
+      "LY-MB",
+      "LY-SR",
+      "LY-DR",
+      "LY-MJ",
+      "LY-BU",
+      "LY-JG",
+      "LY-NL"
+    ]
   },
   {
     "id": "sd-ss-sudan-south-sudan",
@@ -16402,7 +16739,15 @@
       "https://en.wikipedia.org/wiki/Corrugated_galvanised_iron"
     ],
     "confidence": "high",
-    "notes": "This region covers only Kenya's coastal strip, split from the existing inland Kenya region at about 100 km from the sea; the interior, including Nairobi and the highlands, is covered by that inland region. The strip is the historic Swahili coast around Mombasa, Lamu, Malindi and Kilifi, with coral-stone townhouses and carved doors in the old towns, corrugated iron roofs in the growing towns, and makuti palm thatch along the beaches. Coconut palms, baobabs, mangoes and casuarinas line the shore, with coconuts, cashews, maize and cassava the visible crops and the port of Mombasa plus tourism the economic drivers. Rains come in the long season from March to May and the short season from October to December; snow never occurs. Coastal erosion, mangrove loss and tourism pressure are concerns."
+    "notes": "This region covers only Kenya's coastal strip, split from the existing inland Kenya region at about 100 km from the sea; the interior, including Nairobi and the highlands, is covered by that inland region. The strip is the historic Swahili coast around Mombasa, Lamu, Malindi and Kilifi, with coral-stone townhouses and carved doors in the old towns, corrugated iron roofs in the growing towns, and makuti palm thatch along the beaches. Coconut palms, baobabs, mangoes and casuarinas line the shore, with coconuts, cashews, maize and cassava the visible crops and the port of Mombasa plus tourism the economic drivers. Rains come in the long season from March to May and the short season from October to December; snow never occurs. Coastal erosion, mangrove loss and tourism pressure are concerns.",
+    "subdivisions": [
+      "KE-14",
+      "KE-19",
+      "KE-21",
+      "KE-28",
+      "KE-39",
+      "KE-40"
+    ]
   },
   {
     "id": "ao-angola",
@@ -17096,7 +17441,8 @@
       "RU-ROS",
       "RU-VGG",
       "RU-AST",
-      "RU-KL"
+      "RU-KL",
+      "RU-AD"
     ],
     "hemisphere": "N",
     "buildings": {
