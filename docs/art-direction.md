@@ -12,6 +12,11 @@ already picked from that world. Think golden-age air travel posters: bold simple
 paper grain, sunlit haze, confident lettering. This can reach the UI too in places (boarding passes, stamps, postcards,
 destination titles, the landing card, the fly-past), while everyday controls stay clean and readable.
 
+**Real data, artistic take (Matt, 29 Oct 2026):** the data decides *where* things are; the art decides *how* they look,
+and it should be exaggerated and bold rather than timid. Rivers wider than life, mountains taller, fields in stronger
+colours, forests as bigger masses, towns as warm clusters, seasons pushed (whole hillsides pink or red). Simplify and
+amplify what makes a place recognisable. Never move, invent or remove geography.
+
 ## The feeling
 
 A calm, glowing window seat on a long flight. The world below is real but softened, as if seen through a slightly
