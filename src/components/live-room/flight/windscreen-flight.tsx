@@ -52,7 +52,7 @@ export interface FlightCity {
   scene: DestinationScene;
 }
 
-const CLIMB_MS = 14000; // the climb: the ground drops away, into the clouds, then out on top into the sun
+export const CLIMB_MS = 14000; // the climb: the ground drops away, into the clouds, then out on top into the sun
 const CLIMB_IN = 0.3, CLIMB_THICK = 0.47, CLIMB_OUT = 0.64; // where in the climb the cloud starts, is thickest, has parted
 /** A landmark by the departure city: shown ahead once above the clouds, with the plane slowed so the class can look. */
 const SCENIC_MS = 70000;

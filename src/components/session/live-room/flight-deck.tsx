@@ -62,7 +62,8 @@ import { getDestinationById } from '@/data/world-flight/destinations';
 import { createClient } from '@/lib/supabase/client';
 import { isMockMode } from '@/lib/mock/auth';
 import type { InputSpec } from '@/lib/input-spec';
-import { WindscreenFlight, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
+import { WindscreenFlight, CLIMB_MS, type FlightStage, type FlightCity } from '@/components/live-room/flight/windscreen-flight';
+import { DEPARTURE_DURATION_MS } from '@/components/world-flight/arrival-scene/cinematic-motion';
 import { greatCirclePoint, LC_INTERNATIONAL_COORD, overflightAt, regionOf, type LatLng } from '@/lib/live-room/route-terrain';
 import { bearingDeg, moonPosition, offsetClock, solarClock, sunChase, sunPosition } from '@/lib/live-room/sun';
 import { coastStrip, routeLengthKm, type CoastStrip } from '@/lib/live-room/coast-strip';
@@ -524,27 +525,12 @@ export function FlightDeck({
     if (!here) return [];
     return destinationsWithinRange(here, SCENE_CITIES, position?.rangeKm ?? STARTER_PLANE_RANGE_KM).map((r) => toRouteCity(r.destination)).slice(0, 8);
   }, [destination.id, position]);
-  // After landing: the same vote board and city cards as at boarding, for the next lesson's flight
-  const startNextCityPoll = async () => {
-    const options = Array.from(new Set(nextReachable.map((c) => c.city)));
-    if (options.length < 2) { flash('Only one city is in range from here.'); return; }
-    if (isMockMode()) { setCityVote({ pollId: 'mock-next-vote', revealed: false, kind: 'next' }); return; }
-    const supabase = createClient();
-    await supabase.from('polls').update({ is_active: false }).eq('session_id', sessionId).eq('is_active', true);
-    const { data, error } = await supabase.from('polls')
-      .insert({ session_id: sessionId, question: 'Where should we fly next time, and why?', options, is_active: true, metadata: { askWhy: true, purpose: 'next-city', research: researchFor(destination, nextReachable) } })
-      .select('id').single();
-    if (error || !data) { flash('Could not start the vote.'); return; }
-    setCityVote({ pollId: (data as { id: string }).id, revealed: false, kind: 'next' });
-    setCityReasons([]);
-    flash('Vote open on phones: where next time?');
-  };
-
   // One journey: the flight plan rides on the room's flight. Leaving the first stage at the gate is
   // the take-off; the last stage's button is the landing (the room's landing + arrival).
   const beginLanding = () => {
     if (runningKey) onReturn();
     setFlightStage('landing');
+    closeWidgetStore(QR_WIDGET); // the corner QR covered the Welcome card
     flash(`Beginning our descent into ${destination.city}`);
   };
   // The teacher lands the plane: from the button in the top bar (two taps, so it cannot happen by accident) or the menu.
@@ -578,10 +564,12 @@ export function FlightDeck({
     setFlightStage('flying');
     setTakeoffAt(Date.now());
     flash(`Flight to ${destination.city}: cleared for take-off`);
-    // The room opens where this kind of class works (boarding always comes first).
-    if (todayType === 'conversation' || todayType === 'free-talk') setView('talk');
-    else if (todayType === 'game-time') setPanel('catalogue');
-    else if (todayType === 'structured' && !flightPlan) setPlanOpen(true);
+    // Take-off owns the screen (owner, 29 Oct 2026): Talk with a cleared screen and no boarding QR, so the class
+    // watches the runway and the climb. Once the plane is up, Talk opens and the class type's tools follow.
+    setView('talk');
+    setClearScreen(true);
+    window.setTimeout(() => closeWidgetStore(QR_WIDGET), 120);
+    cruiseOpened.current = false;
     if (lockedId) return;
     // Record the leg on the class's World Flight journey.
     void fetch(`/api/session/${encodeURIComponent(sessionId)}/room-leg`, {
@@ -1066,6 +1054,22 @@ export function FlightDeck({
   });
   const [toast, setToast] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
+  // Up at cruising height (the departure cinematic and the climb are over): the cleared take-off screen opens into
+  // Talk, and the tools this kind of class works with follow (they used to cover the take-off).
+  const cruiseOpened = useRef(true);
+  useEffect(() => {
+    if (cruiseOpened.current || flightStage !== 'flying' || takeoffAt === null) return;
+    const open = () => {
+      if (cruiseOpened.current) return;
+      cruiseOpened.current = true;
+      setClearScreen(false);
+      if (todayType === 'game-time') setPanel('catalogue');
+      else if (todayType === 'structured' && !flightPlan) setPlanOpen(true);
+    };
+    const t = window.setTimeout(open, Math.max(0, takeoffAt + DEPARTURE_DURATION_MS + CLIMB_MS - Date.now()));
+    return () => window.clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flightStage, takeoffAt]);
   // Test switch: ?descent=on jumps a flight to just before its descent, to preview the approach to a city (Fuji on
   // the way into Tokyo) without waiting for the end of class. Time moves on normally from there.
   const [descentTest, setDescentTest] = useState(false);
@@ -3070,6 +3074,16 @@ export function FlightDeck({
             <Eye className="h-4 w-4" /> {talkAnswer.answer ? 'Reveal the answer' : 'Finding the answer…'}
           </button>
         )}
+        {/* Topic vote (owner, 29 Oct 2026: offered, not automatic): ideas and votes on phones, gathered on the Class
+            Board. Stands out while the lesson has no topic yet; small once one is set. */}
+        {!presenting && !talkPrompt.trim() && (() => {
+          const noTopic = !focused && (!sessionTopic || sessionTopic === 'General');
+          return (
+            <button type="button" onClick={() => everyoneAnswers('What should we talk about today? Add an idea, then vote for your favourite.')} title="Everyone suggests a topic and votes on their phone; the ideas gather on the Class Board" className={noTopic ? 'flex items-center gap-2 rounded-xl border border-amber-300/70 bg-amber-300/15 px-4 py-2 text-base font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/25' : 'flex items-center gap-1.5 rounded-lg border border-white/20 bg-slate-950/55 px-2.5 py-1 text-xs text-white/75 backdrop-blur-sm hover:text-white'}>
+              <Vote className={noTopic ? 'h-4 w-4' : 'h-3.5 w-3.5'} /> Vote on today&apos;s topic
+            </button>
+          );
+        })()}
         {!presenting && talkPrompt.trim().length > 3 && (<div className="flex flex-wrap items-center justify-center gap-2">
           <button type="button" onClick={() => void startTalkVote()} className="flex items-center gap-1.5 rounded-lg border border-rose-300/50 bg-slate-950/60 px-2.5 py-1 text-xs text-rose-100 backdrop-blur-sm hover:bg-rose-300/10">
             <Vote className="h-3.5 w-3.5" /> {talkVote ? 'Class vote on phones' : 'Class vote: agree or disagree'}
@@ -3959,7 +3973,6 @@ export function FlightDeck({
             )}
             {landingMilestone && <p className="mt-2 flex items-center gap-2 rounded-xl bg-amber-300/30 px-3 py-2 text-sm font-semibold text-[#1b2233]"><Plane className="h-4 w-4" />Milestone: {landingMilestone.text}!</p>}
             <div className="mt-4 flex flex-wrap justify-end gap-2">
-              {nextReachable.length > 1 && <button type="button" onClick={() => void startNextCityPoll()} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Vote: where next?</button>}
               {landingRecord?.landing?.after.claimableTier != null && <button type="button" onClick={() => setRecordTab('hangar')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Hangar</button>}
               <button type="button" onClick={() => setRecordTab('passport')} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Passport</button>
               <button type="button" onClick={() => setHall(true)} className="rounded-full border border-[#1b2233]/25 px-4 py-1.5 text-sm text-[#1b2233] hover:bg-[#1b2233]/5">Arrivals hall</button>
