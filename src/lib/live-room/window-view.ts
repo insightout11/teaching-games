@@ -39,6 +39,8 @@ export interface FlightNow {
   toId?: string;
   /** The room is using the new postcard arrival look (?arrival=new), so the phones show it too. */
   postcard?: boolean;
+  /** The plane has landed (the room's landing and arrival): phones say so instead of "Cruising". */
+  landed?: boolean;
 }
 export const FLIGHT_NOW_MS = 15000;
 export const FLIGHT_NOW_STALE_MS = 40000;

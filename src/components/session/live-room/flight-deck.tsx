@@ -1760,6 +1760,9 @@ export function FlightDeck({
       below: below.name ?? null, minutesLeft: minutesLeft == null ? null : Math.ceil(minutesLeft),
       landmark: photoLandmark && lm ? { id: photoLandmark.id, name: photoLandmark.name, kind: lm, side: (lat ?? 1) < 0 ? 'left' : 'right' } : null,
       toId: destination.id, postcard: postcardLook,
+    } : flightStage === 'landing' ? {
+      from: origin.city, to: destination.city, terrain: steadyGround.terrain, region: steadyGround.region ?? null, timeOfDay: skyNow.timeOfDay,
+      below: null, minutesLeft: 0, landmark: null, toId: destination.id, postcard: postcardLook, landed: true,
     } : null;
   }
   const flightNowLandmark = flightNowRef.current?.landmark?.id ?? null;
@@ -1768,7 +1771,7 @@ export function FlightDeck({
     if (!ch) return;
     const send = () => ch.sendFlight(flightNowRef.current);
     send();
-    if (flightStage !== 'flying') return;
+    if (flightStage !== 'flying' && flightStage !== 'landing') return;
     const beat = setInterval(send, FLIGHT_NOW_MS);
     return () => clearInterval(beat);
   }, [flightStage, flightNowLandmark]);

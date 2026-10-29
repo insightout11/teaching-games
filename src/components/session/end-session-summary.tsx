@@ -353,7 +353,7 @@ export function EndSessionSummary({
         {/* The lesson in one line of numbers; the last one is what the class achieved (its result), not a streak. */}
         <dl className="mx-auto mb-8 grid max-w-2xl grid-cols-2 overflow-hidden rounded-2xl border border-white/[0.09] bg-[#05080d]/85 sm:grid-cols-4">
           {[
-            { v: arrivalMetrics.aboard, l: 'Aboard' },
+            { v: arrivalMetrics.aboard, l: 'Took part' },
             { v: arrivalMetrics.responses, l: 'Responses' },
             { v: arrivalMetrics.accuracy, l: 'Answers right' },
             sessionResult?.measures[0]

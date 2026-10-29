@@ -1453,7 +1453,8 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
           : inputSpec && submitStatus === 'success' ? 'sent'
             : inputSpec ? 'your-turn'
               : pollWaiting ? 'vote'
-                : 'cruising';
+                : flightNow?.landed ? 'landed'
+                  : 'cruising';
   const headerTitle = roomLaunch?.name ?? currentSignalName ?? sessionTopic ?? 'In flight';
   const latestMessage = myMessages[0];
   const messageBarLabel = latestMessage?.status === 'replied' ? 'Replied'
@@ -1536,6 +1537,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
         seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)}
         title={headerTitle}
         status={phoneStatus}
+        statusLabel={phoneStatus === 'landed' && flightNow?.to ? `Landed in ${flightNow.to}` : undefined}
         aside={studentSession.captain ? <CrewAvatar seed={studentSession.avatarSeed} name={studentSession.displayName} captain size={32} /> : undefined}
         onLeave={onLeave}
       />
@@ -1862,7 +1864,7 @@ export function StudentController({ sessionId, studentSession, onLeave }: Studen
               </div>
             )}
 
-            {flightNow && !roomLaunch ? (
+            {flightNow && !flightNow.landed && !roomLaunch ? (
               <PhoneWindow flight={flightNow} seat={seatIndex === null ? null : cabinSeatLabel(seatIndex)} />
             ) : (<>
             {/* Topic + difficulty context label */}

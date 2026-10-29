@@ -7,10 +7,11 @@ import { BookOpen, Hand, LogOut, Luggage, MessageCircle, X } from 'lucide-react'
 // The student phone is a boarding pass + seat panel: a fixed header that says
 // what the phone wants right now, one "now" card, and a fixed action bar.
 
-export type PhoneStatus = 'cruising' | 'your-turn' | 'sent' | 'preparing' | 'vote' | 'reconnecting' | 'offline';
+export type PhoneStatus = 'cruising' | 'landed' | 'your-turn' | 'sent' | 'preparing' | 'vote' | 'reconnecting' | 'offline';
 
 const STATUS: Record<PhoneStatus, { label: string; text: string; dot: string; pulse?: boolean }> = {
   cruising: { label: 'Cruising', text: 'text-cyan-300', dot: 'bg-cyan-300' },
+  landed: { label: 'Landed', text: 'text-amber-200', dot: 'bg-amber-300' },
   'your-turn': { label: 'Your turn', text: 'text-amber-300', dot: 'bg-amber-400', pulse: true },
   sent: { label: 'Sent', text: 'text-emerald-300', dot: 'bg-emerald-400' },
   preparing: { label: 'Boarding', text: 'text-violet-300', dot: 'bg-violet-400', pulse: true },
