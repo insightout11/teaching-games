@@ -1617,11 +1617,13 @@ export function FlightDeck({
 
   // Real weather under the plane (every ten minutes, or when it moves on a
   // degree); World Flight's climate weather if the lookup fails.
-  const wxKey = `${Math.round(below.point.lat)}:${Math.round(below.point.lng)}`;
+  // Once landing, the destination itself: an early landing used the weather and clock of wherever the plane was.
+  const wxPoint = flightStage === 'landing' ? { lat: destination.lat, lng: destination.lng } : below.point;
+  const wxKey = `${flightStage === 'landing' ? 'land:' : ''}${Math.round(wxPoint.lat)}:${Math.round(wxPoint.lng)}`;
   const [liveWx, setLiveWx] = useState<LiveWeather | null>(null);
   useEffect(() => {
     let cancelled = false;
-    const { lat, lng } = below.point;
+    const { lat, lng } = wxPoint;
     const load = () => {
       fetch(`/api/live-room/weather?lat=${lat.toFixed(2)}&lng=${lng.toFixed(2)}`)
         .then((r) => (r.ok ? r.json() : null))
