@@ -1578,6 +1578,8 @@ export function SessionView({ session, cls, students: serverStudents, existingSc
     const prevStage = selectedActivity?.pppStage ?? selectedGame?.pppStage;
 
     setViewMode('selection');
+    // The activity's last task stayed on the phones ("Your turn" over the room's landing): clear it with the activity.
+    void useSessionStore.getState().setInputSpec(null);
     setSelectedGame(null);
     setSelectedActivity(null);
     setActivityContent(null);
