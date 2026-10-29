@@ -3079,7 +3079,7 @@ export function FlightDeck({
         {!presenting && !talkPrompt.trim() && (() => {
           const noTopic = !focused && (!sessionTopic || sessionTopic === 'General');
           return (
-            <button type="button" onClick={() => everyoneAnswers('What should we talk about today? Add an idea, then vote for your favourite.')} title="Everyone suggests a topic and votes on their phone; the ideas gather on the Class Board" className={noTopic ? 'flex items-center gap-2 rounded-xl border border-amber-300/70 bg-amber-300/15 px-4 py-2 text-base font-semibold text-amber-100 backdrop-blur-sm hover:bg-amber-300/25' : 'flex items-center gap-1.5 rounded-lg border border-white/20 bg-slate-950/55 px-2.5 py-1 text-xs text-white/75 backdrop-blur-sm hover:text-white'}>
+            <button type="button" onClick={() => everyoneAnswers('What should we talk about today? Add an idea, then vote for your favourite.')} title="Everyone suggests a topic and votes on their phone; the ideas gather on the Class Board" className={noTopic ? 'flex items-center gap-2 rounded-xl border border-amber-300/80 bg-slate-950/75 px-4 py-2 text-base font-semibold text-amber-200 shadow-lg backdrop-blur-sm hover:bg-slate-900/85' : 'flex items-center gap-1.5 rounded-lg border border-white/20 bg-slate-950/55 px-2.5 py-1 text-xs text-white/75 backdrop-blur-sm hover:text-white'}>
               <Vote className={noTopic ? 'h-4 w-4' : 'h-3.5 w-3.5'} /> Vote on today&apos;s topic
             </button>
           );
