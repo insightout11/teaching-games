@@ -29,7 +29,9 @@ export function RewardReel({ landing, onDone }: { landing: Landing; onDone: () =
   };
 
   return (
-    <div className="absolute inset-0 z-30 flex items-center justify-center" onClick={next} role="button" tabIndex={0} aria-label="Next reward" onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') next(); }}>
+    <div className="absolute inset-0 z-30" onClick={next} role="button" tabIndex={0} aria-label="Next reward" onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') next(); }}>
+      {/* lower down, like the Welcome card, so the postcard's "Greetings from ..." lettering stays clear */}
+      <div className="absolute inset-x-0 top-[32%] flex justify-center">
       <AnimatePresence mode="wait">
         <motion.div
           key={beat.key}
@@ -85,6 +87,7 @@ export function RewardReel({ landing, onDone }: { landing: Landing; onDone: () =
           </p>
         </motion.div>
       </AnimatePresence>
+      </div>
     </div>
   );
 }
