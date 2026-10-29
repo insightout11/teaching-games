@@ -834,6 +834,8 @@
       "snowMonths": [],
       "autumnColor": null,
       "wetGreen": [
+        11,
+        12,
         1,
         2,
         3
@@ -852,7 +854,7 @@
       "https://en.wikipedia.org/wiki/United_Arab_Emirates"
     ],
     "confidence": "medium",
-    "notes": "The Gulf is four countries with different traditional materials (coral stone in Bahrain, mud brick and arish elsewhere). Modern cities are largely concrete and glass with beige villas, often grid-planned; wind towers survive mainly in old cores. Winter rain is irregular, so green months vary. No single ISO 3166-2 code applies."
+    "notes": "The Gulf is four countries with different traditional materials (coral stone in Bahrain, mud brick and arish elsewhere). Modern cities are largely concrete and glass with beige villas, often grid-planned; wind towers survive mainly in old cores. Winter rain is irregular, so green months vary. No single ISO 3166-2 code applies. On 6 Nov: date harvest is over, palms stay green, first winter rains can start a faint green flush."
   },
   {
     "id": "nl-netherlands",
@@ -3356,7 +3358,8 @@
           ],
           "months": [
             9,
-            10
+            10,
+            11
           ]
         },
         {
@@ -3406,7 +3409,7 @@
       "https://en.wikipedia.org/wiki/Agriculture_in_Turkey"
     ],
     "confidence": "high",
-    "notes": "The Anatolian plateau spans several provinces, so no single ISO 3166-2 subdivision is used. Dryland wheat and barley dominate the semi-arid steppe, with irrigated sugar beet and grazing in the Konya basin. Cappadocia's tuff villages include cave dwellings and flat-roofed houses; Konya and Ankara are largely modern concrete. Snow is reliable in winter, and spring brings a short green flush."
+    "notes": "The Anatolian plateau spans several provinces, so no single ISO 3166-2 subdivision is used. Dryland wheat and barley dominate the semi-arid steppe, with irrigated sugar beet and grazing in the Konya basin. Cappadocia's tuff villages include cave dwellings and flat-roofed houses; Konya and Ankara are largely modern concrete. Snow is reliable in winter, and spring brings a short green flush. Early November: gold-brown stubble with fresh winter-wheat shoots, beet harvest still running, poplars yellow."
   },
   {
     "id": "tr-aegean-mediterranean",
@@ -4410,9 +4413,9 @@
             "#73915b"
           ],
           "months": [
+            8,
             9,
-            10,
-            11
+            10
           ]
         },
         {
@@ -4436,7 +4439,8 @@
           ],
           "months": [
             9,
-            10
+            10,
+            11
           ]
         }
       ]
@@ -4445,6 +4449,7 @@
       "snowMonths": [],
       "autumnColor": null,
       "wetGreen": [
+        11,
         12,
         1,
         2,
@@ -4460,10 +4465,10 @@
     "sources": [
       "https://en.wikipedia.org/wiki/Mesopotamia",
       "https://en.wikipedia.org/wiki/Architecture_of_Iraq",
-      "https://en.wikipedia.org/wiki/Agriculture_in_Iraq"
+      "https://en.wikipedia.org/wiki/Economy_of_Iraq"
     ],
     "confidence": "high",
-    "notes": "The Tigris–Euphrates plain runs through many governorates, so no single ISO 3166-2 subdivision is used. Villages are flat-roofed mud-brick courtyards, with concrete increasingly common; turquoise-tiled domes are an iconic minority. Date palms line canals and field edges, and irrigated wheat, barley and rice occupy the plains. Summers are extremely hot and dry; winter rain is light. Salinity, upstream dams and conflict have reduced cultivation in parts."
+    "notes": "The Tigris–Euphrates plain runs through many governorates, so no single ISO 3166-2 subdivision is used. Villages are flat-roofed mud-brick courtyards, with concrete increasingly common; turquoise-tiled domes are an iconic minority. Date palms line canals and field edges, and irrigated wheat, barley and rice occupy the plains. Summers are extremely hot and dry; winter rain is light. Salinity, upstream dams and conflict have reduced cultivation in parts. Early November: harvested stubble and freshly sown winter grain, palms green."
   },
   {
     "id": "iq-ir-kurdistan-highlands",
@@ -4597,7 +4602,7 @@
     "sources": [
       "https://en.wikipedia.org/wiki/Iraqi_Kurdistan",
       "https://en.wikipedia.org/wiki/Kurdistan_province",
-      "https://en.wikipedia.org/wiki/Agriculture_in_Iraq"
+      "https://en.wikipedia.org/wiki/Economy_of_Iraq"
     ],
     "confidence": "medium",
     "notes": "The Kurdistan highlands straddle northern Iraq and western Iran and cover several provinces, so no ISO 3166-2 subdivision is used. Mountain villages are stone or mud-brick with flat roofs, increasingly covered with pitched corrugated metal; Erbil, Sulaymaniyah and Sanandaj have sprawling concrete outskirts. Oak woodland, orchards and cereals fill the valleys, and snow covers high ground in winter. Cross-border statistics are uneven.",
