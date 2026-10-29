@@ -238,7 +238,8 @@ export function startMusic(url: string, fadeMs = 1800) {
   musicFade = window.setInterval(() => {
     elapsed += step;
     if (!musicEl) return clearMusicFade();
-    musicEl.volume = Math.min(target, startVolume + (elapsed / fadeMs) * (target - startVolume));
+    const v = fadeMs > 0 ? startVolume + (elapsed / fadeMs) * (target - startVolume) : target;
+    musicEl.volume = Number.isFinite(v) ? Math.max(0, Math.min(target, v)) : target;
     if (elapsed >= fadeMs) clearMusicFade();
   }, step);
 }
@@ -250,11 +251,14 @@ export function stopMusic(fadeMs = 700) {
   clearMusicFade();
   const el = musicEl;
   const from = el.volume;
+  // No fade (closing the room): stop at once. Dividing by a zero fade set the volume to NaN, flooding the console.
+  if (!(fadeMs > 0)) { el.volume = 0; el.pause(); el.currentTime = 0; return; }
   const step = 50;
   let elapsed = 0;
   musicFade = window.setInterval(() => {
     elapsed += step;
-    el.volume = Math.max(0, from * (1 - elapsed / fadeMs));
+    const v = from * (1 - elapsed / fadeMs);
+    el.volume = Number.isFinite(v) ? Math.max(0, Math.min(1, v)) : 0;
     if (elapsed >= fadeMs) {
       clearMusicFade();
       el.pause();

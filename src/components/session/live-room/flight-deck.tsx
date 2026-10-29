@@ -422,7 +422,8 @@ export function FlightDeck({
       if (saved?.chosenId) setChosenId(saved.chosenId);
       if (saved?.lockedId) setLockedId((cur) => cur ?? saved.lockedId ?? null);
       if (saved?.stayHome) setStayHome(saved.stayHome);
-      if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); }
+      // A flight already in the air reopens on Talk (it came back on the boarding QR after a reload)
+      if (saved?.stage === 'flying' && saved.takeoffAt) { setFlightStage('flying'); setTakeoffAt(saved.takeoffAt); setView('talk'); }
       const a = saved?.anchor;
       if (a && typeof a.takeoffAt === 'number' && typeof a.at === 'number' && typeof a.t === 'number') setFlightAnchor(a);
     } catch { /* storage blocked */ }
@@ -1991,6 +1992,22 @@ export function FlightDeck({
   }, [catalogue, games, activities, onLaunchGame, onLaunchActivity, setSourceMaterial, setCustomTopic, flash, sessionId, recordActivity]);
 
   const focused = material.find((m) => m.id === focusId) ?? null;
+  // The topic of the moment survives a reload (the material is kept; only which one was current was lost).
+  const focusKey = `lc-room-focus-${sessionId}`;
+  const focusRestored = useRef(false);
+  useEffect(() => {
+    if (focusRestored.current) return;
+    let saved: string | null = null;
+    try { saved = localStorage.getItem(focusKey); } catch { /* storage blocked */ }
+    if (!saved) { focusRestored.current = true; return; }
+    if (!material.some((m) => m.id === saved)) return; // the kept material may load a moment later
+    focusRestored.current = true;
+    setFocusId((cur) => cur ?? saved);
+  }, [material, focusKey]);
+  useEffect(() => {
+    if (!focusId) return;
+    try { localStorage.setItem(focusKey, focusId); } catch { /* storage blocked */ }
+  }, [focusId, focusKey]);
   const roomChannelRef = useRef<BroadcastChannel | null>(null);
   const focusedTitleRef = useRef<string | null>(null);
   focusedTitleRef.current = focused ? focused.title.slice(0, 120) : null;
