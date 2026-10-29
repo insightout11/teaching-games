@@ -1,0 +1,3318 @@
+{
+ "v": 1,
+ "note": "How trees and green are arranged in each region as seen from a plane (0 absent .. 3 dominant). Keyed by regional-character id. DeepSeek research with sources, 29 Oct 2026; checked by Claude (ids, value ranges, spot-checks).",
+ "regions": {
+  "id-bali": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "checkerboard sawah bunds with coconut palms on every edge",
+   "note": "From the air Bali reads as a green rice ladder: subak-irrigated terraces climb every volcano flank, ribbed with coconut palms and dotted with temple banyans, while dark forest caps keep only the summits.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bali",
+    "https://en.wikipedia.org/wiki/Subak_(irrigation)"
+   ]
+  },
+  "jp-honshu": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 2,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "neat small rice paddies with concrete-banked ditches",
+   "note": "Forest rides the mid-slopes of every ridge while shrine woods hold town edges, leaving valley bottoms as an emerald patchwork of tiny rice paddies, concrete ditches and village groves.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Honshu",
+    "https://en.wikipedia.org/wiki/Agriculture%2C_forestry%2C_and_fishing_in_Japan"
+   ]
+  },
+  "fr-provence": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "olive rows and dry-stone walls with cypresses at gateways",
+   "note": "Pale limestone hills carry dark pine combes and maquis, every valley bottom is a lattice of vineyards, olive and orchard rows, and dry-stone terraces step the slopes near villages.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Provence",
+    "https://en.wikipedia.org/wiki/Garrigue"
+   ]
+  },
+  "no-norway": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "bare rock and stone-bar fence lines around mown stubble",
+   "note": "Almost everything between fjords is one unbroken spruce-pine-birch blanket; farms are brick-red clearings with hay grass and grey stone cairn walls, and the treeline snuffs out agriculture high and north.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Norway",
+    "https://en.wikipedia.org/wiki/Taiga"
+   ]
+  },
+  "ke-kenya": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "red-earth tracks between tea blotches, maize strips and thorn pasture",
+   "note": "The Central Highlands contrast huge green tea blocks and coffee acreage with red savanna thornbush below, all cut by the Rift's stepped cliffs; eucalypt windbreaks ring every farm compound.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kenya",
+    "https://en.wikipedia.org/wiki/Great_Rift_Valley"
+   ]
+  },
+  "pe-andes": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "dry stone terrace walls contouring every valley slope",
+   "note": "A tan vertical world where green occurs only as contour terraces of potato and maize, gallery eucalyptus along streams and irrigated orchard strips in the valley bottoms.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Andes",
+    "https://en.wikipedia.org/wiki/Altiplano"
+   ]
+  },
+  "gulf": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "pivot circles and fenced sandy plots beside grey oil towns",
+   "note": "Date-palm oasis groves irrigated and fenced are the only green blocks in a pale desert crossed by roads and oil facilities; modern farms show as pivot circles along the coasts (low confidence on the exact current farm footprint).",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Eastern_Arabia",
+    "https://en.wikipedia.org/wiki/Date_palm"
+   ]
+  },
+  "nl-netherlands": {
+   "hedgerows": 2,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 2,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "tree-lined drainage ditches subdividing every polder",
+   "note": "A lace of drainage ditches runs along tree lines between emerald cow meadows, with brick farm houses, occasional flower strips and small woods, and the bigger plantations keep to sandier ground.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Netherlands",
+    "https://en.wikipedia.org/wiki/Polder"
+   ]
+  },
+  "us-new-england": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "continuous",
+   "fieldEdges": "grey stone walls running inside woods",
+   "note": "Unbroken oak-pine-maple cover is punctured only by dairy meadows, apple-orchard lattices and white steeple villages, with grey stone walls running through the woods.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/New_England%E2%80%93Acadian_forests",
+    "https://en.wikipedia.org/wiki/Acer_saccharum"
+   ]
+  },
+  "jp-okinawa": {
+   "hedgerows": 2,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "fenced sugarcane blocks on red soil beside turquoise reef flats",
+   "note": "Sugarcane grounds on bright-red coral soil, a fukugi hedge stacked around each village and pineapple plots inland; forest stays only small and scattered on ridges.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ryukyu_Islands",
+    "https://en.wikipedia.org/wiki/Sugarcane"
+   ]
+  },
+  "jp-hokkaido": {
+   "hedgerows": 0,
+   "shelterbelts": 3,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "straight birch-row shelterbelts dividing big rectangular fields",
+   "note": "Rectangular potato, beet and pasture fields are crossed by windbreak rows and dairy barns, and mixed forest holds the hills between the big flattened basins.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hokkaido",
+    "https://en.wikipedia.org/wiki/Dairy_farming"
+   ]
+  },
+  "id-java": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 1,
+   "townTrees": 3,
+   "forestPattern": "large patches",
+   "fieldEdges": "banded rice terraces stacking on volcano slopes with bamboo clumps",
+   "note": "Volcano cones drain through radial rice terraces, bamboo-grove homesteads line every lane and teak stands thin out toward the drier east.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Java",
+    "https://en.wikipedia.org/wiki/Paddy_field"
+   ]
+  },
+  "it-tuscany": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "olive dots and vine rows contouring every slope with cypresses at farm gates",
+   "note": "A tapestry of yellow-green sunflower blocks, silver-grey olive terracing and dark vine rows around ochre hill towns; woodlot belts occupy the crest and river bottoms.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tuscany",
+    "https://en.wikipedia.org/wiki/Vineyard"
+   ]
+  },
+  "gr-cyclades": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "dry-stone terrace walls zig-zagging every treeless slope",
+   "note": "Bare brown islands stitched with narrow stone terrace nets where a few stunted olives and vines hide from the wind and bleach-white cubes of villages sit at the harbours.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cyclades",
+    "https://en.wikipedia.org/wiki/Terrace_(earthworks)"
+   ]
+  },
+  "ma-rif": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "hand-stepped plots climbing every steep valley side",
+   "note": "Smallholder terraces hug the mountain flanks, patching kif fields, barley and olives on steep red soil, while cedar and fir stand as dark caps on the higher ridge tops.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Rif",
+    "https://en.wikipedia.org/wiki/Cannabis_in_Morocco"
+   ]
+  },
+  "ma-saharan-oases": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "none",
+   "fieldEdges": "walled palm orchard rings on surrounding sand",
+   "note": "Date-palm canopies shade three-storey vegetable gardens inside walled groves in valleys, and all around is chocolate-dark hamada, dune belts and dry valleys without green.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Oasis",
+    "https://en.wikipedia.org/wiki/Date_palm"
+   ]
+  },
+  "om-oman": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "aflaj ladder channels feeding stone sand terraces",
+   "note": "Fan-shaped date-palm oasis ladders run down canyon floors at Aflaj springs, terraced fruit and rose gardens climb canal walls on oases mountains, and all else is bare rock and iron gravel.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Oman",
+    "https://en.wikipedia.org/wiki/Aflaj_Irrigation_Systems_of_Oman"
+   ]
+  },
+  "ir-central-plateau": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "qanat-fed strips of green in pale desert",
+   "note": "Mud-brick villages, pomegranate and garden plots and thin green strips stack along qanat water lines in a dusty grey-tan desert, separated by salt-flat kavir.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Iranian_plateau",
+    "https://en.wikipedia.org/wiki/Qanat"
+   ]
+  },
+  "in-kerala": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 2,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 3,
+   "forestPattern": "continuous",
+   "fieldEdges": "coconut-lined paddy bunds and shaded homestead gardens",
+   "note": "Rice paddies fill the valley bottoms under coconut palms, homestead compounds sit inside shaded gardens, and rubber and tea paint the Ghats slopes near-continuous dark green.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kerala",
+    "https://en.wikipedia.org/wiki/Kerala_backwaters"
+   ]
+  },
+  "ma-atlas-middle-atlas": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 1,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "open cedar-wood pasture mosaic with shepherd trails",
+   "note": "Cedar and holm-oak woods open into grazed savannah woodland with shepherd camps on the green plateaus, and dry southern slopes only carry scattered juniper.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Middle_Atlas",
+    "https://en.wikipedia.org/wiki/Cedrus_atlantica"
+   ]
+  },
+  "ma-atlantic-plains": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "flat cereal and citrus fields broken by eucalypt windbreak rows",
+   "note": "Golden wheat and barley plains dotted with orange groves and dark green eucalyptus single-row windbreaks, with Argan scrub woods covering the dry southwest.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Morocco",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Morocco"
+   ]
+  },
+  "sa-hejaz-asir": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "stone-faced terrace walls stepping the mountain flanks",
+   "note": "Highland terraces are stacked narrow stone walls on the narrow wet side of the most precipitous mountains, planted with coffee and wheat in green plots, while juniper stands hold the cloud crests and the Hejaz slopes are bare sandy backdrops.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hejaz",
+    "https://en.wikipedia.org/wiki/Asir"
+   ]
+  },
+  "sa-najd-interior": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "irrigated pivot dots, fenced sand plots and dry wadi gravel",
+   "note": "Extremely arid gravel plains with wadis of desert acacia and palm rows around historic mudbrick towns; modern green dots on the oasis sand are in small concentrations only.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Najd",
+    "https://en.wikipedia.org/wiki/Bedouin"
+   ]
+  },
+  "sa-eastern-province": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "dune-flank shrub margins and palm-compound walls around irrigated plots",
+   "note": "A pale sand sea spanning the Rubʿ al-Khali and Ad-Dahna, broken only by the dark-green block of Al-Ahsa’s two-million-palm oasis, alfalfa pivots and the grey Dammam-Jubail industrial coast.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Eastern_Province,_Saudi_Arabia",
+    "https://en.wikipedia.org/wiki/Al-Ahsa_Oasis"
+   ]
+  },
+  "ir-caspian-coast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "continuous",
+   "fieldEdges": "tea terraces and rice paddies packed on the wet narrow plain",
+   "note": "The wettest corner of Iran shows dark green tea patches and flooded rice paddies mosaicked between houses, and the humid Hyrcanian forest climbs the Alborz foothills above the paddies.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hyrcanian_forests",
+    "https://en.wikipedia.org/wiki/Gilan_province"
+   ]
+  },
+  "ir-zagros": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "dry stone walls around orchard terraces and wheat stubble",
+   "note": "Degraded oak woodland covers the mountain slopes in scattered patches, and valleys fill with walnut, almond and pistachio orchards behind stone walls between snow-wintered ridges.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Zagros_Mountains",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Iran"
+   ]
+  },
+  "tr-anatolian-plateau": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "wheat stubble plains with sparse poplar-marked ditches",
+   "note": "A giant grey-gold steppe plateau of wheat and barley stubble, salt flats, sparse villages and poplar gallery rows visible only along the Kizilirmak.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Central_Anatolia_region",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Turkey"
+   ]
+  },
+  "tr-marmara-thrace": {
+   "hedgerows": 1,
+   "shelterbelts": 2,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "sunflower and wheat squares behind poplar windbreak rows and hedgerow coppice",
+   "note": "Dark oak-beech forest caps the Istranca, Uludag and Bolu ridges while olive and vineyard rows dress the south Marmara slopes, poplar-lined Thrace squares sit open and the city-factory belt smears the southern shore.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/East_Thrace",
+    "https://en.wikipedia.org/wiki/Marmara_region"
+   ]
+  },
+  "tr-aegean-mediterranean": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "grey olive-grove lattices backed by pine-dotted ridges",
+   "note": "Silver olive grids and cotton blocks on the plains, fig and citrus strips near the coasts, and the backdrop ridges are covered with maquis and Aleppo pine in dark bands.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Aegean_region",
+    "https://en.wikipedia.org/wiki/Aegean_Sea"
+   ]
+  },
+  "eg-nile-valley-delta": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "none",
+   "fieldEdges": "palm-lined irrigation canal banks squared into fields",
+   "note": "A narrow green vein of palm-franked canals growing cotton, maize and date palms, fanning out into a delta of rice paddies and citrus orchards that is cut off abruptly by bare desert.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Nile_Delta",
+    "https://en.wikipedia.org/wiki/Nile"
+   ]
+  },
+  "pk-punjab-indus": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "shisham-lined canal banks above flooded wheat lattices",
+   "note": "Canal-irrigated plains read as washed-green wheat, flooded rice and cane blocks, with shisham and eucalyptus lines flanking every channel and mango orchards thickening southward.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Punjab",
+    "https://en.wikipedia.org/wiki/Indus_River"
+   ]
+  },
+  "ye-yemen": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "valley-floor",
+   "fieldEdges": "dry stone terraces climbing every hill and wadi wall",
+   "note": "Hand-built terraces ladder the whole escarpment in ochres and greens, qat and coffee alternate with wheat, palms line the wadi floors and dry-stone villages dot the ridges.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Yemen",
+    "https://en.wikipedia.org/wiki/Terrace_(earthworks)"
+   ]
+  },
+  "jo-jordan": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "olive rows on grey steppe terraces and irrigated greenhouses in the rift",
+   "note": "Yellow-grey steppe cut by olive rows on cultivated ridges, then a sudden ribbon of subtropical vegetable fields and palms along the Jordan Valley bottoms.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Jordan",
+    "https://en.wikipedia.org/wiki/Jordan_Valley"
+   ]
+  },
+  "il-ps-israel-palestine": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "drip-irrigated orchard blocks, olive hill terraces and cypress screen woods",
+   "note": "A green coastal plain and Galilean hills of drip-irrigated orchards and winter field strips; the West Bank's stony hills are wrapped in stepped olive terraces.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Israel",
+    "https://en.wikipedia.org/wiki/West_Bank"
+   ]
+  },
+  "lb-sy-lebanon-syria": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "stone terraces and orchard rows on every flank with cedar summit clumps",
+   "note": "Mount Lebanon's flank shows century-old hillside terraces of vine and olive with cedar clumps near the summit snowline, and Syria dries eastward into olive grids and rain-fed wheat steppe.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mount_Lebanon",
+    "https://en.wikipedia.org/wiki/Syria"
+   ]
+  },
+  "iq-mesopotamian-plains": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "valley-floor",
+   "fieldEdges": "date-palm rows shepherding irrigation ditches between fields",
+   "note": "Flat alluvial tan-brown silt land is only green along Tigris and Euphrates channels, dense date-palm stands line the ditches and hide the villages, and reed marsh spreads across the flooded south.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Iraq",
+    "https://en.wikipedia.org/wiki/Mesopotamian_Marshes"
+   ]
+  },
+  "iq-ir-kurdistan-highlands": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "walled orchard gardens on dry stone stream terraces",
+   "note": "Open oak woodland covers the slopes in scattered stands, spring-fed valleys fill with walnut and pomegranate orchards, and dry-stone villages overlook the higher meadows.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kurdistan",
+    "https://en.wikipedia.org/wiki/Zagros_Mountains_forest_steppe"
+   ]
+  },
+  "af-afghanistan": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "poplar rows flanking irrigation ditches in grey-brown desert",
+   "note": "Intense green belts of poppy, wheat, pomegranate and walnut follow the rivers and karez lines, stepping off abruptly into grey badlands and bare ridges.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Afghanistan",
+    "https://en.wikipedia.org/wiki/Hindu_Kush"
+   ]
+  },
+  "tm-uz-tj-lowlands": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "straight canal-belted cotton fields with poplar windbreak rows",
+   "note": "An immense irrigated cotton belt whose canals are traced by poplar and mulberry shelterbelt lines, entirely surrounded by the grey sands of the Karakum.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Turkmenistan",
+    "https://en.wikipedia.org/wiki/Amu_Darya"
+   ]
+  },
+  "ge-am-az-caucasus": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "vineyard rows and walnut orchards downstream from forested slopes",
+   "note": "Continuous forest covers the Colchis foothills with tea gardens underneath in western Georgia, vine rows trace the south-facing slopes, and walnut orchards and grain terraces climb toward alpine meadows.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Caucasus",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Georgia_(country)"
+   ]
+  },
+  "in-rajasthan-thar": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "khejri tree clumps, wind-blown sand ridges and canal-fed green strips",
+   "note": "An ochre dune sea broken by scattered millet plots and khejri tree clumps, with the Indira Gandhi Canal drawing emerald strips through the western border zone.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Thar_Desert",
+    "https://en.wikipedia.org/wiki/Aravalli_Range"
+   ]
+  },
+  "in-indo-gangetic-plain": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "valley-floor",
+   "fieldEdges": "bunded sugarcane and rice-to-wheat grids crossed by canal lines",
+   "note": "A seamless emerald sheet of cane blocks, wheat-then-rice rotations and eucalyptus trees planted straight along every road, bund and rail line.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Indo-Gangetic_Plain",
+    "https://en.wikipedia.org/wiki/Agriculture_in_India"
+   ]
+  },
+  "in-deccan-plateau": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "bunded millet and cotton squares with thorn tree clumps",
+   "note": "Big dry squares of sorghum and cotton in brown-red earth with thorn clumps left standing, and dark teak patches along the hill margins.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Deccan_Plateau",
+    "https://en.wikipedia.org/wiki/Central_Deccan_Plateau_dry_deciduous_forests"
+   ]
+  },
+  "in-tamil-nadu-coast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "paddy-delta squares laced with straight coconut rows and casuarina belts",
+   "note": "Coconut fronds flood the Cauvery deltas above dark-wet rice squares, casuarina belts cut every coastal field, and white salt pans flash along the southern coast.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tamil_Nadu",
+    "https://en.wikipedia.org/wiki/Coconut"
+   ]
+  },
+  "in-himalaya-kashmir-ladakh": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "valley-floor",
+   "fieldEdges": "poplar rows lining canal-fed orchard terraces",
+   "note": "Kashmir's wide valley reads as an orchard carpet under Chinar and deodar slopes, while Ladakh's cliffs stay bare except narrow glacier-fed barley strips enclosed in poplar rows.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Himalayas",
+    "https://en.wikipedia.org/wiki/Ladakh"
+   ]
+  },
+  "in-northeast-bengal": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 3,
+   "forestPattern": "continuous",
+   "fieldEdges": "jute-and-rice paddies interlaced with cut bamboo homestead clumps",
+   "note": "Paddies and jute blocks stay emerald almost all year, every homestead hides behind bamboo and areca clumps, and Assam's tea rows carpet the Brahmaputra banks.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bengal",
+    "https://en.wikipedia.org/wiki/Assam_tea"
+   ]
+  },
+  "pk-sindh-balochistan": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "none",
+   "fieldEdges": "flood-irrigated trenching lines and date palm rows in pale dust",
+   "note": "Dates, sugarcane and mango orchards fill the Indus flood belt, then stop hard against stony Balochistan bajadas where only terrace-fed fruit patches stay green.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sindh",
+    "https://en.wikipedia.org/wiki/Balochistan%2C_Pakistan"
+   ]
+  },
+  "pk-northern-mountains": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "valley-floor",
+   "fieldEdges": "irrigated terraces switchbacking up valley walls below hanging glaciers",
+   "note": "Glacier-fed orchards of apricot, walnut and cherry pack narrow terraces along the valley floors below snow peaks, while everything above turns to glacier snouts, scree and willow stands at the village edges.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Karakoram",
+    "https://en.wikipedia.org/wiki/Gilgit-Baltistan"
+   ]
+  },
+  "np-bt-nepal-bhutan": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "continuous",
+   "fieldEdges": "stepped rice-and-maize terraces climbing almost every flank",
+   "note": "Mid-hills stack millet and maize terraces steeply on both flanks, forest follows every gully, and farming stops well below the permanent snow line.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Nepal",
+    "https://en.wikipedia.org/wiki/Bhutan"
+   ]
+  },
+  "bd-bangladesh": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 3,
+   "forestPattern": "small scattered",
+   "fieldEdges": "raised homestead mounds and shrimp gher walls between paddy plots",
+   "note": "A soaked delta grid of rice bunds, jute blocks and tidal shrimp gher squares, with bamboo-and-palm homestead groves covering every raised mound.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bangladesh",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Bangladesh"
+   ]
+  },
+  "lk-mv-sri-lanka-maldives": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 2,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "clipped tea rows stepping the hill contours behind coconut-dotted paddies",
+   "note": "Clipped emerald tea blocks carpet the central highland slopes, coconut palms ring the paddy lowlands and the dry north holds scattered scrub above irrigation tanks.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sri_Lanka",
+    "https://en.wikipedia.org/wiki/Tea_production_in_Sri_Lanka"
+   ]
+  },
+  "cn-north-china-plain": {
+   "hedgerows": 0,
+   "shelterbelts": 2,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "none",
+   "fieldEdges": "squared wheat-maize plots with mud-banked paths and poplar wind rows",
+   "note": "Winter wheat then maize rotate over enormous dusty-gray-green full flat plains kept only for rows of poplar planted to stop dust storms, with treed village clusters holding small orchards.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/North_China_Plain",
+    "https://en.wikipedia.org/wiki/Windbreak"
+   ]
+  },
+  "cn-yangtze-delta": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "a tight grid of paddy cells, fish ponds and mulberry strips cut by concrete-lined canals",
+   "note": "One continuous canal-diced paddy-and-pond mosaic from Shanghai inland, with camphor-and-bamboo villages at every wrist of water and forest only as small hill-and-temple patches.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Yangtze_Delta",
+    "https://en.wikipedia.org/wiki/Paddy_field"
+   ]
+  },
+  "cn-south-guangdong-guangxi-fujian": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "bunded paddy flats on valley floors, hill slopes cut into rice terraces, dry-stone Hakka village margins",
+   "note": "Green subtropical hills bristle with stepped rice terraces, lychee-citrus orchards and sugarcane blocks around the near-continuous urban wall of the Pearl River Delta.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Lingnan",
+    "https://en.wikipedia.org/wiki/Terrace_(earthworks)"
+   ]
+  },
+  "cn-sichuan-yunnan": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "red-earth basin paddies and rapeseed strips below stacked terraces on the Yunnan slopes",
+   "note": "A cloudy, densely farmed basin mosaic in Sichuan gives way in Yunnan to terraces winding in silver bands up the mountains around every hamlet.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sichuan_Basin",
+    "https://en.wikipedia.org/wiki/Yunnan"
+   ]
+  },
+  "cn-tibetan-plateau": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "valley-floor",
+   "fieldEdges": "few and pale: barley strips ringed by yak pasture around monastery towns",
+   "note": "A gigantic tan-buff plateau where almost the only green is highland barley in the south-facing valleys, with poplar-willow river lines and monastery tree clumps below the snow line.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tibetan_Plateau",
+    "https://en.wikipedia.org/wiki/Barley"
+   ]
+  },
+  "cn-xinjiang-gansu": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "cotton and melon plots pinned against dune edges by poplar windbreak lines",
+   "note": "Ochre desert basins crossed by narrow, absurdly green oasis strings - grape trellis corridors of Turpan, poplar-lined canals and the Hexi Corridor chain of walled farms.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Xinjiang",
+    "https://en.wikipedia.org/wiki/Hexi_Corridor"
+   ]
+  },
+  "cn-northeast-inner-mongolia": {
+   "hedgerows": 0,
+   "shelterbelts": 3,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "kilometre-long maize, soybean and rice rectangles striped by evenly spaced poplar windbreaks",
+   "note": "Black-soil Manchurian grain fields lie in huge planned rectangles striped by Great Green Wall shelterbelts, with larch-birch forest pushed back to the flanking hills.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Northeast_China",
+    "https://en.wikipedia.org/wiki/Great_Green_Wall_(China)"
+   ]
+  },
+  "mn-mongolia": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "large patches",
+   "fieldEdges": "almost none: ger camps, horse tracks and salt pans are the only boundaries on open steppe",
+   "note": "Tawny steppe runs to the horizon dotted with white gers, dark larch-pine forest hangs only from northern mountain flanks, and Ulaanbaatar sits as a lone urban smudge.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mongolia",
+    "https://en.wikipedia.org/wiki/Mongolian–Manchurian_grassland"
+   ]
+  },
+  "kr-kp-korea": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "mud-bunded paddies pressed tight against the feet of every wooded hill",
+   "note": "Forested blue-green hills drop straight into tiny emerald rice plains with dark pine ridge crests, and the DMZ leaves an untrodden green stripe across the peninsula.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Korea",
+    "https://en.wikipedia.org/wiki/Taebaek_Mountains"
+   ]
+  },
+  "tw-taiwan": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "paddy and cane cells on the west plain, tea terraces and betel rows climbing the foothills",
+   "note": "A dark forested spine splits a glowing green west where rice, sugarcane, betel palms and stepped tea pack every metre below the mountains.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Taiwan",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Taiwan"
+   ]
+  },
+  "jp-kyushu-shikoku": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "tiny bunded paddies in valley huddles, cedar plantations climbing every slope, stone-walled tea steps",
+   "note": "Steep cedar-and-camphor islands terrace into tea and mandarin rows facing the Inland Sea, with the dark Aso caldera and forested Shikoku spine dominating the silhouettes.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kyushu",
+    "https://en.wikipedia.org/wiki/Shikoku"
+   ]
+  },
+  "vn-north-red-river-karst": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "delta paddy cells divided by dikes and bamboo lines, paddies wrapping the base of every karst tower",
+   "note": "Grey-green limestone towers rise straight out of flat emerald paddies near Ha Long and Ninh Binh while the northwest highlands step into fine rice terraces.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Red_River_Delta",
+    "https://en.wikipedia.org/wiki/Karst"
+   ]
+  },
+  "vn-centre-south-mekong": {
+   "hedgerows": 0,
+   "shelterbelts": 2,
+   "riparianBelts": 3,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "a strict right-angle canal grid over paddy flats with coconut rows along each hamlet and casuarina belts on the coast",
+   "note": "The Mekong delta is a canal-diced rice-and-orchard garden cut from bank to bank, the central coast runs sandy behind casuarina lines, and the forested Truong Son wall closes the west.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mekong_Delta",
+    "https://en.wikipedia.org/wiki/Annamite_Range"
+   ]
+  },
+  "th-thailand": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "bunded paddies with scattered cane blocks and temple-pond villages on the plain, terraces stepping the north",
+   "note": "A wet-season emerald, dry-season stubble quilt of paddies, cane and cassava floats on the Chao Phraya plain with dark rubber hills in the south and stepped terraces in the north.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Thailand",
+    "https://en.wikipedia.org/wiki/Chao_Phraya_River"
+   ]
+  },
+  "la-kh-laos-cambodia": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 0,
+   "forestPattern": "large patches",
+   "fieldEdges": "river-bank gardens and slash-and-burn edges with almost no formal field boundaries",
+   "note": "Bamboo-and-timber hamlets with thatch and wat roofs dot a roomy mosaic of river-hugging paddy flats and dark forested hills, pocked by cardamom and rubber plots.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Laos",
+    "https://en.wikipedia.org/wiki/Cambodia"
+   ]
+  },
+  "mm-myanmar": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "palm-diked delta paddies and dry-zone sesame plots scattered like biscuits on sand",
+   "note": "The Irrawaddy delta’s tidal paddies form a palm-studded green lattice against the grey-sand dry zone, while teak-bamboo forests and stilt villages fill the folds.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Myanmar",
+    "https://en.wikipedia.org/wiki/Irrawaddy_Delta"
+   ]
+  },
+  "my-sg-peninsular-malaysia-singapore": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "straight estate roads and drain ditches outlining geometric oil-palm blocks",
+   "note": "Dark ridged interior rainforest contrasts with endless runted-green oil-palm grids, and kampung strips plus Singapore’s slab towers close the peninsula’s ends.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Malay_Peninsula",
+    "https://en.wikipedia.org/wiki/Elaeis_guineensis"
+   ]
+  },
+  "my-id-bn-borneo": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "oil-palm block borders cut straight into black drained peat lines and river strips",
+   "note": "A dense equatorial rainforest blanket of dipterocarps and peat swamp is progressively dented by oil-palm rectangles, milky rivers and burn-scar haze.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Borneo",
+    "https://en.wikipedia.org/wiki/Peat_swamp_forest"
+   ]
+  },
+  "id-sumatra": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "straight oil-palm and rubber estate ditches astride the equatorial haze belt",
+   "note": "The Barisan volcanic spine keeps dark forest along the west flank while the east side drowns in pale-green oil-palm grids and peat-smoke pall.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sumatra",
+    "https://en.wikipedia.org/wiki/Barisan_Mountains"
+   ]
+  },
+  "ph-philippines": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "bunded paddies and cane rows climbing into coconut cones on every hill",
+   "note": "Thousands of green island cells show coconut-draped volcano rims, terraced paddies and sugar plots between white barrios.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Philippines",
+    "https://en.wikipedia.org/wiki/Coconut"
+   ]
+  },
+  "gb-southern-england": {
+   "hedgerows": 3,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "hawthorn hedgerow cells of grass and arable with pollarded willows at the ditches",
+   "note": "The classic bocage of small hedged green cells and beech-yew downland woods is instantly readable, while London fans out in grey terraces and post-war slabs.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Southern_England",
+    "https://en.wikipedia.org/wiki/English_Lowlands_beech_forests"
+   ]
+  },
+  "gb-north-wales-scotland": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "grey drystone-walled sheep cells and heather moor blocks with Sitka rectangles",
+   "note": "Dark blanket moor and bracken ridges are dotted with rare bright improved fields, giant uniform Sitka spruce plantations and scattered Caledonian pine remnants.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Scotland",
+    "https://en.wikipedia.org/wiki/Caledonian_Forest"
+   ]
+  },
+  "ie-ireland": {
+   "hedgerows": 3,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "small quilt fields of permanent grass woven by hedgerow hawthorn lines",
+   "note": "One continuous green bocage blanket in which every field is a hedge-bounded cell, plus dark spruce plantation rectangles and blanket-bog patches in the west.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ireland",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Ireland"
+   ]
+  },
+  "fr-north": {
+   "hedgerows": 1,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "kilometre-wide beet-cereal squares in the Beauce against small hedged Normandy dairy cells with orchard rows",
+   "note": "Two prints: hedge-bocage dairy country in the west with timber farms and apple rows, and an almost treeless wheat-sugar-beet sea through the Paris basin with faint poplar canal lines.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Paris_Basin",
+    "https://en.wikipedia.org/wiki/Sugar_beet"
+   ]
+  },
+  "fr-southwest-massif-central": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "straight vineyard lanes and maize plots in the basins, chestnut and walnut stands on the slopes",
+   "note": "Vineyard street-grids and maize read around the Garonne, maritime-pine plantations carpet the Landes, and grey volcanic lauze roofs mark the dark forested Auvergne uplands.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Massif_Central",
+    "https://en.wikipedia.org/wiki/Aquitaine"
+   ]
+  },
+  "es-central-plateau": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "open cereal-fallow plains with dehesa holm-oak savanna and centre-pivot circles",
+   "note": "Enormous ochre empty plains are picked out by dehesa oak parkland, La Mancha irrigated pivots and fortified hill villages ringed with scant pines.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Meseta_Central",
+    "https://en.wikipedia.org/wiki/Dehesa"
+   ]
+  },
+  "es-andalusia-mediterranean": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "aligned olive rows in their millions plus plastic foil bights at Almeria",
+   "note": "Regular olive-grove sheets glaze pale hills around whitewashed hilltop pueblos, while the coast shows resorts and the silver-green plastic-greenhouse sea of Almeria.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Andalusia",
+    "https://en.wikipedia.org/wiki/Olive"
+   ]
+  },
+  "pt-portugal": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "montado scattered-cork-oak savanna over wheat stubble in the Alentejo, terraces and granite walls in the north",
+   "note": "The north stacks eucalypt-pine forest, terraced Douro vineyards and granite hamlets, then the Alentejo unrolls into near-empty montado savanna and giant cereal squares.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Portugal",
+    "https://en.wikipedia.org/wiki/Alentejo"
+   ]
+  },
+  "it-north": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "rectangular maize-wheat-rape beds lined with poplar rows and canals",
+   "note": "Europe’s most cultivated plain shows poplar plantation rows, flood-silver paddies around Vercelli and hill vineyards, with the conifer-dark Alps gripping the northern edge.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Po_Valley",
+    "https://en.wikipedia.org/wiki/Alps"
+   ]
+  },
+  "it-south-sicily": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "durum-wheat ridges with olive, citrus and almond terraces wrapping the hill towns",
+   "note": "Cross-hatched durum hills studded with aligned olive and citrus terraces carry ochre hilltop towns, while Etna’s black lava slopes bristle with vine rows.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sicily",
+    "https://en.wikipedia.org/wiki/Southern_Italy"
+   ]
+  },
+  "id-sulawesi-maluku": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "coconut rings around every hamlet, clove and nutmeg stands on the slopes",
+   "note": "Rainforest mantles the K-shaped island’s arms and the scattered spice islands, with terraced Minahasa paddies and stilt fishing villages above turquoise inlets.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sulawesi",
+    "https://en.wikipedia.org/wiki/Maluku_Islands"
+   ]
+  },
+  "id-nusa-tenggara-timor-leste": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 0,
+   "forestPattern": "small scattered",
+   "fieldEdges": "dry maize-savanna sweeps with palm clumps and terraced wet pockets in the valleys",
+   "note": "Dry monsoon country: tan savanna hills sprinkled with lontar palms, green rice pockets wedged into valleys, and volcano-cone terraces from Flores to Timor.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Lesser_Sunda_Islands",
+    "https://en.wikipedia.org/wiki/Timor"
+   ]
+  },
+  "pg-id-new-guinea": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 0,
+   "forestPattern": "continuous",
+   "fieldEdges": "highland garden clearings and sago swamp edges with almost no formal boundaries",
+   "note": "A basin-scale unbroken rainforest blanket sewn by long brown rivers, with the highlands stepped into sweet-potato garden mosaics and scattered stilt hamlets.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/New_Guinea",
+    "https://en.wikipedia.org/wiki/Sepik"
+   ]
+  },
+  "au-east-coast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "cane blocks and orchard rows on the coastal flats, cleared ridges against blue-grey eucalypt gullies",
+   "note": "A narrow settled ribbon of cane and horticulture from Burdekin to Bundaberg runs under the forested Great Dividing Range, where rainforest gullies cap the eucalypt slopes.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Great_Dividing_Range",
+    "https://en.wikipedia.org/wiki/Gondwana_Rainforests"
+   ]
+  },
+  "au-interior-outback": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 0,
+   "forestPattern": "small scattered",
+   "fieldEdges": "wire paddock fences and bore drains on endless red mulga-spinifex flats",
+   "note": "Vivid red-orange country with mulga scrub ledges, salt-lake flashes and lone windmill-bore circles, so empty that boundaries read only where fences run straight.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Outback",
+    "https://en.wikipedia.org/wiki/Acacia_aneura"
+   ]
+  },
+  "au-southwest-tasmania": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "vine rows in the Margaret River valleys, apple orchards in the Huon, straight plantation edges",
+   "note": "Jarrah-karri forest and vineyard valleys fill the fertile south-west while Tasmania reads as a plantation-and-dairy green quilt hugging an untouched wild southwest.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tasmania",
+    "https://en.wikipedia.org/wiki/Eucalyptus_marginata"
+   ]
+  },
+  "nz-north-island": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "open paddock cross-fences, radiata woodlots and kiwifruit mazes in the Bay of Plenty",
+   "note": "Brilliant-green dairy paddocks wrap the volcanic cones of Taranaki and Ruapehu, with dark kauri-bush hangovers on the ranges and geothermal cloud or smoke plumes rising freely.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/North_Island",
+    "https://en.wikipedia.org/wiki/Agriculture_in_New_Zealand"
+   ]
+  },
+  "nz-south-island": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "hedge-and-willow-lined paddocks, giant centre-pivots on the Canterbury plain, vine mazes in Marlborough",
+   "note": "A hard split: dark beech rainforest and fiords west of the Southern Alps, then glowing pasture with massive pivots, braided rivers and glacier-touched blue lakes east.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/South_Island",
+    "https://en.wikipedia.org/wiki/Southern_Alps"
+   ]
+  },
+  "fj-ws-to-pf-pacific-islands": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "coconut plantation rows, taro pond patches and stone village enclosures",
+   "note": "Volcanic islands wear a coconut-green skirt with taro swamp beds and breadfruit groves packed around beach villages, while blue lagoons fringe everything.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Fiji",
+    "https://en.wikipedia.org/wiki/Taro"
+   ]
+  },
+  "us-hawaii": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "old sugar-cane furrows and macadamia blocks lining the leeward coasts",
+   "note": "Shield-volcano islands are rainfall-zoned: deep-green ohia-koa forest windward, old cane and pineapple fields leeward, and Kona coffee terracing Mauna Loa’s flanks.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hawaii",
+    "https://en.wikipedia.org/wiki/Sugarcane"
+   ]
+  },
+  "de-north": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "big beet-rape-cereal blocks with straight margins, poplar rows on the geest sand",
+   "note": "A flat glacial plain: mega open arable east of the Elbe, pine-birch geest and heath wedges, and a north-west of tiny dairy cells, pollards and canal dikes.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/North_German_Plain",
+    "https://en.wikipedia.org/wiki/Geest"
+   ]
+  },
+  "de-south": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "Streuobst meadow-orchards ringing the villages, vine terraces on the Rhine and Kaiserstuhl",
+   "note": "Nucleated red-tile villages sit in a maize-and-meadow mosaic between the dark spruce slab of the Black Forest, the Hallertau hop lattice and steep hillside vineyards.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bavaria",
+    "https://en.wikipedia.org/wiki/Black_Forest"
+   ]
+  },
+  "be-lux": {
+   "hedgerows": 3,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "tiny hedged arable-pasture cells in Flanders, open Hesbaye grain inland, Moselle vine terraces",
+   "note": "One of Europe’s densest rural mosaics - brick ribbon villages, hedge-woven green cells and poplar canal lines - gives way to the dark forested Ardennes plateau in the southeast.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Belgium",
+    "https://en.wikipedia.org/wiki/Ardennes"
+   ]
+  },
+  "ch-at": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "striped hay-meadow mosaics pinned between the slopes, slim orchard lines on valley floors",
+   "note": "Grey rock and snowfields overhang dark spruce, stepped bright hay meadows and chalet villages fold into every valley, and the treeline caps everything ruthlessly.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Switzerland",
+    "https://en.wikipedia.org/wiki/Austria"
+   ]
+  },
+  "dk": {
+   "hedgerows": 0,
+   "shelterbelts": 2,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "planted windbreak tree rows bounding almost every farm holding since the 1860s",
+   "note": "A rolling moraine quilt of rape-yellow and grain fields stitched by dark windbreak rows around every holding, with brick-red farmsteads and an island scatter.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Denmark",
+    "https://en.wikipedia.org/wiki/Jutland"
+   ]
+  },
+  "se-south": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "big rape-wheat-beet fields crossed by poplar and oak avenues, lake-and-boulder woods in Smaland",
+   "note": "The Skane plain is an open yellow-green field quilt sliced by poplar-oak avenues, while beech woods and lake-studded forest chew the Smaland highlands.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Scania",
+    "https://en.wikipedia.org/wiki/Fagus_sylvatica"
+   ]
+  },
+  "se-north-fi": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "lakeside hay and barley strips, straight forest tracks, bogs between",
+   "note": "One dark blue-green taiga blanket stitched by thousands of smooth lakes with straight spruce foreshores, and regular pale clear-cut squares regrowing like plaid patches.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Norrland",
+    "https://en.wikipedia.org/wiki/Finland"
+   ]
+  },
+  "is": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "monochrome moss-lava desert with only fenced fertilised hay rings around the farmsteads",
+   "note": "A silver-grey basaltic island with essentially no trees beyond birch scrub, lightened only by bright hayfield rectangles at each farm and steam-white geothermal smudges.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Iceland",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Iceland"
+   ]
+  },
+  "pl": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "impossibly fine 1-4 ha strip fields radiating off every lane, apple orchard rows and pine plantation blocks",
+   "note": "Fragmentation defines it: a fine grey-green-brown quilt of narrow strips with roadside avenues, rape-yellow squares scattered among dark square plantations and busy county towns.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Poland",
+    "https://en.wikipedia.org/wiki/Agriculture_in_Poland"
+   ]
+  },
+  "cz-sk-hu": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "straight strip fields and maize-alfalfa blocks against wood edges, locust-poplar windbreak rows",
+   "note": "A sea of small red-tile roofs under cream church spires nests in wooded Bohemian-Moravian hills, the Danube lowlands open into giant sunflower-maize squares and Carpathian spruce folds edge the east.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Czech_Republic",
+    "https://en.wikipedia.org/wiki/Great_Hungarian_Plain"
+   ]
+  },
+  "dz-tn-tell": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "wheat and vine strips below olive terraces on the coastal folds",
+   "note": "White cubical houses hang on the Mediterranean-facing slopes above banded olive and cork-oak woods, while wheat fills the smooth valley floors between the ridge lines.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tell_Atlas",
+    "https://en.wikipedia.org/wiki/Atlas_Mountains"
+   ]
+  },
+  "dz-ly-ne-ml-mr-sahara": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "oasis garden walls and palm clusters, nothing between erg edges",
+   "note": "Hyper-arid nothingness: pale erg sand seas, hamada gravel sheets and black wadi scars, with green palm-garden dots at every spring between the dunes.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sahara",
+    "https://en.wikipedia.org/wiki/Erg_(landform)"
+   ]
+  },
+  "ly-coast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "dry-wall olive and fig plots over the stony pre-desert flats",
+   "note": "A white-concrete coastal strip around Tripoli and Benghazi sits caught between olive-fig garden blocks and the empty stony pre-desert behind.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Libya",
+    "https://en.wikipedia.org/wiki/Tripolitania"
+   ]
+  },
+  "sd-ss-sudan-south-sudan": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "mechanised sorghum and cotton squares on the clay plain, invisible grazing range lines",
+   "note": "A blue-green Nile ribbon with irrigated cotton schemes runs between dun acacia steppe, ending in the vast papyrus sponge of the Sudd swamps to the south.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sudan",
+    "https://en.wikipedia.org/wiki/Sudd"
+   ]
+  },
+  "et-highlands": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "hand-built bunded terraces wrapping every ridge, eucalypt fence lines",
+   "note": "A green, tightly terraced mountain quilt in which every slope is bunded by hand under teff and coffee stands, eucalypt fence lines and round tukul villages make the pattern readable.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ethiopian_Highlands",
+    "https://en.wikipedia.org/wiki/Teff"
+   ]
+  },
+  "er-dj-so-horn": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "thornbush paddocks and escarpment terraces near the highland edge",
+   "note": "An arid thorn-and-frankincense steppe split by long wadis, with Ethiopian escarpment terracing at the west edge and camel-drive dune coasts to the sea.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Horn_of_Africa",
+    "https://en.wikipedia.org/wiki/Frankincense"
+   ]
+  },
+  "sn-ml-bf-ne-td-sahel": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "dispersed millet and sorghum plots with Faidherbia and baobab trees left standing mid-field",
+   "note": "A pale grass-and-thornbush sea in which reddish field cells around adobe compounds carry lone standing Faidherbia and baobab trees for shade and fodder.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sahel",
+    "https://en.wikipedia.org/wiki/Faidherbia"
+   ]
+  },
+  "ci-gh-tg-bj-coast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "straight cocoa stands with cassava inter-stripes, coconut lines on every lagoon sandbar",
+   "note": "Glossy dark-green cocoa blocks and oil-palm grids blanket the coastal belt down to lagoon-and-dune strips lined with coconut palms behind the surf.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Gulf_of_Guinea",
+    "https://en.wikipedia.org/wiki/Cocoa_bean"
+   ]
+  },
+  "ng-nigeria": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "cassava-yam mounds and maize cells tight around every compound, oil-palm clumps on the slopes",
+   "note": "Humid palm-and-cassava farm mosaics in the south grade through brush-fallow savanna to open thorn-farmland in the far north, stitched to the forests by the oil-palm Middle Belt.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Nigeria",
+    "https://en.wikipedia.org/wiki/Middle_Belt"
+   ]
+  },
+  "gn-sl-lr-guinea-coast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "rice-bush-fallow mosaic with palms marking every old village site",
+   "note": "A wet, green bush-and-forest mosaic cracked by tan swidden patches and mangrove-fringed estuaries, with rubber and oil-palm plantings stacked on the Fouta Djallon foothill walls.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Guinea",
+    "https://en.wikipedia.org/wiki/Fouta_Djallon"
+   ]
+  },
+  "gr-mainland-crete": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "grey-green olive terraces and tiny wheat-fallow paddies wrapping marble-white slopes",
+   "note": "Marble-white rocky slopes stitched with grey olive terraces and tiny wheat-fallow paddies carry white-cube towns from Thessaly to Crete.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Greece",
+    "https://en.wikipedia.org/wiki/Crete"
+   ]
+  },
+  "balkans-west": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "drystone karst walls gridding sheep pasture, vine terraces climbing river gorges",
+   "note": "Limestone karst walls cut sheep fields into a grey checkerboard behind forested Dinaric ridges, with vine terraces and red-tile towns set in every valley mouth.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Balkans",
+    "https://en.wikipedia.org/wiki/Dinaric_Alps"
+   ]
+  },
+  "balkans-centre": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "Vojvodina grain belts and sunflower blocks, plum orchards filling every hill hollow",
+   "note": "Flat Vojvodina grain belts and sunflower blocks give way to an oak-plum hill-orchard mosaic with ridge-top pine villages above the Vardar valley floor.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Serbia",
+    "https://en.wikipedia.org/wiki/Vardar"
+   ]
+  },
+  "ro-md": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "strip villages threading every valley with hay meadows and plum orchards, sunflower steppe opening south",
+   "note": "The Carpathian arc holds dark beech-conifer forest around chain villages and plum orchards, releasing into open sunflower-wheat steppe and slope vineyard belts in Moldova.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Romania",
+    "https://en.wikipedia.org/wiki/Carpathian_Mountains"
+   ]
+  },
+  "bg": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "Danube plain grain stripes, rose fields and vineyard belts between the dark spines",
+   "note": "The forested Stara Planina spine darkens the middle while grain plains spread north to the Danube and the south stacks rose fields, wine terraces and mosaic mountains.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bulgaria",
+    "https://en.wikipedia.org/wiki/Balkan_Mountains"
+   ]
+  },
+  "ua": {
+   "hedgerows": 0,
+   "shelterbelts": 3,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "straight kilometre-long field blocks tied by poplar windbreak rows",
+   "note": "The greatest straight-line field canvas on Earth: endless wheat, maize and sunflower giant squares stitched by poplar windbreaks with dacha orchard clumps at every village.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ukraine",
+    "https://en.wikipedia.org/wiki/Pontic–Caspian_steppe"
+   ]
+  },
+  "by": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "small damp strips and potato plots ringed by pine and birch",
+   "note": "A flat pine-birch forest-and-marsh quilt with bog patches speckling the Pripyat basin, and small grain-potato strips pressed against every wood edge.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Belarus",
+    "https://en.wikipedia.org/wiki/Polesia"
+   ]
+  },
+  "baltics": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "big striped arable blocks with rape-yellow May squares between dark bog-and-forest islands",
+   "note": "Big striped arable blocks and rape-yellow spring squares sit between vast spruce-pine-birch forests, raised bogs and smooth glacial lakes.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Baltic_states",
+    "https://en.wikipedia.org/wiki/Estonia"
+   ]
+  },
+  "ru-west": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "communal strip fields and dacha orchards against dark wood edges",
+   "note": "The Russian plain prints as a north taiga blanket, a middle forest-steppe mosaic of birch-oak woods with strip fields, and dacha-orchard belts around every village.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Russia",
+    "https://en.wikipedia.org/wiki/East_European_Plain"
+   ]
+  },
+  "cy-mt": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "tiny stone-terraced plots with drywall margins, Mesaoria grain flats",
+   "note": "Stone-grey terraces and drywalled olive-carob plots mark both islands: Malta merges into one dense limestone sprawl while Cyprus opens Mesaoria grain flats below the Troodos pines.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cyprus",
+    "https://en.wikipedia.org/wiki/Malta"
+   ]
+  },
+  "cm-cf": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "cocoa-under-forest plots and oil-palm estate grids, then savanna compound farms to the north",
+   "note": "A rainforest-to-savanna ladder: cocoa-shaded forest in the south, palm-and-maize farms on the Cameroon line volcanoes, and Sahelian compound fields on the edge.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cameroon",
+    "https://en.wikipedia.org/wiki/Central_African_Republic"
+   ]
+  },
+  "cd-cg-ga-gq-congo-basin": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 0,
+   "forestPattern": "continuous",
+   "fieldEdges": "cassava-plantain garden clearings and raffia swamp lines, no fences",
+   "note": "The world’s second-largest tropical forest appears as one unbroken green canopy mass threaded by the Congo’s broad brown loops and swampy raffia channels.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Congo_Basin",
+    "https://en.wikipedia.org/wiki/Congolian_rainforests"
+   ]
+  },
+  "ug-uganda": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "banana-shaded coffee garden plots wrapping every volcanic and lake-shore hill",
+   "note": "Fertile equatorial lake-land where banana-shaded coffee gardens and eucalypt stands quilt every hill around Lake Victoria with hardly a straight field in view.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Uganda",
+    "https://en.wikipedia.org/wiki/Lake_Victoria"
+   ]
+  },
+  "rw-bi": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "hill-to-hill terraces shoulder to shoulder with tea slope blocks",
+   "note": "The thousand-hills highlands read as one continuous fine-grain terrace quilt ridge to ridge, with tea and coffee bands and only the papyrus swamps as gaps.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Rwanda",
+    "https://en.wikipedia.org/wiki/Burundi"
+   ]
+  },
+  "tz-tanzania": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "maize-banana homestead cells in the north, coconut-cashew groves east, open miombo elsewhere",
+   "note": "Big open savanna plains with acacia-baobab scatter, dense miombo woodland to the west and south, coconut-clove groves along the coast and Kilimanjaro’s cone overhead.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tanzania",
+    "https://en.wikipedia.org/wiki/Serengeti"
+   ]
+  },
+  "ke-coast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "coconut-cashew groves in straight rows behind mangrove-lined creeks",
+   "note": "A palm-and-cashew coastal ribbon runs behind mangrove creeks and estuary shallows, ending within 100 kilometres against the drier savanna interior.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Swahili_coast",
+    "https://en.wikipedia.org/wiki/Kenya"
+   ]
+  },
+  "ao-angola": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "open miombo-and-grass mosaic with scattered compound farm polygons",
+   "note": "A narrow coastal desert gives way inland to wide miombo woodland and savanna mosaic on the Bie plateau, coffee-palm groves in the humid north and compound farm polygons on the plateau.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Angola",
+    "https://en.wikipedia.org/wiki/Angolan_miombo_woodlands"
+   ]
+  },
+  "zm-mw": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "maize-mound homestead cells with tobacco curing barns between woodland islands",
+   "note": "A big miombo plateau sea of bronze-green canopy between compound maize fields and tobacco barns, split by the blue gash of Lake Malawi and the bends of the Zambezi.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Zambia",
+    "https://en.wikipedia.org/wiki/Malawi"
+   ]
+  },
+  "mz-mozambique": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 3,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "cashew-coconut groves threading the coast with flooded paddies inland",
+   "note": "A long palm-and-mangrove Indian Ocean coast with cashew-and-coconut groves steps inland through open savanna, split by the Zambezi’s giant delta fan.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mozambique",
+    "https://en.wikipedia.org/wiki/Zambezi"
+   ]
+  },
+  "zw-zimbabwe": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "Highveld maize-tobacco-barn farm blocks with msasa woodland gullies between",
+   "note": "Highveld maize-and-tobacco farm blocks with msasa woodland gullies knit the plateau, thorn scrub sinks toward the Limpopo lowveld and the misted Eastern Highlands close the east.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Zimbabwe",
+    "https://en.wikipedia.org/wiki/Eastern_Highlands"
+   ]
+  },
+  "ru-north": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "hay swathes on river terraces, the rest one endless bog-taiga horizon",
+   "note": "One dark spruce-pine-birch taiga blanket over glacial lake-and-bog country broken only by hay meadows flanking brown braided rivers, timber-cut squares and reed-gold deltas.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Taiga",
+    "https://en.wikipedia.org/wiki/Kola_Peninsula"
+   ]
+  },
+  "ru-south": {
+   "hedgerows": 0,
+   "shelterbelts": 3,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "giant straight wheat-sunflower fields striped by poplar-locust shelterbelts, long-street stanitsa villages",
+   "note": "The black-earth steppe prints as gigantic striped grain-and-sunflower rectangles stitched by poplar-locust shelterbelts, with the snow white Caucasus wall and vineyard-terraced Kuban belt at the southern edge.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Chernozem",
+    "https://en.wikipedia.org/wiki/Kuban_(river)"
+   ]
+  },
+  "ru-caucasus": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "vineyard bench terraces and maize plots on the foothill fans below the snow wall",
+   "note": "Open Stavropol grain plains abut an abrupt snowy Caucasus wall of hornbeam-oak forest, vineyard bench terraces at their feet and mountain-valley town clusters beneath.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Caucasus",
+    "https://en.wikipedia.org/wiki/North_Caucasus"
+   ]
+  },
+  "ru-urals": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 2,
+   "forestPattern": "continuous",
+   "fieldEdges": "forest edge meeting the spring-wheat steppe state east of the crest",
+   "note": "A low, densely forested ridge of fir, birch and pine rolls between steppe farmland on both slopes, marked by a chain of smoke-stacked industrial cities along the slope.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ural_Mountains",
+    "https://en.wikipedia.org/wiki/Taiga"
+   ]
+  },
+  "ru-w-sib": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "continuous",
+   "fieldEdges": "grain mega-fields in the Kulunda steppe south, bog-taiga sponge north",
+   "note": "A bog-and-cedar taiga sponge with slow brown river loops and oil-gas pads in the north gives way at the south edge to Kulunda’s immense straight spring-wheat fields and ribbon pine bars.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/West_Siberian_Plain",
+    "https://en.wikipedia.org/wiki/Pinus_sibirica"
+   ]
+  },
+  "ru-e-sib": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "continuous",
+   "fieldEdges": "small hay-oat valley pockets and alas grassland rings in the permafrost plains",
+   "note": "A single cold larch taiga mass on permafrost stretches horizon to horizon, broken only by river-valley hay meadows, alas grassland rings and the blue crack of Baikal.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Central_Siberian_Plateau",
+    "https://en.wikipedia.org/wiki/Larch"
+   ]
+  },
+  "ru-far-east": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "soybean squares around southern valley towns, berry-bog marshes to the north",
+   "note": "Korean-pine and Mongolian-oak mixed forest rolls from the Sikhote-Alin range down to a jagged cold sea coast, with tan soybean squares hugging the Amur valley settlements.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Russian_Far_East",
+    "https://en.wikipedia.org/wiki/Sikhote-Alin"
+   ]
+  },
+  "kz": {
+   "hedgerows": 0,
+   "shelterbelts": 2,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "vast straight-bounded spring-wheat blocks in the north, striped cotton belts in the south",
+   "note": "A near-treeless grass ocean of feather-grass silver-gold rolls into bare uplands, with only windbreak rows along the wheat-belt roads and Schrenk spruce pinned to the southern mountain slopes.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kazakhstan",
+    "https://en.wikipedia.org/wiki/Kazakh_Steppe"
+   ]
+  },
+  "kg": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "narrow hay-potato plots pinned between range walls, walnut-fruit groves in the south valleys",
+   "note": "Deep green Schrenk spruce hangs on every Tian Shan slope while hay meadows fill valley floors and walnut-fruit groves thicken the Fergana-edge valleys.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kyrgyzstan",
+    "https://en.wikipedia.org/wiki/Tian_Shan"
+   ]
+  },
+  "micro": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "terraced gardens and hay terraces behind slate village walls",
+   "note": "Four microstates read in close-up: Andorra’s slate-roofed valley terraces under dark Pyrenean pine, Monaco’s apartment wall on the Riviera, and San Marino’s and the Vatican’s fortress-hill and urban microcosms.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Andorra",
+    "https://en.wikipedia.org/wiki/Monaco"
+   ]
+  },
+  "ru-gaps": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "large patches",
+   "fieldEdges": "forest-steppe strip fields and steppe grain between taiga north and mountain basins",
+   "note": "A catch-all of leftover federal subjects: forest-steppe strip fields in Kurgan, coal-scarred taiga in Kemerovo, Tuva’s steppe-and-larch mountain basins, and soy-and-taiga squares along the Amur bend.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/forest_steppe",
+    "https://en.wikipedia.org/wiki/Tuva"
+   ]
+  },
+  "br-amazon": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "fishbone clear-cut paths and pasture polygons dissolving the canopy edges",
+   "note": "One unbroken green canopy mass, gnawed at its edges by fishbone cleared pasture polygons and burn-scar fields along every road, with grey-brown river braids the only other shape.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Amazon_rainforest",
+    "https://en.wikipedia.org/wiki/Deforestation_of_the_Amazon_rainforest"
+   ]
+  },
+  "br-northeast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "green sugar-cane blocks on the wet coast, bean-cassava plots inland, thorn caatinga between",
+   "note": "Three stacked prints: a green sugar-cane coastal strip, the seasonally brown caatinga thorn mosaic inland with cacti and carnauba palms, and the agreste highland pasture belt between.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Caatinga",
+    "https://en.wikipedia.org/wiki/Brazil"
+   ]
+  },
+  "br-se-south": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 2,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "coffee strung on ridges, sugar-cane blocks, straight plantation rows",
+   "note": "A quilt of coffee-and-cane hillsides with dark araucaria crowns and eucalypt plantation grids, red-soil soy-and-maize flats to the south, and remnant Atlantic rainforest ribs clinging in state parks.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Atlantic_Forest",
+    "https://en.wikipedia.org/wiki/Araucaria_angustifolia"
+   ]
+  },
+  "andes-north": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "coffee shade-mosaics on steep Andean slopes, llanos palm-savanna below",
+   "note": "A cordillera-in-canopy: shaded coffee farms and cloud-forest gullies on every slope, eucalypt dots around towns and the flat palm-savanna llanos rolling east.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Andes",
+    "https://en.wikipedia.org/wiki/Coffee_production_in_Colombia"
+   ]
+  },
+  "bo": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "altiplano strip-terraced plots and Chaco thorn mosaic",
+   "note": "A triple stack: treeless tan altiplano with strip-terraced potato-quinoa plots and salt flats, green terraced Yungas, and thorn-quebracho Chaco lowland to the east.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bolivia",
+    "https://en.wikipedia.org/wiki/Altiplano"
+   ]
+  },
+  "cl": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "vineyard straight-rows in the central valleys, radiata pine plantation grids in the south",
+   "note": "A 4,300-kilometre ribbon goes from treeless Atacama gravel through matorral-and-vineyard central valleys to lakes, radiata plantations and fiord forest in the wet south.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Chile",
+    "https://en.wikipedia.org/wiki/Chilean_Matorral"
+   ]
+  },
+  "ar-pampas": {
+   "hedgerows": 0,
+   "shelterbelts": 2,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "none",
+   "fieldEdges": "soy-maize mega-fields edged by eucalypt windbreak rows, shelterbelts the only woody lines",
+   "note": "A flat green-gold grassland quilt of enormous soy-maize-wheat blocks edged by lone eucalypt windbreak rows and dotted with small grain-elevator towns.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Pampas",
+    "https://en.wikipedia.org/wiki/Argentina"
+   ]
+  },
+  "ar-nw-patagonia": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "high-altitude vine terrace rows and sheep-station paddocks of the steppe",
+   "note": "Cactus-algarrobo desert and yungas cloud forest edge the northwest, high-altitude vineyards stair the valleys and lenga-coihue beech forest fringes the windswept Patagonian steppe.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Patagonia",
+    "https://en.wikipedia.org/wiki/Nothofagus"
+   ]
+  },
+  "py-uy-guianas": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "cattle paddocks on rolling campos, rice squares on the wet coastal plain, thorn Chaco clear-cut edges",
+   "note": "Paraguay sits in flat dry thorn Chaco country, Uruguay prints as open rolling grass sea with palm groves, and the Guianas add one dark rainforest curtain to a mangrove-fringed rice coast.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Gran_Chaco",
+    "https://en.wikipedia.org/wiki/The_Guianas"
+   ]
+  },
+  "za-wc": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "vineyard straight-rows against fynbos-clad mountain flanks, oak-lined Cape Dutch avenues",
+   "note": "Mediterranean squares of vines, apples and wheat fill a grey-green fynbos shrubland belt in the Cape Floral Kingdom, with famous oak avenues shading the old estates.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Western_Cape",
+    "https://en.wikipedia.org/wiki/Fynbos"
+   ]
+  },
+  "za-hv": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "none",
+   "fieldEdges": "maize-sunflower squares and gold mine-dump rings on open grassveld",
+   "note": "Rolling maize-and-sunflower grassveld at 1,500 metres dotted with eucalypt clumps, gold mine-dump rings and jacaranda-purple towns, with almost no wild forest left.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Highveld",
+    "https://en.wikipedia.org/wiki/South_Africa"
+   ]
+  },
+  "za-kzn": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "cane blocks and burning stubble to the surf, reedbeds and mangrove in the estuaries",
+   "note": "Mile-wide cane blocks with banana and mango strips run to Indian Ocean surf lines, wetland reedbeds and fever-tree estuaries threading between them.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/KwaZulu-Natal",
+    "https://en.wikipedia.org/wiki/Sugarcane"
+   ]
+  },
+  "na-namibia": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "irrigation circles and palm-oasis edges against bare gravel plains and dune seas",
+   "note": "Almost nothing grows unaided: Namib dune seas and gravel plains press a thin ribbon of camelthorn riverbeds, quiver-tree koppies and green irrigation circles.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Namibia",
+    "https://en.wikipedia.org/wiki/Namib"
+   ]
+  },
+  "bw-botswana": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "cattle-post clearings ringed with thorn fences, sorghum rows at village edges",
+   "note": "Flat red Kalahari sand country with mopane woodland patches, the great green Okavango delta pressing north and cattle posts marking every thorn-bush horizon.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Botswana",
+    "https://en.wikipedia.org/wiki/Kalahari_Desert"
+   ]
+  },
+  "ls-sz": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "stone-walled field ladders on Maloti slopes, sugarcane estate grids on the lowveld",
+   "note": "Treeless Lesotho highlands stack stone-walled fields and rondavel villages under Maluti snow, while green Eswatini adds sugar estates and savanna woodlands.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Lesotho",
+    "https://en.wikipedia.org/wiki/Eswatini"
+   ]
+  },
+  "mg-madagascar": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 3,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "paddy bunds closing every valley floor, ravinala palms and zebu kraals at village edges",
+   "note": "A quilted island: humid rainforest spine and baobab-studded savannas wrapped around tightly terraced rice valleys in the central highlands.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Madagascar",
+    "https://en.wikipedia.org/wiki/Adansonia"
+   ]
+  },
+  "mu-re-sc": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "cane blocks climbing every volcano flank, filao lines behind the beaches",
+   "note": "Sugarcane blankets Mauritius and Réunion island volcanoes to their crater rims, filao casuarina lines hold the beach sands and native forest hides on the highest ridges.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mauritius",
+    "https://en.wikipedia.org/wiki/R%C3%A9union"
+   ]
+  },
+  "km-yt": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "spice and vanilla garden mosaics on volcano slopes, coconut groves to the reefs",
+   "note": "Vanilla, ylang-ylang and banana garden mosaics stack up Comoro volcano slopes, Mayotte's lagoons rimmed with grey-green mangrove.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Comoros",
+    "https://en.wikipedia.org/wiki/Mayotte"
+   ]
+  },
+  "cv-st": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "stone-walled dry terraces on arid slopes, cocoa under tall rainforest shade",
+   "note": "Bare brown Cape Verde islands raise stone-walled dry terraces above palm arrays, while São Tomé's old cocoa roças hide under near-continuous equatorial rainforest.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cape_Verde",
+    "https://en.wikipedia.org/wiki/S%C3%A3o_Tom%C3%A9_and_Pr%C3%ADncipe"
+   ]
+  },
+  "sb-vu": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "continuous",
+   "fieldEdges": "coconut plantation rows behind white beach lines, swidden garden patches cut into jungle",
+   "note": "Deep green Melanesian jungle smothers volcanic islands and reef coasts alike, broken only by swidden gardens, coconut rows and mangrove-lined turquoise lagoons.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Solomon_Islands",
+    "https://en.wikipedia.org/wiki/Vanuatu"
+   ]
+  },
+  "nc-wf": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "red mining scars and silver niaouli scrub, cattle paddocks on the dry west plain",
+   "note": "Nickel mining strips red scars through New Caledonia's niaouli scrub and burnt maquis, with a huge reef-ringed lagoon and quiet Wallis crater-lake gardens.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/New_Caledonia",
+    "https://en.wikipedia.org/wiki/Wallis_and_Futuna"
+   ]
+  },
+  "fm-pw-mh-nr-ki-micronesia": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "breadfruit-taro village groves inside palm islets, nothing beyond reef flats",
+   "note": "Coral atoll rings and islets slung along reef rims wrap pale lagoons, Palau's jungle-covered Rock Islands being the one compact forest mass.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Federated_States_of_Micronesia",
+    "https://en.wikipedia.org/wiki/Palau"
+   ]
+  },
+  "gu-mp": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "taro plots and limestone jungle edges, resort lawns opening onto Tumon Bay",
+   "note": "A hard volcanic arc: limestone jungle and typhoon-cleared thickets over Guam and the Northern Marianas, with ironwood avenues and flame trees marking each town.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Guam",
+    "https://en.wikipedia.org/wiki/Northern_Mariana_Islands"
+   ]
+  },
+  "ck-nu-tk-tv-as-pn-polynesia": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "small scattered",
+   "fieldEdges": "pandanus and breadfruit stands beside reef-edge villages, coconut lines on motu rims",
+   "note": "Green volcanic cones and palm-veiled atolls alternate from Rarotonga to Tuvalu, bands of taro pits and breadfruit groves hugging every reef-edge village.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cook_Islands",
+    "https://en.wikipedia.org/wiki/Tuvalu"
+   ]
+  },
+  "hk-mo": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "no open field edge, towers rising straight off reclamation water and terraced hillside cemeteries",
+   "note": "Tower walls of flats and offices ride every steep green slope around a concrete reclamation core, with banyan walls, bamboo scaffolding groves and tiny terraced vegetable plots. (Claude: forestPattern set to large patches; Hong Kong country parks cover about 40% of the land.)",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hong_Kong",
+    "https://en.wikipedia.org/wiki/Macau"
+   ]
+  },
+  "br-cerrado": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "central-pivot circles and straight soy squares against twisted cerrado scrub",
+   "note": "Giant flat red-soil fields in perfect pivot circles and straight soy squares cut into twisted cerrado savanna trees, dark gallery forest shading every stream.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cerrado",
+    "https://en.wikipedia.org/wiki/Mato_Grosso"
+   ]
+  },
+  "br-pantanal": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 3,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "large patches",
+   "fieldEdges": "open flood savanna with cattle trails and termite mounds, gallery forest lines along rivers",
+   "note": "A gigantic shallow dish flooded half the year: grass and carandá palm savanna with wild cattle that wade across wetland channels, gallery forest lining the river loops.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Pantanal",
+    "https://en.wikipedia.org/wiki/Mato_Grosso_do_Sul"
+   ]
+  },
+  "ar-litoral": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "yerba rows under shade trees on red earth, rice paddies in Corrientes lowlands",
+   "note": "Argentina's green northeast wedge grows shade-grown yerba mate and tea plantations on red Misiones earth, with Paraná pines and yatay palm savannas rounding the lowlands.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Yerba_mate",
+    "https://en.wikipedia.org/wiki/Misiones_Province"
+   ]
+  },
+  "fk": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "stock fences crossing whitegrass moor, stone runs and bare fell sides",
+   "note": "Treeless, wind-scoured whitegrass moor grazed by hardy sheep, cut by stone runs and kelp-brown sea sounds.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Falkland_Islands",
+    "https://en.wikipedia.org/wiki/Grassland"
+   ]
+  },
+  "gm-gw": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "cashew orchards ringed around every compound, swamp rice in tidal flats",
+   "note": "A slim tidal river country: the mangrove-fringed Gambia estuary lined with groundnut fields opens into Guinea-Bissau's cashew orchard mosaic and palm savanna.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/The_Gambia",
+    "https://en.wikipedia.org/wiki/Guinea-Bissau"
+   ]
+  },
+  "eh": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "greenhouse arcs on the Dakhla coast and palm lines inside oasis walls",
+   "note": "Monotonous desert split by a sand berm wall, phosphate conveyor scars near Laayoune and tomato greenhouse rows lining the Dakhla shore.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Western_Sahara",
+    "https://en.wikipedia.org/wiki/Laayoune"
+   ]
+  },
+  "gl": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "sheep fences among dwarf willow scrub and hay plots in the southern fjords",
+   "note": "An ice-sheet world with bare nunataks and skerries, green only at the southern fjord mouths where Kujataa sheep farms continue Norse and Inuit farming.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Greenland",
+    "https://en.wikipedia.org/wiki/Kujataa"
+   ]
+  },
+  "fo-sj": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "turf-roofed hay meadows and stone sheep fanks under bird cliffs",
+   "note": "Green treeless Faroese grass and stone sheep fanks under bird cliffs, while Arctic Svalbard adds bare permafrost tundra and coal-town gravel, both with almost no farming of any kind.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Faroe_Islands",
+    "https://en.wikipedia.org/wiki/Svalbard"
+   ]
+  },
+  "crown-gib": {
+   "hedgerows": 1,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "none",
+   "fieldEdges": "glasshouse belts and Jersey Royal potato plots, dry-stone pasture walls",
+   "note": "Four tiny territories in one block: Gibraltar's limestone Upper Rock with olives and candytuft, the Isle of Man's pine-and-beech glens, and hedged dairy-and-glasshouse island farms on Jersey and Guernsey.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Gibraltar",
+    "https://en.wikipedia.org/wiki/Jersey"
+   ]
+  },
+  "gt-bz": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 2,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "steep milpa corn slopes, coastal cane and banana squares below cloud forest",
+   "note": "Volcanic highlands terraced with maize milpa patches rise to cloud forest, while Belize adds coastal sugar cane squares, citrus-and-banana belts and reef cayes.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Guatemala",
+    "https://en.wikipedia.org/wiki/Belize"
+   ]
+  },
+  "hn-sv-ni": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "banana-and-pineapple estate blocks on the coastal plain, tiny coffee plots on slopes",
+   "note": "Dense El Salvador packs coffee slopes and patch fields wall-to-wall, Honduras adds banana-and-pineapple coastal estates and pine ridges, and Nicaragua sweeps in wet rainforest and volcanic lake country.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Honduras",
+    "https://en.wikipedia.org/wiki/El_Salvador"
+   ]
+  },
+  "cr-pa": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "coffee fincas on volcano slopes, banana shipping squares and cattle paddocks",
+   "note": "Two green isthmus nations: Costa Rica's cloud forests, coffee fincas and banana estates between volcano walls, and Panama's canal-zone settlements ending in the roadless Darién rainforest.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Costa_Rica",
+    "https://en.wikipedia.org/wiki/Dari%C3%A9n_Gap"
+   ]
+  },
+  "cu": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "cane squares with burning stubble, palm-dotted cattle pasture boundaries",
+   "note": "A long flat limestone island of soft greens where royal palms sentinel every cattle pasture, tobacco fields press into Vuelta Abajo and mogote knolls rise from Viñales jungle.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cuba",
+    "https://en.wikipedia.org/wiki/Roystonea_regia"
+   ]
+  },
+  "hispaniola": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "cane-rice-cacao mosaics east of a bare, eroded Haitian border line",
+   "note": "One island, two prints: Dominican pine forest and cane-rice-cacao mosaics meet a Haitian border line where charcoal-driven deforestation leaves brown erosion scars.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hispaniola",
+    "https://en.wikipedia.org/wiki/Deforestation_in_Haiti"
+   ]
+  },
+  "jm-ky": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "cane blocks on coastal plains, coffee gardens up the Blue Mountain valleys",
+   "note": "Jamaica's bumpy cockpit karst and cane plains climb to Blue Mountain coffee shade gardens, with flat Cayman mangrove-and-coral banks offshore to the west.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Jamaica",
+    "https://en.wikipedia.org/wiki/Cayman_Islands"
+   ]
+  },
+  "pr-vi-vg": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "plantain groves and hillside pasture, mangrove channels behind beach flats",
+   "note": "Suburban mosaics and plantain groves pack Puerto Rico under the misty El Yunque rainforest canopy, with quiet Virgin Islands veiled in thorn scrub, sea grape and mangrove channels.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Puerto_Rico",
+    "https://en.wikipedia.org/wiki/El_Yunque_National_Forest"
+   ]
+  },
+  "less-ant-north": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "banana-and-cane patches on volcano slopes, dry scrub and salt ponds in the lees",
+   "note": "A nine-island hopping line where rainforest volcano domes like Basse-Terre and Dominica contrast with dry acacia-and-salt-pond Anguilla and Antigua flats.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Lesser_Antilles",
+    "https://en.wikipedia.org/wiki/Guadeloupe"
+   ]
+  },
+  "less-ant-south": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "cane blocks rolling to the sea, nutmeg-and-cocoa groves on Grenada hills",
+   "note": "Sugarcane presses Barbados and Martinique plantations right to the water line, Grenada stacks nutmeg-and-cocoa groves in rainforest, and Trinidad adds the Caroni mangrove swamp belt.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Lesser_Antilles",
+    "https://en.wikipedia.org/wiki/Barbados"
+   ]
+  },
+  "bs-tc-bm": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "blue-hole-dotted pine flats, row-crop garden plots near Nassau",
+   "note": "Barely-above-sea coral banks where turquoise-to-ivory water gradients make the map, dark Caribbean pine stands on Andros and Grand Bahama, mangrove creeks and casuarina windbreaks everywhere.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/The_Bahamas",
+    "https://en.wikipedia.org/wiki/Turks_and_Caicos_Islands"
+   ]
+  },
+  "dutch-caribbean": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "aloe rows and salt pans, thorn-and-cactus brush running to the sea",
+   "note": "Sun-baked flat islands where divi-divi trees lean permanently seaward, thorn-and-cactus brush covers abandoned plantation grids and Willemstad's pastel warehouses jam Curaçao's Schottegat inlet.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Aruba",
+    "https://en.wikipedia.org/wiki/Cura%C3%A7ao"
+   ]
+  },
+  "ca-atlantic": {
+   "hedgerows": 1,
+   "shelterbelts": 1,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "red-soil potato stripes on Prince Edward Island, blueberry barrens and hay fields against fir forest",
+   "note": "A cold green Maritime quilt: red-soil potato and hay squares, blueberry barrens, tidy spruce-fir blocks and house-hedged farmsteads under sea fog.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/The_Maritimes",
+    "https://en.wikipedia.org/wiki/Newfoundland_and_Labrador"
+   ]
+  },
+  "ca-quebec-ontario": {
+   "hedgerows": 1,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "corn-soy checkerboard and orchard rows against maple woodlot edges",
+   "note": "From Toronto to Quebec City the Great Lakes-St Lawrence corridor runs through alternating suburb, soy-and-corn flat, maple woodlot and Niagara orchard, with dark forest filling every north edge.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Quebec",
+    "https://en.wikipedia.org/wiki/Ontario"
+   ]
+  },
+  "ca-prairies": {
+   "hedgerows": 0,
+   "shelterbelts": 2,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "mile-square stubble-and-canola checkerboard with sloughs, poplar bluffs and grain elevators",
+   "note": "Flat wheat-and-canola country cut by the mile-square survey grid, farmstead shelterbelts planted against the wind and aspen bluffs marking every coulee and slough.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Canadian_Prairies",
+    "https://en.wikipedia.org/wiki/Dominion_Land_Survey"
+   ]
+  },
+  "ca-bc": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "continuous",
+   "fieldEdges": "orchard-and-vineyard benches above Okanagan lakes, cut-and-planted timber blocks upvalley",
+   "note": "A wall of dark temperate rainforest on the coast changes through drier pine-and-grass benches inland, Okanagan orchards and vineyards commanding lakeside terraces.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/British_Columbia",
+    "https://en.wikipedia.org/wiki/Temperate_rainforest"
+   ]
+  },
+  "ca-north": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "no fields, only tundra tussocks, lichen flats and the tree line snaking south",
+   "note": "Treeless lichened tundra over permafrost, a monochrome of bog brown and grey shield lakes broken by glacier tongues and the odd mine and settlement.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Northern_Canada",
+    "https://en.wikipedia.org/wiki/Tundra"
+   ]
+  },
+  "mx-north": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "cotton and vegetable squares strung along irrigation canals, bare bajadas between",
+   "note": "Two great deserts fold around dry sierras, woody brush covering red bajadas in every direction, green only in river-canal irrigation oases and the little wine-and-nut valleys.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sonoran_Desert",
+    "https://en.wikipedia.org/wiki/Chihuahuan_Desert"
+   ]
+  },
+  "mx-central": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "maguey rows and milpa corn squares climbing volcanic slopes",
+   "note": "A high volcanic belt with snowy Popocatépetl and Iztaccíhuatl dominating fields of maize milpa, maguey agave rows, avocados and jacaranda-purple avenues.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Trans-Mexican_Volcanic_Belt",
+    "https://en.wikipedia.org/wiki/Agave"
+   ]
+  },
+  "mx-south": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 2,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "steep shaded coffee slopes, milpa patches and palm groves down coastal plains",
+   "note": "Green mountains fall to both coasts, dense highland coffee and cacao under shade, hot lowland banana groves and the famous Tehuano wind roaring over the Isthmus of Tehuantepec.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Chiapas",
+    "https://en.wikipedia.org/wiki/Gulf_of_Tehuantepec"
+   ]
+  },
+  "mx-yucatan": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "continuous",
+   "fieldEdges": "milpa clearings slowly regrowing bush, henequen rows on old hacienda stone walls",
+   "note": "Flat low jungle on porous limestone with no surface rivers, cenote dots marking hidden water, colonial towns ringed by ceibas and henequen rows.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Yucat%C3%A1n_Peninsula",
+    "https://en.wikipedia.org/wiki/Agave_fourcroydes"
+   ]
+  },
+  "remote-islands": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "small scattered",
+   "fieldEdges": "palm groves and vegetable plots inside tiny island clearings",
+   "note": "Ten lonely dots from Saint Helena to Diego Garcia whose small green caps of Norfolk pines, coconut groves and scrub hold station life, runway pads and unique seabird colonies.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Saint_Helena",
+    "https://en.wikipedia.org/wiki/Norfolk_Island"
+   ]
+  },
+  "antarctica": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "none",
+   "fieldEdges": "no fields at all, ice-sheet and nunatak edges and gravel pads around stations",
+   "note": "An ice world with no agriculture: white ice shelves and blue crevasse fields against frost-shattered nunatak ridges and grey research-station gravel flats.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Antarctica",
+    "https://en.wikipedia.org/wiki/Antarctic_ice_sheet"
+   ]
+  },
+  "us-mid-atlantic": {
+   "hedgerows": 1,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 2,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "suburb-lawn mosaics and horse-pasture fences against oak-hickory ridge lines",
+   "note": "From Boston to Washington the land prints as endless grey-brown suburb with office parks, while Finger Lakes vineyards, Lancaster horse pastures and Virginia orchards fill the leftover farmland.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Northeast_megalopolis",
+    "https://en.wikipedia.org/wiki/Mid-Atlantic_(United_States)"
+   ]
+  },
+  "us-southeast": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "row-planted loblolly pine over red clay, cotton squares with white boll lint at edges",
+   "note": "An ocean of straight-planted loblolly pine timber covers rolling red clay, broken by flat cotton and soy fields, kudzu-smothered slopes and dark cypress-tupelo swamp at each river.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Southeastern_United_States",
+    "https://en.wikipedia.org/wiki/Pinus_taeda"
+   ]
+  },
+  "us-midwest": {
+   "hedgerows": 0,
+   "shelterbelts": 1,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "corn-soy quarter-section chessboard with drainage ditches and farm groves",
+   "note": "The purest Corn Belt on Earth: flawlessly straight corn and soy rows to every horizon, tidy farmhouse groves, grain elevators and bumpier northern lake-and-bog forest at the rim.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Midwestern_United_States",
+    "https://en.wikipedia.org/wiki/Corn_Belt"
+   ]
+  },
+  "us-plains-tx": {
+   "hedgerows": 0,
+   "shelterbelts": 2,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "none",
+   "fieldEdges": "pivot circle ends buried in stubble, unwatered corners of the mile grid",
+   "note": "The widest straight grid on Earth: mile-square wheat and stubble rectangles sprinkled with center-pivot circles, Dust Bowl shelterbelt rows and cottonwood lines in every coulee.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Great_Plains",
+    "https://en.wikipedia.org/wiki/Center-pivot_irrigation"
+   ]
+  },
+  "us-southwest": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 1,
+   "townTrees": 1,
+   "forestPattern": "large patches",
+   "fieldEdges": "pivot hay circles in sage flats ending squarely against rimrock",
+   "note": "Red-rock country: layered mesas and Monument Valley buttes over grey-gold sagebrush flats, dark pine-and-fir mountain islands rising above piñon-juniper belts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Southwestern_United_States",
+    "https://en.wikipedia.org/wiki/Sagebrush"
+   ]
+  },
+  "us-pacific": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 1,
+   "woodlots": 0,
+   "terraces": 1,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "rice levee grids in the Sacramento Valley, walnut-and-almond squares along the valley rim",
+   "note": "Three coastal stripes: dark fog-draped coast redwood and Douglas-fir forest, golden oak-savanna hills with palms in the cities, and the Central Valley's giant orchard, vineyard and rice grids.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sequoia_sempervirens",
+    "https://en.wikipedia.org/wiki/Central_Valley_(California)"
+   ]
+  },
+  "us-alaska": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 2,
+   "woodlots": 0,
+   "terraces": 0,
+   "orchardsOrPlantations": 0,
+   "townTrees": 0,
+   "forestPattern": "continuous",
+   "fieldEdges": "river gravel bars and muskeg flats, garden patches only at Matanuska",
+   "note": "A black-and-white spruce taiga quilt with birch-and-aspen slopes, meandering glacial rivers, bog muskeg flats and the Alaska Range's snowy ridgeline cutting through.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Alaska",
+    "https://en.wikipedia.org/wiki/Muskeg"
+   ]
+  },
+  "green-spain": {
+   "hedgerows": 1,
+   "shelterbelts": 1,
+   "riparianBelts": 1,
+   "woodlots": 1,
+   "terraces": 1,
+   "orchardsOrPlantations": 1,
+   "townTrees": 2,
+   "forestPattern": "large patches",
+   "fieldEdges": "eucalypt-edged dairy pastures and maize plots, hay meadows under Atlantic fog",
+   "note": "Along the green Cantabrian coast rain falls nearly every day: small dairy paddocks and maize squares with eucalypt and chestnut shelter rows stack against wet mountain forest.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cantabrian_Coast",
+    "https://en.wikipedia.org/wiki/Galicia_(Spain)"
+   ]
+  },
+  "canaries": {
+   "hedgerows": 0,
+   "shelterbelts": 0,
+   "riparianBelts": 0,
+   "woodlots": 0,
+   "terraces": 2,
+   "orchardsOrPlantations": 3,
+   "townTrees": 2,
+   "forestPattern": "ridge-top",
+   "fieldEdges": "stone terraces holding banana mesh and vine rows on black lava",
+   "note": "A volcanic archipelago off West Africa: black and rust lava fields climbing to snow-dusted Teide and pine-coated slopes above terraced banana-and-vine cultures and dragon trees in every plaza.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Canary_Islands",
+    "https://en.wikipedia.org/wiki/Teide"
+   ]
+  }
+ }
+}

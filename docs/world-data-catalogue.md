@@ -11,7 +11,7 @@ must be released under the same open licence (OpenStreetMap ODbL), so keep it se
 | Dataset | Where | Source | Licence | Version / date | Built by | Sellable? |
 |---|---|---|---|---|---|---|
 | Regional character (207 regions: crops, months, tree colours, roofs, town layout, terrain notes) | `src/data/world-flight/regional-character.json` + `src/lib/world-flight/regional-character.ts` | AI research batches (DeepSeek, GLM), cited | ours | Oct 2026 | Claude merged + checker test | Yes, after fact-check |
-| Vegetation structure (hedgerows, shelterbelts, belts, terraces, forest pattern per region) | in progress (scratchpad batches, will join the regional table) | DeepSeek research, cited | ours | Oct 2026 | Claude to merge | Yes, after fact-check |
+| Vegetation structure (hedgerows, shelterbelts, river belts, woodlots, terraces, orchards, town trees, forest pattern; all 207 regions) | `src/data/world-flight/vegetation-structure.json` | DeepSeek research, cited | ours | 29 Oct 2026 | Claude checked ids, ranges, spot-checks | Yes, after fact-check |
 | ISO 3166 country/subdivision reference | `scripts/data/iso-3166.json` | pycountry (ISO 3166) | open (LGPL tool; code list is public) | Oct 2026 | Claude | Reference only |
 | Rivers (HydroRIVERS, 10° tiles, width classes) | `public/data/rivers/` (manifest with source sha256, LICENSE.txt) | HydroSHEDS, Lehner & Grill 2013 | open-credit | v1.0 | `scripts/build-river-tiles.py` | Yes, with credit |
 | Day roads (motorway/trunk tiles) | Sol's worktree `public/data/poster-world/day-roads/` (not merged yet) | OpenStreetMap | **share-alike** | Oct 2026 | Sol | Only as open data |
