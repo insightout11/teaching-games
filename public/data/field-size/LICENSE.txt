@@ -1,0 +1,4 @@
+field-size-005.png: dominant field size class per 0.05-degree cell (global, row 0 = 90N, col 0 = 180W).
+0 no fields, 1 very large (>100 ha), 2 large (16-100 ha), 3 medium (2.56-16 ha), 4 small (0.64-2.56 ha), 5 very small (<0.64 ha).
+Source: Lesiv et al., Estimating the global distribution of field size using crowdsourcing, https://zenodo.org/records/6651481, CC BY 4.0.
+Built by scripts/build-field-size-map.py (mode of the source classes per cell). Credit: "Field sizes: Lesiv et al. 2019."

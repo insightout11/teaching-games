@@ -10,13 +10,16 @@ must be released under the same open licence (OpenStreetMap ODbL), so keep it se
 
 | Dataset | Where | Source | Licence | Version / date | Built by | Sellable? |
 |---|---|---|---|---|---|---|
-| Regional character (205 regions: crops, months, tree colours, roofs, town layout, terrain notes) | `src/data/world-flight/regional-character.json` + `src/lib/world-flight/regional-character.ts` | AI research batches (DeepSeek, GLM), cited | ours | Oct 2026 | Claude merged + checker test | Yes, after fact-check |
+| Regional character (205 regions: crops, months, tree colours, roofs, town layout, terrain notes) | `src/data/world-flight/regional-character.json` + `src/lib/world-flight/regional-character.ts` | AI research batches (DeepSeek, GLM), cited | ours | Oct 2026 (207 regions) | Claude merged + checker test | Yes, after fact-check |
 | Vegetation structure (hedgerows, shelterbelts, belts, terraces, forest pattern per region) | in progress (scratchpad batches, will join the regional table) | DeepSeek research, cited | ours | Oct 2026 | Claude to merge | Yes, after fact-check |
 | ISO 3166 country/subdivision reference | `scripts/data/iso-3166.json` | pycountry (ISO 3166) | open (LGPL tool; code list is public) | Oct 2026 | Claude | Reference only |
 | Rivers (HydroRIVERS, 10° tiles, width classes) | `public/data/rivers/` (manifest with source sha256, LICENSE.txt) | HydroSHEDS, Lehner & Grill 2013 | open-credit | v1.0 | `scripts/build-river-tiles.py` | Yes, with credit |
 | Day roads (motorway/trunk tiles) | Sol's worktree `public/data/poster-world/day-roads/` (not merged yet) | OpenStreetMap | **share-alike** | Oct 2026 | Sol | Only as open data |
 | Settlement points (851,517), ecoregion plants, 53 building styles | Codex branch `codex/regional-data` | GHS / ecoregions / research (see branch SOURCES) | check per source | Oct 2026 | Codex | Check before use |
 | Land cover fractions (tree/crop/built-up) | Sol's GPU terrain assets | ESA WorldCover | open-credit (CC BY 4.0) | 2021 | Sol | Yes, with credit |
+| Coast types (tidal flat + mangrove share, 0.01° cells, 10° tiles; other coasts default sandy/rocky) | `public/data/coast-types/` (manifest, LICENSE.txt) | GTF30 2020 + Global Mangrove Watch v2 2016 | open-credit (CC BY 4.0) | built 29 Oct 2026 | `scripts/build-coast-type-tiles.py` | Yes, with credit |
+| Field size classes (global, 0.05°) | `public/data/field-size/field-size-005.png` | Lesiv et al. 2019 (crowdsourced) | open-credit (CC BY 4.0) | built 29 Oct 2026 | `scripts/build-field-size-map.py` | Yes, with credit |
+| Netherlands detail lines (canals, drains, ditches, tree rows/hedges, road bridges) | `public/data/osm-detail-nl/` | OpenStreetMap (Geofabrik extract 29 Oct 2026) | **share-alike** | 29 Oct 2026 | `scripts/build-osm-detail-nl.py` | Only as open data |
 | Resort coasts | requested (DeepSeek task 2) | research | ours | — | — | Yes, after check |
 
 ## Conventions

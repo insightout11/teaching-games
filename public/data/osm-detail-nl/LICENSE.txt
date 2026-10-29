@@ -1,0 +1,4 @@
+Netherlands detail lines: canals, drains, ditches, tree rows/hedges, road bridges. 1-degree tiles, base36 delta encoding (unit 0.0001 deg).
+Kinds: 1 canal, 2 drain, 3 ditch, 4 tree row or hedge, 5 road bridge.
+Data (c) OpenStreetMap contributors, Open Database License (ODbL) 1.0, https://www.openstreetmap.org/copyright
+Derived database: share-alike applies. Kept separate from other datasets. Built by scripts/build-osm-detail-nl.py from the Geofabrik Netherlands extract (29 Oct 2026).

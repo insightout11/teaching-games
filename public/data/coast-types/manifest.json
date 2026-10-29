@@ -1,0 +1,1156 @@
+{
+ "v": 1,
+ "cellDeg": 0.01,
+ "tileDeg": 10,
+ "channels": {
+  "r": "tidal flat share (GTF30 2020)",
+  "g": "mangrove share (GMW v2 2016)"
+ },
+ "tiles": {
+  "N00E000": {
+   "tidalCells": 3681,
+   "mangroveCells": 13889,
+   "bytes": 48362
+  },
+  "N00E040": {
+   "tidalCells": 220,
+   "mangroveCells": 0,
+   "bytes": 7161
+  },
+  "N00E050": {
+   "tidalCells": 0,
+   "mangroveCells": 0,
+   "bytes": 3280
+  },
+  "N00E070": {
+   "tidalCells": 316,
+   "mangroveCells": 151,
+   "bytes": 9175
+  },
+  "N00E080": {
+   "tidalCells": 398,
+   "mangroveCells": 361,
+   "bytes": 8975
+  },
+  "N00E090": {
+   "tidalCells": 1632,
+   "mangroveCells": 3858,
+   "bytes": 34840
+  },
+  "N00E100": {
+   "tidalCells": 5267,
+   "mangroveCells": 5957,
+   "bytes": 53714
+  },
+  "N00E110": {
+   "tidalCells": 4339,
+   "mangroveCells": 11009,
+   "bytes": 59917
+  },
+  "N00E120": {
+   "tidalCells": 4433,
+   "mangroveCells": 3375,
+   "bytes": 51306
+  },
+  "N00E130": {
+   "tidalCells": 0,
+   "mangroveCells": 184,
+   "bytes": 4013
+  },
+  "N00E150": {
+   "tidalCells": 0,
+   "mangroveCells": 153,
+   "bytes": 3791
+  },
+  "N00W010": {
+   "tidalCells": 498,
+   "mangroveCells": 463,
+   "bytes": 9338
+  },
+  "N00W020": {
+   "tidalCells": 1060,
+   "mangroveCells": 3906,
+   "bytes": 19708
+  },
+  "N00W050": {
+   "tidalCells": 1566,
+   "mangroveCells": 279,
+   "bytes": 7653
+  },
+  "N00W060": {
+   "tidalCells": 5984,
+   "mangroveCells": 3976,
+   "bytes": 30683
+  },
+  "N00W070": {
+   "tidalCells": 1223,
+   "mangroveCells": 1844,
+   "bytes": 12453
+  },
+  "N00W080": {
+   "tidalCells": 3242,
+   "mangroveCells": 4677,
+   "bytes": 32985
+  },
+  "N00W090": {
+   "tidalCells": 1862,
+   "mangroveCells": 1775,
+   "bytes": 19306
+  },
+  "N10E030": {
+   "tidalCells": 499,
+   "mangroveCells": 29,
+   "bytes": 8485
+  },
+  "N10E040": {
+   "tidalCells": 2232,
+   "mangroveCells": 295,
+   "bytes": 26213
+  },
+  "N10E050": {
+   "tidalCells": 195,
+   "mangroveCells": 15,
+   "bytes": 8074
+  },
+  "N10E070": {
+   "tidalCells": 720,
+   "mangroveCells": 594,
+   "bytes": 14211
+  },
+  "N10E080": {
+   "tidalCells": 851,
+   "mangroveCells": 457,
+   "bytes": 10908
+  },
+  "N10E090": {
+   "tidalCells": 8720,
+   "mangroveCells": 10119,
+   "bytes": 66793
+  },
+  "N10E100": {
+   "tidalCells": 1863,
+   "mangroveCells": 2501,
+   "bytes": 30892
+  },
+  "N10E110": {
+   "tidalCells": 746,
+   "mangroveCells": 663,
+   "bytes": 13815
+  },
+  "N10E120": {
+   "tidalCells": 5803,
+   "mangroveCells": 2791,
+   "bytes": 56755
+  },
+  "N10W020": {
+   "tidalCells": 3362,
+   "mangroveCells": 9729,
+   "bytes": 44761
+  },
+  "N10W030": {
+   "tidalCells": 30,
+   "mangroveCells": 0,
+   "bytes": 4235
+  },
+  "N10W060": {
+   "tidalCells": 5,
+   "mangroveCells": 0,
+   "bytes": 3273
+  },
+  "N10W070": {
+   "tidalCells": 1383,
+   "mangroveCells": 2297,
+   "bytes": 29242
+  },
+  "N10W080": {
+   "tidalCells": 838,
+   "mangroveCells": 1964,
+   "bytes": 24377
+  },
+  "N10W090": {
+   "tidalCells": 2560,
+   "mangroveCells": 7095,
+   "bytes": 44206
+  },
+  "N10W100": {
+   "tidalCells": 1340,
+   "mangroveCells": 5663,
+   "bytes": 28486
+  },
+  "N10W110": {
+   "tidalCells": 258,
+   "mangroveCells": 444,
+   "bytes": 7344
+  },
+  "N20E030": {
+   "tidalCells": 1605,
+   "mangroveCells": 48,
+   "bytes": 20830
+  },
+  "N20E040": {
+   "tidalCells": 1409,
+   "mangroveCells": 53,
+   "bytes": 9879
+  },
+  "N20E050": {
+   "tidalCells": 4402,
+   "mangroveCells": 450,
+   "bytes": 31381
+  },
+  "N20E060": {
+   "tidalCells": 6955,
+   "mangroveCells": 1572,
+   "bytes": 26183
+  },
+  "N20E070": {
+   "tidalCells": 4556,
+   "mangroveCells": 350,
+   "bytes": 13298
+  },
+  "N20E080": {
+   "tidalCells": 2987,
+   "mangroveCells": 6763,
+   "bytes": 27565
+  },
+  "N20E090": {
+   "tidalCells": 5532,
+   "mangroveCells": 757,
+   "bytes": 23241
+  },
+  "N20E100": {
+   "tidalCells": 2413,
+   "mangroveCells": 753,
+   "bytes": 16122
+  },
+  "N20E110": {
+   "tidalCells": 4404,
+   "mangroveCells": 156,
+   "bytes": 32000
+  },
+  "N20E120": {
+   "tidalCells": 3509,
+   "mangroveCells": 35,
+   "bytes": 27379
+  },
+  "N20W010": {
+   "tidalCells": 0,
+   "mangroveCells": 0,
+   "bytes": 3169
+  },
+  "N20W020": {
+   "tidalCells": 362,
+   "mangroveCells": 0,
+   "bytes": 10310
+  },
+  "N20W080": {
+   "tidalCells": 3771,
+   "mangroveCells": 6285,
+   "bytes": 54699
+  },
+  "N20W090": {
+   "tidalCells": 4021,
+   "mangroveCells": 8156,
+   "bytes": 58783
+  },
+  "N20W100": {
+   "tidalCells": 3692,
+   "mangroveCells": 2441,
+   "bytes": 37369
+  },
+  "N20W110": {
+   "tidalCells": 1637,
+   "mangroveCells": 3163,
+   "bytes": 23405
+  },
+  "N20W120": {
+   "tidalCells": 1514,
+   "mangroveCells": 1087,
+   "bytes": 22911
+  },
+  "N20W160": {
+   "tidalCells": 0,
+   "mangroveCells": 17,
+   "bytes": 3224
+  },
+  "N30E000": {
+   "tidalCells": 228,
+   "mangroveCells": 0,
+   "bytes": 11082
+  },
+  "N30E010": {
+   "tidalCells": 1104,
+   "mangroveCells": 0,
+   "bytes": 18577
+  },
+  "N30E020": {
+   "tidalCells": 411,
+   "mangroveCells": 0,
+   "bytes": 26923
+  },
+  "N30E030": {
+   "tidalCells": 561,
+   "mangroveCells": 0,
+   "bytes": 15894
+  },
+  "N30E040": {
+   "tidalCells": 1044,
+   "mangroveCells": 0,
+   "bytes": 6416
+  },
+  "N30E050": {
+   "tidalCells": 52,
+   "mangroveCells": 0,
+   "bytes": 3216
+  },
+  "N30E110": {
+   "tidalCells": 2944,
+   "mangroveCells": 0,
+   "bytes": 14981
+  },
+  "N30E120": {
+   "tidalCells": 16139,
+   "mangroveCells": 0,
+   "bytes": 68261
+  },
+  "N30E130": {
+   "tidalCells": 719,
+   "mangroveCells": 0,
+   "bytes": 32639
+  },
+  "N30E140": {
+   "tidalCells": 253,
+   "mangroveCells": 0,
+   "bytes": 8201
+  },
+  "N30W010": {
+   "tidalCells": 1231,
+   "mangroveCells": 0,
+   "bytes": 17885
+  },
+  "N30W080": {
+   "tidalCells": 3333,
+   "mangroveCells": 0,
+   "bytes": 38083
+  },
+  "N30W090": {
+   "tidalCells": 1673,
+   "mangroveCells": 0,
+   "bytes": 18095
+  },
+  "N30W120": {
+   "tidalCells": 1030,
+   "mangroveCells": 2,
+   "bytes": 11037
+  },
+  "N30W130": {
+   "tidalCells": 613,
+   "mangroveCells": 0,
+   "bytes": 10362
+  },
+  "N40E000": {
+   "tidalCells": 953,
+   "mangroveCells": 0,
+   "bytes": 16090
+  },
+  "N40E010": {
+   "tidalCells": 656,
+   "mangroveCells": 0,
+   "bytes": 24033
+  },
+  "N40E020": {
+   "tidalCells": 177,
+   "mangroveCells": 0,
+   "bytes": 11619
+  },
+  "N40E030": {
+   "tidalCells": 8,
+   "mangroveCells": 0,
+   "bytes": 3276
+  },
+  "N40E110": {
+   "tidalCells": 3,
+   "mangroveCells": 0,
+   "bytes": 3058
+  },
+  "N40E120": {
+   "tidalCells": 1145,
+   "mangroveCells": 0,
+   "bytes": 9335
+  },
+  "N40E130": {
+   "tidalCells": 305,
+   "mangroveCells": 0,
+   "bytes": 10951
+  },
+  "N40E140": {
+   "tidalCells": 1446,
+   "mangroveCells": 0,
+   "bytes": 27180
+  },
+  "N40E150": {
+   "tidalCells": 147,
+   "mangroveCells": 0,
+   "bytes": 5611
+  },
+  "N40W010": {
+   "tidalCells": 4849,
+   "mangroveCells": 0,
+   "bytes": 28737
+  },
+  "N40W060": {
+   "tidalCells": 1180,
+   "mangroveCells": 0,
+   "bytes": 29412
+  },
+  "N40W070": {
+   "tidalCells": 5812,
+   "mangroveCells": 0,
+   "bytes": 51630
+  },
+  "N40W080": {
+   "tidalCells": 2459,
+   "mangroveCells": 0,
+   "bytes": 21116
+  },
+  "N40W130": {
+   "tidalCells": 4858,
+   "mangroveCells": 0,
+   "bytes": 34822
+  },
+  "N50E000": {
+   "tidalCells": 11757,
+   "mangroveCells": 0,
+   "bytes": 53863
+  },
+  "N50E010": {
+   "tidalCells": 7841,
+   "mangroveCells": 0,
+   "bytes": 60928
+  },
+  "N50E020": {
+   "tidalCells": 3130,
+   "mangroveCells": 0,
+   "bytes": 24570
+  },
+  "N50E030": {
+   "tidalCells": 25,
+   "mangroveCells": 0,
+   "bytes": 3260
+  },
+  "N50E130": {
+   "tidalCells": 1200,
+   "mangroveCells": 0,
+   "bytes": 11830
+  },
+  "N50E140": {
+   "tidalCells": 2544,
+   "mangroveCells": 0,
+   "bytes": 20518
+  },
+  "N50E150": {
+   "tidalCells": 1305,
+   "mangroveCells": 0,
+   "bytes": 17733
+  },
+  "N50E160": {
+   "tidalCells": 1653,
+   "mangroveCells": 0,
+   "bytes": 14964
+  },
+  "N50E170": {
+   "tidalCells": 97,
+   "mangroveCells": 0,
+   "bytes": 4495
+  },
+  "N50W010": {
+   "tidalCells": 12994,
+   "mangroveCells": 0,
+   "bytes": 70780
+  },
+  "N50W020": {
+   "tidalCells": 385,
+   "mangroveCells": 0,
+   "bytes": 6167
+  },
+  "N50W050": {
+   "tidalCells": 0,
+   "mangroveCells": 0,
+   "bytes": 3086
+  },
+  "N50W060": {
+   "tidalCells": 3247,
+   "mangroveCells": 0,
+   "bytes": 33004
+  },
+  "N50W070": {
+   "tidalCells": 7471,
+   "mangroveCells": 0,
+   "bytes": 48149
+  },
+  "N50W080": {
+   "tidalCells": 6510,
+   "mangroveCells": 0,
+   "bytes": 38470
+  },
+  "N50W090": {
+   "tidalCells": 5445,
+   "mangroveCells": 0,
+   "bytes": 19741
+  },
+  "N50W100": {
+   "tidalCells": 2468,
+   "mangroveCells": 0,
+   "bytes": 10572
+  },
+  "N50W130": {
+   "tidalCells": 2784,
+   "mangroveCells": 0,
+   "bytes": 38777
+  },
+  "N50W140": {
+   "tidalCells": 10418,
+   "mangroveCells": 0,
+   "bytes": 78710
+  },
+  "N50W150": {
+   "tidalCells": 401,
+   "mangroveCells": 0,
+   "bytes": 6323
+  },
+  "N50W160": {
+   "tidalCells": 6728,
+   "mangroveCells": 0,
+   "bytes": 39025
+  },
+  "N50W170": {
+   "tidalCells": 3827,
+   "mangroveCells": 0,
+   "bytes": 22351
+  },
+  "N60E000": {
+   "tidalCells": 8303,
+   "mangroveCells": 0,
+   "bytes": 46671
+  },
+  "N60E010": {
+   "tidalCells": 14945,
+   "mangroveCells": 0,
+   "bytes": 85680
+  },
+  "N60E020": {
+   "tidalCells": 11775,
+   "mangroveCells": 0,
+   "bytes": 65548
+  },
+  "N60E030": {
+   "tidalCells": 6629,
+   "mangroveCells": 0,
+   "bytes": 34049
+  },
+  "N60E040": {
+   "tidalCells": 4695,
+   "mangroveCells": 0,
+   "bytes": 22852
+  },
+  "N60E050": {
+   "tidalCells": 3547,
+   "mangroveCells": 0,
+   "bytes": 19447
+  },
+  "N60E060": {
+   "tidalCells": 4003,
+   "mangroveCells": 0,
+   "bytes": 21301
+  },
+  "N60E070": {
+   "tidalCells": 5955,
+   "mangroveCells": 0,
+   "bytes": 27969
+  },
+  "N60E150": {
+   "tidalCells": 832,
+   "mangroveCells": 0,
+   "bytes": 7459
+  },
+  "N60E160": {
+   "tidalCells": 4400,
+   "mangroveCells": 0,
+   "bytes": 25626
+  },
+  "N60E170": {
+   "tidalCells": 1997,
+   "mangroveCells": 0,
+   "bytes": 19789
+  },
+  "N60W010": {
+   "tidalCells": 1428,
+   "mangroveCells": 0,
+   "bytes": 11294
+  },
+  "N60W020": {
+   "tidalCells": 1200,
+   "mangroveCells": 0,
+   "bytes": 12737
+  },
+  "N60W030": {
+   "tidalCells": 3421,
+   "mangroveCells": 0,
+   "bytes": 23350
+  },
+  "N60W040": {
+   "tidalCells": 796,
+   "mangroveCells": 0,
+   "bytes": 12814
+  },
+  "N60W050": {
+   "tidalCells": 1854,
+   "mangroveCells": 0,
+   "bytes": 39405
+  },
+  "N60W060": {
+   "tidalCells": 6082,
+   "mangroveCells": 0,
+   "bytes": 61363
+  },
+  "N60W070": {
+   "tidalCells": 11897,
+   "mangroveCells": 0,
+   "bytes": 88429
+  },
+  "N60W080": {
+   "tidalCells": 18473,
+   "mangroveCells": 0,
+   "bytes": 77095
+  },
+  "N60W090": {
+   "tidalCells": 11535,
+   "mangroveCells": 0,
+   "bytes": 60895
+  },
+  "N60W100": {
+   "tidalCells": 9812,
+   "mangroveCells": 0,
+   "bytes": 62199
+  },
+  "N60W110": {
+   "tidalCells": 3210,
+   "mangroveCells": 0,
+   "bytes": 38882
+  },
+  "N60W120": {
+   "tidalCells": 438,
+   "mangroveCells": 0,
+   "bytes": 15565
+  },
+  "N60W130": {
+   "tidalCells": 890,
+   "mangroveCells": 0,
+   "bytes": 9847
+  },
+  "N60W140": {
+   "tidalCells": 4585,
+   "mangroveCells": 0,
+   "bytes": 24741
+  },
+  "N60W150": {
+   "tidalCells": 4337,
+   "mangroveCells": 0,
+   "bytes": 23684
+  },
+  "N60W160": {
+   "tidalCells": 2062,
+   "mangroveCells": 0,
+   "bytes": 8322
+  },
+  "N60W170": {
+   "tidalCells": 10650,
+   "mangroveCells": 0,
+   "bytes": 48440
+  },
+  "N60W180": {
+   "tidalCells": 891,
+   "mangroveCells": 0,
+   "bytes": 15182
+  },
+  "N70E010": {
+   "tidalCells": 2562,
+   "mangroveCells": 0,
+   "bytes": 28231
+  },
+  "N70E020": {
+   "tidalCells": 2789,
+   "mangroveCells": 0,
+   "bytes": 30691
+  },
+  "N70E030": {
+   "tidalCells": 170,
+   "mangroveCells": 0,
+   "bytes": 4339
+  },
+  "N70E050": {
+   "tidalCells": 1683,
+   "mangroveCells": 0,
+   "bytes": 31517
+  },
+  "N70E060": {
+   "tidalCells": 1958,
+   "mangroveCells": 0,
+   "bytes": 15214
+  },
+  "N70E070": {
+   "tidalCells": 5858,
+   "mangroveCells": 0,
+   "bytes": 32648
+  },
+  "N70E080": {
+   "tidalCells": 3964,
+   "mangroveCells": 0,
+   "bytes": 32746
+  },
+  "N70E090": {
+   "tidalCells": 1017,
+   "mangroveCells": 0,
+   "bytes": 20783
+  },
+  "N70E100": {
+   "tidalCells": 3111,
+   "mangroveCells": 0,
+   "bytes": 22444
+  },
+  "N70E110": {
+   "tidalCells": 5144,
+   "mangroveCells": 0,
+   "bytes": 24763
+  },
+  "N70E120": {
+   "tidalCells": 18611,
+   "mangroveCells": 0,
+   "bytes": 57604
+  },
+  "N70E130": {
+   "tidalCells": 8728,
+   "mangroveCells": 0,
+   "bytes": 27142
+  },
+  "N70E140": {
+   "tidalCells": 9459,
+   "mangroveCells": 0,
+   "bytes": 35557
+  },
+  "N70E150": {
+   "tidalCells": 3788,
+   "mangroveCells": 0,
+   "bytes": 15902
+  },
+  "N70E160": {
+   "tidalCells": 148,
+   "mangroveCells": 0,
+   "bytes": 3849
+  },
+  "N70E170": {
+   "tidalCells": 136,
+   "mangroveCells": 0,
+   "bytes": 4221
+  },
+  "N70W020": {
+   "tidalCells": 1240,
+   "mangroveCells": 0,
+   "bytes": 15394
+  },
+  "N70W030": {
+   "tidalCells": 2260,
+   "mangroveCells": 0,
+   "bytes": 38512
+  },
+  "N70W060": {
+   "tidalCells": 2556,
+   "mangroveCells": 0,
+   "bytes": 36424
+  },
+  "N70W070": {
+   "tidalCells": 900,
+   "mangroveCells": 0,
+   "bytes": 16071
+  },
+  "N70W080": {
+   "tidalCells": 3861,
+   "mangroveCells": 0,
+   "bytes": 39600
+  },
+  "N70W090": {
+   "tidalCells": 6761,
+   "mangroveCells": 0,
+   "bytes": 63323
+  },
+  "N70W100": {
+   "tidalCells": 4499,
+   "mangroveCells": 0,
+   "bytes": 65116
+  },
+  "N70W110": {
+   "tidalCells": 2294,
+   "mangroveCells": 0,
+   "bytes": 46627
+  },
+  "N70W120": {
+   "tidalCells": 1305,
+   "mangroveCells": 0,
+   "bytes": 37341
+  },
+  "N70W130": {
+   "tidalCells": 1820,
+   "mangroveCells": 0,
+   "bytes": 19827
+  },
+  "N70W140": {
+   "tidalCells": 413,
+   "mangroveCells": 0,
+   "bytes": 4505
+  },
+  "N70W150": {
+   "tidalCells": 962,
+   "mangroveCells": 0,
+   "bytes": 7831
+  },
+  "N70W160": {
+   "tidalCells": 2056,
+   "mangroveCells": 0,
+   "bytes": 14363
+  },
+  "N70W170": {
+   "tidalCells": 490,
+   "mangroveCells": 0,
+   "bytes": 5734
+  },
+  "S10E000": {
+   "tidalCells": 459,
+   "mangroveCells": 962,
+   "bytes": 8384
+  },
+  "S10E010": {
+   "tidalCells": 955,
+   "mangroveCells": 835,
+   "bytes": 11396
+  },
+  "S10E030": {
+   "tidalCells": 2928,
+   "mangroveCells": 2081,
+   "bytes": 21443
+  },
+  "S10E040": {
+   "tidalCells": 977,
+   "mangroveCells": 754,
+   "bytes": 9606
+  },
+  "S10E050": {
+   "tidalCells": 0,
+   "mangroveCells": 1,
+   "bytes": 3065
+  },
+  "S10E090": {
+   "tidalCells": 188,
+   "mangroveCells": 392,
+   "bytes": 7971
+  },
+  "S10E100": {
+   "tidalCells": 4881,
+   "mangroveCells": 6791,
+   "bytes": 47999
+  },
+  "S10E110": {
+   "tidalCells": 4264,
+   "mangroveCells": 4618,
+   "bytes": 51398
+  },
+  "S10E120": {
+   "tidalCells": 6316,
+   "mangroveCells": 3604,
+   "bytes": 65331
+  },
+  "S10E130": {
+   "tidalCells": 9559,
+   "mangroveCells": 19504,
+   "bytes": 101258
+  },
+  "S10E140": {
+   "tidalCells": 5534,
+   "mangroveCells": 6215,
+   "bytes": 47292
+  },
+  "S10E150": {
+   "tidalCells": 1574,
+   "mangroveCells": 1753,
+   "bytes": 35306
+  },
+  "S10E160": {
+   "tidalCells": 354,
+   "mangroveCells": 370,
+   "bytes": 8627
+  },
+  "S10W040": {
+   "tidalCells": 712,
+   "mangroveCells": 957,
+   "bytes": 12237
+  },
+  "S10W050": {
+   "tidalCells": 5173,
+   "mangroveCells": 10732,
+   "bytes": 46601
+  },
+  "S10W060": {
+   "tidalCells": 279,
+   "mangroveCells": 0,
+   "bytes": 8072
+  },
+  "S10W080": {
+   "tidalCells": 652,
+   "mangroveCells": 1105,
+   "bytes": 9632
+  },
+  "S10W090": {
+   "tidalCells": 715,
+   "mangroveCells": 845,
+   "bytes": 12201
+  },
+  "S10W100": {
+   "tidalCells": 92,
+   "mangroveCells": 60,
+   "bytes": 5582
+  },
+  "S20E010": {
+   "tidalCells": 65,
+   "mangroveCells": 44,
+   "bytes": 8408
+  },
+  "S20E030": {
+   "tidalCells": 1015,
+   "mangroveCells": 3175,
+   "bytes": 16588
+  },
+  "S20E040": {
+   "tidalCells": 5061,
+   "mangroveCells": 5323,
+   "bytes": 44920
+  },
+  "S20E050": {
+   "tidalCells": 76,
+   "mangroveCells": 0,
+   "bytes": 4914
+  },
+  "S20E110": {
+   "tidalCells": 183,
+   "mangroveCells": 23,
+   "bytes": 3676
+  },
+  "S20E120": {
+   "tidalCells": 8403,
+   "mangroveCells": 5071,
+   "bytes": 55884
+  },
+  "S20E130": {
+   "tidalCells": 4708,
+   "mangroveCells": 7415,
+   "bytes": 55782
+  },
+  "S20E140": {
+   "tidalCells": 2606,
+   "mangroveCells": 4526,
+   "bytes": 37365
+  },
+  "S20E150": {
+   "tidalCells": 199,
+   "mangroveCells": 432,
+   "bytes": 8746
+  },
+  "S20E160": {
+   "tidalCells": 0,
+   "mangroveCells": 141,
+   "bytes": 4037
+  },
+  "S20E170": {
+   "tidalCells": 0,
+   "mangroveCells": 1073,
+   "bytes": 8246
+  },
+  "S20W040": {
+   "tidalCells": 959,
+   "mangroveCells": 2204,
+   "bytes": 18471
+  },
+  "S20W050": {
+   "tidalCells": 3,
+   "mangroveCells": 34,
+   "bytes": 3279
+  },
+  "S20W080": {
+   "tidalCells": 623,
+   "mangroveCells": 0,
+   "bytes": 10073
+  },
+  "S20W180": {
+   "tidalCells": 0,
+   "mangroveCells": 9,
+   "bytes": 3170
+  },
+  "S30E010": {
+   "tidalCells": 211,
+   "mangroveCells": 0,
+   "bytes": 8161
+  },
+  "S30E030": {
+   "tidalCells": 1537,
+   "mangroveCells": 1309,
+   "bytes": 16510
+  },
+  "S30E040": {
+   "tidalCells": 977,
+   "mangroveCells": 516,
+   "bytes": 13033
+  },
+  "S30E050": {
+   "tidalCells": 2,
+   "mangroveCells": 25,
+   "bytes": 3672
+  },
+  "S30E110": {
+   "tidalCells": 2887,
+   "mangroveCells": 927,
+   "bytes": 23383
+  },
+  "S30E140": {
+   "tidalCells": 1047,
+   "mangroveCells": 991,
+   "bytes": 11708
+  },
+  "S30E150": {
+   "tidalCells": 2148,
+   "mangroveCells": 1942,
+   "bytes": 22612
+  },
+  "S30E160": {
+   "tidalCells": 0,
+   "mangroveCells": 675,
+   "bytes": 6984
+  },
+  "S30W050": {
+   "tidalCells": 1487,
+   "mangroveCells": 1741,
+   "bytes": 22910
+  },
+  "S30W060": {
+   "tidalCells": 26,
+   "mangroveCells": 0,
+   "bytes": 3179
+  },
+  "S30W080": {
+   "tidalCells": 156,
+   "mangroveCells": 0,
+   "bytes": 8410
+  },
+  "S30W180": {
+   "tidalCells": 0,
+   "mangroveCells": 25,
+   "bytes": 3160
+  },
+  "S40E010": {
+   "tidalCells": 526,
+   "mangroveCells": 0,
+   "bytes": 7593
+  },
+  "S40E020": {
+   "tidalCells": 377,
+   "mangroveCells": 11,
+   "bytes": 7550
+  },
+  "S40E030": {
+   "tidalCells": 15,
+   "mangroveCells": 2,
+   "bytes": 3771
+  },
+  "S40E110": {
+   "tidalCells": 254,
+   "mangroveCells": 0,
+   "bytes": 9599
+  },
+  "S40E120": {
+   "tidalCells": 115,
+   "mangroveCells": 0,
+   "bytes": 6763
+  },
+  "S40E130": {
+   "tidalCells": 1673,
+   "mangroveCells": 485,
+   "bytes": 20635
+  },
+  "S40E140": {
+   "tidalCells": 1192,
+   "mangroveCells": 165,
+   "bytes": 13404
+  },
+  "S40E150": {
+   "tidalCells": 282,
+   "mangroveCells": 238,
+   "bytes": 10371
+  },
+  "S40E170": {
+   "tidalCells": 2786,
+   "mangroveCells": 959,
+   "bytes": 25083
+  },
+  "S40W060": {
+   "tidalCells": 1190,
+   "mangroveCells": 0,
+   "bytes": 14403
+  },
+  "S40W070": {
+   "tidalCells": 1909,
+   "mangroveCells": 0,
+   "bytes": 8582
+  },
+  "S40W080": {
+   "tidalCells": 830,
+   "mangroveCells": 0,
+   "bytes": 10405
+  },
+  "S50E140": {
+   "tidalCells": 1549,
+   "mangroveCells": 0,
+   "bytes": 16948
+  },
+  "S50E160": {
+   "tidalCells": 639,
+   "mangroveCells": 0,
+   "bytes": 10245
+  },
+  "S50E170": {
+   "tidalCells": 1184,
+   "mangroveCells": 0,
+   "bytes": 14904
+  },
+  "S50W070": {
+   "tidalCells": 3212,
+   "mangroveCells": 0,
+   "bytes": 18095
+  },
+  "S50W080": {
+   "tidalCells": 3423,
+   "mangroveCells": 0,
+   "bytes": 49950
+  },
+  "S60W060": {
+   "tidalCells": 1792,
+   "mangroveCells": 0,
+   "bytes": 14323
+  },
+  "S60W070": {
+   "tidalCells": 3209,
+   "mangroveCells": 0,
+   "bytes": 27773
+  },
+  "S60W080": {
+   "tidalCells": 4127,
+   "mangroveCells": 0,
+   "bytes": 55581
+  }
+ }
+}

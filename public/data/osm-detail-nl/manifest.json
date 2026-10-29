@@ -1,0 +1,71 @@
+{
+ "v": 1,
+ "unit": 0.0001,
+ "tileDeg": 1,
+ "kinds": {
+  "1": "canal",
+  "2": "drain",
+  "3": "ditch",
+  "4": "tree row or hedge",
+  "5": "road bridge"
+ },
+ "licence": "ODbL 1.0, (c) OpenStreetMap contributors",
+ "tiles": {
+  "N50E005": {
+   "lines": 2523,
+   "bytes": 57137
+  },
+  "N50E006": {
+   "lines": 529,
+   "bytes": 11903
+  },
+  "N51E003": {
+   "lines": 7780,
+   "bytes": 171132
+  },
+  "N51E004": {
+   "lines": 37076,
+   "bytes": 804694
+  },
+  "N51E005": {
+   "lines": 38876,
+   "bytes": 860248
+  },
+  "N51E006": {
+   "lines": 9117,
+   "bytes": 202401
+  },
+  "N52E004": {
+   "lines": 52213,
+   "bytes": 1163160
+  },
+  "N52E005": {
+   "lines": 31225,
+   "bytes": 714497
+  },
+  "N52E006": {
+   "lines": 27805,
+   "bytes": 623204
+  },
+  "N52E007": {
+   "lines": 1317,
+   "bytes": 29417
+  },
+  "N53E004": {
+   "lines": 376,
+   "bytes": 8385
+  },
+  "N53E005": {
+   "lines": 8343,
+   "bytes": 208083
+  },
+  "N53E006": {
+   "lines": 12567,
+   "bytes": 295279
+  },
+  "N53E007": {
+   "lines": 557,
+   "bytes": 14437
+  }
+ }
+}

@@ -1,0 +1,4 @@
+Coast type tiles (10-degree PNG, 0.01-degree cells). R = tidal flat share, G = mangrove share (0-255).
+Tidal flats: GTF30, global 30 m tidal flat dataset 2020 (Zhang et al.), https://zenodo.org/records/7936721, CC BY 4.0.
+Mangroves: Global Mangrove Watch v2.0, 2016 extent (Bunting et al.), https://zenodo.org/records/5658808, CC BY 4.0.
+Built by scripts/build-coast-type-tiles.py. Credit: "Coasts: GTF30 (2020), Global Mangrove Watch v2."
