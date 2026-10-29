@@ -1,6 +1,8 @@
 'use client';
 
 import { postcardLookOn } from '@/lib/world-flight/arrival-look';
+import { cabinMomentsOn } from '@/lib/world-flight/cabin-moments';
+import { RewardReel } from '@/components/session/live-room/reward-reel';
 import { FactsBoard } from '@/components/session/live-room/facts-board';
 import type { FactCard } from '@/lib/live-room/fact-cards';
 import { momentQuestion, planMoments, type Moment, type NaturalEvent } from '@/lib/live-room/moments';
@@ -1753,6 +1755,24 @@ export function FlightDeck({
   const flightNowRef = useRef<FlightNow | null>(null);
   // The new postcard arrival look is on trial behind ?arrival=new; the phones follow the room
   const [postcardLook] = useState(postcardLookOn);
+  // Cabin moments (on trial behind ?moments=on): the descent as a cabin moment, and the arrival reward sequence
+  const [cabinMoments] = useState(cabinMomentsOn);
+  const [descentMomentAt, setDescentMomentAt] = useState<number | null>(null);
+  useEffect(() => {
+    if (!descentMomentAt) return;
+    const t = window.setTimeout(() => setDescentMomentAt(null), 7000);
+    return () => window.clearTimeout(t);
+  }, [descentMomentAt]);
+  // The reward sequence starts once the postcard lettering has played; the Welcome card follows it.
+  const [reelReady, setReelReady] = useState(false);
+  const [reelDone, setReelDone] = useState(false);
+  useEffect(() => {
+    if (!landed) { setReelReady(false); setReelDone(false); return; }
+    const t = window.setTimeout(() => setReelReady(true), postcardLook ? 3500 : 1200);
+    return () => window.clearTimeout(t);
+  }, [landed, postcardLook]);
+  const reelShowing = cabinMoments && landed && reelReady && !reelDone && !hall && !!landingRecord?.landing;
+  const welcomeWaits = cabinMoments && landed && !reelDone && !!landingRecord?.landing;
   {
     const lm = photoLandmark ? drawnKindOf(photoLandmark.id) : null;
     const lat = photoLandmark ? sceneryLandmarks.find((l) => l.id === photoLandmark.id)?.lateral : undefined;
@@ -2462,8 +2482,9 @@ export function FlightDeck({
     if (!(descending || holding) || descentAnnounced.current || runningKey) return;
     descentAnnounced.current = true;
     try { play('seatbelt'); } catch { /* sound off */ }
-    flash('Cabin crew, prepare for landing');
-  }, [descending, holding, runningKey, flightStage, flash]);
+    if (cabinMoments) setDescentMomentAt(Date.now());
+    else flash('Cabin crew, prepare for landing');
+  }, [descending, holding, runningKey, flightStage, flash, cabinMoments]);
 
   // Test flight: what the teacher has tried since it started.
   const [tf, setTf] = useState({ spins: 0, whereNext: false, launched: false, finished: false, startFocus: null as string | null, startShown: null as string | null });
@@ -3930,14 +3951,15 @@ export function FlightDeck({
         </div>
       )}
 
-      {landed && !hall && cityVote?.kind !== 'next' && (
+      {reelShowing && landingRecord?.landing && <RewardReel landing={landingRecord.landing} onDone={() => setReelDone(true)} />}
+      {landed && !hall && cityVote?.kind !== 'next' && !welcomeWaits && (
         // With the postcard look, the postcard's own lettering plays first; then the card is dealt in from below,
         // lower down so it never covers "Greetings from ..."
         <div className={`absolute inset-x-0 z-20 flex justify-center ${postcardLook ? 'top-[30%]' : 'top-10'}`}>
           <motion.div
             initial={reduce ? false : postcardLook ? { y: 260, rotate: 10, opacity: 0, scale: 0.9 } : { y: -20, rotate: -6, opacity: 0 }}
             animate={{ y: 0, rotate: -2, opacity: 1, scale: 1 }}
-            transition={postcardLook && !reduce ? { delay: 4, type: 'spring', stiffness: 120, damping: 14 } : undefined}
+            transition={postcardLook && !reduce ? { delay: cabinMoments && reelDone ? 0.2 : 4, type: 'spring', stiffness: 120, damping: 14 } : undefined}
             className={`rounded-2xl bg-[#f4efe3] px-7 py-5 text-[#1b2233] shadow-2xl ${postcardLook ? 'max-h-[66vh] overflow-y-auto' : ''}`}
           >
             <div className="flex items-center justify-between gap-3">
@@ -4029,6 +4051,19 @@ export function FlightDeck({
         {!position && (
           <motion.div exit={{ opacity: 0 }} transition={{ duration: 0.35 }} className="absolute inset-0 z-[90] flex items-center justify-center bg-[#060b14]">
             <span className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-white/50"><Plane className="h-4 w-4" /> Boarding</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {descentMomentAt && (
+          <motion.div key="descent-moment" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.2 }} className="pointer-events-none absolute inset-0 z-[65]">
+            {/* the light changes as the plane starts down: a soft warm wash across the window, then it fades */}
+            <div className="absolute inset-0 bg-gradient-to-b from-amber-200/10 via-orange-300/15 to-rose-300/20 mix-blend-soft-light" />
+            <motion.div initial={reduce ? false : { y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }} className="absolute inset-x-0 top-16 flex justify-center">
+              <span className="flex items-center gap-2.5 rounded-full border border-sky-200/50 bg-slate-950/80 px-5 py-2.5 font-mono text-sm font-semibold uppercase tracking-[0.16em] text-sky-100 shadow-2xl">
+                <TriangleAlert className="h-4 w-4 text-amber-300" aria-hidden /> Seatbelt sign on · Beginning our descent into {destination.city}
+              </span>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
