@@ -2999,6 +2999,139 @@
     "notes": "Najd and the interior span several provinces, so no single ISO 3166-2 subdivision is used. Traditional Najdi towns have mud-brick courtyard houses with flat roofs, but Riyadh is a grid of concrete towers, villas and highways. Date oases and irrigated wheat and alfalfa are the main cultivated features, with acacia and ghaf on the sand seas and gravel plains. Winter rain is irregular; snow does not occur."
   },
   {
+    "id": "sa-eastern-province",
+    "name": "Saudi Arabia, Eastern Province",
+    "countries": [
+      "SA"
+    ],
+    "subdivisions": [
+      "SA-04"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#cfc19e",
+        "#b0a084",
+        "#8b8580"
+      ],
+      "roofMaterial": [
+        "concrete",
+        "mud brick",
+        "corrugated metal"
+      ],
+      "roofShape": "flat",
+      "wallColors": [
+        "#d4c3a2",
+        "#c0ab8a",
+        "#ece2cd"
+      ],
+      "wallMaterial": [
+        "mud brick",
+        "gypsum plaster",
+        "concrete"
+      ],
+      "villageLayout": "courtyard blocks",
+      "density": "sparse",
+      "signatureBuildings": [
+        "barjeel wind-tower houses of Hofuf",
+        "oil pumpjack and pipeline pads"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "date palm",
+          "color": "#4f7040",
+          "where": "everywhere"
+        },
+        {
+          "name": "ghaf",
+          "color": "#6f7a4f",
+          "where": "everywhere"
+        },
+        {
+          "name": "tamarisk",
+          "color": "#7b8a5a",
+          "where": "valleys"
+        },
+        {
+          "name": "acacia",
+          "color": "#716a44",
+          "where": "everywhere"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "date palm plantations",
+          "pattern": "rows",
+          "colors": [
+            "#537a49",
+            "#739159"
+          ],
+          "months": [
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "name": "irrigated fodder (alfalfa)",
+          "pattern": "patchwork",
+          "colors": [
+            "#6f8f45",
+            "#a5a15a"
+          ],
+          "months": [
+            10,
+            11,
+            12,
+            1,
+            2
+          ]
+        },
+        {
+          "name": "winter barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#8a9446",
+            "#a8a55c"
+          ],
+          "months": [
+            11,
+            12,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [],
+      "autumnColor": null,
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/Eastern_Province,_Saudi_Arabia",
+      "https://en.wikipedia.org/wiki/Al-Ahsa_Oasis"
+    ],
+    "confidence": "high",
+    "notes": "Two thirds of the province is sea of sand — Rub' al-Khali and Ad-Dahna dune fields — broken only by the Al-Ahsa oasis (the world's largest, over 2.5 million date palms, UNESCO-listed 2018) and the Dammam–Jubail industrial coast where a third of the population lives and the kingdom's oil is produced and exported. On 6 November the desert reads as uniform pale sand with ghaf/acacia speckle and pumpjack pads, Al-Ahsa stands out as a dark dense palm-green block with fodder circles around Hofuf, the first winter-rain green is only beginning, and there is no autumn colour anywhere."
+  },
+  {
     "id": "ir-caspian-coast",
     "name": "Iran, Caspian coast",
     "countries": [
@@ -3412,6 +3545,155 @@
     "notes": "The Anatolian plateau spans several provinces, so no single ISO 3166-2 subdivision is used. Dryland wheat and barley dominate the semi-arid steppe, with irrigated sugar beet and grazing in the Konya basin. Cappadocia's tuff villages include cave dwellings and flat-roofed houses; Konya and Ankara are largely modern concrete. Snow is reliable in winter, and spring brings a short green flush. Early November: gold-brown stubble with fresh winter-wheat shoots, beet harvest still running, poplars yellow."
   },
   {
+    "id": "tr-marmara-thrace",
+    "name": "Turkey, Marmara and East Thrace",
+    "countries": [
+      "TR"
+    ],
+    "subdivisions": [
+      "TR-34",
+      "TR-41",
+      "TR-54",
+      "TR-81",
+      "TR-14",
+      "TR-77",
+      "TR-16",
+      "TR-11",
+      "TR-59",
+      "TR-39",
+      "TR-22",
+      "TR-17"
+    ],
+    "hemisphere": "N",
+    "buildings": {
+      "roofColors": [
+        "#a85638",
+        "#9d998f",
+        "#cfbfa0"
+      ],
+      "roofMaterial": [
+        "clay tile",
+        "concrete",
+        "corrugated metal"
+      ],
+      "roofShape": "mixed",
+      "wallColors": [
+        "#e0d8c6",
+        "#bfaf9b",
+        "#95908a"
+      ],
+      "wallMaterial": [
+        "plaster",
+        "brick",
+        "concrete"
+      ],
+      "villageLayout": "mixed",
+      "density": "medium",
+      "signatureBuildings": [
+        "Ottoman domed mosque and minarets",
+        "industrial factory belt with chimneys"
+      ]
+    },
+    "plants": {
+      "signatureTrees": [
+        {
+          "name": "oak",
+          "color": "#5f6b35",
+          "where": "hills"
+        },
+        {
+          "name": "beech",
+          "color": "#4a6a3f",
+          "where": "hills"
+        },
+        {
+          "name": "poplar",
+          "color": "#6d8a4f",
+          "where": "river banks"
+        },
+        {
+          "name": "olive",
+          "color": "#7a8a5f",
+          "where": "hills"
+        }
+      ],
+      "signatureCrops": [
+        {
+          "name": "sunflower",
+          "pattern": "patchwork",
+          "colors": [
+            "#d9c33f",
+            "#8a7a35"
+          ],
+          "months": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "name": "wheat and barley",
+          "pattern": "patchwork",
+          "colors": [
+            "#c2b254",
+            "#b5a560"
+          ],
+          "months": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "olive groves",
+          "pattern": "terraces",
+          "colors": [
+            "#7a8a5f",
+            "#a0a48f"
+          ],
+          "months": [
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    "seasons": {
+      "snowMonths": [
+        12,
+        1,
+        2,
+        3
+      ],
+      "autumnColor": {
+        "color": "#bf7a2a",
+        "months": [
+          10,
+          11
+        ]
+      },
+      "wetGreen": [
+        11,
+        12,
+        1,
+        2,
+        3
+      ],
+      "dryGold": [
+        7,
+        8,
+        9
+      ]
+    },
+    "sources": [
+      "https://en.wikipedia.org/wiki/East_Thrace",
+      "https://en.wikipedia.org/wiki/Marmara_region",
+      "https://en.wikipedia.org/wiki/Common_sunflower"
+    ],
+    "confidence": "medium",
+    "notes": "East Thrace (Edirne–Kırklareli–Tekirdağ) is a squared sunflower-and-wheat plain behind poplar windbreaks, the Marmara ring is an olive–maize mosaic wrapped by temperate broadleaf oak and beech forest (Istranca/Strandzha, Uludağ, Bolu ridges) and the Kocaeli–Sakarya–Bursa industrial belt; Istanbul's dense red-tile-roof sprawl fills the southeast corner. On 6 November the Istranca, Bolu and Bursa ridge woods are at peak russet-gold, the Thracian floor shows pale sunflower stubble with the first green winter-wheat sprouts, and morning haze hangs over the Kocaeli–Sakarya–Bursa corridor while snow is still days away from the lowlands."
+  },
+  {
     "id": "tr-aegean-mediterranean",
     "name": "Turkey, Aegean and Mediterranean coast",
     "countries": [
@@ -3540,7 +3822,6 @@
     "confidence": "high",
     "notes": "The Aegean and Mediterranean coasts span several provinces, so no single ISO 3166-2 subdivision is used. Bodrum's white cubic houses and Alaçatı's stone houses survive in old quarters, but Antalya, Izmir and resort strips are dominated by concrete apartment blocks and hotels. Olive groves, citrus orchards and cotton fields fill the coastal plains. Snow is essentially absent at sea level and rare on the immediate coast.",
     "subdivisions": [
-      "TR-17",
       "TR-10",
       "TR-45",
       "TR-35",
