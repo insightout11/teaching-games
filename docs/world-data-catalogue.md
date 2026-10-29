@@ -20,7 +20,7 @@ must be released under the same open licence (OpenStreetMap ODbL), so keep it se
 | Coast types (tidal flat + mangrove share, 0.01° cells, 10° tiles; other coasts default sandy/rocky) | `public/data/coast-types/` (manifest, LICENSE.txt) | GTF30 2020 + Global Mangrove Watch v2 2016 | open-credit (CC BY 4.0) | built 29 Oct 2026 | `scripts/build-coast-type-tiles.py` | Yes, with credit |
 | Field size classes (global, 0.05°) | `public/data/field-size/field-size-005.png` | Lesiv et al. 2019 (crowdsourced) | open-credit (CC BY 4.0) | built 29 Oct 2026 | `scripts/build-field-size-map.py` | Yes, with credit |
 | Netherlands detail lines (canals, drains, ditches, tree rows/hedges, road bridges) | `public/data/osm-detail-nl/` | OpenStreetMap (Geofabrik extract 29 Oct 2026) | **share-alike** | 29 Oct 2026 | `scripts/build-osm-detail-nl.py` | Only as open data |
-| Resort coasts | requested (DeepSeek task 2) | research | ours | — | — | Yes, after check |
+| Resort coasts (104 real resort strips: ends, length, style, roof colours, beach type) | `src/data/world-flight/resort-coasts.json` | DeepSeek research, cited | ours | 29 Oct 2026 | Claude checked coordinates | Yes, after fact-check |
 
 ## Conventions
 - One folder per dataset, with a `manifest.json` (version, source, checksum, counts) and a `LICENSE.txt` or `SOURCES.md`.

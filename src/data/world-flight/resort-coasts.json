@@ -1,0 +1,2506 @@
+{
+ "v": 1,
+ "note": "Real beach-resort strips visible from a plane. start/end = the two ends along the coast, [lat, lng]. Researched by DeepSeek with sources (29 Oct 2026); checked by Claude for hemisphere signs and length vs end-to-end distance (Santa Maria, Sal fixed to 16.6N).",
+ "strips": [
+  {
+   "name": "Kuta-Seminyak",
+   "country": "ID",
+   "start": [
+    -8.73,
+    115.17
+   ],
+   "end": [
+    -8.69,
+    115.15
+   ],
+   "lengthKm": 5,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#9aa1a3"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kuta%2C_Bali",
+    "https://en.wikipedia.org/wiki/Seminyak"
+   ]
+  },
+  {
+   "name": "Canggu-Tanah Lot",
+   "country": "ID",
+   "start": [
+    -8.66,
+    115.13
+   ],
+   "end": [
+    -8.62,
+    115.09
+   ],
+   "lengthKm": 6.3,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#a85234",
+    "#d8c9ac",
+    "#7d8a6f"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Canggu",
+    "https://en.wikipedia.org/wiki/Tanah_Lot"
+   ]
+  },
+  {
+   "name": "Nusa Dua-Tanjung Benoa",
+   "country": "ID",
+   "start": [
+    -8.8,
+    115.23
+   ],
+   "end": [
+    -8.76,
+    115.22
+   ],
+   "lengthKm": 4.6,
+   "style": "island resorts",
+   "roofColours": [
+    "#e8e0d0",
+    "#a86a45",
+    "#7fa3a8"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Nusa_Dua",
+    "https://en.wikipedia.org/wiki/Tanjung_Benoa"
+   ]
+  },
+  {
+   "name": "Sanur-Serangan",
+   "country": "ID",
+   "start": [
+    -8.68,
+    115.27
+   ],
+   "end": [
+    -8.72,
+    115.24
+   ],
+   "lengthKm": 5.5,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#8a9a8f"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sanur%2C_Bali",
+    "https://en.wikipedia.org/wiki/Serangan_Island"
+   ]
+  },
+  {
+   "name": "Senggigi",
+   "country": "ID",
+   "start": [
+    -8.52,
+    116.04
+   ],
+   "end": [
+    -8.48,
+    116.05
+   ],
+   "lengthKm": 4.6,
+   "style": "mixed",
+   "roofColours": [
+    "#a85234",
+    "#d8c9ac",
+    "#6f7d5c"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Senggigi",
+    "https://en.wikipedia.org/wiki/Lombok"
+   ]
+  },
+  {
+   "name": "Patong-Karon-Kata",
+   "country": "TH",
+   "start": [
+    7.89,
+    98.3
+   ],
+   "end": [
+    7.82,
+    98.3
+   ],
+   "lengthKm": 7.8,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7fa3a8"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Patong",
+    "https://en.wikipedia.org/wiki/Karon_Beach",
+    "https://en.wikipedia.org/wiki/Hat_Kata"
+   ]
+  },
+  {
+   "name": "Pattaya-Jomtien",
+   "country": "TH",
+   "start": [
+    12.93,
+    100.88
+   ],
+   "end": [
+    12.87,
+    100.87
+   ],
+   "lengthKm": 6.8,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#c9c2b2",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Pattaya",
+    "https://en.wikipedia.org/wiki/Jomtien_Beach"
+   ]
+  },
+  {
+   "name": "Hua Hin-Cha-am",
+   "country": "TH",
+   "start": [
+    12.57,
+    99.96
+   ],
+   "end": [
+    12.78,
+    99.94
+   ],
+   "lengthKm": 23.5,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#8f9aa3"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hua_Hin",
+    "https://en.wikipedia.org/wiki/Cha-am_district"
+   ]
+  },
+  {
+   "name": "Chaweng",
+   "country": "TH",
+   "start": [
+    9.55,
+    100.08
+   ],
+   "end": [
+    9.5,
+    100.05
+   ],
+   "lengthKm": 6.5,
+   "style": "mixed",
+   "roofColours": [
+    "#a85234",
+    "#8a6a45",
+    "#d9cbb0"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ko_Samui",
+    "https://en.wikipedia.org/wiki/Thailand"
+   ]
+  },
+  {
+   "name": "Nha Trang",
+   "country": "VN",
+   "start": [
+    12.26,
+    109.2
+   ],
+   "end": [
+    12.21,
+    109.19
+   ],
+   "lengthKm": 5.7,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Nha_Trang",
+    "https://en.wikipedia.org/wiki/Kh%C3%A1nh_H%C3%B2a_province"
+   ]
+  },
+  {
+   "name": "Da Nang beach",
+   "country": "VN",
+   "start": [
+    16.07,
+    108.25
+   ],
+   "end": [
+    16,
+    108.26
+   ],
+   "lengthKm": 7.9,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#8a8a85"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Da_Nang",
+    "https://en.wikipedia.org/wiki/Marble_Mountains_(Vietnam)"
+   ]
+  },
+  {
+   "name": "Boracay White Beach",
+   "country": "PH",
+   "start": [
+    11.96,
+    121.92
+   ],
+   "end": [
+    11.98,
+    121.92
+   ],
+   "lengthKm": 2.2,
+   "style": "mixed",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#9aa1a3"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Boracay",
+    "https://en.wikipedia.org/wiki/Malay%2C_Aklan"
+   ]
+  },
+  {
+   "name": "Alona Beach (Panglao)",
+   "country": "PH",
+   "start": [
+    9.55,
+    123.77
+   ],
+   "end": [
+    9.56,
+    123.78
+   ],
+   "lengthKm": 1.6,
+   "style": "mixed",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Panglao%2C_Bohol",
+    "https://en.wikipedia.org/wiki/Bohol"
+   ]
+  },
+  {
+   "name": "El Nido",
+   "country": "PH",
+   "start": [
+    11.19,
+    119.39
+   ],
+   "end": [
+    11.16,
+    119.39
+   ],
+   "lengthKm": 3.3,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#a85234"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/El_Nido%2C_Palawan",
+    "https://en.wikipedia.org/wiki/Palawan"
+   ]
+  },
+  {
+   "name": "Pantai Cenang",
+   "country": "MY",
+   "start": [
+    5.98,
+    100.2
+   ],
+   "end": [
+    6,
+    100.21
+   ],
+   "lengthKm": 2.5,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#8a6a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Langkawi",
+    "https://en.wikipedia.org/wiki/Malaysia"
+   ]
+  },
+  {
+   "name": "Batu Ferringhi-Tanjong Bungah",
+   "country": "MY",
+   "start": [
+    5.48,
+    100.25
+   ],
+   "end": [
+    5.47,
+    100.29
+   ],
+   "lengthKm": 4.6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#9aa1a3"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Batu_Ferringhi",
+    "https://en.wikipedia.org/wiki/Tanjong_Bungah"
+   ]
+  },
+  {
+   "name": "North Malé Atoll resorts",
+   "country": "MV",
+   "start": [
+    4.2,
+    73.52
+   ],
+   "end": [
+    4.28,
+    73.72
+   ],
+   "lengthKm": 23.9,
+   "style": "island resorts",
+   "roofColours": [
+    "#e8e0d0",
+    "#7fa3a8",
+    "#d9cbb0"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mal%C3%A9",
+    "https://en.wikipedia.org/wiki/Kaafu_Atoll"
+   ]
+  },
+  {
+   "name": "Bentota-Beruwala",
+   "country": "LK",
+   "start": [
+    6.43,
+    80
+   ],
+   "end": [
+    6.48,
+    79.98
+   ],
+   "lengthKm": 6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#8a6a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bentota",
+    "https://en.wikipedia.org/wiki/Beruwala"
+   ]
+  },
+  {
+   "name": "Cox's Bazar beach",
+   "country": "BD",
+   "start": [
+    21.46,
+    91.99
+   ],
+   "end": [
+    21.38,
+    92.04
+   ],
+   "lengthKm": 10.3,
+   "style": "mixed",
+   "roofColours": [
+    "#9aa1a3",
+    "#b05a38",
+    "#d9cbb0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cox's_Bazar",
+    "https://en.wikipedia.org/wiki/Cox's_Bazar_District"
+   ]
+  },
+  {
+   "name": "Haeundae Beach",
+   "country": "KR",
+   "start": [
+    35.16,
+    129.15
+   ],
+   "end": [
+    35.16,
+    129.17
+   ],
+   "lengthKm": 1.8,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#8a8a85"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Haeundae_Beach",
+    "https://en.wikipedia.org/wiki/Busan"
+   ]
+  },
+  {
+   "name": "Sanya Bay",
+   "country": "CN",
+   "start": [
+    18.25,
+    109.49
+   ],
+   "end": [
+    18.22,
+    109.51
+   ],
+   "lengthKm": 3.9,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sanya",
+    "https://en.wikipedia.org/wiki/Hainan"
+   ]
+  },
+  {
+   "name": "Surfers Paradise-Coolangatta",
+   "country": "AU",
+   "start": [
+    -28,
+    153.43
+   ],
+   "end": [
+    -28.17,
+    153.53
+   ],
+   "lengthKm": 21.3,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Surfers_Paradise%2C_Queensland",
+    "https://en.wikipedia.org/wiki/Coolangatta"
+   ]
+  },
+  {
+   "name": "Mooloolaba-Noosa Heads",
+   "country": "AU",
+   "start": [
+    -26.7,
+    153.13
+   ],
+   "end": [
+    -26.39,
+    153.09
+   ],
+   "lengthKm": 34.7,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mooloolaba",
+    "https://en.wikipedia.org/wiki/Noosa_Heads%2C_Queensland"
+   ]
+  },
+  {
+   "name": "Bora Bora motu resorts",
+   "country": "PF",
+   "start": [
+    -16.47,
+    -151.72
+   ],
+   "end": [
+    -16.56,
+    -151.8
+   ],
+   "lengthKm": 13.1,
+   "style": "island resorts",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#7fa3a8"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bora_Bora",
+    "https://en.wikipedia.org/wiki/French_Polynesia"
+   ]
+  },
+  {
+   "name": "Antalya Lara-Konyaaltı",
+   "country": "TR",
+   "start": [
+    36.86,
+    30.75
+   ],
+   "end": [
+    36.86,
+    30.61
+   ],
+   "lengthKm": 12.5,
+   "style": "high-rise",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Antalya",
+    "https://en.wikipedia.org/wiki/Turkish_Riviera"
+   ]
+  },
+  {
+   "name": "Belek",
+   "country": "TR",
+   "start": [
+    36.84,
+    31.06
+   ],
+   "end": [
+    36.89,
+    31.05
+   ],
+   "lengthKm": 5.6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#6f7d5c"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Belek",
+    "https://en.wikipedia.org/wiki/Serik"
+   ]
+  },
+  {
+   "name": "Alanya",
+   "country": "TR",
+   "start": [
+    36.53,
+    31.99
+   ],
+   "end": [
+    36.56,
+    32.01
+   ],
+   "lengthKm": 3.8,
+   "style": "high-rise",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Alanya",
+    "https://en.wikipedia.org/wiki/Turkish_Riviera"
+   ]
+  },
+  {
+   "name": "Side",
+   "country": "TR",
+   "start": [
+    36.76,
+    31.39
+   ],
+   "end": [
+    36.79,
+    31.36
+   ],
+   "lengthKm": 4.3,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#a85234"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Side%2C_Turkey",
+    "https://en.wikipedia.org/wiki/Manavgat"
+   ]
+  },
+  {
+   "name": "Bodrum-Bitez",
+   "country": "TR",
+   "start": [
+    37.03,
+    27.43
+   ],
+   "end": [
+    37.04,
+    27.36
+   ],
+   "lengthKm": 6.3,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#e8e0d0"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bodrum",
+    "https://en.wikipedia.org/wiki/Mu%C4%9Fla_Province"
+   ]
+  },
+  {
+   "name": "Marmaris-İçmeler",
+   "country": "TR",
+   "start": [
+    36.85,
+    28.27
+   ],
+   "end": [
+    36.79,
+    28.25
+   ],
+   "lengthKm": 6.9,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7fa3a8"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Marmaris",
+    "https://en.wikipedia.org/wiki/%C4%B0%C3%A7meler"
+   ]
+  },
+  {
+   "name": "Fethiye-Ölüdeniz",
+   "country": "TR",
+   "start": [
+    36.62,
+    29.1
+   ],
+   "end": [
+    36.55,
+    29.12
+   ],
+   "lengthKm": 8,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#6f7d5c"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Fethiye",
+    "https://en.wikipedia.org/wiki/%C3%96l%C3%BCdeniz"
+   ]
+  },
+  {
+   "name": "Hurghada-El Gouna",
+   "country": "EG",
+   "start": [
+    27.26,
+    33.81
+   ],
+   "end": [
+    27.35,
+    33.64
+   ],
+   "lengthKm": 19.6,
+   "style": "mixed",
+   "roofColours": [
+    "#d9c49a",
+    "#e8e0d0",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hurghada",
+    "https://en.wikipedia.org/wiki/El_Gouna"
+   ]
+  },
+  {
+   "name": "Sharm El Sheikh",
+   "country": "EG",
+   "start": [
+    27.86,
+    34.32
+   ],
+   "end": [
+    27.98,
+    34.4
+   ],
+   "lengthKm": 15.5,
+   "style": "mixed",
+   "roofColours": [
+    "#d9c49a",
+    "#e8e0d0",
+    "#b06a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sharm_El_Sheikh",
+    "https://en.wikipedia.org/wiki/Sinai_Peninsula"
+   ]
+  },
+  {
+   "name": "Dubai Marina-JBR",
+   "country": "AE",
+   "start": [
+    25.08,
+    55.14
+   ],
+   "end": [
+    25.08,
+    55.12
+   ],
+   "lengthKm": 2,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#c9c2b2"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Dubai_Marina",
+    "https://en.wikipedia.org/wiki/Dubai"
+   ]
+  },
+  {
+   "name": "Jumeirah-Palm Jumeirah",
+   "country": "AE",
+   "start": [
+    25.21,
+    55.21
+   ],
+   "end": [
+    25.12,
+    55.13
+   ],
+   "lengthKm": 12.8,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#d9cbb0",
+    "#c9c2b2",
+    "#d9c49a"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Jumeirah",
+    "https://en.wikipedia.org/wiki/Palm_Jumeirah"
+   ]
+  },
+  {
+   "name": "Abu Dhabi Corniche-Saadiyat",
+   "country": "AE",
+   "start": [
+    24.47,
+    54.37
+   ],
+   "end": [
+    24.56,
+    54.44
+   ],
+   "lengthKm": 12.3,
+   "style": "mixed",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#d9c49a"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Abu_Dhabi",
+    "https://en.wikipedia.org/wiki/Saadiyat_Island"
+   ]
+  },
+  {
+   "name": "Tel Aviv-Bat Yam",
+   "country": "IL",
+   "start": [
+    32.08,
+    34.78
+   ],
+   "end": [
+    32.02,
+    34.75
+   ],
+   "lengthKm": 7.2,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#e8e0d0",
+    "#8a8a85"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tel_Aviv",
+    "https://en.wikipedia.org/wiki/Bat_Yam"
+   ]
+  },
+  {
+   "name": "Eilat",
+   "country": "IL",
+   "start": [
+    29.56,
+    34.96
+   ],
+   "end": [
+    29.51,
+    34.93
+   ],
+   "lengthKm": 6.3,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b08a5a",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Eilat",
+    "https://en.wikipedia.org/wiki/Red_Sea"
+   ]
+  },
+  {
+   "name": "Benidorm",
+   "country": "ES",
+   "start": [
+    38.53,
+    -0.14
+   ],
+   "end": [
+    38.54,
+    -0.1
+   ],
+   "lengthKm": 3.7,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#e8e0d0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Benidorm",
+    "https://en.wikipedia.org/wiki/Costa_Blanca"
+   ]
+  },
+  {
+   "name": "Palma-Playa de Palma",
+   "country": "ES",
+   "start": [
+    39.57,
+    2.65
+   ],
+   "end": [
+    39.5,
+    2.75
+   ],
+   "lengthKm": 11.6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#a85234"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Palma_de_Mallorca",
+    "https://en.wikipedia.org/wiki/Mallorca"
+   ]
+  },
+  {
+   "name": "Playa de las Américas-Los Cristianos",
+   "country": "ES",
+   "start": [
+    28.05,
+    -16.74
+   ],
+   "end": [
+    28.05,
+    -16.72
+   ],
+   "lengthKm": 2,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#c98a5a"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Playa_de_las_Am%C3%A9ricas",
+    "https://en.wikipedia.org/wiki/Los_Cristianos"
+   ]
+  },
+  {
+   "name": "Playa del Inglés-Maspalomas",
+   "country": "ES",
+   "start": [
+    27.76,
+    -15.58
+   ],
+   "end": [
+    27.74,
+    -15.6
+   ],
+   "lengthKm": 3,
+   "style": "mixed",
+   "roofColours": [
+    "#c98a5a",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Playa_del_Ingl%C3%A9s",
+    "https://en.wikipedia.org/wiki/Maspalomas"
+   ]
+  },
+  {
+   "name": "Corralejo",
+   "country": "ES",
+   "start": [
+    28.73,
+    -13.87
+   ],
+   "end": [
+    28.71,
+    -13.84
+   ],
+   "lengthKm": 3.7,
+   "style": "mixed",
+   "roofColours": [
+    "#e8e0d0",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Corralejo",
+    "https://en.wikipedia.org/wiki/Fuerteventura"
+   ]
+  },
+  {
+   "name": "Torremolinos-Fuengirola",
+   "country": "ES",
+   "start": [
+    36.62,
+    -4.5
+   ],
+   "end": [
+    36.54,
+    -4.62
+   ],
+   "lengthKm": 13.9,
+   "style": "high-rise",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Torremolinos",
+    "https://en.wikipedia.org/wiki/Benalm%C3%A1dena",
+    "https://en.wikipedia.org/wiki/Fuengirola"
+   ]
+  },
+  {
+   "name": "Marbella-Puerto Banús",
+   "country": "ES",
+   "start": [
+    36.51,
+    -4.89
+   ],
+   "end": [
+    36.51,
+    -4.96
+   ],
+   "lengthKm": 6.3,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Marbella",
+    "https://en.wikipedia.org/wiki/Puerto_Ban%C3%BAs"
+   ]
+  },
+  {
+   "name": "Torrevieja",
+   "country": "ES",
+   "start": [
+    38,
+    -0.69
+   ],
+   "end": [
+    37.97,
+    -0.66
+   ],
+   "lengthKm": 4.2,
+   "style": "high-rise",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Torrevieja",
+    "https://en.wikipedia.org/wiki/Costa_Blanca"
+   ]
+  },
+  {
+   "name": "La Manga",
+   "country": "ES",
+   "start": [
+    37.74,
+    -0.74
+   ],
+   "end": [
+    37.65,
+    -0.7
+   ],
+   "lengthKm": 10.6,
+   "style": "high-rise",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#c9c2b2"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/La_Manga_del_Mar_Menor",
+    "https://en.wikipedia.org/wiki/Cabo_de_Palos"
+   ]
+  },
+  {
+   "name": "Albufeira",
+   "country": "PT",
+   "start": [
+    37.09,
+    -8.28
+   ],
+   "end": [
+    37.09,
+    -8.23
+   ],
+   "lengthKm": 4.4,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Albufeira",
+    "https://en.wikipedia.org/wiki/Algarve"
+   ]
+  },
+  {
+   "name": "Praia da Rocha-Alvor",
+   "country": "PT",
+   "start": [
+    37.12,
+    -8.53
+   ],
+   "end": [
+    37.19,
+    -8.59
+   ],
+   "lengthKm": 9.4,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Praia_da_Rocha",
+    "https://en.wikipedia.org/wiki/Alvor"
+   ]
+  },
+  {
+   "name": "Vilamoura-Quarteira",
+   "country": "PT",
+   "start": [
+    37.08,
+    -8.12
+   ],
+   "end": [
+    37.07,
+    -8.1
+   ],
+   "lengthKm": 2.1,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#c9c2b2"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Vilamoura",
+    "https://en.wikipedia.org/wiki/Quarteira"
+   ]
+  },
+  {
+   "name": "Funchal-Câmara de Lobos",
+   "country": "PT",
+   "start": [
+    32.65,
+    -16.91
+   ],
+   "end": [
+    32.67,
+    -16.97
+   ],
+   "lengthKm": 6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#8a8a85"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Funchal",
+    "https://en.wikipedia.org/wiki/C%C3%A2mara_de_Lobos"
+   ]
+  },
+  {
+   "name": "Rimini-Riccione",
+   "country": "IT",
+   "start": [
+    44.06,
+    12.57
+   ],
+   "end": [
+    44,
+    12.65
+   ],
+   "lengthKm": 9.2,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#8f9aa3"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Rimini",
+    "https://en.wikipedia.org/wiki/Riccione"
+   ]
+  },
+  {
+   "name": "Viareggio-Forte dei Marmi",
+   "country": "IT",
+   "start": [
+    43.87,
+    10.25
+   ],
+   "end": [
+    43.96,
+    10.18
+   ],
+   "lengthKm": 11.5,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#d8c9ac"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Viareggio",
+    "https://en.wikipedia.org/wiki/Forte_dei_Marmi"
+   ]
+  },
+  {
+   "name": "Jesolo",
+   "country": "IT",
+   "start": [
+    45.49,
+    12.65
+   ],
+   "end": [
+    45.43,
+    12.61
+   ],
+   "lengthKm": 7.4,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#c9c2b2"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Jesolo",
+    "https://en.wikipedia.org/wiki/Veneto"
+   ]
+  },
+  {
+   "name": "Porto Cervo-Porto Rotondo",
+   "country": "IT",
+   "start": [
+    41.14,
+    9.53
+   ],
+   "end": [
+    41.03,
+    9.55
+   ],
+   "lengthKm": 12.3,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#6f7d5c"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Porto_Cervo",
+    "https://en.wikipedia.org/wiki/Porto_Rotondo"
+   ]
+  },
+  {
+   "name": "Poreč",
+   "country": "HR",
+   "start": [
+    45.23,
+    13.59
+   ],
+   "end": [
+    45.21,
+    13.6
+   ],
+   "lengthKm": 2.4,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#9aa1a3"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Pore%C4%8D",
+    "https://en.wikipedia.org/wiki/Istria"
+   ]
+  },
+  {
+   "name": "Makarska-Brela",
+   "country": "HR",
+   "start": [
+    43.29,
+    17.02
+   ],
+   "end": [
+    43.26,
+    16.95
+   ],
+   "lengthKm": 6.6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#a85234"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Makarska",
+    "https://en.wikipedia.org/wiki/Brela"
+   ]
+  },
+  {
+   "name": "Budva-Petrovac",
+   "country": "ME",
+   "start": [
+    42.29,
+    18.84
+   ],
+   "end": [
+    42.21,
+    18.93
+   ],
+   "lengthKm": 11.6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Budva",
+    "https://en.wikipedia.org/wiki/Petrovac%2C_Budva"
+   ]
+  },
+  {
+   "name": "Sarandë-Ksamil",
+   "country": "AL",
+   "start": [
+    39.88,
+    20
+   ],
+   "end": [
+    39.77,
+    20
+   ],
+   "lengthKm": 12.2,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sarand%C3%AB",
+    "https://en.wikipedia.org/wiki/Albanian_Riviera"
+   ]
+  },
+  {
+   "name": "Sunny Beach-Sveti Vlas",
+   "country": "BG",
+   "start": [
+    42.69,
+    27.71
+   ],
+   "end": [
+    42.72,
+    27.76
+   ],
+   "lengthKm": 5.3,
+   "style": "high-rise",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sunny_Beach",
+    "https://en.wikipedia.org/wiki/Sveti_Vlas"
+   ]
+  },
+  {
+   "name": "Mamaia",
+   "country": "RO",
+   "start": [
+    44.26,
+    28.62
+   ],
+   "end": [
+    44.2,
+    28.63
+   ],
+   "lengthKm": 6.7,
+   "style": "high-rise",
+   "roofColours": [
+    "#c9c2b2",
+    "#7f95ad",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mamaia",
+    "https://en.wikipedia.org/wiki/Constan%C8%9Ba"
+   ]
+  },
+  {
+   "name": "Ayia Napa-Protaras",
+   "country": "CY",
+   "start": [
+    34.98,
+    34
+   ],
+   "end": [
+    35.01,
+    34.03
+   ],
+   "lengthKm": 4.3,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ayia_Napa",
+    "https://en.wikipedia.org/wiki/Protaras"
+   ]
+  },
+  {
+   "name": "Sochi",
+   "country": "RU",
+   "start": [
+    43.43,
+    39.91
+   ],
+   "end": [
+    43.59,
+    39.72
+   ],
+   "lengthKm": 23.5,
+   "style": "high-rise",
+   "roofColours": [
+    "#8a8a85",
+    "#7f95ad",
+    "#d9cbb0"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sochi",
+    "https://en.wikipedia.org/wiki/Krasnodar_Krai"
+   ]
+  },
+  {
+   "name": "Batumi-Kobuleti",
+   "country": "GE",
+   "start": [
+    41.65,
+    41.64
+   ],
+   "end": [
+    41.82,
+    41.72
+   ],
+   "lengthKm": 20,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#8a8a85",
+    "#d9cbb0"
+   ],
+   "beach": "pebble",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Batumi",
+    "https://en.wikipedia.org/wiki/Kobuleti"
+   ]
+  },
+  {
+   "name": "Agadir-Taghazout",
+   "country": "MA",
+   "start": [
+    30.42,
+    -9.6
+   ],
+   "end": [
+    30.54,
+    -9.71
+   ],
+   "lengthKm": 17,
+   "style": "mixed",
+   "roofColours": [
+    "#e8e0d0",
+    "#d9cbb0",
+    "#b06a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Agadir",
+    "https://en.wikipedia.org/wiki/Taghazout"
+   ]
+  },
+  {
+   "name": "Sousse-Port El Kantaoui",
+   "country": "TN",
+   "start": [
+    35.83,
+    10.64
+   ],
+   "end": [
+    35.89,
+    10.6
+   ],
+   "lengthKm": 7.6,
+   "style": "mixed",
+   "roofColours": [
+    "#e8e0d0",
+    "#b06a45",
+    "#7fa3a8"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sousse",
+    "https://en.wikipedia.org/wiki/Port_El_Kantaoui"
+   ]
+  },
+  {
+   "name": "Hammamet-Yasmine",
+   "country": "TN",
+   "start": [
+    36.4,
+    10.62
+   ],
+   "end": [
+    36.36,
+    10.59
+   ],
+   "lengthKm": 5.2,
+   "style": "mixed",
+   "roofColours": [
+    "#e8e0d0",
+    "#d9cbb0",
+    "#b06a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Hammamet%2C_Tunisia",
+    "https://en.wikipedia.org/wiki/Nabeul_Governorate"
+   ]
+  },
+  {
+   "name": "Diani Beach",
+   "country": "KE",
+   "start": [
+    -4.28,
+    39.59
+   ],
+   "end": [
+    -4.32,
+    39.61
+   ],
+   "lengthKm": 5,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Diani_Beach",
+    "https://en.wikipedia.org/wiki/Kwale_County"
+   ]
+  },
+  {
+   "name": "Nungwi-Kendwa",
+   "country": "TZ",
+   "start": [
+    -5.73,
+    39.3
+   ],
+   "end": [
+    -5.77,
+    39.29
+   ],
+   "lengthKm": 4.6,
+   "style": "mixed",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Nungwi",
+    "https://en.wikipedia.org/wiki/Zanzibar"
+   ]
+  },
+  {
+   "name": "Durban-uMhlanga",
+   "country": "ZA",
+   "start": [
+    -29.86,
+    31.02
+   ],
+   "end": [
+    -29.73,
+    31.07
+   ],
+   "lengthKm": 15.2,
+   "style": "high-rise",
+   "roofColours": [
+    "#8a8a85",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Durban",
+    "https://en.wikipedia.org/wiki/UMhlanga%2C_KwaZulu-Natal"
+   ]
+  },
+  {
+   "name": "Kololi-Kotu",
+   "country": "GM",
+   "start": [
+    13.45,
+    -16.71
+   ],
+   "end": [
+    13.44,
+    -16.72
+   ],
+   "lengthKm": 1.6,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b06a45",
+    "#8a6a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kololi",
+    "https://en.wikipedia.org/wiki/The_Gambia"
+   ]
+  },
+  {
+   "name": "Santa Maria (Sal)",
+   "country": "CV",
+   "start": [
+    16.6,
+    -22.9
+   ],
+   "end": [
+    16.61,
+    -22.92
+   ],
+   "lengthKm": 2.4,
+   "style": "mixed",
+   "roofColours": [
+    "#d9b98a",
+    "#e8e0d0",
+    "#7fa3a8"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Santa_Maria%2C_Cape_Verde",
+    "https://en.wikipedia.org/wiki/Sal%2C_Cape_Verde"
+   ]
+  },
+  {
+   "name": "Grand Baie",
+   "country": "MU",
+   "start": [
+    -20.01,
+    57.58
+   ],
+   "end": [
+    -20.03,
+    57.58
+   ],
+   "lengthKm": 2.2,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Grand_Baie",
+    "https://en.wikipedia.org/wiki/Mauritius"
+   ]
+  },
+  {
+   "name": "Cancún",
+   "country": "MX",
+   "start": [
+    21.13,
+    -86.77
+   ],
+   "end": [
+    21.08,
+    -86.87
+   ],
+   "lengthKm": 11.8,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#e8e0d0",
+    "#7f95ad"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Canc%C3%BAn",
+    "https://en.wikipedia.org/wiki/Riviera_Maya"
+   ]
+  },
+  {
+   "name": "Playa del Carmen",
+   "country": "MX",
+   "start": [
+    20.63,
+    -87.08
+   ],
+   "end": [
+    20.6,
+    -87.06
+   ],
+   "lengthKm": 3.9,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#8a6a45"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Playa_del_Carmen",
+    "https://en.wikipedia.org/wiki/Riviera_Maya"
+   ]
+  },
+  {
+   "name": "Tulum",
+   "country": "MX",
+   "start": [
+    20.21,
+    -87.43
+   ],
+   "end": [
+    20.16,
+    -87.44
+   ],
+   "lengthKm": 5.7,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#d9cbb0",
+    "#8a6a45",
+    "#e8e0d0"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Tulum_Municipality",
+    "https://en.wikipedia.org/wiki/Riviera_Maya"
+   ]
+  },
+  {
+   "name": "Cabo San Lucas-San José del Cabo",
+   "country": "MX",
+   "start": [
+    22.88,
+    -109.91
+   ],
+   "end": [
+    23.06,
+    -109.7
+   ],
+   "lengthKm": 29.4,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b08a5a",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Cabo_San_Lucas",
+    "https://en.wikipedia.org/wiki/San_Jos%C3%A9_del_Cabo"
+   ]
+  },
+  {
+   "name": "Mazatlán",
+   "country": "MX",
+   "start": [
+    23.27,
+    -106.47
+   ],
+   "end": [
+    23.2,
+    -106.41
+   ],
+   "lengthKm": 9.9,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#c9c2b2"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mazatl%C3%A1n",
+    "https://en.wikipedia.org/wiki/Sinaloa"
+   ]
+  },
+  {
+   "name": "Puerto Vallarta-Nuevo Nayarit",
+   "country": "MX",
+   "start": [
+    20.65,
+    -105.22
+   ],
+   "end": [
+    20.72,
+    -105.31
+   ],
+   "lengthKm": 12.2,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Puerto_Vallarta",
+    "https://en.wikipedia.org/wiki/Nuevo_Nayarit"
+   ]
+  },
+  {
+   "name": "Acapulco",
+   "country": "MX",
+   "start": [
+    16.86,
+    -99.92
+   ],
+   "end": [
+    16.8,
+    -99.81
+   ],
+   "lengthKm": 13.5,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#8a8a85"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Acapulco",
+    "https://en.wikipedia.org/wiki/Guerrero"
+   ]
+  },
+  {
+   "name": "Ixtapa-Zihuatanejo",
+   "country": "MX",
+   "start": [
+    17.72,
+    -101.65
+   ],
+   "end": [
+    17.64,
+    -101.55
+   ],
+   "lengthKm": 13.8,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#8a6a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ixtapa",
+    "https://en.wikipedia.org/wiki/Zihuatanejo"
+   ]
+  },
+  {
+   "name": "Waikīkī",
+   "country": "US",
+   "start": [
+    21.28,
+    -157.83
+   ],
+   "end": [
+    21.27,
+    -157.82
+   ],
+   "lengthKm": 1.5,
+   "style": "high-rise",
+   "roofColours": [
+    "#c9c2b2",
+    "#7f95ad",
+    "#d9cbb0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Waik%C4%ABk%C4%AB",
+    "https://en.wikipedia.org/wiki/Honolulu"
+   ]
+  },
+  {
+   "name": "Miami Beach",
+   "country": "US",
+   "start": [
+    25.78,
+    -80.13
+   ],
+   "end": [
+    25.83,
+    -80.12
+   ],
+   "lengthKm": 5.6,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#e8e0d0",
+    "#7f95ad"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Miami_Beach%2C_Florida",
+    "https://en.wikipedia.org/wiki/South_Beach"
+   ]
+  },
+  {
+   "name": "Fort Lauderdale-Hollywood",
+   "country": "US",
+   "start": [
+    26.15,
+    -80.1
+   ],
+   "end": [
+    26,
+    -80.11
+   ],
+   "lengthKm": 16.7,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#7f95ad",
+    "#8a8a85"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Fort_Lauderdale%2C_Florida",
+    "https://en.wikipedia.org/wiki/Hollywood%2C_Florida"
+   ]
+  },
+  {
+   "name": "Panama City Beach",
+   "country": "US",
+   "start": [
+    30.19,
+    -85.88
+   ],
+   "end": [
+    30.21,
+    -85.79
+   ],
+   "lengthKm": 8.9,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#e8e0d0",
+    "#7fa3a8"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Panama_City_Beach%2C_Florida",
+    "https://en.wikipedia.org/wiki/Bay_County%2C_Florida"
+   ]
+  },
+  {
+   "name": "Myrtle Beach-Grand Strand",
+   "country": "US",
+   "start": [
+    33.76,
+    -78.94
+   ],
+   "end": [
+    33.66,
+    -78.9
+   ],
+   "lengthKm": 11.7,
+   "style": "high-rise",
+   "roofColours": [
+    "#c9c2b2",
+    "#d9cbb0",
+    "#8a8a85"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Myrtle_Beach%2C_South_Carolina",
+    "https://en.wikipedia.org/wiki/Grand_Strand"
+   ]
+  },
+  {
+   "name": "Virginia Beach",
+   "country": "US",
+   "start": [
+    36.92,
+    -75.99
+   ],
+   "end": [
+    36.85,
+    -75.98
+   ],
+   "lengthKm": 7.8,
+   "style": "high-rise",
+   "roofColours": [
+    "#c9c2b2",
+    "#d9cbb0",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Virginia_Beach%2C_Virginia",
+    "https://en.wikipedia.org/wiki/Cape_Henry"
+   ]
+  },
+  {
+   "name": "Gulf Shores-Orange Beach",
+   "country": "US",
+   "start": [
+    30.25,
+    -87.68
+   ],
+   "end": [
+    30.29,
+    -87.57
+   ],
+   "lengthKm": 11.5,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#e8e0d0",
+    "#7fa3a8"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Gulf_Shores%2C_Alabama",
+    "https://en.wikipedia.org/wiki/Orange_Beach%2C_Alabama"
+   ]
+  },
+  {
+   "name": "South Padre Island",
+   "country": "US",
+   "start": [
+    26.08,
+    -97.16
+   ],
+   "end": [
+    26.13,
+    -97.18
+   ],
+   "lengthKm": 5.9,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#7fa3a8",
+    "#c9c2b2"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/South_Padre_Island",
+    "https://en.wikipedia.org/wiki/Padre_Island"
+   ]
+  },
+  {
+   "name": "Paradise Island-Nassau",
+   "country": "BS",
+   "start": [
+    25.09,
+    -77.32
+   ],
+   "end": [
+    25.08,
+    -77.34
+   ],
+   "lengthKm": 2.3,
+   "style": "mixed",
+   "roofColours": [
+    "#d9b0a3",
+    "#d9cbb0",
+    "#b06a45"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Paradise_Island",
+    "https://en.wikipedia.org/wiki/Nassau%2C_Bahamas"
+   ]
+  },
+  {
+   "name": "Seven Mile Beach",
+   "country": "KY",
+   "start": [
+    19.34,
+    -81.39
+   ],
+   "end": [
+    19.3,
+    -81.38
+   ],
+   "lengthKm": 4.6,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#e8e0d0"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Seven_Mile_Beach%2C_Grand_Cayman",
+    "https://en.wikipedia.org/wiki/George_Town%2C_Cayman_Islands"
+   ]
+  },
+  {
+   "name": "Negril",
+   "country": "JM",
+   "start": [
+    18.27,
+    -78.35
+   ],
+   "end": [
+    18.34,
+    -78.36
+   ],
+   "lengthKm": 7.9,
+   "style": "low-rise villas",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#b06a45"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Negril",
+    "https://en.wikipedia.org/wiki/Jamaica"
+   ]
+  },
+  {
+   "name": "Grace Bay",
+   "country": "TC",
+   "start": [
+    21.8,
+    -72.22
+   ],
+   "end": [
+    21.76,
+    -72.19
+   ],
+   "lengthKm": 5.4,
+   "style": "island resorts",
+   "roofColours": [
+    "#d9cbb0",
+    "#e8e0d0",
+    "#7fa3a8"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Providenciales",
+    "https://en.wikipedia.org/wiki/Turks_and_Caicos_Islands"
+   ]
+  },
+  {
+   "name": "Punta Cana-Bávaro",
+   "country": "DO",
+   "start": [
+    18.57,
+    -68.38
+   ],
+   "end": [
+    18.53,
+    -68.42
+   ],
+   "lengthKm": 6.1,
+   "style": "island resorts",
+   "roofColours": [
+    "#8a6a45",
+    "#d9cbb0",
+    "#b06a45"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Punta_Cana",
+    "https://en.wikipedia.org/wiki/B%C3%A1varo"
+   ]
+  },
+  {
+   "name": "Varadero",
+   "country": "CU",
+   "start": [
+    23.18,
+    -81.26
+   ],
+   "end": [
+    23.14,
+    -81.3
+   ],
+   "lengthKm": 6,
+   "style": "island resorts",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#e8e0d0"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Varadero",
+    "https://en.wikipedia.org/wiki/Hicacos_Peninsula"
+   ]
+  },
+  {
+   "name": "Palm Beach-Eagle Beach",
+   "country": "AW",
+   "start": [
+    12.56,
+    -70.05
+   ],
+   "end": [
+    12.53,
+    -70.05
+   ],
+   "lengthKm": 3.3,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#e8e0d0"
+   ],
+   "beach": "white sand",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Palm_Beach%2C_Aruba",
+    "https://en.wikipedia.org/wiki/Eagle_Beach"
+   ]
+  },
+  {
+   "name": "St Lawrence Gap",
+   "country": "BB",
+   "start": [
+    13.06,
+    -59.47
+   ],
+   "end": [
+    13.06,
+    -59.45
+   ],
+   "lengthKm": 2.2,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#d9a3a3"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Saint_Lawrence_Gap",
+    "https://en.wikipedia.org/wiki/Barbados"
+   ]
+  },
+  {
+   "name": "Copacabana-Leblon",
+   "country": "BR",
+   "start": [
+    -22.97,
+    -43.18
+   ],
+   "end": [
+    -22.99,
+    -43.21
+   ],
+   "lengthKm": 3.8,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#c9c2b2",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Copacabana%2C_Rio_de_Janeiro",
+    "https://en.wikipedia.org/wiki/Ipanema",
+    "https://en.wikipedia.org/wiki/Leblon"
+   ]
+  },
+  {
+   "name": "Balneário Camboriú",
+   "country": "BR",
+   "start": [
+    -27.02,
+    -48.63
+   ],
+   "end": [
+    -26.97,
+    -48.63
+   ],
+   "lengthKm": 5.6,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#7f95ad",
+    "#c9c2b2"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Balne%C3%A1rio_Cambori%C3%BA",
+    "https://en.wikipedia.org/wiki/Santa_Catarina_(state)"
+   ]
+  },
+  {
+   "name": "Boa Viagem",
+   "country": "BR",
+   "start": [
+    -8.09,
+    -34.9
+   ],
+   "end": [
+    -8.14,
+    -34.91
+   ],
+   "lengthKm": 5.7,
+   "style": "high-rise",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#7f95ad"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Boa_Viagem%2C_Recife",
+    "https://en.wikipedia.org/wiki/Recife"
+   ]
+  },
+  {
+   "name": "Mar del Plata",
+   "country": "AR",
+   "start": [
+    -38.02,
+    -57.54
+   ],
+   "end": [
+    -38.08,
+    -57.54
+   ],
+   "lengthKm": 6.7,
+   "style": "mixed",
+   "roofColours": [
+    "#8a8a85",
+    "#b05a38",
+    "#d9cbb0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mar_del_Plata",
+    "https://en.wikipedia.org/wiki/Buenos_Aires_Province"
+   ]
+  },
+  {
+   "name": "Punta del Este",
+   "country": "UY",
+   "start": [
+    -34.97,
+    -54.96
+   ],
+   "end": [
+    -34.96,
+    -54.94
+   ],
+   "lengthKm": 2.1,
+   "style": "mixed",
+   "roofColours": [
+    "#d9cbb0",
+    "#b05a38",
+    "#e8e0d0"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Punta_del_Este",
+    "https://en.wikipedia.org/wiki/Maldonado_Department"
+   ]
+  },
+  {
+   "name": "Bocagrande",
+   "country": "CO",
+   "start": [
+    10.42,
+    -75.54
+   ],
+   "end": [
+    10.39,
+    -75.55
+   ],
+   "lengthKm": 3.5,
+   "style": "high-rise",
+   "roofColours": [
+    "#7f95ad",
+    "#d9cbb0",
+    "#b05a38"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bocagrande",
+    "https://en.wikipedia.org/wiki/Cartagena%2C_Colombia"
+   ]
+  },
+  {
+   "name": "Candolim-Calangute-Baga",
+   "country": "IN",
+   "start": [
+    15.52,
+    73.76
+   ],
+   "end": [
+    15.56,
+    73.75
+   ],
+   "lengthKm": 4.6,
+   "style": "mixed",
+   "roofColours": [
+    "#b05a38",
+    "#d9cbb0",
+    "#8a6a45"
+   ],
+   "beach": "golden",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Calangute",
+    "https://en.wikipedia.org/wiki/Baga_Beach",
+    "https://en.wikipedia.org/wiki/Bardez_taluka"
+   ]
+  }
+ ]
+}
